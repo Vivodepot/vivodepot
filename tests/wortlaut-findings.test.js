@@ -29,7 +29,7 @@ test('[Finding 8] Provider-Import bürgernah: „Geprüftes Dokument einer Einri
   assert.ok(!/Zertifikat/.test(V.STRINGS.importProviderLabel), 'kein „Zertifikat"-Fachwort mehr');
 });
 
-test('[Finding 3, nachgezogen 12.09.2026] Zwei Türen, zwei Wortlaute: zentral „Daten einlesen", bereichslokal „Datei in diesen Bereich einlesen"', () => {
+test('[Finding 3, nachgezogen 12.09.2026] Zwei Türen, zwei Wortlaute: zentral „Daten einlesen", bereichslokal „Angaben aus einer Datei übernehmen"', () => {
   // Nutzer-Rückmeldung (v1.0-rc.501, 12.09.2026): „In diesen Bereich einlesen" wurde als „mehr
   // erfahren" gelesen — die Handlung fehlte, nur der Ort stand da. Der alte Wortlaut war hier
   // seit dem 04.07.-Finding gepinnt (ausdrücklich als „sagt WOHIN" begründet) — genau die
@@ -37,7 +37,8 @@ test('[Finding 3, nachgezogen 12.09.2026] Zwei Türen, zwei Wortlaute: zentral �
   // UND der Ort bleiben beide im Satz, die zwei Türen bleiben unterscheidbar.
   const { V } = ladeKern();
   assert.equal(V.STRINGS.einlesenKnopf, 'Daten einlesen', 'zentrale Sidebar-Tür unverändert');
-  assert.equal(V.STRINGS.einlesenBereichKnopf, 'Datei in diesen Bereich einlesen', 'bereichslokale Tür nennt jetzt die Handlung (Datei einlesen), nicht nur den Ort');
+  // Gestaltungsleitung 30.10.2026 (Befund UX-DOKUMENT-ABLEGEN): neben „Dokument ablegen (PDF, Foto)“ sagt die Tür, was mit der Datei geschieht.
+  assert.equal(V.STRINGS.einlesenBereichKnopf, 'Angaben aus einer Datei übernehmen', 'bereichslokale Tür nennt die Handlung (Angaben übernehmen), nicht nur den Ort');
   assert.notEqual(V.STRINGS.einlesenKnopf, V.STRINGS.einlesenBereichKnopf, 'die beiden Türen sind unterscheidbar');
 });
 

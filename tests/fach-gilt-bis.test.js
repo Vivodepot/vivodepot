@@ -182,6 +182,7 @@ test('[gilt bis·FHIR] die Tabelle der Rollen: jeder Code im v3-RoleCode-System,
   assert.deepEqual(Object.fromEntries(Object.entries(t).map(([k, v]) => [k, v.code])), {
     vorsorge: 'DPOWATT', gesundheit: 'HPOWATT', general: 'POWATT', bank: 'SPOWATT',
     gesetzliche_betreuung: 'GUARD', elterliche_sorge: 'RESPRSN',
+    vormundschaft: 'GUARD', ehegattennotvertretung: null,   // 01.11.2026: § 1358 BGB hat in v3-RoleCode keinen Code
   });
 });
 
@@ -210,7 +211,7 @@ test('[gilt bis·FHIR] eine unbekannte oder nicht wählbare Grundlage wird beim 
 
 test('[gilt bis·FHIR·Rot-Beweis] ohne die Rolle im Bau fehlt die Vertretung in der RelatedPerson', async () => {
   const original = fs.readFileSync(KERN, 'utf8');
-  const anker = '    if (rolle) rp.relationship.push(';
+  const anker = '    if (rolle && rolle.code) rp.relationship.push(';
   assert.equal(original.split(anker).length - 1, 1, 'Vorbedingung: der Rollen-Bau steht genau einmal im Kern');
   const tmp = path.join(os.tmpdir(), 'fach-gilt-bis-fhir-probe-' + process.pid + '.html');
   fs.writeFileSync(tmp, original.replace(anker, '    if (false) rp.relationship.push('));

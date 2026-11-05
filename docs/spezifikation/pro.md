@@ -34,8 +34,9 @@ Pro **ersetzt** die Bereiche von Privat, statt sie zu ergänzen (U2-ADR-421): Ei
 nicht die privaten. Einträge einer älteren Datei in Bereichen oder Situationen, die Pro nicht anbietet, bleiben lesbar
 (ruhende Bereiche und Situationen, U2-ADR-243 §5).
 
-Die einzige Quelle für Gesundheit im Pro-Rezept ist eine schlanke Dokumente-Datei mit den Schritten der
-Patientenverfügung, aus der Dokumente-Datei aller Produkte geschnitten (im Soll als `dokumente`). Sie dient nur dem
+Die einzige Quelle für Gesundheit im Pro-Rezept ist eine schlanke Bauplan-Ergänzung mit den Schritten der
+Patientenverfügung, aus der Bauplan-Ergänzung der Bürgerprodukte geschnitten (im Soll als `rechtsraumBauplan`; seit
+U2-ADR-507, Nachtrag 29.10.2026, stehen die Schritte als Bauplan im Rechtsraum-Modul). Sie dient nur dem
 Lesen vorhandener Festlegungen: Ein frisches Pro zeigt keine Gesundheit, und kein Assistent wird für einen nur ruhend
 geweckten Bereich angeboten. Ein Dokumentmodul, eine Standardvorlage, ein KI-Korpus oder der Wortlaut einer Vollmacht
 stehen nicht im Pro-Rezept.
@@ -176,7 +177,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
-      {"modulTyp":"dokumente"},
+      {"modulTyp":"rechtsraumBauplan"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -200,7 +201,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
-      {"modulTyp":"dokumente"},
+      {"modulTyp":"rechtsraumBauplan"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -223,7 +224,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
-      {"modulTyp":"dokumente"},
+      {"modulTyp":"rechtsraumBauplan"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -249,7 +250,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
-      {"modulTyp":"dokumente"},
+      {"modulTyp":"rechtsraumBauplan"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -274,7 +275,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
-      {"modulTyp":"dokumente"},
+      {"modulTyp":"rechtsraumBauplan"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -300,7 +301,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
-      {"modulTyp":"dokumente"},
+      {"modulTyp":"rechtsraumBauplan"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},

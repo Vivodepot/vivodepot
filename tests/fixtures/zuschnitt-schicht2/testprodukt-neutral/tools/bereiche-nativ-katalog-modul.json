@@ -1961,6 +1961,129 @@
                   "typ": "text"
                 }
               ]
+            },
+            {
+              "id": "researchDecisions",
+              "sensibel": true,
+              "typ": "liste",
+              "ebene": "modul",
+              "zusammenfassungFelder": [
+                "kind",
+                "institution",
+                "status"
+              ],
+              "unterFelder": [
+                {
+                  "id": "kind",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "broad-consent"
+                    },
+                    {
+                      "wert": "study"
+                    },
+                    {
+                      "wert": "biobank"
+                    },
+                    {
+                      "wert": "epa-objection"
+                    },
+                    {
+                      "wert": "ehds-objection"
+                    },
+                    {
+                      "wert": "data-donation-app"
+                    },
+                    {
+                      "wert": "other"
+                    }
+                  ]
+                },
+                {
+                  "id": "institution",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "declaredOn",
+                  "sensibel": true,
+                  "typ": "datum",
+                  "keineZukunft": true
+                },
+                {
+                  "id": "scope",
+                  "sensibel": true,
+                  "typ": "mehrfachauswahl",
+                  "verborgenWenn": {
+                    "feld": "kind",
+                    "wert": [
+                      "epa-objection",
+                      "ehds-objection"
+                    ]
+                  },
+                  "optionen": [
+                    {
+                      "wert": "data"
+                    },
+                    {
+                      "wert": "biosamples"
+                    },
+                    {
+                      "wert": "recontact"
+                    },
+                    {
+                      "wert": "third-countries"
+                    }
+                  ]
+                },
+                {
+                  "id": "validUntil",
+                  "sensibel": true,
+                  "typ": "datum",
+                  "verborgenWenn": {
+                    "feld": "kind",
+                    "wert": [
+                      "epa-objection",
+                      "ehds-objection"
+                    ]
+                  }
+                },
+                {
+                  "id": "storedUntil",
+                  "sensibel": true,
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "kind",
+                    "wert": [
+                      "epa-objection",
+                      "ehds-objection"
+                    ]
+                  }
+                },
+                {
+                  "id": "withdrawalRoute",
+                  "sensibel": true,
+                  "typ": "textarea"
+                },
+                {
+                  "id": "status",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "valid"
+                    },
+                    {
+                      "wert": "partly-withdrawn"
+                    },
+                    {
+                      "wert": "withdrawn"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -2819,6 +2942,12 @@
                   }
                 },
                 {
+                  "id": "attachedDocument",
+                  "sensibel": true,
+                  "typ": "ref",
+                  "entitaet": "mappe"
+                },
+                {
                   "id": "dateOfLastChange",
                   "typ": "datum",
                   "keineZukunft": true,
@@ -3416,6 +3545,131 @@
                   "sichtbarWenn": {
                     "feld": "instrument",
                     "wert": "living-will"
+                  }
+                },
+                {
+                  "id": "postMortemDataDonation",
+                  "sensibel": true,
+                  "hinweisAufklapper": true,
+                  "typ": "auswahl",
+                  "sichtbarWenn": {
+                    "feld": "instrument",
+                    "wert": "living-will"
+                  },
+                  "optionen": [
+                    {
+                      "wert": "ja"
+                    },
+                    {
+                      "wert": "teil"
+                    },
+                    {
+                      "wert": "nein"
+                    },
+                    {
+                      "wert": "vertrauensperson"
+                    }
+                  ]
+                },
+                {
+                  "id": "postMortemDataDonationScope",
+                  "sensibel": true,
+                  "typ": "textarea",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": "teil"
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
+                  }
+                },
+                {
+                  "id": "postMortemDataDonationExcluded",
+                  "sensibel": true,
+                  "typ": "mehrfachauswahl",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": [
+                      "ja",
+                      "teil"
+                    ]
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
+                  },
+                  "optionen": [
+                    {
+                      "wert": "companies"
+                    },
+                    {
+                      "wert": "third-countries"
+                    }
+                  ]
+                },
+                {
+                  "id": "postMortemDataDonationTrustee",
+                  "sensibel": true,
+                  "typ": "ref",
+                  "entitaet": "person",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": "vertrauensperson"
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
+                  }
+                },
+                {
+                  "id": "postMortemDataHolders",
+                  "sensibel": true,
+                  "hinweisAufklapper": true,
+                  "typ": "textarea",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": [
+                      "ja",
+                      "teil",
+                      "vertrauensperson"
+                    ]
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
                   }
                 },
                 {

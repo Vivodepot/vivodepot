@@ -9,7 +9,7 @@
    (`_depotUebernehmenGeprueft`), und ohne die Übertragung der Markierung auf umgeschriebene Logik-Module (`_foldVollmachtenLesen`)
    — dann wirkt das Modul. Der Studio-Gegenpart (das Studio öffnet kein Depot) steht in tests/studio-oeffnet-kein-depot.test.js.
    ═════════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // nur-privat: s. tests/helfer/nur-privat.js
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -55,6 +55,8 @@ const MODULE = Object.freeze({
   bedingungskatalogModule: { modulTyp: 'bedingungskatalog', moduleVersion: 1, herkunft: 'probe', name: 'Probe-Bedingungen' },
   angehoerigenVorlagenModule: { modulTyp: 'angehoerigenVorlage', moduleVersion: 1, herkunft: 'probe', sprache: 'de', rechtsraum: 'DE',
     rechtsraumName: 'Deutschland', situationen: { 'krankenhaus-de': blatt('Probe-Angehörigenblatt') } },
+  lokaleModelle: { modulTyp: 'lokalesModell', moduleVersion: 1, herkunft: 'probe', sprache: 'de', id: 'probe-modell',
+    label: 'Probe-Modell', modellHash: 'sha256:' + '0'.repeat(64) },
 });
 function depotMitAllen() {
   const d = { schemaVersion: 89, menschen: [], urheberschaft: {}, mappe: [], feldDefinitionen: [], sensibelFelder: {}, textsprache: 'fr',
@@ -87,7 +89,7 @@ test('[Ohne-Wahl·Register] MODUL_SLOT_TYP_LESEN trägt genau die Fächer aus MO
   assert.deepEqual(Object.keys(V.MODUL_SLOT_TYP_LESEN).sort(), Array.from(V.MODUL_SLOTS).sort());
   const block = KERN_HTML.slice(KERN_HTML.indexOf('const EINLASS_REGISTER = Object.freeze(['));
   const paare = [...block.slice(0, block.indexOf('\n]);')).matchAll(/typ: '([A-Za-z]+)', slot: '([A-Za-z]+)'/g)].map((m) => [m[2], m[1]]);
-  assert.equal(paare.length, 15, 'Positivkontrolle: 15 Register im Kern gefunden');
+  assert.equal(paare.length, 16, 'Positivkontrolle: 16 Register im Kern gefunden');
   assert.deepEqual(Object.fromEntries(paare), Object.assign({}, V.MODUL_SLOT_TYP_LESEN));
   assert.deepEqual(Object.keys(MODULE).sort(), Array.from(V.MODUL_SLOTS).sort(), 'die Probe deckt jedes Fach');
 });
@@ -103,7 +105,7 @@ test('[Ohne-Wahl·Klasse] ein unsigniertes Modul in jedem Fach wirkt nicht; die 
   assert.equal(V._markeName(), 'Vivodepot');
   assert.equal(V._markeDomain(), 'vivodepot.de');
   const liste = V.moduleNichtAngewandtLesen(d);
-  assert.equal(liste.length, 15);
+  assert.equal(liste.length, 16);
   const zeile = V.moduleNichtAngewandtZeileHTML(d);
   assert.ok(zeile.includes(V.escapeHTML(V.STRINGS.moduleNichtAngewandtZeile)));
   for (const g of liste) {

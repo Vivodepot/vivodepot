@@ -40,6 +40,8 @@ async function seite(quelle = QUELLE) {
     abmelden: async () => 'lokal-geloescht',
     podFetch: async (adresse, o = {}) => {
       anfragen.push({ adresse, methode: (o.method || 'GET').toUpperCase() });
+      // Die Kopie des Verzeichnisses (U2-ADR-512-Nachtrag 29.10.2026) liegt in diesem Pod noch nicht.
+      if (String(adresse).endsWith('vivodepot/intern/verzeichnis.json') && !o.method) return { ok: false, status: 404, headers: { get: () => null } };
       return { ok: true, status: o.method === 'HEAD' ? 200 : 201, headers: { get: () => null }, json: async () => null, text: async () => '' };
     },
     verzeichnis: { lesen: async () => undefined, schreiben: async () => {}, loeschen: async () => {} }

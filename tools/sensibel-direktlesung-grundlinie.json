@@ -3,6 +3,7 @@
   "offenMax": 0,
   "erlaubt": {
     "subset.mappe = subset.mappe.filter((m) => !(m && m.sensibel === true));": "Mappe-Eintrag: eigenes Flag am Eintrag; Ausgangsfilter des engen Zuschnitts, nur einengend (VD-SEC-029)",
+    "bereichsDokumente.sammeln(baustein.bereich, (e) => !(sensibelFilter && e.sensibel === true));": "Mappe-Eintrag: eigenes Flag am Eintrag; wie SEC-029 subset.mappe: der Bereichsbaustein lässt einen sensiblen Eintrag zurück, nur einengend (Nachtrag zu U2-ADR-156)",
     "if (felddefs.some((f) => f && f.sensibel === true)) {": "Modulprüfung: Vorgabe des Schemas, kein Ausgabeweg",
     "if (g && g.sensibel === true) def.sensibel = true;": "Schema-Aufbau aus dem Bündel (übernimmt die Vorgabe)",
     "if (u && u.sensibel === true) uf.sensibel = true;": "Schema-Aufbau aus dem Bündel (übernimmt die Vorgabe)",

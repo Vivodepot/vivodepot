@@ -172,15 +172,31 @@ function maengelKlasseAnfrage(V, art) {
   const { anfrage } = anfrageAnnehmen(V, [...felder.map((r) => r.kennung), LISTEN_UNTERFELD]);
   const vorher = V.anfrageAbgleich(anfrage);
   const fuell = new Map(vorher.fehlend.map((f) => [f.kennung, f.fuellKennung || f.kennung]));
+  const vorhanden = new Set(vorher.vorhanden.map((f) => f.kennung));
   const maengel = [];
+  /* Befund DATENSATZ-VERBORGENE-WERTE (03.11.2026, U2-ADR-102 Nachtrag): ein Feld, das sein Tor im Depot gerade verbirgt (auch
+     nur, weil die Antwort auf das Torfeld fehlt), gehört nicht zur Antwort — weder als vorhanden noch als fehlend, also auch
+     nicht zum Nachtragen (ein Nachtrag ginge nicht hinaus). Das prüft die Probe hier ausdrücklich; nachgetragen wird an den
+     übrigen Feldern. Abgeleitet aus feldSichtbar, keine Liste. */
+  const nachgetragen = [];
+  const sektorenVorher = JSON.parse(JSON.stringify(V.getData().sektoren || {}));   // das Tor gilt am Stand der Anfrage, vor jedem Nachtrag
+  const verborgen = new Set(felder.filter((r) => !V.feldSichtbar(r.def, sektorenVorher[r.sektorId] || {}, V.bereichFelder(r.sektorId))).map((r) => r.kennung));
   for (const r of felder) {
+    if (verborgen.has(r.kennung)) {
+      if (fuell.has(r.kennung) || vorhanden.has(r.kennung)) maengel.push(r.klasse + ' (' + r.kennung + '): verborgenes Feld steht in der Antwort');
+      continue;
+    }
     if (!fuell.has(r.kennung)) { maengel.push(r.klasse + ' (' + r.kennung + '): Vorbedingung — die Anfrage führt das Feld nicht als fehlend'); continue; }
+    nachgetragen.push(r);
     maengel.push(...nachtragMaengel(V, (k, w) => V.anfrageFeldNachtragen(fuell.get(k), w), r, art));
   }
+  // Jeder Feldtyp des Registers bleibt am Antwortweg geprüft, auch wenn ein Teil seiner Felder gerade verborgen ist.
+  const geprueft = new Set(nachgetragen.map((r) => r.klasse));
+  for (const k of new Set(felder.map((r) => r.klasse))) if (!geprueft.has(k)) maengel.push('Feldtyp ' + k + ': kein sichtbares Feld nachgetragen, die Probe liefe über nichts');
   const lu = V.anfrageFeldNachtragen(LISTEN_UNTERFELD, 'Ordner im Wohnzimmer');
   if (!lu.ok) maengel.push('Listen-Unterfeld (' + LISTEN_UNTERFELD + '): ' + lu.grund + (lu.meldung ? ' — ' + lu.meldung : ''));
   const nachher = new Set(V.anfrageAbgleich(anfrage).fehlend.map((f) => f.kennung));
-  for (const r of felder) if ((art === 'Editor' || TEXT[r.klasse]) && nachher.has(r.kennung)) maengel.push(art + ' · ' + r.klasse + ' (' + r.kennung + '): die Anfrage führt das Feld danach weiter als fehlend');
+  for (const r of nachgetragen) if ((art === 'Editor' || TEXT[r.klasse]) && nachher.has(r.kennung)) maengel.push(art + ' · ' + r.klasse + ' (' + r.kennung + '): die Anfrage führt das Feld danach weiter als fehlend');
   if (nachher.has(LISTEN_UNTERFELD)) maengel.push('Listen-Unterfeld (' + LISTEN_UNTERFELD + '): die Anfrage führt es danach weiter als fehlend');
   return maengel;
 }

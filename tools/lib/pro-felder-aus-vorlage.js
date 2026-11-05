@@ -77,8 +77,13 @@ function mapTyp(feldtyp) {
    dritten Parameter, exakt dasselbe Verhalten wie vorher) — ein DE-Aufruf
    (baueSektionen(vorlageDe, vorlageDe, {ja:'Ja', nein:'Nein'})) braucht die
    deutschen Werte statt der hart codierten englischen. */
-function baueSektionen(vorlageFelderDe, vorlageFelderEn, jaNeinLabels) {
+// `anzeigen`: abweichende Beschriftungen, Schlüssel deutscher Feldname bzw. „Feld/Unterfeld“ (die Aufrufer reichen die
+// Tabelle ANZEIGE der Betriebssatz-Quelle). Die Kennung bleibt aus dem Feldnamen, damit gespeicherte Werte ihr Feld behalten.
+function baueSektionen(vorlageFelderDe, vorlageFelderEn, jaNeinLabels, anzeigen) {
   jaNeinLabels = jaNeinLabels || { ja: 'Yes', nein: 'No' };
+  anzeigen = anzeigen || {};
+  const zweiteSprache = vorlageFelderEn === vorlageFelderDe ? 'de' : 'en';
+  const anzeige = (schluessel, sprache) => (anzeigen[schluessel] && anzeigen[schluessel][sprache]) || null;
   if (vorlageFelderDe.length !== vorlageFelderEn.length) {
     throw new Error('DE/EN-Vorlage haben unterschiedliche Feldzahl: ' + vorlageFelderDe.length + ' vs ' + vorlageFelderEn.length);
   }
@@ -107,8 +112,8 @@ function baueSektionen(vorlageFelderDe, vorlageFelderEn, jaNeinLabels) {
     idGesehen.set(kollisionsSchluessel, fd.feldname);
 
     const typ = mapTyp(fd.feldtyp);
-    const feld = { id: fId, typ, label: fd.feldname };
-    enTexte[bereich + '.' + fId + '.label'] = fe.feldname;
+    const feld = { id: fId, typ, label: anzeige(fd.feldname, 'de') || fd.feldname };
+    enTexte[bereich + '.' + fId + '.label'] = anzeige(fd.feldname, zweiteSprache) || fe.feldname;
 
     if (fd.feldtyp === 'jaNein') {
       feld.optionen = [{ wert: 'ja', label: 'Ja' }, { wert: 'nein', label: 'Nein' }];
@@ -129,8 +134,9 @@ function baueSektionen(vorlageFelderDe, vorlageFelderEn, jaNeinLabels) {
         }
         ufIdGesehen.add(ufId);
         const ufTyp = (ud.feldtyp === 'jaNein') ? 'checkbox' : mapTyp(ud.feldtyp);
-        enTexte[bereich + '.' + fId + '/' + ufId + '.label'] = ue.feldname;
-        return { id: ufId, typ: ufTyp, label: ud.feldname };
+        const ufSchluessel = fd.feldname + '/' + ud.feldname;
+        enTexte[bereich + '.' + fId + '/' + ufId + '.label'] = anzeige(ufSchluessel, zweiteSprache) || ue.feldname;
+        return { id: ufId, typ: ufTyp, label: anzeige(ufSchluessel, 'de') || ud.feldname };
       });
     }
     if (fd.pflicht) feld.pflicht = true;

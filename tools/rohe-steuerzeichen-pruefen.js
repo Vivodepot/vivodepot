@@ -151,6 +151,8 @@ const AUSNAHMEN = new Map([
     'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
   ['docs/format/korpus/g15-kreisname-emoji.vivodepot',
     'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
+  ['docs/format/korpus/g16-teil-depot.vivodepot',
+    'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
   // Klasse D — Steuerzeichen aus PDF-Textextraktion amtlicher Formulare (0x83 Bullet-
   // Artefakt, 0x08/0x0c/0x07 Fett-Overstrike/Seitenwechsel). UNGEPRÜFT, ob es wirklich
   // wortgetreuer amtlicher Text ist (Meßbericht, §„Nicht gemessen") — nur Muster/Zweck sprechen

@@ -83,9 +83,9 @@ describe('[Doku-Input-Schriftart] `.doku-input` erbt font-family AUCH für input
     assert.match(html, /type="text" id="doku-neu-name" class="doku-input"/, 'doku-neu-name nicht gefunden — Diagnose veraltet?');
     assert.match(html, /type="text" id="doku-neu-adresse" class="doku-input"/, 'doku-neu-adresse nicht gefunden — Diagnose veraltet?');
     assert.match(html, /type="text" id="doku-neu-partei" class="doku-input"/, 'doku-neu-partei nicht gefunden — Diagnose veraltet?');
-    // Zum Vergleich: doku-neu-datum ist type="date" — von Fund 1s globalem Reset bereits erfasst,
-    // unabhängig vom Fix hier.
-    assert.match(html, /type="date" id="doku-neu-datum" class="doku-input"/, 'doku-neu-datum nicht gefunden — Diagnose veraltet?');
+    // Zum Vergleich: doku-neu-datum war type="date"; seit dem Zielbild S4 (31.10.2026) trägt ein verstecktes Feld den
+    // Wert, sichtbar sind drei Textfelder Tag, Monat, Jahr (.datum-teil).
+    assert.match(html, /_datumDreifeldHTML\('id="doku-neu-datum" class="doku-input"/, 'doku-neu-datum nicht gefunden — Diagnose veraltet?');
   });
 });
 

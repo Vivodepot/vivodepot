@@ -69,6 +69,12 @@ const LAST_SCHRANKE = 15;
 const LAST_MESSUNGEN = 2;
 const LAST_ABSTAND_MS = 4000;
 
+/* EIGENER AUSGANG FÜR UNGEMESSEN (28.10.2026, Befund E2E-UNGEMESSEN-ALS-ROT-IM-ZUGKOPF): der Ausstieg an der Lastschranke gab
+   denselben Ausgang wie ein rotes Gate. In der Landungsvorbereitung läuft dieser Schritt neben der eigenen Node-Suite, die allein
+   über der Schranke liegen kann; ein Abbruch ohne Messung sah dort aus wie Rot. Mit 3 kann der Aufrufer ihn nachholen. Der
+   pre-push lehnt ihn ab wie jedes Nicht-Null (`set -e`). Fehlendes Playwright bleibt 1: das ist ein Einrichtungsfehler. */
+const AUSGANG_UNGEMESSEN = 3;
+
 const E2E_PFAD = 'tests/e2e/';
 /* Die Cross-Reisen (vier Komponenten) hingen ebenfalls nur an GitHub Actions; ihr Rot am nackten Gerüst
    (19.09.2026, T-CROSS-01) blieb deshalb unbemerkt. Gleicher Anlass, gleiche Last-Schranke, eigener Lauf. */
@@ -233,7 +239,7 @@ function main() {
   const { ohneHaupt, nurHaupt } = t;
   if (t.arbeitsbaum) {
     const e = anlassEntscheiden(geaenderteDateienArbeitsbaum());
-    return laeufeFahren(e.anlass, e.firefox, { ohneHaupt, nurHaupt, lueckenSpecs: specsAusArgv(process.argv) });
+    return laeufeFahren(e.anlass, e.firefox, { ohneHaupt, nurHaupt, lueckenSpecs: specsAusArgv(process.argv), zugkopfGrenze: process.env.VD_ZUGKOPF_LAST_GRENZE });
   }
   const roh = require('node:fs').readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[e2e-bereich] nichts zu pushen'); return 0; }
@@ -311,7 +317,7 @@ function specsAusArgv(argv) {
 }
 
 function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = false, nurHaupt = false, lueckenSpecs = [], spawn = spawnMitBericht, bereit = playwrightBereit,
-  last = lastMehrfach, existiert = (p) => require('node:fs').existsSync(require('node:path').join(__dirname, '..', p)) } = {}) {
+  last = lastMehrfach, zugkopfGrenze = null, existiert = (p) => require('node:fs').existsSync(require('node:path').join(__dirname, '..', p)) } = {}) {
   if (!anlass.ja && !firefox.ja) {
     console.log('[e2e-bereich] kein Anlass — ' + anlass.grund + '. Nicht gefahren.');
     return 0;
@@ -325,19 +331,24 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = fal
     return 1;
   }
 
+  // Nur in der Landungsvorbereitung (--arbeitsbaum): der nachgeholte Browser-Schritt wartet vorher auf Last <= Grenze und gibt sie
+  // hier mit (01.11.2026, Kern-Stufe der Landungsvorbereitung). Der pre-push kennt keine Überschreibung.
+  const eigene = Number(zugkopfGrenze);
+  const ueberschrieben = Number.isFinite(eigene) && eigene > 0;
+  const schranke = ueberschrieben ? eigene : LAST_SCHRANKE;
   const messwerte = last();
-  if (messwerte.every((l) => l >= LAST_SCHRANKE)) {
+  if (messwerte.every((l) => (ueberschrieben ? l > schranke : l >= schranke))) {
     console.error('[e2e-bereich] UNGEMESSEN — nicht rot: die E2E-Suite wurde nicht gefahren, weil');
     console.error('              der Rechner sie gerade nicht tragen kann. KEIN Fehler in diesem Zug.');
     console.error('              Gemessen: ' + messwerte.map((l) => l.toFixed(2)).join(' und ')
-      + ' (Ein-Minuten-Last), Schranke ' + LAST_SCHRANKE + '. Zweimal gemessen,');
+      + ' (Ein-Minuten-Last), Schranke ' + schranke + '. Zweimal gemessen,');
     console.error('              damit eine einzelne Spitze die Schranke nicht auslöst.');
     console.error('              ZU TUN: warten, bis die anderen Läufe durch sind, dann erneut pushen.');
     console.error('              Ein E2E-Lauf trägt rund 4,8 zur Last bei (tools/last-waehrend-lauf-messen.js).');
-    return 1;
+    return AUSGANG_UNGEMESSEN;
   }
   console.log('[e2e-bereich] Systemlast ' + messwerte.map((l) => l.toFixed(2)).join('/')
-    + ' — unter der Schranke ' + LAST_SCHRANKE + ', Lauf beginnt.');
+    + ' — unter der Schranke ' + schranke + ', Lauf beginnt.');
 
   if (anlass.ja) {
     if (hauptVomRunner) {
@@ -391,6 +402,6 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = fal
   return 0;
 }
 
-module.exports = { teilungLesen, dreiBrowserTraeger, DEMO_SZENARIEN_PFADE, roteReisenAus, mitBericht, spawnMitBericht, rotZeilen, specsAusArgv, oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
+module.exports = { teilungLesen, dreiBrowserTraeger, DEMO_SZENARIEN_PFADE, roteReisenAus, mitBericht, spawnMitBericht, rotZeilen, specsAusArgv, oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, AUSGANG_UNGEMESSEN, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
 
 if (require.main === module) process.exit(main());

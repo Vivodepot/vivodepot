@@ -202,6 +202,10 @@
                     }
                   }
                 },
+                "bmjBaustein": {
+                  "type": "string",
+                  "description": "Gliederungsziffer des amtlichen Bausteins (etwa 2.3.4). Der Assistent zeigt sie als Verweis klein unter der Frage, nicht im Fragetext."
+                },
                 "verborgenWenn": {
                   "description": "Optionale Bedingung, unter der dieser Schritt uebersprungen wird (Negativ-Form: nennt nur die ausschliessenden Katalogwerte, s. Kern-Kommentar an PV_VERBORGEN_WENN). Freie Form, wie am Wizard-Pendant.",
                   "type": "object"

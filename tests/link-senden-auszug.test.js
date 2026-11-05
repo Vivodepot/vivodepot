@@ -97,12 +97,15 @@ test('[Link senden·Auszug] der Weg des importierten Originals bleibt: _jweCompa
   assert.equal(bytes.toString('utf8'), '{"resourceType":"Bundle"}');
 });
 
-test('[Link senden·Auszug] der Schalter steht seit L1b an; auszugLinkTeile rufen nur die Antwort und der Anlass-Auszug', () => {
+test('[Link senden·Auszug] der Schalter steht seit L1b an; auszugLinkTeile rufen nur die Antwort, der Anlass-Auszug und die Patient Summary', () => {
   const { V } = ladeKern();
   assert.equal(V.LINK_SENDEN_FUER_AUSZUEGE, true);   // L1b, 19.10.2026: Oberfläche gebaut, Vorschau freigegeben, Beleg im Repo
   const kern = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  // die Definition, antwortLinkTeile und der Anlass-Auszug (tests/link-senden-antwort.test.js)
-  assert.equal((kern.match(/auszugLinkTeile\(/g) || []).length, 3, 'auszugLinkTeile hat einen Aufrufer mehr als geprüft');
+  // die Definition, antwortLinkTeile, der Anlass-Auszug (tests/link-senden-antwort.test.js) und die Patient Summary
+  // (flowGesundheitFhirExport, L2 02.11.2026, tests/link-senden-patient-summary.test.js; freigegeben für genau diesen Aufrufer)
+  assert.equal((kern.match(/auszugLinkTeile\(/g) || []).length, 4, 'auszugLinkTeile hat einen Aufrufer mehr als geprüft');
+  const ruft = [...kern.matchAll(/(?<!function )auszugLinkTeile\(/g)].map((m) => ([...kern.slice(0, m.index).matchAll(/^(?:async )?function\s+([A-Za-z0-9_]+)\s*\(/gm)].pop() || [])[1]);
+  assert.deepEqual(ruft.sort(), ['antwortLinkTeile', 'flowAnlassExport', 'flowGesundheitFhirExport'], 'wer auszugLinkTeile ruft');
 });
 
 test('[Link senden·Auszug·Rot-Beweis] ein Text-Umweg veränderte eine PDF: die Gleichheitsprobe fiele', () => {

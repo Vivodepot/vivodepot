@@ -73,7 +73,7 @@ const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
   'betreuungHerkunftText', 'vollmachtHerkunftText', 'k9VorlageHerkunftText',
   'exportZustandZurueckgehalten',
   'herkunftLizenzhinweis', 'herkunftPoweredBy',
-  // U2-ADR-400 Nachtrag 18.10.2026: „Erstellt mit der Software Vivodepot“ auf jeder Ausgabe, ein Herkunftsort-Schlüssel wie herkunftPoweredBy.
+  // U2-ADR-400 Nachtrag 18.10.2026: „Erstellt mit Vivodepot“ auf jeder Ausgabe, ein Herkunftsort-Schlüssel wie herkunftPoweredBy.
   'ausgabeErstelltMit',
   'krisenvorsorgeBedarfHerkunftAbgeleitet', 'krisenvorsorgeBedarfHerkunftUeberschrieben',
   'modulHerkunftUnbekanntHinweis', 'modulPruefstufeGeprueftZusatz', 'modulPruefstufeUngeprueftZusatz',

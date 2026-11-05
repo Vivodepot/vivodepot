@@ -2,7 +2,7 @@
 /* Die Listenzeile wird länger (02.10.2026, Befund LESE-APP-UNTERFELD-OHNE-BESCHRIFTUNG): Jedes Unterfeld trägt jetzt seine
    Beschriftung, in Kern und Lese-App. Diese Probe hält fest, dass die längere Zeile nirgends abgeschnitten wird und keine Seite sprengt.
    1. Gesamt-PDF mit dem längsten Listenwert: jedes Listenfeld jedes Bereichs bekommt einen Eintrag, in dem jedes Unterfeld lang
-      gefüllt ist. Jede Listenzeile des Modells steht vollständig im gezeichneten Text, und keine Zeile liegt unter dem Blattrand.
+      gefüllt ist. Jeder Teil eines Listeneintrags (eine Zeile je Unterfeld) steht vollständig im gezeichneten Text, und keine Zeile liegt unter dem Blattrand.
    2. Die Listenzeile auf dem Schirm bricht um: keine Regel für die Zeile (Kern und Lese-App) setzt nowrap, Ellipse oder
       overflow:hidden.
    3. Die A6-Notfallkarte zieht keine Listenzusammenfassung: Listen-Unterfelder kommen dort einzeln über den Selektor. Kommt ein
@@ -84,8 +84,13 @@ test('[Listen·Ausgabe] Gesamt-PDF mit dem längsten Listenwert: jede Listenzeil
   const doc = docMitUmbruch(70);
   V.zeichneVollDepotPdf(doc, modell, V.vollDepotPdfMeta());
   const alles = doc._gezeichnet().map((g) => g.text).join('');
-  const werte = JSON.stringify(modell).match(/"wert":"((?:[^"\\]|\\.)*)"/g).map((m) => JSON.parse(m.slice(7)))
-    .filter((w) => w.includes(LANG.slice(0, 30)));
+  // Seit GL B2 (4)+(5) zeichnet das PDF eine Liste als Block je Eintrag, eine Zeile je Unterfeld: geprüft wird jeder Teil.
+  const werte = [];
+  (function teile(o) {
+    if (!o || typeof o !== 'object') return;
+    if (Array.isArray(o.eintraege)) for (const e of o.eintraege) for (const t of e) if (String(t.text).includes(LANG.slice(0, 30))) werte.push(String(t.text));
+    for (const k of Object.keys(o)) teile(o[k]);
+  })(modell);
   assert.ok(werte.length > 15, 'zu wenige Listenzeilen im Modell (' + werte.length + ')');
   const fehlt = werte.filter((w) => !alles.includes(w));
   assert.deepEqual(fehlt.slice(0, 3), [], fehlt.length + ' Listenzeilen nicht vollständig gezeichnet');

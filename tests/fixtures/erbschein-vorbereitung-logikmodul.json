@@ -30,7 +30,7 @@
     {
       "titel": "Teil A — der Erbschein-Wegweiser (service.justiz.de)",
       "bloecke": [
-        { "typ": "immer", "texte": ["Diese sechs Fragen stellt der amtliche Erbschein-Wegweiser, um zu klären, ob überhaupt ein Erbschein nötig ist. Reihenfolge und Wortlaut-Grundlage: Stand 27.08.2026."] },
+        { "typ": "immer", "texte": ["Diese sechs Fragen stellt der amtliche Erbschein-Wegweiser. Er klärt, ob überhaupt ein Erbschein nötig ist. Reihenfolge und Wortlaut folgen dem Wegweiser mit Stand 27.08.2026."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "staatsangehoerigkeit",
           "frage": "Welche Staatsangehörigkeit hatte die verstorbene Person?", "luecke": "— nicht erfasst —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "lebensmittelpunkt",
@@ -55,12 +55,12 @@
     {
       "titel": "Teil B — was der Antrag auf Erbschein zusätzlich verlangt",
       "bloecke": [
-        { "typ": "immer", "texte": ["Diese Angaben beziehen sich auf das eigentliche Antragsformular, das auf service.justiz.de noch NICHT online ist — der amtliche Wortlaut kann sich bis zur Veröffentlichung ändern. Was folgt, ist die Zusammenstellung dieser Anwendung der zugrundeliegenden Depot-Angaben, keine geprüfte amtliche Formulierung."] },
+        { "typ": "immer", "texte": ["Diese Angaben gehören zum eigentlichen Antragsformular. Es ist auf service.justiz.de noch nicht online. Sein amtlicher Wortlaut kann sich bis zur Veröffentlichung noch ändern. Was folgt, hat diese Anwendung aus Ihren Depot-Angaben zusammengestellt. Amtlich bestätigt ist diese Formulierung nicht."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "familienstand", "frage": "Familienstand?",
           "format": { "typ": "codeListeLabel", "sektor": "identity", "feld": "maritalStatus" }, "luecke": "— nicht erfasst —" },
-        { "typ": "frageAntwortOderLuecke", "feldId": "kinder_namen", "frage": "Kinder/Abkömmlinge (erste Generation)?",
+        { "typ": "frageAntwortOderLuecke", "feldId": "kinder_namen", "frage": "Kinder der verstorbenen Person?",
           "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
-        { "typ": "immer", "texte": ["Enkel, Urenkel sowie Eltern/Voreltern der Erblasserin kennt das Datenmodell dieser Anwendung heute nicht strukturiert — diese Angaben bleiben grundsätzlich Lücke, unabhängig vom Pflegestand des Depots."] },
+        { "typ": "immer", "texte": ["Für Enkel, Urenkel, Eltern und Voreltern der verstorbenen Person hat die App keine eigenen Felder. Diese Angaben bleiben deshalb immer offen, auch wenn Sie Ihr Depot gut gepflegt haben."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "testament_bedachte_namen", "frage": "Im Testament bedachte Person(en)?",
           "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "erbvertrag_bedachte_namen", "frage": "Im Erbvertrag bedachte Person(en)?",
@@ -83,7 +83,7 @@
   "dokAusgabe": {
     "h1": "Erbschein — Vorbereitungsauszug",
     "klasse": "erbschein-dok",
-    "herkunftText": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu service.justiz.de.",
+    "herkunftText": "Diese Anwendung hat das Blatt aus Ihren Depot-Angaben zusammengestellt. Es ist keine amtliche Vorlage und stammt nicht von service.justiz.de.",
     "unterschrift": false,
     "unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder die eidesstattliche Versicherung noch den amtlichen Erbschein-Wegweiser. Was in Ihrem Fall nötig ist, klärt das Nachlassgericht.",
     "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",

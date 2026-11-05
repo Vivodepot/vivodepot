@@ -13,7 +13,7 @@
    Eingabe, die nichts speicherte — gerendert, aber nie verdrahtet.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers.js');
+const { oeffneApp, depotAnlegen, oeffneSektor, datumSetzen } = require('./helpers.js');
 
 test('[A320] im Bereich steht die Eingabe UND sie schreibt', async ({ page }) => {
   await oeffneApp(page);
@@ -54,8 +54,7 @@ test('[M1·Zug5·Rot] das Feld selbst schreibt sein „gültig bis" an den ZIELO
 
   const feld = '[data-edit="passportValidUntil"]';
   await expect(page.locator(feld), 'das Feld steht unverändert an seiner Stelle').toHaveCount(1);
-  await page.locator(feld).fill('2031-05-04');
-  await page.locator(feld).dispatchEvent('change');
+  await datumSetzen(page, feld, '2031-05-04');
   await page.waitForTimeout(120);
 
   const stand = await page.evaluate(() => ({
@@ -85,8 +84,7 @@ test('[Schnitt Glied1·Rot] ein giltAb-Feld schreibt seinen Wert ebenfalls an de
 
   const feld = '[data-edit="passportIssuedOn"]';
   await expect(page.locator(feld), 'das Feld steht an seiner Stelle').toHaveCount(1);
-  await page.locator(feld).fill('2020-03-15');
-  await page.locator(feld).dispatchEvent('change');
+  await datumSetzen(page, feld, '2020-03-15');
   await page.waitForTimeout(120);
 
   const stand = await page.evaluate(() => ({

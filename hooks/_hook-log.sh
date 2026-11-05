@@ -29,6 +29,20 @@
 # start (02.10.2026): Startzeit des Hooks, gesetzt beim Einlesen dieser Datei (ganz oben im Hook). Erst damit ist die
 # Dauer eines Pushes aus dem Log lesbar — gebraucht für die Messung, was der eigene Runner diesem Rechner abnimmt.
 _hook_start_ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+# ORT AUSSERHALB DES BAUMS (30.10.2026, Befund ZUGKOPF-AIR-HOOKLOG-IM-SELBSTTEST): die Zeilen stehen im git-Verzeichnis des
+# Baums, nicht in seiner Wurzel. Am Zugkopf pusht die Air-Seite aus demselben Baum, in dem die Mac-Seite den Waechter-Selbsttest
+# faehrt; eine neue hook-log.ndjson in der Wurzel machte ihn rot. Gelesen aus `.git` in der Wurzel (CWD, siehe oben): eine Datei
+# mit „gitdir: <pfad>“ in einem Arbeitsbaum, ein Verzeichnis im Hauptbaum. Nicht ueber git: ein GIT_DIR aus der Umgebung
+# verschoebe den Ort. Ohne `.git` (Temp-Baeume der Hook-Proben) bleibt es die Wurzel.
+_hook_log_pfad() {
+  if [ -f .git ]; then
+    _d="$(sed -n 's/^gitdir: //p' .git 2>/dev/null)"
+    if [ -n "$_d" ] && [ -d "$_d" ]; then printf '%s/hook-log.ndjson' "$_d"; unset _d; return 0; fi
+    unset _d
+  fi
+  if [ -d .git ]; then printf '.git/hook-log.ndjson'; return 0; fi
+  printf 'hook-log.ndjson'
+}
 hook_log_schreiben() {
   _hook="$1"
   _rc="$2"
@@ -38,7 +52,7 @@ hook_log_schreiben() {
   # tests/hook-sperre-testumgebung.js; der echte Hook setzt es nie. Ohne dieses Feld waren echte Läufe
   # von Testläufen nicht zu trennen (~900 pre-push-Zeilen am Tag, die meisten aus Tests).
   if [ -n "${VD_HOOK_SPERRE_JE_PID:-}" ]; then _quelle=test; else _quelle=echt; fi
-  printf '{"zeit":"%s","start":"%s","hook":"%s","ziel":"%s","rc":"%s","quelle":"%s"}\n' "$_ts" "${_hook_start_ts:-}" "$_hook" "$_ziel" "$_rc" "$_quelle" >> "hook-log.ndjson" 2>/dev/null
+  printf '{"zeit":"%s","start":"%s","hook":"%s","ziel":"%s","rc":"%s","quelle":"%s"}\n' "$_ts" "${_hook_start_ts:-}" "$_hook" "$_ziel" "$_rc" "$_quelle" >> "$(_hook_log_pfad)" 2>/dev/null
   unset _hook _rc _ziel _ts _quelle
 }
 
@@ -49,6 +63,6 @@ hook_log_ereignis() {
   _ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   _grund="$(printf '%s' "$3" | tr -d '"\\')"
   if [ -n "${VD_HOOK_SPERRE_JE_PID:-}" ]; then _quelle=test; else _quelle=echt; fi
-  printf '{"zeit":"%s","start":"%s","hook":"%s","ziel":"%s","rc":"%s","grund":"%s","quelle":"%s"}\n' "$_ts" "${_hook_start_ts:-}" "$1" "$(git rev-parse HEAD 2>/dev/null || echo unbekannt)" "$2" "$_grund" "$_quelle" >> "hook-log.ndjson" 2>/dev/null
+  printf '{"zeit":"%s","start":"%s","hook":"%s","ziel":"%s","rc":"%s","grund":"%s","quelle":"%s"}\n' "$_ts" "${_hook_start_ts:-}" "$1" "$(git rev-parse HEAD 2>/dev/null || echo unbekannt)" "$2" "$_grund" "$_quelle" >> "$(_hook_log_pfad)" 2>/dev/null
   unset _ts _grund _quelle
 }

@@ -87,7 +87,8 @@ test('[Zug 1] Blocktext nennt die Sub-Depot-Grenze VOR dem zweiten Weg, wörtlic
   const s = V.SITUATION_BY_ID['todesfall-uebernahme'];
   const block = s.bloecke.find((b) => b.titel === 'Zugang zu den Daten');
   assert.ok(block, 'Block muss unter diesem Titel stehen — Rename hier nachziehen, falls gewollt');
-  assert.match(block.hint, /Sub-Depot der einzige Weg/,
+  // NACHGEZOGEN 31.10.2026 (P04): „Bei einem übergebenen Sub-Depot ist das der einzige Weg.“
+  assert.match(block.hint, /Sub-Depot ist das der einzige Weg/,
     'die Grenze muss ausdrücklich benannt sein, nicht nur implizit aus der Reihenfolge folgen');
   const posGrenze = block.hint.indexOf('der einzige Weg');
   /* F5 Zug 2: der zweite Weg heisst seit dem 21.08.2026 „Datei öffnen" mit dem Passwort eines

@@ -56,7 +56,7 @@ test('[Widerspruch·Bedingung 1] Export-, Übergabe- und Aushäng-Dialog zeigen 
   for (const g of gesehen) assert.match(g.koerperHTML, /Lea hat widersprochen: Weitergabe an die Schule/, 'Hinweis fehlt in: ' + g.titel);
   // sperrt nichts: der Export läuft trotzdem
   const datei = V.subDepotBlackboxExportieren(e.depotUUID);
-  assert.equal(datei.dateiTyp, 'vivodepot-blackbox-export');
+  assert.equal(datei.art, 'sub', 'eine Depot-Datei mit dem Kennzeichen eines Teil-Depots (S8)');
 });
 
 test('[Widerspruch·Bedingung 2] Entfernen hinterlässt eine Spur; der Eintrag bleibt und ist nicht mehr offen', async () => {

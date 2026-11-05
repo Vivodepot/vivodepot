@@ -192,10 +192,22 @@ erhalten, indem die Fixture ein gültiges `kryptoVersion` bekommt.
 
 Gezielter Regressionslauf über zwölf betroffene und benachbarte Testdateien: **grün.**
 
+## Nachtrag 30.10.2026 — Depot-Datei statt Hülle, das Kennzeichen art im Prüfpfad
+
+Die dritte der benannten Stellen heißt seit v970 `depotDateiAusUmschlag` (vorher
+`blackboxDateiAusUmschlag`). Sie baut keine Hülle mehr, sondern die Depot-Datei selbst: dieselben
+Felder je Kryptoversion, verbatim, dazu das Kennzeichen `art`, damit `fremdHash` des Teil-Depots stimmt; andere Felder außerhalb der Basismenge lässt sie wie bisher weg.
+`umschlagAusDatei` liest beide Formen: die Hülle bis v969 unverändert, eine Depot-Datei mit genau den
+Basis-Feldern und dem Kennzeichen `art`. Der V4-Prüfpfad lässt `art` als zweites Zusatzfeld neben dem
+Ortshinweis zu, nur mit dem Wert `sub`; der V3-Prüfpfad bleibt bei genau sechs Feldern, weil ein
+Teil-Depot seit dem Zerfall nur noch in Form 4 versiegelt wird. Die Entscheidung oben (je Version
+vollständig prüfen, die gelesene Version zurückschreiben) gilt unverändert. Anlass: Befund
+SUB-SONDERLOCKEN, Posten S8; Formbeschreibung `docs/format/SPEZIFIKATION.md` Abschnitt 3.
+
 ## Konformität
 
 ```konformitaet
-aussage:   U2-235: pruefeBlackboxUmschlag/umschlagAusDatei/blackboxDateiAusUmschlag/
+aussage:   U2-235: pruefeBlackboxUmschlag/umschlagAusDatei/depotDateiAusUmschlag/
            subDepotEinhaengen/subDepotEntsiegeln/subDepotEigenerPasswortWechsel prüfen bzw.
            bauen den Sub-Depot-Umschlag je nach kryptoVersion vollständig und unabhängig
            (V3 und V4 getrennte, gleich harte Pfade); der V4-Pfad prüft zusätzlich eine

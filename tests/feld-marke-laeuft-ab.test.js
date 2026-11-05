@@ -131,7 +131,9 @@ test('[M1·Zug1] wie viele der eingebauten Datumsfelder tragen die Marke — von
   // Ereignisdatum, KEIN laeuftAb (tools/anfaenge-falsch-abgelegt-erheben.js: KEIN_FALL); mitMarke bleibt bei 10.
   // 29.09.2026: +1 Datumsfeld (health.pregnancyEstimatedDueDate, U2-ADR-455, errechneter Entbindungstermin) — ein erwartetes
   // Ereignis, KEIN laeuftAb (KEIN_FALL); mitMarke bleibt bei 10.
-  assert.equal(datumsfelder, 45, 'von fünfundvierzig Datumsfeldern insgesamt');
+  // 02.11.2026: +2 Datumsfelder (health.researchDecisions/declaredOn und /validUntil, U2-ADR-518). declaredOn ist ein Ereignisdatum;
+  // die Marke an validUntil kommt in einem eigenen Schritt (U2-ADR-518, Abgelehnt), mitMarke bleibt bei 10.
+  assert.equal(datumsfelder, 47, 'von siebenundvierzig Datumsfeldern insgesamt');
   // Ein Geburtsdatum läuft nicht ab — das ist der Sinn der Marke, nicht ihr Nebeneffekt.
   assert.equal(V.feldHatMarke('identitaet', 'birthDate', 'laeuftAb'), false);
   // `ausweis_gueltig` existiert seit Glied 3 nicht mehr als Skalarfeld — kein Absturz, keine Marke.

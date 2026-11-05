@@ -18,6 +18,7 @@ const PLATZ_MUSTER = Object.freeze([
   /^VD_KETTEN/,                            // Kettenwagen-Schalter und seine Familie
   /^VD_AIR(?:_|$)/,                        // Prüfrechner: Weiche und Marken
   /^VD_(?:[A-Z]+_)?LAST_GRENZE$/,          // Lastgrenze, auch die der Proben
+  /^VD_ZUGKOPF_WARTE_MAX$/,                // Höchstzeit des Wartens auf die Last am Zugkopf (01.11.2026)
   /^VD_[A-Z_]*(?:VORRANG|REIHE)[A-Z_]*$/,  // Vorrang- und Reihen-Marken
 ]);
 

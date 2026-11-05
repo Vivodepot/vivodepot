@@ -10,7 +10,14 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 
+/* KEINE ECHTE PLATTE IN PROBEN (05.11.2026, Befund PROBEN-MESSEN-ECHTE-PLATTE, MITTEL): suite-platz misst den freien Platz
+   des Rechners. Auf einem Rechner unter der Grenze wurden Proben rot, gleich welcher Commit geprüft wurde. Jeder Testprozess
+   und jedes Kind bekommt darum einen festen Wert über der Grenze, auch wenn draußen einer gesetzt ist. Wer die Sperre selbst
+   prüft, setzt den Wert im Kind. Die Proben dazu laufen mit den übrigen Platz-Proben. */
+const PLATTE_IN_PROBEN_GB = '1000';
+
 function platzIsolieren(env = process.env) {
+  env.VD_PLATTE_FREI_GB = PLATTE_IN_PROBEN_GB;
   if (env.VD_SUITE_PLATZ_DIR) return env.VD_SUITE_PLATZ_DIR;
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'platz-isoliert-'));
   env.VD_SUITE_PLATZ_DIR = dir;

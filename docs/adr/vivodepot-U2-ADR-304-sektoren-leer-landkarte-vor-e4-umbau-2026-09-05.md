@@ -1,9 +1,10 @@
 # U2-ADR-304 · Die Landkarte vor E4 — was umfällt, wenn `SEKTOREN` quelltextlich leer ist
 
 **Datum:** 05.09.2026
-**Status:** Gilt (Befund, keine Behebung) (bereinigt 25.09.2026)
-**Status heute:** gilt — Befund, keine Behebung; adressiert an die Sitzungen, die den nativen
-`SEKTOREN`-Bestand tatsächlich herausnehmen
+**Status:** Überholt (31.10.2026)
+**Status heute:** überholt durch U2-ADR-311 — die zehn Stellen in `WIZARDS` lösen auf Lesezeit auf
+(`get optionen()`) und werfen bei leerem `SEKTOREN` nicht mehr (`tests/sektoren-leer-ueberlebt.test.js`);
+der Grund aus §6, der Ersetzungs-Ladeweg komme strukturell zu spät, ist in U2-ADR-306 gemessen entkräftet
 **Bezug:** U2-ADR-300 (Struktur-Achse — beweist „Modul geladen == nativ", WENN geladen wird —
 diese ADR beweist NICHT dasselbe noch einmal) · U2-ADR-292/299 (`buergermodulSektorErsetzen`,
 die Erste-Partei-Zone, RUNTIME-Ladeweg) · U2-ADR-301 (Erzeuger um Situationen/Assistenten

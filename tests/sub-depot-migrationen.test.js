@@ -21,7 +21,7 @@ async function ankerMitSub(inhalt) {
   await V.depotAnlegen(ANKER_PW);
   V.akteurSelbstErklaeren('Tochter Reiter');
   const umschlag = await V.subDepotVersiegeln(inhalt, SUB_PW);
-  const e = V.subDepotEinhaengen(V.blackboxDateiAusUmschlag(umschlag), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
+  const e = V.subDepotEinhaengen(V.depotDateiAusUmschlag(umschlag), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
   return { V, e };
 }
 async function betreten(V, e) {

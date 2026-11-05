@@ -130,6 +130,13 @@
     "art": "ausnahme",
     "grund": "Keine Modul-Ladeprüfung, nichts wird zurückgewiesen: die Vorlage bleibt im Depot und sichtbar. Übersprungen wird nur ihr Feld in DIESER einen Antwort; die Person sieht es nicht in der Auswahl, und die Einrichtung bekommt eine Zeile unbekannt, byte-gleich mit einer Kennung, die es nicht gibt (kein Orakel, U2-ADR-366-Nachtrag). Gilt nur für dieses eine continue; Proben P13–P15 (gefälscht, abgelaufen, widerrufen).",
     "probe": "tests/vorlagen-rueckweg.test.js"
+   },
+   {
+    "ort": "lokaleModelleUebersicht",
+    "bedingung": "!g || !g.gueltig",
+    "art": "ausnahme",
+    "grund": "Nur Anzeige, nichts wird zurückgewiesen: ein ungültiger Verweis fehlt in der Liste der lokalen Modelle, steht aber in der allgemeinen Modulliste der Einstellungen als ausgefallen mit Grund (eingelasseneModule).",
+    "probe": "tests/ki-andockpunkt-einlass.test.js"
    }
   ]
  }

@@ -13,7 +13,8 @@ const { ladeKern } = require('./load-kern.js');
 
 const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
 /* Die Ausgabewege, die Unterfeld-Beschriftungen in ein Dokument, einen Export oder den Depot-Inhalt schreiben. */
-const AUSGABEWEGE = ['listenEintragZusammenfassung', '_verweisListenEintragZusammenfassung', 'prueftermineZeilen', 'depotNormalisieren'];
+/* listenEintragTeile: die Bildschirmzeile derselben Einträge (Nachtrag U2-ADR-497, 01.11.2026). */
+const AUSGABEWEGE = ['listenEintragZusammenfassung', 'listenEintragTeile', '_verweisListenEintragZusammenfassung', 'prueftermineZeilen', 'depotNormalisieren'];
 /* Die Stellen, die die Beschriftung eines Unterfelds direkt lesen, sind Eingabe: sie nennen das Feld so, wie es im Formular steht.
    Jede andere Funktion, die das tut, fällt auf, und muss entweder hierher (mit Grund) oder auf feldAusgabeBeschriftung(). */
 const EINGABE = {

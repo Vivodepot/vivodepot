@@ -87,9 +87,21 @@ if (wach && !fs.mkdtempSync.__vdTempAufraeumen) {
   // (tools/lib/browser-eigenes-tmp.js); die Wache um den Lauf bleibt unverändert.
   require('./browser-eigenes-tmp.js').beimLadenPatchen();
 
-  process.on('exit', () => {
+  const raeumen = () => {
     for (const p of angelegt) { try { fs.rmSync(p, { recursive: true, force: true }); } catch (_) { /* weg oder gesperrt */ } }
-  });
+  };
+  process.on('exit', raeumen);
+  /* SIGNALE (02.11.2026, Befund TEMP-LECK-TESTS): bei SIGTERM, SIGINT oder SIGHUP feuert Node kein 'exit'. Ein Lauf, den
+     eine Zeitgrenze oder ein Abbruch beendete, ließ so alles liegen (gemessen: rund 16.000 produkt-html-Reste). Jetzt räumt
+     der Preload auch dann. Danach gilt das Signal wie vorher: der Hörer hängt mit `once` und löst es nur neu aus, wenn kein
+     anderer Hörer mehr da ist. Dieselbe Regel hält der Helfer tests/produkt-html-erzeugen.js; so beendet der LETZTE Hörer
+     den Prozess, und keiner wartet auf den anderen. Ein Hörer, der bleiben will (eigene Behandlung), entscheidet selbst. */
+  for (const sig of ['SIGTERM', 'SIGINT', 'SIGHUP']) {
+    process.once(sig, () => {
+      raeumen();
+      if (process.listenerCount(sig) === 0) process.kill(process.pid, sig);
+    });
+  }
 }
 
 module.exports = { angelegt, wach, AKTIV_MARKE };

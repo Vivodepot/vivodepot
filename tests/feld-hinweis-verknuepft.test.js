@@ -50,6 +50,9 @@ function pruefe(V, sprache) {
   const fehler = [];
   const gesehen = new Map();
   let gezaehlt = 0;
+  // Ein Hinweis mit Aufklapper (hinweisAufklapper) trägt im verknüpften Element nur seinen ersten Satz; den Rest prüft
+  // tests/feld-hinweis-aufklapper.test.js.
+  const sichtbar = (f) => { const t = f.hinweisAufklapper === true && V.feldHinweisTeilen ? V.feldHinweisTeilen(f.hint) : null; return t ? t.sichtbar : f.hint; };
   const halte = (wo, html, hint) => {
     const texte = idsMitText(html);
     for (const [id] of texte) {
@@ -66,7 +69,7 @@ function pruefe(V, sprache) {
   for (const b of V.bereicheAlle()) {
     for (const sek of b.sektionen || []) {
       for (const f of sek.felder || []) {
-        if (f.hint) halte(b.id + '.' + f.id, V.feldZeileHTML(f, undefined, b.id, true, true), f.hint);
+        if (f.hint) halte(b.id + '.' + f.id, V.feldZeileHTML(f, undefined, b.id, true, true), sichtbar(f));
         const uf = Array.isArray(f.unterFelder) ? f.unterFelder : [];
         if (!uf.some((x) => x.hint)) continue;
         const form = V.listenEintragInputsHTML(f, {});
@@ -74,7 +77,7 @@ function pruefe(V, sprache) {
           if (!x.hint) continue;
           const zeile = new RegExp('<div class="feld-zeile feld-zeile-sub" data-sub-zeile="' + x.id + '"[^>]*>([\\s\\S]*?)(?=<div class="feld-zeile feld-zeile-sub"|$)').exec(form);
           if (!zeile) { fehler.push(sprache + ' ' + b.id + '.' + f.id + '.' + x.id + ': Unterfeld-Zeile fehlt'); continue; }
-          halte(b.id + '.' + f.id + '.' + x.id, zeile[1], x.hint);
+          halte(b.id + '.' + f.id + '.' + x.id, zeile[1], sichtbar(x));
         }
       }
     }
@@ -95,7 +98,12 @@ test('[Feld-Hinweis·Rot-Beweis] der Kern vor dem Helfer (a8243ba7e) hat unverkn
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'feld-hinweis-'));
   try {
     const alt = path.join(tmp, 'vivodepot.html');
-    fs.writeFileSync(alt, vorher('vivodepot.html'));
+    // Der alte Kern kennt die Region AB_WERK_KI_KORPUS (U2-ADR-507 Nachtrag, 29.10.2026) nicht, das heutige Rezept backt sie aber.
+    // Eine leere Region vor AB_WERK_DOKUMENTE_DE macht ihn backbar; der alte Kern liest die Konstante nie, am Befund ändert sie nichts.
+    const KI_REGION = '/* AB_WERK_KI_KORPUS:BEGIN */\nconst AB_WERK_KI_KORPUS = null;\n/* AB_WERK_KI_KORPUS:END */\n';
+    const altText = vorher('vivodepot.html');
+    assert.ok(altText.includes('/* AB_WERK_DOKUMENTE_DE:BEGIN */'), 'Vorbedingung: der alte Kern trägt die Region AB_WERK_DOKUMENTE_DE');
+    fs.writeFileSync(alt, altText.includes('/* AB_WERK_KI_KORPUS:BEGIN */') ? altText : altText.replace('/* AB_WERK_DOKUMENTE_DE:BEGIN */', KI_REGION + '/* AB_WERK_DOKUMENTE_DE:BEGIN */'));
     const { fehler, gezaehlt } = pruefe(ladeV({ htmlPfad: alt, backen: true }), 'alt');
     assert.ok(gezaehlt > 100, 'der alte Kern rendert keine Felder mit Hinweis — der Rot-Beweis prüft nichts');
     assert.ok(fehler.length > 100, 'der alte Kern wurde nicht als unverknüpft erkannt (' + fehler.length + ' Funde)');

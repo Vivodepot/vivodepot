@@ -40,7 +40,7 @@ test('[Verselbststaendigung-Feld] ein Alt-Depot mit dem entfernten Schlüssel ö
 
   // Kein Bruch beim Blackbox-Export — derselbe Weg, den eine Verselbstständigung heute nutzt.
   const exportiert = V.subDepotBlackboxExportieren(e.depotUUID);
-  assert.ok(exportiert && exportiert.umschlag, 'der Export funktioniert trotz Alt-Schlüssel am Eintrag');
+  assert.ok(exportiert && exportiert.art === 'sub', 'der Export funktioniert trotz Alt-Schlüssel am Eintrag');
 
   // Kein Datenverlust an den ÜBRIGEN Feldern des Eintrags — nur der tote Schlüssel wird ignoriert,
   // alles andere bleibt exakt, wie es war (der Export selbst trägt legitim einen neuen

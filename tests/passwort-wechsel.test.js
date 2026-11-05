@@ -222,7 +222,7 @@ test('[Klasse-A][ADR-095] Notfall-Blatt enthält kein Passwort und keine Eingabe
   const blatt = V.notfallblattHTML();
 
   assert.ok(blatt.length > 200, 'Vorbedingung: das Blatt wurde tatsächlich gerendert');
-  assert.ok(/Notfall-Blatt/.test(blatt), 'Vorbedingung: es ist das Notfall-Blatt');
+  assert.ok(/Passwort-Blatt/.test(blatt), 'Vorbedingung: es ist das Passwort-Blatt (bis 31.10.2026 „Notfall-Blatt“)');
   for (const geheim of [PW_ALT, PW_NEU, 'fach-passwort-der-tante-42']) {
     assert.ok(!blatt.includes(geheim), 'kein Passwort im Blatt: ' + geheim);
   }

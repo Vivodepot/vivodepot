@@ -63,6 +63,52 @@ test('[Hinzufügen·Groß] mehr als sechs Teile: nur der benennende Teil und „
   await expect(page.locator('#modal-inhalt .liste-eintrag-form select').first()).toHaveValue('will');
 });
 
+/* Befund LISTE-ALLE-ANGABEN-DOPPELT (31.10.2026): der Eintrag entstand schon beim Öffnen von „Alle Angaben“, das Speichern im Dialog
+   scheiterte dann als Doppel und die Angaben im Dialog gingen verloren. Jetzt entsteht genau ein Eintrag, beim Speichern. */
+test('[Hinzufügen·Groß] „Alle Angaben“ legt den Eintrag erst beim Speichern im Dialog an, genau einen', async ({ page }) => {
+  await bereitsicht(page, 'advanceCare');
+  const inline = page.locator('#content [data-liste-inline="provisionInstruments"]');
+  await inline.locator('select').first().selectOption('living-will');
+  await inline.locator('[data-eintrag-alle-angaben="provisionInstruments"]').click();
+  await expect(page.locator('#modal-rueck.an')).toBeVisible();
+  const anzahl = () => page.evaluate(() => (((window.__vdOeffentlich.ankerDaten().sektoren.advanceCare || {}).provisionInstruments) || []).length);
+  expect(await anzahl(), 'beim Öffnen des Dialogs entsteht noch kein Eintrag').toBe(0);
+  await page.click('#m-ok');
+  await expect(page.locator('#modal-rueck.an')).toBeHidden();
+  expect(await anzahl()).toBe(1);
+});
+
+// Klassenprobe: für jede Liste jedes Bereichs, deren erster Eintrag „Alle Angaben“ zeigt, legt das Öffnen des Dialogs nichts an.
+test('[Hinzufügen·Groß·Klasse] in keinem Bereich legt „Alle Angaben“ beim Öffnen einen Eintrag an', async ({ page }) => {
+  test.setTimeout(180000);
+  await oeffneApp(page);
+  await depotAnlegen(page);
+  const lange = await page.evaluate(() => window.__vdOeffentlich.bereicheAlle().flatMap((b) =>
+    [].concat(...(b.sektionen || []).map((s) => s.felder || []), b.felder || [])
+      .filter((f) => f && f.typ === 'liste' && (f.unterFelder || []).length > 6).map((f) => ({ sektor: b.id, feld: f.id }))));
+  let geprueft = 0;
+  for (const { sektor, feld } of lange) {
+    await page.evaluate((s) => window.__vdOeffentlich.oeffneSektor(s), sektor);
+    await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
+    const inline = page.locator('#content [data-liste-inline="' + feld + '"]');
+    if (!(await inline.count())) continue;
+    const erste = inline.locator('select[data-eintrag-edit], textarea[data-eintrag-edit], input[data-eintrag-edit]:not([type=hidden]):not([type=checkbox]):not([type=date])').first();
+    if (!(await erste.count())) { /* der benennende Teil ist keine Eingabe zum Tippen: „Alle Angaben“ ohne Vorbelegung */ }
+    else if (await erste.evaluate((el) => el.tagName === 'SELECT')) {
+      const wert = await erste.evaluate((el) => [...el.options].map((o) => o.value).find((v) => v && v !== '__neu__') || '');
+      if (wert) await erste.selectOption(wert);
+    } else await erste.fill('Probe');
+    await inline.locator('[data-eintrag-alle-angaben="' + feld + '"]').click();
+    await expect(page.locator('#modal-rueck.an')).toBeVisible();
+    const n = await page.evaluate(({ s, f }) => (((window.__vdOeffentlich.ankerDaten().sektoren[s] || {})[f]) || []).length, { s: sektor, f: feld });
+    expect(n, sektor + '.' + feld + ': beim Öffnen von „Alle Angaben“ entsteht kein Eintrag').toBe(0);
+    await page.click('#m-abbr');
+    await expect(page.locator('#modal-rueck.an')).toBeHidden();
+    geprueft++;
+  }
+  expect(geprueft, 'mindestens die Vorsorge-Instrumente').toBeGreaterThanOrEqual(1);
+});
+
 /* Der erste Eintrag hat keinen „Abbrechen“: wer darin eine Person anlegt und die Auswahl wieder leert, verlässt die Gruppe ohne Eintrag.
    Die angelegte Person, auf die dann nichts verweist, geht zurück wie beim Abbrechen des Dialogs — keine Karteileiche im Register.
    Gegenprobe: wird der Eintrag übernommen, bleibt die Person (sie ist referenziert). */

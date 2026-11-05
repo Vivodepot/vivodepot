@@ -76,8 +76,21 @@ test('[U2-ADR-183] CSP der Abhol-Seite: alles zu, nur connect-src offen', () => 
   assert.ok(!/frame-ancestors/.test(csp), 'frame-ancestors wird in einer Meta-CSP ignoriert — gehoert nicht hinein');
 });
 
+/* RECHTSLINKS (31.10.2026, mit Freigabe): die zwei Wächter unten lesen jedes href/src als Quelle. Erlaubt ist daneben
+   genau ein <a> zu Impressum oder Datenschutz des Anbieters, und nur mit rel="noreferrer noopener": die Abhol-Seite trägt den
+   Schlüssel im Link, kein Referrer darf hinaus. Eine Positivliste mit zwei Einträgen; jedes andere <a> nach draußen bleibt rot,
+   ebenso jedes src und jedes <link href> nach draußen. */
+const ERLAUBTE_RECHTSLINKS = Object.freeze(['https://vivodepot.de/impressum.html', 'https://vivodepot.de/datenschutz.html']);
+function ohneErlaubteRechtslinks(html) {
+  return html.replace(/<a\b[^>]*>/g, (tag) => {
+    const ziel = (tag.match(/\shref="([^"]+)"/) || [])[1];
+    const rel = ((tag.match(/\srel="([^"]+)"/) || [])[1] || '').split(/\s+/);
+    return ERLAUBTE_RECHTSLINKS.includes(ziel) && rel.includes('noreferrer') && rel.includes('noopener') ? '<a>' : tag;
+  });
+}
+
 test('[U2-ADR-183] kein Inline-Skript, keine fremden Quellen', () => {
-  const h = S('empfangen.html');
+  const h = ohneErlaubteRechtslinks(S('empfangen.html'));
   for (const tag of h.match(/<script\b[^>]*>[\s\S]*?<\/script>/g) || []) {
     assert.match(tag, /\ssrc="/, 'jedes <script> hat ein src — kein Inline-Code');
     assert.match(tag, /<script[^>]*>\s*<\/script>/, '<script src> hat keinen Rumpf');
@@ -141,7 +154,7 @@ test('[U2-ADR-183] die Seite nennt keinen festen Host — sie folgt dem Link', (
    nachprüfbar. Geprüft wird jede Ressource, die das HTML selbst nennt (href/src), gegen share/. */
 function fremdeRessourcenBefund(html, vorhanden) {
   const fehler = [];
-  for (const m of html.matchAll(/\b(?:href|src)\s*=\s*"([^"]+)"/g)) {
+  for (const m of ohneErlaubteRechtslinks(html).matchAll(/\b(?:href|src)\s*=\s*"([^"]+)"/g)) {
     const ziel = m[1];
     if (/^[a-z][a-z0-9+.-]*:/i.test(ziel) || ziel.startsWith('//')) { fehler.push(ziel + ': fremder Ursprung'); continue; }
     if (ziel.startsWith('#')) continue;
@@ -171,3 +184,17 @@ module.exports = {
   PROBEN: [
     { fuer: '[U2-ADR-183] der KERN bleibt bei connect-src none — diese Seite lockert ihn nicht', diskriminante: kernSperreBefund },  ],
 };
+
+test('[Rechtslinks·Rot-Beweis] nur die zwei Rechtslinks mit noreferrer gehen durch; Laden von draußen bleibt rot', () => {
+  const echt = S('empfangen.html');
+  const fall = (html) => fremdeRessourcenBefund(html, inShare).filter((x) => /fremder Ursprung/.test(x));
+  assert.deepEqual(fall(echt), [], 'die echte Seite: grün');
+  const linkFremd = echt.replace('<link rel="stylesheet" href="empfangen.css">', '<link rel="stylesheet" href="https://vivodepot.de/style.css">');
+  const srcFremd = echt.replace('src="empfangen.js"', 'src="https://vivodepot.de/empfangen.js"');
+  const aFremd = echt.replace('href="https://vivodepot.de/impressum.html"', 'href="https://example.org/impressum.html"');
+  const ohneRel = echt.replace('href="https://vivodepot.de/datenschutz.html" rel="noreferrer noopener"', 'href="https://vivodepot.de/datenschutz.html"');
+  for (const [name, html] of [['link', linkFremd], ['src', srcFremd], ['a fremd', aFremd], ['a ohne noreferrer', ohneRel]]) {
+    assert.notEqual(html, echt, 'Vorbedingung: ' + name + ' ließ sich einsetzen');
+    assert.equal(fall(html).length, 1, name + ' fällt auf');
+  }
+});

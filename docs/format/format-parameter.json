@@ -15,6 +15,8 @@
     "whcForm": { "wert": 1, "kern": "WHC_FORM" },
     "whcSalzBytes": { "wert": 32, "kern": null },
     "whcHuelleBytes": { "wert": 48, "kern": null },
-    "blackboxDateiTyp": { "wert": "vivodepot-blackbox-export", "kern": null }
+    "blackboxDateiTyp": { "wert": "vivodepot-blackbox-export", "kern": "UMSCHLAG_HUELLE_ALT" },
+    "teilDepotArtFeld": { "wert": "art", "kern": "UMSCHLAG_ART_FELD" },
+    "teilDepotArtSub": { "wert": "sub", "kern": "UMSCHLAG_ART_SUB" }
   }
 }

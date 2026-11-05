@@ -88,8 +88,10 @@ test('1e) feldWertHTML für liste mit unterFelder rendert <ul> mit <li> pro Eint
     { vorname: 'Ben' },
   ]);
   assert.match(html, /<ul class="liste-eintraege">/, 'Liste als <ul>');
-  assert.match(html, /<li data-eintrag="0">[^<]*Vorname: Anna · Nachname: M\./, 'Eintrag 0 mit Zusammenfassung');
-  assert.match(html, /<li data-eintrag="1">[^<]*Vorname: Ben/, 'Eintrag 1 mit Zusammenfassung');
+  // Am Bildschirm Beschriftung über Wert (Nachtrag U2-ADR-497, 01.11.2026): je Unterfeld Beschriftung und Wert als eigene Elemente.
+  const paar = (l, w) => '<span class="liste-eintrag-feld"><span class="liste-eintrag-label">' + l + '</span><span class="liste-eintrag-wert">' + w + '</span></span>';
+  assert.ok(html.includes('<li data-eintrag="0"><span class="liste-eintrag-zusammenfassung">' + paar('Vorname', 'Anna') + paar('Nachname', 'M.') + '</span></li>'), 'Eintrag 0 mit Zusammenfassung');
+  assert.ok(html.includes('<li data-eintrag="1"><span class="liste-eintrag-zusammenfassung">' + paar('Vorname', 'Ben') + '</span></li>'), 'Eintrag 1 mit Zusammenfassung');
 });
 
 test('1f) feldWertHTML für liste OHNE unterFelder bleibt Anzahl-Anzeige (rückwärtskompatibel)', () => {
@@ -171,7 +173,8 @@ test('2f) listenEintragInputsHTML rendert pro Sub-Feld eine Sub-Zeile mit Label 
   assert.match(html, /<div class="liste-eintrag-form">/);
   assert.match(html, /<div class="feld-label">Vorname/, 'Label Vorname');
   assert.match(html, /<input type="text" data-edit="vorname"/, 'Text-Input für Vorname');
-  assert.match(html, /<input type="date" data-edit="gebdatum"/, 'Date-Input für Geburtsdatum');
+  assert.match(html, /<input type="text" hidden="" tabindex="-1" aria-hidden="true" data-datum-iso="1" data-edit="gebdatum" data-typ="datum"/, 'Datum in drei Feldern für Geburtsdatum (Zielbild S4)');
+  assert.match(html, /<div class="datum-dreifeld" role="group"[^>]*>[\s\S]*data-datum-teil="j"/);
   assert.match(html, /<select data-edit="sorge"/, 'Select für Sorgerecht');
   // Pflicht-Marker bei vorname (pflicht: true) vorhanden.
   assert.match(html, /Vorname[\s\S]*<span class="feld-pflicht-marker"/, 'Pflicht-Marker');

@@ -299,6 +299,36 @@ ruhenden Bereiche eine Ebene tiefer). Die Definition ist in beiden Produkten die
 **Kein Produktname im Kern:** Die Regel hängt an der Marke am Feld und daran, ob das Produkt eingebaute Bereiche ersetzt
 (`feldNichtAngeboten` neben `feldNurMitWertUndLeer`).
 
+## 9 · Nachtrag 29.10.2026 — was ein Produkt liest, hat einen Eingabeweg
+
+**Anlass:** §8 und die Entscheidung vom 26.10.2026 zum Eingabeweg der Vorlagen („Ergänzen“ öffnet nur die Felder, die die Vorlage
+liest) trafen sich in identity. Die Erbschein-Vorlage liest dort fünf Felder mit der Marke `privat`: Familienstand,
+Staatsangehörigkeit und die Ablage von Geburtsurkunde, Eheurkunde und Stammbuch. „Ergänzen“ galt nur für Bereiche, die das Produkt
+ersetzt. Die fünf Felder blieben im Auszug leer, und Pro bot keinen Weg, sie einzutragen (Befund REZEPT-SICHT-LESEN-OHNE-EINGABEWEG).
+
+**Regel:** Was ein Modul eines Rezepts liest, hat in diesem Produkt einen Eingabeweg: Das Feld ist sichtbar, oder „ergänzen“ an
+der Karte des Moduls öffnet es. Ein abgelöstes Feld (`ersetztDurch`, U2-ADR-467) hat seinen Eingabeweg in den Feldern, die es
+ersetzen. Das gilt für jedes Rezept und für beide Ausblend-Wege, ersetzte Bereiche und private Felder geführter Bereiche.
+Dasselbe gilt für jeden Leser im Kern, der auf einem Weg läuft, den das Produkt anbietet (Bereichsansicht, Herausgeben, Einlesen,
+Anlässe, Prüftermine, Mappe, Dokumente der Module): Liest er ein Feld ohne Eingabeweg, ist das eine Lücke wie beim Modul.
+
+**Umsetzung:**
+- „ergänzen“ öffnet auch in einem geführten Bereich genau die privaten Felder, die die Vorlage liest, bis zum nächsten
+  Depot-Übergang. Mit Wert bleiben sie sichtbar wie jedes ruhende Feld.
+- Kern: `_vorlagePrivatFelder`, `_FELDER_GEOEFFNET_SITZUNG` und die Ausnahme in `feldNichtAngeboten`. Sonst bleibt §8 unverändert:
+  Ohne Vorlage und ohne Wert bietet Pro private Felder nicht an.
+- Prüftermine liest die Listen mit Gültigkeitsdatum (Ausweisdokumente, Aufenthaltstitel, Versichertenkarten,
+  Schwerbehindertenausweise, Elefand) nur, wenn das Produkt den Bereich führt und das Feld anbietet; in Pro also keine davon.
+- Die Gegenrichtung: kein Weg bietet ein Feld an, das das Produkt nicht anbietet. Das Zusammenstellen zeigte in Pro die zwanzig
+  privaten identity-Felder als Treffer und zum Füllen an Ort und Stelle (Befund ZUSAMMENSTELLEN-BIETET-PRIVATE-FELDER). Seither
+  steht ein solches Feld dort nur, wenn es einen Wert trägt.
+
+**Wächter:** Ein nicht öffentliches Werkzeug misst je auslieferbarem Produkt im geladenen Kern, ob jedes gelesene Feld sichtbar
+oder über „ergänzen“ zu öffnen ist: je Logikmodul, und für die Leser im Kern auf jedem Weg, den die Oberfläche des Produkts
+zeichnet. Ebenso prüft es die Gegenrichtung: ein ausgeblendetes Feld in einer Bereichsansicht oder zum Füllen im Zusammenstellen
+ist eine Lücke. Eine Lücke außerhalb der Ausnahmeliste macht es rot. Die Ausnahmeliste begann am 29.10.2026 mit
+0 Einträgen; jeder weitere Eintrag braucht eine eigene Freigabe und einen Trailer im Commit.
+
 ---
 
 ## Konformität
@@ -441,6 +471,21 @@ konformitaet:
     zustand: erfuellt
     herkunft: U2-ADR-421 §8 (Nachtrag 23.10.2026); belegt durch eine nicht öffentliche Probe, die pro-de baut (frisches Depot,
       Datei mit Familienstand, Rot-Beweis ohne die Regel)
+
+  - aussage: >-
+      Jedes Feld, das ein Modul eines Rezepts oder ein auf einem angebotenen Weg laufender Leser liest, hat im Produkt einen
+      Eingabeweg (sichtbar oder über „ergänzen“); in Pro öffnet „ergänzen“ an der Erbschein-Karte die fünf privaten
+      identity-Felder, die die Vorlage liest, und nur diese, und Prüftermine liest keine Liste, die Pro nicht anbietet.
+    zustand: erfuellt
+    herkunft: U2-ADR-421 §9 (Nachtrag 29.10.2026); belegt durch zwei nicht öffentliche Proben, die die auslieferbaren Produkte bauen
+      (Wächter über alle Rezepte mit Rot-Beweis; Eingabeweg in pro-de und pro-en mit Gegenprobe Privat)
+
+  - aussage: >-
+      Kein Eingabeweg eines Produkts bietet ein Feld an, das das Produkt nicht anbietet; in Pro steht im Zusammenstellen ein
+      privates identity-Feld nur mit Wert zur Wahl, nicht leer zum Füllen.
+    zustand: erfuellt
+    herkunft: U2-ADR-421 §9 (Nachtrag 29.10.2026, Gegenrichtung); belegt durch nicht öffentliche Proben je auslieferbarem Produkt
+      und einen Rot-Beweis ohne die Grenze im Zusammenstellen
 ```
 
 ---

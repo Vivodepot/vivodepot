@@ -36,11 +36,11 @@ test('[Ortshinweis·Rundlauf] der Ortshinweis überlebt Einhängen, Neuversiegel
   assert.equal(ablage().angehoerigenOrt, ORT, 'neu versiegelt: derselbe Ortshinweis (aus dem Inhalt, wie bei jedem Depot)');
 
   const blackbox = JSON.parse(JSON.stringify(V.subDepotBlackboxExportieren(e.depotUUID)));
-  assert.equal(blackbox.umschlag.angehoerigenOrt, ORT, 'die Blackbox trägt ihn');
+  assert.equal(blackbox.angehoerigenOrt, ORT, 'die Blackbox trägt ihn');
 
   const { V: L } = ladeLesen();
   assert.equal(L.erkenneFormat(blackbox), 'blackbox');
-  const inhalt = await L.leseSubUmschlag(blackbox.umschlag, PW_MUTTER);
+  const inhalt = await L.leseDepotUmschlag(blackbox, PW_MUTTER);
   assert.equal(inhalt.sektoren.health.ongoingTreatmentNext, 'Kontrolle im Oktober', 'die Lese-App öffnet die Blackbox mit Ortshinweis');
 
   const nochmal = ladeKern().V;
@@ -66,7 +66,7 @@ test('[Ortshinweis·Prüfung] eine Blackbox mit einem Ortshinweis, der kein Text
   await V.depotAnlegen('anker-ortsprobe-pw');
   V.akteurSelbstErklaeren('X');
   const s = await V.subDepotAnlegen({ vorname: 'Y', vertretungsGrundlage: 'vorsorge' }, 'sub-ortsprobe-pw');
-  const b = JSON.parse(JSON.stringify(V.blackboxDateiAusUmschlag(s.umschlag)));
+  const b = { dateiTyp: 'vivodepot-blackbox-export', formatVersion: 1, umschlag: JSON.parse(JSON.stringify(V.depotDateiAusUmschlag(s.umschlag))) };   // die Hülle bis v969: der Eingang, der den Umschlag ungefiltert weitergibt
   b.umschlag.angehoerigenOrt = { verschachtelt: true };
   assert.throws(() => V.subDepotEinhaengen(b, {}), /V4-Umschlag braucht genau die sechs Felder/);
 });

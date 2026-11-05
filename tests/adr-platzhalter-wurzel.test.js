@@ -5,10 +5,10 @@
    Befund U2-ADR-409-P12-AUFHEBUNG-OHNE-ADR: der Kern verwies an der Kennungs-Migration zweimal auf „U2-ADR-XXX (Entwurf)“ —
    die Entscheidung war gefallen und gebaut, die ADR fehlte. Ein Platzhalter im Produkt verspricht eine Begründung, die niemand
    findet. REGEL: keine getrackte Datei im obersten Ordner (Kern, Lese-App, Studio, Issuer, sw.js, Dokumente) trägt
-   „U2-ADR-XXX“. ADR-Dokumente selbst dürfen die Schreibweise erklären.
-   NOCH NICHT IM MUSTER: „U2-ADR-NNN“ und „U2-ADR-NNN2“ — der Kern trägt sie noch (gemessen 17.10.2026: neunmal), Befund
-   ADR-PLATZHALTER-IM-KERN mit eigenem Eigentümer. Wer ihn schließt, nimmt NNN\d* hier ins Muster auf.
-   ROT-BEWEIS: die zwei Kern-Zeilen in ihrer Fassung vor dem 06.10.2026.
+   „U2-ADR-XXX“ oder „U2-ADR-NNN“ (auch mit angehängter Ziffer). ADR-Dokumente selbst dürfen die Schreibweise erklären.
+   Nachtrag 28.10.2026: NNN\d* im Muster (Befund ADR-PLATZHALTER-IM-KERN geschlossen; die Kern-Verweise tragen inzwischen
+   echte Nummern; nachsehen: der erste Test unten, der jetzt NNN\d* mitprüft).
+   ROT-BEWEIS: die zwei Kern-Zeilen in ihrer Fassung vor dem 06.10.2026, dazu je eine NNN- und NNN2-Zeile.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -18,7 +18,7 @@ const { execFileSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('../tools/lib/ohne-git-umgebung.js');
 
 const REPO = path.join(__dirname, '..');
-const PLATZHALTER = /\bU2-ADR-XXX\b/;
+const PLATZHALTER = /\bU2-ADR-(?:XXX|NNN\d*)\b/;
 
 function funde(rel, text) {
   return text.split('\n').map((z, i) => [i + 1, z]).filter(([, z]) => PLATZHALTER.test(z)).map(([n, z]) => rel + ':' + n + ': ' + z.trim().slice(0, 120));
@@ -40,4 +40,10 @@ test('[ADR-Platzhalter·Wurzel·Rot-Beweis] die Kern-Zeilen vor dem 06.10.2026 f
   assert.equal(funde('vivodepot.html', '   U2-ADR-XXX (Entwurf), Umbauplan „Englisch vor v1", Plan-Commit 3. Wortgleich').length, 1);
   assert.equal(funde('vivodepot.html', '  /* Schema 80 -> 81 (U2-ADR-XXX, Umbauplan „Englisch vor v1", Plan-Commit 3): einmalige,').length, 1);
   assert.deepEqual(funde('vivodepot.html', '  /* Schema 80 -> 81 (U2-ADR-487, Umbau „Englisch vor v1", Plan-Commit 3): einmalige,'), []);
+});
+
+test('[ADR-Platzhalter·Wurzel·Rot-Beweis NNN] U2-ADR-NNN und U2-ADR-NNN2 fallen, eine echte Nummer nicht', () => {
+  assert.equal(funde('vivodepot.html', '  /* Ende des eigenen Vorlagen-Formats (U2-ADR-NNN2, Entwurf 17.09.2026) */').length, 1);
+  assert.equal(funde('vivodepot.html', '  /* Korpus-Zuordnung (U2-ADR-NNN): amtlicher Wortlaut ins Modul */').length, 1);
+  assert.deepEqual(funde('vivodepot.html', '  /* Korpus-Zuordnung (U2-ADR-507): amtlicher Wortlaut ins Modul */'), []);
 });

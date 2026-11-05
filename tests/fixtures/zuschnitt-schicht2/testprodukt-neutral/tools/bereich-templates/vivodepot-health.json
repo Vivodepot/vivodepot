@@ -406,6 +406,129 @@
                   "typ": "text"
                 }
               ]
+            },
+            {
+              "id": "researchDecisions",
+              "sensibel": true,
+              "typ": "liste",
+              "ebene": "modul",
+              "zusammenfassungFelder": [
+                "kind",
+                "institution",
+                "status"
+              ],
+              "unterFelder": [
+                {
+                  "id": "kind",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "broad-consent"
+                    },
+                    {
+                      "wert": "study"
+                    },
+                    {
+                      "wert": "biobank"
+                    },
+                    {
+                      "wert": "epa-objection"
+                    },
+                    {
+                      "wert": "ehds-objection"
+                    },
+                    {
+                      "wert": "data-donation-app"
+                    },
+                    {
+                      "wert": "other"
+                    }
+                  ]
+                },
+                {
+                  "id": "institution",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "declaredOn",
+                  "sensibel": true,
+                  "typ": "datum",
+                  "keineZukunft": true
+                },
+                {
+                  "id": "scope",
+                  "sensibel": true,
+                  "typ": "mehrfachauswahl",
+                  "verborgenWenn": {
+                    "feld": "kind",
+                    "wert": [
+                      "epa-objection",
+                      "ehds-objection"
+                    ]
+                  },
+                  "optionen": [
+                    {
+                      "wert": "data"
+                    },
+                    {
+                      "wert": "biosamples"
+                    },
+                    {
+                      "wert": "recontact"
+                    },
+                    {
+                      "wert": "third-countries"
+                    }
+                  ]
+                },
+                {
+                  "id": "validUntil",
+                  "sensibel": true,
+                  "typ": "datum",
+                  "verborgenWenn": {
+                    "feld": "kind",
+                    "wert": [
+                      "epa-objection",
+                      "ehds-objection"
+                    ]
+                  }
+                },
+                {
+                  "id": "storedUntil",
+                  "sensibel": true,
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "kind",
+                    "wert": [
+                      "epa-objection",
+                      "ehds-objection"
+                    ]
+                  }
+                },
+                {
+                  "id": "withdrawalRoute",
+                  "sensibel": true,
+                  "typ": "textarea"
+                },
+                {
+                  "id": "status",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "valid"
+                    },
+                    {
+                      "wert": "partly-withdrawn"
+                    },
+                    {
+                      "wert": "withdrawn"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }

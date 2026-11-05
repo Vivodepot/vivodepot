@@ -19,6 +19,7 @@ For citizens, Vivodepot Private is free of charge.
 - **Offline.** The depot file stays with the user, encrypted. No server holds it, no cloud backs
   it up in the background.
 - **No account, no app store, no login.** Nothing stands between the user and her file.
+- **Passwords belong in a password manager.** Vivodepot records where they are kept and who has access.
 - **EUPL-1.2.** Open source, under European law.
 - **Five years of security updates per version**, from the day it is released; every update stays
   retrievable for at least ten years after that (see [`SECURITY.md`](SECURITY.md)).
@@ -82,4 +83,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Version
 
-Version v956.
+Version v1040.

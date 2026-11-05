@@ -12,7 +12,7 @@
    2. "Als geprüft markieren": dokumentAlsGeprueft() wirkte, aber markierte
       das Depot nie als ungespeichert, und der Dokument-Panel-Weg baute sich
       nie neu auf — "Erfolg ohne Wirkung" (08.08.), an einer dritten Stelle.
-   3. renderBestandsAuswahl(): zeigte allen dieselben Kacheln, unabhängig
+   3. die Bestandsauswahl (seit 30.10.2026 flowBestandDialog): zeigte allen dieselben Kacheln, unabhängig
       vom Depot-Stand — liest jetzt data, filtert aber nicht (Grenze aus
       dem Auftrag: reine Darstellung).
 
@@ -103,7 +103,7 @@ test('[K2·5] dokumentAlsGeprueft über den Dokument-Panel-Weg (data-doku-geprue
   assert.equal(renderContentAufrufe, 1, 'das Panel baut sich tatsächlich neu auf');
 });
 
-/* ── 3) renderBestandsAuswahl liest data ────────────────────────────────── */
+/* ── 3) die Bestandsauswahl liest data (seit 30.10.2026 ein Dialog aus „Meine Dokumente“, flowBestandDialog) ────────────────────────────────── */
 
 test('[K2·6] _bausteinHatEintraege: false für ein frisches Depot ohne jedes Baustein-Feld', async () => {
   const { V } = await frischesDepot();
@@ -116,19 +116,19 @@ test('[K2·7] _bausteinHatEintraege: true, sobald EIN deklariertes Feld des Baus
   assert.equal(V._bausteinHatEintraege('behinderung'), true);
 });
 
-test('[K2·8] renderBestandsAuswahl: die Kachel trägt den Zusatz-Hinweis, sobald begonnen — bleibt aber weiterhin anklickbar (Grenze: Darstellung, keine Filterung)', async () => {
+test('[K2·8] Bestandsauswahl: die Kachel trägt den Zusatz-Hinweis, sobald begonnen — bleibt aber weiterhin anklickbar (Grenze: Darstellung, keine Filterung)', async () => {
   const { V, document } = await frischesDepot();
   V.sektorFeldSetzen('socialInsurance', 'degreeOfDisabilityGdb', '50');
-  V.renderBestandsAuswahl();
-  const html = document.getElementById('content').innerHTML;
+  V.flowBestandDialog();
+  const html = document.getElementById('modal-inhalt').innerHTML;
   assert.match(html, /data-lage="behinderung"[^]*?lage-erfasst-marker/, 'die begonnene Kachel trägt den Hinweis');
   assert.match(html, /data-lage="behinderung"/, 'die Kachel bleibt im Markup — kein Herausfiltern');
 });
 
-test('[K2·9] renderBestandsAuswahl: eine unbegonnene Kachel trägt KEINEN Zusatz-Hinweis (Gegenprobe)', async () => {
+test('[K2·9] Bestandsauswahl: eine unbegonnene Kachel trägt KEINEN Zusatz-Hinweis (Gegenprobe)', async () => {
   const { V, document } = await frischesDepot();
-  V.renderBestandsAuswahl();
-  const html = document.getElementById('content').innerHTML;
+  V.flowBestandDialog();
+  const html = document.getElementById('modal-inhalt').innerHTML;
   const start = html.indexOf('data-lage="behinderung"');
   const block = html.slice(start, start + 400);
   assert.ok(!block.includes('lage-erfasst-marker'), 'ohne Eintrag kein Hinweis');

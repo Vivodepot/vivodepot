@@ -314,4 +314,50 @@ den die Bürgerin für überschrieben hielt.
 
 ---
 
+### Nachtrag 03.11.2026 — §1 gilt auch für Datensatz-Ausgaben; §4 meint die gespeicherte Datei
+
+Mit Wort vom 03.11.2026 (Befund DATENSATZ-VERBORGENE-WERTE).
+
+**§1 gilt auch für Datensatz-Ausgaben.** Ein Datensatz, der an eine Stelle
+geht — Zusammenstellung, Anlass, Antwort auf eine Anfrage, die SD-JWT-Formate
+und alle anderen Formate aus einem Feld-Mapping —, ist ein Ausgabepfad im Sinne
+von §1: Er legt Bürgerdaten jemandem vor. Der Satz „Nicht für den Datensatz
+selbst — siehe §4" nimmt ihn nicht aus. Maßstab ist die Übersicht vor dem
+Senden: **Was sie nicht zeigt, geht nicht hinaus.** Ein Feld, das sein Tor
+verbirgt (`sichtbarWenn`, `verborgenWenn`, auch über ein selbst verborgenes
+Torfeld), wird weggelassen, nicht gekennzeichnet. Es steht weder unter den
+Feldern noch unter den fehlenden Angaben und wird nicht mitgezählt. Das gilt
+auch für ein Feld, das nur verborgen ist, weil die Antwort auf sein Torfeld
+fehlt: Die Übersicht zeigt es dann ebenfalls nicht, und die Ausgabe folgt der
+Übersicht. Ein Listen-Unterfeld wird je Zeile gegen diese Zeile geprüft.
+
+Gemessen vor dem Fix: Bei „kein Widerspruch gegen die Ehegatten-Notvertretung“
+trug der Datensatz die gespeicherte Angabe „Widerspruch registriert“ samt Datum,
+mit Opt-in auch die Registernummer; die Übersicht nannte keine davon.
+
+**§4 meint die gespeicherte Datei.** Der Wert bleibt in der Datei; das Weglassen
+filtert nur die Ausgabe. Umzug und Sicherung über `vollExportJSON` sind
+unberührt und bleiben ungefiltert. Der Datensatz ist kein Importweg: kein
+Importformat erkennt ihn, also geht durch das Weglassen keine eigene Angabe
+verloren. Die Grenze für einen Dritten, der die Datei roh liest, bleibt wie in
+§4 beschrieben.
+
+**Nicht hier:** Empfänger-Zuschnitt, Angehörigen-Cache und Lese-App (eigener
+Befund AUSGABE-VERBORGENE-WERTE).
+
+```konformitaet
+aussage:  Jeder Ausgabeweg für Abschnittsfelder (Datensatz, Formate aus einem
+          Feld-Mapping, Listen-Unterfeld-Selektor, Übersicht vor dem Senden) prüft
+          das Tor mit feldSichtbar samt Geltungsbereich; das halbe Tor
+          (verborgenWennTrifft) steht nur auf einer Positivliste mit Grund. Ein
+          Listen-Unterfeld, das sein Tor in der gewählten Zeile verbirgt, geht
+          nicht in den Datensatz, auch nicht über die Kaskade.
+zustand:  geprüft
+herkunft: Nachtrag 03.11.2026 (mit Wort vom 03.11.2026)
+pruefung: tests/ausgabe-tor-waechter.test.js#[AUSGABE-TOR] (a) jeder Ausgabeweg im Register ruft feldSichtbar mit Geltungsbereich, das halbe Tor steht nur auf der Positivliste
+pruefung: tests/ausgabe-tor-waechter.test.js#[AUSGABE-TOR] (c) Listen-Unterfeld-Selektor: eine Zeile mit verborgenem Unterfeld liefert keinen Wert (direkt und über die Kaskade)
+```
+
+---
+
 *Vivodepot GmbH · Berlin · 26.07.2026*

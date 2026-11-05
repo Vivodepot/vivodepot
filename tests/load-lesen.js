@@ -159,7 +159,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   TEXTSATZ_EINGEBAUT_LESEN, _textsatzKennungEingebautLesen, feldZeileHTML,
   get SEKTOR_BY_ID() { return SEKTOR_BY_ID; },
   // Lese-Logik (DOM-frei testbar) — U2-ADR-078: notfallCacheAusUmschlag entfernt
-  erkenneFormat, leseDepotUmschlag, leseSubUmschlag,
+  erkenneFormat, leseDepotUmschlag,
   subBannerHTML,   // U2-ADR-156: trägt den Empfänger-Ausschnitt-Satz
   magicStrippen,
   parseNotfallQrText, qrTeilAufnehmen, _qrRahmenParsen,
@@ -173,10 +173,16 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   // U2-ADR-501: die signierte Antwort lesen (tests/lese-app-signierte-antwort.test.js)
   antwortOeffnenMitSignatur, antwortSignaturPruefen, schluesselAnfrageBindung, empfangAnfrageAbdruck, _anfrageZertifikatZumTag, antwortSignaturHTML, antwortSchluesselVermerken, antwortOeffnenFehlerText,
   antwortJweTraegtJws, ANTWORT_JWS_TYP, ANTWORT_JWS_ALGS, _jwkThumbprint, stellenKennung, stellenKennungTeile,
+  // PDF-Anhang-Leser, zeichengleich mit dem Kern (tests/pdf-anhaenge-lesen.test.js)
+  pdfAnhaengeLesen: (typeof pdfAnhaengeLesen !== 'undefined' ? pdfAnhaengeLesen : undefined),
+  PDF_ANHANG_MAX_BYTES: (typeof PDF_ANHANG_MAX_BYTES !== 'undefined' ? PDF_ANHANG_MAX_BYTES : undefined),
   antwortAnzeigeModell, antwortAngabeHerkunft, antwortHerkunftAbweichung, antwortHerkunftZeileHTML, qrTeileZusammensetzen,
   renderAntwortOeffnen, renderAntwort, antwortWeitergeben, anlassAnzeigeModell, renderAnlass,
   renderKamera, kameraStoppen, kameraMoeglich, kameraLeserMoeglich,
   feldEingetragen, feldWertText, listenEintragZusammenfassung, _unterfeldLabelLesen, entitaetAnzeige,
+  // Eintragszeile am Bildschirm (Nachtrag U2-ADR-497, 01.11.2026)
+  listenEintragTeile: (typeof listenEintragTeile === 'function' ? listenEintragTeile : undefined),
+  listenEintragZeileHTML: (typeof listenEintragZeileHTML === 'function' ? listenEintragZeileHTML : undefined),
   // Angedockte Template-Felder (U2-ADR-037) — Adapter und Gruppierung, seit 17.08.2026
   // mit Code- und Optionen-Aufloesung (Zug 1 „Die Empfaengerseite").
   _tplDefAlsFeld, _tplAbschnitte,
@@ -202,6 +208,8 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   HILFE_LESEN_FRAGEN: (typeof HILFE_LESEN_FRAGEN !== 'undefined' ? HILFE_LESEN_FRAGEN : undefined),
   hilfeEmpfaengerinModell: (typeof hilfeEmpfaengerinModell !== 'undefined' ? hilfeEmpfaengerinModell : undefined),
   hilfeEmpfaengerinHTML: (typeof hilfeEmpfaengerinHTML !== 'undefined' ? hilfeEmpfaengerinHTML : undefined),
+  herkunftsortHTML: (typeof herkunftsortHTML !== 'undefined' ? herkunftsortHTML : undefined),
+  VIVODEPOT_HERKUNFT_LINK: (typeof VIVODEPOT_HERKUNFT_LINK !== 'undefined' ? VIVODEPOT_HERKUNFT_LINK : undefined),
   bereichUebersetztLesen: (typeof bereichUebersetztLesen !== 'undefined' ? bereichUebersetztLesen : undefined),
   nichtUebersetzteZeigenSetzenLesen: (typeof nichtUebersetzteZeigenSetzenLesen !== 'undefined' ? nichtUebersetzteZeigenSetzenLesen : undefined),
   _depotUebernehmenGeprueft: (typeof _depotUebernehmenGeprueft !== 'undefined' ? _depotUebernehmenGeprueft : undefined),
@@ -290,11 +298,13 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   // Glied 8 (18.08.2026): die uebrigen Andockschluessel erreichen den Empfaenger
   TEXTSATZ_SPRACHE_EINGEBAUT, textsatzModulPruefen, _textsatzModuleAusDepotAnmelden,
   textsatzSpracheAktiv, textLesen, _textsatzKennungBekannt,
+  vorSpracheAktiv, sprachUmschalterHTML, setVorSprache: (k) => { _vorSprache = k; },
+  get _TEXTSATZ_MODUL_REGISTRY() { return _TEXTSATZ_MODUL_REGISTRY; }, set _TEXTSATZ_MODUL_REGISTRY(v) { _TEXTSATZ_MODUL_REGISTRY = v; },
   AB_WERK_TEXTSATZ_EN: (typeof AB_WERK_TEXTSATZ_EN !== 'undefined' ? AB_WERK_TEXTSATZ_EN : undefined),
   // A479 — die Regeln (Schreibrichtung/Sprachkennung wirksam, die übrigen vier geprüft
   // aber wirkungslos wie im Kern)
   textsatzRegeln, textsatzSchreibrichtungAnwenden, textsatzSprachkennungAnwenden,
-  TEXTSATZ_REGELN_EINGEBAUT, TEXTSATZ_REGELN_ERLAUBT, datumKurz,
+  TEXTSATZ_REGELN_EINGEBAUT, TEXTSATZ_REGELN_ERLAUBT, _textsatzRegelnPruefen, datumKurz,
   _rechtsraumModuleAusDepotAnmelden, rechtsraumModulFuer, rechtsraumModuleAlle,
   // U2-ADR-258 (04.09.2026) — die Herkunft eines Moduls erreicht den Empfaenger
   MODUL_SLOTS, modulHerkunftStand, modulHerkunftBerechnen, modulHerkunftGiltAlsGeprueft,
@@ -371,6 +381,8 @@ function ladeLesen(opts) {
     // Klasse, erweitert um die beiden Blob-Methoden.
     URL: Object.assign(class extends URL {}, { createObjectURL: () => 'blob:stub', revokeObjectURL: () => {} }),
     navigator: {},
+    // Der PDF-Anhang-Leser entpackt /FlateDecode mit den Strom-Klassen des Browsers; hier die echten aus Node (dasselbe WHATWG-Interface, wie in load-kern.js).
+    ReadableStream, DecompressionStream,
   };
   sandbox.__probeSha256 = (s) => crypto.createHash('sha256').update(String(s), 'utf8').digest('hex');   // fuer die synchrone Inhaltspruefung der Proben (s. Exportliste)
   sandbox.globalThis = sandbox;

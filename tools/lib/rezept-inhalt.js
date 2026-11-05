@@ -85,6 +85,9 @@ const MODULARTEN = Object.freeze({
   },
   textsatz: null, erscheinungsbild: null, bereicheBekannt: null, bereicheBenennen: null, bereicheNativ: null,
   rechtsraum: null, 'ips-begleittext': null, sprachangebot: null,
+  // U2-ADR-507 (Nachtrag 29.10.2026): die Bauplan-Ergänzung geht im Rechtsraum-Modul auf, der KI-Korpus ist Wortlaut eines Dokuments,
+  // dessen Namen das Dokumentmodul trägt — beide tragen nichts bei.
+  rechtsraumBauplan: null, kiKorpus: null,
 });
 
 // Die Module eines Produkts in der Reihenfolge des Rezepts (s. `_rezeptBauen`): Bereichsersatz, Pro-Modul, Bereiche,

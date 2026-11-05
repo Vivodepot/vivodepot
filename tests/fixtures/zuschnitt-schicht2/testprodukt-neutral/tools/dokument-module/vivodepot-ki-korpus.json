@@ -1,0 +1,189 @@
+{
+  "modulTyp": "kiKorpus",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kiKorpus": {
+    "zweckEinleitung": "Testtext 1",
+    "steps": [
+      {
+        "feld": {
+          "id": "basicDecision",
+          "typ": "auswahl",
+          "optionen": [
+            {
+              "wert": "untersagung"
+            },
+            {
+              "wert": "erlaubnis"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "purpose",
+          "typ": "mehrfachauswahl",
+          "optionen": [
+            {
+              "wert": "trauer"
+            },
+            {
+              "wert": "erinnerung"
+            },
+            {
+              "wert": "bildung"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "authorizedParties",
+          "typ": "auswahl",
+          "optionen": [
+            {
+              "wert": "benannte"
+            },
+            {
+              "wert": "angehoerige"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "namedIndividuals",
+          "typ": "refMehrfach",
+          "entitaet": "person"
+        }
+      },
+      {
+        "feld": {
+          "id": "scope",
+          "typ": "auswahl",
+          "optionen": [
+            {
+              "wert": "privat"
+            },
+            {
+              "wert": "oeffentlich"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "permittedDataTypes",
+          "typ": "mehrfachauswahl",
+          "optionen": [
+            {
+              "wert": "schriftverkehr"
+            },
+            {
+              "wert": "sprache"
+            },
+            {
+              "wert": "fotovideo"
+            },
+            {
+              "wert": "hinterlegt"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "timeLimit",
+          "typ": "auswahl",
+          "optionen": [
+            {
+              "wert": "jahre"
+            },
+            {
+              "wert": "letzte_person"
+            },
+            {
+              "wert": "zeitpunkt"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "numberOfYears",
+          "typ": "text"
+        }
+      },
+      {
+        "feld": {
+          "id": "date",
+          "typ": "text"
+        }
+      },
+      {
+        "feld": {
+          "id": "behaviouralLimit",
+          "typ": "auswahl",
+          "optionen": [
+            {
+              "wert": "belegt"
+            },
+            {
+              "wert": "frei"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "digitalEstateAdministration",
+          "typ": "auswahl",
+          "optionen": [
+            {
+              "wert": "benannt"
+            },
+            {
+              "wert": "angehoerige"
+            }
+          ]
+        }
+      },
+      {
+        "feld": {
+          "id": "digitalEstateAdministration2",
+          "typ": "refMehrfach",
+          "entitaet": "person"
+        }
+      }
+    ],
+    "ausschluss": "Testtext 2",
+    "alterVertraulichkeit": [
+      "Testtext 3",
+      "Testtext 4"
+    ],
+    "quellenbegrenzung": "Testtext 5",
+    "kennzeichnung": "Testtext 6",
+    "grundverbot": "Testtext 7",
+    "widerruf": "Testtext 8",
+    "optoutKonflikt": [
+      "Testtext 9",
+      "Testtext 10"
+    ],
+    "schlussformel": "Testtext 11"
+  },
+  "korpusWizard": [
+    {
+      "id": "kiwiz",
+      "icon": "fileText",
+      "ziel": {
+        "sektor": "advanceCare",
+        "liste": "provisionInstruments",
+        "instrument": "ki-verfuegung"
+      },
+      "abschluss": {
+        "dokument": "ki-verfuegung"
+      }
+    }
+  ]
+}

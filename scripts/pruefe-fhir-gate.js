@@ -92,6 +92,19 @@ function kernHashVon(sha) {
   try { return (git('show', sha + ':vivodepot.html.sha256').trim().split(/\s+/)[0]) || null; } catch (_) { return null; }
 }
 
+/* HÄNGER IST UNGEMESSEN (30.10.2026, Befund FHIR-GATE-HAENGER-ALS-ROT): ein Lauf über der Zeitgrenze endete mit Exit 1 wie eine
+   Regelverletzung. Am Zugkopf hieß das Rot, und der Verursacher wurde gefragt — bei einem Lauf, der allein in 92 s grün war.
+   Jetzt endet ein Hänger mit dem Ausgang „ungemessen“ (derselbe Wert wie beim E2E-Gate). Er ist weiter kein Grün: der pre-push
+   bricht bei jedem Ausgang ungleich 0 ab, und die Landungsvorbereitung holt das Gate einmal allein nach; hängt es dort wieder,
+   ist es rot. Probe: tests/pruefe-fhir-gate.test.js [FHIR-Gate·Hänger]. */
+const AUSGANG_UNGEMESSEN = 3;
+function laufErgebnis(lauf) {
+  return (lauf.error && lauf.error.code === 'ETIMEDOUT') ? 'haengt' : (lauf.status === 0 ? 'gruen' : 'rot');
+}
+function ausgangFuer(ergebnis) {
+  return ergebnis === 'gruen' ? 0 : ergebnis === 'haengt' ? AUSGANG_UNGEMESSEN : 1;
+}
+
 function main() {
   const roh = fs.readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[fhir-gate] nichts zu pushen'); return 0; }
@@ -159,16 +172,16 @@ function main() {
     timeout: 240000,
     env: laufEnv,
   });
-  const ergebnis = (lauf.error && lauf.error.code === 'ETIMEDOUT') ? 'haengt' : (lauf.status === 0 ? 'gruen' : 'rot');
+  const ergebnis = laufErgebnis(lauf);
   // Beleg je Lauf, auch bei Rot: der letzte Lauf je Kern-Hash, außerhalb des Kanons. Ohne Beleg kein Grün.
   try {
     const datei = VB.gateBelegSchreiben(VB.belegKopf({ validator, kernHash: kernHashVon(anlassSha), ergebnis }));
     console.log('[fhir-gate] Beleg: ' + datei.replace(require('node:os').homedir(), '~'));
   } catch (e) { console.error('[fhir-gate] ABBRUCH: der Beleg ließ sich nicht schreiben: ' + e.message); return 1; }
-  if (lauf.error && lauf.error.code === 'ETIMEDOUT') {
-    console.error('[fhir-gate] ABBRUCH: der Lauf hing (>240 s) und wurde abgebrochen.');
+  if (ergebnis === 'haengt') {
+    console.error('[fhir-gate] UNGEMESSEN: der Lauf hing (>240 s) und wurde abgebrochen (Ausgang ' + AUSGANG_UNGEMESSEN + ').');
     console.error('            Ein Hänger ist kein Grün — nicht mit --no-verify umgehen, sondern messen.');
-    return 1;
+    return ausgangFuer(ergebnis);
   }
   if (lauf.status !== 0) {
     console.error('[fhir-gate] ABBRUCH: der HL7-FHIR-Extern-Gate ist rot.');
@@ -182,4 +195,4 @@ if (require.main === module) {
   process.exitCode = main();
 }
 
-module.exports = { anlassGegeben, javaPfad, kernHashVon, FHIR_EIGENE_DATEIEN };
+module.exports = { anlassGegeben, javaPfad, kernHashVon, FHIR_EIGENE_DATEIEN, AUSGANG_UNGEMESSEN, laufErgebnis, ausgangFuer };

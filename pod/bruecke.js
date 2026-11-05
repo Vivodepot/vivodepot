@@ -23,9 +23,10 @@
   var A = self.vdPodAnmeldung;
   var C = self.vdPodChiffrat;
   var L = self.vdPodLws;
-  var ORDNER = { stelle: 'vivodepot/freigaben/', link: 'vivodepot/links/', eigen: 'vivodepot/sicherungen/', grants: 'vivodepot/grants/' };
+  var ORDNER = { stelle: 'vivodepot/freigaben/', link: 'vivodepot/links/', eigen: 'vivodepot/sicherungen/', grants: 'vivodepot/grants/', intern: 'vivodepot/intern/' };
   var $ = function (id) { return document.getElementById(id); };
   var zielBestaetigt = null;   // { webid, wurzel } nach dem Klick der Person; nur im Speicher
+  var kopie = null;            // { liste, etag } der Kopie des Verzeichnisses im Pod, zuletzt gelesen oder geschrieben; nur im Speicher
 
   function zeigen(id, text) { var e = $(id); if (e) e.textContent = text || ''; }
   function fehler(text) { zeigen('fehler', text); }
@@ -155,17 +156,125 @@
             var bis = tage ? Date.now() + tage * 86400000 : null;
             var z = zusatz || {};
             var grant = art === 'stelle' ? speicherOrt(s.webid).then(function (wurzel) { return grantAnlegen(wurzel, s, adresse, stelleWebid, bis, z.zweck, z.inbox); }) : Promise.resolve(null);
-            return grant.then(function (g) { return verzeichnis().then(function (v) {
-              v.push({ adresse: adresse, art: art, stelle: art === 'stelle' ? stelleWebid : null, bis: bis, am: Date.now(),
-                grant: g ? g.grant : null, ueberDienst: g ? g.ueberDienst : null, benachrichtigt: g ? !!g.benachrichtigt : null });
-              return A.verzeichnis.schreiben(v);
-            }); }).then(function () { return adresse; });
+            return grant.then(function (g) {
+              var eintrag = { adresse: adresse, art: art, stelle: art === 'stelle' ? stelleWebid : null, bis: bis, am: Date.now(),
+                grant: g ? g.grant : null, ueberDienst: g ? g.ueberDienst : null, benachrichtigt: g ? !!g.benachrichtigt : null };
+              return verzeichnisAendern(function (v) { return v.concat([eintrag]); });
+            }).then(function () { return adresse; });
           });
       });
     });
   }
 
   function verzeichnis() { return A.verzeichnis.lesen().then(function (v) { return v || []; }); }
+
+  /* ── Kopie des Verzeichnisses im eigenen Pod (POD-ABMELDEN-VERLIERT-ABLAGEN, Teil 2; Nachtrag zu U2-ADR-512 Nr. 9) ────────────
+     Das lokale Verzeichnis überdauert weder das Abmelden noch gelöschte Website-Daten noch ein zweites Gerät. Darum liegt eine
+     Kopie unter vivodepot/intern/verzeichnis.json, nur für die WebID der Person lesbar (regelEigen mit Vererbung, wie
+     sicherungen/ und grants/). Unverschlüsselt: die Brücke kennt keinen Schlüssel, der das Abmelden überdauert, und soll keinen
+     aus dem Depot kennen. Darin stehen genau die Felder aus KOPIE_FELDER; bei `link` ist die Adresse die Fähigkeit, ein Teil des
+     SHL-Links oder ein Schlüssel aus dem Fragment kommt nie hinein. Erst wenn intern/ samt Regel steht, wird geschrieben
+     (fail-closed). Vor der Bestätigung des Ziels liest und schreibt die Brücke die Kopie nicht.
+     Nach der Bestätigung gilt die Kopie im Pod. Ein Eintrag, den nur dieses Gerät kennt, kommt hinzu, wenn seine Ressource noch
+     besteht (HEAD 200); 404 oder 410 verwirft ihn. Eine Vereinigung ohne diese Prüfung holte zurück, was ein anderes Gerät
+     zurückgenommen hat. Jeder andere Status bricht den Abgleich ab, ohne etwas zu schreiben. Geschrieben wird mit If-Match auf
+     das zuletzt gelesene ETag; bei 412 liest die Brücke neu und wendet dieselbe Änderung auf den neuen Stand an. */
+  var KOPIE_FELDER = ['adresse', 'art', 'stelle', 'bis', 'am', 'grant', 'ueberDienst'];
+  var KOPIE_ARTEN = ['stelle', 'link', 'eigen'];
+  function kopieAdresse(wurzel) { return new URL(ORDNER.intern + 'verzeichnis.json', wurzel).href; }
+
+  /* Gilt für einen Eintrag aus der Kopie wie aus dem lokalen Verzeichnis: die Brücke löscht später Ressource und Grant, also
+     nur unter dem eigenen Speicher, im Ordner der Art, ohne Fragment und ohne Abfrage. */
+  function eintragGilt(e, wurzel) {
+    if (!e || typeof e !== 'object' || KOPIE_ARTEN.indexOf(e.art) < 0) return false;
+    try {
+      var a = new URL(e.adresse);
+      if (a.hash || a.search || a.href.indexOf(new URL(ORDNER[e.art], wurzel).href) !== 0) return false;
+      if (e.grant != null) { var g = new URL(e.grant); if (g.hash || g.origin !== new URL(wurzel).origin) return false; }
+      if (e.art === 'stelle') iri(e.stelle); else if (e.stelle != null) return false;
+    } catch (_) { return false; }
+    if (e.bis != null && (typeof e.bis !== 'number' || !isFinite(e.bis))) return false;
+    return true;
+  }
+  function auswahl(e) { var k = {}; KOPIE_FELDER.forEach(function (f) { k[f] = e[f] === undefined ? null : e[f]; }); return k; }
+
+  function kopieLesen(wurzel) {
+    return A.podFetch(kopieAdresse(wurzel), { headers: { Accept: 'application/json' } }).then(function (r) {
+      if (r.status === 404) return { liste: null, etag: null };
+      if (!r.ok) throw new Error('kopie-lesen-' + r.status);
+      var etag = r.headers.get('ETag');
+      return r.json().then(function (j) {
+        if (!j || !Array.isArray(j.ablagen)) throw new Error('kopie-form');
+        return { liste: j.ablagen.filter(function (e) { return eintragGilt(e, wurzel); }).map(auswahl), etag: etag };
+      });
+    });
+  }
+
+  function kopieSchreiben(s, stand, liste) {
+    var koerper;
+    try {
+      koerper = JSON.stringify({ fassung: 1, ablagen: liste.map(function (e) { if (!eintragGilt(e, s.wurzel)) throw new Error('kopie-eintrag'); return auswahl(e); }) });
+    } catch (x) { return Promise.reject(x); }
+    return ordnerBereit(s.wurzel, s.webid, 'intern').then(function () {
+      var kopf = { 'Content-Type': 'application/json' };
+      if (stand.etag) kopf['If-Match'] = stand.etag; else if (stand.liste === null) kopf['If-None-Match'] = '*';
+      return A.podFetch(kopieAdresse(s.wurzel), { method: 'PUT', headers: kopf, body: koerper });
+    }).then(function (r) {
+      if (r.status === 412) return null;
+      if (!r.ok) throw new Error('kopie-' + r.status);
+      return { liste: liste, etag: r.headers.get('ETag') };
+    });
+  }
+
+  /* Dieselbe Änderung auf die Kopie im Pod; bei 412 neu lesen und noch einmal, höchstens dreimal. */
+  function kopieAendern(aendern) {
+    var s = zielBestaetigt;
+    var versuche = 0;
+    function runde(stand) {
+      return kopieSchreiben(s, stand, aendern(stand.liste || [])).then(function (neu) {
+        if (neu) { kopie = neu; return neu.liste; }
+        if (++versuche >= 3) throw new Error('kopie-konflikt');
+        return kopieLesen(s.wurzel).then(runde);
+      });
+    }
+    return (kopie ? Promise.resolve(kopie) : kopieLesen(s.wurzel)).then(runde);
+  }
+
+  /* Erst lokal, dann im Pod; danach trägt das lokale Verzeichnis den Stand der Kopie. */
+  function verzeichnisAendern(aendern) {
+    return verzeichnis().then(function (v) { return A.verzeichnis.schreiben(aendern(v)); }).then(function () {
+      if (!zielBestaetigt) return;
+      return kopieAendern(aendern).then(function (liste) { return A.verzeichnis.schreiben(liste); });
+    });
+  }
+
+  function lokalBehalten(e) {
+    return A.podFetch(e.adresse, { method: 'HEAD' }).then(function (r) {
+      if (r.status === 200) return true;
+      if (r.status === 404 || r.status === 410) return false;
+      throw new Error('kopie-pruefen-' + r.status);
+    });
+  }
+
+  /* Nach der Bestätigung: die Kopie lesen, nur lokale Einträge prüfen, beide auf denselben Stand bringen. */
+  function kopieUebernehmen() {
+    var s = zielBestaetigt;
+    return Promise.all([kopieLesen(s.wurzel), verzeichnis()]).then(function (x) {
+      var stand = x[0];
+      var bekannt = (stand.liste || []).map(function (e) { return e.adresse; });
+      var nurLokal = x[1].filter(function (e) { return bekannt.indexOf(e.adresse) < 0 && eintragGilt(e, s.wurzel); });
+      return nurLokal.reduce(function (p, e) {
+        return p.then(function (dazu) { return lokalBehalten(e).then(function (ja) { if (ja) dazu.push(auswahl(e)); return dazu; }); });
+      }, Promise.resolve([])).then(function (dazu) {
+        kopie = stand;
+        if (!dazu.length) return stand.liste || [];
+        return kopieAendern(function (liste) {
+          var da = liste.map(function (e) { return e.adresse; });
+          return liste.concat(dazu.filter(function (e) { return da.indexOf(e.adresse) < 0; }));
+        });
+      });
+    }).then(function (liste) { return A.verzeichnis.schreiben(liste); });
+  }
 
   function loeschen(ziel) {
     return A.podFetch(ziel, { method: 'DELETE' }).then(function (r) { if (!r.ok && r.status !== 404) throw new Error('loeschen-' + r.status); });
@@ -176,7 +285,7 @@
       var e = v.filter(function (x) { return x.adresse === adresse; })[0];
       return (e && e.grant ? loeschen(e.grant) : Promise.resolve())
         .then(function () { return loeschen(adresse); })
-        .then(function () { return A.verzeichnis.schreiben(v.filter(function (x) { return x.adresse !== adresse; })); });
+        .then(function () { return verzeichnisAendern(function (w) { return w.filter(function (x) { return x.adresse !== adresse; }); }); });
     });
   }
 
@@ -186,6 +295,57 @@
       return faellig.reduce(function (p, e) { return p.then(function () { return zuruecknehmen(e.adresse); }); }, Promise.resolve())
         .then(function () { return faellig.length; });
     });
+  }
+
+  /* Abmelden löscht das lokale Verzeichnis (U2-ADR-512 Nr. 6); die Kopie im Pod bleibt. Ohne Kopie setzte die Brücke danach
+     keinen Ablauf mehr durch und könnte nichts zurücknehmen (Befund POD-ABMELDEN-VERLIERT-ABLAGEN). Darum löscht sie vorher die
+     abgelaufenen und fragt, wenn noch offene liegen. Ohne bestätigtes Ziel (etwa nach einem Neuladen)
+     schreibt sie nichts in den Pod, fragt aber genauso; zurücknehmen kann sie dann nicht. Scheitert das Löschen der
+     abgelaufenen, fragt sie ebenfalls, ohne Rücknahme. */
+  function abmeldenLokal() {
+    $('abmelden-pruefen').hidden = true;
+    return A.abmelden().then(function (ergebnis) { document.body.dataset.abmeldung = ergebnis; return A.verzeichnis.loeschen(); })
+      .then(function () { angemeldetZeigen(null); });
+  }
+
+  /* Mit Kopie im Pod (in dieser Sitzung gelesen oder geschrieben) kennt die Seite die Ablagen nach der nächsten Anmeldung wieder;
+     ohne sie gilt der Satz aus Teil 1. */
+  function rueckfrageZeigen(anzahl, mitRuecknahme, zusatz) {
+    zeigen('abmelden-satz', 'In Ihrem Pod ' + (anzahl === 1 ? 'liegt noch eine Ablage' : 'liegen noch ' + anzahl + ' Ablagen') +
+      ' aus dieser Seite. ' + (kopie
+        ? 'Eine Liste davon liegt in Ihrem Pod, nur für Sie lesbar: Melden Sie sich wieder an und bestätigen Ihren Speicher, setzt' +
+          ' die Seite die Ablaufdaten durch, und Sie können zurücknehmen.'
+        : 'Nach dem Abmelden kennt die Seite sie nicht mehr: Ein Ablaufdatum wird dann nicht mehr durchgesetzt,' +
+          ' und zurücknehmen können Sie sie nur noch bei Ihrem Pod-Anbieter.') + (zusatz ? ' ' + zusatz : ''));
+    $('abmelden-alle').hidden = !mitRuecknahme;
+    $('abmelden-pruefen').hidden = false;
+  }
+
+  function abmeldenPruefen() {
+    fehler('');
+    if (!zielBestaetigt) {
+      return verzeichnis().then(function (v) {
+        if (!v.length) return abmeldenLokal();
+        rueckfrageZeigen(v.length, false, 'Zurücknehmen kann die Seite erst, wenn Sie Ihren Speicher bestätigt haben.');
+      });
+    }
+    return abgelaufeneLoeschen().then(verzeichnis).then(function (offen) {
+      if (!offen.length) return abmeldenLokal();
+      rueckfrageZeigen(offen.length, true);
+      return verzeichnisZeigen();
+    }).catch(function (e) {
+      fehler(e.message);
+      return verzeichnis().then(function (v) {
+        if (v.length) rueckfrageZeigen(v.length, false, 'Die abgelaufenen konnte die Seite gerade nicht löschen.');
+      });
+    });
+  }
+
+  function alleZuruecknehmenUndAbmelden() {
+    fehler('');
+    return verzeichnis().then(function (v) {
+      return v.reduce(function (p, e) { return p.then(function () { return zuruecknehmen(e.adresse); }); }, Promise.resolve());
+    }).then(abmeldenLokal, function (e) { fehler(e.message); return verzeichnisZeigen(); });
   }
 
   function abholen(adresse) {
@@ -215,7 +375,7 @@
   function angemeldetZeigen(webid) {
     zeigen('wer', webid ? 'Angemeldet als ' + webid : 'Nicht angemeldet');
     $('anmelden-bereich').hidden = !!webid; $('ablage-bereich').hidden = true; $('ziel').hidden = true;
-    if (!webid) { zielBestaetigt = null; return; }
+    if (!webid) { zielBestaetigt = null; kopie = null; return; }
     return speicherOrt(webid).then(function (wurzel) {
       if (zielBestaetigt && zielBestaetigt.webid === webid && zielBestaetigt.wurzel === wurzel) return zielGezeigt();
       zeigen('ziel-adresse', new URL('vivodepot/', wurzel).href);
@@ -223,10 +383,15 @@
       $('ziel-ja').onclick = function () { zielBestaetigt = { webid: webid, wurzel: wurzel }; $('ziel').hidden = true; zielGezeigt().catch(function (e) { fehler(e.message); }); };
     });
   }
-  /* Erst nach der Bestätigung: abgelaufene Ablagen löschen (ein Schreiben im Pod) und das Verzeichnis zeigen. */
+  /* Erst nach der Bestätigung: die Kopie im Pod übernehmen, abgelaufene Ablagen löschen (ein Schreiben im Pod) und das
+     Verzeichnis zeigen. Scheitert der Abgleich, bleibt alles, wie es war: kein bestätigtes Ziel, keine Ablage, kein Löschen. */
   function zielGezeigt() {
     $('ablage-bereich').hidden = false;
-    return abgelaufeneLoeschen().then(verzeichnisZeigen).then(bereitMelden);
+    return kopieUebernehmen().then(abgelaufeneLoeschen, function (e) {
+      if (!/^kopie-/.test(e.message)) throw e;
+      zielBestaetigt = null; kopie = null; $('ablage-bereich').hidden = true;
+      throw new Error('Die Liste der Ablagen ließ sich nicht abgleichen. Nichts wurde geändert, abgelaufene Ablagen sind noch nicht gelöscht. Bitte öffnen Sie die Seite später erneut.');
+    }).then(verzeichnisZeigen).then(bereitMelden);
   }
 
   /* ── Stufe 2: Übergabe aus der Anwendung per postMessage ──────────────────────────────────────────────────────────────────
@@ -295,12 +460,12 @@
     window.addEventListener('message', nachrichtAnnehmen);
     $('auftrag-ja').onclick = auftragAusfuehren;
     $('auftrag-nein').onclick = function () { auftrag = null; $('auftrag').hidden = true; };
-    $('ziel-nein').onclick = function () { $('abmelden').onclick(); };
+    $('ziel-nein').onclick = abmeldenPruefen;
     $('anmelden').onclick = function () { fehler(''); A.anmelden($('aussteller').value).catch(function (e) { fehler(e.message); }); };
-    $('abmelden').onclick = function () {
-      A.abmelden().then(function (ergebnis) { document.body.dataset.abmeldung = ergebnis; return A.verzeichnis.loeschen(); })
-        .then(function () { angemeldetZeigen(null); });
-    };
+    $('abmelden').onclick = abmeldenPruefen;
+    $('abmelden-alle').onclick = alleZuruecknehmenUndAbmelden;
+    $('abmelden-lassen').onclick = abmeldenLokal;
+    $('abmelden-abbrechen').onclick = function () { $('abmelden-pruefen').hidden = true; };
     $('art').onchange = function () { $('stelle-bereich').hidden = $('art').value !== 'stelle'; };
     $('ablegen').onclick = function () {
       fehler(''); zeigen('ergebnis', '');

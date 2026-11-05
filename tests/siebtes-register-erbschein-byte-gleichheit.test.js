@@ -59,6 +59,33 @@ function erbvertragWieVorher(html) {
   assert.match(html, ERBVERTRAG_BEDACHTE, 'die im Erbvertrag bedachten Personen fehlen im Auszug');
   return html.replace(ERBVERTRAG_FRAGE, ERBVERTRAG_HINWEIS_VORHER).replace(ERBVERTRAG_BEDACHTE, '');
 }
+/* Verständlichkeit (31.10.2026, Oberflächentexte in Alltagssprache) ist ebenfalls ein GEWOLLTER Eingriff: der Satz
+   zur Lücke bei Enkeln, Urenkeln und Voreltern sagt dasselbe ohne „Datenmodell“ und „Pflegestand“. Zurückgeführt wird genau dieser
+   Absatz: der neue Satz muss dastehen und der alte darf nicht mehr vorkommen, sonst wäre das Zurückführen eine stille Lücke. */
+const LUECKE_VORHER = '<p>Enkel, Urenkel sowie Eltern/Voreltern der Erblasserin kennt das Datenmodell dieser Anwendung heute nicht strukturiert — diese Angaben bleiben grundsätzlich Lücke, unabhängig vom Pflegestand des Depots.</p>';
+const LUECKE_NEU = '<p>Für Enkel, Urenkel, Eltern und Voreltern der verstorbenen Person hat die App keine eigenen Felder. Diese Angaben bleiben deshalb immer offen, auch wenn Sie Ihr Depot gut gepflegt haben.</p>';
+function lueckeWieVorher(html) {
+  assert.ok(!html.includes('kennt das Datenmodell dieser Anwendung'), 'der alte Satz zur Lücke steht noch im Auszug');
+  assert.ok(html.includes(LUECKE_NEU), 'der Satz zur Lücke fehlt im Auszug');
+  return html.replace(LUECKE_NEU, LUECKE_VORHER);
+}
+/* Verständlichkeit, zweiter Wagen (31.10.2026): vier weitere Sätze des Auszugs sagen dasselbe kürzer — Herkunft, Einleitung
+   zu Teil A und Teil B, die Frage nach den Kindern. Zurückgeführt wird genau dieser Wortlaut: der neue Satz muss dastehen und
+   der alte darf nicht mehr vorkommen. */
+const VERSTAENDLICH_NEU_ALT = [
+  ['Diese Anwendung hat das Blatt aus Ihren Depot-Angaben zusammengestellt. Es ist keine amtliche Vorlage und stammt nicht von service.justiz.de.', 'Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu service.justiz.de.'],
+  ['Diese sechs Fragen stellt der amtliche Erbschein-Wegweiser. Er klärt, ob überhaupt ein Erbschein nötig ist. Reihenfolge und Wortlaut folgen dem Wegweiser mit Stand 27.08.2026.', 'Diese sechs Fragen stellt der amtliche Erbschein-Wegweiser, um zu klären, ob überhaupt ein Erbschein nötig ist. Reihenfolge und Wortlaut-Grundlage: Stand 27.08.2026.'],
+  ['Diese Angaben gehören zum eigentlichen Antragsformular. Es ist auf service.justiz.de noch nicht online. Sein amtlicher Wortlaut kann sich bis zur Veröffentlichung noch ändern. Was folgt, hat diese Anwendung aus Ihren Depot-Angaben zusammengestellt. Amtlich bestätigt ist diese Formulierung nicht.', 'Diese Angaben beziehen sich auf das eigentliche Antragsformular, das auf service.justiz.de noch NICHT online ist — der amtliche Wortlaut kann sich bis zur Veröffentlichung ändern. Was folgt, ist die Zusammenstellung dieser Anwendung der zugrundeliegenden Depot-Angaben, keine geprüfte amtliche Formulierung.'],
+  ['Kinder der verstorbenen Person?', 'Kinder/Abkömmlinge (erste Generation)?'],
+];
+function verstaendlichWieVorher(html) {
+  for (const [neu, alt] of VERSTAENDLICH_NEU_ALT) {
+    assert.ok(html.includes(neu), 'der neue Satz fehlt im Auszug: ' + neu);
+    assert.ok(!html.includes(alt), 'der alte Satz steht noch im Auszug: ' + alt);
+    html = html.split(neu).join(alt);
+  }
+  return html;
+}
 function anfuehrungszeichenGleich(html) {
   // Dazu seit 16.09.2026 die typografische Umstellung der eigenen Sätze (tools/lib/anfuehrung-gleich.js).
   return require('../tools/lib/anfuehrung-gleich.js').anfuehrungGleich(html.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
@@ -111,14 +138,14 @@ test('[Siebtes-Register·Byte-Gleichheit] leeres Depot — das Bundle ueber den 
   const { V } = await ladeKern();
   await leeresDepotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(erbvertragWieVorher(html)), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-leer')));
+  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(erbvertragWieVorher(lueckeWieVorher(verstaendlichWieVorher(html)))), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-leer')));
 });
 
 test('[Siebtes-Register·Byte-Gleichheit] volles Depot — das Bundle ueber den echten Einlassweg liefert BYTE-GLEICH dasselbe wie die vorher fest verdrahtete ERBSCHEIN_MODUL', async () => {
   const { V } = await ladeKern();
   await volles_depotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(erbvertragWieVorher(html)), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-voll')));
+  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(erbvertragWieVorher(lueckeWieVorher(verstaendlichWieVorher(html)))), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-voll')));
 });
 
 test('[Siebtes-Register] das Bundle wird ANGENOMMEN, ohne einen einzigen verworfenen Schluessel', async () => {

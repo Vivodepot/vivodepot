@@ -56,16 +56,16 @@ Vor jeder Änderung geprüft: **kein Defekt.** U2-ADR-182 dokumentiert den Mecha
 | 50ms / 100ms | — | 5/5 grün |
 | 150ms / 400ms | — | 5/5 grün |
 
-Volle Suite: `playwright test` 242/243 grün (ein pre-existing, unabhängiger Fehlschlag in `stresstest-04-papierlaenge.spec.js` — eigener Zuschnittsfehler der Probe selbst, ganzzahlige Seitenzahl gegen echtes Größer-als verglichen, kein Bau daraus, s. Bericht). `node --test` grün nach Nachzug von `STANDARDS.md` (SCHALEN_STAND-Zahl) und dieser ADR-Datei.
+Volle Suite: `playwright test` 242/243 grün; der eine Fehlschlag in `stresstest-04-papierlaenge.spec.js`
+ist unabhängig von diesem Bau. `node --test` grün nach Nachzug von `STANDARDS.md` (SCHALEN_STAND-Zahl)
+und dieser ADR-Datei.
 
-**Nachtrag (03.09.2026):** der Satz „kein Bau daraus" stand zu Recht, solange die Probe selbst am
-falschen Vergleich hing — 500 gegen 3.000 Zeichen bleiben im vollen `vollDepotModell()` auf
-derselben Seite, weil die anderen zwölf Bereiche Seite 1 und 2 schon füllen; die Behebung vom
-22.08. (`e4ad82f5`) trägt trotzdem, gemessen bis 200.000 Zeichen (56 Seiten). Seit heute ist
-`stresstest-04-papierlaenge.spec.js` grün: eine grobe Zusicherung (500 gegen 200.000, volles
-Modell) und eine feine (500 gegen 3.000, schlankes Modell ohne die anderen Bereiche) ersetzen den
-einen zu engen Vergleich. Der obige Satz bleibt stehen, weil er erklärt, warum die Probe so lange
-rot stand — nicht weil er noch gilt.
+**`stresstest-04-papierlaenge.spec.js` (03.09.2026):** Die Probe stand rot, weil sie am falschen
+Vergleich hing — 500 gegen 3.000 Zeichen bleiben im vollen `vollDepotModell()` auf derselben Seite,
+weil die anderen zwölf Bereiche Seite 1 und 2 schon füllen. Die Behebung vom 22.08. (`e4ad82f5`) trägt,
+gemessen bis 200.000 Zeichen (56 Seiten). Die Probe ist grün: eine grobe Zusicherung (500 gegen 200.000,
+volles Modell) und eine feine (500 gegen 3.000, schlankes Modell ohne die anderen Bereiche) ersetzen
+den einen zu engen Vergleich.
 
 ## Ausdrücklich nicht behandelt
 

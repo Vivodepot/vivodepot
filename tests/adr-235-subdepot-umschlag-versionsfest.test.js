@@ -13,7 +13,7 @@
    01.09.2026 draußen (Nutzungs-Fenster, 2 Tage). Beide Zahlen stehen
    getrennt, keine ersetzt die andere.
 
-   Mount (`umschlagAusDatei`/`pruefeBlackboxUmschlag`/`blackboxDateiAusUmschlag`/
+   Mount (`umschlagAusDatei`/`pruefeBlackboxUmschlag`/`depotDateiAusUmschlag`/
    `subDepotEinhaengen`) UND Öffnen (`subDepotEntsiegeln`,
    `subDepotEigenerPasswortWechsel`) — sechs Stellen, dieselbe Annahme.
    `subDepotEntsiegeln`s Rückverschlüsselungs-Pfad (NFD-Fallback-Erfolg) und

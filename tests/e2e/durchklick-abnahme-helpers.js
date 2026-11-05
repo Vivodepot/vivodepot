@@ -186,7 +186,12 @@ async function registerFormularGeburtsdatumWeg(page, { name = 'Formular Testpers
     const feldIdsGefunden = [];
     if (await page.locator('[data-sub-zeile="birthDate"] input, [data-edit="birthDate"]').count()) feldIdsGefunden.push('birthDate');
     if (await page.locator('[data-sub-zeile="geburtsdatum"] input, [data-edit="geburtsdatum"]').count()) feldIdsGefunden.push('geburtsdatum');
-    await page.fill('[data-sub-zeile="birthDate"] input, [data-edit="birthDate"], [data-sub-zeile="geburtsdatum"] input, [data-edit="geburtsdatum"]', geburtsdatum);
+    // Das Datum aus feldInputHTML steht in drei Feldern (datumSetzen); ein Unterfeld-Datum im Register bleibt ein Browserfeld.
+    if (await page.locator('.datum-dreifeld :is([data-edit="birthDate"], [data-edit="geburtsdatum"])').count()) {
+      await require('./helpers.js').datumSetzen(page, ':is([data-edit="birthDate"], [data-edit="geburtsdatum"])', geburtsdatum);
+    } else {
+      await page.fill('[data-sub-zeile="birthDate"] input, [data-sub-zeile="geburtsdatum"] input', geburtsdatum);
+    }
     await page.click('#m-ok');
     return { weg: 'register-formular', erreichbar: true, feldIdsGefunden, ...(await geburtsdatumSchluesselFuer(page, name)) };
   } catch (e) {
@@ -209,7 +214,7 @@ async function gebwizGeburtsdatumWeg(page, { name = 'Gebwiz Testkind', geburtsda
     }
     await nameFeld.fill(name);
     await page.click('#wiz-weiter');
-    await page.fill('#content [data-edit="guidedBirthEntryDateOfBirthNot"]', geburtsdatum);
+    await require('./helpers.js').datumSetzen(page, '#content [data-edit="guidedBirthEntryDateOfBirthNot"]', geburtsdatum);
     await page.click('#wiz-weiter');
     await page.selectOption('#content select[data-edit="guidedBirthEntryRelationship"]', 'leiblich');
     await page.click('#wiz-weiter');

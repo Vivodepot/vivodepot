@@ -50,6 +50,8 @@ async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
     abmelden: async () => 'lokal-geloescht',
     podFetch: async (adresse, o = {}) => {
       anfragen.push({ adresse, methode: (o.method || 'GET').toUpperCase() });
+      // Die Kopie des Verzeichnisses (U2-ADR-512-Nachtrag 29.10.2026) liegt in diesem Pod noch nicht.
+      if (String(adresse).endsWith('vivodepot/intern/verzeichnis.json') && !o.method) return { ok: false, status: 404, headers: { get: () => null } };
       return { ok: true, status: o.method === 'HEAD' ? 200 : 201, headers: { get: () => null }, json: async () => null, text: async () => '' };
     },
     verzeichnis: { lesen: async () => undefined, schreiben: async () => {}, loeschen: async () => {} }
@@ -72,7 +74,7 @@ async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
   const warten = () => new Promise((r) => setTimeout(r, 20));
   // Die Brücke nimmt einen Klick erst KLICK_SPERRE_MS nach dem Erscheinen des Auftrags an.
   const ja = async () => { await new Promise((r) => setTimeout(r, 850)); el('auftrag-ja').onclick(); await warten(); };
-  return { el, ja, anfragen, anOpener, opener, fremd, senden, warten, puts: () => anfragen.filter((a) => a.methode === 'PUT' && !a.adresse.endsWith('/') && !a.adresse.endsWith('.acl')) };
+  return { el, ja, anfragen, anOpener, opener, fremd, senden, warten, puts: () => anfragen.filter((a) => a.methode === 'PUT' && !a.adresse.endsWith('/') && !a.adresse.endsWith('.acl') && !a.adresse.endsWith('vivodepot/intern/verzeichnis.json')) };
 }
 const auftrag = (art, text, extra) => Object.assign({ typ: 'vd-pod-ablegen', fassung: 1, id: ID, art, bis: Date.now() + 600000, daten: puffer(text) }, extra || {});
 

@@ -1,0 +1,26 @@
+{
+  "modulTyp": "textsatz",
+  "sprache": "de",
+  "texte": {
+    "garten.label": "Garten",
+    "garten.navUnterzeile": "Beete und Werkzeug",
+    "garten.einfuehrungstext": "Was im Garten wächst, wer gießt, wenn Sie verreisen, und wo der Schlüssel zum Schuppen liegt. Dazu die Verträge mit dem Kleingartenverein und die Pläne für die Beete im nächsten Frühjahr, damit nichts verloren geht.",
+    "garten.giesskanne.hint": "Wo die Gießkanne steht.",
+    "garten.sorte.hint": "z. B. Tomate oder Gurke.",
+    "garten.alteNotiz.hint": "Automatisch übernommen aus der früheren Freitext-Angabe.",
+    "garten.pacht.hint": "Wer kündigt, verliert die Parzelle endgültig.",
+    "garten.nachbar.hint": "Die Nachbarin tragen Sie unter „Meine Menschen“ ein.",
+    "garten.platzhalter.luecke": "...",
+    "strings:beeteLeer.text": "Noch keine Beete angelegt.",
+    "strings:pinLeer.text": "Bitte eine Zahl eingeben.",
+    "strings:werteLeerenKnopf.text": "Werte leeren",
+    "strings:giessplanHinweis.text": "Der Gießplan wird nur auf diesem Gerät gespeichert.",
+    "strings:erinnerungText.text": "Erinnerungen lassen sich in den Einstellungen einschalten.",
+    "strings:speichernKnopf.text": "Speichern",
+    "strings:umzugHinweisSpaeter.text": "Später",
+    "strings:schuppenGeschuetztHinweis.text": "besonders geschützt",
+    "wizard:gartwiz.wunsch.hilfetext": "Für den Herbst wünsche ich …",
+    "garten.parzellen.hint": "Jede Parzelle als eigener Eintrag — z. B. bei zwei Vereinen.",
+    "dok:gartenverfuegung#1/wunsch.einleitung": "Wenn ich verreise, soll meine Nachbarin die Beete gießen und dafür den Schlüssel bekommen, der im Schuppen liegt; mir ist wichtig, dass niemand sonst die Parzelle betritt, solange ich fort bin."
+  }
+}

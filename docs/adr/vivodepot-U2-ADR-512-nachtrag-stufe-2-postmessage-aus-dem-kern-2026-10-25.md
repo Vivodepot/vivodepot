@@ -24,7 +24,8 @@ Mit Stufe 1 speichert die Person eine Datei aus dem Kern und wählt sie in der B
    Navigation in ein neues Fenster ist kein Netzweg des Kerns. Die Brücke wird weiter nie eingebettet.
 2. **Was der Kern schickt.** Erst nach `vd-pod-bereit` aus genau dem geöffneten Fenster mit genau der Herkunft
    `POD_BRUECKE_HERKUNFT` schickt der Kern einmal `{typ:'vd-pod-ablegen', fassung:1, id, art, bis, daten}`. `daten` ist ein
-   übertragener `ArrayBuffer` mit denselben Bytes wie der Datei-Weg. `bis` liegt fünf Sekunden vor der eigenen Frist.
+   übertragener `ArrayBuffer` mit dem Chiffrat des Datei-Wegs; eine Depot-Hülle trägt im Pod nur die Felder der Positivliste
+   aus U2-ADR-520 Nr. 3, der Freigabe-Link geht byte-gleich. `bis` liegt fünf Sekunden vor der eigenen Frist.
    `targetOrigin` ist die feste Herkunft, nie `*`. Die drei Aufrufer sind der Freigabe-Link (`link`), der Ausschnitt für einen
    Empfängerkreis (`stelle`) und die Sicherungskopie (`eigen`; nicht im Sub-Depot). In der Vorschau, und damit in der
    Vorführung, öffnet `podAblegen` keine Brücke und die Knöpfe fehlen, wie beim Datei-Weg dort nichts hinausgeht. Es läuft
@@ -100,11 +101,12 @@ konformitaet:
     pruefung:
       - tests/pod-ablegen-kern.test.js "[Pod·Kern·Vorschau] in der Vorschau und der Vorführung öffnet sich keine Brücke; mit Rot-Beweis"
   - aussage: >-
-      Die drei Aufrufer geben dieselben Bytes wie ihr Datei-Weg.
+      Die drei Aufrufer geben das Chiffrat ihres Datei-Wegs; eine Depot-Hülle trägt im Pod nur die Felder der Positivliste
+      aus U2-ADR-520 Nr. 3.
     zustand: erfuellt
     herkunft: U2-ADR-512-Nachtrag Stufe 2 (25.10.2026)
     pruefung:
-      - tests/pod-ablegen-kern.test.js "[Pod·Kern] die drei Aufrufer geben dieselben Bytes wie ihr Datei-Weg"
+      - tests/pod-ablegen-kern.test.js "[Pod·Kern] die drei Aufrufer geben das Chiffrat ihres Datei-Wegs, die Depot-Hülle nur mit den Feldern der Positivliste"
   - aussage: >-
       Die Brücke nimmt einen Auftrag nur vom öffnenden Fenster, nur von einer bekannten Herkunft oder null, nur nach bestätigtem
       Speicher, nur bis bis und nur in der Form je Art an, einen je Laden; sie legt erst nach dem Klick ab und antwortet nur dem

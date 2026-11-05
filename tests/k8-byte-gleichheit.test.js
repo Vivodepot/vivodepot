@@ -56,7 +56,12 @@ test('[K8·Byte-Gleichheit] PV — dokumentHTML(\'patientenverfuegung\') == alte
 test('[K8·Byte-Gleichheit] KI — dokumentHTML(\'ki-verfuegung\') == altes kiDokumentHTML() (Zug-0-Fixture)', async () => {
   const { V } = ladeKern();
   await baueZug0Depot(V);
-  assert.equal(V.kiDokumentHTML(), golden('ki'));
+  // Gewollte Textänderung (verständliche Texte, Stufe HOCH, 31.10.2026): die Quellenzeile heißt jetzt „Zusammenfassung aus
+  // Forschungsarbeiten (…)“. Nur dieser eine Wortlaut wird in der eingefrorenen Fixture gehoben, alles Übrige bleibt byte-gleich.
+  const vorher = golden('ki');
+  const alt = 'Forschungssynthese (Edilife/Cambridge/Zürich)';
+  assert.equal(vorher.split(alt).length, 2, 'Vorbedingung: der alte Wortlaut steht genau einmal in der Fixture');
+  assert.equal(V.kiDokumentHTML(), vorher.replace(alt, 'Zusammenfassung aus Forschungsarbeiten (Edilife, Cambridge, Zürich)'));
 });
 
 test('[K8·Byte-Gleichheit] VM — dokumentHTML(\'vorsorgevollmacht\', id) == altes vollmachtDokumentHTML(id) (Zug-0-Fixture)', async () => {

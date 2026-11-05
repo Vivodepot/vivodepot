@@ -27,11 +27,12 @@
 // v804 (26.09.2026): Demos mit Handsteuerung — die Vorführung schaltet auf Wunsch Schritt für Schritt, auch über die Lese-App.
 // v805 (26.09.2026): Listen-Unterfelder folgen beim Herausgeben der Entscheidung der Person — abgewählt bleibt zurück, freigegeben geht mit.
 // v894 (03.10.2026): das Gerüst trägt keinen Gestaltungswert — Stylesheet und Werte kommen als Erscheinungsbild-Modul.
-const CACHE = 'vivodepot-shell-v956';
+const CACHE = 'vivodepot-shell-v1040';
 
 // Die App-Schale. Einzeln & tolerant gecacht (fehlende Einträge brechen den
 // Install NICHT — z. B. wenn die Manifest-Entscheidung „inline" lautet und es
-// keine separate manifest.webmanifest gibt).
+// keine separate manifest.webmanifest gibt). Einzige Pflicht: eine Startseite,
+// `./` oder `./vivodepot.html` (s. install).
 const SCHALE = [
   './',
   './vivodepot.html',
@@ -44,12 +45,18 @@ const SCHALE = [
   './vorabkonfiguration.js',
 ];
 
+/* Ohne Startseite kein Install (26.10.2026, Befund SW-INSTALL-OHNE-ZUGANG-LEERT-CACHE): ein Pro-Host liefert `./` und
+   `./vivodepot.html` nur mit dem Zugangs-Cookie der Sitzung. Gelang der Install ohne beide, löschte activate die alte
+   Schale, und die App startete offline nicht mehr. Jetzt lehnt der Install ab; der alte Worker und seine Schale bleiben,
+   und der Browser versucht es bei der nächsten Navigation erneut. Eine der beiden genügt: die Demos tragen
+   `vivodepot.html` ohne Datei für `./`. Probe: tests/sw-install-ohne-startseite-behaelt-schale.test.js. */
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE).then((cache) =>
-      Promise.all(SCHALE.map((url) => cache.add(url).catch(() => undefined)))
-    )
-  );
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await Promise.all(SCHALE.map((url) => cache.add(url).catch(() => undefined)));
+    const startseite = (await cache.match('./')) || (await cache.match('./vivodepot.html'));
+    if (!startseite) throw new Error('Schale ohne Startseite: Install abgelehnt, die bisherige Schale bleibt.');
+  })());
   // KEIN automatisches skipWaiting — der Schalen-Wechsel ist ein bewusster Schnitt
   // (kein Datenbruch; IndexedDB bleibt ohnehin unberührt). Aktivierung über activate.
   // U2-ADR-190: die einzige Ausnahme läuft über den `message`-Handler unten, NIE von hier aus.

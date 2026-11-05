@@ -2,6 +2,7 @@
   "systemId": "loinc",
   "uri": "http://loinc.org",
   "version": "SEED-2026-05",
+  "quellSprache": "en",
   "kuerzel": "LOINC",
   "anzeigeNameEigen": true,
   "quelleBegriffe": "LOINC Long Common Name, loinc.org/<code>, abgerufen 27.09.2026 (alle Active); die fünf Codes der NFD-Lücken (10162-6, 104605-1, 82810-3, 11778-8, LA15173-0) über tx.fhir.org $lookup (display = Long Common Name bzw. Answer String), abgerufen 29.09.2026",

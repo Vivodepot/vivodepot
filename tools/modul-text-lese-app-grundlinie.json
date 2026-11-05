@@ -8,24 +8,24 @@
       "grund": "Unterzeile der Kern-Seitenleiste"
     },
     "katalog-kern": {
-      "anzahl": 81,
+      "anzahl": 97,
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
-    },
-    "hinweis-beispiel": {
-      "anzahl": 577,
-      "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
-    },
-    "unterfeld-beschriftung": {
-      "anzahl": 92,
-      "grund": "Beschriftung eines sensiblen Listen-Unterfelds (selbst oder über sein Trägerfeld); die Lese-App zeigt den Wert nie, also auch nicht seine Beschriftung. Alle übrigen Unterfelder tragen ihre Beschriftung seit 05.10.2026"
-    },
-    "feldgruppen": {
-      "anzahl": 69,
-      "grund": "Feldgruppen und Vorschlagslisten des Kerns (Eingabe)"
     },
     "feld-nur-im-kern": {
       "anzahl": 17,
       "grund": "Feld oder Sektion, die die Lese-App nicht führt"
+    },
+    "hinweis-beispiel": {
+      "anzahl": 585,
+      "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
+    },
+    "unterfeld-beschriftung": {
+      "anzahl": 106,
+      "grund": "Beschriftung eines sensiblen Listen-Unterfelds (selbst oder über sein Trägerfeld); die Lese-App zeigt den Wert nie, also auch nicht seine Beschriftung. Alle übrigen Unterfelder tragen ihre Beschriftung seit 05.10.2026"
+    },
+    "feldgruppen": {
+      "anzahl": 70,
+      "grund": "Feldgruppen und Vorschlagslisten des Kerns (Eingabe)"
     },
     "situationsblaetter": {
       "anzahl": 85,
@@ -40,7 +40,7 @@
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
     },
     "eingabe-zweitknopf": {
-      "anzahl": 125,
+      "anzahl": 126,
       "grund": "Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe"
     },
     "suche-alltag": {
@@ -64,16 +64,24 @@
       "grund": "Textart eines Logikmoduls, die die Lese-App nie liest (Einleitung, Unterschrift-Hinweis, Fußtext, Toolbar-Hinweis)"
     },
     "hilfe-themen": {
-      "anzahl": 73,
+      "anzahl": 103,
       "grund": "Hilfe-Themen des Kerns (Hilfe-Overlay, U2-ADR-425); die Lese-App führt für die Empfängerin eine eigene kurze Hilfe aus strings: und zeigt diese Themen nie"
+    },
+    "eingabe-vorschlag": {
+      "anzahl": 8,
+      "grund": "Vorschläge ab Werk an einer leeren Liste der Eingabemaske (Pro E14); die Lese-App hat keine Eingabe"
     },
     "waehrung-anzeige": {
       "anzahl": 4,
       "grund": "Anzeigenamen der Währungen (U2-ADR-480): heute zeigt kein Betrag eine Währung, auch die Lese-App nicht; sinkt auf 0, sobald ein Betrag seine Währung zeigt"
     },
-    "eingabe-vorschlag": {
-      "anzahl": 8,
-      "grund": "Vorschläge ab Werk an einer leeren Liste der Eingabemaske (Pro E14); die Lese-App hat keine Eingabe"
+    "sub-kontext": {
+      "anzahl": 17,
+      "grund": "Einführung im Sub-Depot (Befund SUBKONTEXT-ANREDE); die Lese-App öffnet kein Sub-Depot"
+    },
+    "allergie-code-anzeige": {
+      "anzahl": 2,
+      "grund": "Anzeigenamen der Allergie-Codes (U2-ADR-480): sensibles Feld, die Lese-App zeigt den Wert nie; der Kern braucht sie für seine eigene Anzeige (02.11.2026)"
     }
   }
 }

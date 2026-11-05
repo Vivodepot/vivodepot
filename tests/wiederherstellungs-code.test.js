@@ -310,7 +310,7 @@ test('[WHC·#14] der Blackbox-Export einer Datei mit Hülle trägt die Hülle ni
   await mitHuelle(V);
   const u = kopie(await V.depotSerialisieren());
   assert.ok(V.WHC_FELD in u, 'Vorbedingung');
-  const k = V.blackboxDateiAusUmschlag(u);
+  const k = V.depotDateiAusUmschlag(u);
   assert.equal(V.WHC_FELD in (k.umschlag || k), false);
 });
 

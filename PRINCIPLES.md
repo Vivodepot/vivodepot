@@ -26,6 +26,7 @@ From this root follow:
 - **Encryption as the citizen's lock, not ours.** The data is encrypted so that only the citizen can open it. The cryptographic core exists to give the citizen the key — not to give anyone else a copy.
 - **No loss because software, browser, or device moved on.** A depot must remain readable to its owner over time. The citizen must never lose their data because a version changed, a browser updated, or a device aged. (See *Compatibility* below.)
 - **Single source of truth — one datum, one place.** Each datum exists exactly once, at its home. Wherever it is relevant elsewhere, other areas *reference* it — they do not copy it. So there are never two versions drifting apart, and the citizen maintains and deletes each datum in exactly one place. This follows directly from sovereignty: the citizen can only control data that has a single home. The exception is narrow and named: a copy is permitted only where availability demands it — for example the emergency cache that mirrors selected fields so first responders can read them offline without decrypting the whole depot. Such a copy must be visibly marked and justified; convenience is never a sufficient reason.
+- **Donation is possible, never preset.** A person can give data from their depot to research or to another purpose of general interest. It goes out only on a request that names who asks, for what, whether the data will be linked with other data, and whether companies will use it, and only after the person has seen exactly what leaves. Nothing is preselected, and no one is enrolled by default. Vivodepot does not see donated data, does not broker it and does not sell it.
 
 ## Root 2 — Infrastructure others can build on (the *where to*)
 
@@ -87,6 +88,9 @@ These principles bind all contributions equally, including whoever wrote them. T
 **Changes.** 2026-09-25: the word "honestly" removed from the heading "Compatibility" (and „ehrlich" from its German
 reading). Reason: it was a label, not a statement; the content of the section is unchanged.
 
+2026-11-01: the principle "Donation is possible, never preset." added under Root 1. Reason: giving data from the depot
+to research becomes possible; it must never start from a default or an opt-out.
+
 ---
 
 ## Deutsche Lesefassung (nicht bindend)
@@ -95,7 +99,7 @@ reading). Reason: it was a label, not a statement; the content of the section is
 
 Vivodepot ist gebaut, um jede einzelne Mitwirkende zu überdauern und von Menschen erweitert zu werden, die keiner der heutigen Beteiligten je trifft. Diese Grundsätze binden jeden Beitrag gleich, unabhängig davon, wer ihn geschrieben hat. Ein ADR entscheidet, *wie* im Einzelfall gebaut wird; diese Grundsätze entscheiden, *was überhaupt* gebaut werden darf. Wo ein Beitrag einem Grundsatz hier widerspricht, gewinnt der Grundsatz. Sie folgen aus zwei Wurzeln.
 
-**Wurzel 1 — Datensouveränität (das Warum).** Vivodepot existiert, damit die Lebensdaten eines Menschen diesem Menschen gehören und sonst niemandem — nicht Vivodepot, keinem Anbieter, keinem Server, keiner Kopie irgendwo. Daraus folgen: offline (die Depot-Datei liegt allein beim Bürger, kein Server, keine Cloud); kein Konto, kein Login, kein Türsteher zwischen Bürger und eigener Datei; Verschlüsselung als Schloss des Bürgers, nicht als unsere Kopie; kein Datenverlust, weil Software, Browser oder Gerät weiterzogen; **single source of truth — ein Datum, ein Ort** (jedes Datum existiert genau einmal am Heimatort; andere Bereiche *verweisen* darauf, statt zu kopieren — nie zwei Fassungen, die auseinanderlaufen; gepflegt und gelöscht an einer Stelle). Die Ausnahme ist eng und benannt: eine Kopie nur, wo Verfügbarkeit sie erzwingt — etwa der Notfall-Cache, der ausgewählte Felder spiegelt, damit Sanitäter offline lesen können, ohne das ganze Depot zu entschlüsseln; sichtbar markiert und begründet, nie aus Bequemlichkeit.
+**Wurzel 1 — Datensouveränität (das Warum).** Vivodepot existiert, damit die Lebensdaten eines Menschen diesem Menschen gehören und sonst niemandem — nicht Vivodepot, keinem Anbieter, keinem Server, keiner Kopie irgendwo. Daraus folgen: offline (die Depot-Datei liegt allein beim Bürger, kein Server, keine Cloud); kein Konto, kein Login, kein Türsteher zwischen Bürger und eigener Datei; Verschlüsselung als Schloss des Bürgers, nicht als unsere Kopie; kein Datenverlust, weil Software, Browser oder Gerät weiterzogen; **single source of truth — ein Datum, ein Ort** (jedes Datum existiert genau einmal am Heimatort; andere Bereiche *verweisen* darauf, statt zu kopieren — nie zwei Fassungen, die auseinanderlaufen; gepflegt und gelöscht an einer Stelle). Die Ausnahme ist eng und benannt: eine Kopie nur, wo Verfügbarkeit sie erzwingt — etwa der Notfall-Cache, der ausgewählte Felder spiegelt, damit Sanitäter offline lesen können, ohne das ganze Depot zu entschlüsseln; sichtbar markiert und begründet, nie aus Bequemlichkeit. **Spende ist möglich, nie voreingestellt:** Eine Person kann Daten aus ihrem Depot der Forschung oder einem anderen Zweck im allgemeinen Interesse geben. Sie gehen nur auf eine Anfrage hinaus, die nennt, wer fragt, wozu, ob die Daten mit anderen verknüpft werden und ob Unternehmen sie nutzen, und erst, nachdem die Person gesehen hat, was genau hinausgeht. Nichts ist vorausgewählt, niemand ist von vornherein dabei. Vivodepot sieht gespendete Daten nicht, vermittelt sie nicht und verkauft sie nicht.
 
 **Wurzel 2 — Infrastruktur zum Andocken (das Wohin).** Vivodepot soll Infrastruktur werden: eine Basis, an die andere weitere Themenfelder andocken — Immigration, Anerkennung von Berufsabschlüssen, Aufenthaltsstatus und vieles, was es heute nicht abdeckt — und die sich an andere Sprachen und Rechtsräume anpassen lässt, ohne zu fragen. Modularität ist kein Selbstzweck, sondern die Bedingung dafür. Daraus folgen: Open Source (damit überhaupt jemand andocken *darf*); sektoragnostischer Kern; modular — die Struktur steht, der Inhalt fließt; schlanker Kern; Templates zum Andocken; offene Standards, konform in alle Richtungen.
 
@@ -106,6 +110,9 @@ Vivodepot ist gebaut, um jede einzelne Mitwirkende zu überdauern und von Mensch
 **Stand dieses Dokuments.** Bindet alle Beiträge gleich, auch den der Urheberin. Steht über der ADR-Reihe (ADRs verweisen herauf), ist selbst kein ADR. Ausdrücklich ausgelagert: Geschäftsmodell (wer zahlt), Template-Lizenzierung, UX, Durchsetzung/Governance, interne Arbeitsweise. Änderungen an diesem Dokument: sichtbar, datiert, begründet — nie still.
 
 **Änderungen.** 25.09.2026: das Wort „ehrlich“ aus der Überschrift „Kompatibilität“ gestrichen (englisch „honestly“). Grund: ein Etikett, keine Aussage; der Inhalt des Abschnitts ist unverändert.
+
+01.11.2026: Grundsatz „Spende ist möglich, nie voreingestellt“ unter Wurzel 1 ergänzt. Grund: Daten aus dem Depot der
+Forschung zu geben, wird möglich; es darf nie von einer Voreinstellung oder einem Widerspruchsmodell ausgehen.
 
 ---
 

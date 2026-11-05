@@ -76,7 +76,7 @@ const AUSNAHMEN_TESTS = [
   // jede Änderung, auch eine neue Fassung, fällt auf und wird bewusst nachgezogen — und ohne zurückgehaltene Pfade im öffentlichen Text.
   { sha256: 'bbdfb4e6acbed2f322c4a766c527d760a87a7c21d1d376a570a0c8a2b8512132', grund: 'amtliche Fremd-Fixture unverändert (fundingjson.org v1.1.0)' },
   { sha256: '8bae002c25e723db7ee1f26afde680ae1a2b1a8f6b4b4b0fd65dc3becb090aae', grund: 'Fremd-Fixture unverändert (JSF 0.82 aus CycloneDX 1.6.2), nennt die Autorenadresse des Schemas' },
-  { sha256: '989ff72467a485230033486a0ddf8b2d9d1a74e9615bc392d7db9b4a62d2b946', grund: 'interne Probe, verlangt die Absenderadresse eines Werkzeugs im Klartext' },
+  { sha256: '1bf51524b5183bb7eec79c0cd8235ac785f5748faff235eef7047bccfd730e0d', grund: 'interne Probe, verlangt die Absenderadresse eines Werkzeugs im Klartext' },
 ];
 function ausgenommen(rel, adresse, domain, inhaltHash) {
   return AUSNAHMEN_TESTS.some((a) => (a.praefix && rel.startsWith(a.praefix)) || (a.sha256 && a.sha256 === inhaltHash)

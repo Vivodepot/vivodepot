@@ -51,8 +51,9 @@ entlang der Herkunft, nicht entlang der Code-Form.
    eigenen — das ist der Skalierungsweg, den ein reiner `wortlaut`-String nicht trägt.
 2. **`KI_KORPUS` (eigene Formulierung) wird ein Template**, nicht Teil des Rechtsraum-Katalogs.
    Es ist kein amtlicher Inhalt, den ein zweiter Rechtsraum ersetzen müßte — es ist
-   rechtsraumunabhängige, eigene Redaktion, die ein Modul ergänzt (Gerüst-Vokabular: ein
-   Template ist Thema/Berufsstand-Zuschnitt, „ergänzt ein Modul, steht nie allein" — nicht mit
+   rechtsraumunabhängige, eigene Redaktion, die zu einem Produkt dazukommt (Gerüst-Vokabular:
+   Modul und Template sind Rollen derselben Sorte Datei, Template heißt, was dazukommt, s.
+   U2-ADR-287 §0 — nicht mit
    dem gleichnamigen `AB_WERK_VORLAGEN_QUELLEN`/„Feld-Bausatz"-Mechanismus zu verwechseln, der
    Feld-Definitionen liefert, keine Dokumenttexte, s. §4).
 3. **Die Formvorschrift bleibt im Rechtsraum-Katalog und wird referenziert, nicht kopiert.** Das
@@ -119,6 +120,32 @@ dabei: Bedeutung 1 bleibt unantastbar, solange Bestandssignaturen gelten — das
 ein künftiger Zug denselben Rename-Vorschlag erneut aufgreift, ohne die Signaturbindung zu
 messen.
 
+## Nachtrag 29.10.2026 · Bauplan als Ergänzung, KI-Korpus als eigene Datei
+
+Gebaut ist der Umzug aus §2 mit zwei Abweichungen in der Form, nicht in der Sache:
+
+1. **Der Bauplan steht im Rechtsraum-Modul, wird aber nicht mit ihm veröffentlicht.** Das veröffentlichte deutsche
+   Rechtsraum-Modul trägt an Patientenverfügung und Vorsorgevollmacht `bauplan: null`. Die Schritte stehen in einer
+   Bauplan-Ergänzung (`modulTyp: 'rechtsraumBauplan'`, je Typ ein `bauplan`), die bei den übrigen Dokumentvorlagen bleibt
+   (Entscheidung vom 10.09.2026 §2 und Lizenzfassung vom 11.10.2026). Der Produktbau setzt sie vor dem Backen in eine Kopie
+   des Rechtsraum-Moduls desselben Codes ein; im Produkt steht der Bauplan dann in `AB_WERK_RECHTSRAUM_PRODUKT`, und der Kern
+   liest ihn nur dort (`_rechtsraumBauplanLesen`, als Kopie). Der Bau wirft bei einer Ergänzung ohne ihr Rechtsraum-Modul, bei
+   einem Typ, den das Modul nicht kennt, bei einem schon gesetzten Bauplan (zwei Quellen) und bei einem leeren Bauplan. Fehlt
+   die Ergänzung, baut er und meldet den Typ als „Bauplan offen". Der öffentliche Zuschnitt baut mit einem erfundenen
+   Gegenstück der Ergänzung, wie bei allen Dokumentvorlagen (Entscheidung vom 17.10.2026: jede Prosa erfunden, auch der
+   amtliche Wortlaut). Gefunden wird es nach seinem Modultyp im Ordner der Gegenstücke, nicht nach einem Namen.
+2. **Der KI-Korpus ist keine Template-Datei, sondern eine eigene Ab-Werk-Datei** (`modulTyp: 'kiKorpus'`, Region
+   `AB_WERK_KI_KORPUS`, nativ `null`). Sie trägt keine Signatur und keine Vertrauensstufe; sie bleibt eigene Redaktion
+   (U2-ADR-396). Sie kommt nur ab Werk ins Produkt, nie aus einem Depot, einer Datei oder dem Netz; am Einlass-Register
+   ändert sich nichts. Die Formvorschrift § 2247 BGB trägt sie nicht selbst: die KI-Verfügung liest sie aus dem
+   Rechtsraum-Modul.
+
+Was gleich bleibt: jedes Wort, jedes Feld und jede Reihenfolge der Schritte in allen vier Produkten. Das hält eine
+Gleichheitsprobe gegen Abdrücke, die vor dem Umzug erhoben wurden. Pro trägt wie bisher nur den Bauplan der
+Patientenverfügung (Quelle der ruhenden Festlegungen), weder Vollmacht noch KI-Korpus. Die Mitschrift behält ihr Schema:
+Fach `dokumente` trägt die Textteile der Patientenverfügung und den KI-Korpus, die Schritte reisen als Bauplan im Fach
+`rechtsraumModule`.
+
 ## Konformität
 
 ```konformitaet
@@ -150,11 +177,22 @@ Hand am Quelltext nachvollziehbar, kein Testlauf nötig oder sinnvoll für diese
 aussage:   Der neue Schrittform-Bauplan (PV/Vollmacht) liegt im Rechtsraum-Katalog, das
            KI-Template referenziert seine Formvorschrift statt sie zu kopieren, beide ohne
            Textverlust gegenüber dem heutigen Stand.
-zustand:   offen
-frist:     2026-09-20
-bedingung: Schema-Erweiterung gebaut, Umzug von PV_BMJ/
-           VOLLMACHT_BMJ.steps in rechtsraumKatalog vollzogen, KI_KORPUS als Template-Datei
-           gebaut, volle Suite grün, neue Gegenprobe für Formvorschrift-Referenz statt -Kopie.
+zustand:   prüfbar
+pruefung:  tests/rechtsraum-bauplan-einsetzen.test.js#[U2-ADR-507·Bauplan einsetzen] die Ergänzung landet bytegleich im Rechtsraum-Modul, die Eingabe bleibt unverändert
+pruefung:  tests/rechtsraum-bauplan-einsetzen.test.js#[U2-ADR-507·Bauplan einsetzen·Rot-Beweis] unbekannter Typ, schon gesetzter Bauplan, fehlendes Rechtsraum-Modul und leerer Bauplan werfen
+pruefung:  tests/ki-korpus-formvorschrift-gegenprobe.test.js#[U2-ADR-507·Formvorschrift] der KI-Korpus nennt § 2247 nicht, das Produkt liest ihn aus dem Rechtsraum-Katalog
+pruefung:  tests/ki-korpus-formvorschrift-gegenprobe.test.js#[U2-ADR-507·Formvorschrift·Rot-Beweis] ein anderer Paragraf im Rechtsraum-Modul erscheint im Produkt, der KI-Korpus bleibt gleich
+pruefung:  tests/dokumente-rechtsraum-umzug-rundlauf.test.js#[U2-ADR-505·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_DOKUMENTE_DE-Inhalt (beide voll gebootet)
+```
+Gebaut am 29.10.2026 (Nachtrag oben). Der KI-Korpus ist statt einer Template-Datei eine eigene Ab-Werk-Datei ohne Signatur;
+„ohne Textverlust" hält zusätzlich eine Gleichheitsprobe der vier Produkte gegen Abdrücke vor dem Umzug, die die Originale
+liest und darum nicht veröffentlicht wird.
+
+```konformitaet
+aussage:   Ohne Bauplan-Ergänzung und ohne ihr Gegenstück baut der Produktbau und meldet die
+           Typen ohne Schritte als offen, statt still ohne Schritte zu bauen.
+zustand:   prüfbar
+pruefung:  tests/rechtsraum-bauplan-einsetzen.test.js#[U2-ADR-507·Bauplan offen] ohne Bauplan-Ergänzung baut der Produktbau mit dem Rechtsraum-Modul und meldet beide Baupläne als offen
 ```
 
 ```konformitaet

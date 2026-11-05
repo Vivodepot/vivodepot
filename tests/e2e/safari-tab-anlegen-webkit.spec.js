@@ -120,7 +120,7 @@ test.describe('[Safari-Tab·WebKit] Safari-Wege', () => {
         await expect(page.locator('#whc-angebot'), 'das Code-Angebot folgt auf „Später“').toBeVisible();
         if (!slug.endsWith('-de')) { expect(fehler, 'kein Seitenfehler: ' + fehler.join(' | ')).toEqual([]); return; }
 
-        await page.click('#m-ok');                                          // Code einrichten
+        // S2 (31.10.2026): das Angebot IST Schritt 2 mit dem Code, kein Klick auf „Code einrichten“ mehr.
         const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
         await page.fill('#whc-kontrolle', code);
         await page.click('#m-ok');

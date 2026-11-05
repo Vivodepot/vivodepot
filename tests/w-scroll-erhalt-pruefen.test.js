@@ -13,14 +13,16 @@ const { ermittleFunde, gateBewerten, GRUNDLINIE } = require('../tools/w-scroll-e
 
 const GRUNDLINIE_DATEN = require('../tools/w-scroll-erhalt-grundlinie.json');
 
-test('[W-Scroll-Erhalt] die Grundlinie kennt genau 16 Navigations-Funktionen', () => {
+test('[W-Scroll-Erhalt] die Grundlinie kennt genau 15 Navigations-Funktionen', () => {
   // 13 → 14 am 20.08.2026 (Kette, Auftrag 4, Zug 2): `oeffneZusammenstellen` ist eine echte
   // Navigation zu einem neuen Bildschirm — sie beginnt oben, wie jede andere auch.
   // 14 → 15 am 20.08.2026 (Kette, Auftrag 7, Zug 6): `oeffneAnfrage` ebenso — das Blatt einer
   // Anfrage ist ein neuer Bildschirm, und er beginnt bei „wer fragt und auf welcher Grundlage".
   // 15 → 16 am 25.08.2026 (U2-ADR-174 Teilprojekt 2, Task 4): `oeffneEintragenUebersicht`
   // ebenso — die Eintragen-Übersicht ist ein neuer Bildschirm, sie beginnt oben.
-  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 16);
+  // 16 → 15 am 30.10.2026 (Befund UX-DOKUMENT-ABLEGEN): `oeffneBestandsAuswahl` entfällt, „Was hier
+  // hineingehört“ ist ein Dialog über „Meine Dokumente“, kein eigener Bildschirm mehr.
+  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 15);
 });
 
 test('[W-Scroll-Erhalt] echter Kern: kein neuer renderContent(true)-Aufruf gegen die Grundlinie', () => {

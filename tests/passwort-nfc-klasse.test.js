@@ -126,7 +126,7 @@ async function kernDateien() {
   K.sektorFeldSetzen('identity', 'givenName', 'Nora');
   const v4 = await K.depotSerialisieren();
   const v3 = await K.depotSerialisierenV3();
-  const sub = K.blackboxDateiAusUmschlag(await K.subDepotVersiegeln({ sektoren: { identity: { givenName: 'Sub-Nora' } }, menschen: [] }, PW_NFC)).umschlag;
+  const sub = K.depotDateiAusUmschlag(await K.subDepotVersiegeln({ sektoren: { identity: { givenName: 'Sub-Nora' } }, menschen: [] }, PW_NFC));
   const jwe = await K.antwortJwePasswort('{"probe":"nfc"}', PW_NFC, { vorgang: 'NFC-PROBE' });
   return { K, v4, v3, sub, jwe };
 }
@@ -141,7 +141,7 @@ test('[Passwort-NFC·Lese-App] ein im Kern mit Umlaut-Passwort angelegtes Depot 
   assert.equal(offen4.sektoren.identity.givenName, 'Nora', 'v4 öffnet mit NFD');
   const offen3 = await L.leseDepotUmschlag(JSON.parse(JSON.stringify(v3)), PW_NFD);
   assert.equal(offen3.sektoren.identity.givenName, 'Nora', 'v3 öffnet mit NFD');
-  const offenSub = await L.leseSubUmschlag(JSON.parse(JSON.stringify(sub)), PW_NFD);
+  const offenSub = await L.leseDepotUmschlag(JSON.parse(JSON.stringify(sub)), PW_NFD);
   assert.equal(offenSub.sektoren.identity.givenName, 'Sub-Nora', 'das Sub-Depot öffnet mit NFD');
   const antwort = await L.antwortJweOeffnen(jwe, { passwort: PW_NFD });
   assert.equal(antwort.klartext, '{"probe":"nfc"}', 'die Antwort mit Einmalpasswort öffnet mit NFD');
@@ -155,7 +155,7 @@ test('[Passwort-NFC·Lese-App·Rot-Beweis] ohne den Fix öffnet die Lese-App die
   const alt = leseAppOhneFix();
   await assert.rejects(() => alt.leseDepotUmschlag(JSON.parse(JSON.stringify(v4)), PW_NFD), 'v4 ohne NFC');
   await assert.rejects(() => alt.leseDepotUmschlag(JSON.parse(JSON.stringify(v3)), PW_NFD), 'v3 ohne NFC');
-  await assert.rejects(() => alt.leseSubUmschlag(JSON.parse(JSON.stringify(sub)), PW_NFD), 'Sub ohne NFC');
+  await assert.rejects(() => alt.leseDepotUmschlag(JSON.parse(JSON.stringify(sub)), PW_NFD), 'Sub ohne NFC');
   await assert.rejects(() => alt.antwortJweOeffnen(jwe, { passwort: PW_NFD }), 'PBES2 ohne NFC');
   // Gegenprobe: mit der NFC-Form öffnet auch die alte Fassung — der Unterschied liegt allein an der Normalform.
   assert.equal((await alt.leseDepotUmschlag(JSON.parse(JSON.stringify(v4)), PW_NFC)).sektoren.identity.givenName, 'Nora');
@@ -179,7 +179,7 @@ test('[Passwort-NFC·Lese-App·NFD-Bestand] ein Bestand, der nur mit NFD aufgeht
   const L = ladeLesen().V;
   for (const pw of [PW_NFC, PW_NFD]) {
     assert.equal((await L.leseDepotUmschlag(JSON.parse(JSON.stringify(u)), pw)).sektoren.identity.givenName, 'Alt', 'Depot');
-    assert.equal((await L.leseSubUmschlag(JSON.parse(JSON.stringify(u)), pw)).sektoren.identity.givenName, 'Alt', 'Sub');
+    assert.equal((await L.leseDepotUmschlag(JSON.parse(JSON.stringify(u)), pw)).sektoren.identity.givenName, 'Alt', 'Sub');
   }
   await assert.rejects(() => L.leseDepotUmschlag(JSON.parse(JSON.stringify(u)), 'falsch-aber-ascii'), 'ein falsches Passwort öffnet nicht');
 });
@@ -188,7 +188,7 @@ test('[Passwort-NFC·Lese-App·NFD-Bestand·Rot-Beweis] ohne den NFD-Rückfall b
   const u = await nfdBestand();
   const alt = leseAppMit(OHNE_NFD_RUECKFALL);
   await assert.rejects(() => alt.leseDepotUmschlag(JSON.parse(JSON.stringify(u)), PW_NFC), 'Depot ohne Rückfall');
-  await assert.rejects(() => alt.leseSubUmschlag(JSON.parse(JSON.stringify(u)), PW_NFC), 'Sub ohne Rückfall');
+  await assert.rejects(() => alt.leseDepotUmschlag(JSON.parse(JSON.stringify(u)), PW_NFC), 'Sub ohne Rückfall');
 });
 
 /* Der Kern zieht gleich (Wort Krypto 2, 18.10.2026): erst NFC, dann genau einmal NFD, wenn NFD ≠ NFC — gleich, wie getippt wurde. */
@@ -312,7 +312,6 @@ const AUSNAHMEN = Object.freeze({
     + 'altNfc = normalizePassword(pwAlt).',
   'leseDepotUmschlag|VdCrypto.setupSession|pw': 'Lese-App, Spiegel von depotLaden: pw kommt aus _mitNfcDannNfd (erst NFC, dann genau einmal '
     + 'NFD, wenn sie sich unterscheiden; Wort Krypto 2, 18.10.2026).',
-  'leseSubUmschlag|depotMasterHkdfKey|pw': 'Lese-App, Spiegel von subDepotEntsiegeln: pw kommt aus _mitNfcDannNfd (erst NFC, dann genau einmal NFD).',
   'entschluesseleSchluesselJwk|deriveKey|p': 'Die Schleife versucht erst NFC, dann genau einmal die rohe Eingabe, wenn sie sich unterscheidet: '
     + 'eine .vdkey-Hülle von vor dem 18.10.2026 trägt die Passphrase so, wie sie getippt war.',
 });
@@ -324,7 +323,6 @@ const MINDESTBESTAND = Object.freeze([
   'vivodepot.html|antwortJwePasswort|_jwePbes2Schluessel',
   'vivodepot.html|empfaengerQrPayloadBauen|_empfaengerQrSchluesselVerschluesseln',
   'vivodepot-lesen.html|leseDepotUmschlag|VdCrypto.setupSession',
-  'vivodepot-lesen.html|leseSubUmschlag|depotMasterHkdfKey',
   'vivodepot-lesen.html|antwortEntschluesselnPasswort|_angDeriveKey',
   'vivodepot-lesen.html|antwortJweOeffnen|_jwePbes2Schluessel',
   'vivodepot-lesen.html|_empfaengerQrEntschluesseln|_empfaengerQrSchluesselEntschluesseln',

@@ -4,7 +4,7 @@
 **Datum:** 06.09.2026
 **Betrifft:** `tools/textsatz-traeger-erheben.js` (neu),
 `tests/u2-adr-322-jeder-traeger-loest-auf.test.js` (neu),
-`tests/fixtures/u2-adr-322-rueckstand-ungedeckte-texte.json` (neu);
+eine Rückstand-Fixture der ungedeckten Texte (neu; seit 03.11.2026 nicht im öffentlichen Repository);
 misst gegen `vivodepot.html` (`TEXTSATZ_EINGEBAUT`, `TEXTSATZ_ARTEN`, `TEXTSATZ_FEHLSTELLEN`,
 `_textsatzOrteBegehen`)
 

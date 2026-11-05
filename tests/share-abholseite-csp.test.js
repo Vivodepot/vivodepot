@@ -61,3 +61,17 @@ test('[Abhol-Seite·CSP·Rot-Beweis] Inline-Skript, unsafe-inline, ein zweites S
   assert.ok(befunde(html.replace('</body>', '<script src="weiteres.js"></script></body>')).some((x) => /statt genau empfangen\.js/.test(x)));
   assert.ok(befunde(html.replace("script-src 'self'", "script-src 'self' https://cdn.example")).some((x) => /nicht genau 'self'/.test(x)));
 });
+
+/* IMPRESSUM (31.10.2026): die Abhol-Seite ist eine Seite des Anbieters und nennt darum Impressum und Datenschutz, wie die
+   Fassung der Website. Ohne eigenes Stylesheet: die Kanon-Fassung lädt nur empfangen.css (CSP style-src 'self'). */
+const RECHTSLINKS = ['https://vivodepot.de/impressum.html', 'https://vivodepot.de/datenschutz.html'];
+function rechtslinksFehlen(html) { return RECHTSLINKS.filter((u) => !html.includes('href="' + u + '" rel="noreferrer noopener"')); }
+test('[Abhol-Seite·Impressum] Impressum und Datenschutz verlinkt, kein zweites Stylesheet', () => {
+  const html = fs.readFileSync(SEITE, 'utf8');
+  assert.deepEqual(rechtslinksFehlen(html), []);
+  assert.deepEqual([...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map((m) => m[1]), ['empfangen.css']);
+});
+test('[Abhol-Seite·Impressum·Rot-Beweis] eine Seite ohne die Zeile fällt auf', () => {
+  const ohne = fs.readFileSync(SEITE, 'utf8').replace(/<p class="hinweis"><a href="https:\/\/vivodepot\.de\/impressum\.html"[\s\S]*?<\/p>\n/, '');
+  assert.deepEqual(rechtslinksFehlen(ohne), RECHTSLINKS);
+});

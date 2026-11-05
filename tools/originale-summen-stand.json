@@ -1,17 +1,17 @@
 {
  "_zweck": "Summen der Zusicherungssätze je Anwendung und Sprache. Eine Änderung entwertet die Bescheinigungen der Prüfstellen für diese Anwendung und Sprache, bis neu gerechnet ist. Schreibt nur tools/originale-summen-beleg.js --schreiben.",
  "kern": {
-  "de": "0a1c45434cf75ef6851e93d55eaeb4d08a1faf68544340f15ec3643bb485220a",
-  "en": "2fe54413475140359eb7891b04d1890bada77c6f37862dcc15246be766e28ebe"
+  "de": "3fc64579f7b966877395f8080dcbb62f4faaada738ca4fa7904ec7e7977b7c8f",
+  "en": "2e45517b51e04155e9d26adf0f7a06fa0cf818040c4949d083c8195750a5d583"
  },
  "lesen": {
-  "de": "dfa90cc7d121e52d51a8dbbc3e60fae788199193e994971d32b4df332f8dcbff",
-  "en": "67cb9a8c95011f33b020a44e43c456f0a63d3192f4c515c9ef0555eee074ae10"
+  "de": "13a4728736a8cda62d343a4adf021a52d438662c6124b9d2754da6b20e0d2004",
+  "en": "f9c6af7df056b4dc10aa80b08b049cfc5dca9199b3cc4d418435fb3868b35de2"
  },
  "werte": [
-  "kern.de:0a1c45434cf75ef6851e93d55eaeb4d08a1faf68544340f15ec3643bb485220a",
-  "kern.en:2fe54413475140359eb7891b04d1890bada77c6f37862dcc15246be766e28ebe",
-  "lesen.de:dfa90cc7d121e52d51a8dbbc3e60fae788199193e994971d32b4df332f8dcbff",
-  "lesen.en:67cb9a8c95011f33b020a44e43c456f0a63d3192f4c515c9ef0555eee074ae10"
+  "kern.de:3fc64579f7b966877395f8080dcbb62f4faaada738ca4fa7904ec7e7977b7c8f",
+  "kern.en:2e45517b51e04155e9d26adf0f7a06fa0cf818040c4949d083c8195750a5d583",
+  "lesen.de:13a4728736a8cda62d343a4adf021a52d438662c6124b9d2754da6b20e0d2004",
+  "lesen.en:f9c6af7df056b4dc10aa80b08b049cfc5dca9199b3cc4d418435fb3868b35de2"
  ]
 }

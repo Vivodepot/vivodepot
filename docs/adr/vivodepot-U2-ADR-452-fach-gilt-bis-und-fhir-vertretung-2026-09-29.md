@@ -77,6 +77,14 @@ Entscheidung vom 28.09.2026 (Frage 3 im Report-before-Build zur Vollmacht, „ja
    (`https://terminology.hl7.org/CodeSystem-v3-RoleCode.json`, Version 4.0.0); ob sie im ValueSet von
    `RelatedPerson.relationship` bestehen, prüft der HL7-Validator.
 
+   **Nachtrag 31.10.2026, europäischer Leitfaden.** Der EPS-Leitfaden von HL7 Europe hat mit der Entscheidung zu
+   FHIR-58258 („Delegated export by a representative is not addressed“, angenommen am 30.10.2026) denselben Weg
+   festgehalten. Wer für die Patientin handelt, etwa als `Composition.author`, erscheint als `RelatedPerson`, und
+   `RelatedPerson.relationship` steht zweimal: einmal für die persönliche Beziehung, einmal für die Rolle in der Vertretung.
+   Fundstelle: Repo `hl7-eu/eps`, Commit 020ebf3c9, Abschnitt „Managing delegation by using RelatedPerson.relationship“ in
+   den Notes des Profils `composition-eu-eps`. Der Hinweis nennt keinen Code; Vivodepot bleibt bei v3-RoleCode, aus dem
+   auch die R4-Wertemenge von `RelatedPerson.relationship` schöpft.
+
 ## Was nicht entschieden ist
 
 - **Notvertretung durch Ehegatten (§ 1358 BGB).** Sie beruht auf dem Gesetz, nicht auf einem Fach, und beginnt mit der

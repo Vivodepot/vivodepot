@@ -40,7 +40,7 @@
    nachher), danach beide wieder grün.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen, datumSetzen } = require('./helpers');
 
 const KONSOLE_HARMLOS = /Content-Security-Policy|frame-ancestors/i;
 
@@ -52,9 +52,9 @@ async function instrumentZeileAnlegen(page, { typ, datum }) {
   await modal.locator('[data-edit="instrument"]').selectOption(typ);
   // `datum` liegt hinter der Diskriminante: erst nach der Typ-Wahl blendet
   // _listenEintragBedingungVerdrahten die passenden Unterfelder ein.
-  const datumFeld = modal.locator('[data-edit="dateOfLastChange"]');
-  await expect(datumFeld).toBeVisible();
-  await datumFeld.fill(datum);
+  // Das Datum steht in drei Feldern; sichtbar ist die Gruppe, das Feld mit dem Wert ist versteckt.
+  await expect(modal.locator('.datum-dreifeld:has([data-edit="dateOfLastChange"])')).toBeVisible();
+  await datumSetzen(page, '#modal-inhalt [data-edit="dateOfLastChange"]', datum);
   await page.click('#m-ok');
   await expect(page.locator('#modal-rueck.an')).toHaveCount(0);
 }

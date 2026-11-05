@@ -66,19 +66,23 @@ async function anlegenBisAngebot(page) {
   await expect(page.locator('#whc-angebot')).toBeVisible();
 }
 
-test('[WHC·#6] nach dem Anlegen: „Code einrichten" ist der Primärknopf; Ablehnen ist ein eigener Schritt mit der Tragweite', async ({ page }) => {
+// S2 (31.10.2026, U2-ADR-430 Ziffer 2, Nachtrag): der Code ist Schritt 2 des Anlegens. „Fertig“ ist der Primärknopf, „Später
+// einrichten“ ein Textknopf mit der Tragweite in derselben Zeile; danach kein weiterer Dialog.
+test('[WHC·#6] nach dem Anlegen: Schritt 2 zeigt den Code, „Fertig“ ist der Primärknopf; „Später einrichten“ steht mit der Tragweite daneben', async ({ page }) => {
   await anlegenBisAngebot(page);
-  expect(await page.locator('#m-ok').textContent()).toBe(T('whcEinrichtenKnopf'));
+  await expect(page.locator('#whc-code')).toBeVisible();
+  expect(await page.locator('#m-ok').textContent()).toBe(T('whcFertigKnopf'));
+  await expect(page.locator('#m-zweit')).toHaveText(T('whcSpaeterKnopf'));
+  await expect(page.locator('#m-zweit-hinweis')).toHaveText(T('whcSpaeterTragweite'));
   await page.click('#m-zweit');
-  await expect(page.locator('#whc-tragweite')).toContainText(T('whcAblehnenTragweite'));
-  await page.click('#m-zweit');
-  await expect(page.locator('#nfb-angebot')).toBeVisible();   // danach das Notfall-Blatt, wie vorher
+  await page.waitForTimeout(500);
+  await expect(page.locator('#nfb-angebot')).toHaveCount(0);   // kein Blatt-Dialog danach (P09)
+  await expect(page.locator('#whc-tragweite')).toHaveCount(0);   // kein Ablehnen-Dialog
 });
 
 test('[WHC·#8 #12 #22] einrichten mit Kontrolle, Zustand in den Einstellungen, Code-Blatt leer, Code nach dem Schließen fort', async ({ page }) => {
   await anlegenBisAngebot(page);
-  await page.click('#m-ok');
-  await expect(page.locator('#whc-nicht-zum-passwort')).toHaveText(T('whcNichtZumPasswort'));
+  await expect(page.locator('#whc-angebot')).toHaveText(T('whcSchrittText'));   // „… getrennt vom Passwort auf.“
   const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
   expect(code).toMatch(/^([0-9A-Z]{4}-){6}[0-9A-Z]{4}$/);
 
@@ -101,7 +105,8 @@ test('[WHC·#8 #12 #22] einrichten mit Kontrolle, Zustand in den Einstellungen, 
   await page.fill('#whc-kontrolle', falsch);
   await page.click('#m-ok');
   await expect(page.locator('#whc-fehler')).toBeVisible();
-  expect(await page.locator('#whc-fehler').textContent()).toBe(T('whcKontrolleFalsch'));
+  // Seit K10/S2 (30./31.10.2026) nennt die Meldung Gruppe und Zeichen: das letzte Zeichen ist das vierte der siebten Gruppe.
+  expect(await page.locator('#whc-fehler').textContent()).toBe(T('whcKontrolleStelle').replace('{g}', '7').replace('{p}', '4').replace('{z}', code.slice(-1)));
 
   await page.fill('#whc-kontrolle', code.toLowerCase());
   await page.locator('#whc-kontrolle').dispatchEvent('input');
@@ -127,7 +132,6 @@ test('[WHC·#8 #12 #22] einrichten mit Kontrolle, Zustand in den Einstellungen, 
 
 test('[WHC·Öffnen] mit dem Code und einem neuen Passwort öffnen; ein falscher Code öffnet nicht', async ({ page, browser }) => {
   await anlegenBisAngebot(page);
-  await page.click('#m-ok');
   const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
   await page.fill('#whc-kontrolle', code);
   await page.click('#m-ok');
@@ -169,7 +173,6 @@ test('[WHC·Öffnen] mit dem Code und einem neuen Passwort öffnen; ein falscher
 
 test('[WHC·Abwählen] Code entfernen zeigt den Hinweis auf ältere Kopien, danach steht „kein Wiederherstellungs-Code eingerichtet“, und die neu gespeicherte Datei öffnet mit dem alten Code nicht', async ({ page, browser }) => {
   await anlegenBisAngebot(page);
-  await page.click('#m-ok');
   const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
   await page.fill('#whc-kontrolle', code);
   await page.click('#m-ok');

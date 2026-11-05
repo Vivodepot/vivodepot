@@ -40,6 +40,25 @@ Zweiter Anlass: Die Zusammenfassung eines Listeneintrags zeigte in Notfallblatt,
 - Sie ändert nichts an kuratierten Kern-Zeilen (Punkt 5). Ob sie dort künftig beschriften sollen, ist nicht entschieden.
 - Sie regelt nicht die Beschriftung ganzer Felder (Kopfzeilen von Abschnitten), nur Unterfelder von Eintragszeilen und die Personenverweise in Dokumenten.
 
+## Nachtrag 01.11.2026: Eintragszeilen am Bildschirm
+
+Anlass: Am Bildschirm stand die Eintragszeile einer Wiederholgruppe als ein Fließtext „Beschriftung: Wert · Beschriftung: Wert“ und erbte
+das Gewicht des gefüllten Werts, sie stand fett (Pro, Kontakte und Vertretung, „Erste Schritte, wenn Sie verhindert sind“).
+
+1. **Punkt 4 („Beschriftung: Wert“) gilt für die Text-Ausgaben:** PDF, Notfallblatt, Export, Text der Lese-App und die Löschrückfrage.
+   Sie nehmen weiter `listenEintragZusammenfassung`, deren Text unverändert bleibt.
+2. **Am Bildschirm (Kern und Lese-App) steht jede Beschriftung als eigene Zeile über ihrem Wert**, ohne Doppelpunkt und ohne Trennpunkt,
+   Beschriftung leise, Wert in normalem Gewicht, am Handy wie am Desktop. Das gilt für die Anzeige (`feldWertHTML`), die Liste beim
+   Bearbeiten (`feldInputHTML`), die vorgeschlagenen Schritte (`listenVorschlaegeHTML`) und die Listenzeile der Lese-App (`feldZeileHTML`).
+3. **Dieselben Angaben, dieselbe Quelle.** Die Bildschirmzeile entsteht aus `listenEintragTeile` (Teile `{ label, text }`) mit denselben
+   Unterfeldern und Ausnahmen wie die Textzeile (Punkt 5); zum Text verbunden ergeben die Teile genau die Zusammenfassung. Die
+   Beschriftung kommt weiter aus `feldAusgabeBeschriftung` (Kern) bzw. dem Textsatz der Lese-App. Ein Häkchen trägt seine Beschriftung
+   als Wert.
+4. Nicht betroffen: Menschen- und Stellen-Register („Name · Beziehung“, „Name · Art“) zeigen zwei Werte ohne Beschriftung, keine
+   Beschriftung-Wert-Zeile.
+
+Nachsehen: `grep -n "function listenEintragTeile\|function listenEintragZeileHTML" vivodepot.html vivodepot-lesen.html`.
+
 ```yaml
 konformitaet:
   - aussage: >-
@@ -67,8 +86,8 @@ konformitaet:
       - tests/ausgabe-beschriftung-statt-eingabehinweis.test.js "[Ausgabe-Beschriftung] eine Ausgabe-Beschriftung geht der Eingabe-Beschriftung vor, fehlt sie, gilt die Eingabe-Beschriftung"
       - tests/ausgabe-beschriftung-statt-eingabehinweis.test.js "[Ausgabe-Beschriftung] DE und EN tragen die Ausgabe-Beschriftung aus dem Textsatz"
   - aussage: >-
-      In der Lese-App trägt eine Eintragszeile je gefülltem Unterfeld „Beschriftung: Wert“ (Fall des Befunds: pro-de,
-      Bankverbindung).
+      In der Lese-App trägt eine Eintragszeile je gefülltem Unterfeld seine Beschriftung, im Text „Beschriftung: Wert“, am Bildschirm
+      die Beschriftung über dem Wert (Fall des Befunds: pro-de, Bankverbindung; Nachtrag 01.11.2026).
     zustand: erfuellt
     herkunft: U2-ADR-497 (09.10.2026), Entscheidung 4, Lese-App-Hälfte
     pruefung:
@@ -87,4 +106,16 @@ konformitaet:
     herkunft: U2-ADR-497 (09.10.2026)
     pruefung:
       - tests/listen-zusammenfassung-ausgabewege.test.js "[Listen·Ausgabe] Gesamt-PDF mit dem längsten Listenwert: jede Listenzeile vollständig, keine unter dem Blattrand"
+  - aussage: >-
+      Am Bildschirm (Kern und Lese-App) steht in jeder Eintragszeile einer Wiederholgruppe die Beschriftung über ihrem Wert, ohne
+      Doppelpunkt und ohne Trennpunkt, beides in normalem Gewicht; die Teile ergeben zum Text verbunden genau die Zusammenfassung der
+      Text-Ausgaben.
+    zustand: erfuellt
+    herkunft: U2-ADR-497 Nachtrag 01.11.2026
+    pruefung:
+      - tests/eintragszeilen-beschriftung-ueber-wert.test.js "[Eintragszeile·Bildschirm] Kern privat-de: jede Beschriftung steht über ihrem Wert, ohne Doppelpunkt und Trennpunkt"
+      - tests/eintragszeilen-beschriftung-ueber-wert.test.js "[Eintragszeile·Bildschirm] Kern pro-de: jede Beschriftung steht über ihrem Wert, ohne Doppelpunkt und Trennpunkt"
+      - tests/eintragszeilen-beschriftung-ueber-wert.test.js "[Eintragszeile·Text] die Teile ergeben zum Text verbunden genau die Zusammenfassung (privat-de und pro-de)"
+      - tests/eintragszeilen-beschriftung-ueber-wert.test.js "[Eintragszeile·CSS] Beschriftung und Wert stehen in normalem Gewicht, die Beschriftung ohne angehängten Doppelpunkt"
+      - tests/eintragszeilen-beschriftung-ueber-wert.test.js "[Eintragszeile·Lese-App] die Bildschirmzeile der Lese-App steht wie im Kern"
 ```

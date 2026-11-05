@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v956.
+Erzeugt aus der veröffentlichten Fassung v1040.
 
 ---
 
@@ -23,10 +23,10 @@ Logikmodule (Berufs-/Branchenwissen, z. B. für Vivodepot Pro), Vorlagen. Jedes 
 sich selbst gegen dieselben Regeln wie ein eingebauter Bestandteil — ein Modul bekommt keine
 Fähigkeit, die ein natives Feld nicht auch hätte.
 
-**Templates.** Einzelne, fachlich abgegrenzte Themen-Bausteine (`modulTyp: bereich`), die ein
-Produkt zusätzlich zu seinen nativen Bereichen mitbringen kann — z. B. die berufsspezifischen
-Zusatzthemen von Vivodepot Pro. Ein Template ist strukturell ein Modul, nur mit fachlichem
-statt technischem Zuschnitt. (Bewusst ohne Anzahl oder Liste: die Pro-Themen ändern sich
+**Templates.** Fachlich abgegrenzte Themen-Bausteine, die zu einem Produkt dazukommen — z. B.
+die berufsspezifischen Zusatzthemen von Vivodepot Pro. Modul und Template sind Rollen derselben
+Sorte Datei: Modul heißt, was das Produkt mitbringt, Template, was dazukommt; dieselbe Datei kann
+in einem Produkt das eine und in einem anderen das andere sein. (Bewusst ohne Anzahl oder Liste: die Pro-Themen ändern sich
 mit dem laufenden Umbau.)
 
 **Rezept.** Was ein bestelltes Produkt tatsächlich bekommt, steht in einem signierten Rezept
@@ -84,11 +84,11 @@ Vorlage darin wie in der App.
 
 ## Zahlen
 
-- E2E: 876 (gezählt, nicht ausgeführt) · Wächter-Register: 153
-- Schema-Version: 94 · SCHALEN_STAND: v956 · Build-Version: v1.0
-- ADR-Register: 447 Einträge
+- E2E: 917 (gezählt, nicht ausgeführt) · Wächter-Register: 158
+- Schema-Version: 94 · SCHALEN_STAND: v1040 · Build-Version: v1.0
+- ADR-Register: 453 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-28, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-05, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -133,7 +133,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-28, Commit `(Arbeitsstand, ohne H
 
 ## Unterordner von `docs/`
 
-- `docs/adr/` — 484 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 490 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)
@@ -145,12 +145,13 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-28, Commit `(Arbeitsstand, ohne H
 - `docs/ereignis-achse-modul/` — 1 Datei(en)
 - `docs/erscheinung-modul/` — 1 Datei(en)
 - `docs/feldregister/` — 1 Datei(en)
-- `docs/format/` — 42 Datei(en), auch in Unterordnern
+- `docs/format/` — 43 Datei(en), auch in Unterordnern
 - `docs/format-modul/` — 1 Datei(en)
 - `docs/grundschutz/` — 1 Datei(en)
 - `docs/institutions-art-modul/` — 1 Datei(en)
 - `docs/lese-app/` — 1 Datei(en), siehe [`docs/lese-app/README.md`](docs/lese-app/README.md)
 - `docs/logik-modul/` — 1 Datei(en)
+- `docs/lokales-modell-modul/` — 1 Datei(en)
 - `docs/modules/` — 18 Datei(en), auch in Unterordnern, siehe [`docs/modules/README.md`](docs/modules/README.md)
 - `docs/pruefregeln/` — 3 Datei(en)
 - `docs/rechtsraum-modul/` — 1 Datei(en)
@@ -159,7 +160,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-28, Commit `(Arbeitsstand, ohne H
 - `docs/situation-modul/` — 1 Datei(en)
 - `docs/spezifikation/` — 1 Datei(en)
 - `docs/stellensatz-modul/` — 1 Datei(en)
-- `docs/template-generator/` — 8 Datei(en), siehe [`docs/template-generator/README.md`](docs/template-generator/README.md)
+- `docs/template-generator/` — 9 Datei(en), siehe [`docs/template-generator/README.md`](docs/template-generator/README.md)
 - `docs/textsatz-modul/` — 1 Datei(en)
 - `docs/vc-issuer/` — 4 Datei(en), siehe [`docs/vc-issuer/README.md`](docs/vc-issuer/README.md)
 - `docs/wizard-modul/` — 1 Datei(en)

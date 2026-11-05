@@ -139,3 +139,28 @@ bemerkt hätten.
 - **Offene Lücke, ausdrücklich benannt:** `katalogStand` (Vorsorge-Instrumente-Feldebene) trägt
   noch keine der vier Stationen. Ein eigener, getrennter Bau folgt — nicht Teil dieser ADR, nicht
   vergessen.
+
+## Nachtrag 02.11.2026 — ohne Erweiterung eine Angabe, „Fassung“ nur im Kopf
+
+Der PDF-Fuß trug ohne Erweiterung zwei Angaben, die dasselbe sagen: die Herkunft (U2-ADR-258, „Erweiterungen: keine“)
+und den Stand (bis heute „Fassung: Grundfassung“, davor „Stand: keine Erweiterung“). Dazu stand „Fassung“ im Fuß und
+„Fassung v1.0“ im Kopf, zwei Bedeutungen mit einem Wort.
+
+Ab jetzt:
+
+- Ohne Erweiterung lautet `dokStandFussKeine` wortgleich wie `dokHerkunftFussKeine`, DE „Erweiterungen: keine“, EN
+  „Extensions: none“. `pdfFussText` nennt gleiche Angaben nur beim ersten Vorkommen, der Fuß sagt es also einmal. Ein
+  stummer Fall entsteht nicht: die Aussage steht weiter im Fuß, und sie deckt beide Entscheidungen.
+- Mit Erweiterungen heißt die Angabe „Erweiterungsstand: {n}, alle bekannt“ bzw. „Erweiterungsstand: {n}, davon {m}
+  unbekannt“ (EN „Extension versions: …“). Der Fall „{m} unbekannt“ bleibt unverändert sichtbar.
+- „Fassung“ steht nur im Kopf und meint die Fassung der Software (`pdfHerkunftVersion`).
+
+Die früheren Abdrücke dieser Texte zieht die Rücknahme-Liste der früher ausgelieferten Schutztexte einzeln zurück.
+
+```konformitaet
+aussage:  Ohne Erweiterung steht im PDF-Fuß genau einmal „Erweiterungen: keine“, Herkunft und Stand fallen zusammen;
+          mit Erweiterungen nennt der Fuß den Erweiterungsstand, auch den Fall „{m} unbekannt“.
+zustand:  geprüft
+herkunft: entscheidung
+pruefung: tests/pdf-fuss-umbruch-an-trennpunkten.test.js#[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen: keine“ genau einmal
+```

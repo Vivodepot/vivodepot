@@ -60,6 +60,7 @@
     "enduring-power-of-attorney": {
       "katalogVersion": 1,
       "wortlaut": null,
+      "bauplan": null,
       "formvorschriften": null,
       "fristenVorrang": {
         "auswahlform": "alle"
@@ -92,6 +93,7 @@
     "living-will": {
       "katalogVersion": 1,
       "wortlaut": null,
+      "bauplan": null,
       "formvorschriften": {
         "paragraf": "§ 1827 BGB"
       },

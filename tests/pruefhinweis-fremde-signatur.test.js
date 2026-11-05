@@ -54,7 +54,7 @@ test('[Prüfhinweis·Rot-Beweis] ein Gesundheitsoriginal OHNE erkannte Signatur 
   V.flowMappeVorschau(id);
   const html = modal(document);
   assert.doesNotMatch(html, /data-pruef-kopie/, 'kein Text zum Kopieren');
-  assert.doesNotMatch(html, /trägt eine Signatur/, 'kein Satz zur Signatur');
+  assert.ok(!html.includes(V.escapeHTML(V.STRINGS.mappeFremdPruefHinweis)), 'kein Satz zur Signatur');
 });
 
 test('[Prüfhinweis] ein FHIR-Dokument MIT Signatur im Bündel bekommt den Satz ohne Adresse', async () => {
@@ -66,7 +66,7 @@ test('[Prüfhinweis] ein FHIR-Dokument MIT Signatur im Bündel bekommt den Satz 
   assert.equal(V.mappePruefArt(V.mappeEintrag(id)), 'signatur');
   V.flowMappeVorschau(id);
   const html = modal(document);
-  assert.match(html, /trägt eine Signatur/);
+  assert.ok(html.includes(V.escapeHTML(V.STRINGS.mappeFremdPruefHinweis)), 'der Satz zur Signatur steht da');
   assert.doesNotMatch(html, /europa\.eu|vc\.1ed\.tech|digital-building-blocks/, 'keine Adresse bei FHIR');
   assert.match(html, /das übliche Prüfwerkzeug Ihrer Stelle/, 'der Text zum Kopieren sagt „das übliche Prüfwerkzeug“');
 });
@@ -78,10 +78,11 @@ test('[Prüfhinweis] ein PDF mit Signaturfeld bekommt den Satz, ein PDF ohne nic
   assert.equal(V.mappePruefArt(V.mappeEintrag(mit)), 'signatur');
   assert.equal(V.mappePruefArt(V.mappeEintrag(ohne)), null);
   V.flowMappeVorschau(mit);
-  assert.match(modal(document), /trägt eine Signatur/);
+  assert.ok(modal(document).includes(V.escapeHTML(V.STRINGS.mappeFremdPruefHinweis)), 'der Satz zur Signatur steht da');
   assert.doesNotMatch(modal(document), /europa\.eu|digital-building-blocks/, 'keine Prüfadresse beim PDF');
   V.flowMappeVorschau(ohne);
-  assert.doesNotMatch(modal(document), /trägt eine Signatur|data-pruef-kopie/);
+  assert.ok(!modal(document).includes(V.escapeHTML(V.STRINGS.mappeFremdPruefHinweis)), 'kein Satz zur Signatur');
+  assert.doesNotMatch(modal(document), /data-pruef-kopie/);
 });
 
 /* Die Zwischenablage bleibt im Kern verboten, mit genau einer Ausnahme (Positivliste, einzeln freigegeben 20.10.2026):

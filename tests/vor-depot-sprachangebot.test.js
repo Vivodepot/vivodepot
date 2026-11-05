@@ -11,7 +11,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
-const { PRODUKTE, SPRACHANGEBOT_EN_PFAD, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
+const { PRODUKTE, SPRACHANGEBOT_EN_PFAD, ABGELEITETE_SPRACHANGEBOTE, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
+// Ein Produkt trägt das gemeinsame Angebot oder ein davon abgeleitetes mit eigenen Startseitensätzen (29.10.2026, Pro).
+const ANGEBOTE = [SPRACHANGEBOT_EN_PFAD].concat(ABGELEITETE_SPRACHANGEBOTE.map((a) => a.ziel));
 const { sprachmodulUrteil } = require('../tools/vier-produkte-erzeugen.js');
 
 const KERN = path.join(__dirname, '..', 'vivodepot.html');
@@ -43,7 +45,7 @@ test('[Abnahme 2·Wirkung] der Knopf schaltet im deutschen Produkt wirklich auf 
 
 test('[Rezept] genau die deutschen Produkte tragen die Moduldatei, in keinem englischen Produkt steht sie', () => {
   for (const p of PRODUKTE) {
-    const traegt = modulDateienFuer(p).includes(SPRACHANGEBOT_EN_PFAD);
+    const traegt = modulDateienFuer(p).filter((f) => ANGEBOTE.includes(f)).length === 1;
     assert.equal(traegt, p.sprache === 'de', p.slug + (traegt ? ': trägt das Angebot' : ': trägt es nicht'));
   }
   assert.equal(MODUL.modulTyp, 'sprachangebot');
@@ -53,7 +55,7 @@ test('[Rezept] genau die deutschen Produkte tragen die Moduldatei, in keinem eng
 test('[Rezept·Gegenprobe] das Angebot ist kein Sprachmodul: der Wächter „je Produkt genau ein Sprachmodul“ bleibt bei den deutschen Produkten grün, eine zweite echte Sprachmodul-Datei schlägt an', () => {
   for (const p of PRODUKTE.filter((x) => x.sprache === 'de')) {
     const namen = modulDateienFuer(p).map((d) => path.basename(d));
-    assert.ok(namen.includes(path.basename(SPRACHANGEBOT_EN_PFAD)), p.slug + ': Vorbedingung — das Angebot ist im Rezept');
+    assert.ok(ANGEBOTE.some((a) => namen.includes(path.basename(a))), p.slug + ': Vorbedingung — das Angebot ist im Rezept');
     assert.equal(sprachmodulUrteil(p.slug, namen).ok, true, p.slug + ': genau ein Sprachmodul, das Angebot zählt nicht mit');
     assert.equal(sprachmodulUrteil(p.slug, namen.concat(['textsatz-fr-modul.json'])).ok, false, p.slug + ': Rot-Beweis — ein zweites Sprachmodul fällt auf');
   }

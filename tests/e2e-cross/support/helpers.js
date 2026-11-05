@@ -153,7 +153,8 @@ const kern = {
   },
   /* Nach dem Anlegen können EINMAL-Dialoge anfallen, die keine Reise erwartet: der
      Wiedereinstiegs-Hinweis (beim ersten Datei-Sichern) und seit U2-ADR-095 das
-     Notfall-Blatt-Angebot. Sie liegen über der Sitzung und fangen jeden folgenden Klick ab
+     Notfall-Blatt-Angebot. Seit S2 (31.10.2026) ist der Wiederherstellungs-Code Schritt 2 des Anlege-Dialogs (#whc-angebot,
+     „Später einrichten“ als #m-zweit), danach kommt kein Blatt-Angebot mehr. Sie liegen über der Sitzung und fangen jeden folgenden Klick ab
      (Playwright meldet dann „#modal-inhalt intercepts pointer events" an einer Stelle, die
      damit nichts zu tun hat). Bewusst NICHT auf einen bestimmten Dialog verdrahtet: welche
      anfallen und in welcher Reihenfolge, hängt am Speicher-Modus der Umgebung. Der Helfer
@@ -161,6 +162,7 @@ const kern = {
   async einmalDialogeSchliessen(page, fristMs = 10000) {
     const ende = Date.now() + fristMs;
     let angebotWeg = false;
+    let freiSeit = 0;
     while (Date.now() < ende) {
       // NUR an den festen Griffen entscheiden, nie „irgendeinen offenen Dialog wegklicken":
       // ein blinder Klick auf #m-ok traf schon den Anlege-Dialog (Doppel-Absenden) bzw. das
@@ -168,7 +170,9 @@ const kern = {
       if (await page.locator('#safari-datei-nach-anlegen').isVisible().catch(() => false)) {
         await page.click('#m-zweit');                 // WebKit im Tab (Safari-Lücke A, U2-ADR-211): „Später“ beim Datei-Schritt, er reiht sich vor das Code-Angebot
       } else if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
-        await page.click('#m-zweit');               // U2-ADR-430: „Ohne Code weiter" — der benannte Ablehnungs-Schritt folgt
+        // S2: im Anlege-Weg Schritt 2, „Später einrichten“ beendet die Reihe; auf anderen Wegen folgt der benannte Ablehnungs-Schritt.
+        angebotWeg = angebotWeg || await page.locator('#whc-angebot[data-zwei-schritte]').count() > 0;
+        await page.click('#m-zweit');
       } else if (await page.locator('#whc-tragweite').isVisible().catch(() => false)) {
         await page.click('#m-zweit');               // die Ablehnung bestätigen; danach das Notfall-Blatt-Angebot
       } else if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) {
@@ -178,11 +182,16 @@ const kern = {
         await page.click('#m-ok');
       } else if (angebotWeg && !(await page.locator('#modal-rueck.an').count())) {
         return;
+      } else if (!(await page.locator('#modal-rueck.an').count())) {
+        // Schritt 2 schon erledigt (Code eingerichtet): es folgt nichts mehr; frei für 1,5 s heißt fertig.
+        if (!freiSeit) freiSeit = Date.now(); else if (Date.now() - freiSeit > 1500) return;
+      } else {
+        freiSeit = 0;
       }
       await page.waitForTimeout(100);
     }
     throw new Error('Einmal-Dialoge nach dem Anlegen nicht abgeräumt (Frist ' + fristMs + ' ms) — '
-      + 'erschien das Notfall-Blatt-Angebot (#nfb-angebot) nicht?');
+      + 'blieb ein Dialog offen, für den der Helfer keinen Griff kennt?');
   },
   // U2-ADR-171 (25.08.2026): der Bereichs-Knopf steckt seit heute in einem kollabierbaren
   // <details class="nav-gruppe"> — derselbe Fix wie in tests/e2e/helpers.js oeffneSektor()
@@ -218,7 +227,7 @@ const kern = {
     // nav-gruppe-Klick oben, eine Ebene tiefer — s. tests/e2e/helpers.js feldgruppenKartenOeffnen()
     // (inline nachgebaut statt requiriert, damit diese Datei wie im Kopfkommentar beschrieben
     // eigenständig bleibt).
-    const karten = page.locator('#content .feldgruppen-karte:not([open]) > summary');
+    const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary');
     while (await karten.count()) await karten.first().click();
   },
   // Typ-bewusst: ein Sektor-Feld rendert je nach Definition als
@@ -238,6 +247,8 @@ const kern = {
       await page.fill(`[data-edit-code="${feldId}"]`, wert);
     } else if (await page.locator(`[data-edit-ref="${feldId}"]`).count()) {
       await page.fill(`[data-edit-override="${feldId}"]`, wert);
+    } else if (await page.locator(`.datum-dreifeld [data-edit="${feldId}"]`).count()) {
+      await kern.datumSetzen(page, `[data-edit="${feldId}"]`, wert);   // Datum in drei Feldern (Zielbild S4)
     } else {
       await page.fill(`[data-edit="${feldId}"]`, wert);
     }
@@ -246,15 +257,19 @@ const kern = {
     // wieder eingeklappt zurück (s. Kommentar an oeffneSektor). Ein Aufrufer, der mehrere Felder
     // derselben Karte hintereinander setzt, fände das zweite sonst wieder unsichtbar.
     {
-      const karten = page.locator('#content .feldgruppen-karte:not([open]) > summary');
+      const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary');
       while (await karten.count()) await karten.first().click();
     }
+  },
+  // Datum in drei Feldern: gleicher Helfer wie in den Proben unter tests/e2e (Teile füllen, Jahr verlassen).
+  async datumSetzen(page, selektor, iso) {
+    return require('../../e2e/helpers').datumSetzen(page, selektor, iso);
   },
   async setzeAuswahl(page, feldId, wert) {
     await page.selectOption(`[data-edit="${feldId}"]`, wert);
     await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); window.__vdOeffentlich.renderContent(); });
     {
-      const karten = page.locator('#content .feldgruppen-karte:not([open]) > summary');
+      const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary');
       while (await karten.count()) await karten.first().click();
     }
   },

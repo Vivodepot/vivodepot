@@ -5,7 +5,7 @@
 **Kategorie:** ARCHITEKTUR, DATENMODELL, UX
 **Cross-Referenz (v1-RC / Produktiv):** `mehr()`-Blöcke, `sucheCodes`/`CODELIST_REGISTRY`, `_SBL_SITUATIONEN`, `erb_*`-Felder; ADR-077 v3 (KI-Verfügung). `sucheCodes` und `_SBL_SITUATIONEN` sind Namen aus dem v1-RC-Code; im U2-Kern standen sie nie (Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js`; nachzusehen mit `git log -S sucheCodes -- vivodepot.html`).
 **U2-Bezug:** U2-ADR-006 (Andock-Architektur, Code-Slot), U2-ADR-008 (Propagation), U2-ADR-009 (Template-Architektur), Architektur-Anker (zwei Feld-Schichten).
-**Status heute:** gilt — Drei-Ebenen/Zwei-Schichten-Modell und die Listen-Render-Schicht im Kern nachweisbar (`feldWertHTML`/`listenEintragZusammenfassung`/`feldInputHTML` ab `vivodepot.html:29881` ff., `codeSlotSicherstellen` `:17845`).
+**Status heute:** gilt — Drei-Ebenen/Zwei-Schichten-Modell und die Listen-Render-Schicht im Kern nachweisbar (`feldWertHTML`/`listenEintragZusammenfassung`/`feldInputHTML` in `vivodepot.html`, `codeSlotSicherstellen()` ebenda).
 
 ---
 
@@ -72,6 +72,11 @@ Die Render-Schicht hat drei Stücke: eine Zusammenfassungs-Zeile pro Eintrag in 
 - Ob die Situationsblatt-Schicht Teile der Bereichs-Maschine wiederverwendet oder eine eigenständige Render-Funktion bekommt — Detail beim Bau dieser Schicht.
 
 ## Implementations-Verweis
+
+**Code-Anker** (nachgezogen 31.10.2026; die Commits unten sind seit der Historien-Umschreibung 2026 nicht mehr auflösbar):
+- Datenmodell: Feldeigenschaften `sichtbarWenn` und `einfuehrungstext`, Tabelle `CROSS_SEKTOR_FELDER`, Listen-Unterfelder über `listenEintragHinzufuegen()` in `vivodepot.html`; Proben `tests/identitaet-sektor.test.js` und `tests/a473-liste-unterfelder-uebersicht.test.js`.
+- Render-Schicht: `feldWertHTML()`, `listenEintragZusammenfassung()`, `feldInputHTML()` in `vivodepot.html`; Probe `tests/fachaerzte-liste.test.js`.
+- Code-Slot: `codeSlotSicherstellen()` in `vivodepot.html`; Probe `tests/andock-code.test.js`.
 
 Der Datenmodell-Teil dieser ADR ist im Phase-1-Commit Kern *(nicht mehr auflösbar — Historien-Umschreibung 2026, ADR-Datum 30.05.2026)* umgesetzt (liste-Sub-Felder-Logik, `sichtbarWenn`, `einfuehrungstext`, befüllbares `CROSS_SEKTOR_FELDER`, PARTNER-Rolle); Suite-Commit *(nicht mehr auflösbar — Historien-Umschreibung 2026, ADR-Datum 30.05.2026)*, 84/84 grün.
 

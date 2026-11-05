@@ -37,10 +37,10 @@ Weg zum Nachsehen: `git show origin/u2-kanon:docs/adr/vivodepot-B16-ADR-033-wcag
 
 1. **Der Satz „Vivodepot ist BFSG-konform als Bürger-Produkt“ gilt nicht mehr.** Er sagt ein Rechtsergebnis, das nicht belegt ist (Punkt 5). Ebenso gelten „Status: Umgesetzt“ und „implementiert WCAG 2.2 Level AA vollständig“ nicht als Zustand: vollständig ist nichts belegt (Punkt 5); Tastaturbedienung und 200 % Zoom sind ohne eigenen Gesamtdurchgang. Der Originaltext bleibt stehen. Außentexte und Dokumente sagen nicht „BFSG-konform“.
 2. **Der Maßstab bleibt WCAG 2.2 Stufe AA** (B16-ADR-018 und diese ADR). Das ist eine Entscheidung über den Prüfmaßstab, keine Aussage, dass alles erfüllt ist.
-3. **Automatisch geprüft wird so:** `tests/konformitaet/wcag-axe.mjs` (Kern) und `tests/konformitaet/wcag-axe-lesen.mjs` (Lese-App) laufen mit axe-core und den Tags `wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa` und `EN-301-549` im `pre-push` (`npm run test:konformitaet`) und verlangen 0 Verstöße jeder Schwere über alle gescannten Sichten (gemessen am 22.10.2026: 31 Sichten der Anwendung und 16 der Lese-App; U2-ADR-221 nannte am 02.09.2026 noch 39, seit dem Verschluss des Kerns am 18.09.2026 sind es weniger). Grenzen, so benannt:
-   - Sieben Sichten der Anwendung werden derzeit nicht gescannt: Notfall, Bestandsauswahl, Prüftermine, Depot-Liste, Eintragen-Übersicht, verwaltete Depots und der Dialog zum Entsiegeln eines Sub-Depots. Ob sie Verstöße haben, ist nicht gemessen.
+3. **Automatisch geprüft wird so:** `tests/konformitaet/wcag-axe.mjs` (Kern) und `tests/konformitaet/wcag-axe-lesen.mjs` (Lese-App) laufen mit axe-core und den Tags `wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa` und `EN-301-549` im `pre-push` (`npm run test:konformitaet`) und verlangen 0 Verstöße jeder Schwere über alle Sichten der Sollliste `tools/axe-sichten.json`. Seit dem 23.10.2026 (Befund AXE-SICHTEN-STILL-UNGEPRUEFT, Commit 572522029) macht eine Sicht der Liste, die sich nicht öffnen lässt, den Lauf rot; eine Ausnahme steht nur namentlich mit Grund in der Liste. Die Zahl der Sichten steht dort, nicht hier. Grenzen, so benannt:
+   - Bis zum 23.10.2026 fielen sieben Sichten der Anwendung aus dem Lauf: Notfall, Bestandsauswahl, Prüftermine, Depot-Liste, Eintragen-Übersicht, verwaltete Depots und der Dialog zum Entsiegeln eines Sub-Depots. Seitdem stehen sie in der Sollliste und werden gescannt.
    - Die Logo-Elemente (`.logo-wort`, `.vd-logo`) nimmt `.exclude()` aus **allen** Regeln, nicht nur aus 1.4.3.
-   - Sichten, die sich nicht öffnen lassen, werden übersprungen, ohne als Fehler zu gelten; ein Teil wird dabei gemeldet, ein Teil fällt ohne Meldung weg (Notfall und Bestandsauswahl).
+   - Bis zum 23.10.2026 wurden Sichten, die sich nicht öffnen ließen, übersprungen, ohne als Fehler zu gelten, ein Teil davon ohne Meldung (Notfall und Bestandsauswahl). Seitdem gilt die Sollliste (oben).
    - Die Bearbeiten-Strecke war schon in der Gesamtprüfung vom 06.09.2026 nicht live geprüft.
    - Die experimentelle axe-Regel `label-content-name-mismatch` (2.5.3, Label im Namen) läuft nicht.
    - axe findet erfahrungsgemäß nur einen Teil der Fehler; oft wird rund ein Drittel der Erfolgskriterien genannt (keine eigene Messung).
@@ -59,15 +59,14 @@ Weg zum Nachsehen: `git show origin/u2-kanon:docs/adr/vivodepot-B16-ADR-033-wcag
 
 ### Folgen
 
-Die Aussage „BFSG-konform“ steht weder in Außentexten noch in Dokumenten, solange (5) bis (7) offen sind. Die Außenaussage ist: WCAG 2.2 AA als Maßstab, automatisch geprüft nur in dem Umfang, den Punkt 3 mit Datum und Grenzen nennt (31 Sichten der Anwendung und 16 der Lese-App gescannt, sieben Sichten der Anwendung nicht), so wie die Erklärung sie nennt. Die offenen Punkte stehen als Aussagen mit Zustand `offen` im Block, mit Frist und Bedingung; ein Punkt wird erst geschlossen, wenn eine Probe oder eine Entscheidung dafür steht.
+Die Aussage „BFSG-konform“ steht weder in Außentexten noch in Dokumenten, solange (5) bis (7) offen sind. Die Außenaussage ist: WCAG 2.2 AA als Maßstab, automatisch geprüft nur in dem Umfang, den Punkt 3 mit seinen Grenzen nennt (gescannt werden die Sichten der Sollliste `tools/axe-sichten.json`), so wie die Erklärung sie nennt. Die offenen Punkte stehen als Aussagen mit Zustand `offen` im Block, mit Frist und Bedingung; ein Punkt wird erst geschlossen, wenn eine Probe oder eine Entscheidung dafür steht.
 
 ```yaml
 konformitaet:
   - aussage: >-
-      Der Prüfmaßstab ist WCAG 2.2 AA; axe-core prüft die gescannten Sichten des Kerns und der Lese-App mit den Tags wcag2a, wcag2aa,
-      wcag21aa, wcag22aa und EN-301-549 im pre-push und verlangt 0 Verstöße. Gescannt werden am 22.10.2026 31 Sichten der Anwendung und
-      16 der Lese-App; sieben Sichten der Anwendung fehlen (Notfall, Bestandsauswahl, Prüftermine, Depot-Liste, Eintragen-Übersicht,
-      verwaltete Depots, Dialog zum Entsiegeln eines Sub-Depots).
+      Der Prüfmaßstab ist WCAG 2.2 AA; axe-core prüft die Sichten des Kerns und der Lese-App mit den Tags wcag2a, wcag2aa,
+      wcag21aa, wcag22aa und EN-301-549 im pre-push und verlangt 0 Verstöße. Gescannt werden genau die Sichten der Sollliste
+      tools/axe-sichten.json; eine Sicht der Liste, die sich nicht öffnen lässt, macht den Lauf rot (seit 23.10.2026).
     zustand: geprüft
     herkunft: B16-ADR-033-Nachtrag (22.10.2026), U2-ADR-221
     pruefung:
@@ -81,8 +80,7 @@ konformitaet:
       - tests/u2-adr-260-sprachkennung-folgt-modul.test.js "[U2-ADR-260·lang] das angedockte Sprachmodul bestimmt die Kennung"
   - aussage: >-
       Grenzen des axe-Laufs, aus dem Quelltext von tests/konformitaet/wcag-axe.mjs gelesen: Logo-Elemente sind aus allen
-      Regeln ausgenommen; Sichten, deren Öffner im Produkt nicht erreichbar ist, werden übersprungen (ein Teil davon ohne
-      Meldung); die Regel für 2.5.3 läuft nicht; die Bearbeiten-Strecke wird nicht gescannt.
+      Regeln ausgenommen; die Regel für 2.5.3 läuft nicht; die Bearbeiten-Strecke wird nicht gescannt.
     zustand: nicht-prüfbar
     grund: Die Aussage beschreibt, was die Probe nicht prüft; sie ist am Quelltext der Probe nachzulesen, nicht durch einen Test zu sichern.
     herkunft: B16-ADR-033-Nachtrag (22.10.2026)

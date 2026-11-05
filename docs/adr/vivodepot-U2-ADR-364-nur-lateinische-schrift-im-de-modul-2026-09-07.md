@@ -105,7 +105,7 @@ Metadaten-Schlüssel nicht mitgezählt werden.
 Regression (gezielt): das Gate fand einen echten Konflikt mit `tests/buergermodul-bereich-erzeugen-
 u2-adr-319.test.js:104` — dieser Wächter vergleicht jeden gemeinsamen Feld-Pfad des heutigen
 Bestands `deepStrictEqual` gegen den bei `debcb406` **eingefrorenen** Bestand
-(`tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json`), unverändert seit ihrer
+(die eingefrorene Struktur-Fixture aus U2-ADR-320, nicht im öffentlichen Repository), unverändert seit ihrer
 einzigen Commit (`f1a2ab5b`). Das Feld `identitaet#person.familienname_zuerst` trug dort noch
 den alten Hinweistext. **Dies ist die erste inhaltliche Textänderung an einem gebündelten Feld
 seit dem Freeze** — ausgelöst dadurch, dass ein chinesisches Beispiel in einem

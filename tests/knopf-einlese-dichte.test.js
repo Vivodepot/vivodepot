@@ -65,7 +65,8 @@ test('B1) Vorsorge (Teil 1): Instrument-Wizard pvwiz direkt, Anlass-Wizards unte
   assert.ok(html.includes('data-wizard-start="pvwiz"'), 'pvwiz-Startknopf vorhanden');
   // Anlass-Wizards unter der sichtbaren Kategorie „Übergänge". Summary trägt Icon (SVG) + Text.
   assert.ok(html.includes('<details class="wizard-gruppe">'), 'Übergänge-Aufklapp-Zeile vorhanden');
-  assert.match(html, /<summary>[\s\S]*?Übergänge[\s\S]*?<\/summary>/, 'Summary-Text „Übergänge"');
+  // Der Titel der Gruppe kommt aus dem Textsatz (v992: „Für besondere Anlässe“); die Probe liest ihn von dort.
+  assert.ok(new RegExp('<summary>[\\s\\S]*?' + V.STRINGS.wizardUebergaengeTitel + '[\\s\\S]*?</summary>').test(html), 'Summary-Text ' + V.STRINGS.wizardUebergaengeTitel);
   assert.ok(html.includes('data-wizard-start="pflwiz"') && html.includes('data-wizard-start="heirwiz"'),
     'pflwiz und heirwiz als Anlass-Wizards vorhanden');
   // pvwiz steht NICHT innerhalb der Übergänge-Gruppe (Instrument ohne Sammel-Überschrift).

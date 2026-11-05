@@ -27,15 +27,37 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
-const { vorlageAufloesen } = require('./vorlage-aufloesen.js');
+const { vorlageAufloesen, vorlagenOrdnerAufloesen } = require('./vorlage-aufloesen.js');
 
 const REPO = path.join(__dirname, '..', '..');
 
 const EN_MODUL_PFAD = path.join(REPO, 'tools', 'textsatz-en-modul.json');
 const DE_MODUL_PFAD = path.join(REPO, 'tools', 'textsatz-de-modul.json');
+// Das Sprachmodul von Pro (21.10.2026): das gemeinsame Modul mit eigenen Startseitensätzen statt der Lebenslagen von Privat,
+// erzeugt aus dem gemeinsamen Modul und einer kleinen Ersetzungsliste; es gehört zum Pro-Produkt wie dessen Vorlagen.
+const DE_PRO_MODUL_PFAD = path.join(REPO, 'tools', 'textsatz-de-pro-modul.json'); // zuschnitt-privat: nur der Produktbau von Pro liest diesen Pfad
+const EN_PRO_MODUL_PFAD = path.join(REPO, 'tools', 'textsatz-en-pro-modul.json'); // zuschnitt-privat: nur der Produktbau von Pro liest diesen Pfad
+// Abgeleitete Sprachmodule (25.10.2026): EINE Liste Ziel → Quelle für den Erzeuger und für jeden Prüfer, der über die
+// Sprachmodule zählt. Ein abgeleitetes Modul ist das Quellmodul mit wenigen ersetzten Sätzen; es ist byte-gleich mit der
+// Ausgabe seines Erzeugers (eine Drift-Probe verlangt es). Ein Prüfer zählt seine Vorkommen darum über die Quelle, nicht doppelt.
+const ABGELEITETE_SPRACHMODULE = Object.freeze([
+  Object.freeze({ sprache: 'de', ziel: DE_PRO_MODUL_PFAD, quelle: DE_MODUL_PFAD }),
+  Object.freeze({ sprache: 'en', ziel: EN_PRO_MODUL_PFAD, quelle: EN_MODUL_PFAD }),
+]);
+// Die Quelle eines abgeleiteten Sprachmoduls (absoluter Pfad), sonst null.
+function abgeleitetesSprachmodulQuelle(abs) {
+  const e = ABGELEITETE_SPRACHMODULE.find((x) => x.ziel === path.resolve(abs));
+  return e ? e.quelle : null;
+}
 // Das Vor-Depot-Sprachangebot (U2-ADR-428): die Kennungen der Schirme vor dem Depot in der zweiten Sprache. Das deutsche Produkt trägt es (der „English“-Knopf); ein
 // englisches Produkt hat Englisch als seine Sprache und braucht es nicht. modulTyp `sprachangebot`, Region AB_WERK_SPRACHANGEBOT_QUELLEN.
 const SPRACHANGEBOT_EN_PFAD = path.join(REPO, 'tools', 'sprachangebot-en-vordepot-modul.json');
+// Pro trägt ein eigenes Sprachangebot (29.10.2026): dasselbe Vor-Depot-Modul mit den Startseitensätzen von Pro. Mit dem gemeinsamen
+// zeigte pro-de nach „English“ Tagline und Unterzeile von Privat. Erzeugt wie die Pro-Sprachmodule, vom selben Erzeuger.
+const SPRACHANGEBOT_EN_PRO_PFAD = path.join(REPO, 'tools', 'sprachangebot-en-vordepot-pro-modul.json'); // zuschnitt-privat: nur der Produktbau von Pro liest diesen Pfad
+const ABGELEITETE_SPRACHANGEBOTE = Object.freeze([
+  Object.freeze({ sprache: 'en', ziel: SPRACHANGEBOT_EN_PRO_PFAD, quelle: SPRACHANGEBOT_EN_PFAD }),
+]);
 const PRO_MODUL_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // "Pro-Achse englisch" (08.09.2026): pro-en zeigte bislang die deutsche Prosa des
 // Logikmoduls, weil derselbe PRO_MODUL_PFAD wie pro-de gedockt wurde — kein EN-Zwilling
@@ -115,10 +137,10 @@ const BEREICH_TEMPLATE_PFAD_IDENTITY = path.join(BEREICH_TEMPLATE_VERZEICHNIS, '
 
 // Schnitt-Vorbereitung (17.09.2026) — Gegenstück für `dokumentModule`: dieselben vier amtlichen
 // Dokumentmodule (PV/KI/Vollmacht/Betreuung) in JEDEM Produkt, sprach-/produktunabhängig wie
-// AB_WERK_BASISTEMPLATE_DE. Die vier `vivodepot-standardvorlage-*.json`-Dateien im selben
+// die Standardvorlagen. Die vier `vivodepot-standardvorlage-*.json`-Dateien im selben
 // Verzeichnis sind seit dem Gerüst-Schnitt S4 verdrahtet (STANDARD_VORLAGEN_PFADE_4 unten).
 const DOKUMENT_MODUL_VERZEICHNIS = path.join(REPO, 'tools', 'dokument-module'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
-/* Gerüst-Schnitt S4 (21.09.2026): die vier amtlichen Standardvorlagen (AB_WERK_BASISTEMPLATE_DE ist im Gerüst leer) stehen als
+/* Gerüst-Schnitt S4 (21.09.2026): die vier amtlichen Standardvorlagen stehen nicht im Gerüst, sondern als
    `standardVorlage`-Moduldateien im Rezept jedes Produkts. DIE REIHENFOLGE IST FEST und ist Inhalt, kein Zufall: die Vorlagen-Listung
    im Kern folgt der Reihenfolge, in der die Region gebacken wird (patientenverfuegung, betreuungsverfuegung, vorsorgevollmacht,
    organspende — wie sie vor dem Schnitt im Gerüst standen). Alphabetisch (wie readdirSync sie liefert) ergäbe eine andere Listung;
@@ -132,14 +154,37 @@ const DOKUMENT_MODUL_PFADE_4 = Object.freeze([
   'vivodepot-dokumentmodul-vorsorgevollmacht.json', 'vivodepot-dokumentmodul-betreuungsverfuegung.json',
 ].map((datei) => path.join(DOKUMENT_MODUL_VERZEICHNIS, datei)));
 
-// Gerüst-Schnitt S2/S6 (20.09.2026): die drei Dokument-Wortlaute (PV_BMJ/KI_KORPUS/VOLLMACHT_BMJ), vormals
-// AB_WERK_DOKUMENTE_DE im Kern, jetzt eine Moduldatei (modulTyp 'dokumente'), in jedem Produkt.
+// Gerüst-Schnitt S2/S6 (20.09.2026): die Dokument-Wortlaute, vormals AB_WERK_DOKUMENTE_DE im Kern, jetzt eine Moduldatei (modulTyp
+// 'dokumente'), in jedem Bürgerprodukt. Seit U2-ADR-507 (Nachtrag 29.10.2026) trägt sie nur noch die Textteile der Patientenverfügung
+// und den Umschlag ihres Assistenten; die Schritte von Patientenverfügung und Vollmacht stehen als Bauplan im Rechtsraum-Modul.
 const DOKUMENTE_DE_PFAD = path.join(DOKUMENT_MODUL_VERZEICHNIS, 'vivodepot-dokumente-de.json');
+// U2-ADR-507 (Nachtrag 29.10.2026): der KI-Korpus ist eigene Redaktion (U2-ADR-396) und steht in einer eigenen Moduldatei (modulTyp
+// 'kiKorpus', Region AB_WERK_KI_KORPUS), in jedem Bürgerprodukt; Pro trägt ihn nicht.
+const KI_KORPUS_PFAD = path.join(DOKUMENT_MODUL_VERZEICHNIS, 'vivodepot-ki-korpus.json');
 // Pro P2 (24.10.2026, U2-ADR-243 §9): Pro bietet keine Gesundheit an und trägt kein Dokumentmodul; diese schlanke Datei hält nur die
-// Schritte der Patientenverfügung, damit vorhandene Festlegungen ruhend lesbar bleiben (erzeugt aus DOKUMENTE_DE_PFAD).
+// Schritte der Patientenverfügung, damit vorhandene Festlegungen ruhend lesbar bleiben. Seit U2-ADR-507 ist sie eine Bauplan-Ergänzung
+// (modulTyp 'rechtsraumBauplan') mit dem Bauplan der Patientenverfügung allein.
 const PRO_DOKUMENTE_FESTLEGUNGEN_PFAD = path.join(DOKUMENT_MODUL_VERZEICHNIS, 'vivodepot-pro-dokumente-festlegungen.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad
 // Gerüst-Schnitt S3 (20.09.2026): der deutsche Rechtsraum-Katalog ist eine Moduldatei, in jedem Produkt.
 const RECHTSRAUM_DE_PFAD = path.join(REPO, 'tools', 'rechtsraum-de-modul.json');
+/* U2-ADR-507 (Nachtrag 29.10.2026): der Bauplan von Patientenverfügung und Vollmacht wird nicht mit dem Rechtsraum-Modul
+   veröffentlicht. Er steht in Bauplan-Ergänzungen (modulTyp 'rechtsraumBauplan'), die der Produktbau in das Rechtsraum-Modul
+   einsetzt (tools/lib/produkt-text-erzeugen.js). Gefunden werden sie nach ihrem Modultyp im Ordner der Dokumentvorlagen, ohne die
+   schlanke Datei von Pro; im öffentlichen Zuschnitt ist das der Ordner der erfundenen Gegenstücke (tools/lib/vorlage-aufloesen.js,
+   Entscheidung 17.10.2026: jede Prosa erfunden). Fehlt auch er, ist die Liste leer, und der Produktbau meldet den Bauplan als offen.
+   Die Liste entsteht beim Laden dieser Datei. Werkzeuge, die sie in einer Teilkopie des Repos laden (etwa die Rot-Beweise der
+   Farbprobe), haben den Ordner nicht; dort bleibt die Liste leer, statt dass das Laden abbricht. */
+function rechtsraumBauplanPfade(verzeichnis) {
+  let ordner = verzeichnis;
+  if (!ordner) {
+    try { ordner = vorlagenOrdnerAufloesen(REPO, DOKUMENT_MODUL_VERZEICHNIS); } catch (_) { return []; }
+  }
+  if (!ordner || !fs.existsSync(ordner)) return [];
+  return fs.readdirSync(ordner).filter((n) => n.endsWith('.json')).sort()
+    .map((n) => path.join(ordner, n))
+    .filter((p) => path.basename(p) !== path.basename(PRO_DOKUMENTE_FESTLEGUNGEN_PFAD) && JSON.parse(fs.readFileSync(p, 'utf8')).modulTyp === 'rechtsraumBauplan');
+}
+const RECHTSRAUM_BAUPLAN_PFADE = Object.freeze(rechtsraumBauplanPfade());
 /* Das Erscheinungsbild (U2-ADR-473 Nachtrag, v894, 02.10.2026): das Gerüst trägt keine Erscheinungswerte, jedes Produkt bekommt
    sie als Zutat `erscheinungsbildModul`. Heute tragen alle vier Produkte dasselbe Modul „heute" — gebaut aus
    tools/erscheinung/heute.css (node tools/erscheinungsbild-modul.js). Profile (v898, v899) kommen als weitere Module dieser Form. */
@@ -165,7 +210,7 @@ const AB_WERK_FIXTURE_PFADE_4 = Object.freeze([
 // U2-ADR-435 (19.09.2026, „Angehörigen-Blätter sind Template, kein Gerüst"): die fünf früher
 // hartkodierten Angehörigen-Blätter (bis ANG1 die Konstante `_ANG_SITUATIONEN`) als Rechtsraum-DE-Vorlage —
 // in ALLEN vier Produkten (Rechtsraum DE, nicht Produktstufe: Privat UND Pro tragen sie), deutsch in den
-// deutschen, englisch in den englischen (ANGEHOERIGEN_VORLAGE_PFAD_EN). Von Hand gepflegt (kein Generator mehr): tools/angehoerigen-vorlagen/, Grundlinie tests/fixtures/angehoerigen-blaetter-vor-abriss-2026-09-19.json.
+// deutschen, englisch in den englischen (ANGEHOERIGEN_VORLAGE_PFAD_EN). Von Hand gepflegt (kein Generator mehr): tools/angehoerigen-vorlagen/, Grundlinie eine eingefrorene Fixture, die drinnen bleibt.
 const ANGEHOERIGEN_VORLAGE_PFAD_DE = path.join(REPO, 'tools', 'angehoerigen-vorlagen', 'vivodepot-angehoerigen-de.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 const ANGEHOERIGEN_VORLAGE_PFAD_EN = path.join(REPO, 'tools', 'angehoerigen-vorlagen', 'vivodepot-angehoerigen-en.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 
@@ -199,10 +244,10 @@ const PRO_SITUATIONEN_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot
    kommt für den Erstverkauf nicht ab Werk in pro-de/pro-en; es kehrt mit der Berufsmodul-Wahl beim Kauf zurück (ADR 489). Die
    Moduldateien bleiben im Bestand (PRO_NOTAR_TEMPLATE_PFAD_DE/EN oben). Das Verbot steht im DoD-Werkzeug (TEMPLATES_VERBOTEN_JE_SLUG). */
 const PRODUKTE_ALLE = Object.freeze([
-  Object.freeze({ slug: 'privat-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
-  Object.freeze({ slug: 'privat-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
-  Object.freeze({ slug: 'pro-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: PRO_MODUL_PFAD, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], [PRO_DOKUMENTE_FESTLEGUNGEN_PFAD], [RECHTSRAUM_DE_PFAD], [BEREICHE_NATIV_KATALOG_PFAD], [PRO_SITUATIONEN_PFAD_DE], [IPS_BEGLEITTEXT_PFAD], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD, ...PRO_AUSZUG_PFADE_DE, ...PRO_E2_VORLAGE_PFADE_DE]) }),
-  Object.freeze({ slug: 'pro-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: PRO_MODUL_PFAD_EN, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], [PRO_DOKUMENTE_FESTLEGUNGEN_PFAD], [RECHTSRAUM_DE_PFAD], [BEREICHE_NATIV_KATALOG_PFAD], [PRO_SITUATIONEN_PFAD_EN], [IPS_BEGLEITTEXT_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD, ...PRO_AUSZUG_PFADE_EN, ...PRO_E2_VORLAGE_PFADE_EN]) }),
+  Object.freeze({ slug: 'privat-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, KI_KORPUS_PFAD, RECHTSRAUM_DE_PFAD], RECHTSRAUM_BAUPLAN_PFADE, STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
+  Object.freeze({ slug: 'privat-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, KI_KORPUS_PFAD, RECHTSRAUM_DE_PFAD], RECHTSRAUM_BAUPLAN_PFADE, STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
+  Object.freeze({ slug: 'pro-de', sprache: 'de', sprachModulPfad: DE_PRO_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: PRO_MODUL_PFAD, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], [PRO_DOKUMENTE_FESTLEGUNGEN_PFAD], [RECHTSRAUM_DE_PFAD], [BEREICHE_NATIV_KATALOG_PFAD], [PRO_SITUATIONEN_PFAD_DE], [IPS_BEGLEITTEXT_PFAD], [SPRACHANGEBOT_EN_PRO_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD, ...PRO_AUSZUG_PFADE_DE, ...PRO_E2_VORLAGE_PFADE_DE]) }),
+  Object.freeze({ slug: 'pro-en', sprache: 'en', sprachModulPfad: EN_PRO_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: PRO_MODUL_PFAD_EN, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, bereicheBenennenPfad: BEREICHE_BENENNEN_PRODUKT, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], [PRO_DOKUMENTE_FESTLEGUNGEN_PFAD], [RECHTSRAUM_DE_PFAD], [BEREICHE_NATIV_KATALOG_PFAD], [PRO_SITUATIONEN_PFAD_EN], [IPS_BEGLEITTEXT_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD, ...PRO_AUSZUG_PFADE_EN, ...PRO_E2_VORLAGE_PFADE_EN]) }),
 ]);
 /* Im öffentlichen Zuschnitt fehlen die Vorlagen der zweiten Schicht (Pro und andere) und haben kein erfundenes Gegenstück: dort besteht PRODUKTE nur aus den Produkten, die
    sich bauen lassen. Jeder Aufrufer, der alle Produkte durchläuft (der Bauweg, die E2E-Vorbereitung, die Gates), sieht damit die baubaren und bricht nicht an einem
@@ -445,11 +490,11 @@ function deutscheZeilenImEnglischenProdukt(V, deTexte, enModul) {
 
 module.exports = {
   verkaufteArtikelTabelle,
-  REPO, EN_MODUL_PFAD, DE_MODUL_PFAD, SPRACHANGEBOT_EN_PFAD, PRO_MODUL_PFAD, PRO_MODUL_PFAD_EN,
+  REPO, EN_MODUL_PFAD, DE_MODUL_PFAD, DE_PRO_MODUL_PFAD, EN_PRO_MODUL_PFAD, ABGELEITETE_SPRACHMODULE, abgeleitetesSprachmodulQuelle, SPRACHANGEBOT_EN_PFAD, SPRACHANGEBOT_EN_PRO_PFAD, ABGELEITETE_SPRACHANGEBOTE, PRO_MODUL_PFAD, PRO_MODUL_PFAD_EN,
   PRO_BEREICHS_ERSATZ_PFAD, PRO_VORLAGE_DE_PFAD, PRO_VORLAGE_EN_PFAD, PRO_SITUATIONEN_PFAD_DE, PRO_SITUATIONEN_PFAD_EN, PRO_NOTAR_TEMPLATE_PFAD_DE, PRO_NOTAR_TEMPLATE_PFAD_EN, PRO_AUSZUG_KENNUNGEN, PRO_AUSZUG_PFADE_DE, PRO_AUSZUG_PFADE_EN, PRO_E2_VORLAGE_KENNUNGEN, PRO_E2_VORLAGE_PFADE_DE, PRO_E2_VORLAGE_PFADE_EN, PRODUKTE, REZEPT_KOEPFE,
   BEREICHE_BEKANNT_PFAD, BEREICHE_BENENNEN_PFAD, ERSCHEINUNGSBILD_HEUTE_PFAD, ERSCHEINUNGSBILD_AB_WERK_PFAD, modulDateienFuer,
   BEREICH_TEMPLATE_VERZEICHNIS, BEREICH_TEMPLATE_PFADE_PRIVAT_13, BEREICH_TEMPLATE_PFADE_PRO_6,
-  DOKUMENT_MODUL_VERZEICHNIS, DOKUMENT_MODUL_PFADE_4, DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD, STANDARD_VORLAGEN_PFADE_4, BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD, AB_WERK_FIXTURE_VERZEICHNIS, AB_WERK_FIXTURE_PFADE_4,
+  DOKUMENT_MODUL_VERZEICHNIS, DOKUMENT_MODUL_PFADE_4, DOKUMENTE_DE_PFAD, KI_KORPUS_PFAD, RECHTSRAUM_DE_PFAD, RECHTSRAUM_BAUPLAN_PFADE, rechtsraumBauplanPfade, STANDARD_VORLAGEN_PFADE_4, BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD, AB_WERK_FIXTURE_VERZEICHNIS, AB_WERK_FIXTURE_PFADE_4,
   deutscheZeilenImEnglischenProdukt,
   PRODUKT_ZUSCHNITTE, ZUSCHNITT_KENNUNG, ZUSCHNITT_ODOO_PRODUKT_VORLAGE, BERUFSMODUL_VERZEICHNIS, berufsmoduleImBestand, zuschnitteAus, zuschnittRezeptKopf, auslieferbareProdukte, rezeptKoepfeAlle,
   ZUSCHNITT_ARTIKEL_BELEG_PFAD, zuschnittArtikelBelegLesen, zuschnittArtikelAbweichungen, zuschnittZurueckhaltung,

@@ -126,14 +126,22 @@ function konstText(quelle, name) {
 const VORSCHLAG_FUNKTIONEN = ['passwortWortliste', '_pwZufallsIndex', 'passwortVorschlag', 'pwVorschlagVerdrahten', 'escapeHTML'];
 const VORBELEGUNG = '  if (!feld.value) neu();';
 
+// Die Wortzeile baut pwVorschlagVerdrahten per DOM auf (createElement/textContent, keine HTML-Senke): der Ersatz führt darum
+// Kinder und liefert als textContent den Text aller Kinder; wer textContent setzt, leert die Kinder wie im Browser.
 function element(hidden) {
   const hoerer = {};
+  let kinder = [];
+  let eigenerText = '';
   return {
     value: '', hidden: !!hidden, innerHTML: '',
+    get textContent() { return eigenerText + kinder.map((k) => k.textContent).join(''); },
+    set textContent(t) { kinder = []; eigenerText = String(t); },
+    appendChild(k) { kinder.push(k); return k; },
     addEventListener(typ, f) { (hoerer[typ] = hoerer[typ] || []).push(f); },
     dispatchEvent(e) { for (const f of hoerer[e.type] || []) f(e); },
   };
 }
+const domErsatz = { createElement: () => element(false), createTextNode: (t) => ({ textContent: String(t) }) };
 // Ein Dialog mit einem Passwortfeld `id` und seiner Bestätigung `id + '2'`, so wie pwVorschlagHTML ihn anlegt.
 function dialog(id) {
   const els = {
@@ -152,7 +160,7 @@ function bauen(quelle, ohneVorbelegung) {
     teile = teile.replace(VORBELEGUNG, '');
   }
   return (els, woerter) => {
-    const document = { getElementById: (id) => els[id] || null, documentElement: { lang: 'de' } };
+    const document = Object.assign({ getElementById: (id) => els[id] || null, documentElement: { lang: 'de' } }, domErsatz);
     const STRINGS = { passwortWortliste: woerter.join(' ') };
     class Event { constructor(type) { this.type = type; } }
     return new Function('document', 'STRINGS', 'crypto', 'Event', teile + '\nreturn { pwVorschlagVerdrahten };')(
@@ -168,7 +176,8 @@ test('[PW-Vorschlag·vorbelegt] beim Öffnen steht der Vorschlag im Feld und sic
   assert.equal(wert.split('-').length, 6, 'sechs Wörter: ' + wert);
   assert.ok(wert.split('-').every((w) => WOERTER.includes(w)));
   assert.equal(els['id-pw-vorschlag-anzeige'].hidden, false, 'vorbelegt heißt sichtbar');
-  for (const w of wert.split('-')) assert.ok(els['id-pw-vorschlag-woerter'].innerHTML.includes(w), 'Wort angezeigt: ' + w);
+  for (const w of wert.split('-')) assert.ok(els['id-pw-vorschlag-woerter'].textContent.includes(w), 'Wort angezeigt: ' + w);
+  assert.equal(els['id-pw-vorschlag-woerter'].textContent, wert, 'die Zeile zeigt die Wörter mit Bindestrich, als Text');
   assert.equal(els['id-pw-eigen'].hidden, true, 'kein Hinweis zum eigenen Passwort');
   assert.equal(els['id-pw2'].value, '', 'die Bestätigung bleibt leer');
 });
@@ -207,7 +216,7 @@ test('[PW-Vorschlag·vorbelegt] selbst getippt ersetzt den Vorschlag ganz', () =
   assert.equal(els['id-pw'].value, 'sommer2026!');
   assert.equal(els['id-pw-vorschlag-anzeige'].hidden, true, 'der alte Vorschlag verschwindet');
   assert.equal(els['id-pw-eigen'].hidden, false, 'der Hinweis zum eigenen Passwort erscheint');
-  assert.ok(!els['id-pw-vorschlag-woerter'].innerHTML.includes('sommer2026'));
+  assert.ok(!els['id-pw-vorschlag-woerter'].textContent.includes('sommer2026'));
   assert.notEqual(vorschlag, 'sommer2026!');
 });
 

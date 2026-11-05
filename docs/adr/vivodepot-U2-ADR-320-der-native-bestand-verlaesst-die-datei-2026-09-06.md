@@ -5,8 +5,7 @@
 **Betrifft:** `vivodepot.html` (`SEKTOREN`), `tools/vd-privat-struktur-bundle-erzeugen.js`,
 `tools/inline-texte-messen.js`, `tools/textsatz-umstellen.js`, `tools/bereichs-ids-erheben.js`,
 `tools/waechter-register.js`, `tools/schicht2-additiv-oder-stufe-messen.js`,
-`tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json`,
-`tests/fixtures/e4-depot-zustand-EINGEFROREN-nativ-debcb406.json`
+zwei bei `debcb406` eingefrorene Fixtures des nativen Bestands (Struktur und Depot; seit 03.11.2026 nicht im öffentlichen Repository)
 
 - **Status heute:** gilt — `SEKTOREN` ist im Quelltext leer, die dreizehn Bereiche entstehen beim
   Laden aus dem eingebetteten Bündel. **2 146 Zeilen weniger in der Datei.** Der erzeugte Bestand
@@ -171,20 +170,20 @@ dieser ADR dazu nicht.
 
 ```
 Text ohne Feld    fängt der Erreichbarkeits-Wächter — keine tote Kennung
-Feld ohne Text    prüft NIEMAND
+Feld ohne Text    fängt die Erhebung aus U2-ADR-322 — abgeleitet aus dem Bestand
 ```
 
-**Ein Feld, dem seine Beschriftung fehlt, fällt heute erst der Bürgerin auf** — als leeres Label
-oder als `undefined`. **Und genau dieser Fall ist in diesem Zug eingetreten:** die zehn
-`exporte[].label` fielen beim Schnitt weg, und gemeldet hat es nicht der Textsatz, sondern der
-Vergleich gegen den eingefrorenen Bestand. Ein Zufall, kein Wächter.
+**Warum die zweite Richtung einen eigenen Wächter braucht:** Ein Feld, dem seine Beschriftung
+fehlt, fiele sonst erst der Bürgerin auf, als leeres Label oder als `undefined`. In diesem Zug ist
+genau das eingetreten: die zehn `exporte[].label` fielen beim Schnitt weg, und gemeldet hat es nicht
+der Textsatz, sondern der Vergleich gegen den eingefrorenen Bestand.
 
-**Was aussteht — nach entschiedener Vorgabe, nicht als offene Frage:**
+**Gebaut in U2-ADR-322**, mit der dort beschriebenen Probe, nach dieser Vorgabe:
 
 ```
-Rot-Beweis   ein Feld ohne seinen Text  ->  ROT     (fehlt)
-Rot-Beweis   ein Text ohne sein Feld    ->  ROT     (existiert)
-Ausbeute     die Probe prüft ZUERST, wie viele Felder sie gefunden hat —
+Rot-Beweis   ein Feld ohne seinen Text  ->  ROT
+Rot-Beweis   ein Text ohne sein Feld    ->  ROT
+Ausbeute     die Probe prüft ZUERST, wie viele Träger sie gefunden hat —
              sonst ist sie grün, weil sie nichts sieht
 ```
 

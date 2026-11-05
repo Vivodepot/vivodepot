@@ -28,18 +28,22 @@ async function ankerMitBetretenemSub() {
 function langsamerSpeicher(V, ms) {
   const holen = V.VdStore.holen.bind(V.VdStore);
   const setzen = V.VdStore.setzen.bind(V.VdStore);
+  const zustand = { schreibtGerade: false };
   V.VdStore.holen = async (id) => { await warte(ms); return holen(id); };
-  V.VdStore.setzen = async (rec) => { await warte(ms); return setzen(rec); };
+  V.VdStore.setzen = async (rec) => { zustand.schreibtGerade = true; try { await warte(ms); return await setzen(rec); } finally { zustand.schreibtGerade = false; } };
+  return zustand;
 }
 
 test('[Verlassen·während Sichern] der Anker behält seine verwalteten Depots, wenn der Sub verlassen wird, während das interne Sichern noch wartet', async () => {
   const { V, uuid } = await ankerMitBetretenemSub();
   assert.equal(V.ankerDaten().verwalteteDepots.length, 1, 'Vorbedingung: der Anker führt den Sub');
-  langsamerSpeicher(V, 40);
-  const sichern = V.depotInternSichern({ still: true });   // tauscht im Sub-Kontext data auf den Anker und wartet auf den Speicher
-  // Warten, bis das Sichern WIRKLICH im getauschten Zustand steht (data = Anker, Kontext noch Sub) — nicht eine geratene Zeit, sondern der Zustand selbst.
-  for (let i = 0; i < 200 && V.getData() !== V.ankerDaten(); i++) await warte(5);
-  assert.equal(V.getData(), V.ankerDaten(), 'Vorbedingung: das Sichern hat data auf den Anker getauscht und wartet auf den Speicher');
+  const speicher = langsamerSpeicher(V, 40);
+  const sichern = V.depotInternSichern({ still: true });   // wartet im Sub-Kontext auf den Speicher
+  // Warten, bis das Sichern WIRKLICH im Speicher steht — nicht eine geratene Zeit, sondern der Zustand selbst. (Bis 02.11.2026 hing das Sichern
+  // dabei `data` auf den Anker um; seit SUB-SICHERN-FENSTER bleibt `data` beim Sub, s. tests/sub-sichern-fenster.test.js.)
+  for (let i = 0; i < 400 && !speicher.schreibtGerade; i++) await warte(5);
+  assert.equal(speicher.schreibtGerade, true, 'Vorbedingung: das Sichern wartet auf den Speicher');
+  assert.equal(V.imSubKontext(), true, 'Vorbedingung: noch im Sub-Kontext');
   await V.subKontextVerlassen();                            // … und der Sub wird verlassen
   await sichern;                                            // erst danach wird das Sichern fertig
   assert.equal(V.imSubKontext(), false, 'wir sind im Anker-Kontext');
@@ -60,9 +64,10 @@ test('[Verlassen·während Sichern·Gegenprobe] ohne Verlassen bleibt die Sicht 
 });
 
 /* ── Gegen die Klasse, nicht nur den Einzelfall ───────────────────────────────────────────────────────────────────────────────────────────
-   Jede Stelle, die im Sub-Kontext `data` für die Wartezeit auf den Anker tauscht (`const _subData = data;`), muss den Rücktausch absichern: nur zurück, wenn
-   der Sub-Kontext noch derselbe ist. Ein ungesicherter Rücktausch (`finally { data = _subData; }`) ist genau der Fund. Die Probe oben belegt den Weg des
-   internen Speicherns; der Datei-Weg (`depotInDateiSichern`) hat dieselbe Bauform und braucht einen Browser-Download — hier hält ihn dieser Wächter. */
+   Bis 02.11.2026 tauschten beide Sichern-Wege im Sub-Kontext `data` für die Wartezeit auf den Anker (`const _subData = data;`) und mussten den Rücktausch
+   absichern. Seit SUB-SICHERN-FENSTER gibt es keinen Tausch mehr: der Anker wird der Serialisierung übergeben. Damit gibt es auch keinen Rücktausch, den ein
+   Verlassen stören könnte. Dieser Wächter verlangt das: kein Tausch, kein ungesicherter Rücktausch. Den breiteren Wächter (kein `data = _ankerData` außer beim
+   Verlassen, keine Zuweisung an `data` in einem finally) führt tests/sub-sichern-fenster.test.js. */
 const fs = require('node:fs');
 const path = require('node:path');
 const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
@@ -74,17 +79,18 @@ function befund(text) {
   return { tausch: (text.match(TAUSCH) || []).length, ungesichert: (text.match(UNGESICHERT) || []).length, gesichert: (text.match(GESICHERT) || []).length };
 }
 
-test('[Klasse·Rücktausch] jeder Tausch von data auf den Anker hat einen gesicherten Rücktausch — keinen ungesicherten', () => {
+test('[Klasse·Rücktausch] kein Sichern-Weg tauscht data auf den Anker, also gibt es keinen Rücktausch', () => {
   const b = befund(KERN);
-  assert.ok(b.tausch >= 2, 'die Tauschstellen sind gefunden (Positivkontrolle): ' + b.tausch);
-  assert.equal(b.ungesichert, 0, 'ein ungesicherter Rücktausch `finally { data = _subData; }` setzt nach einem Verlassen den Sub in den Anker-Kontext');
-  assert.equal(b.gesichert, b.tausch, 'jeder Tausch hat genau einen gesicherten Rücktausch');
+  assert.equal(b.tausch, 0, 'kein `const _subData = data;` mehr im Kern');
+  assert.equal(b.ungesichert, 0, 'kein ungesicherter Rücktausch');
+  assert.equal(b.gesichert, 0, 'kein Rücktausch');
 });
 
-test('[Klasse·Rücktausch·Rot-Beweis] ein ungesicherter Rücktausch wird gefunden, ein gesicherter nicht', () => {
-  const kaputt = KERN.replace('finally { if (aktiverSubKontext === _subUUID) data = _subData; }', 'finally { data = _subData; }');
-  assert.notEqual(kaputt, KERN, 'der Eingriff greift');
+test('[Klasse·Rücktausch·Rot-Beweis] ein wieder eingebauter Tausch mit ungesichertem Rücktausch wird gefunden', () => {
+  const stelle = '    let _idbMarke;\n    try { _idbMarke = await depotInIdbSichern(anker); }';
+  assert.ok(KERN.includes(stelle), 'Anker der Pflanzung gefunden');
+  const kaputt = KERN.replace(stelle, '    const _subData = data; data = _ankerData;\n    try { await depotInIdbSichern(); } finally { data = _subData; }\n' + stelle);
   const b = befund(kaputt);
-  assert.ok(b.ungesichert >= 1, 'der ungesicherte Rücktausch wird als solcher erkannt');
-  assert.notEqual(b.gesichert, b.tausch);
+  assert.equal(b.tausch, 1);
+  assert.equal(b.ungesichert, 1, 'der ungesicherte Rücktausch wird als solcher erkannt');
 });

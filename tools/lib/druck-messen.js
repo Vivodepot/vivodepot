@@ -6,9 +6,9 @@
    27.07. `#content *` unter `emulateMedia('print')` und fand dort nichts —
    nicht, weil im Druck-Zustand nichts fehlt, sondern weil `#content` GENAU DIE
    Fläche ist, die das Print-CSS ausblendet (`vivodepot.html:1420`,
-   `body > *:not(#pv-dok-overlay):not(#notfallblatt-overlay) { display: none
-   !important; }`). Die druckbaren Ansichten sind die zwei Overlays, nicht der
-   Bildschirm-Inhalt.
+   seit 31.10.2026 `body > *:not([data-druckbar]) { display: none !important; }`,
+   vorher eine Liste von Kennungen). Die druckbaren Ansichten sind die Overlays mit
+   data-druckbar, nicht der Bildschirm-Inhalt.
 
    Dieselbe Trennung wie bei `trefferflaechen.js`: die Erhebung steht EINMAL,
    damit die Kampagnen-Ebene und ihre rotmachbare Probe (hier:

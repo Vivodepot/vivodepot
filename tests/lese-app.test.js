@@ -132,19 +132,19 @@ test('[Klasse-A] T-A-04 Sub-Modus-Erkennung: Blackbox-Datei erkannt, Sub-Passwor
   await K.depotAnlegen('anker-pw');
   const inhalt = { schemaVersion: 20, sektoren: { identitaet: { vorname: 'Bernd', nachname: 'Beispiel' } }, menschen: [], situationen: {} };
   const umschlag = await K.subDepotVersiegeln(inhalt, 'sub-geheim-9');
-  const datei = K.blackboxDateiAusUmschlag(umschlag);
+  const datei = K.depotDateiAusUmschlag(umschlag);
 
   const { V: L } = ladeLesen();
   assert.equal(L.erkenneFormat(datei), 'blackbox', 'Blackbox-Datei muss als blackbox erkannt werden');
 
   // Mit dem Sub-Passwort entsiegelbar, Inhalt korrekt.
-  const dec = await L.leseSubUmschlag(datei.umschlag, 'sub-geheim-9');
+  const dec = await L.leseDepotUmschlag(datei, 'sub-geheim-9');
   // U2-ADR-002 (23.09.2026, S1): V4 setzt den Inhalt aus Einheiten zusammen — die Schlüssel-REIHENFOLGE ist keine Eigenschaft
   // des Inhalts; verglichen wird weiter jedes Feld und jeder Wert, strikt.
   const kanonisch = (o) => JSON.stringify(o, (k, v) => (v && typeof v === 'object' && !Array.isArray(v))
     ? Object.keys(v).sort().reduce((acc, key) => { acc[key] = v[key]; return acc; }, {}) : v);
   assert.equal(kanonisch(dec), kanonisch(inhalt), 'Sub-Inhalt muss feldweise stimmen');
-  await assert.rejects(() => L.leseSubUmschlag(datei.umschlag, 'falsch'), 'falsches Sub-Passwort muss werfen');
+  await assert.rejects(() => L.leseDepotUmschlag(datei, 'falsch'), 'falsches Sub-Passwort muss werfen');
 
   // Sub-Modus-Färbung + Banner-Erkennung über den Zustand.
   L.setData(dec);
@@ -251,8 +251,6 @@ test('[Klasse-A] B3 Versions-Gate: Lese-App lehnt Nicht-v3-Umschlag vor der Able
   try {
     await assert.rejects(() => L.leseDepotUmschlag(fremd, password), istVersionsFehler,
       'Vollexport-Pfad lehnt kryptoVersion 2 als Versions-Fehler ab');
-    await assert.rejects(() => L.leseSubUmschlag(fremd, password), istVersionsFehler,
-      'Sub-Depot-Pfad lehnt kryptoVersion 2 als Versions-Fehler ab');
     assert.equal(ableitungen, 0,
       'keine PBKDF2-Ableitung vor der Ablehnung (Gate liegt VOR der Schlüsselableitung)');
     await L.leseDepotUmschlag(umschlag, password);   // Gegenprobe: der Zähler misst wirklich

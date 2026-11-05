@@ -7,6 +7,7 @@ import path from 'node:path';
 
 const require_ = createRequire(import.meta.url);
 const S = require_('./suite-stufen.js');
+const { meldungAusFehler } = require_('./fehlerzeile.js');
 
 export default async function* dateiZeitenReporter(source) {
   const je = {};
@@ -35,9 +36,12 @@ export default async function* dateiZeitenReporter(source) {
       if (e.type === 'test:fail' && !e.data.todo && !e.data.skip && art !== 'subtestsFailed' && !r.startsWith('..')) {
         const zeile = r + '\t' + st.join(' > ');
         rot.add(zeile);
+        /* Dritte Spalte (Werkzeug-Zug 2, 27.10.2026, Fehlerzeile): die erste Zeile der Meldung, für die Fehlerzeile des Zugkopfs
+           (tools/lib/fehlerzeile.js). Die Liste `rot` bleibt zweispaltig. */
+        const meldung = meldungAusFehler(e.data.details && e.data.details.error);
         /* FRÜHES ROT (26.10.2026, Testkonzept Punkt 2): sofort, nicht erst am Ende — der Zugkopf liest die Datei im Takt und
            beendet die andere Seite beim ersten Rot. Probe: die Zugkopf-Probe [Zugkopf·Frührot]. */
-        try { if (process.env.VD_ERSTES_ROT) fs.appendFileSync(process.env.VD_ERSTES_ROT, zeile + '\n'); } catch (_) { /* Zugabe */ }
+        try { if (process.env.VD_ERSTES_ROT) fs.appendFileSync(process.env.VD_ERSTES_ROT, zeile + '\t' + meldung + '\n'); } catch (_) { /* Zugabe */ }
       }
     }
     if ((e.type === 'test:pass' || e.type === 'test:fail') && e.data && e.data.nesting === 0 && e.data.file) {

@@ -62,9 +62,11 @@ Das Stufenmodell lautet ab sofort:
 | Stufe | Was die Institution tut | Status |
 |---|---|---|
 | 0 · Papier | Liest den Ausdruck, überträgt händisch. | Bestand |
-| 1 · ~~Scannen~~ | — | **gestrichen, 14.07.2026** |
 | 2 · Datei | Öffnet die Export-Datei in der Lese-App. | **Lücke — nächster Bau** |
 | 3 · System | Übernimmt maschinell. | offen |
+
+Eine Stufe 1 „Scannen“ gibt es nicht; sie ist am 14.07.2026 gestrichen (Begründung in § 3). Die
+Nummerierung behält die Lücke, damit Verweise auf Stufe 2 und 3 gültig bleiben.
 
 ---
 

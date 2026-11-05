@@ -29,12 +29,11 @@ Zwei Pflichtfelder derselben Klasse, zwei völlig verschiedene Regeln. Ein Depot
 dabei kein Sonderfall, sondern ein **vorgesehener Zustand**: das Passwort-Modal hat kein
 Namensfeld, und das D37-Banner existiert genau deswegen.
 
-### Ein zurückgezogener Posten, ausdrücklich vermerkt
+### Das Geburtsdatum ist gedeckt, der Name nicht
 
-Der Bericht zu U2-ADR-106 führte: *„eine Bürgerin ohne Geburtsdatum erzeugt einen ungültigen
-FHIR-Export."* **Das ist zurückgezogen.** Gemessen wurde der Builder, nicht der Weg der Bürgerin —
-den deckt das bestehende Gate ab. Was von dem Posten bleibt, ist die Namens-Lücke, und die hat eine
-andere Begründung.
+Ein Depot ohne Geburtsdatum erzeugt auf dem Weg der Bürgerin keinen ungültigen FHIR-Export: den Weg
+deckt das bestehende Gate ab. Eine Messung allein am Builder hätte das Gegenteil nahegelegt; maßgeblich
+ist der Weg der Bürgerin. Die Lücke liegt allein beim Namen, mit eigener Begründung (oben).
 
 ### Gate-Deckung — gemessen, nicht angenommen
 

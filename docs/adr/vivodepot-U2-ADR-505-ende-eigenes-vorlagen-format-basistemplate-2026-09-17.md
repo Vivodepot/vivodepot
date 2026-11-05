@@ -94,6 +94,28 @@ Basistemplate-Form strukturell nicht aufnehmen — anderer Gegenstand, andere `f
 - **Die Datei-Form der vier Quelldateien selbst** — diese ADR beschreibt nur, wie sie in den Kern
   einwandern, nicht ihre eigene Herkunft/Form.
 
+## Nachtrag 29.10.2026 — die Basistemplates kommen über AB_WERK_STANDARD_VORLAGEN
+
+Entscheidung Nr. 1 ist überholt. Seit dem Gerüst-Schnitt S4 (21.09.2026) kommen die vier Basistemplates aus der Region
+`AB_WERK_STANDARD_VORLAGEN`, die das Konfektionieren mit den vier Dateien
+`tools/dokument-module/vivodepot-standardvorlage-<id>.json` füllt, in fester Reihenfolge. `AB_WERK_BASISTEMPLATE_DE` blieb danach
+als leere Grundlage im Gerüst stehen. Kein Werkzeug hat sie je gefüllt. Die letzte Klausel unten sagte dagegen, sie werde beim
+Konfektionieren gefüllt. Das traf nicht zu.
+
+1. **`AB_WERK_BASISTEMPLATE_DE` entfällt**, samt der Zusammenführung mit ihr. `STANDARD_VORLAGEN` entsteht allein aus
+   `AB_WERK_STANDARD_VORLAGEN`. Der Inhalt bleibt gleich, denn die Grundlage war leer.
+2. **Das Fach `basistemplate` der Ab-Werk-Mitschrift bleibt im Depot-Schema und ist stets `null`**, wie das Fach
+   `rechtsraumKatalogQuelle` nach dem Wegfall seiner Region. Bestehende Depots lesen unverändert. Die vier Vorlagen reisen im Fach
+   `standardVorlagen`.
+3. **Der Abgleich ist gebaut.** Ein Werkzeug backt das Produkt wie die Auslieferung und hält jede der vier Dateien gegen den
+   gebackenen Eintrag in `STANDARD_VORLAGEN`, ganz und mit Wortlaut, Feldern und Signatur einzeln. Danach prüft es die Einträge der
+   Datei durch die 1E-Kette (echter Anker, echte Zertifikate, Inhaltsbindung). Ein geändertes Wort fällt doppelt, am Vergleich und
+   an der Signatur. Die vier Dokumentmodul-Dateien hält es auf dieselbe Weise.
+4. **Ein Wächter fängt die Klasse:** jede Marker-Region des Kerns muss ein Werkzeug haben, das ihre Marke kennt. Eine leere
+   Andockstelle, die niemand füllt, ist rot. Gegen den Stand vor diesem Nachtrag meldet er genau `AB_WERK_BASISTEMPLATE_DE`.
+
+Damit ist die letzte Klausel geschlossen. Ihr Text ist richtiggestellt, die fünfte Klausel nennt die heutige Quelle.
+
 ## Konformität
 
 ```konformitaet
@@ -130,29 +152,24 @@ pruefung:  tests/vor-umzug-a4-standard-vorlagen.test.js#[Vor-Umzug·a4·immer] d
 ```
 
 ```konformitaet
-aussage:   AB_WERK_BASISTEMPLATE_DE existiert, materialisiert aus einer eigenen eingebetteten
-           Quelle, BUERGERMODUL_BUENDEL.standardVorlagen entfällt, alle bestehenden
-           STANDARD_VORLAGEN-Konsumenten bleiben unverändert grün.
+aussage:   STANDARD_VORLAGEN materialisiert sich aus einer eigenen eingebetteten Quelle (seit dem
+           Nachtrag vom 29.10.2026: AB_WERK_STANDARD_VORLAGEN), BUERGERMODUL_BUENDEL.standardVorlagen
+           entfällt, alle bestehenden STANDARD_VORLAGEN-Konsumenten bleiben unverändert grün.
 zustand:   prüfbar
 pruefung:  tests/vor-umzug-a4-standard-vorlagen.test.js#[Vor-Umzug·a4·Rot-Beweis Ende-zu-Ende] eine echte Kern-Verfälschung bricht die immer-Prüfung
 ```
 
 ```konformitaet
-aussage:   Die vier externen Quelldateien landen am selben Pfad
-           (tools/dokument-module/vivodepot-standardvorlage-<id>.json) im Kanon.
-           AB_WERK_BASISTEMPLATE_DE ist im Gerüst die LEERE ANDOCKSTELLE dafür
-           — Leerwert Object.freeze([]) zwischen den Marken :BEGIN und :END,
-           gefüllt wird sie erst beim Konfektionieren. Ein Laufzeit-Ladeweg von
+aussage:   Die vier externen Quelldateien liegen am selben Pfad
+           (tools/dokument-module/vivodepot-standardvorlage-<id>.json) im Kanon und
+           werden beim Konfektionieren in die Region AB_WERK_STANDARD_VORLAGEN gebacken.
+           Ein Werkzeug hält jede Datei gegen den gebackenen Eintrag in STANDARD_VORLAGEN
+           und gegen die 1E-Kette; ein geändertes Wort fällt. Ein Laufzeit-Ladeweg von
            den Quelldateien besteht nicht.
-zustand:   offen
-frist:     2026-10-31
-bedingung: Die vier Quelldateien liegen im Kanon (gebaut). Offen ist der Abgleich: ein Werkzeug hält sie gegen den konfektionierten
-           Stand beziehungsweise gegen die Modulquelle, aus der gefüllt wird — NICHT gegen die Gerüst-Konstante AB_WERK_BASISTEMPLATE_DE.
-           Die Konstante steht zwischen ihren BEGIN- und END-Marken und ist bestimmungsgemäß LEER (Object.freeze([]), die Andockstelle,
-           kein Rest eines Umbaus); ein Abgleich gegen sie verglich die vier Dateien mit nichts und meldete grün. Frist am 22.09.2026
-           neu gesetzt (die frühere, 2026-09-20, war abgelaufen; die Klausel wird nicht als überholt geschlossen: die Zusicherung, dass das
-           Ausgelieferte mit den vier Quelldateien übereinstimmt, hält heute niemand). Das nicht öffentliche Werkzeug,
-           das als Muster genannt war, stürzt ohne Argumente ab (TypeError: V._standardVorlageAusBuendelErzeugen is not a function, Exit 1).
+zustand:   nicht-prüfbar
+grund:     Im öffentlichen Zuschnitt nicht prüfbar: der Abgleich liest die Dokumentvorlagen, die nicht
+           veröffentlicht werden. Werkzeug und Probe bleiben darum mit ihnen drinnen; die Bindung an diese
+           Klausel steht im Kopf des Werkzeugs, ihr Rot-Beweis lässt ein geändertes Wort fallen.
 ```
 
 ---

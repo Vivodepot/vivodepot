@@ -2,6 +2,7 @@
   "systemId": "snomedAllergen",
   "uri": "http://snomed.info/sct",
   "version": "SEED-2026-05",
+  "quellSprache": "en",
   "kuerzel": "SNOMED",
   "teilliste": true,
   "anzeigeNameEigen": true,

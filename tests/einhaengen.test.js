@@ -36,7 +36,7 @@ async function blackboxMitMarker() {
   await V.depotAnlegen(PW_C);
   const inhalt = { schemaVersion: 19, verwaltungsTyp: 'verwaltet', sektoren: { gesundheit: { blutgruppe: MARKER } } };
   const umschlag = await V.subDepotVersiegeln(inhalt, SUB_PW);
-  return transfer(V.blackboxDateiAusUmschlag(umschlag));   // verbatim, kein Re-Encrypt
+  return transfer(V.depotDateiAusUmschlag(umschlag));   // verbatim, kein Re-Encrypt
 }
 
 // Sender über den ECHTEN Export-Pfad: anlegen → exportieren.
@@ -89,16 +89,16 @@ test('[Klasse-A] Kein Re-Encrypt: der ct im eingehängten Eintrag ist byte-ident
 
   // U2-ADR-002 (23.09.2026, S1): ein Sub-Depot ist ein Depot wie jedes andere — V4. Gleich streng: statt ct/iv sind
   // Einheiten und Umschlagstabelle byte-identisch (JSON), statt „sechs Felder" genau die V4-Felder.
-  assert.equal(JSON.stringify(eintrag.umschlag.einheiten), JSON.stringify(datei.umschlag.einheiten), 'Einheiten VERBATIM — nie neu verschlüsselt');
-  assert.equal(JSON.stringify(eintrag.umschlag.umschlagTabelle), JSON.stringify(datei.umschlag.umschlagTabelle), 'Umschlagstabelle unverändert');
-  assert.equal(eintrag.umschlag.depotSalt, datei.umschlag.depotSalt, 'depotSalt unverändert');
-  assert.equal(eintrag.umschlag.pbkdf2.salt, datei.umschlag.pbkdf2.salt, 'pbkdf2.salt unverändert');
-  assert.equal(eintrag.umschlag.depotUUID, datei.umschlag.depotUUID, 'depotUUID behalten');
+  assert.equal(JSON.stringify(eintrag.umschlag.einheiten), JSON.stringify(datei.einheiten), 'Einheiten VERBATIM — nie neu verschlüsselt');
+  assert.equal(JSON.stringify(eintrag.umschlag.umschlagTabelle), JSON.stringify(datei.umschlagTabelle), 'Umschlagstabelle unverändert');
+  assert.equal(eintrag.umschlag.depotSalt, datei.depotSalt, 'depotSalt unverändert');
+  assert.equal(eintrag.umschlag.pbkdf2.salt, datei.pbkdf2.salt, 'pbkdf2.salt unverändert');
+  assert.equal(eintrag.umschlag.depotUUID, datei.depotUUID, 'depotUUID behalten');
   assert.equal(eintrag.umschlag.kryptoVersion, 4, 'kryptoVersion 4 — wie jedes Depot');
   assert.equal(
     Object.keys(eintrag.umschlag).sort().join(','),
-    'angehoerigenOrt,depotSalt,depotUUID,einheiten,kryptoVersion,pbkdf2,umschlagTabelle',
-    'genau die Felder einer Depot-Datei (mit dem Ortshinweis), nichts hinzugefügt'
+    'angehoerigenOrt,art,depotSalt,depotUUID,einheiten,kryptoVersion,pbkdf2,umschlagTabelle',
+    'genau die Felder einer Depot-Datei (mit dem Ortshinweis und dem Kennzeichen), nichts hinzugefügt'
   );
 });
 
@@ -121,19 +121,21 @@ test('Untrusted-Input: fehlerhafte oder Nicht-v3-Dateien werden abgelehnt, kein 
   const gut = await blackboxEchterExport();
   const { V } = await empfaenger();
 
-  const keinBlackbox = transfer(gut); keinBlackbox.dateiTyp = 'irgendwas';
-  const v1 = transfer(gut); v1.umschlag.kryptoVersion = 1;   // B2/v3: v1 abgelehnt
-  const v2 = transfer(gut); v2.umschlag.kryptoVersion = 2;   // B2/v3: v2 abgelehnt (v3-only)
+  // S8: die Export-Datei ist die Depot-Datei selbst; eine fremde Hülle bleibt eine fremde Datei.
+  const keinBlackbox = { dateiTyp: 'irgendwas', formatVersion: 1, umschlag: transfer(gut) };
+  const v1 = transfer(gut); v1.kryptoVersion = 1;   // B2/v3: v1 abgelehnt
+  const v2 = transfer(gut); v2.kryptoVersion = 2;   // B2/v3: v2 abgelehnt (v3-only)
   // U2-ADR-002 (23.09.2026, S1): `gut` ist jetzt V4 — ein fehlendes `ct` wäre dort kein Defekt. Die Strukturprobe gilt
   // darum für BEIDE Formen: V4 ohne Einheiten bzw. ohne Tabelle, und ein V3-Bestand (weiter einhängbar) ohne ct.
-  const fehltEinheiten = transfer(gut); delete fehltEinheiten.umschlag.einheiten;
-  const fehltTabelle = transfer(gut); delete fehltTabelle.umschlag.umschlagTabelle;
-  const fehltCt = transfer(gut);
-  fehltCt.umschlag = { kryptoVersion: 3, depotUUID: gut.umschlag.depotUUID, pbkdf2: gut.umschlag.pbkdf2,
-    depotSalt: gut.umschlag.depotSalt, iv: 'AAAAAAAAAAAAAAAA' };   // V3-Form, 12-Byte-iv, aber ohne ct
-  const extraFeld = transfer(gut); extraFeld.umschlag.geheim = 'x';
-  const kaputteUuid = transfer(gut); kaputteUuid.umschlag.depotUUID = 'nicht-uuid';
-  const kurzerSalt = transfer(gut); kurzerSalt.umschlag.depotSalt = 'QUJD';   // 3 Byte statt 32
+  const fehltEinheiten = transfer(gut); delete fehltEinheiten.einheiten;
+  const fehltTabelle = transfer(gut); delete fehltTabelle.umschlagTabelle;
+  const fehltCt = { kryptoVersion: 3, depotUUID: gut.depotUUID, pbkdf2: gut.pbkdf2,
+    depotSalt: gut.depotSalt, iv: 'AAAAAAAAAAAAAAAA' };   // V3-Form, 12-Byte-iv, aber ohne ct
+  // Die Hülle bis v969 reicht den Umschlag ungefiltert an die Prüfung: dort fällt ein Extra-Feld auf; ein fremdes Kennzeichen ebenso.
+  const extraFeld = { dateiTyp: 'vivodepot-blackbox-export', formatVersion: 1, umschlag: Object.assign(transfer(gut), { geheim: 'x' }) };
+  const fremdesKennzeichen = Object.assign(transfer(gut), { art: 'anker' });
+  const kaputteUuid = transfer(gut); kaputteUuid.depotUUID = 'nicht-uuid';
+  const kurzerSalt = transfer(gut); kurzerSalt.depotSalt = 'QUJD';   // 3 Byte statt 32
 
   for (const [name, datei] of [
     ['kein Blackbox-Typ', keinBlackbox],
@@ -143,6 +145,7 @@ test('Untrusted-Input: fehlerhafte oder Nicht-v3-Dateien werden abgelehnt, kein 
     ['V4: Tabelle fehlt',  fehltTabelle],
     ['V3: ct fehlt',       fehltCt],
     ['Extra-Feld',        extraFeld],
+    ['fremdes Kennzeichen', fremdesKennzeichen],
     ['kaputte uuid',      kaputteUuid],
     ['zu kurzer depotSalt', kurzerSalt],
   ]) {

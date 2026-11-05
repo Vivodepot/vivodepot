@@ -260,6 +260,7 @@ function makeDocument() {
       return cache.get(id);
     },
     createElement: () => makeEl(),
+    createTextNode: (text) => ({ nodeType: 3, textContent: String(text) }),
     querySelector: () => makeEl(),
     querySelectorAll: () => [],
     addEventListener: () => {},
@@ -289,10 +290,20 @@ const EXPORT_HOOK = `
   codeChipInhaltHTML: (typeof codeChipInhaltHTML === 'function' ? codeChipInhaltHTML : undefined),
   codeChipKlartext: (typeof codeChipKlartext === 'function' ? codeChipKlartext : undefined),
   blackboxDateiname: (typeof blackboxDateiname === 'function' ? blackboxDateiname : undefined),
-  feldAusgabeBeschriftung: (typeof feldAusgabeBeschriftung === 'function' ? feldAusgabeBeschriftung : undefined),   // 09.10.2026, ältere Kerne kennen sie nicht
+  feldAusgabeBeschriftung: (typeof feldAusgabeBeschriftung === 'function' ? feldAusgabeBeschriftung : undefined),
+  // Ein Personen-Wähler (30.10.2026, Befund UX-PERSONENWAEHLER-DREIFACH); ältere Kerne kennen sie nicht.
+  personAusEingabeFinden: (typeof personAusEingabeFinden === 'function' ? personAusEingabeFinden : undefined),
+  personFindenNachName: (typeof personFindenNachName === 'function' ? personFindenNachName : undefined),
+  _personNeuMaskeHTML: (typeof _personNeuMaskeHTML === 'function' ? _personNeuMaskeHTML : undefined),
+  flowPersonNeuAnlegen: (typeof flowPersonNeuAnlegen === 'function' ? flowPersonNeuAnlegen : undefined),
+  notfallkarteOhneTelefon: (typeof notfallkarteOhneTelefon === 'function' ? notfallkarteOhneTelefon : undefined),
+  _kreisPersonAuswahlHTML: (typeof _kreisPersonAuswahlHTML === 'function' ? _kreisPersonAuswahlHTML : undefined),   // 09.10.2026, ältere Kerne kennen sie nicht
   subDepotWiderspruchErfassen: (typeof subDepotWiderspruchErfassen === 'function' ? subDepotWiderspruchErfassen : undefined),
   subDepotWiderspruchEntfernen: (typeof subDepotWiderspruchEntfernen === 'function' ? subDepotWiderspruchEntfernen : undefined),
   prueftermineWidersprueche: (typeof prueftermineWidersprueche === 'function' ? prueftermineWidersprueche : undefined),
+  subDepotVorsorgeAnweisungSetzen: (typeof subDepotVorsorgeAnweisungSetzen === 'function' ? subDepotVorsorgeAnweisungSetzen : undefined),
+  flowSubDepotVorsorgeAnweisung: (typeof flowSubDepotVorsorgeAnweisung === 'function' ? flowSubDepotVorsorgeAnweisung : undefined),
+  prueftermineVorsorgeAnweisungen: (typeof prueftermineVorsorgeAnweisungen === 'function' ? prueftermineVorsorgeAnweisungen : undefined),
   flowSubDepotBlackboxExport: (typeof flowSubDepotBlackboxExport === 'function' ? flowSubDepotBlackboxExport : undefined),
   verwahrungsNachweisBundle: (typeof verwahrungsNachweisBundle === 'function' ? verwahrungsNachweisBundle : undefined),
   flowMappeVerwahrungHerunterladen: (typeof flowMappeVerwahrungHerunterladen === 'function' ? flowMappeVerwahrungHerunterladen : undefined),
@@ -311,6 +322,9 @@ const EXPORT_HOOK = `
   listenVorschlaegeAbWerk: (typeof listenVorschlaegeAbWerk !== 'undefined' ? listenVorschlaegeAbWerk : undefined),   // Pro E14 (25.10.2026)
   listenVorschlaegeUebernehmen: (typeof listenVorschlaegeUebernehmen !== 'undefined' ? listenVorschlaegeUebernehmen : undefined),
   listenVorschlaegeHTML: (typeof listenVorschlaegeHTML !== 'undefined' ? listenVorschlaegeHTML : undefined),
+  listenEintragTeile: (typeof listenEintragTeile === 'function' ? listenEintragTeile : undefined),   // Eintragszeile am Bildschirm (Nachtrag U2-ADR-497, 01.11.2026)
+  pdfFussZeilen: (typeof pdfFussZeilen === 'function' ? pdfFussZeilen : undefined),   // PDF-Fuß bricht nur an Trennpunkten (02.11.2026)
+  listenEintragZeileHTML: (typeof listenEintragZeileHTML === 'function' ? listenEintragZeileHTML : undefined),
   KIND_DATEI_ORTE: (typeof KIND_DATEI_ORTE !== 'undefined' ? KIND_DATEI_ORTE : undefined),
   _kindDateiSitzungsZiele: (typeof _kindDateiSitzungsZiele !== 'undefined' ? _kindDateiSitzungsZiele : undefined),
   VOLLIMPORT_MITNEHMEN_SCHLUESSEL: (typeof VOLLIMPORT_MITNEHMEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_MITNEHMEN_SCHLUESSEL : undefined),
@@ -319,6 +333,11 @@ const EXPORT_HOOK = `
   // STANDARDVORLAGE-NUR-DE (23.09.2026): Sprach-Hinweis an der deutschen Standardvorlage im englischen Produkt.
   wortlautVorlageHTML: (typeof wortlautVorlageHTML !== 'undefined' ? wortlautVorlageHTML : undefined),
   _standardVorlage: (typeof _standardVorlage !== 'undefined' ? _standardVorlage : undefined),
+  _datumDreifeldHTML: (typeof _datumDreifeldHTML !== 'undefined' ? _datumDreifeldHTML : undefined),   // Zielbild S4 (31.10.2026); ältere Fassungen laden ohne sie
+  _datumDreifeldZusammensetzen: (typeof _datumDreifeldZusammensetzen !== 'undefined' ? _datumDreifeldZusammensetzen : undefined),
+  _feldSichtbareTeile: (typeof _feldSichtbareTeile !== 'undefined' ? _feldSichtbareTeile : undefined),
+  renderErledigen: (typeof renderErledigen !== 'undefined' ? renderErledigen : undefined),
+  _anlassKachelnHTML: (typeof _anlassKachelnHTML !== 'undefined' ? _anlassKachelnHTML : undefined),
   _standardVorlageSprache: (typeof _standardVorlageSprache !== 'undefined' ? _standardVorlageSprache : undefined),
   vollimportNichtUebernommenNamen: (typeof vollimportNichtUebernommenNamen !== 'undefined' ? vollimportNichtUebernommenNamen : undefined),
   personPatchAusInlineNeuanlage: (typeof personPatchAusInlineNeuanlage !== 'undefined' ? personPatchAusInlineNeuanlage : undefined),
@@ -343,7 +362,7 @@ const EXPORT_HOOK = `
   oeffnenAbweisungText: (typeof oeffnenAbweisungText === 'function' ? oeffnenAbweisungText : undefined),   // Klassenwächter: jede Abweisung beim Öffnen nennt ihren echten Grund (seit v929; ältere Kerne kennen sie nicht)
   subDepotVersiegeln, subDepotEntsiegeln, subDepotAnlegen, flowKindSubDepotAnlegen,
   subDepotVertrauenOeffnen, subDepotVertrauenSchliessen,
-  subDepotBlackboxExportieren, blackboxDateiAusUmschlag,
+  subDepotBlackboxExportieren, depotDateiAusUmschlag: (typeof depotDateiAusUmschlag !== 'undefined' ? depotDateiAusUmschlag : undefined),   // S8 (v970); ältere Schnappschüsse kennen sie nicht
   subDepotAushaengen, subDepotReaktivieren, verwaltungAktiv,
   uebergabeProtokollEintragen, uebergabeProtokollLoeschen,
   // Herausgegeben auf allen Wegen (25.10.2026): die gemeinsame Nachfrage nach einer Weitergabe. typeof-abgesichert (ältere Kerne).
@@ -375,6 +394,10 @@ const EXPORT_HOOK = `
   vereinbarungPdfAnhang: (typeof vereinbarungPdfAnhang !== 'undefined' ? vereinbarungPdfAnhang : undefined),
   _pdfAnhangEinbetten: (typeof _pdfAnhangEinbetten !== 'undefined' ? _pdfAnhangEinbetten : undefined),
   pdfDatenfassungEinbetten: (typeof pdfDatenfassungEinbetten !== 'undefined' ? pdfDatenfassungEinbetten : undefined),
+  // PDF-Anhang-Leser (Gegenstück zu _pdfAnhangEinbetten; tests/pdf-anhaenge-lesen.test.js)
+  pdfAnhaengeLesen: (typeof pdfAnhaengeLesen !== 'undefined' ? pdfAnhaengeLesen : undefined),
+  PDF_ANHANG_MAX_BYTES: (typeof PDF_ANHANG_MAX_BYTES !== 'undefined' ? PDF_ANHANG_MAX_BYTES : undefined),
+  PDF_ANHANG_HOECHSTZAHL: (typeof PDF_ANHANG_HOECHSTZAHL !== 'undefined' ? PDF_ANHANG_HOECHSTZAHL : undefined),
   formatNamensraumFremd: (typeof formatNamensraumFremd !== 'undefined' ? formatNamensraumFremd : undefined),   // U2-ADR-465
   formatSchemaUriFremd: (typeof formatSchemaUriFremd !== 'undefined' ? formatSchemaUriFremd : undefined),   // U2-ADR-465 Nachtrag
   // U2-ADR-465 Nachtrag: Anhänge und die bevollmächtigte Person
@@ -389,6 +412,12 @@ const EXPORT_HOOK = `
     // U2-ADR-120 — eigenständig, s. Kommentar am Kern
   flowUebergabeProtokollManuellErfassen, flowUebergabeProtokollLoeschen, _uebergabeFelderHTML,
   renderUebergabeProtokoll, oeffneUebergabeProtokoll, uebergabeProtokollZeileHTML,
+  // Verlauf eines Sub-Depots (25.10.2026), s. Kommentar am Kern
+  subDepotVorgangText: (typeof subDepotVorgangText !== 'undefined' ? subDepotVorgangText : undefined),
+  subDepotVerlaufModell: (typeof subDepotVerlaufModell !== 'undefined' ? subDepotVerlaufModell : undefined),
+  subDepotVerlaufHTML: (typeof subDepotVerlaufHTML !== 'undefined' ? subDepotVerlaufHTML : undefined),
+  subDepotHerausgegebenModell: (typeof subDepotHerausgegebenModell !== 'undefined' ? subDepotHerausgegebenModell : undefined),
+  subDepotHerausgegebenHTML: (typeof subDepotHerausgegebenHTML !== 'undefined' ? subDepotHerausgegebenHTML : undefined),
   flowUebergabeWiderrufErzeugen, uebergabeWiderrufNutzlast, zeichneWiderrufPdf, uebergabeWiderrufPdfErzeugen,
   subDepotEinhaengen, pruefeBlackboxUmschlag, umschlagAusDatei,
   istEntsiegelt, sessionSubKeys,
@@ -616,6 +645,15 @@ const EXPORT_HOOK = `
   podSicherungAblegen: (typeof podSicherungAblegen !== 'undefined' ? podSicherungAblegen : undefined),
   POD_BRUECKE_URL: (typeof POD_BRUECKE_URL !== 'undefined' ? POD_BRUECKE_URL : undefined),
   POD_BRUECKE_HERKUNFT: (typeof POD_BRUECKE_HERKUNFT !== 'undefined' ? POD_BRUECKE_HERKUNFT : undefined),
+  // Verzeichnis der Außenablagen (U2-ADR-520, 03.11.2026); typeof-Wächter für ältere Kerne
+  podVerzeichnisVerschluesseln: (typeof podVerzeichnisVerschluesseln !== 'undefined' ? podVerzeichnisVerschluesseln : undefined),
+  podVerzeichnisEntschluesseln: (typeof podVerzeichnisEntschluesseln !== 'undefined' ? podVerzeichnisEntschluesseln : undefined),
+  podVerzeichnisBitte: (typeof podVerzeichnisBitte !== 'undefined' ? podVerzeichnisBitte : undefined),
+  _huelleFuerAussenablage: (typeof _huelleFuerAussenablage !== 'undefined' ? _huelleFuerAussenablage : undefined),
+  AUSSENABLAGE_HUELLE_FELDER: (typeof AUSSENABLAGE_HUELLE_FELDER !== 'undefined' ? AUSSENABLAGE_HUELLE_FELDER : undefined),
+  verzeichnisListePruefen: (typeof verzeichnisListePruefen !== 'undefined' ? verzeichnisListePruefen : undefined),
+  POD_VERZEICHNIS_BITTEN_JE_AUFTRAG: (typeof POD_VERZEICHNIS_BITTEN_JE_AUFTRAG !== 'undefined' ? POD_VERZEICHNIS_BITTEN_JE_AUFTRAG : undefined),
+  VERZEICHNIS_JWE_TYP: (typeof VERZEICHNIS_JWE_TYP !== 'undefined' ? VERZEICHNIS_JWE_TYP : undefined),
   flowLinkSenden: (typeof flowLinkSenden !== 'undefined' ? flowLinkSenden : undefined),
   LINK_SENDEN_FUER_AUSZUEGE: (typeof LINK_SENDEN_FUER_AUSZUEGE !== 'undefined' ? LINK_SENDEN_FUER_AUSZUEGE : undefined),
   AUSZUG_INHALTSTYPEN: (typeof AUSZUG_INHALTSTYPEN !== 'undefined' ? AUSZUG_INHALTSTYPEN : undefined),
@@ -750,7 +788,7 @@ const EXPORT_HOOK = `
   _alleModulRegisterAusDepotAnmelden: (typeof _alleModulRegisterAusDepotAnmelden === 'function' ? _alleModulRegisterAusDepotAnmelden : undefined),
   _MODUL_EINLASS_MAX_BUENDEL: (typeof _MODUL_EINLASS_MAX_BUENDEL !== 'undefined' ? _MODUL_EINLASS_MAX_BUENDEL : undefined),
   _abWerkMitschriftAusLebendemTemplateFuellen: (typeof _abWerkMitschriftAusLebendemTemplateFuellen === 'function' ? _abWerkMitschriftAusLebendemTemplateFuellen : undefined),
-  renderBestandsAuswahl, waehleLage, oeffneBestandsAuswahl,   // A61 — Achse „Bestand", umgezogen 04.08.2026
+  waehleLage, flowBestandDialog: (typeof flowBestandDialog === 'function' ? flowBestandDialog : undefined),   // A61 — Achse „Bestand", umgezogen 04.08.2026; seit 30.10.2026 ein Dialog (UX-DOKUMENT-ABLEGEN)
   // PV-Dokument (BMJ-Zusammensteller, PV-Bau 10.07.): eine Quelle PV_BMJ für Wizard + Generator
   PV_BMJ, pvDokumentAbschnitte, pvDokumentHTML, pvDokumentOeffnen, _pvOptLabel, _pvRolleLabel, _pvEingangsformel, _pvHatDaten, _pvIstSentinel,
   // U2-ADR-345 (06.09.2026) — Dokumentmodule + STANDARD_VORLAGEN ins Bündel: Motor-Mechanismus,
@@ -758,10 +796,8 @@ const EXPORT_HOOK = `
   // (KERN_HTML_PATH) diese Namen noch nicht kennt.
   DOKUMENT_MODUL_MOTOREN_ERLAUBT: (typeof DOKUMENT_MODUL_MOTOREN_ERLAUBT !== 'undefined' ? DOKUMENT_MODUL_MOTOREN_ERLAUBT : undefined),
   _dokumentModulAusBuendelErzeugen: (typeof _dokumentModulAusBuendelErzeugen !== 'undefined' ? _dokumentModulAusBuendelErzeugen : undefined),
-  // U2-ADR-505 (17.09.2026): _standardVorlageAusBuendelErzeugen entfernt (A253 fand sie
-  // unerreichbar — STANDARD_VORLAGEN kommt seither direkt aus AB_WERK_BASISTEMPLATE_DE, kein
-  // "roh"-Objekt mehr zu materialisieren). Kein Export mehr, keine typeof-Rückwärtskompatibilität
-  // nötig — kein Test lud einen historischen Kern dafür.
+  // _standardVorlageAusBuendelErzeugen wird nicht exportiert: STANDARD_VORLAGEN entsteht aus AB_WERK_STANDARD_VORLAGEN, geprüft wird
+  // das Ergebnis (ein Werkzeug hält die Moduldateien gegen das gebackene Produkt), nicht die Hilfsfunktion.
   _dokumentModuleUndVorlagenAusBuendelMaterialisieren: (typeof _dokumentModuleUndVorlagenAusBuendelMaterialisieren !== 'undefined' ? _dokumentModuleUndVorlagenAusBuendelMaterialisieren : undefined),
   // Geteilter Dokument-Generator (Modul-Vertrag, U2-ADR-068): Engine + Blocktyp-Handler + PV-Instanz
   modulDokumentAbschnitte,
@@ -856,14 +892,12 @@ const EXPORT_HOOK = `
   _verifiziereTemplateSignatur, STANDARD_VORLAGEN_CERTS,
   _modulPruefstufeAusZertifikat: (typeof _modulPruefstufeAusZertifikat === 'function' ? _modulPruefstufeAusZertifikat : undefined),
   _kanonischJSON, _basisInhalt, _basisInhaltMatcht, STANDARD_VORLAGEN,
-  // U2-ADR-505 — STANDARD_VORLAGEN materialisiert sich jetzt aus einem eigenen Ab-Werk-Slot
-  // (Muster AB_WERK_RECHTSRAUM_DE/U2-ADR-382), nicht mehr aus BUERGERMODUL_BUENDEL.standardVorlagen.
-  // typeof-Waechter wie beim Rechtsraum-Vorbild: historische Kerne vor diesem Zug kennen den
-  // Namen nicht.
-  AB_WERK_BASISTEMPLATE_DE: (typeof AB_WERK_BASISTEMPLATE_DE !== 'undefined' ? AB_WERK_BASISTEMPLATE_DE : undefined),
-  // U2-ADR-505 — dieselbe Bewegung wie oben, für .dokumente und .rechtsraumKatalog (dritter/
-  // vierter Register-Umzug desselben Zugs). typeof-Waechter aus demselben Grund.
+  // U2-ADR-505 — die Dokumente materialisieren sich aus einem eigenen Ab-Werk-Slot (Muster AB_WERK_RECHTSRAUM_DE/U2-ADR-382),
+  // nicht mehr aus BUERGERMODUL_BUENDEL.dokumente. typeof-Waechter: historische Kerne vor diesem Zug kennen den Namen nicht.
+  // (Der Slot AB_WERK_BASISTEMPLATE_DE ist mit dem Nachtrag vom 29.10.2026 entfallen.)
   AB_WERK_DOKUMENTE_DE: (typeof AB_WERK_DOKUMENTE_DE !== 'undefined' ? AB_WERK_DOKUMENTE_DE : undefined),
+  AB_WERK_KI_KORPUS: (typeof AB_WERK_KI_KORPUS !== 'undefined' ? AB_WERK_KI_KORPUS : undefined),
+  _rechtsraumBauplanLesen: (typeof _rechtsraumBauplanLesen !== 'undefined' ? _rechtsraumBauplanLesen : undefined),
   AB_WERK_RECHTSRAUM_KATALOG_QUELLE: (typeof AB_WERK_RECHTSRAUM_KATALOG_QUELLE !== 'undefined' ? AB_WERK_RECHTSRAUM_KATALOG_QUELLE : undefined),
   // U2-ADR-121 — Rechtsraum-Katalog über die Instrument-Typen + geschützter Zugriff (Posten 7)
   // typeof-Wächter (U2-ADR-382-Nachtrag, wie beim benachbarten _rechtsraumVorschlagswert-Export
@@ -1155,10 +1189,12 @@ const EXPORT_HOOK = `
   _codeblattOeffnen: (typeof _codeblattOeffnen !== 'undefined' ? _codeblattOeffnen : undefined),
   wiederherstellungAnbieten: (typeof wiederherstellungAnbieten !== 'undefined' ? wiederherstellungAnbieten : undefined),
   whcCodeZeigen: (typeof whcCodeZeigen !== 'undefined' ? whcCodeZeigen : undefined),
+  anlegenCodeSchritt: (typeof anlegenCodeSchritt !== 'undefined' ? anlegenCodeSchritt : undefined),
   _whcEntfernenFragen: (typeof _whcEntfernenFragen !== 'undefined' ? _whcEntfernenFragen : undefined),
   whcAbschnittHTML: (typeof whcAbschnittHTML !== 'undefined' ? whcAbschnittHTML : undefined),
   WHC_FELD: (typeof WHC_FELD !== 'undefined' ? WHC_FELD : undefined),
   WHC_STELLEN: (typeof WHC_STELLEN !== 'undefined' ? WHC_STELLEN : undefined),
+  WHC_GRUPPE: (typeof WHC_GRUPPE !== 'undefined' ? WHC_GRUPPE : undefined),
   WHC_ALPHABET: (typeof WHC_ALPHABET !== 'undefined' ? WHC_ALPHABET : undefined),
   whcKontrolleHinweis: (typeof whcKontrolleHinweis !== 'undefined' ? whcKontrolleHinweis : undefined),
   UMSCHLAG_FELDER_BEKANNT: (typeof UMSCHLAG_FELDER_BEKANNT !== 'undefined' ? UMSCHLAG_FELDER_BEKANNT : undefined),
@@ -1200,6 +1236,9 @@ const EXPORT_HOOK = `
   // Befund SENSIBEL-FILTER-BEREICHSBAUSTEIN (07.10.2026): Positivliste und Prädikat des Sensibel-Filters enger Bausteine
   EMPFAENGER_BLATT_OHNE_SENSIBEL_FILTER: (typeof EMPFAENGER_BLATT_OHNE_SENSIBEL_FILTER !== 'undefined' ? EMPFAENGER_BLATT_OHNE_SENSIBEL_FILTER : undefined),
   empfaengerSensibelFilterGilt: (typeof empfaengerSensibelFilterGilt !== 'undefined' ? empfaengerSensibelFilterGilt : undefined),
+  // Befund UX-NOTFALLPAKET-OHNE-MEDIKAMENTE (31.10.2026): Angaben, deren Dasein schon ihr Inhalt ist
+  feldDaseinIstInhalt: (typeof feldDaseinIstInhalt !== 'undefined' ? feldDaseinIstInhalt : undefined),
+  _kreisGeschuetzteAngaben: (typeof _kreisGeschuetzteAngaben !== 'undefined' ? _kreisGeschuetzteAngaben : undefined),
   empfaengerDateiErzeugen, empfaengerDateiname, EMPFAENGER_PW_MIN,
   empfaengerkreiseListe, empfaengerkreisFinden, empfaengerkreisSetzen, empfaengerkreisEntfernen,
   empfaengerkreisAusgabeVermerken, empfaengerDateiHerausgeben, empfaengerkreiseAbschnittHTML,
@@ -1303,6 +1342,8 @@ const EXPORT_HOOK = `
   passwortWortliste: (typeof passwortWortliste === 'function' ? passwortWortliste : undefined),
   _pwZufallsIndex: (typeof _pwZufallsIndex === 'function' ? _pwZufallsIndex : undefined),
   _pwIstVorschlagForm: (typeof _pwIstVorschlagForm === 'function' ? _pwIstVorschlagForm : undefined),
+  pwProbeVergleich: (typeof pwProbeVergleich === 'function' ? pwProbeVergleich : undefined),
+  whcProbeStelle: (typeof whcProbeStelle === 'function' ? whcProbeStelle : undefined),
   pwVorschlagHTML: (typeof pwVorschlagHTML === 'function' ? pwVorschlagHTML : undefined),
   // D38 — bewusste Eigen-Depot-Einrichtung aus dem Sub-Wunsch (mit Namensfeldern)
   flowEigenesDepotAusSubWunsch,
@@ -1519,7 +1560,6 @@ const EXPORT_HOOK = `
   // U2-ADR-348 (vorläufig, 07.09.2026) — Struktur-Achse, Tausch statt Ergänzung.
   // typeof-abgesichert: der Harnisch laedt auch Kerne aus aelteren Commits, die diese Namen
   // noch nicht kennen.
-  _bereichsErsatzPruefen: (typeof _bereichsErsatzPruefen !== 'undefined') ? _bereichsErsatzPruefen : undefined,
   AB_WERK_BEREICHE_BEKANNT: (typeof AB_WERK_BEREICHE_BEKANNT !== 'undefined') ? AB_WERK_BEREICHE_BEKANNT : undefined,
   _abWerkModulKennungen: (typeof _abWerkModulKennungen !== 'undefined') ? _abWerkModulKennungen : undefined,
   _abWerkMerkmalNeuSetzen: (typeof _abWerkMerkmalNeuSetzen !== 'undefined') ? _abWerkMerkmalNeuSetzen : undefined,
@@ -1618,6 +1658,8 @@ const EXPORT_HOOK = `
   felderNurMitWert: (typeof felderNurMitWert !== 'undefined' ? felderNurMitWert : undefined),
   feldNurMitWertUndLeer: (typeof feldNurMitWertUndLeer !== 'undefined' ? feldNurMitWertUndLeer : undefined),
   feldSichtbar: (typeof feldSichtbar !== 'undefined' ? feldSichtbar : undefined),
+  // SICHTBARKEIT-KASKADE (03.11.2026): der Geltungsbereich eines Abschnittsfelds; ältere Kern-Stände kennen ihn nicht.
+  bereichFelder: (typeof bereichFelder !== 'undefined' ? bereichFelder : undefined),
   bedingungskatalogModulPruefen: (typeof bedingungskatalogModulPruefen !== 'undefined' ? bedingungskatalogModulPruefen : undefined),
   bedingungskatalogModulEinbetten: (typeof bedingungskatalogModulEinbetten !== 'undefined' ? bedingungskatalogModulEinbetten : undefined),
   _bedingungskatalogModuleAusDepotAnmelden: (typeof _bedingungskatalogModuleAusDepotAnmelden !== 'undefined' ? _bedingungskatalogModuleAusDepotAnmelden : undefined),
@@ -1656,6 +1698,11 @@ const EXPORT_HOOK = `
   _VD_ERSCHEINUNG_FS_CSS_EIGENSCHAFTEN: (typeof _VD_ERSCHEINUNG_FS_CSS_EIGENSCHAFTEN !== 'undefined' ? _VD_ERSCHEINUNG_FS_CSS_EIGENSCHAFTEN : undefined),
   erscheinungModulPruefen: (typeof erscheinungModulPruefen !== 'undefined' ? erscheinungModulPruefen : undefined),
   erscheinungModulEinbetten: (typeof erscheinungModulEinbetten !== 'undefined' ? erscheinungModulEinbetten : undefined),
+  // KI-Andockpunkt (U2-ADR-516, 29.10.2026): Prüfer, Einbettung und die gepinnte Feldliste des sechzehnten Registers.
+  lokalesModellModulPruefen: (typeof lokalesModellModulPruefen !== 'undefined' ? lokalesModellModulPruefen : undefined),
+  lokalesModellModulEinbetten: (typeof lokalesModellModulEinbetten !== 'undefined' ? lokalesModellModulEinbetten : undefined),
+  _LOKALES_MODELL_SCHLUESSEL: (typeof _LOKALES_MODELL_SCHLUESSEL !== 'undefined' ? _LOKALES_MODELL_SCHLUESSEL : undefined),
+  lokaleModelleUebersicht: (typeof lokaleModelleUebersicht !== 'undefined' ? lokaleModelleUebersicht : undefined),
   _bereichFremdeMarkeHerkunft: (typeof _bereichFremdeMarkeHerkunft !== 'undefined' ? _bereichFremdeMarkeHerkunft : undefined),
   // U2-ADR-297 (05.09.2026) — Fall 2: Vor-Depot-Branding füllt die Kopfzeile.
   _brandingProduktTopbarAnwenden: (typeof _brandingProduktTopbarAnwenden !== 'undefined' ? _brandingProduktTopbarAnwenden : undefined),
@@ -1776,7 +1823,7 @@ const EXPORT_HOOK = `
   // Vorlesen (Sprachausgabe, Web Speech API) — Text-Erzeuger + Steuerung + Test-Engine-Hook
   vorleseVerfuegbar, vorleseLaeuft, vorleseStarten, vorleseStoppen, vorleseToggle,
   vorleseTextSektor, vorleseTextSituation, vorleseTextWelcome, vorleseTextAktuell,
-  waehleVorleseStimme, vorleseStimmen, vorleseZustandSetzen, diktierHinweisHTML,
+  waehleVorleseStimme, vorleseSprechen: (typeof vorleseSprechen === 'function' ? vorleseSprechen : undefined), vorleseStimmen, vorleseZustandSetzen, diktierHinweisHTML,
   _setVorleseEngine,
   flowEinstellungen, einstellungenHTML,
   modusFlaechenKlasse, escapeHTML,
@@ -1912,6 +1959,8 @@ const EXPORT_HOOK = `
   KDL_SYSTEM: (typeof KDL_SYSTEM !== 'undefined' ? KDL_SYSTEM : undefined),
   KDL_GEBRAUCHT: (typeof KDL_GEBRAUCHT !== 'undefined' ? KDL_GEBRAUCHT : undefined),
   KDL_FREIGABE: (typeof KDL_FREIGABE !== 'undefined' ? KDL_FREIGABE : undefined),
+  KDL_FASSUNGEN: (typeof KDL_FASSUNGEN !== 'undefined' ? KDL_FASSUNGEN : undefined),
+  KDL_EINGELESEN_FORM: (typeof KDL_EINGELESEN_FORM !== 'undefined' ? KDL_EINGELESEN_FORM : undefined),
   KDL_QUELLE: (typeof KDL_QUELLE !== 'undefined' ? KDL_QUELLE : undefined),
   kdlPruefen: (typeof kdlPruefen !== 'undefined' ? kdlPruefen : undefined),
   kdlEinlesen: (typeof kdlEinlesen !== 'undefined' ? kdlEinlesen : undefined),
@@ -1929,6 +1978,7 @@ const EXPORT_HOOK = `
   _sprachWahlHTML: (typeof _sprachWahlHTML !== 'undefined' ? _sprachWahlHTML : undefined),
   _textsatzModuleAusDepotAnmelden: (typeof _textsatzModuleAusDepotAnmelden !== 'undefined' ? _textsatzModuleAusDepotAnmelden : undefined),
   feldDefFuer: (typeof feldDefFuer !== 'undefined' ? feldDefFuer : undefined),
+  _liesSektorWertText: (typeof _liesSektorWertText !== 'undefined' ? _liesSektorWertText : undefined),   // Ausgabe-Tor-Wächter (d)
   rechtsraumCodefeld: (typeof rechtsraumCodefeld !== 'undefined' ? rechtsraumCodefeld : undefined),   // U2-ADR-482: W-4-Form rechtsraumCode
   // U2-ADR-363 (Zug 2, 07.09.2026) — Ab-Werk-Sprachmodule: Registry als Getter/Setter (ein
   // \`let\`, von _textsatzModuleAusDepotAnmelden() zur Laufzeit neu zugewiesen — derselbe Griff
@@ -1941,6 +1991,9 @@ const EXPORT_HOOK = `
   _abWerkTextsatzDeAbleiten: (typeof _abWerkTextsatzDeAbleiten !== 'undefined' ? _abWerkTextsatzDeAbleiten : undefined),
   AB_WERK_SPRACHANGEBOT_QUELLEN: (typeof AB_WERK_SPRACHANGEBOT_QUELLEN !== 'undefined' ? AB_WERK_SPRACHANGEBOT_QUELLEN : undefined),
   vorDepotSprachangebotVorhanden: (typeof vorDepotSprachangebotVorhanden === 'function' ? vorDepotSprachangebotVorhanden : undefined),
+  vorDepotSprachenAngebot: (typeof vorDepotSprachenAngebot === 'function' ? vorDepotSprachenAngebot : undefined),
+  vorDepotSprachKnopfHTML: (typeof vorDepotSprachKnopfHTML === 'function' ? vorDepotSprachKnopfHTML : undefined),
+  anfuehrungszeichen: (typeof anfuehrungszeichen === 'function' ? anfuehrungszeichen : undefined),
   _STRINGS_EINGEBAUT: (typeof _STRINGS_EINGEBAUT !== 'undefined' ? _STRINGS_EINGEBAUT : undefined),
   // U2-ADR-387 (Auftrag, Ab-Werk-Rangfolge, 08.09.2026) — das logikModul-Gegenstück zu
   // _TEXTSATZ_MODUL_REGISTRY: ein \`let\`, damit ein Test die Ab-Werk-Liste für den Rot-Beweis
@@ -2027,6 +2080,7 @@ const EXPORT_HOOK = `
   HERAUSGEBEN_ANLAESSE_SICHTBAR: (typeof HERAUSGEBEN_ANLAESSE_SICHTBAR !== 'undefined' ? HERAUSGEBEN_ANLAESSE_SICHTBAR : undefined),
   // FELD-HINWEIS-NICHT-VERKNUEPFT / FELD-FEHLER-NICHT-ZUGEORDNET (23.10.2026) — typeof-gesichert für ältere Kerne (htmlPfad).
   feldHinweisHTML: (typeof feldHinweisHTML !== 'undefined' ? feldHinweisHTML : undefined),
+  feldHinweisTeilen: (typeof feldHinweisTeilen !== 'undefined' ? feldHinweisTeilen : undefined),
   feldFehlerSetzen: (typeof feldFehlerSetzen !== 'undefined' ? feldFehlerSetzen : undefined),
   feldFehlerLoesen: (typeof feldFehlerLoesen !== 'undefined' ? feldFehlerLoesen : undefined),
   feldFehlerMeldungHTML: (typeof feldFehlerMeldungHTML !== 'undefined' ? feldFehlerMeldungHTML : undefined),

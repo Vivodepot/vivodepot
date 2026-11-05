@@ -56,10 +56,11 @@ konformitaet:
       - tests/adr-platzhalter-wurzel.test.js "[ADR-Platzhalter·Wurzel] keine Datei im obersten Ordner trägt U2-ADR-XXX"
   - aussage: >-
       Kein Platzhalter U2-ADR-NNN (auch mit angehängter Ziffer) in den Dateien des obersten Ordners.
-    zustand: offen
-    herkunft: U2-ADR-487 (06.10.2026), gemessen 17.10.2026
-    frist: 2026-10-31
-    bedingung: Der Kern trägt NNN und NNN2 noch an neun Stellen (Befund ADR-PLATZHALTER-IM-KERN); geschlossen, wenn sie echte Nummern tragen und die Probe NNN\d* im Muster führt
+    zustand: erfuellt
+    herkunft: U2-ADR-487 (06.10.2026), gemessen 17.10.2026; geschlossen 28.10.2026 (Kern trägt echte Nummern, Probe führt NNN\d* im Muster)
+    pruefung:
+      - tests/adr-platzhalter-wurzel.test.js "[ADR-Platzhalter·Wurzel] keine Datei im obersten Ordner trägt U2-ADR-XXX"
+      - tests/adr-platzhalter-wurzel.test.js "[ADR-Platzhalter·Wurzel·Rot-Beweis NNN] U2-ADR-NNN und U2-ADR-NNN2 fallen, eine echte Nummer nicht"
 ```
 
 ---

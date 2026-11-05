@@ -47,16 +47,16 @@ seinen **nächsten Prüftermin** (`DTSTART = faelligAm`). Der ICS-**Import** (`i
 `parseICS`/`_icsFelder`, `STRINGS.importIcsLabel`) ist **entfernt** — ein Kalendereintrag ist ein
 **Abkömmling** des Depots, keine Quelle. ICS ist reiner Export (`nurExport`).
 
-### Die entschiedene Semantik (C14/C15/A24) — und was sie ÜBERHOLT
+### Die entschiedene Semantik (C14/C15/A24)
 
 Ein **Testament** mit Datum erzeugt ein **Dokument** (Weg 3), aber **keinen Prüftermin** und
 **keinen VEVENT**: es liegt auf der Ereignis-Achse (C15), trägt kein Intervall (U2-ADR-113) → in
 `prueftermineDokumente` als „ohne Rhythmus" ohne `faelligAm` → vom `faelligAm != null`-Filter (C14)
 ausgeschlossen. **Das ist grün, nicht rot** (A24) — die Prüfungen halten es ausdrücklich fest.
 
-Damit ist die **frühere Weg-1-Abnahme vom 28.07.** („Testament → 1 VEVENT auf `DTSTART:20210912`")
-**überholt**. Sie stammte vor C14/C15; der Kalender trägt nicht das Ausstellungsdatum, sondern die
-nächste Fälligkeit, und ein Instrument ohne Fälligkeit trägt keinen Termin.
+**Der Grund:** Der Kalender trägt nicht das Ausstellungsdatum, sondern die nächste Fälligkeit, und
+ein Instrument ohne Fälligkeit trägt keinen Termin. Eine Abnahme, die für ein Testament einen VEVENT
+auf das Ausstellungsdatum erwartet, widerspricht C14/C15.
 
 ## Die drei Auflagen (C7)
 

@@ -27,7 +27,7 @@ const fremdesModul = (kennung) => ({ modulTyp: 'textsatz', moduleVersion: 1, spr
 
 async function ankerMitSub(V, subInhalt) {
   const umschlag = await V.subDepotVersiegeln(subInhalt, SUB_PW);
-  return V.subDepotEinhaengen(V.blackboxDateiAusUmschlag(umschlag), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
+  return V.subDepotEinhaengen(V.depotDateiAusUmschlag(umschlag), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
 }
 const subInhalt = (V) => ({ schemaVersion: V.SCHEMA_VERSION_AKTUELL, sektoren: {}, menschen: [], institutionen: [],
   textsprache: 'fr', textsatzModule: [fremdesModul()] });

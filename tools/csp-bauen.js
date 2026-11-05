@@ -29,6 +29,14 @@ const { BLOCK_ID, blockHtml } = require('./lib/vertrauensregel-block.js');
 
 const REPO = path.join(__dirname, '..');
 const META = /<meta\s+http-equiv="Content-Security-Policy"\s+content="([^"]*)"\s*\/?>/;
+/* Was dieses Werkzeug in der META-Zeile schreibt (Punkte 2 und 3 oben), je Direktive: die zwei Trusted-Types-Direktiven
+   ganz, in script-src die sha256-Tokens und das entfernte 'unsafe-inline'. Alles andere, auch dieselben Tokens in einer
+   anderen Direktive (style-src), ist Handinhalt. Das Aufnahme-Werkzeug des Zugs löst einen Konflikt in der Zeile nur,
+   wenn beide Seiten ohne diese Teile gleich sind. */
+const ERZEUGT_IN_META = {
+  direktiven: ['require-trusted-types-for', 'trusted-types'],
+  token: { 'script-src': [/^'sha256-[A-Za-z0-9+/=]+'$/, /^'unsafe-inline'$/] },
+};
 
 /* Die Anwendungen: jede HTML-Datei im Wurzelverzeichnis mit einer CSP-Zeile und eigenen Inline-Skripten. Aus dem
    Bestand abgeleitet, nicht aufgezählt — ein Stand ohne eine der Dateien (der öffentliche Zuschnitt) braucht keine
@@ -93,4 +101,4 @@ function main(argv) {
 }
 
 if (require.main === module) process.exit(main(process.argv.slice(2)));
-module.exports = { bauen, blockEinsetzen, trustedTypesInPolicy, anwendungen, main, META };
+module.exports = { bauen, blockEinsetzen, trustedTypesInPolicy, anwendungen, main, META, ERZEUGT_IN_META };

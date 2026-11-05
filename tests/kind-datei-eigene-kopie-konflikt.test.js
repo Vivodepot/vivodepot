@@ -72,9 +72,9 @@ test('[Kind-Datei·eigene Kopie] das stille Mitschreiben überschreibt keinen ne
   const { V, e, h } = await halterinMitKindDatei();
 
   // Die Person öffnet die Kind-Datei und sichert sie mit eigenem Passwort an denselben Ort.
-  const umschlagAlt = V.umschlagAusDatei(JSON.parse(h.inhalt));
+  const umschlagAlt = V.umschlagAusDatei(JSON.parse(V.magicStrippen(h.inhalt).json));
   const umschlagNeu = await V.subDepotEigenerPasswortWechsel(umschlagAlt, SUB_PW, EIGENES_PW);
-  const eigeneKopie = JSON.stringify(V.blackboxDateiAusUmschlag(umschlagNeu), null, 2);
+  const eigeneKopie = JSON.stringify(V.depotDateiAusUmschlag(umschlagNeu), null, 2);
   h.inhalt = eigeneKopie;
 
   assert.equal(await halterinAendertUndSichert(V, e.depotUUID), 0, 'nichts still geschrieben: auf der Platte liegt ein fremder Stand');
@@ -91,13 +91,13 @@ test('[Kind-Datei·eigene Kopie] das stille Mitschreiben überschreibt keinen ne
 
   // Gegenprobe: die Person öffnet ihre Kopie weiter mit ihrem eigenen Passwort.
   const { V: P } = ladeKern();
-  await P.depotLaden(P.umschlagEntpacken(JSON.parse(h.inhalt)), EIGENES_PW);
+  await P.depotLaden(P.umschlagEntpacken(JSON.parse(P.magicStrippen(h.inhalt).json)), EIGENES_PW);
   assert.ok(P.getData(), 'die Person kommt mit ihrem Passwort hinein');
 });
 
 test('[Kind-Datei·eigene Kopie] derselbe Stand in anderer Schreibform ist kein Konflikt (Vergleich am Umschlag)', async () => {
   const { V, e, h } = await halterinMitKindDatei();
-  h.inhalt = JSON.stringify(JSON.parse(h.inhalt));            // ohne Einrückung: anderer Text, derselbe Umschlag
+  h.inhalt = JSON.stringify(JSON.parse(V.magicStrippen(h.inhalt).json));   // ohne Einrückung und ohne Kopf: anderer Text, derselbe Umschlag
   assert.equal(await halterinAendertUndSichert(V, e.depotUUID), 1, 'die Kind-Datei wird nachgezogen');
   assert.equal(eintragVon(V, e.depotUUID).kindDatei.konflikt_am, undefined);
 });

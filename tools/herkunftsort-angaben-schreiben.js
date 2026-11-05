@@ -14,7 +14,7 @@ const L = require('./lib/herkunftsort-angaben.js');
 
 const REPO = path.join(__dirname, '..');
 const TRAEGER = Object.freeze([
-  { datei: 'vivodepot.html', anker: "const VIVODEPOT_HERKUNFT_LINK = 'https://vivodepot.de';", position: 'nach' },
+  { datei: 'vivodepot.html', anker: 'const VIVODEPOT_HERKUNFT_LINK = ', position: 'nach' },
   { datei: 'vivodepot-lesen.html', anker: 'const URHEBER_LESEN = ', position: 'vor' },
 ]);
 

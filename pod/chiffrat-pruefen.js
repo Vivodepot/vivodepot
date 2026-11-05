@@ -3,10 +3,12 @@
 
    Die Brücke legt nur ab, was der Kern selbst schon verschlüsselt hat. Diese Datei entscheidet das, bevor irgendetwas
    ins Netz geht, und zwar nur an der Form, ohne Schlüssel: die Brücke kennt weder Passwort noch Schlüssel und soll sie nie
-   kennen. Angenommen werden drei Formen, alle drei vom Kern erzeugt:
+   kennen. Angenommen werden vier Formen, alle vier vom Kern erzeugt:
 
    - `shl`        JWE in kompakter Form mit Kopf { alg: "dir", enc: "A256GCM" } (Freigabe-Link, U2-ADR-047)
    - `antwort`    JWE in kompakter Form mit Kopf alg PBES2-HS512+A256KW oder ECDH-ES, enc A256GCM (U2-ADR-449, -156 1b)
+   - `verzeichnis` JWE in kompakter Form mit Kopf { alg: "dir", enc: "A256GCM", typ: "vivodepot-verzeichnis+jwe" }: das Verzeichnis
+                  der Ablagen, im Kern verschlüsselt (U2-ADR-520)
    - `depot`      Depot-Datei (Sicherungskopie oder Ausschnitt je Empfänger, U2-ADR-156 1b): Präfix „VIVODEPOT“ + Fassungsbyte, danach JSON mit pbkdf2, depotSalt, depotUUID und genau
                   einer der Formen v3 (iv, ct) oder v4 (einheiten, umschlagTabelle); dieselbe Prüfung wie istGueltigerUmschlag
                   im Kern
@@ -21,16 +23,21 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   var B64URL = /^[A-Za-z0-9_-]+$/;
   var DATEI_MAGIC = 'VIVODEPOT';
-  // Wie UMSCHLAG_FELDER_BEKANNT im Kern, dazu die zwei Klartext-Stempel, die depotHerunterladen neben die Hülle schreibt.
+  /* Wie AUSSENABLAGE_HUELLE_FELDER im Kern (U2-ADR-520 Nr. 3): bei einem Dritten nur, was zum Öffnen nötig ist. Ohne den
+     Ort-Hinweis für Angehörige (angehoerigenOrt) und ohne die Zeitpunkte des eigenen Stands (stand_marke, gespeichert_am);
+     die schreibt nur die Datei auf dem eigenen Gerät. */
   var HUELLE = ['kryptoVersion', 'depotUUID', 'pbkdf2', 'depotSalt', 'iv', 'ct', 'einheiten', 'umschlagTabelle',
-    'angehoerigenOrt', 'wiederherstellung', 'stand_marke', 'gespeichert_am'];
+    'wiederherstellung'];
   /* Geschlossene Kopffelder je Form, wie der Kern sie schreibt (Krypto 15.10.): der Kopf ist lesbar, darum darf darin nichts
      stehen, was der Kern nicht selbst hineinlegt. Verfahren ebenso geschlossen: der Kern erzeugt ECDH-ES direkt (verschlüsselter
-     Schlüssel leer) und PBES2-HS512+A256KW (verschlüsselter Schlüssel nicht leer), nichts anderes. */
+     Schlüssel leer) und PBES2-HS512+A256KW (verschlüsselter Schlüssel nicht leer), nichts anderes. Die Antwort trägt kein
+     `anbieter` mehr im Kopf (U2-ADR-520 Nr. 3): der Kopf nennt die Stelle dem Betreiber des Speichers nicht. `pad` ist die
+     Auffüllung auf eine Größenstufe (_jweVersiegeln im Kern) und trägt nur Punkte. */
   var KOPF = {
     shl: ['alg', 'enc', 'cty'],
-    'ECDH-ES': ['alg', 'typ', 'cty', 'enc', 'vorgang', 'anbieter', 'epk', 'apv'],
-    'PBES2-HS512+A256KW': ['alg', 'typ', 'cty', 'enc', 'vorgang', 'anbieter', 'p2s', 'p2c']
+    verzeichnis: ['alg', 'enc', 'typ'],
+    'ECDH-ES': ['alg', 'typ', 'cty', 'enc', 'vorgang', 'epk', 'apv', 'pad'],
+    'PBES2-HS512+A256KW': ['alg', 'typ', 'cty', 'enc', 'vorgang', 'p2s', 'p2c', 'pad']
   };
   /* Größengrenze je Art, abgeleitet aus dem, was der Kern selbst höchstens erzeugt (Sec 16.10.), plus Rand:
      - link:  ein Mappe-Eintrag höchstens MAPPE_MAX_BYTES = 5 MB, als JWE in base64url etwa 6,7 MB → 8 MB.
@@ -39,9 +46,11 @@
      - stelle: Antwort-JWE (nur freigegebene Felder) oder Ausschnitt-Datei; ein Ausschnitt ist höchstens eine Depot-Datei → wie eigen.
      Weg: grep -n "MAPPE_MAX_BYTES =\|MAPPE_GESAMT_HARTE_GRENZE_BYTES =" vivodepot.html */
   var MB = 1024 * 1024;
-  var GRENZE = { link: 8 * MB, stelle: 450 * MB, eigen: 450 * MB };
+  // verzeichnis: eine Liste von Adressen und Zeitpunkten, im Kern auf VERZEICHNIS_MAX_EINTRAEGE begrenzt → 1 MB.
+  var GRENZE = { link: 8 * MB, stelle: 450 * MB, eigen: 450 * MB, verzeichnis: 1 * MB };
+  var VERZEICHNIS_TYP = 'vivodepot-verzeichnis+jwe';
   /* Je Art genau die erwartete Form (Sec 16.10.). */
-  var FORM_JE_ART = { link: ['shl'], stelle: ['antwort', 'depot'], eigen: ['depot'] };
+  var FORM_JE_ART = { link: ['shl'], stelle: ['antwort', 'depot'], eigen: ['depot'], verzeichnis: ['verzeichnis'] };
   function passtZurArt(text, art, bytes) {
     if (!GRENZE[art] || !(bytes <= GRENZE[art])) return false;
     var b = pruefen(text);
@@ -94,15 +103,20 @@
     if (j.kopf.enc !== 'A256GCM') return { fehler: 'verfahren-unbekannt' };
     if (j.kopf.alg === 'dir') {
       if (!j.schluesselLeer) return { fehler: 'kein-chiffrat' };
+      if (j.kopf.typ !== undefined) {
+        if (j.kopf.typ !== VERZEICHNIS_TYP) return { fehler: 'kopf-fremdes-feld' };
+        return nurFelder(j.kopf, KOPF.verzeichnis) ? { art: 'verzeichnis' } : { fehler: 'kopf-fremdes-feld' };
+      }
       return nurFelder(j.kopf, KOPF.shl) ? { art: 'shl' } : { fehler: 'kopf-fremdes-feld' };
     }
     if (j.kopf.alg === 'ECDH-ES' || j.kopf.alg === 'PBES2-HS512+A256KW') {
       // ECDH-ES direkt: der Inhaltsschlüssel wird abgeleitet, der Teil bleibt leer; PBES2 mit Schlüsselverpackung: nie leer.
       if ((j.kopf.alg === 'ECDH-ES') !== j.schluesselLeer) return { fehler: 'schluesselteil-passt-nicht' };
+      if (j.kopf.pad !== undefined && !(typeof j.kopf.pad === 'string' && /^\.*$/.test(j.kopf.pad))) return { fehler: 'kopf-fremdes-feld' };
       return nurFelder(j.kopf, KOPF[j.kopf.alg]) ? { art: 'antwort' } : { fehler: 'kopf-fremdes-feld' };
     }
     return { fehler: 'verfahren-unbekannt' };
   }
 
-  return { pruefen: pruefen, passtZurArt: passtZurArt, GRENZE: GRENZE, HUELLE: HUELLE, KOPF: KOPF };
+  return { pruefen: pruefen, passtZurArt: passtZurArt, GRENZE: GRENZE, HUELLE: HUELLE, KOPF: KOPF, VERZEICHNIS_TYP: VERZEICHNIS_TYP };
 });

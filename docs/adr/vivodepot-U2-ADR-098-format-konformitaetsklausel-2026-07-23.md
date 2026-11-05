@@ -161,8 +161,9 @@ und ein Datum — klein, sobald die Integritäts-Registry steht.
 aussage:   Jede ADR ab diesem Beschluss trägt einen Konformitäts-Block, und
            jede Prüfung nennt ihre ADR.
 zustand:   offen
-frist:     2026-10-31
+frist:     2026-11-27
 bedingung: Integritäts-Registry steht (Prüf-Architektur, Spur B)
+           Frist am 28.10.2026 neu gesetzt, vorher 2026-10-31; Eigentümer Strang Prüfregeln; Abnahme Integritäts-Registry Spur B gebaut oder Klausel neu gefasst.
 ```
 
 *Ohne diesen Block wäre dieses ADR das erste, das seine eigene Regel bricht.

@@ -85,7 +85,7 @@
     },
     {
       "datei": "g07-blackbox.vivodepot",
-      "beschreibung": "Gültig mit Hinweisen: Blackbox-Hülle um den Umschlag (U2-ADR-124), ohne Dateikopf, wie die Anwendung sie beim Herausgeben eines Teil-Depots schreibt.",
+      "beschreibung": "Gültig mit Hinweisen: Blackbox-Hülle um den Umschlag (U2-ADR-124), ohne Dateikopf, wie die Anwendung sie bis v969 beim Herausgeben eines Teil-Depots schrieb; ein Leser liest sie weiter.",
       "passwort": "korpus-test-inhaberin",
       "erwartet": {
         "urteil": "gueltig-mit-hinweisen",
@@ -93,6 +93,18 @@
           "VDF-BLACKBOX-HUELLE",
           "VDF-OHNE-KOPF"
         ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g16-teil-depot.vivodepot",
+      "beschreibung": "Gültig: ein Teil-Depot, wie die Anwendung es seit v970 herausgibt: Depot-Datei mit Kopf und dem gebundenen Kennzeichen art (Abschnitt 3).",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig",
+        "codes": []
       },
       "kern": {
         "ergebnis": "oeffnet"

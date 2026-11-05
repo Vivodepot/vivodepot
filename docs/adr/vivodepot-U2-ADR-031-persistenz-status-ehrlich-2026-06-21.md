@@ -378,12 +378,11 @@ Die Sicherheits-Bedingung selbst verallgemeinert: „Datei" ODER „sicher(n/t)"
 akzeptiert (vorher nur „Datei") — `fussStaleCacheWarnung` hat keine Datei im Spiel, nur ein „erst
 sichern".
 
-**Neuer Wortlaut** (`fussStaleCacheWarnung`): „Bei der letzten Verbindung wurde eine neuere
-Version gefunden. Sichern Sie zuerst Ihre Eingaben und laden Sie die Seite erst danach neu —
-sonst gehen sie verloren." Dieselbe Reihenfolge wie `keinOffenesDepotFehlerMitDatei`: erst
-sichern, dann laden. **Historischer Stand — mit U2-ADR-190 (01.09.2026) erneut geändert:** die
-Reload-Aufforderung selbst ist entfallen (automatische, stille Aktivierung), der aktuelle
-Wortlaut steht in `vivodepot.html`/`STRINGS.fussStaleCacheWarnung`, nicht hier.
+**Wortlaut** (`fussStaleCacheWarnung`): Die Regel dieses Stücks ist die Reihenfolge — wo ein
+Neuladen nötig ist, kommt zuerst das Sichern, dann das Laden, wie bei
+`keinOffenesDepotFehlerMitDatei`. Seit U2-ADR-190 (01.09.2026) fordert der Hinweis gar nicht mehr
+zum Neuladen auf (automatische, stille Aktivierung); der geltende Wortlaut steht in
+`vivodepot.html`/`STRINGS.fussStaleCacheWarnung`, nicht hier.
 
 **Zug 3 (Vollerhebung):** nach dem Schließen der Probe lief PS6-1 erneut gegen alle echten
 STRINGS — kein weiterer Treffer außer dem bereits behandelten. Kein Folgeposten.

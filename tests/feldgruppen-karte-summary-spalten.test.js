@@ -36,7 +36,9 @@ function regelBlock(selektor) {
 test('[Statuskarte·Spalten] .feldgruppen-karte > summary nutzt Grid mit festen Spalten, nicht Flex+space-between', () => {
   const block = regelBlock('.feldgruppen-karte > summary, .situation-block > summary, .anfragen-ort > summary {');
   assert.match(block, /display:\s*grid/, 'muss auf grid umgestellt sein');
-  assert.match(block, /grid-template-columns:\s*1fr auto auto/,
+  // minmax(0, 1fr) seit 31.10.2026: die Titelspalte darf unter die Breite ihres längsten Worts schrumpfen (sonst verbreitert ein
+  // langes Wort bei 320 px die ganze Ansicht).
+  assert.match(block, /grid-template-columns:\s*(?:1fr|minmax\(0,\s*1fr\)) auto auto/,
     'drei feste Spalten (Titel flexibel, Status + Pfeil auto) — sonst wandert die Statusspalte wieder mit der Titellänge');
   assert.doesNotMatch(block, /justify-content:\s*space-between/,
     'space-between war die eigentliche Ursache des "Flatterns" — darf nicht zurückkommen');

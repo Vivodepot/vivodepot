@@ -62,7 +62,8 @@ test('[Zug 1a·3-6] die vier statischen Hüllen-Texte laufen jetzt über STRINGS
 
 test('[Zug 1a·7] STRINGS trägt die drei refSubPicker-Wortlaute (Quelle enthält keine hartkodierten Literale mehr)', () => {
   const { V, src } = ladeKern();
-  assert.equal(V.STRINGS.refmSubNamePlatzhalter, 'Name der Person');
+  // „Name der Person“ als Platzhalter entfiel am 31.10.2026: die Maske trägt die Beschriftung STRINGS.refNeuePersonName über dem Feld.
+  assert.equal(V.STRINGS.refNeuePersonName, 'Name');
   assert.equal(V.STRINGS.refmSubGeburtsjahrPlatzhalter, 'Geburtsjahr (falls Tag unbekannt)');
   assert.equal(V.STRINGS.refmSubGeburtsdatumLabel, 'Geburtsdatum');
   assert.doesNotMatch(src, /const platzhalter = 'Name der Person'/,

@@ -58,6 +58,7 @@ konformitaet:
       Die Menge der eingebauten Bereiche wird aus dem gebackenen Katalog und der gebackenen Region des Produkts abgeleitet;
       ein Fremdmodul mit einer gebackenen Kennung wird als reserviert abgewiesen.
     zustand: offen
-    frist: 2026-10-31
+    frist: 2026-11-27
+    bedingung: Frist am 28.10.2026 neu gesetzt, vorher 2026-10-31; Eigentümer Strang Pro; Abnahme Ableitung der Menge aus gebackenem Katalog durch Probe belegt.
     herkunft: U2-ADR-492 (07.10.2026), Bau in einem Folgecommit
 ```

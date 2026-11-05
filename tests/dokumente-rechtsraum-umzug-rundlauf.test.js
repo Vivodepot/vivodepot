@@ -25,7 +25,7 @@ const { execFileSync } = require('node:child_process');
 
 const REPO = path.join(__dirname, '..');
 // Berichtigte eigene Fragen (v872), je Schritt und Feld wörtlich: tests/helfer/eigene-fragen-ersetzt.js.
-const { EIGENE_FRAGEN_ERSETZT, alteSchritteNachgefuehrt } = require('./helfer/eigene-fragen-ersetzt.js');
+const { EIGENE_FRAGEN_ERSETZT, alteSchritteNachgefuehrt, zifferZurueck } = require('./helfer/eigene-fragen-ersetzt.js');
 // Der alte Kanon ist ein FESTER Commit (letzter Stand mit Bündel-Inhalt vor dem Schnitt), nicht
 // `origin/u2-kanon`: der Zweig wandert, und seit dem Schnitt trägt er das Bündel nicht mehr.
 const ALTER_KANON = 'dceab851';
@@ -94,8 +94,12 @@ test('[U2-ADR-505·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhalt
      ein `hinweise` an einem weiteren Typ bleibt ein Befund. */
   const MIT_HINWEISEN = ['ki-verfuegung'];
   assert.deepEqual(Object.keys(deModul.typen).filter((t) => deModul.typen[t].hinweise).sort(), MIT_HINWEISEN);
+  /* U2-ADR-507 (Nachtrag 29.10.2026): jeder Typ trägt das Feld `bauplan`; im veröffentlichten Modul ist es null, die Schritte setzt
+     der Produktbau aus der Bauplan-Ergänzung ein (verglichen in der Probe zu `.dokumente` unten). Herausgenommen wird genau ein
+     `bauplan: null` — ein gefüllter Bauplan im Modul bleibt ein Befund. */
+  for (const [t, e] of Object.entries(deModul.typen)) assert.ok(!('bauplan' in e) || e.bauplan === null, t + ': bauplan im veröffentlichten Modul');
   const deModulVorZuwachs = Object.fromEntries(Object.entries(deModul.typen).map(([t, e]) => {
-    const { rechtsgrundlage, hinweise, ...rest } = e; return [t, rest]; }));
+    const { rechtsgrundlage, hinweise, bauplan, ...rest } = e; return [t, rest]; }));
   assert.deepEqual(deModulVorZuwachs, altAlsModulTypen,
     'Register geleert (BUERGERMODUL_BUENDEL.rechtsraumKatalog === undefined nach dem Umzug) und aus dem neuen Ab-Werk-Slot geladen — Inhalt muss identisch zum alten Bündel-Stand sein.');
   // Seit dem Schnitt (18.09.2026) ist das Bündel nicht nur um dieses eine Feld erleichtert,
@@ -107,8 +111,11 @@ test('[U2-ADR-505·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhalt
 
 /* TOR-IN-DER-DEFINITION (27.09.2026, v808): vier PV-Folgefragen tragen seither ihr `verborgenWenn` am Feld im Dokumentmodul (vorher
    als Tabelle im Kern). Ein Zuwachs gegenüber dem alten Kanon, kein Verlust — herausgenommen wird GENAU dieses Tor mit GENAU diesem Wert,
-   alles andere wird weiter exakt verglichen. Probe der Tore: eine nicht öffentliche Probe. */
+   alles andere wird weiter exakt verglichen. Probe der Tore: eine nicht öffentliche Probe.
+   Seit 31.10.2026 (v1000) dazu die zwei Tore der Wiederbelebung (Notarzt-Zusatz und B nur nach „die Unterlassung“ unter A). */
 const PV_TORE_SEIT_V808 = Object.freeze({
+  emergencyDoctorNotified: { feld: 'resuscitationInDescribedSituations', wert: 'ja' },
+  resuscitationInAllCases: { feld: 'resuscitationInDescribedSituations', wert: 'ja' },
   whoseViewMattersOtherPersonName: { feld: 'whoseViewMattersIfUnregulated', wert: ['bevollmaechtigt', 'betreuer', 'arzt'] },
   whoseViewMattersIfDeviatingOther: { feld: 'whoseViewMattersIfDeviatingWill', wert: ['bevollmaechtigt', 'betreuer', 'arzt'] },
   priorityIfOrganDonationConflict: { feld: 'organDonationDecision', wert: 'ablehnung' },
@@ -161,10 +168,23 @@ test('[U2-ADR-505·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_
   });
   const { ladeKern } = require('./load-kern.js');
   const { V: neu } = ladeKern();
-  const neuDok = Object.assign({}, neu.AB_WERK_DOKUMENTE_DE.dokumente);
+  /* U2-ADR-507 (Nachtrag 29.10.2026): die Dokumente sind auf drei Regionen verteilt — die Textteile der Patientenverfügung in
+     AB_WERK_DOKUMENTE_DE, der KI-Korpus in AB_WERK_KI_KORPUS, die Schritte von Patientenverfügung und Vollmacht als Bauplan im
+     deutschen Rechtsraum-Modul. Zusammengesetzt muss genau der alte Bündel-Inhalt herauskommen. Die Schritte stehen dabei so, wie
+     der Motor sie nach dem Textsatz-Lauf trägt: die alte Seite zeigt sie so, weil ihr Splice per Referenz die Labels in die Quelle
+     schrieb (Kopf). Der neue Kern liest den Bauplan als Kopie und lässt das Rechtsraum-Modul unverändert; dass der Motor genau den
+     Bauplan trägt, hält die Probe darunter (drei Motoren-Konstanten) fest. */
+  const de = (neu.AB_WERK_RECHTSRAUM_PRODUKT || []).find((m) => m && m.rechtsraum === 'DE');
+  assert.equal(de.typen['living-will'].bauplan.length, neu.PV_BMJ.steps.length, 'der Motor trägt den Bauplan der Patientenverfügung');
+  assert.equal(de.typen['enduring-power-of-attorney'].bauplan.length, neu.VOLLMACHT_BMJ.steps.length, 'der Motor trägt den Bauplan der Vollmacht');
+  const neuDok = Object.assign({}, neu.AB_WERK_DOKUMENTE_DE.dokumente, { kiKorpus: neu.AB_WERK_KI_KORPUS.kiKorpus,
+    vollmachtBmj: { steps: neu.VOLLMACHT_BMJ.steps } });
+  neuDok.pvBmj = Object.assign({}, neuDok.pvBmj, { steps: zifferZurueck(neu.PV_BMJ.steps) });   // v999: die Baustein-Ziffer steht am Schritt
   neuDok.pvBmj = vorBmjWortlaut459(Object.assign({}, neuDok.pvBmj, { steps: ohnePvToreSeitV808(neuDok.pvBmj.steps) }));
   const altesDokumenteNachgefuehrt = Object.assign({}, altesDokumente, {
-    vollmachtBmj: Object.assign({}, altesDokumente.vollmachtBmj, { steps: alteSchritteNachgefuehrt(altesDokumente.vollmachtBmj.steps) }) });
+    vollmachtBmj: Object.assign({}, altesDokumente.vollmachtBmj, { steps: alteSchritteNachgefuehrt(altesDokumente.vollmachtBmj.steps) }),
+    pvBmj: Object.assign({}, altesDokumente.pvBmj, { steps: alteSchritteNachgefuehrt(altesDokumente.pvBmj.steps) }),
+    kiKorpus: Object.assign({}, altesDokumente.kiKorpus, { steps: alteSchritteNachgefuehrt(altesDokumente.kiKorpus.steps) }) });
   assert.deepEqual(neuDok, altesDokumenteNachgefuehrt,
     'Register geleert (BUERGERMODUL_BUENDEL.dokumente === undefined nach dem Umzug) und aus dem neuen Ab-Werk-Slot geladen — Inhalt muss identisch zum alten Bündel-Stand sein.');
   // Seit dem Schnitt (18.09.2026) ist das Bündel nicht nur um dieses eine Feld erleichtert,
@@ -182,9 +202,9 @@ test('[U2-ADR-505·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/K
   assert.equal(vorBmjWortlaut459Schritte(neu.PV_BMJ.steps).length, altesteps.pv.length, 'PV_BMJ.steps.length weicht ab');
   assert.equal(neu.VOLLMACHT_BMJ.steps.length, altesteps.vollmacht.length, 'VOLLMACHT_BMJ.steps.length weicht ab');
   assert.equal(neu.KI_KORPUS.steps.length, altesteps.ki.length, 'KI_KORPUS.steps.length weicht ab');
-  assert.deepEqual(vorBmjWortlaut459Schritte(ohnePvToreSeitV808(neu.PV_BMJ.steps)), altesteps.pv, 'PV_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
+  assert.deepEqual(vorBmjWortlaut459Schritte(ohnePvToreSeitV808(zifferZurueck(neu.PV_BMJ.steps))), alteSchritteNachgefuehrt(altesteps.pv), 'PV_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
   assert.deepEqual(neu.VOLLMACHT_BMJ.steps, alteSchritteNachgefuehrt(altesteps.vollmacht), 'VOLLMACHT_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
-  assert.deepEqual(neu.KI_KORPUS.steps, altesteps.ki, 'KI_KORPUS.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
+  assert.deepEqual(neu.KI_KORPUS.steps, alteSchritteNachgefuehrt(altesteps.ki), 'KI_KORPUS.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
 });
 
 /* ── Rot-Beweis (Positivkontrolle) ─────────────────────────────────────────
@@ -208,4 +228,7 @@ test('[U2-ADR-505·Rundlauf·Rot-Beweis] eine berichtigte eigene Frage deckt nur
   assert.deepEqual(nachgefuehrt, [{ feld: { id: e.schritt }, [e.feld]: e.neu }, { feld: { id: 'anderer' }, [e.feld]: e.alt }], 'nur dieser Schritt');
   assert.throws(() => assert.deepEqual([{ feld: { id: e.schritt }, [e.feld]: e.neu + ' ' }], alteSchritteNachgefuehrt([alt[0]])), assert.AssertionError, 'ein dritter Wortlaut: rot');
   assert.throws(() => assert.deepEqual([{ feld: { id: e.schritt } }], alteSchritteNachgefuehrt([alt[0]])), assert.AssertionError, 'gestrichen ohne Ersatz: rot');
+  // Die Baustein-Ziffer (v999): zurückgelegt wird nur dieser eine Schlüssel; ein anderer neuer Schlüssel bleibt rot.
+  assert.deepEqual(zifferZurueck([{ feld: { id: 'x' }, bmjBaustein: '2.3.1' }]), [{ feld: { id: 'x' } }]);
+  assert.throws(() => assert.deepEqual(zifferZurueck([{ feld: { id: 'x' }, bmjBaustein: '2.3.1', baustein: '2.3.1' }]), [{ feld: { id: 'x' } }]), assert.AssertionError, 'ein anderer Schlüssel: rot');
 });

@@ -13,9 +13,256 @@ Der Listenpunkt entsteht im selben Commit wie die Korrektur. Daraus entstehen di
 Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tools/fassungen-register.js --check`
 (pre-commit) ist rot, wenn eine als korrigiert geführte Schwachstelle hier fehlt.
 
+**Wie ein Eintrag formuliert wird.** Jeder Punkt beginnt bei dem, der die Änderung bemerkt (Nutzerin, Einrichtung,
+wer im Studio arbeitet), und sagt, was sich für ihn ändert. Die Prüfung dahinter steht im Nebensatz, eine Bedingung
+bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbild ohne Signatur, nennt das Studio jetzt
+die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
+signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
+
 ## [Unreleased]
 
+## [v1.0.1040] – 2026-11-05
+
+### Hinzugefügt
+- Vertretung: Als Grundlage einer Vertretung gibt es jetzt die Vormundschaft (Vormund für ein minderjähriges Kind, bestellt durch
+  das Familiengericht, § 1773 BGB) und die Notvertretung durch Ehegatten in Gesundheitsfragen (§ 1358 BGB, für eingetragene
+  Lebenspartner § 21 LPartG). Ein Empfängerkreis unter der Notvertretung trägt nur den Bereich Gesundheit; jede andere Angabe weist
+  die Anwendung ab und sagt warum. Der Hinweis nennt die Grenzen: nur solange der Ehegatte die Gesundheitsfragen wegen
+  Bewusstlosigkeit oder Krankheit rechtlich nicht selbst besorgen kann, längstens sechs Monate ab dem ärztlich bescheinigten
+  Zeitpunkt, nicht bei Getrenntleben, entgegenstehendem Willen, Vollmacht oder Betreuung für Gesundheitsfragen.
+- Gesundheit: Die Liste „Forschungsentscheidungen“ nimmt je Entscheidung Art (sieben Arten, darunter die breite Einwilligung und
+  die Widersprüche gegen die Forschungsnutzung der ePA-Daten und nach dem Europäischen Gesundheitsdatenraum), Stelle, Datum der
+  Erklärung, Umfang, Fristen, Widerrufsweg und Stand auf. Bei einem Widerspruch entfallen Umfang und Fristen. Der Hinweis erklärt
+  gesetzlich Versicherten die Nutzung der ePA-Daten und den Widerspruch. Die Angaben gelten als sensibel, stehen nicht auf der
+  Notfallkarte und nicht im FHIR-IPS-Export.
+- Vorsorge: An der Patientenverfügung gibt es fünf Angaben zur Datenspende nach dem Tod: ob gespendet wird (ja, eingeschränkt, nein,
+  eine Vertrauensperson entscheidet), was, Ausschlüsse, die Vertrauensperson und wo die Daten liegen. Die Folgefelder verschwinden,
+  wenn die Art des Dokuments umgestellt wird.
+- Bei Hinweisen mit längerem Rechtstext steht der erste Satz sichtbar und der Rest hinter „Mehr zur Rechtslage“ („More on the legal
+  position“); der Wortlaut bleibt derselbe. Das gilt für die Hinweise zur Datenspende nach dem Tod und zu den Orten der
+  Gesundheitsdaten.
+- Die Patient Summary lässt sich über „Link senden“ weitergeben, neben der Datei.
+- Der Leerzustand der Sub-Depots zeigt ein Zeichen und „Noch keine Sub-Depots.“ („No sub-depots yet.“). Ein Schloss an jeder
+  aktiven Karte sagt, dass das Sub-Depot ein eigenes Passwort hat.
+- Für das Antwortformat auf eine Anfrage gibt es ein Schema (`antwort-schema.json` unter `docs/template-generator/`), gegen das
+  die Antwort der Anwendung geprüft wird. Wer eine Antwort einliest, kann sie damit prüfen und die Angaben übernehmen, statt sie
+  abzutippen.
+
+### Geändert
+- Listeneinträge stehen am Bildschirm mit der Beschriftung über ihrem Wert, beides in normalem Gewicht, ohne Doppelpunkt und
+  Trennpunkt. Am schmalen Bildschirm bricht die Zeile um, sodass der Text die ganze Breite hat und die Knöpfe darunter stehen. Die
+  Ausgaben als Text (PDF, Notfallblatt, Export) bleiben unverändert.
+- PDF: Im Gesamt- und Bereichs-PDF steht ein Listenfeld als Block je Eintrag, eine Zeile je Unterfeld, mit Abstand zwischen den
+  Einträgen. Eine Beschriftung, die schon auf „?“, „!“ oder „:“ endet, bekommt keinen weiteren Doppelpunkt, und die
+  Unterbeschriftung wiederholt den Gruppennamen nicht. Der Fuß nennt ohne Erweiterung einmal „Erweiterungen: keine“; mit
+  Erweiterungen heißt die Angabe „Erweiterungsstand: …“. Er bricht nur an den Trennpunkten, jede Angabe bleibt in einer Zeile.
+- Anlegen: Die Zeile „Steht bei Ihren Einträgen.“ unter „Ihr Name“ entfällt. „Passwort bestätigen“ ist am Handy und auf breiten
+  Bildschirmen sichtbar; Vor- und Nachname stehen nebeneinander unter „Ihr Name“.
+- Prüftermine: Die Einführung sagt, welche Dokumente „bald ablaufen oder erneuert werden müssen“, und nennt in einem eigenen Satz,
+  dass die Anwendung aus Ihren Angaben rechnet. Im englischen Produkt heißen sie „Review dates“, die Monatsnamen stehen in der
+  Anzeigesprache, die Fristen folgen der Datumsregel der Sprache, und Standarddokumente zeigen ihren Namen in der Anzeigesprache
+  (ein umbenanntes Dokument bleibt). Ein gesetztes Häkchen liest sich in Anzeige und Ausgabe als „Ja“.
+- Der Hinweis „Auf dem Startbildschirm ablegen“ steht auf der Startseite nur auf Handy und Tablet.
+- Die Hilfe zur Echtheit von Modulen und Vorlagen und der Hinweis zum befristeten Fach nennen den Produktnamen der Marke und
+  sprechen
+  nicht mehr von „der App“; unter einer Partnermarke steht deren Name.
+
+### Behoben
+- Im Sub-Depot landeten Änderungen, die während des Sicherns geschrieben wurden (ein eingelassenes Modul, ein Feldwert), still im
+  Anker-Depot und fehlten im Sub-Depot. Jetzt bleiben sie im Sub-Depot.
+- Ein Abschnittsfeld, das hinter einem Tor verborgen ist (Beispiel: Widerspruch gegen die Ehegatten-Notvertretung „nein“), ging
+  bisher trotzdem im Datensatz (Zusammenstellung, Anlass, Anfrage-Antwort) und in Formaten wie dem SD-JWT hinaus, obwohl es am
+  Bildschirm und in der Übersicht vor dem Senden fehlte. Jetzt bleibt es weg. In der Datei bleibt der Wert, ein Export für Umzug
+  oder Sicherung ändert sich nicht. Ebenso blieb ein Folgefeld sichtbar, wenn sein Torfeld selbst verborgen war.
+- Beim Export der Patient Summary mit Sprachwahl und beim Export mit unbestätigter Urschrift fehlten angekreuzte sensible
+  Felder, und zurückgehaltene Felder mit gespeicherter Freigabe gingen hinaus. Die Auswahl gilt jetzt bis nach dem Bau.
+- Bei der Ablage außerhalb des Geräts (Pod) gingen neben der verschlüsselten Datei der Ort-Hinweis für Angehörige und die Zeitpunkte
+  des Stands im Klartext mit; der Kopf der Antwort nannte die Stelle. Jetzt steht neben der verschlüsselten Depot-Datei nur, was zum
+  Öffnen nötig ist. Offen ist noch: Die Brücke legt die Kopie des Verzeichnisses der Ablagen weiter unverschlüsselt im Pod ab.
+  Der Ort-Hinweis bleibt in der Datei auf Ihrem Gerät; für Angehörige ändert sich nichts. Antworten an eine Stelle wies die Brücke
+  zuvor ab; das ist behoben.
+- Rechtsraum: Das Merkzeichen RF heißt „Ermäßigung beim Rundfunkbeitrag“ (es gibt eine Ermäßigung, keine Befreiung). Der Hinweis
+  zur Seed-Phrase sagt, dass nur der Ort hineingehört und nie die Wörter; Felder zu anderen Geheimnissen (PIN, Passwort,
+  Wiederherstellung, zweiter Faktor) fragen ebenso nur nach dem Ort. Die BundID heißt „Zentrales Nutzerkonto für Online-Anträge
+  bei Behörden“. Die Krypto-Übersicht heißt „Ihre Kryptowährungen und Wallets, ohne Zugangsdaten.“
+- Pro: Der Link „Was hier hineingehört“ in „Meine Dokumente“ öffnete einen leeren Dialog. Er steht dort nur noch, wenn es Lagen
+  gibt.
+- Pro, Englisch: Der Hinweis eines Bereichs ohne Felder lautet „There are no fields for this area yet.“ statt eines Entwicklertexts.
+- Eine Anfrage nach Angaben aus einem Bereich, den das Depot nicht führt, zeigte rohe Feldkennungen, „Angabe(n)“ und
+  „Das fehlt noch (0)“. Jetzt stehen diese Angaben unter „Das fehlt noch“ mit ihrem Namen in der Sprache der Oberfläche, der Marke „gibt es in diesem Depot nicht“ und dem Zweck der Stelle; die Zahl zählt sie mit.
+
+## [v1.0.1007] – 2026-11-01
+
+### Hinzugefügt
+- Das Anlegen eines Depots hat zwei Schritte: „Schritt 1 von 2 · Passwort“ und „Schritt 2 von 2 · Wiederherstellungs-Code“.
+  - Im ersten Schritt stehen sechs vorgeschlagene Wörter, mit „Andere Wörter“ zu wechseln und „Lieber ein eigenes Passwort
+    wählen“ als Gegenweg. Der Satz dazu sagt, dass Sie das Passwort jetzt auf Papier aufschreiben sollen, weil es nicht zurückgeholt
+    werden kann. Unter „Wörter zur Probe abtippen“ (bei eigenem Passwort „Passwort zur Probe abtippen“) zeigt die Anwendung, welches
+    Wort abweicht („Wort 3 weicht ab.“), oder dass nur die Schreibung anders ist (klein, mit Bindestrichen).
+  - Im zweiten Schritt steht der Code. „Fertig“ gilt erst, wenn Sie ihn abgetippt haben; ein falsches Zeichen wird benannt
+    („In Gruppe 2 weicht Zeichen 3 ab. Angezeigt ist dort …“). „Später einrichten“ lässt den Code aus und sagt dazu: „Bis dahin
+    öffnet nur Ihr Passwort das Depot.“ „Leeres Code-Blatt drucken“ druckt das Blatt zum Ausfüllen.
+- Nach dem ersten Anlegen öffnet die Seite „Was möchten Sie erledigen?“. Fehlt der Wiederherstellungs-Code noch, steht darüber
+  „Für dieses Depot ist kein Wiederherstellungs-Code eingerichtet. Wenn Sie das Passwort vergessen, gibt es keinen Weg zurück.“
+  mit dem Knopf „Code einrichten“.
+- Ein Datum steht in den Datumsfeldern der Bereiche und beim Ablegen eines Dokuments in drei Feldern: „Tag“, „Monat“, „Jahr“. In
+  den Bereichen wird ein Datum, das es nicht gibt (31.02.), nicht gespeichert; die Meldung lautet „Bitte prüfen Sie Tag, Monat und Jahr.“
+- Wo Sie eine Person wählen, öffnet „Neue Person anlegen“ eine Maske mit „Name“ und „Telefon“. Gibt es den Namen schon in „Meine
+  Menschen“, fragt die Anwendung „Diese Person gibt es schon“ und bietet „Diese Person verwenden“ oder „Trotzdem neu anlegen“ an.
+  Bei „Personen, die etwas sehen dürfen“ wählen Sie mit „Aus „Meine Menschen“ wählen“ oder legen mit „+ Neue Person“ an.
+- Vor dem Druck der Notfallkarte als PDF fragt die Anwendung, wenn eine Person auf der Karte keine Telefonnummer hat: „Telefonnummer
+  fehlt“ — „Für <Name> ist keine Telefonnummer hinterlegt. Auf der Karte steht dann nur der Name.“ Mit „Jetzt ergänzen“ öffnen Sie die
+  Person, mit „Trotzdem drucken“ drucken Sie die Karte.
+- Jede Sub-Depot-Karte zeigt unter „Verlauf“, was mit dem Sub-Depot geschah („Als Sub-Depot hinzugefügt“, „Zum ersten Mal angesehen“,
+  „Als verschlüsselte Datei übergeben“, „Abgegeben“, „Beiseitegelegt“, „Widerspruch festgehalten“ und weitere), mit Zeitpunkt
+  und, wo bekannt, wer es getan hat. „Herausgegeben“ nennt unter „Aus Sub-Depots“, welche Sub-Depots als Datei übergeben oder abgegeben
+  wurden.
+- Für ein Sub-Depot lässt sich eine Anweisung hinterlegen („Was soll mit diesem Sub-Depot geschehen, wenn Sie es nicht mehr
+  verwalten können?“), im Anlege-Dialog und danach mit „Anweisung hinterlegen“ bzw. „Anweisung ändern“. Auf Wunsch gibt es ein Datum
+  „Wann möchten Sie die Anweisung prüfen?“. Die Anweisung steht oben, wenn das Sub-Depot exportiert oder abgegeben wird.
+- Ein Vorsorgedokument kann auf sein unterschriebenes Dokument verweisen (Feld „Unterschriebenes Dokument“). Im Eintrag selbst gibt es
+  „Datei anhängen“ und „Vorhandenes Dokument wählen“; wer eine Datei ablegt, kann sie als „Vertraulich: nur auf dem Bildschirm zeigen,
+  nicht drucken“ kennzeichnen.
+- Beim Einlesen bietet die Anwendung für eine PDF „Als Dokument ablegen“ an („Eine PDF wird nicht eingelesen, aber Sie können sie
+  ablegen.“). In jedem Bereich gibt es „Dokument ablegen (PDF, Foto)“. Eine Kontaktkarte, die beim automatischen Erkennen gefunden wird,
+  wird eine neue Person; die Vorschau nennt jede Karte als „Neue Person in …“ mit Telefon und E-Mail. In die eigenen Angaben kommt eine
+  Karte nur über „Kontaktkarte als meine eigenen Angaben übernehmen“.
+- Wenn Sie unter „Personen, die etwas sehen dürfen“ eine Person einrichten, zeigt die Anwendung unter „Diese vertraulichen Angaben auch
+  weitergeben:“ die gefüllten, als vertraulich geltenden Angaben der gewählten Blätter (Notfall, Pflege, Bestattung), jede mit Häkchen.
+  Nur Angaben mit Häkchen werden weitergegeben; eine schon weitergegebene Datei ändert sich dadurch nicht.
+- Wer einer Person einen Bereich freigibt, gibt jetzt auch die Dokumente dieses Bereichs mit, soweit sie nicht als vertraulich gelten.
+  Über einen QR-Code geht keine Datei.
+- Unter „Hinzugefügte Erweiterungen“ in den Einstellungen steht ein signierter Verweis auf ein KI-Modell auf dem Gerät als „Lokales
+  KI-Modell“, schreibgeschützt, mit der Angabe „Herkunft laut Verweis: …“. Die Anwendung liefert kein Modell mit und startet keins.
+- Die Datei „Für das Krankenhaus: Vollmacht und Patientenkurzakte“ entsteht, sobald Sie die Liste der klinischen Dokumentarten (KDL)
+  mit „Dokumentenliste selbst laden“ geladen haben. Die übrigen Voraussetzungen bleiben: die Versichertennummer und die Freigabe der
+  sensiblen Angaben. Die Vollmacht ist nur dabei, wenn ihr in „Meine Dokumente“ eine unterschriebene Fassung zugeordnet ist. Eine
+  KDL-Fassung, die nicht zugelassen ist, weist die Anwendung ab.
+- Die Pod-Brücke legt ein Verzeichnis der Ablagen zusätzlich in Ihrem eigenen Pod an. Vor dem Abmelden zeigt sie, wie viele
+  Ablagen noch offen sind, und bietet „Alle zurücknehmen und abmelden“ oder „Abmelden, Ablagen bleiben im Pod“ an.
+- Die Lese-App zeigt auf ihrer ersten Seite Links zum Impressum und zur Datenschutzerklärung.
+- Die Abholseite von „Link senden“ trägt am Fuß Links zu Impressum und Datenschutz.
+- Im Assistenten der Patientenverfügung steht bei einer Frage, die einem Baustein des Justizministeriums folgt, unter dem Hinweis leise „Amtlicher Baustein <Ziffer>“.
+- Pro: Es gibt Hilfethemen zu den vier Listen „Erste Schritte …“ („Erste Schritte, wenn Sie verhindert sind“, „… im Todesfall“,
+  „… wenn kein Ende absehbar ist“, „… bei Verkauf oder Übergabe“). Ein Schritt verweist mit „Näheres finden Sie in der Hilfe.“ darauf.
+  Die Hilfe „Beruflich: Vertretung, Übergabe, Nachfolge“ nennt die Wirkung der Prokura und die Pflichten der GmbH-Geschäftsführung bei
+  der Einarbeitung.
+- Pro: Die Auszüge und Vorlagen sind über die Suche zu finden.
+- Pro: Liest ein Auszug Angaben aus einem privaten Bereich, den Pro nicht anbietet, öffnet „<Name> ergänzen“ genau diese Felder, bis Sie
+  das Depot wechseln.
+
+### Geändert
+- Viele Hinweise und Beschriftungen sind in Alltagssprache gefasst, zum Beispiel:
+  - Vorsorge: „Vorsorge-Instrumente“ heißt „Vorsorgedokumente“, „Instrument“ heißt „Art des Dokuments“, „Form“ heißt „Form, etwa notariell
+    oder handschriftlich“. Die Felder der Verfügung zur digitalen Nachbildung fragen jetzt unter anderem „Erlauben Sie eine KI-Nachbildung
+    Ihrer Person?“, „Wer die Nachbildung nutzen darf“ und „Wer Ihr digitales Erbe verwaltet“. Studio nennt die Felder ebenso.
+  - Patientenverfügung: „Notarzt-Hinweis“ heißt „Hinweis an den Notarzt“, „Frist“ heißt „Dauer der Befristung“, „Besondere Bedeutung
+    (ungeregelte Situationen)“ heißt „Wessen Meinung zählt, wenn etwas nicht geregelt ist“. Die Fragen des Assistenten sind kürzer und
+    ohne Fachwörter gefasst.
+  - „Vorgeschlagene Person“ heißt „Vorgeschlagen als Betreuerin oder Betreuer“, „Wer nicht bestellt werden soll“ heißt „Wer nicht
+    Betreuerin oder Betreuer werden soll“.
+  - Gesundheit: „Zahnärztin / Zahnarzt — Name & Kontakt“; „EHIC-Karte (Europäische Krankenversicherungskarte)“ heißt „Europäische
+    Krankenversicherungskarte“; „Gültig bis (inkl. EHIC)“ heißt „Gültig bis“.
+  - Fahrzeug: „Fahrzeugschein (Zulassungsbescheinigung Teil I) — Ablageort“. Konten: „Bankvollmachten aus dem Bereich Vorsorge“.
+  - „Was hier hineingehört“: „Zustände“ heißt „Gesundheit und Lebenslage“, „Ausstattung“ heißt „Dinge und Vorräte“.
+  - „Maschinenlesbar“ heißt „Für Computer lesbar“. „Datei in diesen Bereich einlesen“ heißt „Angaben aus einer Datei übernehmen“,
+    „Identitäts-Angaben einlesen“ heißt „Identitätsnachweis einlesen“, „Eingelassene Erweiterungen“ heißt „Hinzugefügte Erweiterungen“.
+  - Die Hilfe und die Hinweise zum Passwort empfehlen die sechs vorgeschlagenen Wörter. Der Hinweis zur Stärke lautet „Sicherer sind die
+    sechs Wörter oder 16 Zeichen mit Zahlen und Sonderzeichen.“
+- Das Blatt zum Ausfüllen des Passworts heißt „Passwort-Blatt“ (vorher „Notfall-Blatt“): „Passwort-Blatt drucken“, „Passwort-Blatt zum
+  Ausfüllen“.
+- Sub-Depot: „Depot einhängen“ heißt „Depot-Datei aufnehmen“ (Bestätigung „Hinzufügen“), „Wofür eingehängte Depots da sind“ heißt „Was
+  ein Sub-Depot ist“. „Versiegelt“ heißt „Verschlossen“, „Wieder versiegeln“ heißt „Wieder verschließen“. Die beiden Wege stehen als
+  Zeilen einer Karte: „Neues Depot anlegen“ („für jemanden ohne Depot“) und „Depot-Datei aufnehmen“ („die Ihnen jemand gegeben hat“).
+  Im Anlege-Dialog sagt ein Satz, dass die Wahl der Grundlage nichts einschränkt; wie weit Ihre Vertretung reicht, ergibt sich aus
+  Vollmacht, Gerichtsbeschluss oder Gesetz.
+- Im geöffneten Sub-Depot sprechen die Einführungen der Bereiche und das Deckblatt von „der Person“ („Name der Person“) statt von „Ihrem“
+  Depot.
+- Unter „Personen, die etwas sehen dürfen“ heißt „Fach in meiner Datei einrichten“ jetzt „Eigenes Passwort für diese Person einrichten“, entsprechend
+  „Passwort dieser Person entfernen“. Die Frage „Was soll diese Person sehen dürfen?“ lautet „Welche Angaben darf diese Person sehen?“.
+- Die Ansicht „Was möchten Sie erledigen?“ steht im Rahmen der Anwendung neben der Seitenleiste und beginnt mit „Wählen Sie einen Anlass.
+  … zeigt Ihnen, was dafür im Depot wichtig ist.“
+- Vorlesen nutzt nur Stimmen, die der Browser als auf dem Gerät installiert meldet. Hat das Gerät keine, bleibt es stumm und sagt:
+  „Vorlesen ist hier aus: Auf diesem Gerät ist keine Stimme installiert, nur Stimmen aus dem Netz.“
+- In einem Dokument aus einer unsignierten Erweiterung beginnt die Herkunftsangabe mit dem Satz „Diese Erweiterung ist unsigniert. Ihre
+  Herkunft ist nicht geprüft.“ Eine Erweiterung ohne geprüfte Signatur kann sich keine eigene Prüfstufe mehr zuschreiben.
+- Der Dialog zum Laden heißt „Liste der klinischen Dokumentarten (KDL) selbst laden“, der Knopf „Dokumentenliste selbst laden“ (vorher
+  „KDL selbst laden“). Der Eintrag für das Krankenhaus heißt „Für das Krankenhaus: Vollmacht und Patientenkurzakte“ (ohne „ISiK“).
+- Eingabefelder in Dialogen und das Feld zum Entsperren stehen in der Schrift und Farbe der Anwendung und wachsen mit „Schrift größer“;
+  das Entsperrfeld ist mindestens 44 Pixel hoch und hat einen deutlicheren Rahmen. Platzhaltertexte stehen nicht mehr kursiv.
+  Lange Gruppentitel werden getrennt, damit die Ansicht bei 320 Pixel Breite nicht verbreitert wird.
+- Die Hinweise zur Ehegatten-Notvertretung nennen auch den Fall, dass für Gesundheitsfragen schon eine Betreuung bestellt ist. Der Hinweis
+  zu den Notfallkontakten sagt: „Im Notfall-QR erscheinen alle, für die eine Telefonnummer eingetragen ist.“
+- Der Hinweis zum Testament nennt zu den zwei Wegen (eigenhändig, vollständig von Hand geschrieben und unterschrieben, oder beurkundet
+  durch eine Notarin oder einen Notar) jetzt die Fundstelle (§ 2247 BGB). Die Auszüge zu Erbschein und Beratungshilfe sind in
+  Alltagssprache gefasst; der Auszug zum Erbschein sagt, er stamme nicht von service.justiz.de.
+- Pro: Die Startseite sagt „Verschlüsselt, ohne Konto. Zugänge, Verträge und Abläufe an einem Ort, und für jede Stelle der passende
+  Auszug.“ Über der Liste steht „Ihre Auszüge und Vorlagen auf einen Blick“. Der Abschnitt mit den Karten der Antragsvorlagen heißt „Auszüge für Anträge“
+  (vorher „Vorbereitungsauszüge“). Das Häkchen in der Liste „Vollmacht über den Tod hinaus“ heißt „Gilt über den Tod hinaus“ (vorher „Gilt“).
+- Pro: Die vier Listen „Erste Schritte …“ schlagen ihre Schritte in förmlichen, kurzen Sätzen vor; die Einzelheiten stehen in der Hilfe.
+  Feldhinweise sagen, was ein Feld aufnimmt, statt anzuweisen. Der Hinweis zur Arbeitszeit sagt: Nach der Rechtsprechung des
+  Bundesarbeitsgerichts ist die gesamte Arbeitszeit zu erfassen, mit Beginn und Ende (vorher: nur Arbeitszeit über acht Stunden).
+- Pro: Der Hinweis am Feld „Letzte Versammlung wegen Kapitalverlust“ nennt den Anlass: „Falls wegen des Verlusts der Hälfte des
+  Stammkapitals eine Gesellschafterversammlung einberufen wurde: Datum dieser Versammlung.“
+- Pro: Prüftermine lesen Listen mit Gültigkeitsdatum nur aus Bereichen und Feldern, die Pro anbietet.
+
+### Behoben
+- Patientenverfügung: Wer bei „Wiederbelebung in den oben beschriebenen Situationen“ Versuche der Wiederbelebung wählt, wird nicht mehr
+  zugleich nach dem Hinweis an den Notarzt und nach „Wiederbelebung (alle Fälle)“ gefragt, und das Dokument trägt nicht mehr beides.
+- Pro zeigte den Navigationspunkt „Notfall“, der eine leere Ansicht öffnete. Er entfällt dort.
+- Pro, Deutsch: Der Knopf „English“ vor dem Depot zeigte die Startseite von Vivodepot Privat. Er zeigt jetzt die von Pro.
+- Pro, Zusammenstellen: Die zwanzig privaten Identitätsfelder, die Pro nicht anbietet, standen als Felder zum Füllen da. Sie stehen dort
+  nur noch, wenn sie einen Wert tragen.
+- Eine einzelne Kontaktkarte landete beim automatischen Erkennen in den eigenen Identitätsangaben. Sie wird jetzt eine neue Person.
+- Am schmalen Bildschirm (etwa 390 Pixel, Touch) fiel die Anwendung auf ungestaltetes HTML zurück, sobald das Menü über der
+  Notfall-Ansicht geöffnet wurde. Das Menü lässt die Gestaltung jetzt stehen.
+- Eine Aktualisierung ohne erreichbare Startseite (etwa bei Pro nach einem Neustart des Browsers) löschte die bisher gespeicherte
+  Fassung der Anwendung; sie startete dann offline nicht mehr. Jetzt bleibt die bisherige Fassung erhalten.
+- Das Abmelden bei der Pod-Brücke verlor das Verzeichnis der Ablagen; offene Ablagen ließen sich danach nicht mehr zurücknehmen.
+  Jetzt liegt eine Kopie des Verzeichnisses im eigenen Pod.
+
 ## [v1.0.956] – 2026-10-28
+
+### Hinzugefügt
+- Der Erbvertrag ist ein eigenes Vorsorge-Instrument im Bereich „Vorsorge & Recht“. Er wird notariell geschlossen und trägt
+  dieselben Angaben wie das Testament: Form, Ablageort, Datum, Bedachte und Hinweise. Die Vorbereitung des Erbscheins
+  fragt nach ihm und seinen Bedachten.
+- Wer eine Datei, einen Auszug oder eine Antwort weitergibt, wird danach gefragt, ob die Weitergabe unter
+  „Herausgegeben“ eingetragen werden soll. Das gilt für jeden Weitergabe-Weg, etwa Anlass-Auszug, Zusammenstellung,
+  Bereichs-PDF, Situationsblatt, EUDI-Wallet, Antwort auf eine Anfrage, Empfängerkreis und Erbschein-Vorbereitung.
+  - Was die Anwendung vom Weg schon weiß, steht vorbelegt und lässt sich ändern.
+  - Eingetragen wird erst mit „Eintragen“, „Später“ legt nichts an.
+  - Notfallkarte, Notfall-QR, Notfallblatt, Code-Blatt und die versiegelte Datei an die Vertretung fragen nicht.
+- Jeder Empfängerkreis zeigt unter der letzten Ausgabe bis zu fünf frühere, eingeklappt, je mit Zeitpunkt, Zahl der
+  Angaben und Art (Datei oder QR-Code). Was ausgegeben wurde und an wen, hält er nicht fest. Der Verlauf bleibt auf dem
+  Gerät.
+- Pro, Bereich „Betrieb“: Ein Feld hält die Unterrichtung der Beschäftigten beim Betriebsübergang fest, also wann,
+  durch wen, wer betroffen ist, wo die Unterrichtung liegt und ob jemand widersprochen hat. Der Hinweis nennt die
+  Bedingung: Übergang durch Rechtsgeschäft, nicht beim Kauf von Anteilen und nicht im Erbfall.
+- Pro hat zwei neue Vorlagen, „Vollmacht für den Betrieb“ und „Übergabeprotokoll“, auf Deutsch und Englisch.
+- Pro zeigt unter dem Hinweis eines Felds „Vorschrift: …“, wenn eine unabhängige Quellenprüfung die Vorschrift für
+  dieses Feld bestätigt hat. Felder ohne geprüfte Vorschrift zeigen keine.
+- Pro, „Kontakte und Vertretung“: Die vier Listen „Erste Schritte …“ bringen vorgeschlagene Schritte mit, auf Deutsch
+  und Englisch. Solange eine Liste leer ist, stehen die Vorschläge darüber und lassen sich übernehmen.
+
+### Geändert
+- Testament, Sorgerechtsverfügung und Verfügung zur digitalen Nachbildung bieten als Form nur noch „vollständig von Hand
+  geschrieben und unterschrieben“ und „notariell beurkundet“ an. Ein getippter Text mit Unterschrift ist als Testament
+  nichtig (§ 2247 Abs. 1, § 125 BGB). „Beglaubigt“ bietet das Testament nicht mehr an (§ 2231 BGB). Ein schon gespeicherter, nicht mehr
+  vorgesehener Wert bleibt stehen und sagt das, statt still zu verschwinden.
+- Pro: Das Feld „Anzeigen an Gemeinde und Finanzamt“ heißt jetzt „Meldungen bei Vertretung, Übergabe oder Aufgabe“.
+  Sein Hinweis nennt die Stellen, die je nach Beruf und Betrieb zu benachrichtigen sind, und jede Zeile hat ein
+  Datum „Zu melden bis“.
+- Pro, Englisch: Die Hinweise zur gerichtlichen Genehmigung sagen „custodianship“ und „custodianship court“ nach der
+  amtlichen Übersetzung des BGB.
+- Englisch: Die Angehörigen-Vorlage sagt „living will“ statt „advance directive“; Studio nennt „Living will“ und
+  „Enduring power of attorney“.
+
+### Behoben
+- Pro: Die Vorlagen ab Werk, etwa die Vorbereitung des Erbscheins, waren in Pro nicht zu sehen. Sie stehen jetzt im
+  Bereich „Unterlagen“ unter „Vorbereitungsauszüge“. Ein Knopf „… ergänzen“ öffnet die Angaben, die die Vorlage liest.
+- Pro: Die Vorbereitung des Erbscheins übernahm eine nicht vorgesehene Testamentsform aus älteren Angaben als
+  Tatsache. Sie gibt eine Form jetzt nur weiter, wenn die Zeile sie anbietet.
 
 ## [v1.0.955] – 2026-10-27
 

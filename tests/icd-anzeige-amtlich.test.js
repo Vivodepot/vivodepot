@@ -174,12 +174,13 @@ test('[ICD-Anzeige·Kern] jede Anzeigestelle zeigt den amtlichen Titel, jeder Te
 
 test('[ICD-Anzeige·Kern·Rot-Beweis] ein Kern ohne die Anzeigestelle (Mutation an einer Kopie) zeigt den gespeicherten eigenen Namen und fällt', () => {
   const quelle = lesen('vivodepot.html');
-  const zeile = '  if (!liste || !liste.herkunftPflicht) return escapeHTML(text) + codeHTML;';
+  // Die Weiche der Anzeigestelle (seit 01.11.2026 mit der Sprachwahl der Listennamen davor): der Block der Listen ohne herkunftPflicht.
+  const zeile = /  if \(!liste \|\| !liste\.herkunftPflicht\) \{\n    const el = [^\n]*\n    return [^\n]*\n  \}\n/;
   assert.equal(quelle.split(zeile).length, 2, 'Vorbedingung: die Weiche der Anzeigestelle steht genau einmal im Kern');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'icd-anzeige-'));
   try {
     const pfad = path.join(dir, 'kern.html');
-    fs.writeFileSync(pfad, quelle.replace(zeile, '  return escapeHTML(text) + codeHTML;'));
+    fs.writeFileSync(pfad, quelle.replace(zeile, '  return escapeHTML(text) + codeHTML;\n'));
     const { V } = ladeKern({ htmlPfad: pfad, backen: true });
     const liste = V.liesCodeListe('icd10');
     const e1190 = LISTE.daten.find((d) => d.code === 'E11.90');

@@ -150,8 +150,8 @@ test('[Sub-Depot-Zugang] das Passwort eines Sub-Depots öffnet weder ein anderes
   const b = await V.subDepotAnlegen({ bezeichnung: 'Depot Mutter', inhaberin: 'Mutter', verwaltungsTyp: 'verwaltet' }, 'sub-pw-mutter-1');
   const dateiA = V.subDepotBlackboxExportieren(a.depotUUID);
   const dateiB = V.subDepotBlackboxExportieren(b.depotUUID);
-  await V.subDepotEntsiegeln(dateiA.umschlag, 'sub-pw-vater-1');   // Gegenprobe: der eigene Schlüssel öffnet
-  await assert.rejects(() => V.subDepotEntsiegeln(dateiB.umschlag, 'sub-pw-vater-1'), 'öffnet kein fremdes Sub-Depot');
+  await V.subDepotEntsiegeln(dateiA, 'sub-pw-vater-1');   // Gegenprobe: der eigene Schlüssel öffnet
+  await assert.rejects(() => V.subDepotEntsiegeln(dateiB, 'sub-pw-vater-1'), 'öffnet kein fremdes Sub-Depot');
   const anker = await V.depotSerialisieren();
   await assert.rejects(() => ladeKern().V.depotLaden(anker, 'sub-pw-vater-1'), 'öffnet den Anker nicht');
 });

@@ -7,12 +7,33 @@ const os = require('node:os');
 const path = require('node:path');
 
 const zwischen = new Map();
+/* Die Ordner leben so lange wie der Prozess (zwischen hält den Pfad); beim Ende werden sie geräumt (Befund TEMP-RESTE-WIEDER).
+   Auch bei SIGTERM, SIGINT und SIGHUP (02.11.2026, tests/produkt-html-temp-signal.test.js): dann endet Node ohne 'exit',
+   und jeder abgebrochene Lauf ließ seine Produkte im TMPDIR liegen. Nach dem Räumen gilt das Signal wie vorher: ist kein
+   anderer Hörer da, wird es neu ausgelöst und beendet den Prozess. SIGKILL lässt sich nicht abfangen. */
+const zuRaeumen = new Set();
+function raeumen() {
+  for (const d of zuRaeumen) { try { fs.rmSync(d, { recursive: true, force: true }); } catch (_) { /* weiter mit dem nächsten */ } }
+  zuRaeumen.clear();
+}
+let wacheAn = false;
+function wacheEinrichten() {
+  if (wacheAn) return;
+  wacheAn = true;
+  process.once('exit', raeumen);
+  for (const signal of ['SIGTERM', 'SIGINT', 'SIGHUP']) {
+    process.once(signal, () => {
+      raeumen();
+      if (process.listenerCount(signal) === 0) process.kill(process.pid, signal);
+    });
+  }
+}
 function _bauArgumente(slug) {
   const { PRODUKTE, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
   const p = PRODUKTE.find((x) => x.slug === slug);
-  // Der Ordner lebt so lange wie der Prozess (zwischen hält den Pfad); beim Ende wird er geräumt (Befund TEMP-RESTE-WIEDER).
   const ziel = fs.mkdtempSync(path.join(os.tmpdir(), 'produkt-html-' + slug + '-'));
-  process.once('exit', () => fs.rmSync(ziel, { recursive: true, force: true }));
+  zuRaeumen.add(ziel);
+  wacheEinrichten();
   return { ziel, slug, modulauswahl: [],
     vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
     unsignierteModulDateien: modulDateienFuer(p) };

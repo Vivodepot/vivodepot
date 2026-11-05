@@ -141,6 +141,15 @@ const ZUWACHS = Object.freeze([
   { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'storageHouseNumber', art: 'feld', adr: 'U2-ADR-471' },
   { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'storagePostalCode', art: 'feld', adr: 'U2-ADR-471' },
   { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'storageCity', art: 'feld', adr: 'U2-ADR-471' },
+  { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'attachedDocument', art: 'feld', adr: 'U2-ADR-013' },
+  // U2-ADR-518 — Forschungsentscheidungen als Liste in Gesundheit, Datenspende nach dem Tod an der Patientenverfügung
+  // (tests/forschungsentscheidungen-und-datenspende-tod.test.js).
+  { bereich: 'health', sektion: 'notfall-aerzte', feld: 'researchDecisions', unterfeld: null, art: 'feld', adr: 'U2-ADR-518' },
+  ...['kind', 'institution', 'declaredOn', 'scope', 'validUntil', 'storedUntil', 'withdrawalRoute', 'status'].map((unterfeld) =>
+    ({ bereich: 'health', sektion: 'notfall-aerzte', feld: 'researchDecisions', unterfeld, art: 'feld', adr: 'U2-ADR-518' })),
+  ...['postMortemDataDonation', 'postMortemDataDonationScope', 'postMortemDataDonationExcluded', 'postMortemDataDonationTrustee',
+    'postMortemDataHolders'].map((unterfeld) =>
+    ({ bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld, art: 'feld', adr: 'U2-ADR-518' })),
 ]);
 
 // Sicht 1 — der eingefrorene BEREICHSBESTAND: benannte Feld-Stellen, nie Array-Positionen.

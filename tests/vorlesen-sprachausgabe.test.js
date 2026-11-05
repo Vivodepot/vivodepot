@@ -21,8 +21,11 @@ const { abWerkWortlaut } = require('./helfer/ab-werk-wortlaut.js');   // v894: S
 
 const PW = 'pw';
 
-// Minimale Stub-Engine, die speak/cancel-Aufrufe und Utterances protokolliert.
-function macheStubEngine(stimmen) {
+// Minimale Stub-Engine, die speak/cancel-Aufrufe und Utterances protokolliert. Ohne Angabe trägt sie eine deutsche
+// Stimme auf dem Gerät: seit VORLESEN-OHNE-LOKALE-STIMME spricht die Anwendung ohne lokale Stimme gar nicht
+// (tests/vorlesen-nur-lokale-stimme.test.js).
+const LOKAL_DE = { lang: 'de-DE', name: 'Anna', localService: true };
+function macheStubEngine(stimmen = [LOKAL_DE]) {
   const log = { speak: [], cancel: 0 };
   return {
     log,
@@ -128,14 +131,14 @@ test('vorleseToggle: aus → an (speak) → aus (cancel)', async () => {
   V._setVorleseEngine(null);
 });
 
-test('waehleVorleseStimme: bevorzugt eine de-Stimme, sonst null (Standardstimme)', async () => {
+test('waehleVorleseStimme: bevorzugt eine de-Stimme auf dem Gerät, sonst null (dann wird nicht gesprochen)', async () => {
   const { V } = ladeKern();
-  const mitDe = macheStubEngine([{ lang: 'en-US', name: 'Alex' }, { lang: 'de-DE', name: 'Anna' }]);
+  const mitDe = macheStubEngine([{ lang: 'en-US', name: 'Alex', localService: true }, LOKAL_DE]);
   V._setVorleseEngine(mitDe);
   const stimme = V.waehleVorleseStimme(mitDe);
   assert.ok(stimme && /^de/i.test(stimme.lang), 'deutsche Stimme gewählt');
-  // Ohne deutsche Stimme: null → die Engine nimmt ihre Standardstimme.
-  const ohneDe = macheStubEngine([{ lang: 'en-US', name: 'Alex' }]);
+  // Ohne deutsche Stimme auf dem Gerät: null → vorleseSprechen spricht nicht.
+  const ohneDe = macheStubEngine([{ lang: 'en-US', name: 'Alex', localService: true }]);
   assert.equal(V.waehleVorleseStimme(ohneDe), null, 'keine de-Stimme → null');
   V._setVorleseEngine(null);
 });

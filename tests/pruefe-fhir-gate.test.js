@@ -31,3 +31,18 @@ test('[FHIR-Gate·Gegenprobe] eine reine Dokument-Änderung löst nichts aus, ei
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /kein Anlass/);
 });
+
+/* HÄNGER IST UNGEMESSEN (30.10.2026, Befund FHIR-GATE-HAENGER-ALS-ROT): ein Lauf über der Zeitgrenze endete mit 1 wie eine
+   Regelverletzung; am Zugkopf hieß das Rot samt Verursacher. Jetzt Ausgang 3, derselbe wie beim E2E-Gate. */
+const G = require('../scripts/pruefe-fhir-gate.js');
+const E2E = require('../scripts/pruefe-e2e-bereich.js');
+test('[FHIR-Gate·Hänger·Rot-Beweis] ein Lauf über der Zeitgrenze endet mit dem Ausgang ungemessen, nicht mit 1', () => {
+  assert.equal(G.laufErgebnis({ error: { code: 'ETIMEDOUT' }, status: null }), 'haengt');
+  assert.equal(G.ausgangFuer('haengt'), G.AUSGANG_UNGEMESSEN);
+  assert.notEqual(G.ausgangFuer('haengt'), 1, 'vor dem Fix endete ein Hänger mit 1');
+  assert.equal(G.AUSGANG_UNGEMESSEN, E2E.AUSGANG_UNGEMESSEN, 'ein ungemessen-Ausgang für alle Gates');
+});
+test('[FHIR-Gate·Hänger·Gegenprobe] ein Rot bleibt 1, ein Grün 0', () => {
+  assert.equal(G.ausgangFuer(G.laufErgebnis({ status: 1 })), 1);
+  assert.equal(G.ausgangFuer(G.laufErgebnis({ status: 0 })), 0);
+});

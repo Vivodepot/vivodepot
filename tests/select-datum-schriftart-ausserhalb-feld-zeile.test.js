@@ -68,7 +68,8 @@ describe('[Select/Datum-Schriftart] globaler Reset statt Wrapper-für-Wrapper', 
     const treffer = regeln.filter((r) => {
       const teile = r.selector.split(',').map((s) => s.trim());
       const traegtSelect = teile.some((t) => t === 'select');
-      const traegtDatum = teile.some((t) => t === 'input[type="date"]');
+      // Ein ungescoptes `input` deckt das Datumsfeld mit (seit 30.10.2026: `input, select, textarea { font-family: inherit }`).
+      const traegtDatum = teile.some((t) => t === 'input[type="date"]' || t === 'input');
       return traegtSelect && traegtDatum;
     });
     assert.ok(treffer.length >= 1,
@@ -80,10 +81,11 @@ describe('[Select/Datum-Schriftart] globaler Reset statt Wrapper-für-Wrapper', 
   test('die drei betroffenen Fundstellen bleiben außerhalb von `.feld-zeile` (Diagnose-Beleg)', () => {
     const html = kernMitHeute(fs.readFileSync(KERN, 'utf8'));
     // #sub-grundlage: Sub-Depot-Anlegen-Modal, das exakte "— bitte wählen —"-Dropdown im Screenshot.
-    assert.match(html, /<select id="sub-grundlage">/, 'sub-grundlage-Select nicht gefunden — Diagnose veraltet?');
+    assert.match(html, /<select id="sub-grundlage"[ >]/, 'sub-grundlage-Select nicht gefunden — Diagnose veraltet?');
     // .doku-select/.doku-input: Dokumente-Panel, Datum + Rhythmus-Dropdown nebeneinander.
     assert.match(html, /class="doku-select"/, 'doku-select nicht gefunden — Diagnose veraltet?');
-    assert.match(html, /type="date" id="doku-neu-datum" class="doku-input"/, 'doku-neu-datum nicht gefunden — Diagnose veraltet?');
+    // Seit dem Zielbild S4 (31.10.2026) steht das Datum in drei Feldern über einem versteckten Wert.
+    assert.match(html, /_datumDreifeldHTML\('id="doku-neu-datum" class="doku-input"/, 'doku-neu-datum nicht gefunden — Diagnose veraltet?');
     // .wizard-eingabe: Vorsorge-Wizard, rendert denselben feldInputHTML-Renderer wie .feld-zeile.
     assert.match(html, /class="feld-wert wizard-eingabe"/, 'wizard-eingabe-Wrapper nicht gefunden — Diagnose veraltet?');
   });
@@ -95,7 +97,7 @@ describe('[Select/Datum-Schriftart·Rotmachbarkeit] die Maschine kann tatsächli
     const regeln = leafRegeln(nurSelect);
     const treffer = regeln.filter((r) => {
       const teile = r.selector.split(',').map((s) => s.trim());
-      return teile.some((t) => t === 'select') && teile.some((t) => t === 'input[type="date"]');
+      return teile.some((t) => t === 'select') && teile.some((t) => t === 'input[type="date"]' || t === 'input');
     });
     assert.deepEqual(treffer, [], 'ein Reset ohne input[type="date"] darf die Probe nicht bestehen');
   });
@@ -105,7 +107,7 @@ describe('[Select/Datum-Schriftart·Rotmachbarkeit] die Maschine kann tatsächli
     const regeln = leafRegeln(nurWizard);
     const treffer = regeln.filter((r) => {
       const teile = r.selector.split(',').map((s) => s.trim());
-      return teile.some((t) => t === 'select') && teile.some((t) => t === 'input[type="date"]');
+      return teile.some((t) => t === 'select') && teile.some((t) => t === 'input[type="date"]' || t === 'input');
     });
     assert.deepEqual(treffer, [], 'eine gescopte Regel (nur .wizard-eingabe) darf die globale Probe nicht bestehen');
   });

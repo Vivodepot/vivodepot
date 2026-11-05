@@ -104,11 +104,12 @@ aussage:   Jeder Text des Bedienflusses — Meldung, Warnung, Fehler, Bestätigu
            Hinweis — läuft über die STRINGS-Schicht. Feld-Beschriftungen und Titel
            aus Felddefinitionen fallen ausdrücklich nicht darunter.
 zustand:   offen
-frist:     2026-10-31
+frist:     2026-11-27
 bedingung: Zusicherung 7 der Prüfarchitektur ist gebaut (Bauauftrag Block 3).
            Die Messung liegt vor — `tools/eigenschaften-z7-erheben.js` zählt null
            Bedienfluss-Texte ausserhalb der Schicht —, die Zusicherung selbst noch
            nicht. Bis dahin ist dieser Satz beschlossen und nicht bewacht.
+           Frist am 28.10.2026 neu gesetzt, vorher 2026-10-31; Eigentümer Strang Prüfregeln; Abnahme Test bindet tools/eigenschaften-z7-erheben.js.
 ```
 
 **Nachtrag 04.08.2026 — die Bedingung ist inhaltlich erfüllt, `zustand` bleibt trotzdem bewusst auf

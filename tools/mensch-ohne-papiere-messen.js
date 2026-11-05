@@ -64,6 +64,10 @@ function messen(V) {
   raus.datum.maske = V.feldInputHTML(feld, 'ca. 1990');
   raus.datum.maskeGut = V.feldInputHTML(feld, '1990-01-01');
   raus.datum.istDateInput = /type="date"/.test(raus.datum.maske);
+  /* Seit dem Zielbild S4 (31.10.2026) steht ein Datum in drei Feldern (Tag, Monat, Jahr) über einem versteckten ISO-Wert.
+     Ein ungenauer Wert bleibt im versteckten Feld stehen, die drei sichtbaren Teile bleiben leer. */
+  raus.datum.istDreifeld = /class="datum-dreifeld"/.test(raus.datum.maske);
+  raus.datum.teileLeer = !/data-datum-teil="\w"[^>]*value="[^"]+"/.test(raus.datum.maske);
   /* Und die Aussage, die der Browser dazu macht (dort gemessen, hier nur
      festgehalten): `<input type="date" value="ca. 1990">` zeigt LEER, ein
      gültiges Datum zeigt sich. Die Positivkontrolle ist das zweite HTML. */
@@ -132,7 +136,7 @@ function bericht(m) {
     z.push('   Modell nimmt ' + JSON.stringify(d.wert).padEnd(18) + ' → gespeichert '
       + JSON.stringify(d.gespeichert) + (d.meldung ? '  WARF: ' + d.meldung : ''));
   }
-  z.push('   Die Maske ist ein `type="date"`: ' + m.datum.istDateInput);
+  z.push('   Die Maske ist ein `type="date"`: ' + m.datum.istDateInput + ' · drei Felder: ' + m.datum.istDreifeld + ' · Teile leer: ' + m.datum.teileLeer);
   z.push('       ' + m.datum.maske);
   z.push('   POSITIVKONTROLLE, gültiges Datum:');
   z.push('       ' + m.datum.maskeGut);

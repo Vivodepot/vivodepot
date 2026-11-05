@@ -24,7 +24,7 @@
    Offener Anschluss: Firefox-Reproduktion, s. Folgeauftrag/Bericht.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, datumSetzen } = require('./helpers');
 const { scrollSprungMessen } = require('../../tools/eingabe-scroll-messen.js');
 
 const PW = 'e2e-passwort-123';
@@ -54,11 +54,11 @@ test('[Befund-1·datum] companyPensionAgreedStartDate (finance) — Wert setzen 
   const { delta } = await scrollSprungMessen(page, {
     vor: async (p) => {
       await oeffneSektor(p, 'finance');
-      await p.click('[data-edit="companyPensionAgreedStartDate"]');
+      await p.click('.datum-dreifeld:has([data-edit="companyPensionAgreedStartDate"]) [data-datum-teil="t"]');   // Datum in drei Feldern (Zielbild S4)
     },
     aktion: async (p) => {
-      await p.fill('[data-edit="companyPensionAgreedStartDate"]', '2030-01-01');
-      await p.locator('[data-edit="companyPensionAgreedStartDate"]').evaluate((el) => el.blur());
+      await datumSetzen(p, '[data-edit="companyPensionAgreedStartDate"]', '2030-01-01');
+      await p.evaluate(() => document.activeElement && document.activeElement.blur());
     },
   });
   expect(Math.abs(delta), 'datum-Feld (genau das Beispiel aus dem Auftrag) darf keinen Scroll-Sprung auslösen').toBeLessThanOrEqual(TOLERANZ_PX);
@@ -104,12 +104,12 @@ test('[Befund-1·Listen-Unterfeld] idDocuments.validUntil (identity, erster Eint
       await oeffneSektor(p, 'identity');
       // Hinzufügen (07.10.2026): bei leerer Liste steht der erste Eintrag inline; das Übernehmen zeichnet den Bereich neu — genau
       // dort darf kein Sprung entstehen (vorher prüfte diese Probe den Dialog, der für den ersten Eintrag entfallen ist).
-      await p.waitForSelector('#content [data-liste-inline="idDocuments"] [data-eintrag-edit="validUntil"]');
+      await p.waitForSelector('#content [data-liste-inline="idDocuments"] .datum-dreifeld:has([data-eintrag-edit="validUntil"]) [data-datum-teil="t"]');
       // Vor der Messung ins Bild bringen: sonst scrollte erst `fill` in der Aktion dorthin, und die Probe mäße das Hinscrollen.
-      await p.locator('#content [data-liste-inline="idDocuments"] [data-eintrag-edit="validUntil"]').scrollIntoViewIfNeeded();
+      await p.locator('#content [data-liste-inline="idDocuments"] .datum-dreifeld:has([data-eintrag-edit="validUntil"])').scrollIntoViewIfNeeded();
     },
     aktion: async (p) => {
-      await p.fill('#content [data-liste-inline="idDocuments"] [data-eintrag-edit="validUntil"]', '2030-01-01');
+      await datumSetzen(p, '#content [data-liste-inline="idDocuments"] [data-eintrag-edit="validUntil"]', '2030-01-01');
       await p.evaluate(() => document.activeElement && document.activeElement.blur());
       await p.waitForSelector('#content [data-feld-liste="idDocuments"] .liste-eintraege li');
     },

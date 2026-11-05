@@ -21,11 +21,32 @@
 const { test, expect } = require('@playwright/test');
 const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen } = require('./helpers');
 
+/* P08 (01.11.2026): der passive Hinweis „Auf dem Startbildschirm ablegen" steht auf der Startseite nur an einem Handgerät
+   (`_handgeraet()`: Berührungspunkte oder grober Zeiger). Am Schreibtisch fehlt er dort; der aktive Knopf (beforeinstallprompt)
+   und die Einstellungen bleiben, wie sie sind. Beide Seiten der Weiche werden gefahren: mit Touch-Emulation und ohne. */
+test.describe('Startseite an einem Handgerät (Touch-Emulation)', () => {
+  test.use({ hasTouch: true, isMobile: true });
+  test('der passive Hinweis steht auf der Startseite', async ({ page }) => {
+    await oeffneApp(page);
+    expect(await page.evaluate(() => navigator.maxTouchPoints > 0)).toBe(true);
+    const startseite = await page.locator('#vd-install-block').innerHTML();
+    expect(startseite).toContain('webapp-hinweis');
+  });
+});
+
+test('Startseite am Schreibtisch (ohne Touch): der passive Hinweis fehlt', async ({ page }) => {
+  await oeffneApp(page);
+  expect(await page.evaluate(() => navigator.maxTouchPoints)).toBe(0);
+  const startseite = await page.locator('#vd-install-block').innerHTML();
+  expect(startseite).not.toContain('webapp-hinweis');
+});
+
 test('Installations-Abschnitt in Einstellungen erscheint/verschwindet wie die Startseite, beide Container bleiben gleichzeitig aktuell', async ({ page }) => {
   await oeffneApp(page);
 
+  // Am Schreibtisch ohne gehaltenen Prompt steht auf der Startseite kein passiver Hinweis (P08, s. oben).
   const startseitePassivVorher = await page.locator('#vd-install-block').innerHTML();
-  expect(startseitePassivVorher).toContain('webapp-hinweis');
+  expect(startseitePassivVorher).not.toContain('webapp-hinweis');
 
   // Ein beforeinstallprompt simulieren (Playwright/Chromium feuert es nie von selbst) — dieselbe
   // Reaktion wie im echten Browser: _installEreignisseBinden()s Listener haelt das Event, dann

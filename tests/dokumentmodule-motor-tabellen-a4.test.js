@@ -91,9 +91,9 @@ test('[A4] refmNamen ist für alle vier Motoren dieselbe geteilte Funktion — k
 
 /* U2-ADR-505 (17.09.2026): der vorige Test hier prüfte _standardVorlageAusBuendelErzeugen —
    entfernt, weil A253 sie als unerreichbar fand (nur über den Test-Export erreichbar, im
-   Produkt nirgends aufgerufen). STANDARD_VORLAGEN trägt id/templateJws seither direkt aus
-   AB_WERK_BASISTEMPLATE_DE, kein "roh"-Objekt wird mehr materialisiert. Ersatzprobe: der
-   Ab-Werk-Slot selbst trägt id und templateJws unverändert. */
+   Produkt nirgends aufgerufen). STANDARD_VORLAGEN entsteht aus den Moduldateien in
+   AB_WERK_STANDARD_VORLAGEN; den Abgleich Datei gegen gebackenes Produkt macht
+   ein eigenes Werkzeug. Ersatzprobe hier: id und templateJws kommen unverändert an. */
 test('[A4] STANDARD_VORLAGEN-Einträge (gebacken aus den Moduldateien) tragen templateJws unverändert und ihre id', () => {
   const V = kern();
   const vorlage = V.STANDARD_VORLAGEN.find((v) => v.id === 'patientenverfuegung');

@@ -47,7 +47,7 @@ test('[S1·Bestand] ein V3-Sub-Depot: öffnen, bearbeiten, speichern → V4 mit 
   const alt = V.leeresDepot();
   alt.sektoren.health = { ongoingTreatmentNext: 'vorher' };
   alt.sektoren.finance = { companyPensionPolicyNumber: 'P-4711' };
-  const e = V.subDepotEinhaengen(V.blackboxDateiAusUmschlag(await v3Umschlag(V, alt, SUB_PW)), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
+  const e = V.subDepotEinhaengen(V.depotDateiAusUmschlag(await v3Umschlag(V, alt, SUB_PW)), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
   assert.equal(e.umschlag.kryptoVersion, 3, 'Vorbedingung: ein V3-Bestand');
   await V.subDepotVertrauenOeffnen(e.depotUUID, SUB_PW);
   V.subKontextBetreten(e.depotUUID);

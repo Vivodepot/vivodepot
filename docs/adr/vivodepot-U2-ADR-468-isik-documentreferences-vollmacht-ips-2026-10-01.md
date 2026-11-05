@@ -70,7 +70,7 @@ bereitstellen kann. Weg zum Nachsehen: `~/.fhir/packages/de.gematik.isik#6.0.0/p
 
 - **KBV-Patientenkurzakte für die Vollmacht** (`KBV_PR_MIO_NFDxDPE_Consent_Active_Advance_Directive`, Ablageort-Extension
   Pflicht, ohne `provision.type`): folgt, sobald U2-ADR-466 gelandet ist, aus derselben Consent- und RelatedPerson-Abbildung.
-- **Die Freigabe der ISiK-Ausgabe** nach der Antwort der Fachanwältin (Fragen im Register: Sind die zwei Codes geschützt? Ist ein
+- **Die Freigabe der ISiK-Ausgabe** nach dem Nachtrag vom 28.10.2026 unten (Fragen im Register: Sind die zwei Codes geschützt? Ist ein
   weitergegebenes Depot eine Verbreitung? Ist ein Anzeigetext in einer DocumentReference an ein Krankenhaus Verbreitung oder
   bestimmungsgemäße Nutzung?) und ein eigener KDL-Code für eine Patientenkurzakte (Anfrage an die DVMD ist gestellt).
 - **Ein IPS-Formatcode** in IHE-D.
@@ -101,6 +101,26 @@ KDL-Datei je in einen Commit kommt, der landet.
 6. Die frühere Datendatei mit den zwei Codes außerhalb des Kerns und ihr Anmelde-Helfer für Proben entfallen; sie kamen in keinen
    Commit, der landet. `tools/isik-validieren.js` speist die amtliche Paketdatei durch denselben Einlass.
 
+## Nachtrag 28.10.2026 — Freigabe ohne Anwältin
+
+Die Freigabe der ISiK-Ausgabe hing an der Antwort einer Fachanwältin, die es nicht gibt. An ihre Stelle tritt: `KDL_FREIGABE`
+setzt ein Commit, sobald eines von beiden vorliegt:
+
+1. eine schriftliche Antwort der DVMD, die die Nutzung der zwei Codes mit Anzeigetext in Dokumenten an ein Krankenhaus erlaubt
+   oder das CodeSystem zusätzlich unter einer freizügigen Lizenz bereitstellt; oder
+2. eine Entscheidung der Geschäftsführung auf Grundlage einer Einschätzung der drei Fragen, nachdem eine zweite Prüfung ihre
+   Quellen gelesen hat.
+
+Verweigert die DVMD die Nutzung oder knüpft sie Bedingungen daran, trägt Weg 2 nicht ohne neue Entscheidung. Die Auflagen 1–3
+vom 01.10.2026 bleiben; die Person liest die KDL weiter selbst ein. Für Auflage 2 gilt nach der Freigabe eine Ausnahme, eng
+gefasst: Nur die ISiK-Datei trägt etwas aus der eingelesenen KDL, und zwar Code und Anzeigetext der zwei Einträge AM160103 und
+AM160199, nichts sonst. Nr. 4 der Entscheidung und Nr. 4 des Nachtrags vom 02.10.2026 gelten „bis zur Freigabe nach diesem
+Nachtrag“.
+
+Bedingung für das Setzen von `KDL_FREIGABE`: Der Herkunftseintrag der eingelesenen KDL (`data.kdlEingelesen.herkunft`) trägt
+die Angaben nach § 4 GPL (Urheberrechtsvermerk, Quelle, Hinweis auf den Gewährleistungsausschluss, Lizenz), und der Einlass
+nimmt auch die aktuelle Paketfassung mit geändertem Dateinamen an. Beides wird mit der Freigabe gebaut.
+
 ## Belege
 
 Validator (validator_cli 6.9.12, offline, `-ig de.gematik.isik#6.0.0`, 01.10.2026): DR 1 und DR 2 aus dem echten Generator
@@ -125,14 +145,14 @@ pruefung: tests/kdl-selbst-laden.test.js#[KDL·Prüfen·Rot] jeder Abweisungsgru
 aussage:  Mit eingelesener KDL bleibt das Tor zu, bis ein Commit die Freigabe setzt.
 zustand:  geprüft
 herkunft: invariante
-pruefung: tests/kdl-selbst-laden.test.js#[KDL·Tor] ohne KDL „nicht geladen“, mit KDL bis zur Freigabe „Freigabe ausstehend“ — kein Weg schreibt eine Datei
+pruefung: tests/kdl-selbst-laden.test.js#[KDL·Tor·Rot] an einer Kern-Kopie ohne Freigabe bleibt das Tor mit KDL zu („Freigabe ausstehend“) — kein Weg schreibt eine Datei
 ```
 
 ```konformitaet
-aussage:  Keine Ausgabe an Dritte trägt die eingelesene KDL.
+aussage:  Keine Ausgabe an Dritte trägt die eingelesene KDL, außer der ISiK-Datei mit Code und Anzeigetext von AM160103 und AM160199 (Nachtrag 28.10.2026).
 zustand:  geprüft
 herkunft: invariante
-pruefung: tests/kdl-selbst-laden.test.js#[KDL·Ausgabewege] kein Registry-Format, nicht das IPS und nicht der Erbschein-Auszug tragen die eingelesene KDL
+pruefung: tests/kdl-selbst-laden.test.js#[KDL·Ausgabewege] nur die ISiK-Datei trägt etwas aus der KDL, und nur Code und Anzeigetext von AM160103 und AM160199
 ```
 
 ```konformitaet

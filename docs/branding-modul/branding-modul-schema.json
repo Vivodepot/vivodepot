@@ -173,7 +173,7 @@
       }
     },
     "poweredByAus": {
-      "description": "Schalter „powered by aus“ (U2-ADR-473 W2): true blendet den Hinweis in der App-Fußzeile aus, erst ab moduleVersion 2 und nur, wenn das Modul durch die Signaturprüfung kam. Die Ausgaben tragen „Erstellt mit der Software Vivodepot“ immer. false heißt nicht gesetzt.",
+      "description": "Schalter „powered by aus“ (U2-ADR-473 W2): true blendet den Hinweis in der App-Fußzeile aus, erst ab moduleVersion 2 und nur, wenn das Modul durch die Signaturprüfung kam. Die Ausgaben tragen „Erstellt mit Vivodepot“ immer. false heißt nicht gesetzt.",
       "type": "boolean"
     }
   },

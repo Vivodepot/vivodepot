@@ -104,7 +104,7 @@ Läufe werden einzeln freigegeben).
   gewählt, dann als 353 gebaut (350/351/352 waren beim Umbenennen bereits an cb/e2/df
   vergeben) — Nummer beim Landen letztgültig aus der zentralen Vergabe übernommen, nicht
   selbst zugeteilt.
-- Rückstand-Fixture (`tests/fixtures/u2-adr-322-rueckstand-ungedeckte-texte.json`): die 57 Texte
+- Rückstand-Fixture der ungedeckten Texte aus U2-ADR-322 (nicht im öffentlichen Repository): die 57 Texte
   standen dort nie (das Erhebungswerkzeug sah sie vorher gar nicht, s. Abschnitt 1) — es gibt
   nichts, was aus dieser Datei herauszunehmen wäre. Wer `tools/textsatz-traeger-erheben.js` um
   `luecke`/`dokAusgabe` ergänzt, sollte das als eigenen, benannten Zug tun (ändert die 134er-Zahl

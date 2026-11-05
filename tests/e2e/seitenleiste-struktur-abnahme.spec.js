@@ -47,7 +47,7 @@ test('„Austausch und Überblick“: jeder Weg steht genau einmal darin, Sub-De
   await expect(page.locator('.bereich-kopf h2')).toContainText('Sub-Depots');
 });
 
-test('„Wofür eingehängte Depots da sind" ist kein Sidebar-Eintrag mehr, aber über einen Verweis in „Sub-Depots" per Klick erreichbar', async ({ page }) => {
+test('„Was ein Sub-Depot ist" ist kein Sidebar-Eintrag mehr, aber über einen Verweis in „Sub-Depots" per Klick erreichbar', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
@@ -56,9 +56,9 @@ test('„Wofür eingehängte Depots da sind" ist kein Sidebar-Eintrag mehr, aber
   await inLeisteKlicken(page, '[data-verwaltete-depots]');
   const link = page.locator('#verwaltete-subkonzept-link');
   await expect(link).toBeVisible();
-  await expect(link).toHaveText('Wofür eingehängte Depots da sind');
+  await expect(link).toHaveText('Was ein Sub-Depot ist');
   await link.click();
-  await expect(page.locator('.bereich-kopf h2')).toContainText('Wofür eingehängte Depots da sind');
+  await expect(page.locator('.bereich-kopf h2')).toContainText('Was ein Sub-Depot ist');
 });
 
 test('„Was hier hineingehört" ist kein Sidebar-Eintrag mehr, aber über einen Verweis in „Meine Dokumente" per Klick erreichbar', async ({ page }) => {
@@ -72,7 +72,11 @@ test('„Was hier hineingehört" ist kein Sidebar-Eintrag mehr, aber über einen
   await expect(link).toBeVisible();
   await expect(link).toHaveText('Was hier hineingehört');
   await link.click();
-  await expect(page.locator('#content')).toContainText('Was möchten Sie hinterlegen?');
+  // Seit 30.10.2026 ein Dialog mit „Schließen“; „Meine Dokumente“ bleibt dahinter stehen (UX-DOKUMENT-ABLEGEN).
+  await expect(page.locator('#modal-inhalt')).toContainText('Was möchten Sie hinterlegen?');
+  await expect(page.locator('#m-ok')).toHaveText('Schließen');
+  await page.click('#m-ok');
+  await expect(link).toBeVisible();
 });
 
 test('„Depot verlassen" bleibt ganz unten, ohne eigene Gruppenüberschrift', async ({ page }) => {

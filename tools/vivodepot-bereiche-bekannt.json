@@ -167,7 +167,7 @@
                 {
                   "id": "tpl_gilt",
                   "typ": "checkbox",
-                  "label": "Gilt"
+                  "label": "Gilt über den Tod hinaus"
                 },
                 {
                   "id": "tpl_bevollmaechtigter",
@@ -380,7 +380,7 @@
               "id": "tpl_legal_form",
               "typ": "auswahl",
               "label": "Rechtsform",
-              "hint": "Damit sieht die Vertretung sofort, welche Regeln für Ihr Unternehmen gelten. Angaben, die für Ihre Rechtsform nicht zutreffen, lassen Sie frei.",
+              "hint": "Angaben, die für Ihre Rechtsform nicht zutreffen, können frei bleiben.",
               "optionen": [
                 {
                   "wert": "einzelunternehmen",
@@ -1026,7 +1026,7 @@
               "id": "tpl_account_for_deputy",
               "typ": "liste",
               "label": "Konto für die Vertretung",
-              "hint": "Je Geschäftskonto: wer bei der Bank Ihr Gegenüber ist, welche Kreditlinie eingeräumt ist und wo der Zugang zum Online-Banking verwahrt ist. Tragen Sie nur ein, wo der Zugang verwahrt ist, nicht den Zugang selbst.",
+              "hint": "Je Geschäftskonto: wer bei der Bank Ihr Gegenüber ist, welche Kreditlinie eingeräumt ist und wo der Zugang zum Online-Banking verwahrt ist. Hier steht, wo der Zugang verwahrt ist, nicht der Zugang selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_institution",
@@ -1083,7 +1083,7 @@
               "id": "tpl_online_banking_access",
               "typ": "liste",
               "label": "Online-Banking",
-              "hint": "Je Bank: welches Verfahren (App, Karte, Lesegerät), wer kann sich anmelden und wo liegt das Gerät. Keine Zugangsdaten.",
+              "hint": "Je Bank: welches Verfahren (App, Karte, Lesegerät), wer kann sich anmelden und wo liegt das Gerät. Hier steht, wo der Zugang verwahrt ist, nicht der Zugang selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_bank",
@@ -1331,7 +1331,7 @@
               "id": "tpl_half_capital_loss_meeting",
               "typ": "datum",
               "label": "Letzte Versammlung wegen Kapitalverlust",
-              "hint": "Falls es eine gab: Datum der Gesellschafterversammlung.",
+              "hint": "Falls wegen des Verlusts der Hälfte des Stammkapitals eine Gesellschafterversammlung einberufen wurde: Datum dieser Versammlung.",
               "sensibel": true
             }
           ]
@@ -1516,7 +1516,7 @@
               "id": "tpl_domain_and_online_accounts",
               "typ": "liste",
               "label": "Domain und Online-Konten",
-              "hint": "Domain, Website, Firmenkonten im Netz und Code-Repositorys: Anbieter, wer verwaltet sie, wo liegt der Zugang. Keine Zugangsdaten eintragen, nur wer den Zugang hat und wo er liegt.",
+              "hint": "Domain, Website, Firmenkonten im Netz und Code-Repositorys: Anbieter, wer verwaltet sie, wo liegt der Zugang. Hier steht, wer den Zugang hat und wo er verwahrt ist, nicht der Zugang selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_name_or_address",
@@ -1584,7 +1584,7 @@
               "id": "tpl_alarm_and_security_service",
               "typ": "liste",
               "label": "Alarmanlage und Sicherheitsdienst",
-              "hint": "Wer die Anlage betreut, wen der Dienst im Alarmfall anruft und wo der Zugang verwahrt ist. Tragen Sie nur ein, wo der Zugang verwahrt ist, nicht den Zugang selbst.",
+              "hint": "Wer die Anlage betreut, wen der Dienst im Alarmfall anruft und wo der Zugang verwahrt ist. Hier steht, wo der Zugang verwahrt ist, nicht der Zugang selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_service",
@@ -1618,7 +1618,7 @@
               "id": "tpl_key_customers",
               "typ": "liste",
               "label": "Wichtigste Kunden",
-              "hint": "Kunden, auf die der Betrieb angewiesen ist: wer dort Ihr Gegenüber ist, worauf die Zusammenarbeit beruht und wo der Vertrag liegt. Bei einem Portal nur, wer Zugang hat, keine Zugangsdaten.",
+              "hint": "Kunden, auf die der Betrieb angewiesen ist: wer dort Ihr Gegenüber ist, worauf die Zusammenarbeit beruht und wo der Vertrag liegt. Bei einem Portal steht hier, wer Zugang hat, nicht der Zugang selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_name",
@@ -1661,7 +1661,7 @@
               "id": "tpl_key_suppliers",
               "typ": "liste",
               "label": "Lieferanten, Dienstleister und Kooperationspartner",
-              "hint": "Lieferanten, Dienstleister und Kooperationspartner, ohne die der Betrieb nicht weiterläuft: welcher Art die Beziehung ist, wer dort Ihr Gegenüber ist, worauf die Zusammenarbeit beruht und wo der Vertrag liegt. Software, IT-Betreuung, Auftragsverarbeitung, Archiv und Versicherungen stehen in ihren eigenen Feldern. Bei einem Portal nur, wer Zugang hat, keine Zugangsdaten.",
+              "hint": "Lieferanten, Dienstleister und Kooperationspartner, ohne die der Betrieb nicht weiterläuft: welcher Art die Beziehung ist, wer dort Ihr Gegenüber ist, worauf die Zusammenarbeit beruht und wo der Vertrag liegt. Software, IT-Betreuung, Auftragsverarbeitung, Archiv und Versicherungen stehen in ihren eigenen Feldern. Bei einem Portal steht hier, wer Zugang hat, nicht der Zugang selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_name",
@@ -1760,7 +1760,7 @@
               "id": "tpl_offers_and_appointments",
               "typ": "liste",
               "label": "Offene Angebote und Termine",
-              "hint": "Wo offene Angebote mit Bindefrist, Ausschreibungen und die Termine der nächsten Wochen geführt werden, wer Zugang hat und auf welchem Stand. Nicht die Angebote selbst.",
+              "hint": "Wo offene Angebote mit Bindefrist, Ausschreibungen und die Termine der nächsten Wochen geführt werden, wer Zugang hat und auf welchem Stand. Hier steht, wo die Angebote geführt werden, nicht die Angebote selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_what",
@@ -2048,7 +2048,7 @@
               "id": "tpl_working_time_records",
               "typ": "text",
               "label": "Arbeitszeitaufzeichnungen",
-              "hint": "Wie und wo wird die Arbeitszeit der Beschäftigten festgehalten? Das Arbeitszeitgesetz verlangt Aufzeichnungen für Arbeitszeit über acht Stunden am Werktag, das Mindestlohngesetz für Minijobs und für die Branchen nach § 2a Schwarzarbeitsbekämpfungsgesetz."
+              "hint": "Wie und wo wird die Arbeitszeit der Beschäftigten festgehalten? Nach der Rechtsprechung des Bundesarbeitsgerichts ist die gesamte Arbeitszeit zu erfassen, mit Beginn und Ende. Für Minijobs und bestimmte Branchen verlangt auch das Mindestlohngesetz Aufzeichnungen."
             },
             {
               "id": "tpl_risk_assessment_and_safety_staff",
@@ -2251,7 +2251,7 @@
               "id": "tpl_communication_service",
               "typ": "liste",
               "label": "Postfächer, Telefon und Kommunikationsdienste",
-              "hint": "E-Mail-Postfächer und Telefone der Geschäftsführung, Telefonanlage, Domain und Website: auf wen der Vertrag läuft, wer sie verwaltet, wohin Nachrichten gehen, wenn Sie nicht da sind, wer mitlesen darf und wo der Zugang verwahrt ist. Tragen Sie nur ein, wo der Zugang verwahrt ist, nicht den Zugang selbst.",
+              "hint": "E-Mail-Postfächer und Telefone der Geschäftsführung, Telefonanlage, Domain und Website: auf wen der Vertrag läuft, wer sie verwaltet, wohin Nachrichten gehen, wenn Sie nicht da sind, wer mitlesen darf und wo der Zugang verwahrt ist. Hier steht, wo der Zugang verwahrt ist, nicht der Zugang selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_service",
@@ -2289,7 +2289,7 @@
               "id": "tpl_device",
               "typ": "liste",
               "label": "Geräte",
-              "hint": "Rechner, Telefone und Tablets der Firma: wer sie nutzt und wo das Mittel zum Entsperren verwahrt ist. Tragen Sie nur ein, wo das Mittel verwahrt ist, nicht das Mittel selbst.",
+              "hint": "Rechner, Telefone und Tablets der Firma: wer sie nutzt und wo das Mittel zum Entsperren verwahrt ist. Hier steht, wo das Mittel zum Entsperren verwahrt ist, nicht das Mittel selbst.",
               "unterFelder": [
                 {
                   "id": "tpl_device_name",
@@ -2977,7 +2977,7 @@
             {
               "id": "tpl_first_steps_when_absent",
               "typ": "liste",
-              "label": "Erste Schritte, wenn Sie verhindert sind",
+              "label": "Erste Schritte bei vorübergehender Vertretung",
               "hint": "Was in den ersten Tagen zu tun ist, wenn Sie vorübergehend nicht handeln können: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
               "unterFelder": [
                 {
@@ -3035,7 +3035,7 @@
             {
               "id": "tpl_first_steps_long_absence",
               "typ": "liste",
-              "label": "Erste Schritte, wenn kein Ende absehbar ist",
+              "label": "Erste Schritte bei Vertretung auf unbestimmte Zeit",
               "hint": "Was zu tun ist, wenn nicht absehbar ist, wann Sie wieder handeln können: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
               "unterFelder": [
                 {
@@ -3100,7 +3100,7 @@
               "id": "tpl_onboarding_plan",
               "typ": "liste",
               "label": "Einarbeitung der Nachfolge",
-              "hint": "Was eine neue Person oder Ihre Nachfolge lernen muss: das Thema, wer es zeigt und bis wann. Bei einer GmbH: Die Geschäftsführung sorgt für die ordnungsmäßige Buchführung (§ 41 GmbHG) und wendet die Sorgfalt eines ordentlichen Geschäftsmannes an (§ 43 Abs. 1 GmbHG).",
+              "hint": "Was Sie einer neuen Person oder Ihrer Nachfolge zeigen möchten: das Thema, wer es zeigt und bis wann.",
               "unterFelder": [
                 {
                   "id": "tpl_topic",

@@ -39,10 +39,7 @@
     "data-refm-bestaetigt|(gesetzt ? '1' : '')": 1,
     "erfasst|(erfasst ? 'ja' : 'nein')": 1,
     "max|_datumHeuteIso()": 1,
-    "max|_datumJahrMaxZukunft()": 2,
     "min|DATUM_JAHR_MIN_GEBURT": 1,
-    "min|DATUM_JAHR_MIN_WEIT": 2,
-    "title|bezeichnung": 1,
-    "value|datum": 1
+    "title|bezeichnung": 1
   }
 }

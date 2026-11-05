@@ -97,3 +97,17 @@ Im clean-rebuild gibt es **noch kein** Profilfoto-Feld (Identität: bewusst auf 
 7. `sensibel`-Verhalten in Druck/Akut bestätigen (aus ADR-012 geerbt).
 
 Jeweils Block-Hash und Suite-Stand nach jedem Kern-Schritt, Stopp vor Commit, kein Push.
+
+## Nachtrag (31.10.2026) — ein Vorsorge-Instrument verweist auf sein unterschriebenes Dokument
+
+Der Text oben bleibt stehen. Verweisfelder auf die Mappe (`typ: ref`, `entitaet: mappe`) gab es bisher nur auf Bereichsebene
+(`identity.profilePhotoCoverPage`). Neu ist das Unterfeld `attachedDocument` an `provisionInstruments`, in der Basis und in Pro mit
+demselben Kern. Es ist eine Erweiterung des bestehenden Modells, keine neue Entscheidung: Ein fehlender Wert ist leer, vorhandene Daten
+werden nicht umgebaut.
+
+- **Oberfläche:** Der Eintrags-Dialog zeigt „Unterschriebenes Dokument“ mit „Datei anhängen“, also Hochladen oder ein vorhandenes Dokument wählen.
+  Weil Dialoge sich nicht stapeln, liegt das Hochladen als Abschnitt im offenen Eintrag. Die Eingaben im Eintrag bleiben dabei erhalten.
+  Die Ablage geschieht mit „Vorsorge & Recht“ vorgewählt und als sensibel vorgeschlagen.
+- **Weitergabe:** `verweisZieleNachziehen` zieht auch Verweise in Listenzeilen nach. Eine sensible Datei geht nur mit dem weiten Baustein (VD-SEC-029).
+  Für das neue Feld braucht es dafür keinen eigenen Code.
+- **Beleg:** `tests/instrument-anhang.test.js`, Befund UX-INSTRUMENT-ANHANG.

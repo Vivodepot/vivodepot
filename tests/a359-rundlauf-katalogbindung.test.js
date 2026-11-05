@@ -143,7 +143,7 @@ test('[A359·1] gemeldet wird, was WIRKLICH nicht erscheint — die nicht render
   assert.deepEqual(nichtRenderbar.map((e) => e.feldId), ['tpl_exot']);
   const satz = V.katalogFremdSatz(nichtRenderbar, V.STRINGS.katalogFremdWoBereich);
   assert.match(satz, /Standort/, 'der Satz nennt den NAMEN, nicht nur eine Zahl');
-  assert.match(satz, /erscheint hier nicht/);
+  assert.match(satz, /wird hier nicht angezeigt/);
 });
 
 test('[A359·1·Gegenprobe] ein renderbares angedocktes Feld wird NICHT gemeldet — A389 zeigt es', () => {

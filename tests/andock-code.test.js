@@ -115,6 +115,10 @@ test('Keine Code-Tabelle im Kern (kein SNOMED/LOINC/ICD-System hardkodiert)', ()
   // 5) IPS-BEGLEITTEXT (U2-ADR-458): das eingebackene Modul der festen IPS-Sätze nennt in seiner Herkunft die Quelle eines Satzes
   //    (eHDSI-Anzeigename, LOINC-Antwortcode) — Text über die Quelle, kein Code im Kern. Die Region ist der designierte Ort.
   snapshot = snapshot.replace(/AB_WERK_IPS_BEGLEITTEXT:BEGIN[\s\S]*?AB_WERK_IPS_BEGLEITTEXT:END \*\//, '');
+  // 6) TEXTSATZ-KENNUNGEN (01.11.2026, U2-ADR-480): der eingebettete Textsatz führt je Listeneintrag die Kennung
+  //    `codeliste:<Liste>/<Code>.anzeige` — wie der Marker in 1) benennt sie nur die andockende Liste; der Name dahinter ist
+  //    Text des Textsatzes, kein Code-System im Kern. Herausgeschnitten wird nur die Kennung selbst.
+  snapshot = snapshot.replace(/"codeliste:[A-Za-z0-9]+\/[^"]+\.anzeige"/g, '""');
   // SNOMED und ICD-10 sind klinische Code-Systeme → im (übrigen) Kern weiterhin verboten (kein rc1-Ballast).
   assert.ok(!/SNOMED/i.test(snapshot), 'kein SNOMED-Code-System im Kern');
   assert.ok(!/LOINC/i.test(snapshot), 'kein LOINC außerhalb des klar abgegrenzten IPS-Exports/Code-Listen-Andocks');

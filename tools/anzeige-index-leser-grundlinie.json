@@ -224,6 +224,18 @@
     "wizardAbschluss": {
       "art": "anzeige",
       "grund": "Öffnet nach „Fertig“ den Zielbereich nur, wenn das Produkt ihn anzeigt, sonst die Übersicht — nie eine leere Seite ohne Markierung (Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH)."
+    },
+    "_datensatzAusEintraegen": {
+      "art": "fund",
+      "grund": "Tor vor dem Datensatz (DATENSATZ-VERBORGENE-WERTE, 03.11.2026) fragt nur, wenn der Bereich im Anzeige-Index steht. In Pro fehlt dort ein ruhender Bürger-Bereich, dann entfällt die Prüfung; richtig wäre der Katalog (_sektorAusKatalog)."
+    },
+    "baueAusMapping": {
+      "art": "fund",
+      "grund": "Tor vor dem Format (DATENSATZ-VERBORGENE-WERTE, 03.11.2026) fragt nur, wenn der Bereich im Anzeige-Index steht, wie _datensatzAusEintraegen; richtig wäre der Katalog (_sektorAusKatalog)."
+    },
+    "bereichFelder": {
+      "art": "fund",
+      "grund": "Geschwister-Felder für feldSichtbar (SICHTBARKEIT-KASKADE, 03.11.2026) aus dem Anzeige-Index; in Pro liefert ein ruhender Bereich keine Felder. Richtig wäre der Katalog (_sektorAusKatalog)."
     }
   }
 }

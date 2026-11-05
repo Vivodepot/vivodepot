@@ -157,7 +157,10 @@ test('[Sperre·Rot-Beweis] ohne Festlegung läuft jede Weitergabe wie heute — 
   assert.equal(V.mitVereinbarung('probe', () => { gerufen++; return 'ergebnis'; }), 'ergebnis', 'ohne Festlegung synchron durch');
   assert.equal(await V.vereinbarungFreigabeHolen('probe'), null);
   await V.bedingungFestlegen('SD-BASE');
-  assert.equal(V.mitVereinbarung('probe', () => { gerufen++; }), undefined);
+  // Seit EXPORT-AUSWAHL-VERFAELLT-IM-MODAL (02.11.2026) gibt der wartende Weg ein Versprechen zurück, das erst nach dem Bau auflöst.
+  const wartet = V.mitVereinbarung('probe', () => { gerufen++; });
+  assert.ok(wartet && typeof wartet.then === 'function', 'mit Festlegung ein Versprechen statt synchronem Durchlauf');
+  // nicht abwarten: der Dialog bleibt offen, solange die Person nicht handelt
   await new Promise((r) => setTimeout(r, 20));
   assert.equal(gerufen, 1, 'mit Festlegung kein Durchlauf ohne Freigabe');
   // Mit Festlegung: entweder sofort `false` (kein Dialog verfügbar) oder offen, bis die Person im Dialog handelt —

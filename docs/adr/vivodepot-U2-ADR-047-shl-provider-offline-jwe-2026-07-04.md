@@ -114,6 +114,34 @@ Der Text oben bleibt stehen. Er beschreibt für die Adresse der Ablage nur die L
 
 **Vorbeugung.** Die Befund-Ratsche führt den Befund als geschlossen; ausgeliefert ist der Fix ab v923. Als Abnahme der Vorbeugung ist eine Klassenprobe benannt: Jede Stelle in Kern und Abholseite, die eine Adresse aus einem Link oder Manifest übernimmt und aufruft, geht durch den Block oder steht mit Grund in einer Liste, die nur sinken darf. Diese Klassenprobe ist offen und noch nicht gebaut; die Belege unten decken Kern und Abholseite einzeln.
 
+## Nachtrag (02.11.2026) — „Link senden“ für Auszüge, auch für die Patient Summary
+
+Der Text oben bleibt stehen. Er beschreibt den Freigabe-Link für ein importiertes Original („Sicher weitergeben“). Seit L1b geht
+derselbe Link auch für Auszüge, die die Person selbst zusammenstellt; das stand bisher in keiner ADR.
+
+**Entscheidung.**
+
+1. **Ein Weg für alle Auszüge.** `auszugLinkTeile(blob, { mime })` packt die Datei eines Auszugs in den JWE dieses Dokuments
+   (dir/A256GCM, Schlüssel im Link): ein FHIR-Dokument mit seinen Bytes, jede andere Datei als FHIR Binary mit `contentType` aus der
+   Liste `AUSZUG_INHALTSTYPEN`. `flowLinkSenden` zeigt danach denselben Dialog wie „Sicher weitergeben“. Der Schalter
+   `LINK_SENDEN_FUER_AUSZUEGE` steht nur mit einem grünen Validator-Beleg auf `true` (`tools/link-senden-validator-beleg.json`).
+2. **Die Patient Summary gehört dazu.** `flowGesundheitFhirExport` baut das IPS-Dokument einmal (`fhirIpsBundle`, Composition-Typ
+   LOINC 60591-5) aus genau den Feldern, die die Person in der Übersicht gewählt hat. Nach „Herausgeben“ wählt sie Datei oder Link;
+   beide tragen dieselben Bytes. Die Verdrahtung ist dieselbe wie beim Anlass-Auszug (`flowAnlassExport`), die Vereinbarung kommt
+   vor der Wahl.
+3. **Die Aufrufer sind gezählt.** `auszugLinkTeile` rufen nur die Antwort an eine Stelle (`antwortLinkTeile`), der Anlass-Auszug
+   (`flowAnlassExport`) und die Patient Summary (`flowGesundheitFhirExport`). Ein weiterer Aufrufer wird bewusst
+   freigegeben, der Zähler steht in `tests/link-senden-auszug.test.js`.
+4. **Im Sub-Depot gilt dieselbe Regel wie beim Herunterladen.** Der Link entsteht aus demselben Blob; für den Link gibt es keine
+   eigene Freigabe.
+
+**Was dieser Nachtrag nicht ändert.** Offline-Invariante (`connect-src 'none'`), JWE-Form, Ablage und Abholseite (U2-ADR-183) bleiben
+wie oben. Ob ein Link nur einmal abrufbar ist, entscheidet die Ablage, nicht dieser Weg (Befund SHL-EINMALIG-OHNE-TRAEGER, offen).
+Der IPS-Ausbau (weitere Abschnitte) ist nicht Teil dieses Nachtrags.
+
+**Offen.** Den Validator-Beleg für den neuen Fall `ips-auszug-direkt` erzeugt `tools/link-senden-validator-beleg.js` erst auf einer
+Maschine mit Java und Netz; bis dahin gilt der Beleg für die übrigen Fälle.
+
 ## Konformität
 
 ```konformitaet
@@ -170,4 +198,16 @@ aussage:   Der Host steht sichtbar da, bevor der Link entsteht; ein anderer Host
 zustand:   geprüft
 herkunft:  U2-ADR-047-Nachtrag (09.10.2026)
 pruefung:  tests/shl-ablage-url-pruefen.test.js#[SHL-Adresse·Oberfläche] der Host steht sichtbar da, bevor der Link entsteht; ein fremder Host bekommt einen Hinweis
+```
+
+*Bindung nachgetragen 02.11.2026 (Nachtrag 02.11.2026, Patient Summary per Link).*
+
+```konformitaet
+aussage:   Die Patient Summary geht wahlweise als Datei oder als Link hinaus; der Link trägt dasselbe IPS-Dokument
+           (document, Composition 60591-5) mit genau den gewählten Feldern.
+zustand:   geprüft
+herkunft:  U2-ADR-047-Nachtrag (02.11.2026)
+pruefung:  tests/link-senden-patient-summary.test.js#[Link senden·Patient Summary·Gegenrichtung] nur das andere Feld gewählt: nur dieses steht im Link
+pruefung:  tests/link-senden-patient-summary.test.js#[Link senden·Patient Summary·Wege] dieselbe Verdrahtung wie der Anlass-Auszug: ein Blob, zwei Türen; programmatischer Aufruf nur Datei; Sub-Depot wie der Download
+pruefung:  tests/link-senden-auszug.test.js#[Link senden·Auszug] der Schalter steht seit L1b an; auszugLinkTeile rufen nur die Antwort, der Anlass-Auszug und die Patient Summary
 ```

@@ -17,11 +17,6 @@
    "marker": true
   },
   {
-   "name": "AB_WERK_BASISTEMPLATE_DE",
-   "bytes": 51,
-   "marker": true
-  },
-  {
    "name": "AB_WERK_BEDINGUNGSKATALOG",
    "bytes": 352,
    "marker": false
@@ -69,6 +64,11 @@
   {
    "name": "AB_WERK_IPS_BEGLEITTEXT",
    "bytes": 37,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_KI_KORPUS",
+   "bytes": 31,
    "marker": true
   },
   {
@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 274854
+   "bytes": 285442
   },
   "satz": {
-   "bytes": 28495
+   "bytes": 27968
   }
  },
  "fremdcode": [
@@ -2177,6 +2177,639 @@
    "auf": 274854,
    "daneben": {},
    "grund": "TESTAMENT-FORM-EIGENHAENDIG: Marke für eine in ihrer Zeile nicht vorgesehene Auswahl, Prüfhinweis im Erbschein-Auszug, Hinweis unter der Auswahl, XML erfasst=\"pruefen\" (+176)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 274854,
+   "auf": 275272,
+   "daneben": {},
+   "grund": "PDF-ANHANG-LESER-Block in Kern und Lese-App (pdfAnhaengeLesen), +418 Byte, 25.10.2026, umgesetzt auf folge37 27.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 275272,
+   "auf": 275762,
+   "daneben": {},
+   "grund": "Verlauf an jeder Sub-Depot-Karte und „Aus Sub-Depots“ unter „Herausgegeben“, +490 Byte, 26.10.2026, umgesetzt auf zug-sub-f37 29.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 275662,
+   "auf": 275776,
+   "daneben": {},
+   "grund": "KDL: Paketindex-Lesen (+85), Freigabe-Grund als Kennung u2-adr-468-weg-2-geschaeftsfuehrung (+35), alte Prüfzeile der Herkunft entfällt (−6)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 275776,
+   "auf": 276053,
+   "daneben": {},
+   "grund": "Pro Erste Schritte: vier Hilfethemen nur für Pro, je eine Zeile mit nurMitLogikModul, +277 Byte, 29.10.2026, Wagen im Zug zug-pro-regaltitel",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "AB_WERK_KI_KORPUS",
+   "von": 0,
+   "auf": 31,
+   "daneben": {
+    "struktur": 32
+   },
+   "grund": "29.10.2026 U2-ADR-507 Nachtrag: KI-Korpus als eigene Ab-Werk-Region AB_WERK_KI_KORPUS (nativ null, ohne Signatur); Gerüst wächst um die leere Andockstelle (Wort der Gegenlesung 29.10.2026)"
+  },
+  {
+   "ziel": "struktur",
+   "von": 276044,
+   "auf": 276076,
+   "daneben": {},
+   "grund": "29.10.2026 U2-ADR-507 Nachtrag: KI-Korpus als eigene Ab-Werk-Region AB_WERK_KI_KORPUS (nativ null, ohne Signatur); Gerüst wächst um die leere Andockstelle (Wort der Gegenlesung 29.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276076,
+   "auf": 276359,
+   "daneben": {},
+   "grund": "U2-ADR-516: neues Einlass-Register lokalesModell (Prüfer, Slot, Einstellungszeile), benannter Zuwachs vom 30.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276359,
+   "auf": 276683,
+   "daneben": {},
+   "grund": "U2-ADR-516: Zeile je lokalem Modell in den Einstellungen, schreibgeschützt, benannter Zuwachs vom 30.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276683,
+   "auf": 276771,
+   "daneben": {},
+   "grund": "Menü am schmalen Bildschirm (Befund UX-MOBIL-ERSCHEINUNGSBILD-WAECHTER, Probe tests/e2e/erscheinungsbild-mobil-menue.spec.js), +88 B: die zwei Einträge in ERSCHEINUNGSBILD_REGELN.ueberdeckenErlaubt html.menue-auf>body>#app>.menue-backdrop (40 B) und html.menue-auf>body>#app>.sidebar (33 B), damit Seitenleiste und Hintergrund geschützte Anzeigen nur bei offenem Menü überdecken dürfen; die Schließwege Escape und breite Ansicht (keydown 7, Escape 6, resize 6, tb-menue 8 = 27 B); abzüglich 12 B, weil eine Stelle (menueZustand) die Klasse an #app und <html> setzt und entfernt (ein menue-auf 9, ein app 3). Selektoren mit html-Klasse und Kindkombinator, ohne Leerzeichen: Struktur, kein Satz.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276525,
+   "auf": 276526,
+   "daneben": {},
+   "grund": "Vorlese-Fix: gesprochen wird nur mit einer Stimme auf dem Gerät (vorleseSprechen und ihre Meldung)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276613,
+   "auf": 276647,
+   "daneben": {},
+   "grund": "KDL-Fassung beim Einlesen geprüft: Abweisungsgrund kdl-fassung-unbekannt und die Fassungen 2025 und 2026.0.0",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276647,
+   "auf": 276660,
+   "daneben": {},
+   "grund": "Befund MODUL-HERKUNFT-UNSIGNIERT-OHNE-KENNZEICHEN: Kennzeichnung des Herkunftstexts eines unsignierten Moduls im Dokument",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276660,
+   "auf": 278367,
+   "daneben": {},
+   "grund": "Vorsorge-Anweisung am Sub-Depot: Kern-Funktionen, Felder, Bearbeiten-Dialog, Kartenknopf (B16-ADR-052 Sub-Festlegung 4)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 278367,
+   "auf": 278603,
+   "daneben": {},
+   "grund": "v991: Ablage-Knopf in jedem Bereich, PDF-Ausweg beim Einlesen, Kontaktkarte als neue Person (H3, B8)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 278603,
+   "auf": 278643,
+   "daneben": {},
+   "grund": "Prüftermine zeigen ohne Depot den Leer-Zustand (ANSICHT-OHNE-DEPOT-STUMM, 31.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 276849,
+   "auf": 278119,
+   "daneben": {},
+   "grund": "Anhang im Listeneintrag: unterschriebenes Dokument am Vorsorge-Instrument (Befund UX-INSTRUMENT-ANHANG, Nachtrag U2-ADR-013)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 278643,
+   "auf": 280176,
+   "daneben": {},
+   "grund": "Alle Angaben: das Verlassen des ersten Eintrags fragt nach dem offenen Dialog (LISTE-ALLE-ANGABEN-DOPPELT); Anhang ohne innerHTML, Ablage in der Zeichnung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 280176,
+   "auf": 280834,
+   "daneben": {
+    "satz": -58
+   },
+   "grund": "S6: Ausgaben-Rahmen der PDF-Erzeuger (Kopf, Fuß, Blattformat) im Kern",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 280834,
+   "auf": 281673,
+   "daneben": {
+    "satz": -100
+   },
+   "grund": "Zielbild S4 (31.10.2026): das Datum in drei Feldern Tag, Monat, Jahr über einem versteckten Wert und die Ansicht „Was möchten Sie erledigen?“ nach dem ersten Anlegen bringen eigene Regeln der Anzeige-Mechanik und eigene Kennungen mit.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281673,
+   "auf": 281824,
+   "daneben": {},
+   "grund": "Datum in drei Feldern: jedes Teil-Attribut läuft über escapeAttr",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281673,
+   "auf": 281821,
+   "daneben": {},
+   "grund": "v991/v993 im Zug: Anhang und Bestandsauswahl ohne unmaskierte Verkettung, Werte einzeln maskiert",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281734,
+   "auf": 283531,
+   "daneben": {},
+   "grund": "Anlegen in zwei Schritten (S2) und Warntext-Fix, Fassung v1000: Schrittzeile, Satz statt Warnkasten, Probe unter den Wörtern mit Haken je Wort, Code-Schritt mit Textknopf (31.10.)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281734,
+   "auf": 281737,
+   "daneben": {},
+   "grund": "Personen-Wähler sucht die Eingabe nach einem Leerraum statt den Namen zu zerlegen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281737,
+   "auf": 282083,
+   "daneben": {},
+   "grund": "Wege-Karte der Sub-Depots (zwei Zeilen mit Name, Zweck und Pfeil) und der Satz unter der Grundlage der Vertretung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281734,
+   "auf": 281775,
+   "daneben": {},
+   "grund": "Zeile „Amtlicher Baustein“ unter dem Hinweis im PV-Assistenten und Dokumentdaten ohne verborgene Felder der Patientenverfügung (31.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281734,
+   "auf": 283600,
+   "daneben": {},
+   "grund": "Wagen Name & Geburt (Abnahme v998): Umschau-Feldbaustein, Gruppenkarten für jeden Abschnitt mit Inhaltszeile, Art zuerst als Wahl, Bausteine Weitere Angaben und Info-Blatt, Speicherhinweis im Kopf",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281724,
+   "auf": 283590,
+   "daneben": {},
+   "grund": "Name & Geburt nach der Abnahme v998: Umschau-Knopf, Gruppenkarten, Art-Wahl, Bausteine Weitere Angaben und Info-Blatt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 281734,
+   "auf": 281737,
+   "daneben": {},
+   "grund": "Zug-1-Fix: Importvorschau erkennt die Personenliste über Merkmal und Rolle statt über die Bereichskennung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283531,
+   "auf": 283950,
+   "daneben": {},
+   "grund": "Zug ohne den Wagen Name & Geburt: dessen Senkung an anderer Stelle entfällt, der Rest des Zugs trägt 419 Byte Struktur mehr",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283950,
+   "auf": 283977,
+   "daneben": {},
+   "grund": "Zug ohne das ⓘ an der Grundlage der Vertretung: der Absatz unter der Auswahl steht wieder wie in v1001",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283439,
+   "auf": 283599,
+   "daneben": {},
+   "grund": "Anlegen-Fenster: „Passwort bestätigen“ sichtbar, der Name als Gruppe „Ihr Name“ und der Grund in Grundschrift",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283588,
+   "auf": 283594,
+   "daneben": {},
+   "grund": "SUB-SICHERN-FENSTER: Sichern-Wege übergeben den Anker ausdrücklich (quelle), Zeichenketten der Optionen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283594,
+   "auf": 283599,
+   "daneben": {},
+   "grund": "fix(rechtsraum): Merkzeichen RF heißt Ermäßigung, die Seed-Phrase nur ihr Ort, die BundID ein Nutzerkonto, Krypto fragt nach dem Eigenen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283593,
+   "auf": 283824,
+   "daneben": {},
+   "grund": "Vormundschaft und Notvertretung durch Ehegatten als Grundlagen der Vertretung: Katalogzeilen und die Sperre des Empfängerkreises auf Gesundheit",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283599,
+   "auf": 283830,
+   "daneben": {},
+   "grund": "feat(vertretung): Vormundschaft und Notvertretung durch Ehegatten als Grundlage der Vertretung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283748,
+   "auf": 283785,
+   "daneben": {},
+   "grund": "Zugkopf zug-2026-11-02-l4-b5 nach dem Neuaufsatz gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 286229,
+   "auf": 286407,
+   "daneben": {},
+   "grund": "Forschungsentscheidungen als Liste und Statuskarte Forschung (U2-ADR-518): Markup ohne Satztext; der Titel der Karte steht nur im Textsatz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283785,
+   "auf": 283963,
+   "daneben": {},
+   "grund": "feat(gesundheit, vorsorge): Forschungsentscheidungen als Liste, Datenspende nach dem Tod an der Patientenverfügung (U2-ADR-518)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283963,
+   "auf": 284047,
+   "daneben": {},
+   "grund": "feat(hinweis): Feldhinweise mit erstem Satz sichtbar und dem Rest im Aufklapper „Mehr zur Rechtslage“ (U2-ADR-518, Gestaltung)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 286491,
+   "auf": 286509,
+   "daneben": {},
+   "grund": "Kaskaden-Fix feldSichtbar transitiv (SICHTBARKEIT-KASKADE)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284047,
+   "auf": 284065,
+   "daneben": {},
+   "grund": "fix(kern): feldSichtbar wertet Tore gegen den wirksamen Wert des Torfelds aus (SICHTBARKEIT-KASKADE)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284060,
+   "auf": 284258,
+   "daneben": {},
+   "grund": "L5: „Einmal abrufbar“ nur über die voreingestellte Ablage, sonst sichtbar „Nicht einmalig“",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283823,
+   "auf": 285144,
+   "daneben": {},
+   "grund": "SHL-Empfang im Kern (L6, Nachtrag U2-ADR-183, 02.11.2026): Block SHL-EMPFANG mit Link-Leser, strengem JWE-Öffner, Auftrag an die Abhol-Seite, Dialog an der Einlese-Tür; Wegweiser SHL C entfällt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284258,
+   "auf": 285579,
+   "daneben": {},
+   "grund": "L6: Freigabe-Link im Kern einlesen; die Abhol-Seite holt nur das Chiffrat",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 285579,
+   "auf": 286401,
+   "daneben": {},
+   "grund": "Strukturprüfung gegen die IG im Kern: Regelauszug als Daten-Region, Befund in der Mappe-Vorschau",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 286401,
+   "auf": 286505,
+   "daneben": {},
+   "grund": "fix(sub-depot): der Leerzustand zeigt ein Zeichen und einen kurzen Satz; das Schloss an jeder Karte sagt, dass das Sub-Depot ein eigenes Passwort hat (C04a)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284164,
+   "auf": 284302,
+   "daneben": {},
+   "grund": "fix(anfrage): die Anfrage-Ansicht nennt fehlende Angaben beim Namen und zählt sie mit",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284302,
+   "auf": 284668,
+   "daneben": {
+    "satz": -72
+   },
+   "grund": "fix(pdf-fuss): der Fuß bricht nur an den Trennpunkten, jede Angabe bleibt in einer Zeile",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283954,
+   "auf": 283980,
+   "daneben": {},
+   "grund": "PDF-Listen als Block je Eintrag, Beschriftung ohne doppeltes Satzzeichen (GL B2 4+5)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284185,
+   "auf": 284211,
+   "daneben": {},
+   "grund": "PDF: Listen als Block je Eintrag, Beschriftung ohne doppeltes Satzzeichen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 283954,
+   "auf": 283980,
+   "daneben": {},
+   "grund": "PDF: Listen als Block je Eintrag, Beschriftung ohne doppeltes Satzzeichen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284060,
+   "auf": 284452,
+   "daneben": {
+    "satz": -72
+   },
+   "grund": "B2a auf 4f32d1596: Prüftermine in der Anzeigesprache, Startseiten-Hinweis, Eintragszeilen mit Beschriftung über Wert, PDF-Listen als Block",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284164,
+   "auf": 284556,
+   "daneben": {},
+   "grund": "B2a auf fe9a7ebf2: Prüftermine in der Anzeigesprache, Startseiten-Hinweis, Eintragszeilen mit Beschriftung über Wert, PDF-Listen als Block",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284668,
+   "auf": 284694,
+   "daneben": {},
+   "grund": "test(b2b): Render-Aufnahme der Eintragszeile und Klausel-Zahl nach dem Umsetzen auf B2a",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284694,
+   "auf": 285360,
+   "daneben": {},
+   "grund": "fix(geruest): Struktur-Deckel nimmt das Verzeichnis der Außenablagen auf (U2-ADR-520)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 284968,
+   "auf": 285050,
+   "daneben": {},
+   "grund": "U2-ADR-520 Nr. 3: Positivliste der Hülle für die Außenablage (AUSSENABLAGE_HUELLE_FELDER)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 285360,
+   "auf": 285442,
+   "daneben": {},
+   "grund": "fix(aussenablage): neben dem Chiffrat nur, was zum Öffnen nötig ist (U2-ADR-520 Nr. 3)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

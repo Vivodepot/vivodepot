@@ -123,6 +123,25 @@ function kennungenAusKern() {
     }
     if (typeof s.einfuehrungstext === 'string' && s.einfuehrungstext.trim()) raus[s.id + '.einfuehrungstext'] = s.einfuehrungstext;
   }
+  /* Namen der Codelisten-Einträge (U2-ADR-480): dieselben Kennungen `codeliste:<systemId>/<Code>.anzeige`, die der Kern kennt. Die Lese-App
+     zeigt einen codierten Chip in der Sprache der Leserin; ohne diese Kennungen verwürfe sie das Sprachmodul-Stück als „unbekannt“.
+     Abgeleitet aus tools/textsatz-codelisten-daten.js (keine Handliste); der Wert ist der deutsche Name als Beleg. */
+  const { TEXTSATZ_DE_CODELISTEN, TEXTSATZ_EN_CODELISTEN } = require(path.join(__dirname, 'textsatz-codelisten-daten.js'));
+  const listen = {};
+  for (const f of fs.readdirSync(path.join(REPO, 'code-listen')).filter((n) => n.endsWith('.json'))) {
+    const l = JSON.parse(fs.readFileSync(path.join(REPO, 'code-listen', f), 'utf8'));
+    listen[l.systemId] = l;
+  }
+  for (const k of Object.keys(TEXTSATZ_EN_CODELISTEN).sort()) {
+    let wert = TEXTSATZ_DE_CODELISTEN[k];
+    if (typeof wert !== 'string') {
+      const m = /^codeliste:([^/]+)\/(.+)\.anzeige$/.exec(k);
+      const e = m && listen[m[1]] && (listen[m[1]].daten || []).find((d) => d.code === m[2]);
+      wert = e && e.anzeigeName;
+    }
+    if (typeof wert !== 'string' || !wert) throw new Error('Codelisten-Kennung ohne deutschen Beleg: ' + k);
+    raus[k] = wert;
+  }
   return raus;
 }
 
@@ -132,7 +151,8 @@ function region(kennungen) {
     '/* Wörtlicher Auszug aus AB_WERK_TEXTSATZ_DE.texte im Kern — nur die Kennung-Formen, die die',
     '   Lese-App rendert: Sektor-Label (<id>.label), Sektions-Label (<sektorId>#<sektionId>.label),',
     '   Feld-Label (<sektorId>.<feldId>.label), Optionen (<sektorId>.<feldId>[/<unterfeld>]/<wert>.label),',
-    '   Unterfeld-Label (<sektorId>.<feldId>/<unterfeld>.label), Einführungstext (<id>.einfuehrungstext).',
+    '   Unterfeld-Label (<sektorId>.<feldId>/<unterfeld>.label), Einführungstext (<id>.einfuehrungstext),',
+    '   Codelisten-Name (codeliste:<systemId>/<Code>.anzeige).',
     '   Der SCHLÜSSELRAUM ist der Zweck dieser Tabelle —',
     "   `_textsatzKennungBekannt()` fragt nur `hasOwnProperty`, die Werte sind das deutsche",
     '   Original als Beleg, nicht als eigener Konsument. */',

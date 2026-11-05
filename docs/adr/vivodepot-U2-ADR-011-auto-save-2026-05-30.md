@@ -4,7 +4,7 @@
 **Datum:** 30.05.2026
 **Kategorie:** UX, ARCHITEKTUR
 **Cross-Referenz:** UX-Spec V/VII (Pausen-Erlaubnis, „Sie können jederzeit pausieren"), U2-ADR-005 (Urheberschaft pro Eintrag), U2-ADR-006 (Andock, Code-Slot pro Feld).
-**Status heute:** gilt — `bearbeitungSpeichern()` im Kern vorhanden (`vivodepot.html:24024`), Beleg `tests/auto-save.test.js`.
+**Status heute:** gilt — `bearbeitungSpeichern()` im Kern vorhanden (`vivodepot.html`), Beleg `tests/auto-save.test.js`.
 
 ---
 
@@ -48,6 +48,9 @@ Kein feldspezifischer Code, kein Sektor-Name im Auto-Save-Pfad. Auch listen-/fot
 - **Konsistent mit der Übergabe-Disziplin.** Beim Topbar-Speichern wird die offene Edit-Session zuerst übernommen, dann das Depot verschlüsselt — keine verlorenen Eingaben am Datei-Save.
 
 ## Implementations-Verweis
+
+**Code-Anker** (nachgezogen 31.10.2026; die Commits unten sind seit der Historien-Umschreibung 2026 nicht mehr auflösbar):
+- `bearbeitungSpeichern()` in `vivodepot.html`; Probe `tests/auto-save.test.js`.
 
 - **Kern-Commit *(nicht mehr auflösbar — Historien-Umschreibung 2026, ADR-Datum 30.05.2026)*** — `bearbeitungSpeichern()` extrahiert, an `oeffneSektor`/`oeffneVerwaltung`/`tb-modus-select`/`tb-speichern` verdrahtet; b-fertig delegiert.
 - **Suite-Commit *(nicht mehr auflösbar — Historien-Umschreibung 2026, ADR-Datum 30.05.2026)*** — `tests/auto-save.test.js`: Existenz der Funktion, Navigations-Anker, direkte sektorFeldSetzen-Pfad-Stabilität.

@@ -66,3 +66,45 @@ quelle:    invariante
 
 *Bindung nachgetragen 25.07.2026 (A2-als-Code), über die gemeinsame Bindungsprüfung
 (`tests/bindung-pruefen.js`, U2-ADR-098 + Nachtrag).*
+
+## Nachtrag 30.10.2026 — Fassung B wandert auf die Seite „Über und Hinweise“
+
+**Anlass:** Die App-Fußzeile entfällt (Entscheidung vom 07.10.2026). Eine Seite „Über und Hinweise“ bündelt Hilfetexte,
+Haftungs- und Rechtshinweise, Standards, Version, Prüfsumme und Lizenzen. Fassung A wurde am 19.06.2026 nur deshalb verworfen, weil
+Fassung B in der Fußzeile bei jeder Nutzung sichtbar war (Abschnitt „Bau 3“). Diese Begründung muss am neuen Ort weiter tragen.
+
+**Entscheidung (30.10.2026):**
+1. Fassung B steht wortgleich als erster Satz am Kopf der Seite „Über und Hinweise“, deutsch und englisch.
+2. Fassung B steht zusätzlich leise auf dem Startschirm, also beim Öffnen. Ort und Form gibt die Gestaltung vor. Damit sieht die
+   Person B bei jeder Nutzung einmal, und die Begründung für das Verwerfen von A trägt weiter.
+3. Fassung A bleibt verworfen.
+4. Fassung C an jedem PDF und DOCX bleibt unverändert. Sie ist weiter der rechtlich tragende Schutz.
+5. Die Probe zieht mit dem Bau der Seite um. `tests/haftungshinweis.test.js` prüft B wortgleich auf der Seite und auf dem
+   Startschirm statt in der Fußzeile. Die Bindung `u2-025-haftungshinweis-wortlaut-b-c` bleibt.
+
+Die Seite ist aus jeder Ansicht erreichbar: in der Seitenleiste mit einem Schritt, auf kleinen Bildschirmen über das Menü mit zwei
+Schritten, auf Start und Entsperren über einen Textlink. Im Notfall-Modus zeigt die App keinen Hinweis, wie bisher.
+
+## Nachtrag 01.11.2026 — Fassung B auf der Seite „Über und Hinweise“ in ganzen Sätzen
+
+**Anlass:** Auf der Seite „Über und Hinweise“ liest sich die Kurzform mit Mittelpunkten wie eine Fußzeile, nicht wie ein Satz. Die
+Befunde zur Seite vom 01.11.2026 verlangen ganze Sätze.
+
+**Entscheidung (01.11.2026):**
+1. Am Kopf der Seite steht Fassung B in Satzform, deutsch und englisch, wortgleich:
+   - DE: „{marke} ist ein Werkzeug und berät nicht. Es ersetzt keine Rechts-, Finanz-, Steuer- oder medizinische Beratung. Alle
+     Dokumente sind Entwürfe.“
+   - EN: “{marke} is a tool and does not give advice. It does not replace legal, financial, tax or medical advice. All documents
+     are drafts.”
+   - `{marke}` ist der Name der Marke, die das Produkt trägt. Ohne Partnermarke steht dort „Vivodepot“. Einen festen Markennamen
+     duldet die Wortmarken-Regel nur am Herkunftsort.
+2. Die Satzform ist gleichwertig zu Fassung B. Jeder Teil von B steht darin, und keiner wird enger:
+   - „Werkzeug, kein Berater“ entspricht „ist ein Werkzeug und berät nicht“.
+   - „keine Rechts-, Finanz-, Steuer- oder medizinische Beratung“ entspricht „ersetzt keine Rechts-, Finanz-, Steuer- oder
+     medizinische Beratung“. Die vier Gebiete sind dieselben, und die Wendung ist die von Fassung C („kein Ersatz für“).
+   - „alle Dokumente sind Entwürfe“ bleibt wörtlich.
+3. Die Kurzform B bleibt wortgleich leise auf dem Startschirm. Damit gilt Nr. 2 des Nachtrags vom 30.10.2026 weiter.
+4. Fassung A bleibt verworfen; Fassung C bleibt unverändert.
+5. Die Probe wächst mit dem Bau der Seite. `tests/haftungshinweis.test.js` prüft die Kurzform B auf dem Startschirm wie bisher und
+   die Satzform wortgleich am Kopf der Seite, beide Sprachen, mit einer Negativprobe für eine umformulierte Satzform. Die Bindung
+   `u2-025-haftungshinweis-wortlaut-b-c` bleibt.

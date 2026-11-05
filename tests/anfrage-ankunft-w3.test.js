@@ -59,16 +59,17 @@ test('[W3 · Ankunft] der erste Bildschirm nennt Stelle, Zweck und die Angaben m
 });
 
 /* ── (2) Die Dialoge nach dem Anlegen ───────────────────────────────────── */
-test('[W3 · Anlegen] auf dem Anfrage-Weg kein Code- und kein Notfall-Dialog; sonst beide; das Passwort wird nicht gehalten', () => {
+test('[W3 · Anlegen] auf dem Anfrage-Weg kein Code-Schritt und kein Notfall-Dialog; sonst Schritt 2 mit dem Code; das Passwort wird nicht gehalten', () => {
   const f = rumpf('function flowDepotAnlegen(');
   const zweig = /if \(grund === 'anfrage'\) \{ ([^\n]*) return; \}\n/.exec(f);
   assert.ok(zweig, 'der Anfrage-Weg zweigt ab');
   assert.match(zweig[1], /^pw = null;/, 'Anfrage-Weg: die Referenz fällt zuerst');
-  assert.doesNotMatch(zweig[1], /wiederherstellungAnbieten|notfallblattAnbieten|fortsetzen\b/, 'Anfrage-Weg: keiner der beiden Dialoge');
+  assert.doesNotMatch(zweig[1], /wiederherstellungAnbieten|anlegenCodeSchritt|notfallblattAnbieten|fortsetzen\b/, 'Anfrage-Weg: keiner der Dialoge');
   const ohne = /const ohneAngebot = (\(\) => \{[^\n]*\});/.exec(f);
-  assert.ok(ohne && /pw = null;/.test(ohne[1]) && !/const p = pw|wiederherstellungAnbieten/.test(ohne[1]), 'die Fortsetzung des Anfrage-Wegs reicht das Passwort nicht weiter');
+  assert.ok(ohne && /pw = null;/.test(ohne[1]) && !/const p = pw|wiederherstellungAnbieten|anlegenCodeSchritt/.test(ohne[1]), 'die Fortsetzung des Anfrage-Wegs reicht das Passwort nicht weiter');
   assert.ok(f.indexOf(zweig[0]) < f.indexOf('if (webkitTabMitFrist()) _dateiNachAnlegenAnbieten(fortsetzen); else fortsetzen();'), 'der Zweig steht vor dem allgemeinen Weg');
-  assert.match(f, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; wiederherstellungAnbieten\(p, notfallblattAnbieten\); \};/, 'andere Wege: unverändert');
+  // S2 (31.10.2026): andere Wege gehen in Schritt 2 mit dem Code; das Passwort-Blatt steht dort, kein Dialog danach.
+  assert.match(f, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt\(p\); \};/, 'andere Wege: Schritt 2');
 });
 test('[W3 · Anlegen · Rot-Beweis] fehlt der Zweig oder reicht er das Passwort weiter, fällt die Prüfung', () => {
   const f = rumpf('function flowDepotAnlegen(');
@@ -262,11 +263,16 @@ test('[W3 · Code · Rot-Beweis] leert das Schließen den Dialog nicht, bleibt d
 });
 test('[W3 · Code] whcCodeZeigen schreibt den Code nur in den Dialog: keine Konsole, keine Zwischenablage, kein Speicher', () => {
   const r = rumpf('function whcCodeZeigen(');
-  assert.doesNotMatch(r, /console\.|clipboard|execCommand|localStorage|sessionStorage|indexedDB|\bdata\.[A-Za-z_]+\s*=/);
+  // Seit S2 (31.10.2026) teilen whcCodeZeigen und Schritt 2 des Anlegens Anzeige, Verdrahtung und Einrichten.
+  for (const n of ['function whcCodeZeigen(', 'function anlegenCodeSchritt(', 'function _whcCodeAnzeigeHTML(', 'function _whcCodeDialogVerdrahten(', 'async function _whcKontrolleEinrichten(']) {
+    assert.doesNotMatch(rumpf(n), /console\.|clipboard|execCommand|localStorage|sessionStorage|indexedDB|\bdata\.[A-Za-z_]+\s*=/, n);
+  }
   // Der Code steht genau einmal im Markup, im Dialog-Inhalt; die übrigen Vorkommen sind Vergleich und Hinweis.
-  assert.equal((r.match(/whcCodeGruppiert\(code\)/g) || []).length, 1);
+  assert.equal((r.match(/_whcCodeAnzeigeHTML\(code\)/g) || []).length, 1);
+  assert.equal((rumpf('function anlegenCodeSchritt(').match(/_whcCodeAnzeigeHTML\(code\)/g) || []).length, 1);
+  assert.equal((rumpf('function _whcCodeAnzeigeHTML(').match(/whcCodeGruppiert\(code\)/g) || []).length, 1);
   // Das Code-Blatt (Klick auf „Blatt“) bekommt den Code nicht.
-  assert.match(r, /bl\.onclick = \(\) => _codeblattOeffnen\(\);/);
+  assert.match(rumpf('function _whcCodeDialogVerdrahten('), /bl\.onclick = \(\) => _codeblattOeffnen\(\);/);
   assert.match(rumpf('function _codeblattOeffnen('), /codeblattHTML\(\)/);
 });
 

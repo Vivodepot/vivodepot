@@ -100,7 +100,7 @@ test('[Klasse-A] Kein Re-Export aus dem Archiv ohne ausdrückliche Reaktivierung
   V.subDepotReaktivieren(eintrag.depotUUID);
   assert.equal(V.getData().verwalteteDepots[0].status, 'aktiv', 'reaktiviert');
   const datei = V.subDepotBlackboxExportieren(eintrag.depotUUID);
-  assert.equal(datei.dateiTyp, 'vivodepot-blackbox-export', 'nach Reaktivierung wieder exportierbar');
+  assert.equal(datei.art, 'sub', 'nach Reaktivierung wieder exportierbar');
 });
 
 test('Umschlag erhalten: der verschlüsselte Umschlag bleibt im archivierten Zustand vorhanden', async () => {
@@ -115,7 +115,7 @@ test('Umschlag erhalten: der verschlüsselte Umschlag bleibt im archivierten Zus
   assert.equal(JSON.stringify(live.umschlag.einheiten), einheitenVorher, 'Chiffrat (Einheiten) unverändert erhalten (Rettungs-Pfad)');
   assert.equal(
     Object.keys(live.umschlag).sort().join(','),
-    'angehoerigenOrt,depotSalt,depotUUID,einheiten,kryptoVersion,pbkdf2,umschlagTabelle',
+    'angehoerigenOrt,art,depotSalt,depotUUID,einheiten,kryptoVersion,pbkdf2,umschlagTabelle',
     'die Umschlag-Felder (dieselben wie beim Anker) bleiben vollständig erhalten'
   );
 });

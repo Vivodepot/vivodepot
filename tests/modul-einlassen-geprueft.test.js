@@ -73,6 +73,26 @@ test('[modulEinlassenGeprueft] Selbstauskunft im Modul-Inhalt gewinnt NICHT — 
   assert.equal(d.textsatzModule[0].anbieterId, 'institution/test-anbieter', 'die geprüfte Kennung aus dem Zertifikat gewinnt über die Selbstauskunft im Modul');
 });
 
+test('[modulEinlassen·pruefstufe] eine selbst mitgebrachte Prüfstufe überlebt den Einlass nicht', async () => {
+  /* ROT-BEWEIS: am Kanon vor dem 30.10.2026 blieb `pruefstufe: 'intern'` am selbst eingelassenen Modul stehen
+     (Object.assign kopierte es, nur der geprüfte Zweig überschrieb). Jetzt fehlt das Feld ohne Prüfung, und mit
+     Prüfung kommt es aus der Kette. */
+  const { V } = ladeKern();
+  const d = V.leeresDepot();
+  const r = V.modulEinlassen(JSON.stringify(Object.assign({}, TEXTSATZ_MODUL, { pruefstufe: 'intern' })), d);
+  assert.equal(r.angenommen, true, 'Grund: ' + r.grund);
+  assert.equal('pruefstufe' in d.textsatzModule[0], false, 'ohne Prüfung keine Prüfstufe, auch keine behauptete');
+  assert.equal(d.textsatzModule[0].ungeprueft, true);
+
+  const anbieter = await wegwerfKeypair();
+  const providerCredentialJws = await signieren(V, anbieterCertRohling('institution/test-anbieter', anbieter.pubJwk), SENTINEL_PRIVATE_JWK);
+  const modulSignaturJws = await signieren(V, Object.assign({}, TEXTSATZ_MODUL, { pruefstufe: 'intern' }), anbieter.privJwk);
+  const g = V.leeresDepot();
+  const rg = await V.modulEinlassenGeprueft(JSON.stringify({ providerCredentialJws, modulSignaturJws }), g, { ankerJwk: SENTINEL_PUBLIC_JWK, jetzt: JETZT });
+  assert.equal(rg.angenommen, true, 'Grund: ' + rg.grund);
+  assert.notEqual(g.textsatzModule[0].pruefstufe, 'intern', 'die Stufe kommt aus der Kette, nicht vom Autor');
+});
+
 test('[modulEinlassenGeprueft·Rot-Beweis] eine verfälschte Modul-Signatur wird abgelehnt', async () => {
   const { V } = ladeKern();
   const anbieter = await wegwerfKeypair();

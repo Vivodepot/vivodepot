@@ -103,10 +103,10 @@ async function bisDialogOeffnen(htmlUrl) {
 test('[Reisen·Probe 1] geänderter Hinweistext im Produktivcode ändert das erfasste Protokoll',
   { timeout: 60000 }, async () => {
     const schritt = await bisDialogOeffnen('file://' + HTML_PFAD);
-    assert.ok(schritt.hinweise.some((h) => h.includes('Niemand kann es zurücksetzen')),
+    assert.ok(schritt.hinweise.some((h) => h.includes('nicht für Sie zurückholen')),
       'ABBRUCH: der erwartete Warntext steht nicht im Original-Protokoll — Anker geprüft?');
 
-    const von = 'Niemand kann es zurücksetzen — auch wir nicht.';
+    const von = 'denn wir können sie nicht für Sie zurückholen.';   // seit S2 (31.10.2026) der Satz zu den sechs Wörtern
     const zu = 'Ein Zurücksetzen ist über den Support jederzeit möglich.';
     const mutiert = await mitMutierterKopie(von, zu, bisDialogOeffnen);
 
@@ -165,7 +165,7 @@ test('[Reisen·Beleg §2] eine Erfassung, die nur Selektor-Existenz prüft, sieh
   { timeout: 60000 }, async () => {
     // Absichtlich naiv, NUR für diese Probe — genau der Fehler, den der Auftrag (§2)
     // ausschließen will: „ob ein Element existiert" statt „was daneben steht".
-    const nurSelektor = () => !!document.querySelector('.modal-warnung');
+    const nurSelektor = () => !!document.querySelector('[data-schutz]');   // seit S2 (31.10.2026) ein Satz statt .modal-warnung
 
     const { chromium } = require('playwright');
     const messen = async (htmlUrl) => {
@@ -193,7 +193,7 @@ test('[Reisen·Beleg §2] eine Erfassung, die nur Selektor-Existenz prüft, sieh
     };
 
     const original = await messen('file://' + HTML_PFAD);
-    const von = 'Niemand kann es zurücksetzen — auch wir nicht.';
+    const von = 'denn wir können sie nicht für Sie zurückholen.';   // seit S2 (31.10.2026) der Satz zu den sechs Wörtern
     const zu = 'Ein Zurücksetzen ist über den Support jederzeit möglich.';
     let mutiertErgebnis;
     const alterOriginal = fs.readFileSync(HTML_PFAD, 'utf8');

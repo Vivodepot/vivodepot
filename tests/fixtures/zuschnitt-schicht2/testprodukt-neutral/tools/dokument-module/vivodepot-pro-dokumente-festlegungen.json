@@ -1,11 +1,11 @@
 {
-  "modulTyp": "dokumente",
+  "modulTyp": "rechtsraumBauplan",
   "moduleVersion": 1,
   "herkunft": "vivodepot",
-  "sprache": "de",
-  "dokumente": {
-    "pvBmj": {
-      "steps": [
+  "rechtsraum": "DE",
+  "typen": {
+    "living-will": {
+      "bauplan": [
         {
           "dokEinleitung": "Wenn",
           "feld": {
@@ -47,7 +47,8 @@
                 "wert": "unterlassen"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.1"
         },
         {
           "bezug": "Testtext 2",
@@ -62,7 +63,8 @@
                 "wert": "mit_daempfung"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.2"
         },
         {
           "feld": {
@@ -76,7 +78,8 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.2"
         },
         {
           "bezug": "Testtext 1",
@@ -94,7 +97,8 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.3"
         },
         {
           "bezug": "Testtext 3",
@@ -109,7 +113,8 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "Testtext 4"
         },
         {
           "feld": {
@@ -122,11 +127,16 @@
               {
                 "wert": "nein"
               }
-            ]
-          }
+            ],
+            "verborgenWenn": {
+              "feld": "resuscitationInDescribedSituations",
+              "wert": "ja"
+            }
+          },
+          "bmjBaustein": "2.3.4"
         },
         {
-          "bezug": "Testtext 4",
+          "bezug": "Testtext 5",
           "feld": {
             "id": "resuscitationInAllCases",
             "typ": "auswahl",
@@ -137,8 +147,13 @@
               {
                 "wert": "ab_ausser_op"
               }
-            ]
-          }
+            ],
+            "verborgenWenn": {
+              "feld": "resuscitationInDescribedSituations",
+              "wert": "ja"
+            }
+          },
+          "bmjBaustein": "Testtext 6"
         },
         {
           "bezug": "Testtext 3",
@@ -153,7 +168,8 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.5"
         },
         {
           "bezug": "Testtext 3",
@@ -168,7 +184,8 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.6"
         },
         {
           "bezug": "Testtext 3",
@@ -186,7 +203,8 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.7"
         },
         {
           "bezug": "Testtext 3",
@@ -204,10 +222,11 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.3.8"
         },
         {
-          "bezug": "Testtext 5",
+          "bezug": "Testtext 7",
           "feld": {
             "id": "placeOfTreatmentOrDeath",
             "typ": "auswahl",
@@ -222,21 +241,24 @@
                 "wert": "hospiz"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.4"
         },
         {
           "feld": {
             "id": "supportFromThesePersons",
             "typ": "refMehrfach",
             "entitaet": "person"
-          }
+          },
+          "bmjBaustein": "2.4"
         },
         {
           "feld": {
             "id": "supportFromChurchOrCommunity",
             "typ": "text",
             "beispiel": ""
-          }
+          },
+          "bmjBaustein": "2.4"
         },
         {
           "feld": {
@@ -250,14 +272,16 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.4"
         },
         {
           "feld": {
             "id": "confidentialityWaiverFor",
             "typ": "refMehrfach",
             "entitaet": "person"
-          }
+          },
+          "bmjBaustein": "2.5"
         },
         {
           "feld": {
@@ -277,7 +301,8 @@
                 "wert": "andere"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.6"
         },
         {
           "feld": {
@@ -292,7 +317,8 @@
                 "arzt"
               ]
             }
-          }
+          },
+          "bmjBaustein": "2.6"
         },
         {
           "feld": {
@@ -312,7 +338,8 @@
                 "wert": "andere"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.6"
         },
         {
           "feld": {
@@ -327,14 +354,16 @@
                 "arzt"
               ]
             }
-          }
+          },
+          "bmjBaustein": "2.6"
         },
         {
           "feld": {
             "id": "personalValuesOrFurtherDocuments",
             "typ": "textarea",
             "beispiel": ""
-          }
+          },
+          "bmjBaustein": "2.8"
         },
         {
           "feld": {
@@ -348,7 +377,8 @@
                 "wert": "ablehnung"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.9"
         },
         {
           "feld": {
@@ -366,7 +396,8 @@
               "feld": "organDonationDecision",
               "wert": "ablehnung"
             }
-          }
+          },
+          "bmjBaustein": "2.9"
         },
         {
           "feld": {
@@ -380,19 +411,22 @@
                 "wert": "nein"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.10"
         },
         {
           "feld": {
             "id": "informationOrCounsellingReceived",
             "typ": "text"
-          }
+          },
+          "bmjBaustein": "2.12"
         },
         {
           "feld": {
             "id": "counsellingBy",
             "typ": "text"
-          }
+          },
+          "bmjBaustein": "2.12"
         },
         {
           "feld": {
@@ -406,7 +440,8 @@
                 "wert": "befristet"
               }
             ]
-          }
+          },
+          "bmjBaustein": "2.14"
         },
         {
           "feld": {
@@ -416,7 +451,8 @@
               "feld": "validityDuration",
               "wert": "unbefristet"
             }
-          }
+          },
+          "bmjBaustein": "2.14"
         }
       ]
     }

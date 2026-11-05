@@ -145,7 +145,7 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Restschlüssel anfrageTeilantwortMitVorgaben: Auskunft an die Person über ihre eigenen Voreinstellungen — keine Aussage, auf die sich ein Dritter verlässt."
     },
-    "renderBestandsAuswahl": {
+    "bestandsAuswahlInhalt": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Navigationsbeschriftung („Bestand“ als Wortteil), keine Zustandsaussage."
     },

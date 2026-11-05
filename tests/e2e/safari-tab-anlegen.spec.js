@@ -89,7 +89,7 @@ for (const slug of ['privat-de', 'privat-en', 'pro-de', 'pro-en']) {
       await page.waitForTimeout(100);
     }
     await expect(page.locator('#whc-angebot')).toBeVisible();
-    await page.click('#m-ok');                                          // Code einrichten
+    // S2 (31.10.2026): das Angebot IST Schritt 2 mit dem Code, kein Klick auf „Code einrichten“ mehr.
     const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
     await page.fill('#whc-kontrolle', code);
     await page.click('#m-ok');

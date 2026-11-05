@@ -91,8 +91,7 @@ angezeigt, mit Rot-Beweis (ohne den Register-Eintrag wird dieselbe Vorlage abgew
 `kernAPI.setzeModus`), die Akut-Renderer (`renderAkutSituation`, `renderAngehoerigenAuswahl`,
 `renderAngehoerigen`, Banner, `oeffneAkut`/`akutZurueck`), die Konstante `_ANG_SITUATIONEN`
 samt Index, die `angSituation:*`-Texte und sieben nur vom Modus genutzte Texte. Der Feldbestand
-von damals steht als eingefrorene Grundlinie in
-`tests/fixtures/angehoerigen-blaetter-vor-abriss-2026-09-19.json`: die Vorlagen dürfen wachsen,
+von damals steht als eingefrorene Grundlinie in einer Fixture, die nicht im öffentlichen Repository liegt: die Vorlagen dürfen wachsen,
 aber nichts daraus verlieren (Blatt, Block, Eintrag).
 
 **(9) Ein Wächter gegen den Rückfall.** `tools/geruest-inhalt-pruefen.js` sucht im Quelltext des

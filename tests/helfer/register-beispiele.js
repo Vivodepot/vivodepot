@@ -51,6 +51,10 @@ const ALLE_REGISTER_BEISPIELE = [
   { typ: 'angehoerigenVorlage', slot: 'angehoerigenVorlagenModule',
     modul: { modulTyp: 'angehoerigenVorlage', moduleVersion: 1, herkunft: 'probe', sprache: 'de',
       situationen: { 'sit-probe': { titel: 'Probe', bloecke: [{ id: 'b1', titel: 'Block', eintraege: [{ quelle: 'identity', feld: 'givenName' }] }] } } } },
+  // KI-Andockpunkt (U2-ADR-516, 29.10.2026): das sechzehnte Register — ein Verweis auf eine lokale Modelldatei.
+  { typ: 'lokalesModell', slot: 'lokaleModelle',
+    modul: { modulTyp: 'lokalesModell', moduleVersion: 1, id: 'zz-probe', label: 'Probe-Modell', sprache: 'de', herkunft: 'probe',
+      modellHash: 'sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef' } },
 ];
 
 module.exports = { ALLE_REGISTER_BEISPIELE };

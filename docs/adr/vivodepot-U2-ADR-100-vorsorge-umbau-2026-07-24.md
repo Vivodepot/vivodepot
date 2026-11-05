@@ -302,18 +302,20 @@ aussage:   Ein entferntes Feld steht im Alt-Label-Register — allgemein,
            über alle künftigen Entfernungen. Für diesen Branch ist es
            bereits durch tests/alt-label-register.test.js gedeckt.
 zustand:   offen
-frist:     2026-10-31
+frist:     2026-11-27
 bedingung: Integritäts-Registry steht (Prüf-Architektur, Strang B)
+           Frist am 28.10.2026 neu gesetzt, vorher 2026-10-31; Eigentümer Strang Prüfregeln; Abnahme Registry-Zweig durch Probe gebunden.
 ```
 
 ```konformitaet
 aussage:   Ab RC entfernt keine Migration ein vom Bürger erfasstes Feld
            ohne Übernahme des Werts.
 zustand:   offen
-frist:     2026-10-31
+frist:     2026-11-27
 bedingung: erstes ausgeliefertes Depot in fremder Hand. Am 31.10.2026 wird
            entschieden, ob ein RC-Datum absehbar ist; wenn ja, wird die
            Frist darauf gezogen, wenn nein, die Klausel neu gefasst.
+           Frist am 28.10.2026 neu gesetzt, vorher 2026-10-31; Eigentümer Projektleitung; Abnahme Entscheidung der Projektleitung, in dieser ADR vermerkt.
 ```
 
 ```konformitaet

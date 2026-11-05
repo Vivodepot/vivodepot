@@ -24,6 +24,7 @@ Für Bürgerinnen und Bürger ist Vivodepot Privat kostenlos.
 - **Offline.** Die Depot-Datei liegt bei der Nutzerin, verschlüsselt. Kein Server hält sie, keine
   Cloud sichert sie im Hintergrund.
 - **Ohne Konto.** Nichts steht zwischen der Nutzerin und ihrer Datei.
+- **Passwörter gehören in den Passwortmanager.** Vivodepot hält fest, wo sie liegen und wer Zugang hat.
 - **EUPL-1.2.** Offener Quelltext, europäisches Recht.
 - **Fünf Jahre Sicherheitsaktualisierungen je Fassung**, ab dem Tag, an dem sie herauskommt; jede
   Aktualisierung bleibt danach mindestens zehn Jahre abrufbar (s. [`SECURITY.md`](SECURITY.md)).
@@ -85,4 +86,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Stand
 
-Fassung v956.
+Fassung v1040.

@@ -31,6 +31,12 @@ Die Isolation ist damit echt und nicht Anzeige-Kosmetik: Wer das Sub-Passwort ni
 
 ## Implementations-Verweis
 
+**Code-Anker** (nachgezogen 31.10.2026; die Commits unten sind seit der Historien-Umschreibung 2026 nicht mehr auflösbar):
+- Schritt 1, Sub-Depot-Passwort und Vertrauens-Modus: `subDepotAnlegen()`, `subDepotVertrauenOeffnen()`, `subDepotVertrauenSchliessen()` in `vivodepot.html`; Probe `tests/sub-depot-isolation.test.js`, dazu eine interne Probe zur Nicht-Persistenz.
+- Schritt 2, Blackbox-Export: `subDepotBlackboxExportieren()`, `blackboxDateiAusUmschlag()` in `vivodepot.html`; Probe `tests/blackbox-export.test.js`.
+- Schritt 2b, Aushäng-Akt: `subDepotAushaengen()`, `subDepotReaktivieren()` in `vivodepot.html`; Probe `tests/aushaeng-akt.test.js`.
+- Schritt 3, Einhängen: `subDepotEinhaengen()` in `vivodepot.html`; Probe `tests/einhaengen.test.js`.
+
 Die Übergabe-Linie wird in Schritten umgesetzt; alle Commits lokal, kein Push.
 
 **Schritt 1 — Sub-Depot-Passwort + Vertrauens-Modus:**

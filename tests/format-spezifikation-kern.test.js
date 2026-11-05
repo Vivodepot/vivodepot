@@ -84,7 +84,7 @@ test('[Format·Parameter] format-parameter.json ist Wert für Wert an den Kern g
   assert.equal(Buffer.from(Object.values(u.einheiten)[0].iv, 'base64').length, w('ivBytes'));
   assert.equal(Buffer.from(u.wiederherstellung.salz, 'base64').length, w('whcSalzBytes'));
   assert.equal(Buffer.from(u.wiederherstellung.huelle, 'base64').length, w('whcHuelleBytes'));
-  assert.equal(V.blackboxDateiAusUmschlag(u).dateiTyp, w('blackboxDateiTyp'));
+  assert.equal(V.umschlagAusDatei({ dateiTyp: w('blackboxDateiTyp'), formatVersion: 1, umschlag: u }), u, 'die Hülle bis v969 bleibt lesbar');
 });
 
 test('[Format·Parameter·Rot-Beweis] ein gesenkter Wert fällt auf, und ein Prüfer mit gesenktem Wert öffnet nichts', async () => {

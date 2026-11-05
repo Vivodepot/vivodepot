@@ -22,6 +22,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { signieren, tagInhaltSigniert } = require('../tools/oeffentlich-tag-signieren.js');
 const lauf = require('../tools/oeffentlicher-lauf-beleg.js');
+const { ANHAENGE, FIXTURE } = require('../tools/opencode-release-vorbereiten.js');
 
 const PRINZIPAL = 'probe@example.invalid';
 
@@ -48,6 +49,9 @@ function wegwerfUmgebung() {
   };
   const signierenEinrichten = (k) => { g('config', 'gpg.format', 'ssh'); g('config', 'user.signingkey', k.privat); };
   // SECURITY.md des Stands nennt in 2.1 den Fingerabdruck des Release-Schlüssels (das Werkzeug verlangt es seit 03.10.2026).
+  // Der Stand trägt, was der Spiegel für die Release-Seite braucht: die Anlagen und je Fassung einen CHANGELOG-Abschnitt.
+  for (const d of ANHAENGE) fs.copyFileSync(path.join(FIXTURE, d), path.join(klon, d));
+  fs.writeFileSync(path.join(klon, 'CHANGELOG.md'), '# Changelog\n\n' + [905, 901, 900, 899].map((n) => '## [v1.0.' + n + ']\n\n- Probe\n').join('\n'));
   const commit = (signiert, fpInSecurity) => {
     fs.appendFileSync(path.join(klon, 'datei.txt'), 'x\n');
     fs.writeFileSync(path.join(klon, 'SECURITY.md'), '### 2.1 Repository\nFingerabdruck ' + (fpInSecurity || 'SHA256:' + 'A'.repeat(43)) + '\n### 2.2 Weiter\n');
@@ -220,6 +224,33 @@ test('[Tag-Signatur·Öffentlicher Lauf·Rot-Beweis] ohne Beleg, mit rotem Beleg
     fs.writeFileSync(lauf.belegPfad(u.klon, baum), JSON.stringify({ baum: 'f'.repeat(40), unit: { exit: 0, rot: [] }, e2e: { exit: 0, rot: [] } }));
     assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 1, 'Beleg eines anderen Baums');
     assert.deepEqual(tags(u), [], 'kein Tag bleibt stehen');
+  } finally { u.aufraeumen(); }
+});
+
+test('[Tag-Signatur·Release-Text·Rot-Beweis] ohne CHANGELOG-Abschnitt und ohne Notes, oder ohne Anlage: rot, kein Tag (v1.0.956)', () => {
+  const u = wegwerfUmgebung();
+  try {
+    const k = u.schluessel('release');
+    u.signierenEinrichten(k); u.vertrauen(k.oeffentlich);
+    // So stand v1.0.956: Abschnitt angelegt, aber leer — der Spiegel brach erst nach dem Push ab.
+    fs.writeFileSync(path.join(u.klon, 'CHANGELOG.md'), '# Changelog\n\n## [v1.0.900]\n\n## [v1.0.899]\n\n- Probe\n');
+    u.commit(true, k.fp);
+    let text = '';
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: (t) => { text += t; }, env: u.env }), 1);
+    assert.match(text, /kein CHANGELOG-Abschnitt für v1\.0\.900/);
+    assert.deepEqual(tags(u), [], 'kein Tag bleibt stehen');
+    // Abschnitt da, aber eine Anlage fehlt im Stand: ebenso rot.
+    fs.writeFileSync(path.join(u.klon, 'CHANGELOG.md'), '# Changelog\n\n## [v1.0.900]\n\n- Probe\n');
+    u.g('rm', '-q', 'vivodepot-vc-issuer.html');
+    u.commit(true, k.fp);
+    text = '';
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: (t) => { text += t; }, env: u.env }), 1);
+    assert.match(text, /Anlage fehlt in der Quelle: vivodepot-vc-issuer\.html/);
+    assert.deepEqual(tags(u), []);
+    // Gegenprobe: mit Anlage und Abschnitt grün.
+    fs.copyFileSync(path.join(FIXTURE, 'vivodepot-vc-issuer.html'), path.join(u.klon, 'vivodepot-vc-issuer.html'));
+    u.commit(true, k.fp);
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 0);
   } finally { u.aufraeumen(); }
 });
 

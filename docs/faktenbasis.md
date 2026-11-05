@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-28 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-11-05 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -52,7 +52,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**14 Sektoren, 321 Felder, 198 Unterfelder gesamt.**
+**14 Sektoren, 322 Felder, 212 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
@@ -61,10 +61,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `mobility` | Mobilität & Reise | 13 | 7 |
 | `finance` | Finanzen & Zahlungen | 22 | 18 |
 | `assets` | Vermögen und Einkommen | 11 | 0 |
-| `health` | Gesundheit | 32 | 10 |
+| `health` | Gesundheit | 33 | 18 |
 | `education` | Bildung & Beruf | 31 | 0 |
 | `socialInsurance` | Sozialversicherung | 22 | 7 |
-| `advanceCare` | Vorsorge & Recht | 49 | 79 |
+| `advanceCare` | Vorsorge & Recht | 49 | 85 |
 | `administration` | Verwaltung & Behörden | 27 | 18 |
 | `housing` | Wohnen & Eigentum | 15 | 11 |
 | `emergencyPreparedness` | Krisenvorsorge | 33 | 0 |
@@ -87,13 +87,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-10-25, d90eeb9d7 Stand Kanon)
-- E2E (Playwright): 688 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 188 aus Schleifen über CPU-Drosselungen = **876 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
-- Wächter-Register (intern): 153
-- Schema-Version: 94 · SCHALEN_STAND: v956 · Build-Version: v1.0
+- E2E (Playwright): 709 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 208 aus Schleifen über CPU-Drosselungen = **917 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 158
+- Schema-Version: 94 · SCHALEN_STAND: v1040 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (447)
+## ADR-Register (453)
 
 | Nummer | Titel |
 |---|---|
@@ -258,6 +258,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-154 | Bereiche sind das fünfte Einlass-Register — und ein angedockter Bereich kommt auf dasselbe Blatt |
 | U2-ADR-155 | Ein Leser trägt seine Version — und XML und CSV folgen der Konvention, die JSON schon hat |
 | U2-ADR-156 | Empfängerkreise — ein Empfänger, ein Passwort, ein Zuschnitt |
+| U2-ADR-156 | ein Bereichsbaustein trägt die Dokumente seines Bereichs |
 | U2-ADR-156 | Die Tür eines Fachs: was ihre Trennung vom Anker-Schlüssel trägt |
 | U2-ADR-156 | Klartext-Bindung: Ort-Hinweis und weitergetragene Felder im Geheimteil gebunden |
 | U2-ADR-156 | QR-Übergabe eines Empfängerkreises: Format v2 mit gebundener Version |
@@ -424,6 +425,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-346 | U2-ADR-346 (A2) · Fünf WIZARDS sind real ins Bündel umgezogen — pvwiz/kiwiz kommen über U2-ADR-344, auf einem eigenen Weg |
 | U2-ADR-347 | Die SITUATIONEN der Lese-App sind eine erzeugte Kopie mit Prüfung |
 | U2-ADR-348 | U2-ADR-348 (vorläufig — Nummer beim Landen zu bestätigen) · Struktur-Achse: Tausch statt Ergänzung |
+| U2-ADR-348 | der Zweig für `bereichsErsatz` ist aus dem Kern entfernt |
 | U2-ADR-349 | Die Lese-App erkennt ihre eigenen Sektor-/Feld-Beschriftungen als übersetzbar |
 | U2-ADR-350 | Der Nachtmodus-Selektor-Wächter: Struktur statt Handarbeit |
 | U2-ADR-351 | Der Kanal für Schriftgrad-Rollen — geöffnet, nicht bewiesen |
@@ -540,10 +542,14 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-508 | Der offene JSON-Vollexport wird entfernt, nicht gefiltert |
 | U2-ADR-509 | Kern-Verschluss — Script 2 als IIFE, nur eine benannte Fläche |
 | U2-ADR-512 | Stufe 2: „Im Pod ablegen“ aus der Anwendung per postMessage |
+| U2-ADR-512 | das Verzeichnis der Ablagen liegt zusätzlich im eigenen Pod |
 | U2-ADR-512 | Pod-Anbindung über eine Brückenseite — Stufe 1 (Datei), der Kern bleibt ohne Netz |
 | U2-ADR-513 | Eigene Einlassgrenze für Sprachmodule |
 | U2-ADR-514 | Lizenz der Vorlagen — kurzer eigener Hinweis, geschlossene Lizenzliste für fremde |
 | U2-ADR-515 | Vorschläge ab Werk für Listenfelder — vorgeschlagen, nie eingetragen |
+| U2-ADR-516 | KI-Andockpunkt — eine eigene Modulart für den Verweis auf ein lokales Modell |
+| U2-ADR-518 | Forschungsentscheidungen und Datenspende nach dem Tod |
+| U2-ADR-520 | Bei einem Dritten liegt nur Chiffrat, auch das Verzeichnis |
 
 ---
 
@@ -553,18 +559,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 37 | 246 |
-| `.btn-sek` | 15 | 114 |
-| `.btn-dezent` | 5 | 11 |
-| `.btn-klein` | 3 | 15 |
+| `.btn` | 39 | 251 |
+| `.btn-sek` | 15 | 118 |
+| `.btn-dezent` | 5 | 15 |
+| `.btn-klein` | 3 | 16 |
 | `.btn-notfall` | 2 | 0 |
-| `.btn-mini` | 10 | 39 |
-| `.karte` | 6 | 69 |
-| `.modal` | 19 | 188 |
-| `.toast` | 9 | 317 |
-| `.banner-stapel` | 3 | 2 |
+| `.btn-mini` | 10 | 37 |
+| `.karte` | 6 | 73 |
+| `.modal` | 23 | 196 |
+| `.toast` | 9 | 324 |
+| `.banner-stapel` | 4 | 2 |
 | `.topbar` | 37 | 2 |
-| `.sidebar` | 14 | 5 |
-| `.leer` | 3 | 341 |
+| `.sidebar` | 14 | 6 |
+| `.leer` | 3 | 352 |
 | `.pause-erlaubnis` | 2 | 3 |
 | `.hinweis-box` | 7 | 34 |

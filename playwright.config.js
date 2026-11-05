@@ -22,7 +22,9 @@ const path = require('node:path');
 require('./tools/lib/test-lauf.js').playwrightLaufBeginnen();
 
 module.exports = defineConfig({
-  testDir: path.join(__dirname, 'tests', 'e2e'),
+  // VD_PW_TESTDIR (30.10.2026): ein anderes Sammelverzeichnis, gesetzt nur von der Probe des Wächter-Selbsttests — sie legt ihre
+  // Beispiel-Spec unter os.tmpdir statt hierher, damit kein zugleich laufender Playwright-Lauf sie mitsammelt.
+  testDir: process.env.VD_PW_TESTDIR || path.join(__dirname, 'tests', 'e2e'),
   testMatch: '**/*.spec.js',
   // VD_PW_AUSLASSEN (04.10.2026): kommagetrennte Spec-Dateinamen, die dieser Lauf auslässt — gesetzt nur von einer Umgebung,
   // in der ein Browser nicht startet und die Specs anderswo laufen. Ohne die Variable läuft alles wie bisher.

@@ -63,21 +63,5 @@ test('[Stufe 87·Rot-Beweis] eine Kopie, die nicht von Vivodepot stammt, bleibt 
   assert.equal(d.logikModule.filter((m) => m.id === ID).length, 1);
 });
 
-// Restfall (E4, Entscheidung der Produktverantwortung 04.10.2026): Schema 86, zuerst in einem Produkt OHNE das Template geöffnet
-// (Kopie bleibt), später in einem Produkt MIT dem Template. Stufe 87 kommt nicht wieder; die Bereinigung beim Öffnen
-// (`_alteAbWerkKopienErsetzen`, im Öffnen-Weg nach depotNormalisieren) ersetzt die Kopie, weil ihr Inhalt einer früher AUSGELIEFERTEN
-// Ab-Werk-Fassung entspricht. Die Kopie hier ist diese Fassung selbst (tests/fixtures/ab-werk-fassung-v670-erbschein.json und -v718-erbschein.json, aus den ausgelieferten Kernen; belegt
-// vom Erzeuger der früher ausgelieferten Fassungen), kein Modell.
-for (const [fix, schema] of [['ab-werk-fassung-v670-erbschein.json', 80], ['ab-werk-fassung-v718-erbschein.json', 82]]) {
-  test('[Stufe 87·Restfall] ' + fix + ' (Schema ' + schema + '), erst Produkt ohne Template, dann Produkt mit Template: die alte Kopie verdeckt das Modul nicht', async () => {
-    const kopie = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', fix), 'utf8'));
-    const d = { schemaVersion: schema, logikModule: [kopie], sektoren: {} };
-    kernMit([]).depotNormalisieren(d);
-    assert.equal(d.logikModule.filter((m) => m.id === ID).length, 1, 'Vorbedingung: ohne Template bleibt die Kopie');
-    const V = kernMit([TEMPLATE]);
-    V.depotNormalisieren(d);
-    const ersetzt = await V._alteAbWerkKopienErsetzen(d);
-    assert.equal(d.logikModule.filter((m) => m.id === ID).length, 0);
-    assert.deepEqual(ersetzt.map((x) => x.id), [ID], 'der Vermerk nennt das ersetzte Modul');
-  });
-}
+// Der Restfall mit den früher ausgelieferten Fassungen steht in einer eigenen Probe, die drinnen bleibt:
+// sie braucht deren echten Inhalt (der Kern erkennt sie an ihrem Fingerabdruck), und die Fassungen bleiben drinnen.

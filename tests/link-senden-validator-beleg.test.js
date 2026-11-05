@@ -229,17 +229,17 @@ async function faelleMitSpion() {
 
 test('[Link-Validator·Fälle] jeder Fall ist ein Ergebnis von auszugLinkTeile und hat die Form des Kerns', async () => {
   const { erzeugt, faelle } = await faelleMitSpion();
-  assert.equal(faelle.length, 3);
+  assert.equal(faelle.length, 4);
   for (const f of faelle) {
     assert.ok(erzeugt.has(f.teile), f.vorlage.name + ' stammt aus auszugLinkTeile');
     assert.deepEqual(W.fallFormPruefen(f), [], f.vorlage.name);
   }
-  assert.deepEqual(faelle.map((f) => f.vorlage.binary), [false, true, true], 'ein FHIR-Auszug direkt, zwei als Binary');
-  assert.deepEqual(faelle.map((f) => f.vorlage.weg), ['direkt', 'direkt', 'manifest']);
+  assert.deepEqual(faelle.map((f) => f.vorlage.binary), [false, true, true, false], 'zwei FHIR-Auszüge direkt (einer davon das echte IPS), zwei als Binary');
+  assert.deepEqual(faelle.map((f) => f.vorlage.weg), ['direkt', 'direkt', 'manifest', 'direkt']);
 
   const { auftraege, faelle: liste } = W.shlAuftraege(faelle);
   assert.deepEqual(liste.map((f) => [f.name, f.erwartet]), [
-    ['fhir-auszug-direkt', 'gueltig'], ['pdf-auszug-direkt', 'gueltig'], ['json-auszug-manifest', 'gueltig'],
+    ['fhir-auszug-direkt', 'gueltig'], ['pdf-auszug-direkt', 'gueltig'], ['json-auszug-manifest', 'gueltig'], ['ips-auszug-direkt', 'gueltig'],
     ['rot-fremder-schluessel', 'ungueltig'], ['rot-schluessel-zu-kurz', 'ungueltig']]);
   for (const a of auftraege.filter((x) => x.art === 'shlink' || x.art === 'shlpayload')) assert.equal(a.optionen.cascade, false, 'kein Abruf der Ablage-URL');
   const kurz = auftraege.find((a) => a.id === 'rot-schluessel-zu-kurz:shlpayload');
@@ -249,6 +249,21 @@ test('[Link-Validator·Fälle] jeder Fall ist ein Ergebnis von auszugLinkTeile u
   assert.deepEqual(bin.map((b) => [b.name, b.erwartet, b.ressource.resourceType, b.ressource.contentType]), [
     ['pdf-auszug-direkt', 'gueltig', 'Binary', 'application/pdf'], ['json-auszug-manifest', 'gueltig', 'Binary', 'application/json'],
     ['rot-binary-ohne-contenttype', 'ungueltig', 'Binary', undefined]]);
+});
+
+test('[Link-Validator·Fälle·IPS] der Fall „echtes IPS“ ist ein Bundle document mit Composition 60591-5 aus fhirIpsBundle des Kerns, nicht von Hand', async () => {
+  const { faelle } = await faelleMitSpion();
+  const ips = faelle.find((f) => f.vorlage.name === 'ips-auszug-direkt');
+  assert.ok(ips, 'der Fall steht in der Liste');
+  const b = JSON.parse(ips.vorlage.inhalt);
+  assert.equal(b.resourceType, 'Bundle');
+  assert.equal(b.type, 'document');
+  const comp = b.entry[0].resource;
+  assert.equal(comp.resourceType, 'Composition');
+  assert.equal(comp.type.coding[0].code, '60591-5');
+  assert.ok(b.entry.some((e) => e.resource.resourceType === 'Condition'), 'mit einer Diagnose aus dem Depot: der Kern hat gebaut');
+  assert.equal(ips.vorlage.binary, false, 'ein IPS geht mit seinen Bytes hinein');
+  assert.deepEqual(W.fallFormPruefen(ips), []);
 });
 
 test('[Link-Validator·Fälle·Rot-Beweis] nachgebaute oder vertauschte Teile fallen auf', async () => {

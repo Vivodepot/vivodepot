@@ -1,6 +1,6 @@
 # U2-ADR-287 · Was ein Template ist — und der erste Fall auf dem Pro-Modul
 
-**Datum:** 05.09.2026 · Abschnitt 0 ergänzt 06.09.2026
+**Datum:** 05.09.2026 · Abschnitt 0 ergänzt 06.09.2026, an die Rollen-Entscheidung vom 21.09.2026 angepasst 31.10.2026
 **Status:** gebaut, elf Proben rot-bewiesen, Regression gegen Erbschein/Betriebssatz grün
 **Status heute:** gilt
 **Entscheidung:** Domänen-Wahl sowie A1
@@ -14,16 +14,20 @@ erbschein-vorbereitung-logikmodul.json`, das erste Template, Muster für dieses)
 
 ## 0 · Was ein Template ist
 
-**Klarstellung, 06.09.2026, ausdrücklich dessen, was immer galt — „nicht ‚ab
-jetzt' — SCHON IMMER":**
+**Modul und Template sind Rollen derselben Sorte Datei** (Entscheidung vom 21.09.2026):
+Ein Bestandteil heißt Modul, wenn das Produkt ihn mitbringt, und Template, wenn er dazukommt.
+Dieselbe Datei kann in einem Produkt Modul und in einem anderen Template sein; verschieden ist der
+Weg, auf dem sie ankommt, nicht ihre Art. Im Rezept tragen beide dieselbe Form
+`{modulTyp, pfad, pruefsumme}`; die zwei Listen aus U2-ADR-427 trennen mitgeliefert und
+dazugekommen, nicht zwei Arten.
+
+**Wozu ein Template dazukommt** (Klarstellung vom 06.09.2026):
 
 > „Der Sinn und Zweck eines Templates ist es, das Modul um spezifische INHALTE und THEMEN zu
 > ergänzen (Krisen-Notfall-Template, Notartemplate, Hebammentemplate, Justiztemplate)."
 
-**Zwei Festlegungen, die daraus folgen und bis heute nirgends geschrieben standen:**
+**Die Festlegung, die daraus folgt:**
 
-- **Ein Template steht nie allein.** Es setzt ein Modul voraus und ergänzt es. „Gerüst + Modul +
-  Template = Produkt" — ein Template ohne Modul ist kein Produkt, sondern ein Fragment.
 - **Braucht ein Template Felder, die es noch nicht gibt, gehören sie ins MODUL** — nicht in einen
   template-eigenen Speicher. Fehlende Felder sind darum kein Grund gegen ein Template: **sie sind
   sein Beitrag.** Was es kostet, ist eine Aufwandsfrage; was es beiträgt, ist sein Zweck.

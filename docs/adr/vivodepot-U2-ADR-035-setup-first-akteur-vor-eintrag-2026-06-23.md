@@ -37,6 +37,21 @@ Zwei mögliche Antworten standen: (A) jeden Eintrags-Versuch in der Vorschau zum
 - Die obsolete Vorschau-„Sichern"-Weiche (`modalSichernTitel`/`btnSichern`) entfällt aus dem Anlege-Dialog.
 - Kein Krypto-Eingriff; Block-Pin `8d31c678…` unberührt. Suite 984/983/0 (1 skip), browser-verifiziert (voller Erstnutzer-Durchlauf, 0 Konsolenfehler).
 
+## Nachtrag 31.10.2026 — Ziffer 4: ein Satz statt des Warntexts
+
+Beim Anlegen steht vor dem Passwort-Feld kein Warnkasten mehr, sondern ein Satz in Grundschrift. Mit dem Vorschlag aus
+sechs Wörtern lautet er: „Mit diesen sechs Wörtern öffnen Sie Ihr Depot. Schreiben Sie sie jetzt auf Papier, denn wir
+können sie nicht für Sie zurückholen.“ Wer ein eigenes Passwort tippt, liest: „Schreiben Sie es jetzt auf Papier, denn wir
+können es nicht für Sie zurückholen.“ Daneben steht „Warum?“, das die Hilfe „Depot und Passwort“ öffnet.
+
+Der Grund: derselbe Ablauf bietet seit U2-ADR-430 den Wiederherstellungs-Code an. Ein Satz „Niemand kann es
+zurücksetzen“ vor diesem Angebot widersprach ihm. Sichtbar bleibt, wo das Passwort entsteht, dass niemand es für Sie
+zurückholt. Der Dialog hat jetzt zwei Schritte, „Schritt 1 von 2“ steht klein über dem Titel, der Titel bleibt
+„Depot anlegen“. Schritt 2 ist der Wiederherstellungs-Code (U2-ADR-430, Nachtrag 31.10.2026). Der Warntext aus Ziffer 4
+bleibt auf den übrigen Wegen, die ein Passwort setzen, ohne den Code im selben Ablauf anzubieten.
+
+Probe: `tests/passwort-zwei-schritte.test.js` ([S2·kein Zurücksetzen]).
+
 ## Cross-Referenz
 
 U2-ADR-034 (Wiedereintritts-Akteur — gleiche Wurzel, Rückkehrer-Lage; `darfBearbeiten()`-Akteur-Kopplung baut auf der dort eingeführten Inhaber-Akteur-Regel auf), U2-ADR-005 (Urheberschaft/Provenienz), U2-ADR-031 (Persistenz/Wiedereinstieg, App-first-Türen — hier auf „Erkunden, nicht Eintragen" verengt). Befund `befund-erstnutzer-onboarding-akteur-timing-2026-06-22` (intern). Produktiv: —

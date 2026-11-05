@@ -14,6 +14,21 @@ const FAELLE = Object.freeze([
   Object.freeze({ name: 'fhir-auszug-direkt', mime: 'application/fhir+json', inhalt: FHIR_AUSZUG, weg: 'direkt', label: 'Auszug FHIR', binary: false }),
   Object.freeze({ name: 'pdf-auszug-direkt', mime: 'application/pdf', inhalt: PDF_AEHNLICH, weg: 'direkt', label: 'Auszug PDF', binary: true }),
   Object.freeze({ name: 'json-auszug-manifest', mime: 'application/json', inhalt: JSON_AUSZUG, weg: 'manifest', label: 'Auszug JSON', binary: true }),
+  // Patient Summary (02.11.2026): ein ECHTES IPS aus fhirIpsBundle des Kerns, nicht von Hand geschrieben. Der Inhalt entsteht erst beim
+  // Bauen des Falls (inhaltAus), weil dafür ein Depot nötig ist; er geht wie jeder FHIR-Auszug mit seinen Bytes hinein.
+  Object.freeze({ name: 'ips-auszug-direkt', mime: 'application/fhir+json', inhalt: null, inhaltAus: 'fhir-ips', weg: 'direkt', label: 'Auszug IPS', binary: false }),
 ]);
 
-module.exports = { PDF_AEHNLICH, FHIR_AUSZUG, JSON_AUSZUG, FAELLE };
+/** Das echte IPS-Bundle (JSON-Text, wie der Download es schreibt) aus einem frisch geladenen Kern V. */
+async function ipsAuszugErzeugen(V) {
+  await V.depotAnlegen('link-validator-ips-pw-2026');
+  V.akteurSelbstErklaeren('T');
+  V.sektorFeldSetzen('identity', 'givenName', 'Maria');
+  V.sektorFeldSetzen('identity', 'familyName', 'Mustermann');
+  V.sektorFeldSetzen('identity', 'birthDate', '1950-03-14');
+  V.sektorFeldSetzen('health', 'chronicConditionsDiagnoses', [{ text: 'Asthma' }]);
+  const bundle = V.kernAPI.exportiere('fhir-ips', { sensibel: true, sprache: 'en' });
+  return JSON.stringify(bundle, null, 2);
+}
+
+module.exports = { PDF_AEHNLICH, FHIR_AUSZUG, JSON_AUSZUG, FAELLE, ipsAuszugErzeugen };

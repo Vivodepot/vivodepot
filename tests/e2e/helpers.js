@@ -137,7 +137,8 @@ async function depotAnlegen(page, { name = 'Maria Mustermann', pw = 'e2e-passwor
 
 /* Nach dem Anlegen können EINMAL-Dialoge anfallen, die keine Reise erwartet: der
    Wiedereinstiegs-Hinweis (beim ersten Datei-Sichern) und seit U2-ADR-095 das
-   Notfall-Blatt-Angebot, seit U2-ADR-430 davor das Angebot des Wiederherstellungs-Codes. Sie liegen über der Sitzung und fangen jeden folgenden Klick ab
+   Notfall-Blatt-Angebot, seit U2-ADR-430 davor das Angebot des Wiederherstellungs-Codes. Seit S2 (31.10.2026) ist der Code
+   Schritt 2 des Anlege-Dialogs (#whc-angebot, „Später einrichten“ als #m-zweit), und danach kommt kein Blatt-Angebot mehr. Sie liegen über der Sitzung und fangen jeden folgenden Klick ab
    (Playwright meldet dann „#modal-inhalt intercepts pointer events" an einer Stelle, die
    damit nichts zu tun hat).
 
@@ -148,6 +149,7 @@ async function depotAnlegen(page, { name = 'Maria Mustermann', pw = 'e2e-passwor
 async function einmalDialogeSchliessen(page, fristMs = 10000) {
   const ende = Date.now() + fristMs;
   let angebotWeg = false;
+  let freiSeit = 0;
   while (Date.now() < ende) {
     // NUR an den festen Griffen entscheiden, nie „irgendeinen offenen Dialog wegklicken":
     // ein blinder Klick auf #m-ok traf schon den Anlege-Dialog (Doppel-Absenden) bzw. das
@@ -155,7 +157,9 @@ async function einmalDialogeSchliessen(page, fristMs = 10000) {
     if (await page.locator('#safari-datei-nach-anlegen').isVisible().catch(() => false)) {
       await page.click('#m-zweit');                 // WebKit im Tab (Safari-Lücke A, U2-ADR-211): „Später“ beim Datei-Schritt, er reiht sich vor das Code-Angebot
     } else if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
-      await page.click('#m-zweit');                 // U2-ADR-430: „Ohne Code weiter" — der benannte Ablehnungs-Schritt folgt
+      // S2: im Anlege-Weg Schritt 2, „Später einrichten“ beendet die Reihe; auf anderen Wegen folgt der benannte Ablehnungs-Schritt.
+      angebotWeg = angebotWeg || await page.locator('#whc-angebot[data-zwei-schritte]').count() > 0;
+      await page.click('#m-zweit');
     } else if (await page.locator('#whc-tragweite').isVisible().catch(() => false)) {
       await page.click('#m-zweit');                 // die Ablehnung bestätigen; danach kommt das Notfall-Blatt-Angebot
     } else if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) {
@@ -165,11 +169,16 @@ async function einmalDialogeSchliessen(page, fristMs = 10000) {
       await page.click('#m-ok');                    // Einmal-Hinweis bestätigen
     } else if (angebotWeg && !(await page.locator('#modal-rueck.an').count())) {
       return;                                       // Angebot war da, ist weg, Host frei
+    } else if (!(await page.locator('#modal-rueck.an').count())) {
+      // Schritt 2 schon erledigt (Code eingerichtet): es folgt nichts mehr; frei für 1,5 s heißt fertig.
+      if (!freiSeit) freiSeit = Date.now(); else if (Date.now() - freiSeit > 1500) return;
+    } else {
+      freiSeit = 0;
     }
     await page.waitForTimeout(100);
   }
   throw new Error('Einmal-Dialoge nach dem Anlegen nicht abgeräumt (Frist ' + fristMs + ' ms) — '
-    + 'erschien das Notfall-Blatt-Angebot (#nfb-angebot) nicht?');
+    + 'blieb ein Dialog offen, für den der Helfer keinen Griff kennt?');
 }
 
 // Statuskarten (Task B.1, 26.08.2026, SEKTION_STATUSKARTEN_CLUSTER): überladene Sektionen
@@ -188,8 +197,10 @@ async function einmalDialogeSchliessen(page, fristMs = 10000) {
 // ist optisch/mechanisch dieselbe Klapp-Karte wie `.feldgruppen-karte`, trägt aber bewusst NICHT
 // dieselbe HTML-Klasse (s. Kommentar bei der CSS-Selektorliste in vivodepot.html) — der Selektor
 // hier deckt beide ab, damit dieselbe Öffnen-vor-Zugriff-Falle nicht zweimal gelöst werden muss.
+// HIDDEN-SCHLAEGT-DISPLAY (01.11.2026): eine Karte ohne sichtbares Feld steht `hidden` im DOM (G-6) und ist seit der globalen
+// Regel im Gerüst auch wirklich verborgen; geöffnet werden nur Karten, die man sieht.
 async function feldgruppenKartenOeffnen(page) {
-  const karten = page.locator('#content .feldgruppen-karte:not([open]) > summary, #content .situation-block:not([open]) > summary');
+  const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary, #content .situation-block:not([open]):not([hidden]) > summary');
   const irgendeineGeschlossen = await karten.count();
   while (await karten.count()) await karten.first().click();
   // Jeder .click() oben scrollt sein Ziel erst in den sichtbaren Bereich (Playwright-
@@ -271,6 +282,21 @@ async function oeffneSektor(page, sektorId) {
   await feldgruppenKartenOeffnen(page);
 }
 
+// Ein Datum aus feldInputHTML steht in drei Feldern (Tag, Monat, Jahr); der Wert, den die App liest, bleibt ein verstecktes
+// Feld mit data-edit und ISO-Wert. `selektor` nennt dieses versteckte Feld (wie bisher beim Browser-Datumsfeld). Die Teile
+// werden wie von Hand gefüllt; das Verlassen des Jahrs setzt den Wert zusammen und meldet ihn wie das Verlassen des Felds.
+async function datumSetzen(page, selektor, iso) {
+  // Vom versteckten Feld zur Gruppe: ein `has`-Filter läse den Selektor relativ zur Gruppe, ein '#content …' träfe dort nie.
+  const gruppe = page.locator(selektor).first().locator('xpath=ancestor::div[contains(concat(" ", @class, " "), " datum-dreifeld ")][1]');
+  const [j = '', m = '', t = ''] = String(iso || '').split('-');
+  await gruppe.locator('[data-datum-teil="t"]').fill(t);
+  await gruppe.locator('[data-datum-teil="m"]').fill(m);
+  await gruppe.locator('[data-datum-teil="j"]').fill(j);
+  // Verlassen wie von Hand: das „change“ am Jahr füllt auf, gemeldet wird, sobald der Fokus das Datum verlassen hat.
+  await gruppe.locator('[data-datum-teil="j"]').evaluate((el) => { el.dispatchEvent(new Event('change', { bubbles: true })); el.blur(); });
+  await page.evaluate(() => new Promise((r) => setTimeout(r, 10)));
+}
+
 // Im offenen Bereich ein Feld setzen — typ-bewusst (U2-Inline-Edit, kein #b-bearb/#b-fertig):
 //   • skalares  [data-edit]        → tippen
 //   • Code-Liste [data-edit-code]   → Anzeige-Name tippen (codeWertAus löst den Code auf)
@@ -281,6 +307,8 @@ async function setzeFeld(page, feldId, wert) {
     await page.fill(`[data-edit-code="${feldId}"]`, wert);
   } else if (await page.locator(`[data-edit-ref="${feldId}"]`).count()) {
     await page.fill(`[data-edit-override="${feldId}"]`, wert);
+  } else if (await page.locator(`.datum-dreifeld [data-edit="${feldId}"]`).count()) {
+    await datumSetzen(page, `[data-edit="${feldId}"]`, wert);
   } else {
     await page.fill(`[data-edit="${feldId}"]`, wert);
   }
@@ -508,7 +536,7 @@ async function ausgabeWegHerunterladen(page, opt = {}) {
 module.exports = { baubar, inLeisteKlicken, listenDialogOeffnen, ausgabeWegHerunterladen,
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
-  oeffneApp, depotAnlegen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
+  oeffneApp, depotAnlegen, datumSetzen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
   fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, einstellungenAbschnittOeffnen,
   erweiterungEinlesenBestaetigen, erweiterungenWaehlen,
   starteLokalenServer,

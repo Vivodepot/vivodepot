@@ -146,6 +146,121 @@ kryptoVersion trägt einen Wechsel für das Depot. Für Signaturen und Anker tr�
   - Darum vergleicht der Monotonie-Wächter normalisiert (Kennung ab), und ein beim Umstellen verlorener Eintrag fällt weiter auf.
   - Die Umstellung ist ein eigener Commit: gleiche Anzahl (49 und 118), normalisiert gleiche Menge.
 
+## Nachtrag 29.10.2026 — NIST IR 8547 (endgültig) und die nationale Leitlinie: welche Frist für Vivodepot gilt
+
+**Anlass:** NIST hat am 27.10.2026 die Endfassung von NIST IR 8547 „Transition to Post-Quantum Cryptography Standards“
+veröffentlicht (Oktober 2026, https://doi.org/10.6028/NIST.IR.8547). In Kurzfassungen kursieren daraus drei Jahreszahlen:
+2030, 2031 für Signaturen und 2035. Dieser Nachtrag ordnet sie gegen die Fristen aus Punkt 8 ein.
+
+**Was NIST IR 8547 festlegt:**
+- **Allgemein, für NIST-Standards:** Quantengefährdete Public-Key-Verfahren gelten nach 2030 als veraltet (deprecated) und
+  sind nach 2035 nicht mehr zugelassen (disallowed).
+  - Das gilt für Signaturen (Abschnitt 4.1.1, Tabelle 2: ECDSA, **EdDSA**, RSA) und für die Schlüsseleinigung (Abschnitt
+    4.1.2, Tabelle 4: DH/MQV, ECDH/MQV, RSA).
+  - Abschnitt 4 nennt das Fenster 2030–2035 ausdrücklich als Spielraum für Systeme mit niedrigerem Risiko.
+- **2030 und 2031 sind Pflichtfristen nur für US-Bundessysteme** (EO 14412, OMB M-26-15).
+  - Betroffen sind die Systeme mit hohem Schutzwert und hoher Auswirkung und mit gleichem Vorrang andere Bundessysteme mit
+    hochsensiblen Daten.
+  - Sie stellen die Schlüsseleinigung bis 31.12.2030 um und Signaturen bis 31.12.2031 (Abschnitt 1, Abschnitt 4,
+    Abschnitt 4.1.2).
+  - Ziel für die Bundesverwaltung insgesamt bleibt 2035 (NSM-10, Abschnitt 4).
+- **Hybride Verfahren** lässt NIST zu, verlangt sie aber nicht (Abschnitt 3.2, 3.2.1, 3.2.2).
+
+**Was für Vivodepot gilt:** NIST IR 8547 bindet Vivodepot nicht. Der Bericht richtet sich an Bundesbehörden,
+Technologieanbieter und Normungsgremien (Abschnitt 1.2). Verbindlich werden seine früheren Fristen nur für US-Bundesbehörden,
+über EO 14412 und OMB M-26-15. Maßgeblich bleiben zwei Quellen, beide Empfehlungen und keine Rechtspflicht:
+
+1. **BSI TR-02102-1, Version 2026-01**, mit den Fristen aus der Ausgangslage:
+   - Schlüsseleinigung allein klassisch bis Ende 2031, bei sehr hohem Schutzbedarf bis Ende 2030;
+   - Signaturen allein klassisch voraussichtlich bis Ende 2035 (Kap. 2.1).
+
+   Auf der Seite des BSI ist 2026-01 weiter die geltende Fassung.
+
+2. **Neu: die gemeinsame Leitlinie von BMDS, BMI und BSI** „Nationale Umsetzung der EU-Roadmap zur Umstellung auf
+   Post-Quanten-Kryptografie“ (Dokument datiert 11.09.2026, Stand August 2026, Artikelnummer BMI26024; Pressemitteilung des
+   BSI 12.10.2026).
+   - Sie übernimmt die Zeitschienen der EU-Roadmap v1.1 und richtet sich ausdrücklich auch an Unternehmen (Abschnitt 2).
+   - Ihre Fristen sind dringende Empfehlungen (Abschnitt 4.1).
+   - Empfohlen werden:
+     - Vorbereitung und Planung (PQC-Readiness) bis Ende 2026, das kryptografische Inventar eingeschlossen (Abschnitt 4,
+       4.3);
+     - Anwendungsfälle mit hohem Risiko bis Ende 2030 quantensicher, mit mittlerem Risiko bis Ende 2035 (Abschnitt 3);
+     - hybride Verfahren (Abschnitt 4.4);
+     - bei Neuentwicklungen ausschließlich quantensichere Verfahren (Abschnitt 4.6).
+   - Ihr Literaturverzeichnis nennt die TR-02102-1 mit „Dezember 2026“, eine Fassung, die es heute nicht gibt. Kommt sie, wird
+     dieser Nachtrag an ihr nachgemessen.
+
+**Einordnung gegen Punkt 8:**
+
+- **Schlüsseleinigung:** Ende 2030 für den hybriden KEM im Antwort-JWE bleibt.
+  - Das entspricht TR-02102-1 bei sehr hohem Schutzbedarf und der Leitlinie für hohes Risiko.
+  - NIST priorisiert mit derselben Begründung, „harvest now, decrypt later“, ausdrücklich auch mit dem Beispiel medizinischer
+    Daten (Abschnitt 3). Die Jahreszahl 2030 selbst stammt dort aus EO 14412 und OMB M-26-15.
+
+- **Signaturen:** Die Normgrenze bleibt „vor Ende 2035“ nach TR-02102-1. Daneben stehen zwei Signale:
+  - Die Leitlinie unterscheidet in ihrem Zeitplan nicht zwischen Schlüsseleinigung und Signatur. Hohes Risiko heißt dort Ende
+    2030 für den ganzen Anwendungsfall.
+  - NIST führt EdDSA, das Verfahren des heutigen Ankers, nach 2030 als veraltet.
+
+  Darum setzt sich Vivodepot für die hybride Signatur ES256 + ML-DSA an Anker und Rezept ein **Planungsziel Ende 2031**.
+  - Das ist eine **interne Planungssetzung, keine Normfrist und keine Zusage nach außen**. Die Normgrenze bleibt 2035. In
+    Texten nach außen, auch in Angeboten zur externen Prüfung, steht 2031 nur nach eigener, ausdrücklicher Freigabe für genau diesen Text.
+  - Begründung: Eine Vorsorgevollmacht wird oft Jahrzehnte nach der Signatur geprüft (offener Befund
+    SIGNATUR-OHNE-LANGZEITPRUEFUNG).
+  - Das Planungsziel hängt an den Bau-Voraussetzungen aus Punkt 6. Fehlen sie Ende 2030, wird es neu bewertet, nicht still
+    verschoben.
+
+- **Neuentwicklungen (Leitlinie Abschnitt 4.6):**
+  - Seit dem 06.10.2026 sind zwei asymmetrische Teile neu entstanden, beide klassisch:
+    - die Ed25519-Antwort-Signatur je Stelle (Commit 36834f830, 17.10.2026; U2-ADR-501);
+    - der eigene X.509-Leser für ECDSA-Ketten der Stellen (Commit 63abd3db3, 15.10.2026).
+  - Ausschließlich quantensicher wäre heute nicht interoperabel: Es fehlen JOSE-Bezeichner für hybride Verfahren und eine
+    stabile Unterstützung in allen Browsern (Punkt 4, Punkt 6).
+  - Die Abweichung von 4.6 ist damit begründet. Den Übergang beider Teile regelt der nächste Punkt.
+
+- **Inventar und PQC-Readiness:**
+  - Die Bestandsaufnahme der Ausgangslage (Stand 06.10.2026) kannte die beiden neuen Teile nicht. Dieser Nachtrag nimmt sie
+    auf.
+  - **Antwort-Signatur je Stelle:** folgt dem hybriden Signaturschritt, Planungsziel Ende 2031.
+  - **X.509-Leser:** prüft fremde Ketten. Sein Übergang richtet sich nach den Verfahren, die die Zertifikate der Stellen
+    tragen (ARF, HAIP). Bis dahin gilt er als Beobachtung.
+  - **Selbstsignatur des SD-JWT (Ed25519, U2-ADR-457):** folgt, sobald SD-JWT VC und HAIP ein PQ- oder Hybridverfahren
+    festlegen. Auch das ist Beobachtung, kein Termin.
+  - Mit diesen Ergänzungen ist das Inventar vollständig, das die Leitlinie bis Ende 2026 empfiehlt. Die Aussage in Punkt 8,
+    die Roadmap verlange von Unternehmen nichts, gilt für die EU-Roadmap. Die nationale Leitlinie empfiehlt Unternehmen das
+    Inventar bis Ende 2026.
+
+- **Anker-Agilität früher?** Nein, nicht vorziehen.
+  - Der Anker-Satz mit Laufzeit und die Hash-Kennung stehen seit 10.10.2026 im Kanon (Commits 9c0536901 und 5bab0531c; die
+    Nachträge oben tragen die Bau-Daten 07./08.10.). Damit ist die Voraussetzung aus Punkt 1 gebaut.
+  - Offen ist der zweite Anker (ES256) mit Schlüsselzeremonie, bis Ende 2027 (eigene Setzung, Punkt 8). Er bleibt dort: Mit
+    dem Planungsziel 2031 bleiben danach vier Jahre für den hybriden Anker.
+
+- **Risikoeinstufung nach der Leitlinie (Abschnitt 4.5):** eigene Einstufung, keine Normaussage. Die Leitlinie nennt drei
+  Faktoren: Angreifbarkeit, Schadensausmaß und Aufwand der Umstellung.
+  - **Vertraulichkeit des Antwort-JWE: hoch.**
+    - Angreifbar durch „harvest now, decrypt later“.
+    - Der Schaden ist groß: Gesundheits- und Vorsorgedaten.
+    - Der Aufwand ist gering, sobald es einen Bezeichner gibt: ein Umschlag, zwei Leser.
+    - Daraus folgt Ende 2030.
+  - **Echtheit von Anker- und Rezeptsignatur: mittel.**
+    - Kein Angriff im Voraus möglich.
+    - Der Schaden ist groß bei langer Prüfdauer.
+    - Der Aufwand ist hoch: Schlüsselzeremonie, Secure Enclave, Neuausstellung.
+    - Daraus folgt 2035 als Normgrenze und 2031 als Planungsziel.
+
+**Damit ändert sich in Punkt 8** nur die Zeile „Hybride Signatur ES256 + ML-DSA (3)“. Sie lautet: „Planungsziel Ende 2031
+(interne Planungssetzung, keine Zusage nach außen), Normgrenze vor Ende 2035 (TR-02102-1 Kap. 2.1, 5.3); gilt auch für die Antwort-Signatur je Stelle“. Alle
+anderen Zeilen und Punkte bleiben. Gebaut wird mit diesem Nachtrag nichts.
+
+**Weg zum Nachsehen:**
+- NIST IR 8547: https://doi.org/10.6028/NIST.IR.8547, Abschnitte 1, 1.2, 3, 3.2, 4, 4.1.1 (Tabelle 2) und 4.1.2 (Tabelle
+  4).
+- Leitlinie: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Krypto/Leitlinie-Umstellung-PQC.pdf, Abschnitte 2, 3, 4,
+  4.1, 4.3, 4.4, 4.5, 4.6.
+- TR-02102-1, geltende Fassung: Seite des BSI zu TR-02102 („Version: 2026-01“).
+- Neue asymmetrische Teile: `git show --stat 36834f830 63abd3db3`.
+
 ```yaml
 konformitaet:
   - aussage: >-

@@ -126,7 +126,9 @@ function fundstellen(quelle, muster) {
   return raus;
 }
 const ERLAUBT_FELD = new Set(['ANTWORT_SEED_FELD', '_antwortSeedHolen', 'vollExportJSON', 'EMPFAENGER_NIE']);
-const ERLAUBT_AUFRUF_HOLEN = new Set(['antwortSchluesselJeStelle']);   // die Ableitung je Stelle (U2-ADR-501, Wagen V4, 16.10.2026) — sonst niemand
+// die Ableitung je Stelle (U2-ADR-501, Wagen V4, 16.10.2026) und der Schlüssel für das Verzeichnis der Außenablagen (U2-ADR-520,
+// 03.11.2026: eigene HKDF-Info, Seed wird nach der Ableitung genullt) — sonst niemand
+const ERLAUBT_AUFRUF_HOLEN = new Set(['antwortSchluesselJeStelle', '_verzeichnisSchluessel']);
 function quelltextBefunde(quelle) {
   const f = [];
   for (const s of fundstellen(quelle, /\bantwortSeed\b/)) if (s.kontext !== 'ANTWORT_SEED_FELD') f.push('Literal ausserhalb der Konstante: ' + s.kontext + ' (Zeile ' + s.zeile + ')');

@@ -10,7 +10,8 @@
       Leerzeichen, Link höchstens 128 Zeichen).
    3. Nach der Frist verfällt der Auftrag; der Zuhörer ist weg. Der Auftrag trägt `bis`, kurz vor der eigenen Frist, damit auch
       die Brücke danach nicht mehr ablegt.
-   4. Die drei Aufrufer geben dieselben Bytes wie ihr Datei-Weg.
+   4. Die drei Aufrufer geben das Chiffrat ihres Datei-Wegs; eine Depot-Hülle nur mit den Feldern der Positivliste
+      (U2-ADR-520 Nr. 3), der Freigabe-Link byte-gleich.
    5. In der Vorschau (auch der Vorführung) öffnet sich keine Brücke, wie beim Datei-Weg nichts hinausgeht.
    Rot-Beweise: eine Kopie des Kerns ohne Herkunftsprüfung nimmt eine fremde Antwort an; eine ohne das Tor der Vorschau öffnet
    die Brücke.
@@ -115,11 +116,11 @@ test('[Pod·Kern] nach der Frist verfällt der Auftrag; unbekannte Art und leere
   await assert.rejects(V.podAblegen('link', 'x', { ...b.o, oeffnen: () => null }), /pod-fenster/);
 });
 
-test('[Pod·Kern] die drei Aufrufer geben dieselben Bytes wie ihr Datei-Weg', () => {
+test('[Pod·Kern] die drei Aufrufer geben das Chiffrat ihres Datei-Wegs, die Depot-Hülle nur mit den Feldern der Positivliste', () => {
   const { V } = ladeKern();
   const quelle = (f) => String(V[f]);
   const herausgeben = quelle('empfaengerDateiHerausgeben');
-  assert.match(herausgeben, /podAblegenMitHinweis\('stelle', dateiMitMagic\(JSON\.stringify\(umschlag\)\)\)/);
+  assert.match(herausgeben, /podAblegenMitHinweis\('stelle', dateiMitMagic\(JSON\.stringify\(_huelleFuerAussenablage\(umschlag\)\)\)\)/);
   assert.match(herausgeben, /new Blob\(\[dateiMitMagic\(JSON\.stringify\(umschlag\)\)\]/, 'derselbe Ausdruck wie die Datei');
   assert.ok(herausgeben.indexOf('vereinbarungFreigabeHolen') < herausgeben.indexOf('podAblegenMitHinweis'), 'die Vereinbarung gilt auch für den Pod');
   const dialog = quelle('_shlDialogZeigen');
@@ -127,8 +128,8 @@ test('[Pod·Kern] die drei Aufrufer geben dieselben Bytes wie ihr Datei-Weg', ()
   assert.match(dialog, /new Blob\(\[teile\.jwe\]/);
   const sicherung = quelle('podSicherungAblegen');
   assert.match(sicherung, /depotSerialisieren\(\)/);
-  assert.match(sicherung, /podAblegenMitHinweis\('eigen', dateiMitMagic\(JSON\.stringify\(dateiInhalt, null, 2\)\)\)/);
-  assert.match(quelle('depotHerunterladen'), /dateiMitMagic\(JSON\.stringify\(dateiInhalt, null, 2\)\)/, 'derselbe Ausdruck wie die Sicherungskopie');
+  assert.match(sicherung, /podAblegenMitHinweis\('eigen', dateiMitMagic\(JSON\.stringify\(_huelleFuerAussenablage\(umschlag\), null, 2\)\)\)/);
+  assert.match(quelle('depotHerunterladen'), /dateiMitMagic\(JSON\.stringify\(dateiInhalt, null, 2\)\)/, 'die Datei behält Marke und Zeitpunkt, der Pod nicht');
   assert.match(sicherung, /imSubKontext\(\)/, 'im Sub-Kontext nicht');
 });
 

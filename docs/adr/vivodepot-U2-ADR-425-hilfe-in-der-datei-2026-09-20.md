@@ -60,7 +60,7 @@ konformitaet:
     herkunft: U2-ADR-425 (20.09.2026)
     pruefung:
       - tests/hilfe-kapitel.test.js
-        "[Hilfe·Druck] das Overlay steht in der Ausnahmeliste des Print-CSS, wie Notfallblatt/PV-Dokument"
+        "[Hilfe·Druck] das Overlay trägt data-druckbar und bleibt im Druck stehen, wie Notfallblatt/PV-Dokument"
 
   - aussage: >-
       Der Website-Export enthält nur Themen mit tatsächlichem Inhalt (DE und EN, wortgleich zum
@@ -69,7 +69,7 @@ konformitaet:
     herkunft: U2-ADR-425 (20.09.2026)
     pruefung:
       - tests/hilfe-website-export-erzeugen.test.js
-        "[Hilfe-Website-Export] heute (die Redaktion hat geliefert): alle fünfzehn Themen erscheinen, DE und EN befüllt"
+        "[Hilfe-Website-Export] heute (die Redaktion hat geliefert): alle neunzehn Themen erscheinen, DE und EN befüllt"
       - tests/hilfe-website-export-erzeugen.test.js
         "[Hilfe-Website-Export·Rot-Beweis] ein Thema mit Inhalt erscheint im Export, DE und EN, wortgleich zum Kern — ein Thema ohne Abschnitte bleibt draußen"
 

@@ -160,7 +160,10 @@ describe('U2-ADR-097 §3: kein Wiederherstellungsweg (G13)', () => {
      Funktion ist ein Fund wie jeder neue Bezeichner. */
   const GEBUNDENE_BEZEICHNER = Object.freeze({
     masterBits: { funktionen: { whcHuelleWickeln: 3, _whcEinwickeln: 3 } },
-    wiederherstellungAnbieten: { funktionen: { wiederherstellungAnbieten: 1, flowDepotAnlegen: 1, flowPasswortSetzen: 1, flowEigenesDepotAusSubWunsch: 1 } },
+    wiederherstellungAnbieten: { funktionen: { wiederherstellungAnbieten: 1, flowPasswortSetzen: 1, flowEigenesDepotAusSubWunsch: 1 } },
+    // U2-ADR-430 Nachtrag 31.10.2026 (S2): im Anlege-Weg bietet Schritt 2 des Dialogs den Code an, nicht mehr das vorgeschaltete
+    // Angebot. Gebunden wie zuvor wiederherstellungAnbieten: genau ein Aufruf, und der steht in flowDepotAnlegen.
+    anlegenCodeSchritt: { funktionen: { anlegenCodeSchritt: 1, flowDepotAnlegen: 1 } },
   });
 
   function gebundeneFunde(roh) {
@@ -183,6 +186,24 @@ describe('U2-ADR-097 §3: kein Wiederherstellungsweg (G13)', () => {
 
   test('[G13-Gebunden] die Bezeichner der Wiederherstellungs-Hülle stehen nur in ihren Funktionen, mit fester Zahl', () => {
     assert.deepEqual(gebundeneFunde(eigenerCodeRoh), []);
+  });
+
+  test('[G13-Anlege-Weg] Schritt 2 erzeugt den Code und richtet die Hülle erst nach dem Abtippen ein, über denselben Weg wie whcCodeZeigen', () => {
+    const k = ohneKommentareUndStrings(funktionsKoerper(eigenerCodeRoh, 'anlegenCodeSchritt') || '');
+    assert.ok(k, 'anlegenCodeSchritt() nicht gefunden — die Analyse ist veraltet.');
+    assert.equal((k.match(/\bwhcCodeErzeugen\s*\(/g) || []).length, 1, 'Schritt 2 erzeugt den Code genau einmal.');
+    assert.equal((k.match(/\b_whcKontrolleEinrichten\s*\(/g) || []).length, 1, 'Schritt 2 richtet nur über _whcKontrolleEinrichten ein.');
+    assert.doesNotMatch(k, /\bwhcHuelleWickeln\b|\bmasterBits\b/, 'Schritt 2 wickelt die Hülle nicht selbst.');
+    const e = ohneKommentareUndStrings(funktionsKoerper(eigenerCodeRoh, '_whcKontrolleEinrichten') || '');
+    assert.match(e, /if\s*\(\s*kontrolle\s*!==\s*code\.slice\(/, 'Eingerichtet wird erst, wenn die Kontrolle dem Code entspricht.');
+  });
+
+  test('[G13-Anlege-Weg·Rot-Beweis] ein zweiter Aufruf von anlegenCodeSchritt außerhalb von flowDepotAnlegen fällt, ebenso ein fehlender', () => {
+    const gepflanzt = eigenerCodeRoh + '\nfunction _irgendwo() { anlegenCodeSchritt("x"); }\n';
+    assert.ok(gebundeneFunde(gepflanzt).some((f) => f.startsWith('anlegenCodeSchritt: 1 Vorkommen außerhalb')), gebundeneFunde(gepflanzt).join(' | '));
+    const ohne = eigenerCodeRoh.replace(/anlegenCodeSchritt\(p\)/, 'void p');
+    assert.notEqual(ohne, eigenerCodeRoh, 'Pflanzstelle im Kern nicht gefunden — die Probe ist veraltet.');
+    assert.ok(gebundeneFunde(ohne).includes('anlegenCodeSchritt in flowDepotAnlegen: 0 statt 1'), gebundeneFunde(ohne).join(' | '));
   });
 
   test('[G13-Gebunden·Rot-Beweis] ein `masterBits` in einer anderen Funktion fällt', () => {

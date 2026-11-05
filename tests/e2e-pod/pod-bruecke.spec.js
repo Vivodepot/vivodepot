@@ -20,7 +20,8 @@
      6. Für eine Stelle: nur deren WebID liest, ohne Anmeldung nicht; der Access Grant (LWS) liegt daneben.
      7. Rücknahme und Ablauf: danach ist die Ressource weg; der Ablauf greift nach neuer Anmeldung und Bestätigung.
      8. Die Tür: Klartext wird abgewiesen, und es geht keine Schreibanfrage an den Pod.
-     9. Abmelden löscht alles lokal; alle Anfragen gehen nur an die beiden lokalen Herkünfte.
+     9. Abmelden löscht alles lokal; alle Anfragen gehen nur an die beiden lokalen Herkünfte. Ein zweiter Browser kennt die
+        Ablagen aus der Kopie im Pod (vivodepot/intern/), setzt den Ablauf durch, und der erste holt sie nicht zurück.
     10. Stufe 2 (Nachtrag zu U2-ADR-512): der Kern unter seiner Herkunft öffnet die Brücke unter pod.vivodepot.de und übergibt
         die Sicherung per postMessage; die Person bestätigt, die Adresse kommt zurück; abgeholt, ohne Anmeldung nicht lesbar;
         ein Freigabe-Link daneben ist lesbar und nach der Rücknahme nicht mehr. Kern und Brücke liefert eine Route des
@@ -410,10 +411,16 @@ test('[Pod·Rücknahme] Zurücknehmen und Ablauf löschen die Ressource im Pod',
   await person.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), a1);
   expect(await person.evaluate((a) => self.vdPodAnmeldung.podFetch(a).then((r) => r.status), a1)).toBe(404);
   const a2 = await dateiAblegen(person, shlJwe('{}').jwe, 'link', { tage: 1 });
+  // Die Zeit vergeht für beide Verzeichnisse: lokal und in der Kopie im Pod, die nach der Bestätigung gilt
+  // (U2-ADR-512-Nachtrag „Verzeichnis im eigenen Pod“).
   await person.evaluate(async (a) => {
     const v = await self.vdPodAnmeldung._ablage.lesen('verzeichnis');
     v.forEach((e) => { if (e.adresse === a) e.bis = Date.now() - 1000; });
     await self.vdPodAnmeldung._ablage.schreiben('verzeichnis', v);
+    const k = a.replace(/vivodepot\/.*$/, 'vivodepot/intern/verzeichnis.json');
+    const j = await self.vdPodAnmeldung.podFetch(k).then((r) => r.json());
+    j.ablagen.forEach((e) => { if (e.adresse === a) e.bis = Date.now() - 1000; });
+    await self.vdPodAnmeldung.podFetch(k, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(j) });
   }, a2);
   // Die Sitzung endet mit der Seite (kein Erneuerungs-Token). Nach dem Neuladen: neu anmelden, Ziel bestätigen, dann greift
   // der Ablauf.
@@ -457,9 +464,47 @@ test('[Pod·K2] ohne Erneuerungs-Token: nach Ablauf verlangt die Brücke die neu
   await ctx.close();
 });
 
+test('[Pod·Kopie] ein zweiter Browser kennt die Ablage aus der Kopie im Pod, setzt ihren Ablauf durch, und der erste holt sie nicht zurück', async ({ browser, request }) => {
+  // U2-ADR-512-Nachtrag „Verzeichnis im eigenen Pod“ (29.10.2026): Teil 2 von POD-ABMELDEN-VERLIERT-ABLAGEN.
+  test.setTimeout(180000);
+  const a = await dateiAblegen(person, shlJwe('{}').jwe, 'link', { tage: 1 });
+  const kopie = a.replace(/vivodepot\/.*$/, 'vivodepot/intern/verzeichnis.json');
+  const lesen = (p) => p.evaluate((k) => self.vdPodAnmeldung.podFetch(k).then((r) => r.json()), kopie);
+  expect((await lesen(person)).ablagen.map((e) => e.adresse)).toContain(a);
+  expect((await request.get(kopie)).status(), 'ohne Anmeldung liest niemand die Kopie').toBeGreaterThanOrEqual(401);
+  const ctx = await browser.newContext(); const p2 = await ctx.newPage();
+  await anmelden(p2, KONTEN[0]);
+  await expect.poll(() => p2.evaluate(() => self.vdPodBruecke.verzeichnis().then((v) => v.map((e) => e.adresse)))).toContain(a);
+  // Der Ablauf ist inzwischen erreicht: in der Kopie vorziehen, neu laden, anmelden, bestätigen.
+  await p2.evaluate(async ([k, adr]) => {
+    const j = await self.vdPodAnmeldung.podFetch(k).then((r) => r.json());
+    j.ablagen.forEach((e) => { if (e.adresse === adr) e.bis = Date.now() - 1000; });
+    await self.vdPodAnmeldung.podFetch(k, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(j) });
+  }, [kopie, a]);
+  await p2.reload();
+  await anmelden(p2, KONTEN[0], { wieder: true });
+  await expect.poll(() => p2.evaluate((x) => self.vdPodAnmeldung.podFetch(x).then((r) => r.status), a)).toBe(404);
+  expect((await lesen(p2)).ablagen.map((e) => e.adresse)).not.toContain(a);
+  await ctx.close();
+  // Der erste Browser kennt a noch lokal; nach dem Neuladen gilt die Kopie, und a kommt nicht zurück.
+  await person.reload();
+  await anmelden(person, KONTEN[0], { wieder: true });
+  // Der Abgleich läuft nach dem Klick auf „bestätigen“ an; der Ablagebereich steht schon vorher.
+  await expect.poll(() => person.evaluate(() => self.vdPodBruecke.verzeichnis().then((v) => v.map((e) => e.adresse)))).not.toContain(a);
+  expect((await lesen(person)).ablagen.map((e) => e.adresse)).not.toContain(a);
+});
+
 test('[Pod·Abmelden] Abmelden löscht Schlüssel, Registrierung und Sitzung; Web Storage bleibt leer', async () => {
+  // Liegen aus den Tests davor noch offene Ablagen, fragt die Brücke vorher (POD-ABMELDEN-VERLIERT-ABLAGEN); dann nimmt sie
+  // alle zurück, so bleibt nach dem Lauf nichts im Pod.
+  const offen = await person.evaluate(() => self.vdPodBruecke.verzeichnis().then((v) => v.filter((e) => !e.bis || e.bis >= Date.now()).length));
   await person.click('#abmelden');
+  if (offen) {
+    await expect(person.locator('#abmelden-pruefen')).toBeVisible();
+    await person.click('#abmelden-alle');
+  }
   await expect(person.locator('#wer')).toHaveText('Nicht angemeldet');
+  expect(await person.evaluate(() => self.vdPodBruecke.verzeichnis().then((v) => v.length))).toBe(0);
   expect(await person.evaluate(() => document.body.dataset.abmeldung)).toBe('lokal-geloescht');
   const rest = await person.evaluate(async () => {
     const A = self.vdPodAnmeldung;

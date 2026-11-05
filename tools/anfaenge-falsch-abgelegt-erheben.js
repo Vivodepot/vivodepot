@@ -49,6 +49,8 @@ const ENTSCHEIDUNG = {
   'finance.creditCards/validUntil': [ENDE, 'Karte gültig bis — ein Ende'],
   'health.healthInsuranceCards/validUntilInclEhic': [ENDE, 'Karte gültig bis — ein Ende'],
   'health.pregnancyEstimatedDueDate': [KEIN_FALL, 'errechneter Entbindungstermin (U2-ADR-455) — ein erwartetes Ereignis, keine Gültigkeit und kein Anfang'],
+  'health.researchDecisions/validUntil': [ENDE, 'Einwilligung gilt bis — ein Ende (U2-ADR-518; die Marke `laeuftAb` kommt in einem eigenen Schritt)'],
+  'health.researchDecisions/declaredOn': [KEIN_FALL, 'Datum der Erklärung (U2-ADR-518) — ein Ereignis, kein Gültigkeitsbeginn'],
   'education.employmentContractFixedTerm': [ENDE, 'befristet bis — ein Ende'],
   'socialInsurance.careLevelTimeLimitedUntil': [ENDE, 'befristet bis — ein Ende'],
   'socialInsurance.severeDisabilityCards/validUntil': [ENDE, 'Ausweis gültig bis — ein Ende'],

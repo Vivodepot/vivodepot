@@ -12,7 +12,11 @@
      4  der Tag-Inhalt trägt eine Signatur (SSH oder OpenPGP)
      5  `git tag -v` ist grün
    Vor 3: für den Baum des Release-Commits liegt ein Beleg des öffentlichen Laufs vor, und er ist grün
-   (tools/oeffentlicher-lauf-beleg.js, 05.10.2026). Mit `--grundliste <datei>` (JSON-Liste bekannter roter Proben)
+   (tools/oeffentlicher-lauf-beleg.js, 05.10.2026).
+   Ebenso vor 3: der Spiegel nach openCoDE findet im Stand des Commits einen Release-Text (01.11.2026). Er baut die
+   Release-Seite aus dem Stand des Tags (tools/opencode-spiegel.js → releaseVorbereiten in tools/opencode-release-vorbereiten.js);
+   fehlen Notes und CHANGELOG-Abschnitt oder eine Anlage, bricht er erst nach dem Push ab, und das Tag lässt sich nicht mehr
+   ändern (v1.0.956). Darum fährt das Werkzeug dieselbe Vorbereitung vorher im Trockenen auf einem Abzug des Commits. Mit `--grundliste <datei>` (JSON-Liste bekannter roter Proben)
    hält nur eine NEUE rote Probe an — für die Zeit, bis ein bekannter roter Stand abgearbeitet ist.
    Schlägt 3, 4 oder 5 fehl, wird der lokale Tag wieder gelöscht und der Lauf endet rot (Exit 1) — ein unsignierter oder
    nicht prüfbarer Tag kann so nicht versehentlich mitgepusht werden.
@@ -29,16 +33,19 @@
      node tools/oeffentlich-tag-signieren.js --klon <öffentlicher Klon> --tag v1.0.<Fassung> --auslieferungen <datei> --staende <datei> [--commit <rev>] [--grundliste <datei>]
    ═════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
 const { belegLesen, laufBelegPruefen } = require('./oeffentlicher-lauf-beleg.js');
+const { releaseVorbereiten } = require('./opencode-release-vorbereiten.js');
 
 const TAG_MUSTER = /^v1\.0\.\d+$/;
 const SIGNATUR = /-----BEGIN (SSH|PGP) SIGNATURE-----/;
 
-function git(klon, args, { erben = false, env } = {}) {
-  return spawnSync('git', ['-C', klon, ...args], { encoding: 'utf8', stdio: erben ? 'inherit' : 'pipe', env: env || ohneGitUmgebung() });
+function git(klon, args, { erben = false, env, binaer = false } = {}) {
+  return spawnSync('git', ['-C', klon, ...args], { encoding: binaer ? 'buffer' : 'utf8', stdio: erben ? 'inherit' : 'pipe', env: env || ohneGitUmgebung(),
+    maxBuffer: 1024 * 1024 * 1024 });
 }
 
 // REIN: trägt der Inhalt eines Tag-Objekts eine Signatur?
@@ -115,6 +122,21 @@ function fassungPruefen(tag, { standDoku, oeffentlicheStaende }) {
   return { ok: true };
 }
 
+/* Der Release-Text, den der Spiegel aus dem Stand des Tags baut: trocken auf einem Abzug (git archive) des Commits, ohne zu
+   schreiben. { ok } oder { ok:false, grund }. Der Abzug liegt im Temp und wird immer entfernt. */
+function releaseTextPruefen(klon, commit, tag, env) {
+  const abzug = fs.mkdtempSync(path.join(os.tmpdir(), 'tag-signieren-abzug-'));
+  try {
+    const tar = git(klon, ['archive', '--format=tar', commit], { env, binaer: true });
+    if (tar.status !== 0) return { ok: false, grund: 'der Stand ' + commit + ' ließ sich nicht abziehen (git archive)' };
+    const x = spawnSync('tar', ['-x', '-C', abzug], { input: tar.stdout });
+    if (x.status !== 0) return { ok: false, grund: 'der Abzug von ' + commit + ' ließ sich nicht entpacken' };
+    const r = releaseVorbereiten({ quelle: abzug, fassung: tag });
+    if (r.fehler.length) return { ok: false, grund: 'der Spiegel fände für ' + tag + ' keinen vollständigen Release-Text: ' + r.fehler.join('; ') };
+    return { ok: true };
+  } finally { fs.rmSync(abzug, { recursive: true, force: true }); }
+}
+
 function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundliste, schreiben = (t) => process.stdout.write(t), env } = {}) {
   const rot = (satz) => { schreiben('[tag-signieren] ROT — ' + satz + '\n'); return 1; };
   if (!klon || !fs.existsSync(path.join(klon, '.git'))) return rot('kein Git-Klon: ' + klon);
@@ -142,6 +164,8 @@ function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundl
   const baum = git(klon, ['rev-parse', commit + '^{tree}'], { env }).stdout.trim();
   const lauf = laufBelegPruefen(belegLesen(klon, baum), { baum, grundliste: liste });
   if (!lauf.ok) return rot(lauf.grund);
+  const text = releaseTextPruefen(klon, commit, tag, env);
+  if (!text.ok) return rot(text.grund + ' — erst Notes oder CHANGELOG-Abschnitt in den Stand, dann der Tag');
   const loeschen = () => git(klon, ['tag', '-d', tag], { env });
   const s = git(klon, ['tag', '-s', tag, '-m', 'Vivodepot ' + tag, commit], { erben: true, env });
   if (s.status !== 0) { loeschen(); return rot('git tag -s ist gescheitert (ist das Signieren in git eingerichtet?)'); }
@@ -172,4 +196,4 @@ function main() {
 }
 
 if (require.main === module) process.exitCode = main();
-module.exports = { signieren, tagInhaltSigniert, fingerabdruckAusTagV, stehtInSecurity21, schluesselAus21, gueltigFuer, tagSchluesselPruefen, fassungPruefen, TAG_MUSTER };
+module.exports = { signieren, releaseTextPruefen, tagInhaltSigniert, fingerabdruckAusTagV, stehtInSecurity21, schluesselAus21, gueltigFuer, tagSchluesselPruefen, fassungPruefen, TAG_MUSTER };

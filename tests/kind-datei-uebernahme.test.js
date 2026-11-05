@@ -57,7 +57,7 @@ async function elternMitKind(opts) {
 async function kindOeffnet(dateiText) {
   const { V } = ladeKern();
   assert.equal(V.getData(), null, 'Vorbedingung: das Kind hat keine Sitzung der Eltern');
-  const roh = JSON.parse(dateiText);
+  const roh = JSON.parse(V.magicStrippen(dateiText).json);   // S8: die Kind-Datei ist eine Depot-Datei mit Kopf
   await V.depotLaden(V.umschlagEntpacken(roh), SUB_PW);
   return V;
 }

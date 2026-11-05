@@ -46,7 +46,7 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
 const VB = require('./lib/hl7-validator-beleg.js');   // Name, Fassung und Prüfsumme des HL7-Validators
-const { FAELLE } = require('../tests/helfer/link-senden-validator-faelle.js');
+const { FAELLE, ipsAuszugErzeugen } = require('../tests/helfer/link-senden-validator-faelle.js');
 
 const REPO = path.join(__dirname, '..');
 const BELEG = path.join(__dirname, 'link-senden-validator-beleg.json');
@@ -163,7 +163,8 @@ function jweEntschluesseln(jwe, keyB64u) {
 /** Jeden Fall über auszugLinkTeile und shlUriBauen bauen. V ist der geladene Kern (ladeKern().V). */
 async function faelleBauen(V, { url = zufallsUrl(), faelle = FAELLE } = {}) {
   const raus = [];
-  for (const vorlage of faelle) {
+  for (let vorlage of faelle) {
+    if (vorlage.inhaltAus === 'fhir-ips') vorlage = { ...vorlage, inhalt: await ipsAuszugErzeugen(V) };   // echtes IPS aus fhirIpsBundle
     const teile = await V.auszugLinkTeile(new Blob([vorlage.inhalt], { type: vorlage.mime }), { label: vorlage.label, weg: vorlage.weg });
     const shlink = V.shlUriBauen(teile, url);
     raus.push({ vorlage, teile, url, shlink });

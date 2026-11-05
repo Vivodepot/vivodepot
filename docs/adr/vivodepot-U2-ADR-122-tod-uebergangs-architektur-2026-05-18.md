@@ -7,7 +7,7 @@
 - **Format:** MADR 4.0 mit Vivodepot-Erweiterungen (Kategorien-Header, Nachweis-Abschnitt)
 - **Vorgänger:** Krypto-Architektur (Abschnitte Re-Key beim Verselbstständigen, Blackbox-Übergabe, Einhängen mit Audit-Trennung, Notfall-Instruktionsblatt). ADR-063 (FHIR-Provenance Sub-Depot-IPS-Export — Vollmachts-Grundlage-Snapshot-Disziplin). ADR-064 (Beziehungs-Codierung HL7-V3-RoleCode). ADR-068v2 (Bidirektionale Depot-Verwaltungsdelegation, Drei-Ebenen-Sicht). ADR-077 v3 (KI-Verfügung als postmortale Verfügung). ADR-078 (Trust Chain mit Vollmachts-Pflichtfeldern und Korrektur-Aufweichung vom 13.05.2026). **Alle fünf Nummern in diesem Absatz sind B16-Referenzen** (Dokument entstand 18.05.2026, vor dem U2-Namensraum — Auslegungsregel U2-ADR-090 §2: unpräfigierte Referenzen in Dokumenten vor dem 20.07.2026 meinen B16).
 - **Bezug:** Klärung der Provenance-Tiefe vom 18.05.2026 (interne Unterlage). Sprint U-2-7 Erbschafts-Anker-zu-Sub (geplant). Golden Twin als Lebenslauf-Modell mit vier Existenzphasen. Zwei Modi auf einer Datenbasis (Eigener Modus und Angehörigenmodus).
-- **Status heute:** gilt — Beleg `tests/provenienz-snapshot.test.js` für Komponente 5; die übrigen
+- **Status heute:** gilt — Beleg `tests/provenienz-snapshot.test.js` für Komponente 5, `tests/erben-anwendung-waehlt-nicht.test.js` für den Nachtrag 31.10.2026; die übrigen
   Komponenten (1, 2, 3, 6, 7) sind laut Nachtrag 02.08.2026 im Dokument selbst bau-standlich
   ungeprüft, Komponente 4 ist durch die Entscheidung vom 01.08.2026 abgelöst.
 
@@ -18,6 +18,18 @@ Dieses Dokument wurde ursprünglich unter der Nummer „ADR-081" geführt (3-ste
 ## Nachtrag — Komponente 4 abgelöst (01.08.2026)
 
 Komponente 4 (Tod-Übergangs-Wizard für den Übernehmer, unten) wurde nie gebaut. Am 01.08.2026 wurde entschieden, sie **nicht** als interaktiven Wizard umzusetzen, sondern als statisches Situationsblatt „Todesfall-Übernahme" im bestehenden Erbfall-Muster (Option C) — siehe die bindende Entscheidung vom 01.08.2026 (interner Bericht). Begründung dort: der Übernehmer trifft keine eigenen Entscheidungen über sich selbst, sondern navigiert ein fremdes Depot — das ist strukturell der Angehörigen-Situationsblatt-Fall, kein Wizard-Fall. Die Schritte 1-3 und 5-6 aus Komponente 4 sind inhaltlich in das Situationsblatt übernommen (reduziert auf die zwei tatsächlich verlinkbaren Wege 2/3); Schritt 4 (Weg-Auswahl inkl. Weg 1, Anker-zu-Sub-Wandlung) bleibt zurückgestellt (Posten 103). Komponenten 1, 2, 3, 5, 6, 7 sind von dieser Ablösung nicht betroffen — ob und in welchem Umfang sie tatsächlich gebaut wurden, ist nicht Gegenstand dieser Nachpflege und bräuchte eine eigene Bau-Stand-Prüfung.
+
+
+## Nachtrag — mehrere gleichrangige Erben (31.10.2026)
+
+Die Anwendung wählt nicht zwischen Erben. Der Nachtrag entscheidet nichts Neues, er hält fest, was dieses Dokument und seine Vorgänger schon sagen:
+
+- **Sub-Depots.** Die neue Anker-Person eines Sub-Depots bestimmen die vertretenen Personen oder ihre gesetzlichen Vertreter, nicht die Erben der Anker-Person. Die Empfehlung der Anker-Person ist ein Hinweis, kein Diktat. Fundstelle: Abschnitt „Drei Wege und Bevollmächtigten-Architektur — Zusammenfassung der Logik“, erster Absatz. Dass ein herausgelöstes Sub-Depot zur Anker-Person einer eigenen Datei wird und seine Provenance mitnimmt, legen B16-ADR-062 (Option A) und B16-ADR-063 (Bundle-Provenance) fest; beide nennen die Erbengemeinschaft als typische Empfängerin der Datei.
+- **Das eigene Depot der Anker-Person.** Ohne Verfügung wird es zum Lese-Archiv über die Lese-Datei für Erben. Zum Sub-Depot wandelt es nur für einen Erben, den die Anker-Person selbst benannt hat (Komponente 2, Weg 1; derselbe Abschnitt, zweiter Absatz). Die Weg-Auswahl samt Weg 1 ist zurückgestellt (Nachtrag 01.08.2026). Ein Weg, auf dem die Anwendung unter gleichrangigen Erben einen auswählt, ist nicht vorgesehen.
+- **Streit.** Komponente 7 nennt als Pflicht-Hinweis: Bei Streitfällen gelten Testament, gesetzliche Erbfolge und gerichtliche Entscheidungen. Die gemeinschaftliche Verwaltung des Nachlasses durch die Erbengemeinschaft (§ 2038 BGB) gilt außerhalb der Anwendung; die Anwendung bildet sie nicht nach.
+- **Im Kern heute.** Am Anker stehen die Felder `todUebergangsWege` und `ankerWechselEmpfehlung`. Der Kern hält sie nur (leer vorgegeben, beim Vollimport mitgenommen, vor Empfängern zurückgehalten, beim Überspringen benannt) und wertet sie nicht aus. Beleg: `tests/erben-anwendung-waehlt-nicht.test.js`, Konformität unten.
+
+Ob mehrere Erben die Lese-Datei je als eigene Kopie erhalten sollen, ist hier nicht entschieden und nicht Teil dieses Nachtrags.
 
 ---
 
@@ -261,6 +273,16 @@ aussage:   Komponente 5 (Provenance-Variante A): der Namens-Snapshot `eingabeDur
            behoben.
 zustand:   prüfbar
 pruefung:  tests/provenienz-snapshot.test.js#3) Snapshot bleibt bei späterem Anker-/Namens-Wechsel STEHEN
+quelle:    invariante
+```
+
+```konformitaet
+aussage:   Die Anwendung wählt nicht zwischen Erben: Kern und Lese-App lesen `todUebergangsWege` und
+           `ankerWechselEmpfehlung` nur, um sie zu halten (Vorgabe leer, Schlüssellisten, Benennen
+           beim Überspringen); keine Stelle wertet ihren Inhalt aus oder setzt daraus eine
+           Anker-Person (Nachtrag 31.10.2026).
+zustand:   prüfbar
+pruefung:  tests/erben-anwendung-waehlt-nicht.test.js#[Erben·wählt nicht] Kern und Lese-App lesen die Übergangsfelder nur, um sie zu halten
 quelle:    invariante
 ```
 

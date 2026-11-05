@@ -144,6 +144,31 @@ test('6) Kontakt OHNE Telefonnummer erscheint NICHT im QR (kein Anruf-Ziel), Kon
   assert.equal(V.notfallKontakteVcard(), '', 'kein anrufbarer Kontakt → leerer QR');
 });
 
+/* 6b (30.10.2026): der Hinweis am Feld „Notfallkontakte" sagt, was Probe 6 hält. Er versprach „im Notfall-QR erscheinen
+   alle" — ein Kontakt ohne Telefonnummer erscheint aber nicht (kein Anruf-Ziel). Gehalten wird jetzt: DE und EN nennen die
+   eingetragene Telefonnummer als Bedingung, eindeutig (nicht „alle mit Telefonnummer“, das sich auch als „alle, und zwar mit
+   Nummer“ lesen lässt). Rot-Beweis ist der Satz bis zu diesem Tag. */
+const QR_HINWEIS_PFLICHT = { DE: /Im Notfall-QR erscheinen alle, für die eine Telefonnummer eingetragen ist/, EN: /Everyone with a phone number entered appears on the emergency QR code/ };
+const QR_HINWEIS_BIS_30_10 = {
+  DE: 'Wer kümmert sich im Notfall? Mehrere möglich — im Notfall-QR erscheinen alle. Für Arztberichte und Entlassungsplanung.',
+  EN: 'Who to contact in an emergency? Several are possible — all appear on the emergency QR code. Also used for medical reports and discharge planning.',
+};
+function qrHinweisImProdukt() {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const en = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', 'textsatz-en-modul.json'), 'utf8')).texte['health.emergencyContacts.hint'];
+  return { DE: String(ladeKern().V.textLesen('health.emergencyContacts.hint') || ''), EN: String(en || '') };
+}
+
+test('6b) der Hinweis am Feld Notfallkontakte sagt, was Probe 6 hält: im QR nur Kontakte mit Telefonnummer — DE und EN', () => {
+  const h = qrHinweisImProdukt();
+  for (const sprache of ['DE', 'EN']) assert.match(h[sprache], QR_HINWEIS_PFLICHT[sprache], sprache + ': ' + h[sprache]);
+});
+
+test('6b·Rot-Beweis) der Hinweis bis 30.10.2026 („erscheinen alle“) fällt', () => {
+  for (const sprache of ['DE', 'EN']) assert.doesNotMatch(QR_HINWEIS_BIS_30_10[sprache], QR_HINWEIS_PFLICHT[sprache], sprache);
+});
+
 test('7) flowNotfallQR wirft nicht — ohne anrufbaren Kontakt Hinweis, ohne Bibliothek Hinweis', async () => {
   const { V } = await frischMitDepot();
   assert.doesNotThrow(() => V.flowNotfallQR());      // leer → Toast

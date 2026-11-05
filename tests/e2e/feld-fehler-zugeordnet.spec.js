@@ -8,7 +8,7 @@
    gespeicherten Wert. Klassenschutz und Rot-Beweis gegen den Kern vor dem Helfer: tests/feld-fehler-gemeinsamer-helfer.test.js. */
 const fs = require('node:fs');
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, ANLEGE_WEG } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, datumSetzen, ANLEGE_WEG } = require('./helpers');
 
 /** Prüft am Locator: aria-invalid="true" und ein Verweis auf eine sichtbare Meldung mit Text. Liefert die Meldung. */
 async function erwarteZugeordnet(page, feld) {
@@ -57,25 +57,30 @@ test('[Feld-Fehler·Bearbeiten] ungültiges Datum: bleibt sichtbar und markiert,
   await setzeFeld(page, 'givenName', 'Maria');
   await setzeFeld(page, 'familyName', 'Mustermann');
   await setzeFeld(page, 'birthDate', '1950-03-01');
+  // Das Datum steht in drei Feldern (Tag, Monat, Jahr); der gespeicherte Wert liegt im versteckten Feld mit data-edit.
+  // Markierung, Verweis und Fokus tragen die sichtbaren Teile.
   const feld = page.locator('#content [data-edit="birthDate"]');
+  const teil = (k) => page.locator('#content .feld-wert[data-feld="birthDate"] [data-datum-teil="' + k + '"]');
 
   // Ein Speichern von außen (Fokus woanders, z. B. Ansichtswechsel) lehnt den Wert ab und setzt den Fokus ins Feld. Verlässt
   // die Nutzerin das Feld selbst (Tab), bleibt der Fokus, wo sie hinwollte; die Meldung mit role="alert" wird angesagt.
+  await teil('t').fill('01'); await teil('m').fill('01'); await teil('j').fill('0100');
   await page.evaluate(() => {
-    document.querySelector('#content [data-edit="birthDate"]').value = '0100-01-01';
     document.activeElement && document.activeElement.blur();
     window.__vdOeffentlich.bearbeitungSpeichern();
   });
-  const meldung = await erwarteZugeordnet(page, feld);
+  const meldung = await erwarteZugeordnet(page, teil('t'));
+  await erwarteZugeordnet(page, teil('j'));
   await expect(meldung).toHaveClass(/feld-fehler/);
-  await expect(feld, 'der ungültige Wert bleibt sichtbar').toHaveValue('0100-01-01');
-  await expect(feld, 'der Fokus steht im abgelehnten Feld').toBeFocused();
+  await expect(teil('j'), 'der ungültige Wert bleibt sichtbar').toHaveValue('0100');
+  await expect(feld).toHaveValue('0100-01-01');
+  await expect(teil('t'), 'der Fokus steht im abgelehnten Feld').toBeFocused();
 
   // Speichern während ungültig → der Datensatz behält den alten Wert.
   const gespeichert = await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); return window.__vdOeffentlich.ankerDaten().sektoren.identity.birthDate; });
   expect(gespeichert).toBe('1950-03-01');
   await expect(feld).toHaveValue('0100-01-01');
-  await erwarteZugeordnet(page, feld);
+  await erwarteZugeordnet(page, teil('t'));
 
   // Export während ungültig → die vCard trägt den alten Wert.
   await page.evaluate(() => window.__vdOeffentlich.flowFormatExport('vcard-identitaet'));
@@ -88,20 +93,19 @@ test('[Feld-Fehler·Bearbeiten] ungültiges Datum: bleibt sichtbar und markiert,
   await expect(page.locator('#modal-rueck.an')).toHaveCount(0);
 
   // Korrektur → Markierung weg, der neue Wert ist gespeichert.
-  await feld.fill('1960-05-05');
-  await feld.blur();
-  await erwarteGeloest(feld);
+  await datumSetzen(page, '#content [data-edit="birthDate"]', '1960-05-05');
+  await erwarteGeloest(teil('t'));
   await expect(page.locator('#content p.feld-fehler')).toHaveCount(0);
   expect(await page.evaluate(() => window.__vdOeffentlich.ankerDaten().sektoren.identity.birthDate)).toBe('1960-05-05');
 
   // Verlassen der Ansicht mit einem ungültigen Wert → zurück steht der gespeicherte Wert, ohne Markierung.
-  await feld.fill('0100-01-01');
-  await feld.blur();
-  await erwarteZugeordnet(page, feld);
+  await datumSetzen(page, '#content [data-edit="birthDate"]', '0100-01-01');
+  await erwarteZugeordnet(page, teil('t'));
   await oeffneSektor(page, 'health');
   await oeffneSektor(page, 'identity');
   await expect(page.locator('#content [data-edit="birthDate"]')).toHaveValue('1960-05-05');
-  await erwarteGeloest(page.locator('#content [data-edit="birthDate"]'));
+  await expect(teil('t')).toHaveValue('05');
+  await erwarteGeloest(teil('t'));
 });
 
 test('[Feld-Fehler·Wizard] ungültiges Datum im Assistenten: die Eingabe ist markiert und verweist auf die Meldung, nach der Korrektur nicht mehr', async ({ page }) => {
@@ -115,15 +119,16 @@ test('[Feld-Fehler·Wizard] ungültiges Datum im Assistenten: die Eingabe ist ma
   for (let i = 0; i < 6; i++) await page.click('#wiz-weiter');
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'E2E Kind');
   await page.click('#wiz-weiter');
-  const feld = page.locator('#content [data-edit="guidedBirthEntryDateOfBirthNot"]');
+  const sel = '#content [data-edit="guidedBirthEntryDateOfBirthNot"]';
+  const feld = page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]');
   await expect(feld).toBeVisible();
 
-  await feld.fill('0100-01-01');
+  await datumSetzen(page, sel, '0100-01-01');
   await page.click('#wiz-weiter');
-  const meldung = await erwarteZugeordnet(page, feld);
+  const meldung = await erwarteZugeordnet(page, page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]'));
   await expect(meldung).toHaveAttribute('role', 'alert');
 
-  await page.locator('#content [data-edit="guidedBirthEntryDateOfBirthNot"]').fill('2020-02-02');
+  await datumSetzen(page, sel, '2020-02-02');
   await page.click('#wiz-weiter');
   expect(await page.evaluate(() => window.__vdOeffentlich.wizardFehlerGrund)).toBeNull();
   await expect(page.locator('#content [aria-invalid="true"]')).toHaveCount(0);

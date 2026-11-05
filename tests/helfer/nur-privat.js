@@ -29,7 +29,10 @@ const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 75;   // 74 → 75 am 01.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v956): pro-meldungen-deckung, BESTAND (öffentlich nur zwei Privat-Produkte).
+const DECKEL = 93;   // 94 → 93 am 05.11.2026 (Verschärfung, öffentlicher Lauf v1040): antwort-schema fährt Pro nur, wo es gebaut wird.
+                     // 75 → 94 am 05.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v1040): neunzehn Dateien, BESTAND (öffentlich nur zwei
+                     //   Privat-Produkte, Pro-Textsätze und Module der Schicht 2 zurückgehalten); dazu ein Fall in der schon geführten Gerüst-Datei.
+                     // 74 → 75 am 01.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v956): pro-meldungen-deckung, BESTAND (öffentlich nur zwei Privat-Produkte).
                      // 73 → 74 am 28.10.2026 (Wort der Gegenlesung): testamentsform-pro-katalog, BESTAND (öffentlich nur zwei Privat-Produkte).
                      // 71 → 73 am 27.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v955): pro-e1-anlaesse und situation-blocktitel-ab-werk,
                      //   BESTAND (öffentlich nur zwei Privat-Produkte); die Privat-Tests der zweiten Datei laufen öffentlich weiter.
@@ -314,7 +317,7 @@ const NUR_PRIVAT = {
   // 05.10.2026 (Gegenlesung erteilt, Befund ÖFFENTLICHE-CI-ROT): die Ausgabewege-Probe fährt die Rundlauf-Matrix über das
   // zurückgehaltene Referenzdepot (BESTAND). Die übrigen KDL-Proben der Datei laufen öffentlich.
   "tests/kdl-selbst-laden.test.js": { grund: BESTAND, tests: [
-    "[KDL·Ausgabewege] kein Registry-Format, nicht das IPS und nicht der Erbschein-Auszug tragen die eingelesene KDL",
+    "[KDL·Ausgabewege] nur die ISiK-Datei trägt etwas aus der KDL, und nur Code und Anzeigetext von AM160103 und AM160199",
   ] },
   "tests/kern-html-path-absicht.test.js": { grund: BESTAND, tests: [
     "[Absicht·Ratsche] die Grundlinie führt nur Dateien, die es noch gibt und die weiter ohne Absicht sind — Abgänge werden gestrichen",
@@ -368,6 +371,7 @@ const NUR_PRIVAT = {
   // zurückgehaltene Werkzeuge voraussetzen; je Test der eigene Grund.
   // setzt beide Pro-Produkte voraus; öffentlich gehen nur die zwei Privat-Produkte hinaus
   "tests/geruest-schnitt-dokumente-leer-produkt-voll.test.js": { grund: BESTAND, tests: [
+    "[Gerüst-Schnitt S2+S6·Rot-Beweis] ein Produkt ohne Bauplan-Ergänzung und KI-Datei trägt die Dokument-Schritte nicht",
     "[Gerüst-Schnitt S2+S6·Pro] Pro trägt nur die Schritte der Patientenverfügung, kein Dokumentmodul, keinen Korpus, keine Vollmacht",
   ] },
   // öffnet pro-de und pro-en; öffentlich gehen nur die zwei Privat-Produkte hinaus
@@ -425,6 +429,74 @@ const NUR_PRIVAT = {
     "[Pro·E7] pro-en: eine Gruppe für die Meldungen an alle Stellen, mit Stelle, Anlass, Gemeldet am und Zu melden bis",
     "[Pro·E7·Werterhalt] pro-en: ein eingetragenes Finanzamt steht nach dem Öffnen unverändert unter „Stelle“",
     "[Pro·E7·eine Gruppe] pro-en: kein zweites Pro-Feld erfasst eine Meldung an diese Stellen bei Vertretung, Übergabe oder Aufgabe",
+  ] },
+  // 05.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v1040): öffentlich gehen nur die zwei Privat-Produkte und ohne die
+  // Module der Schicht 2 hinaus; diese Proben lesen die Pro-Textsätze, bauen pro-de/pro-en oder brauchen
+  // zurückgehaltene Module (BESTAND). Die Privat-Fälle derselben Dateien laufen öffentlich weiter.
+  "tests/anfrage-ansicht-kennungen.test.js": { grund: BESTAND, tests: [
+    "[Anfrage·Kennungen] fehlende Angaben stehen mit Namen unter „Das fehlt noch (2)“, keine Kennung im Text",
+    "[Anfrage·Kennungen·Klasse] keine Nutzer-Ansicht zeigt eine Kennung bereich.feldName als Text",
+  ] },
+  "tests/b03-prueftermine-en-sprache.test.js": { grund: BESTAND, tests: [
+    "[B03·Gegenprobe] DE-Prüftermine bleiben, wie sie sind: deutscher Monat, tt.mm.jj, Katalogname",
+  ] },
+  "tests/bundid-nutzerkonto.test.js": { grund: BESTAND, tests: [
+    "BundID heißt Nutzerkonto, nicht Ausweis (textsatz-de-pro-modul.json)",
+    "BundID heißt Nutzerkonto, nicht Ausweis (textsatz-en-pro-modul.json)",
+  ] },
+  "tests/datei-oeffnen-bereiche-einmal.test.js": { grund: BESTAND, tests: [
+    "[Bereiche einmal·Vorbedingung] pro-de hat Bereiche, die als Ersatz mitgehen — sonst prüft die zweite Form nichts",
+    "[Bereiche einmal·Rot-Beweis] ohne die fünf Bremsen öffnet pro-de seine eigene Datei mit doppelten Bereichen",
+  ] },
+  "tests/eintragszeilen-beschriftung-ueber-wert.test.js": { grund: BESTAND, tests: [
+    "[Eintragszeile·Bildschirm] Kern pro-de: jede Beschriftung steht über ihrem Wert, ohne Doppelpunkt und Trennpunkt",
+    "[Eintragszeile·Text] die Teile ergeben zum Text verbunden genau die Zusammenfassung (privat-de und pro-de)",
+  ] },
+  "tests/erstellt-mit-und-powered-by.test.js": { grund: BESTAND, tests: [
+    "[Erstellt mit·Wortlaut] DE und EN ohne „Software“, mit {urheberin}",
+    "[Erstellt mit·Wortlaut·Rot-Beweis] der frühere Satz mit „der Software“ wird gemeldet",
+  ] },
+  "tests/feld-hinweis-aufklapper.test.js": { grund: BESTAND, tests: [
+    "[Hinweis·Aufklapper·pro-de] jedes Feld mit der Eigenschaft teilt sich zeichengleich und zeichnet den Aufklapper",
+    "[Hinweis·Aufklapper·pro-en] jedes Feld mit der Eigenschaft teilt sich zeichengleich und zeichnet den Aufklapper",
+  ] },
+  "tests/forschungsentscheidungen-und-datenspende-tod.test.js": { grund: BESTAND, tests: [
+    "[U2-ADR-518·Texte] jede Kennung in DE und EN; Pro liest dieselben Texte wie Privat",
+  ] },
+  "tests/geheimnis-felder-nur-ort.test.js": { grund: BESTAND, tests: [
+    "Geheimnis-Felder nennen nur den Ort (textsatz-de-pro-modul.json / textsatz-en-pro-modul.json)",
+    "Seed-Phrase: das ⓘ sagt „nie die Wörter selbst“ (Befund 01.11.2026)",
+  ] },
+  "tests/geweckte-bereiche-beschriftet-alle.test.js": { grund: BESTAND, tests: [
+    "[Geweckt·alle·Rot-Beweis] mit Beschriftung nur über die Anzeige fällt pro-de durch",
+  ] },
+  "tests/lese-app-module-ohne-wahl.test.js": { grund: BESTAND, tests: [
+    "[Ohne-Wahl·Gegenprobe·ab Werk] Module, die nach Inhalt ab Werk sind, wirken weiter und stehen nicht in der Zeile",
+  ] },
+  "tests/merkzeichen-rf-ermaessigung.test.js": { grund: BESTAND, tests: [
+    "RF heißt Ermäßigung, nicht Befreiung (textsatz-de-pro-modul.json)",
+    "RF heißt Ermäßigung, nicht Befreiung (textsatz-en-pro-modul.json)",
+  ] },
+  "tests/mit-modul/dialog-ohne-inhalt-browser.test.js": { grund: BESTAND, tests: [
+    "[Dialog·ohne Inhalt·Browser] in keinem der vier Produkte öffnet ein sichtbarer Link einen Dialog ohne Inhalt",
+  ] },
+  "tests/passwort-zwei-schritte.test.js": { grund: BESTAND, tests: [
+    "[S2·kein Zurücksetzen] wo das Passwort entsteht, sagt der Satz in allen vier Textsätzen, dass niemand es für Sie zurückholt",
+  ] },
+  "tests/sub-depot-verlauf-sichtbar.test.js": { grund: BESTAND, tests: [
+    "[Sub·Verlauf] pro-de: die Karte trägt den Verlauf, die neuesten zuerst, mit Datum und handelnder Person",
+    "[Sub·Verlauf·archiviert] pro-de: auch die Karte eines abgegebenen Sub-Depots trägt den Verlauf, mit Empfänger",
+    "[Sub·Verlauf·unbekannt] pro-de: ein unbekannter Vorgang zeigt einen neutralen Text, nie seine Kennung",
+    "[Herausgegeben·aus Sub-Depots] pro-de: nur die zwei hinausgehenden Vorgänge, nur lesend, ohne Eintrag im Protokoll",
+  ] },
+  "tests/sub-depot-wortliste.test.js": { grund: BESTAND, tests: [
+    "[Sub-Depot·Wortliste] kein Text in Privat oder Pro sagt noch „einhängen“ oder „versiegeln“ (EN „mount“, „seal“)",
+  ] },
+  "tests/subkontext-anrede.test.js": { grund: BESTAND, tests: [
+    "[Sub-Anrede·Module] keine Einführung spricht im Sub-Kontext an, DE, EN, Pro DE und Pro EN",
+  ] },
+  "tests/pv-baustein-unter-der-frage.test.js": { grund: BESTAND, tests: [
+    "[PV·Baustein] keine Frage des Assistenten trägt die Ziffer im Text, in keiner Sprache und keinem Produkt",
   ] },
 };
 

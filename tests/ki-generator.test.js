@@ -130,7 +130,7 @@ test('Testament-Anlage: HTML trägt Kopf, Herkunftsanzeige und § 2247-Formhinwe
   V.setData(mitKi({ basicDecision: 'erlaubnis' }));
   const html = V.kiDokumentHTML();
   assert.match(html, /<h1>Verfügung über die KI-gestützte Nachbildung meiner Person — Ergänzung zu meinem Testament<\/h1>/);
-  assert.match(html, /Forschungssynthese \(Edilife\/Cambridge\/Zürich\), keine amtliche Vorlage/);
+  assert.match(html, /Zusammenfassung aus Forschungsarbeiten \(Edilife, Cambridge, Zürich\), keine amtliche Vorlage/);
   assert.match(html, /nie eine wirksame Verfügung/, 'der neue Formhinweis: Entwurf-Charakter bleibt genannt, ohne Paragraph');
   assert.match(html, /forschungsgestützte Formulierungshilfen, kein amtlicher Standard/);
   assert.doesNotMatch(html, /2247/, 'der Paragraph ist bewusst raus, an allen drei Stellen (Herkunft, Formhinweis, Fußtext)');

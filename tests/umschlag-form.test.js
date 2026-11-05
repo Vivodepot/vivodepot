@@ -105,7 +105,9 @@ test('[Klasse-A] Umschlag-Form: Sub-Depot-Umschlag (dieselbe Form wie jedes Depo
   const eintrag = await V.subDepotAnlegen(
     { bezeichnung: 'B', inhaberin: 'I', verwaltungsTyp: 'verwaltet' }, 'sub-pw');
   pruefeEinheitenForm(eintrag.umschlag);
-  assert.equal(Object.keys(eintrag.umschlag).sort().join(','), ANKER,
-    'Sub-Umschlag trägt genau die Felder des Anker-Umschlags');
+  // S8 (30.10.2026): der einzige Unterschied ist das gebundene Kennzeichen art (außerhalb der Basismenge, über fremdHash gebunden).
+  assert.equal(eintrag.umschlag.art, 'sub', 'das Kennzeichen des Teil-Depots');
+  assert.equal(Object.keys(eintrag.umschlag).filter((k) => k !== 'art').sort().join(','), ANKER,
+    'Sub-Umschlag trägt sonst genau die Felder des Anker-Umschlags');
   assert.equal('notfallCache' in eintrag.umschlag, false, 'kein Notfall-Cache — wie beim Anker');
 });

@@ -1,0 +1,2 @@
+# Beispiel einer Vorrang-Datei (erfunden). Spalten (Tab): seit	rolle	ziel	kopf	stand
+01.01. 00:00	Beispielrolle	ein offener Vorrang ohne Kopf	offen (noch im Bau)	nächster Zug

@@ -38,7 +38,9 @@
      · ECHT — `modul`, `vorlage`, `anfrage`: das `ergebnis` der Zeile kommt aus
        dem Einleser des Kerns selbst (`modulEinlassen`, `importAnwenden`,
        `anfragePruefen`), gerufen mit einer erfundenen Eingabe. Nur diese drei
-       sind in die Oberfläche verdrahtet.
+       sind in die Oberfläche verdrahtet. Dazu seit 04.11.2026 `interner-stand` und
+       `wiederherstellungs-code`: ihr Weg wirft, aber der Wurf trägt den Grund als
+       Kennung (`e.code`, `e.whc`); die Zeile liest sie aus dem Wurf des Kerns.
      · `OHNE_ERGEBNISOBJEKT` — Wege, die heute gar kein Ergebnis mit Grund
        zurückgeben (Wurf mit Freitext, reine Feldliste, leerer `catch`). Für sie
        gibt es KEINE erfundene Deckung; die Liste nennt Fundstelle und Lücke.
@@ -70,7 +72,11 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
+const { createIdbMock } = require('./idb-mock.js');
 
 const PW = 'zz-probe-Anzeige-Modell-Passwort-7';
 
@@ -134,6 +140,31 @@ async function vorlageAnwenden(V, plaene) {
   for (const p of plaene) r = V.importAnwenden(p, {});
   return r;   // das Ergebnis des LETZTEN Plans
 }
+/* Zwei Wege werfen statt zurückzugeben, und ihr Wurf trägt den Grund als Kennung: der interne Stand (`e.code`, A7) und
+   das Öffnen mit dem Wiederherstellungs-Code (`e.whc`). Die echte Zeile ruft den Kern und liest die Kennung aus dem Wurf.
+   Ein Wurf ohne Kennung ergibt KEIN Ergebnisobjekt; dann fällt die Probe „die echten Zeilen tragen …“. */
+async function wurfMitKennung(fn, feld) {
+  try { await fn(); } catch (e) {
+    const k = e && e[feld];
+    return typeof k === 'string' && k ? { ok: false, grund: k, verworfene: [] } : null;
+  }
+  return null;
+}
+const HOSTED = Object.freeze({ protocol: 'https:', href: 'https://vivodepot.example/app' });
+async function internerStandOeffnen(cipherBlob, kernOpts) {
+  const { V } = ladeKern(Object.assign({ indexedDB: createIdbMock(), location: HOSTED }, kernOpts || {}));
+  await V.VdStore.setzen({ id: 'zz-probe-stand', gespeichert_am: '2026-01-01T00:00:00.000Z', cipherBlob });
+  return wurfMitKennung(() => V.depotAusIdbLaden(PW), 'code');
+}
+async function codeOeffnen(V, aendern) {
+  await V.depotAnlegen(PW);
+  const code = V.whcCodeErzeugen();
+  await V.whcHuelleWickeln(PW, code.slice(0, V.WHC_STELLEN));
+  const datei = JSON.parse(JSON.stringify(await V.depotSerialisieren()));
+  const { umschlag, eingabe } = aendern(V, datei, V.whcCodeGruppiert(code));
+  return wurfMitKennung(() => ladeKern().V.depotMitCodeLaden(umschlag, eingabe, PW + '-neu'), 'whc');
+}
+
 const VORLAGE_KOPF = Object.freeze({ wortlautQuelle: { behoerde: 'Musteramt', titel: 'ZZ-Probe Bogen', lizenz: 'frei' },
   vorlageId: 'zz-probe-bogen', anbieterId: 'example.org/musteramt', feldDefinitionen: [] });
 
@@ -241,6 +272,45 @@ const FAELLE = [
     ergebnis: { angenommen: false, grund: 'vorlage-zu-neu', verworfene: [] },
     erwartet: { angenommen: false, verworfen: [], abgewiesen: 'vorlage-zu-neu', zuNeu: true } },
 
+  /* ── interner-stand · ECHT (depotAusIdbLaden, Wurf mit Kennung e.code) ── */
+  { art: 'interner-stand', form: 'echt', name: 'abgewiesen: Stand einer anderen Krypto-Fassung',
+    ergebnis: () => internerStandOeffnen(JSON.stringify({ kryptoVersion: 2, depotUUID: 'zz-probe', pbkdf2: { salt: 'AA' }, depotSalt: 'BB', iv: 'CC', ct: 'DD' })),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'krypto-fassung', zuNeu: false } },
+  { art: 'interner-stand', form: 'echt', name: 'abgewiesen: beschädigter Stand',
+    ergebnis: () => internerStandOeffnen('{ zz-probe kein Umschlag'),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'datei-defekt', zuNeu: false } },
+
+  /* ── wiederherstellungs-code · ECHT (depotMitCodeLaden, Wurf mit Kennung e.whc) ── */
+  { art: 'wiederherstellungs-code', form: 'echt', name: 'abgewiesen: die Datei trägt keine Hülle',
+    ergebnis: (V) => codeOeffnen(V, (W, d, c) => { delete d[W.WHC_FELD]; return { umschlag: d, eingabe: c }; }),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'keine-huelle', zuNeu: false } },
+  { art: 'wiederherstellungs-code', form: 'echt', name: 'abgewiesen: der Code ist falsch abgeschrieben',
+    ergebnis: (V) => codeOeffnen(V, (W, d, c) => ({ umschlag: d, eingabe: c.slice(0, -1) + (c.endsWith('0') ? '1' : '0') })),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'abgeschrieben', zuNeu: false } },
+  { art: 'wiederherstellungs-code', form: 'echt', name: 'abgewiesen: ein anderer gültiger Code',
+    ergebnis: (V) => codeOeffnen(V, (W, d) => ({ umschlag: d, eingabe: W.whcCodeGruppiert(W.whcCodeErzeugen()) })),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'passt-nicht', zuNeu: false } },
+
+  /* ── kdl · ECHT (kdlEinlesen) ─────────────────────────────────────── */
+  { art: 'kdl', form: 'echt', name: 'abgewiesen: CodeSystem ohne Fassung',
+    ergebnis: (V) => { V.setData(V.leeresDepot());
+      return V.kdlEinlesen('zz-probe-kdl.json', new TextEncoder().encode(JSON.stringify({ resourceType: 'CodeSystem', url: V.KDL_SYSTEM }))); },
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'kdl-ohne-version', zuNeu: false } },
+
+  /* ── vereinbarung-antwort · ECHT (vereinbarungAntwortAnwenden) ────────── */
+  { art: 'vereinbarung-antwort', form: 'echt', name: 'abgewiesen: keine Antwort im Umschlag',
+    ergebnis: async (V) => { await V.depotAnlegen(PW); return V.vereinbarungAntwortAnwenden({ antwort: { art: 'zz-probe-keine-antwort' } }); },
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'keine-antwort', zuNeu: false } },
+
+  /* ── vor-depot-konfiguration · ECHT (vorDepotKonfigurationAnwenden) ──────
+     Das Ergebnis steht in der Modulvariable der verworfenen Vorlagen; die Oberfläche baut daraus
+     { ok: true, verworfene } und gibt es an das Modell. Die Zeile baut es genauso. Der Name der
+     verworfenen Vorlage ist ein Text des Textsatzes, darum zählt hier nur der Grund (was: null). */
+  { art: 'vor-depot-konfiguration', form: 'echt', name: 'ein Vorlagen-Zertifikat, das nicht trägt, wird mit Grund verworfen',
+    ergebnis: async (V) => { await V.vorDepotKonfigurationAnwenden(['eyJhbGciOiJFUzI1NiJ9.eyJ6eiI6MX0.c2ln']);
+      return { ok: true, verworfene: V.vorDepotVorlagenVerworfen() }; },
+    erwartet: { angenommen: true, verworfen: [{ was: null, grund: 'anker-alg' }], abgewiesen: null, zuNeu: false } },
+
   /* ── Die vierzehn übrigen Arten · NUR ALLGEMEINE FORM ──────────────────
      Für diese Arten hält die Probe das Modell, nicht die Anzeige. Keine dieser
      Zeilen kommt aus einem Einleser. */
@@ -278,7 +348,11 @@ const FAELLE = [
 /* ══ Wege, die heute KEIN Ergebnisobjekt liefern ═════════════════════════
    Für sie gibt es keine echte Zeile und es wird keine erfunden. `teil` ist der
    Teil des Befunds (A4 bis A8); ohne `teil` ist der Weg nur als „Wurf mit
-   Freitext“ gelesen. Fundstellen sind Funktionsnamen im Kern. */
+   Freitext“ gelesen. Fundstellen sind Funktionsnamen im Kern.
+   BEHOBEN UND HERAUSGENOMMEN (04.11.2026): A7 an depot-datei und interner-stand — der Wurf trägt seine Kennung
+   (krypto-fassung, datei-defekt), und oeffnenAbweisungText nennt den Grund statt eines falschen Passworts; der
+   Wiederherstellungs-Code wirft mit e.whc. interner-stand und wiederherstellungs-code haben dafür echte Zeilen;
+   depot-datei bleibt wegen A6 hier, sein A7 hält tests/oeffnen-abweisung-nennt-grund.test.js. */
 const OHNE_ERGEBNISOBJEKT = Object.freeze([
   { art: 'voll-depot-json', teil: 'A4', fundstelle: '_vollDepotParsen, _vollDepotFelder',
     fehlt: 'kein Tor für eine neuere schemaVersion; nicht gelesene Bereiche, Felder und Schlüssel werden nicht gezählt' },
@@ -288,33 +362,27 @@ const OHNE_ERGEBNISOBJEKT = Object.freeze([
     fehlt: 'Rückgabe ist eine reine Feldliste; nicht gelesene Ressourcen werden nicht gezählt' },
   { art: 'depot-datei', teil: 'A6', fundstelle: 'depotLaden (Aufruf von depotNormalisieren)',
     fehlt: 'ein Wurf der Migration endet in console.error, das Laden läuft weiter' },
-  { art: 'depot-datei', teil: 'A7', fundstelle: 'cryptoOverlayOeffnen, depotLaden',
-    fehlt: 'eine unbekannte kryptoVersion ist ein Wurf mit Freitext; der Aufrufer zeigt die Meldung für ein falsches Passwort' },
-  { art: 'interner-stand', teil: 'A7', fundstelle: 'depotAusIdbLaden, cryptoOverlayOeffnen',
-    fehlt: 'beschädigter Stand oder unbekannte kryptoVersion ist ein Wurf mit Freitext; gezeigt wird die Meldung für ein falsches Passwort' },
   { art: 'datei-oeffnen-mit', teil: 'A8', fundstelle: 'drop-Listener des Öffnen-Schirms und launchQueue-Verbraucher (beide rufen renderCryptoOverlay)',
     fehlt: 'eine Datei mit anderer Endung wird ohne Rückgabe und ohne Meldung übergangen; der catch ist leer' },
-  { art: 'wiederherstellungs-code', teil: null, fundstelle: 'depotMitCodeLaden',
-    fehlt: 'Wurf statt Ergebnisobjekt; nur einzelne Fehler tragen eine Kennung' },
   { art: 'sub-depot-einhaengen', teil: null, fundstelle: 'subDepotEinhaengen, pruefeBlackboxUmschlag',
     fehlt: 'Wurf mit Freitext statt Ergebnisobjekt' },
+  { art: 'sub-depot-selbst', teil: 'A6', fundstelle: 'subKontextBetreten (Aufruf von depotNormalisieren)',
+    fehlt: 'ein Wurf der Migration endet in console.error, das Sub wird mit dem halb gehobenen Stand betreten' },
+  { art: 'autoritatives-dokument', teil: null, fundstelle: 'importAutoritativDokument',
+    fehlt: 'liefert null oder die Kennung des Mappe-Eintrags, kein Ergebnis mit Grund; das Modell liest einen Erfolg als abgewiesen' },
+  { art: 'b16-migration', teil: null, fundstelle: "importPlan('vivodepot-beta'), importAnwenden",
+    fehlt: 'Plan und Anwende-Ergebnis tragen weder ok noch grund; das Modell liest einen Erfolg als abgewiesen, eine unlesbare Datei ohne eigenen Grund' },
 ]);
 
 /* Arten, für die nur die allgemeine Form in der Tabelle steht, obwohl nichts dagegen
    spricht, ihr Ergebnis später echt zu erzeugen. */
 const NUR_ALLGEMEINE_FORM = Object.freeze([
-  { art: 'sub-depot-selbst', vermerk: 'Ergebnisform des Wegs nicht gelesen' },
-  { art: 'autoritatives-dokument', vermerk: 'importAutoritativDokument liefert null oder den Eintrag: ganzes Dokument oder nichts' },
-  { art: 'b16-migration', vermerk: 'läuft über Plan und importAnwenden; hier nicht echt erzeugt' },
-  { art: 'vor-depot-konfiguration', vermerk: 'kein Bürgerweg; Berichte heute nur für Proben lesbar' },
-  { art: 'vereinbarung-antwort', vermerk: 'vereinbarungAntwortAnwenden liefert { ergebnis, grund }; hier nicht echt erzeugt' },
-  { art: 'kdl', vermerk: 'kdlEinlesen liefert { ok, grund }; hier nicht echt erzeugt' },
   { art: 'mappe-datei', vermerk: 'mappeDateiAufnehmen wirft oder liefert den Eintrag' },
 ]);
 
 /* Arten ohne Zeile „zu neu“, je mit dem Grund aus dem Kern. */
 const KEIN_ZU_NEU = Object.freeze({
-  'kdl': 'kdlPruefen verlangt nur, DASS eine Fassung genannt ist (sonst kdl-ohne-version); sie wird mit keiner bekannten Fassung verglichen, jede wird angenommen',
+  'kdl': 'kdlPruefen vergleicht die Fassung mit KDL_FASSUNGEN (sonst kdl-fassung-unbekannt): eine neuere Fassung ist nicht „zu neu“, sondern nicht zugelassen, bis ihre zwei Codes gemessen sind',
   'mappe-datei': 'mappeDateiAufnehmen nimmt Bild oder PDF als Ganzes auf und liest keine Fassung; geprüft wird nur die Größe',
 });
 
@@ -526,6 +594,36 @@ test('[Import-Anzeige·Deckung·Rot-Beweis] eine Art, die in keiner der drei Men
   const doppelt = NUR_ALLGEMEINE_FORM.concat([{ art: 'modul', vermerk: 'gepflanzt' }]);
   assert.deepEqual(deckungLuecken(ARTEN_LAUT_VERTRAG, FAELLE, OHNE_ERGEBNISOBJEKT, doppelt).inMehreren, ['modul'],
     'und eine echte Art darf nicht zugleich als nur allgemeine Form geführt werden');
+});
+
+/* A7 · Die Kennungen des internen Stands heißen nicht „falsches Passwort“ (die Zeile in der Oberfläche setzt
+   oeffnenAbweisungText). Depot-Datei: tests/oeffnen-abweisung-nennt-grund.test.js. */
+const KERN_PFAD = path.join(__dirname, '..', 'vivodepot.html');
+const a7Kennungen = () => FAELLE.filter((z) => z.art === 'interner-stand' && z.form === 'echt').map((z) => z.erwartet.abgewiesen);
+const kennungenMitPasswortSatz = (V, kennungen) => kennungen.filter((code) => V.oeffnenAbweisungText({ code }) === V.STRINGS.entsperrPasswortFalsch);
+
+test('[Import-Anzeige·A7] die Kennungen der echten Zeilen von interner-stand führen zu einem eigenen Satz', () => {
+  const V = kern();
+  assert.deepEqual(a7Kennungen(), ['krypto-fassung', 'datei-defekt']);
+  assert.deepEqual(kennungenMitPasswortSatz(V, a7Kennungen()), []);
+});
+
+test('[Import-Anzeige·A7·Rot-Beweis] eine auf den Passwort-Satz umgelenkte Kennung fällt auf; ein Wurf ohne Kennung ergibt kein Ergebnis', async (t) => {
+  const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
+  const umlenken = "if (code === 'krypto-fassung') return vorDepotText('dateiFassungUnbekannt');";
+  const kennung = "beschädigt (kein gültiger Umschlag).'), { code: 'datei-defekt' })";
+  assert.ok(quelle.includes(umlenken) && quelle.includes(kennung), 'die Stellen stehen im Kern');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'import-anzeige-a7-'));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  const umgelenkt = path.join(dir, 'umgelenkt.html');
+  fs.writeFileSync(umgelenkt, quelle.replace(umlenken, "if (code === 'krypto-fassung') return vorDepotText('entsperrPasswortFalsch');"));
+  assert.deepEqual(kennungenMitPasswortSatz(ladeKern({ htmlPfad: umgelenkt, backen: true }).V, a7Kennungen()), ['krypto-fassung']);
+  const ohne = path.join(dir, 'ohne-kennung.html');
+  fs.writeFileSync(ohne, quelle.replace(kennung, "beschädigt (kein gültiger Umschlag).'), { zzProbe: 'datei-defekt' })"));
+  assert.equal(await internerStandOeffnen('{ zz-probe kein Umschlag', { htmlPfad: ohne, backen: true }), null);
+  assert.deepEqual(await internerStandOeffnen('{ zz-probe kein Umschlag'), { ok: false, grund: 'datei-defekt', verworfene: [] }, 'Gegenprobe am echten Kern');
+  assert.equal(await wurfMitKennung(() => { throw new Error('whc:passt-nicht'); }, 'whc'), null, 'ein Wurf nur mit Freitext');
+  assert.equal(await wurfMitKennung(() => 'geöffnet', 'whc'), null, 'ein Weg, der aufgeht, ist keine Abweisung');
 });
 
 /* 1 · Je Zeile ergibt das Modell das Erwartete. */

@@ -4,12 +4,15 @@
    ───────────────────────────────────────────────────────────────────────────
    Geprüft:
      1. DAS TOR: ohne eingelesene KDL (GPL-3.0-or-later, die Person lädt sie selbst) entsteht nie eine Datei — weder im Builder
-        noch über den Ausgabeweg. Tor mit eingelesener KDL und Rot-Beweis mit Freigabe: tests/kdl-selbst-laden.test.js.
+        noch über den Ausgabeweg. Tor mit eingelesener KDL und Freigabe, Rot-Beweis ohne Freigabe: tests/kdl-selbst-laden.test.js.
      2. Interne Probe mit den Texten zur Laufzeit (opt.anzeigetexte): zwei DocumentReferences nach ISiKDokumentenMetadaten.
      3. DIE URSCHRIFT, drei Fälle (entschieden am 01.10.2026): eine von Vivodepot erzeugte Datei ist nie DR 1 — am
         Mappe-Kennzeichen UND am Merkmal in der Datei („vivodepot-kern/“, auch wieder eingelegt); eine fremde Datei erst nach
         Bestätigung; ein Scan mit Bestätigung wird DR 1, unverändert.
      4. Gates: ohne KVNR und ohne Freigabe der sensiblen Felder keine Datei, der Grund steht da.
+   GERÜST-TEST für eine Probe: [ISiK·Texte] liest den rohen Kern als TEXT und setzt die Freigabe-Konstante in einer Kopie auf
+   null, um den Grund kdl-freigabe-ausstehend zu erzeugen — die Freigabe ist ihr Gegenstand, keine Bereichsfrage; geladen wird
+   die Kopie über ladeKern mit backen.
    Der Kern kennt von der KDL genau die zwei Codes und die System-URL (KDL_GEBRAUCHT, KDL_SYSTEM), keinen Text.
    Die amtlichen Anzeigetexte stehen hier NICHT — die Probe setzt Platzhalter ein; gegen den Validator mit den echten Texten
    prüfen tools/isik-validieren.js und tests/konformitaet/externe-validatoren.mjs, die sie zur Laufzeit aus dem lokalen Paket-Cache lesen.
@@ -180,18 +183,36 @@ test('[ISiK·Texte] jeder Grund ohne Datei wird wirklich erzeugt, und der Dialog
   d.V.isikDokumente(undefined, { sensibel: true, anzeigetexte: platzhalter(d.V) }).gruende.forEach((g) => erzeugt.add(g));   // urschrift-fehlt
   const c = await depot(undefined, { datei: { inhalt: pdfBytes('x'), erzeugtVonVivodepot: true } });
   c.V.isikDokumente(undefined, { sensibel: true, anzeigetexte: platzhalter(c.V) }).gruende.forEach((g) => erzeugt.add(g));   // urschrift-ist-entwurf
-  await c.V.kdlEinlesen('kdl.json', new Uint8Array(Buffer.from(JSON.stringify({ resourceType: 'CodeSystem', url: c.V.KDL_SYSTEM, version: '0-erfunden',
-    concept: Object.values(c.V.KDL_GEBRAUCHT).map((code) => ({ code, display: 'Erfundene Klasse ' + code })) }))));
-  c.V.isikErlaubnisFehlt().forEach((g) => erzeugt.add(g));                                   // kdl-freigabe-ausstehend
+  const kdlDatei = (V) => new Uint8Array(Buffer.from(JSON.stringify({ resourceType: 'CodeSystem', url: V.KDL_SYSTEM, version: V.KDL_FASSUNGEN[0],
+    concept: Object.values(V.KDL_GEBRAUCHT).map((code) => ({ code, display: 'Erfundene Klasse ' + code })) })));
+  await c.V.kdlEinlesen('kdl.json', kdlDatei(c.V));
   c.V.ipsBegriffeAnmelden({ isik: { erlaubnis: {} } });                                      // ohne IHE-D-Erlaubnis
   c.V.isikErlaubnisFehlt().forEach((g) => erzeugt.add(g));                                   // erlaubnis-ihed
+  // kdl-freigabe-ausstehend: seit der Freigabe (U2-ADR-468, Nachtrag 28.10.2026) nur an einer Kern-Kopie ohne sie.
+  const fs = require('node:fs');
+  const os = require('node:os');
+  const path = require('node:path');
+  const html = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-isik-'));
+  const kopie = path.join(ordner, 'vivodepot.html');
+  fs.writeFileSync(kopie, html.replace(/^const KDL_FREIGABE = .*;$/m, 'const KDL_FREIGABE = null;'));
+  const vorher = process.env.KERN_HTML_PATH;
+  process.env.KERN_HTML_PATH = kopie;
+  try {
+    delete require.cache[require.resolve('./load-kern.js')];
+    const { V: O } = require('./load-kern.js').ladeKern({ backen: true });
+    await O.depotAnlegen('isik-probe-2026!');
+    await O.kdlEinlesen('kdl.json', kdlDatei(O));
+    O.isikErlaubnisFehlt().forEach((g) => erzeugt.add(g));                                   // kdl-freigabe-ausstehend
+  } finally {
+    if (vorher === undefined) delete process.env.KERN_HTML_PATH; else process.env.KERN_HTML_PATH = vorher;
+    delete require.cache[require.resolve('./load-kern.js')];
+    fs.rmSync(ordner, { recursive: true, force: true });
+  }
   const erwartet = ['erlaubnis-ihed', 'kdl-freigabe-ausstehend', 'kdl-nicht-geladen', 'kvnr-fehlt', 'sensibel-nicht-freigegeben',
     'urschrift-fehlt', 'urschrift-ist-entwurf', 'urschrift-unbestaetigt'];
   assert.ok(erzeugt.size > 0, 'Nicht-leer-Wache: die Gründe entstehen');
   assert.deepEqual([...erzeugt].sort(), erwartet);
-  const fs = require('node:fs');
-  const path = require('node:path');
-  const html = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
   assert.ok(html.includes("_eigenerWert(STRINGS, 'isikGrund_' + g.replace(/-/g, '_'))"), 'der Dialog liest isikGrund_<grund>');
   for (const g of erwartet) assert.ok(a.V.STRINGS['isikGrund_' + g.replace(/-/g, '_')], 'Text zu ' + g);
   const katalog = fs.readFileSync(require('../tools/lib/vorlage-aufloesen.js').vorlageAufloesen(path.join(__dirname, '..'), path.join(__dirname, '..', 'tools', 'bereiche-nativ-katalog-modul.json')), 'utf8')   // zuschnitt-privat: öffentlich liest die Probe das erfundene Gegenstück;

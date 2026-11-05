@@ -30,7 +30,6 @@ html:not(.dark-mode):not(.high-contrast) .sidebar { background: #e2eada; -webkit
 html:not(.dark-mode):not(.high-contrast) .sidebar { background: #e2eada; }
 }
 .nav-item { border-radius: var(--radius-knopf); }
-html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv { background: rgba(79,101,57,.10); }
 html:not(.dark-mode):not(.high-contrast) .nav-item:hover { background: rgba(255,255,255,.55); }
 .nav-gruppe > summary { font-weight: var(--fw-semibold); }
 
@@ -38,7 +37,14 @@ html:not(.dark-mode):not(.high-contrast) .nav-item:hover { background: rgba(255,
 .content { padding-left: var(--space-7); }
 .bereich-kopf h1, .bereich-kopf h2 { color: var(--ink); font-size: 2rem; letter-spacing: -0.025em; }
 .sektion, .sektion--eingabe { background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; box-shadow: none; padding: var(--space-4) 0 0; }
-.sektion-titel { margin: 0 0 var(--space-4); color: var(--ink3); font-size: 0.72rem; font-weight: var(--fw-semibold); letter-spacing: 0.08em; }
+/* Rangfolge (UX-ABSCHNITT-KLEINER-ALS-LABEL, Zielbild 30.10.2026 Abschnitt 3 „Schrift“): Abschnitt > Gruppe > Label, jede Stufe größer
+ und kräftiger; Abschnitt in normaler Schreibung, ohne Sperrung. Die Rollen-Tokens bleiben der Schreibweg (U2-ADR-351): ein Modul, das
+ sie zur Laufzeit setzt, gewinnt weiter über diese Vorgabe. */
+:root { --fs-role-abschnitt: 1.25rem; --fs-role-gruppe: 1.0625rem; --fs-role-label: 0.875rem; --fs-role-wert: 0.9375rem; }
+/* Mobil und auf Touch-Geräten: Label 15, Wert 16 px (Zielbild Abschnitt 3; unter 16 px vergrößert Safari auf dem iPhone beim Antippen),
+ Felder 48 px hoch. */
+@media (max-width: 767px), (pointer: coarse) { :root { --fs-role-label: 0.9375rem; --fs-role-wert: 1rem; --feld-hoehe: 48px; } }
+.sektion-titel { margin: 0 0 var(--space-4); color: var(--ink); font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); letter-spacing: normal; text-transform: none; }
 .feldgruppen-karte, .situation-block, .anfragen-ort {
 background: transparent; border: 0; border-radius: 0; box-shadow: none; padding-left: 0; margin-bottom: 0; overflow: visible;
 border-top: 1px solid var(--line);
@@ -47,7 +53,11 @@ border-top: 1px solid var(--line);
 .feldgruppen-karte > summary, .situation-block > summary, .anfragen-ort > summary { padding-left: 0; padding-right: 0; }
 .feldgruppen-karte-koerper { padding-left: 0; padding-right: 0; border-top: 0; }
 .feld-zeile { border-top-color: var(--line); }
-.feld-label { color: var(--ink2); font-weight: var(--fw-medium); }
+.feld-label { color: var(--ink2); font-weight: 500; }   /* Label 500 in --ink2: leiser als der Wert (Zielbild Abschnitt 3) */
+/* Feldhinweise in der Rolle Hilfe (Zielbild Abschnitt 3; Nachtrag Schritt 1, 30.10.2026): 13/19, mobil 14/20, normal, in --ink3.
+   Sie erben sonst von .feld-wert Stärke und Tinte und stehen lauter als das Label. Probe: die Browser-Probe zu den Feldhinweisen. */
+.feld-hint { color: var(--ink3); font-size: 0.8125rem; line-height: 1.1875rem; font-weight: var(--fw-regular); }
+@media (max-width: 767px), (pointer: coarse) { .feld-hint { font-size: 0.875rem; line-height: 1.25rem; } }
 .feld-zeile input, .feld-zeile select { background-color: var(--feld-flaeche); }
 
 /* Im Sub-Depot färbt die Farbe nur Linie und Punkt, nicht den Text (Zielbild F2): die Rollen-Regel „Text = --vm-akzent-stark"
@@ -77,8 +87,7 @@ border: 1px solid var(--vm-linie); border-left: 8px solid var(--vm-linie);
 /* Salbei mit Glas (Vorschau 05.10.2026, Attrappe): Salbei bleibt Markenfarbe wie vivodepot.de, Kopf und Leiste als Glas, nachts neutral. */
 html.dark-mode #app:not(.modus-vollmacht) #sidebar.sidebar { border-left-color: #d4d7d1; }
 html.dark-mode #app:not(.modus-vollmacht) .app-fuss { border-top-color: #d4d7d1; }
-html.dark-mode #app #sidebar .nav-item.aktiv { background: #d4d7d1; color: #151719; }
-html.dark-mode #app #sidebar .nav-item.aktiv .ico { color: #151719; }
+html.dark-mode:not(.high-contrast) #app #sidebar .nav-item.aktiv { background: color-mix(in srgb, var(--salbei-nacht) 18%, transparent); border-left-color: transparent; color: var(--ink); }
 html:not(.dark-mode):not(.high-contrast) body, html:not(.dark-mode):not(.high-contrast) #app { background: radial-gradient(1200px 500px at 15% 0%, #DCE6D0 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #E4E9F0 0%, transparent 55%), var(--cream); }
 html.dark-mode body, html.dark-mode #app { background: radial-gradient(1200px 700px at 8% 0%, #262b27 0%, transparent 60%), radial-gradient(1000px 800px at 95% 100%, #2a2622 0%, transparent 65%), var(--cream); }
 html:not(.high-contrast) .sidebar, html:not(.high-contrast) .main, html:not(.high-contrast) .content { background-color: transparent; }
@@ -133,7 +142,7 @@ html.dark-mode:not(.high-contrast) #toast-host .toast.ok { color: var(--cream); 
  Abschnitten und Zeilen. Im Hochkontrast bleibt alles wie in der Grundlage: dort tragen Rahmen. Die Sub-Depot-Farbe bleibt
  (U2-ADR-236), sie zeigt sich als Tönung des Hinweises und als Unterkante der Kopfzeile, nicht als Balken. */
 html:not(.high-contrast) .sektion, html:not(.high-contrast) .sektion--eingabe { border-top: 0; padding-top: 0; margin-top: var(--space-7); }
-html:not(.high-contrast) .sektion-titel { color: var(--ink2); }
+html:not(.high-contrast) .sektion-titel { color: var(--ink); }
 html:not(.high-contrast) .feldgruppen-karte, html:not(.high-contrast) .situation-block, html:not(.high-contrast) .anfragen-ort { border-top: 0; margin-top: var(--space-4); }
 html:not(.high-contrast) .feld-zeile { border-top: 0; }
 html:not(.high-contrast) .toc { border: 0; background: transparent; padding-left: 0; padding-right: 0; }
@@ -144,6 +153,10 @@ border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) 
 }
 /* Nachts ist das hinterlegte Feld dunkel; die Grundlage hält Felder nachts hell mit Papier-Tinte. Darum trägt das Feld hier die Nacht-Tinte (vorher 1,12 bis 1,57:1, Ebenen-Finder). */
 html.dark-mode:not(.high-contrast) :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.07); color: var(--ink); }
+/* Das Entsperrfeld steht weder im Inhalt noch in einem Dialog und trug darum einen Vollrahmen (Befund UX-ENTSPERRFELD-KONTRAST,
+ 30.10.2026). Eigene Zeile statt eines Eintrags im :is() oben, damit die Kennung dort nicht die Spezifität aller Felder hebt. */
+html:not(.high-contrast) #overlay-inhalt :is(input[type="password"], input[type="text"]) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: rgba(79,101,57,.07); }
+html.dark-mode:not(.high-contrast) #overlay-inhalt :is(input[type="password"], input[type="text"]) { background-color: rgba(255,255,255,.07); color: var(--ink); }
 html:not(.high-contrast) .doku-panel { border: 0; background: rgba(79,101,57,.05); }
 html.dark-mode:not(.high-contrast) .doku-panel { background: rgba(255,255,255,.05); }
 html:not(.high-contrast) .pause-erlaubnis { border-top: 0; }
@@ -171,10 +184,10 @@ html.dark-mode:not(.high-contrast) .feld-mehrfach-pill.aktiv { border-color: tra
 html.dark-mode:not(.high-contrast) .content .btn-sek:not(:disabled) { background: rgba(255,255,255,.10); }
 html:not(.high-contrast) .btn-mini { border-color: transparent; background: rgba(79,101,57,.10); color: var(--ink); }
 html.dark-mode:not(.high-contrast) .btn-mini { background: rgba(255,255,255,.10); }
-/* Wo man ist: der aktive Punkt der Seitenleiste als volle Fläche (wie in der Freigabe vom 05.10.). */
-html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv { background: var(--salbei-dunkel); color: var(--white); font-weight: var(--fw-semibold); }
-html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv .ico { color: var(--white); }
-html.dark-mode:not(.high-contrast) .nav-item.aktiv { background: rgba(255,255,255,.16); color: var(--white); font-weight: var(--fw-semibold); }
+/* Wo man ist (Zielbild Nr. 13, Fläche statt Linien, 01.11.2026): eine zarte Salbei-Fläche aus dem Token und kräftigere Schrift,
+   keine Randlinie. Die volle dunkle Fläche vom 05.10. wirkte schwer, die Randlinie vom 31.10. sprengte den Linien-Deckel. */
+html:not(.high-contrast) .nav-item.aktiv { background: var(--salbei-light); border-left-color: transparent; color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
+html.dark-mode:not(.high-contrast) .nav-item.aktiv { background: color-mix(in srgb, var(--salbei-nacht) 18%, transparent); border-left-color: transparent; color: var(--ink); }
 /* Sub-Depot: die ganze Oberfläche im Ton des Depots (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag), ausgenommen die Marke in der
    Kopfzeile; kein Salbei neben der Depot-Farbe, keine Linie (Fläche statt Linien, 07.10.2026). Nur in einem eingehängten Depot (.vm-akzent,
    gesetzt vom Kern beim Betreten), nicht im reinen Vollmacht-Modus mit seinem dunklen Akzent. Die Fläche ist der Pastellton, Knopf und
@@ -196,9 +209,9 @@ html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .app-fus
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content :is(.sektion, .feldgruppen-karte, .karte) { background: color-mix(in srgb, var(--akzent) 18%, #ffffff); }
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .vollmacht-banner { background: var(--akzent); color: var(--ink); }
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.55); }
-html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv,
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content .btn:not(.btn-sek):not(#vm-zurueck):not(:disabled) { background: var(--sd-partner); color: #ffffff; border-color: transparent; }
-html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv .ico { color: #ffffff; }
+/* Im Sub-Depot ist der aktive Eintrag eine helle Fläche auf der getönten Leiste, ohne Salbei neben der Depot-Farbe. */
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv { background: color-mix(in srgb, var(--white) 60%, transparent); border-left-color: transparent; color: var(--ink); }
 /* Die Marke ist ausgenommen: sie behält ihre eigene helle Fläche, damit die Wortmarke lesbar bleibt (auf der getönten Kopfzeile 3,93:1). */
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .topbar .marke { background: rgba(255,255,255,.78); border-radius: var(--radius-pill); }
 /* Hinweistexte, die im eigenen Depot eine Akzent- oder Zweitfarbe tragen, stehen auf der getönten Fläche in der Schriftfarbe (3,86 bzw. 4,0:1). */
@@ -219,9 +232,8 @@ html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht :is(.topbar, .
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .content :is(.sektion, .feldgruppen-karte, .karte) { background: color-mix(in srgb, var(--akzent) 10%, #1b1f1c); }
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner,
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner #vm-zurueck,
-html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv,
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .content .btn:not(.btn-sek):not(#vm-zurueck):not(:disabled) { background: var(--sd-hell); color: #162517; border-color: transparent; }
-html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv .ico { color: #162517; }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv { background: color-mix(in srgb, var(--sd-hell) 18%, transparent); border-left-color: transparent; color: var(--ink); }
 
 /* ── Seitenleiste, Ebenen (07.10.2026, Vorschau freigegeben): „Bereiche“ und „Austausch und Überblick“ sind dieselbe Stufe und die
    stärkste; die Gruppen darunter ruhiger. Gegliedert über Abstand, ohne Linien. ── */
@@ -272,7 +284,9 @@ html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .vor-depot-sprache { po
 html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege > li {
 display: flex; align-items: baseline; gap: 16px; padding: 10px 12px; margin-bottom: 6px; background: rgba(79,101,57,.05); border: 0; border-radius: var(--radius-sm);
 }
-.feld-liste-editor .liste-eintrag-zusammenfassung { flex: 1; color: var(--ink); }
+/* 01.11.2026: Startbreite 16rem statt 0 — am schmalen Bildschirm steht die Zeile (Beschriftung über Wert) über der ganzen
+   Breite und die Knöpfe brechen darunter um; mit 0 teilte sie sich die Reihe mit ihnen und stand wenige Wörter breit. */
+.feld-liste-editor .liste-eintrag-zusammenfassung { flex: 1 1 16rem; color: var(--ink); }
 html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege .btn-mini {
 background: none; border: 0; box-shadow: none; padding: 2px 0; min-height: 24px; color: var(--link); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px;
 }
@@ -326,3 +340,44 @@ html:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .vollmacht-banner 
 html.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { border-color: transparent; background: rgba(0,0,0,.2); }
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { background: rgba(255,255,255,.6); color: #162517; }
 html:not(.high-contrast) .tb-sub-punkt, html:not(.high-contrast) .modus-punkt { border-color: transparent; }
+/* ── Seitenaufbau S4 (Zielbild S3/S4, 30.10.2026; Abnahme v979 Nr. 1–3) ──────────────────────────────────────────────────────────
+   (1) Die Beschriftung steht über dem Feld, eine Spalte von höchstens 600 px; ein Feld ist so breit wie sein Inhalt (Text 22rem,
+       Postleitzahl 9 ch, Hausnummer 10 ch, Jahr 8 ch), Listen und mehrzeilige Felder nehmen die Spalte.
+   (2) Ein Abschnitt steht auf dem Grund (Titel, keine Fläche); jede Gruppe ist eine Karte mit Rundung und zartem Schatten.
+   (3) Ein Kästchen steht links neben seiner Beschriftung, der Hinweis eingerückt darunter.
+   Kein Marken-Token ändert sich; die Maße kommen als eigene Rollen dazu. Proben: die Browser-Probe zum Seitenaufbau. */
+:root { --spalte-formular: 600px; --feld-breite-text: 22rem; --radius-gruppe: 20px; --abstand-gruppe-innen: 24px; --abstand-feld-feld: 20px;
+  --schatten-gruppe: 0 1px 2px rgba(22,37,23,.06), 0 2px 8px rgba(22,37,23,.05); }
+@media (max-width: 767px) { :root { --radius-gruppe: 16px; --abstand-gruppe-innen: 16px; --abstand-feld-feld: 16px; } }
+html:not(.high-contrast) #app .sektion.sektion--eingabe { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; border: 0; border-radius: 0; padding-left: 0; padding-right: 0; }
+html:not(.high-contrast) #app .feldgruppen-karte { background: var(--white); -webkit-backdrop-filter: none; backdrop-filter: none; border: 0; border-radius: var(--radius-gruppe); box-shadow: var(--schatten-gruppe); padding: var(--abstand-gruppe-innen); margin-top: var(--space-5); overflow: visible; }
+html.dark-mode:not(.high-contrast) #app .feldgruppen-karte { background: var(--white); box-shadow: none; }
+@media (prefers-reduced-transparency: reduce) {
+/* Die Gruppenkarten und der Eingabe-Abschnitt tragen kein Glas; derselbe Selektor hier hält es auch für die Probe fest. */
+html:not(.high-contrast) #app .sektion.sektion--eingabe, html:not(.high-contrast) #app .feldgruppen-karte { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+html:not(.high-contrast) #app .feldgruppen-karte > summary { padding: 0; }
+/* Zustand der Gruppe als kleine Pille rechts im Kopf (Abnahme v979 Nr. 2). */
+html:not(.high-contrast) #app .feldgruppen-karte-status { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--flaeche-neutral); color: var(--ink2); font-weight: var(--fw-medium); white-space: nowrap; }
+html:not(.high-contrast) #app .feldgruppen-karte[open] > summary { margin-bottom: var(--space-5); }
+html:not(.high-contrast) #app .feldgruppen-karte-koerper { padding: 0; border-top: 0; }
+/* Paare nur bei Name, Straße + Hausnummer, Postleitzahl + Ort (4.1); schmal steht der Name untereinander, die übrigen Paare bleiben. */
+html:not(.high-contrast) #app .feldgruppen-karte[open] > .feldgruppen-karte-koerper { display: flex; flex-wrap: wrap; column-gap: var(--space-3); row-gap: var(--abstand-feld-feld); max-width: var(--spalte-formular); }
+.feldgruppen-karte-koerper > * { flex: 1 1 100%; min-width: 0; }
+.feldgruppen-karte-koerper > .feld-zeile { grid-template-columns: minmax(0, 1fr); row-gap: 6px; max-width: var(--spalte-formular); padding: 0; align-items: start; }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="givenName"], [data-feld="familyName"])) { flex: 1 1 calc(50% - var(--space-3)); }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="street"], [data-feld="city"])) { flex: 1 1 calc(var(--feld-breite-text) / 2); }   /* Mindestbreite als Basis: ein langer Knopftext der Nachbarzeile quetscht Straße/Ort nicht auf wenige Pixel, sondern bricht um */
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="houseNumber"], [data-feld="postalCode"])) { flex: 0 0 auto; }
+.feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld="givenName"], [data-feld="familyName"], [data-feld="street"], [data-feld="city"]) > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { max-width: none; }
+@media (max-width: 767px) { .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="givenName"], [data-feld="familyName"])) { flex-basis: 100%; } }
+.feldgruppen-karte-koerper > .feld-zeile > .feld-label { padding-top: 0; }
+.feldgruppen-karte-koerper > .feld-zeile > .feld-wert > :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select) { max-width: var(--feld-breite-text); }
+.feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld$="ostalCode"]) > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { width: 9ch; max-width: 9ch; }
+.feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld$="ouseNumber"]) > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { width: 10ch; max-width: 10ch; }
+.feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld^="yearOf"]) > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { width: 8ch; max-width: 8ch; }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > input[type="checkbox"]) { grid-template-columns: 24px minmax(0, 1fr); column-gap: var(--space-3); row-gap: 2px; }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > input[type="checkbox"]) > .feld-wert { grid-column: 1; grid-row: 1; display: flex; align-items: center; min-height: 24px; }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > input[type="checkbox"]) > .feld-label { grid-column: 2; grid-row: 1; color: var(--ink); font-size: var(--fs-role-wert); font-weight: var(--fw-regular); line-height: 24px; }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > input[type="checkbox"]) > :not(.feld-label):not(.feld-wert) { grid-column: 2; }
+/* Das Kästchen selbst 20 px in einem 24-px-Ziel (WCAG 2.5.8), oben bündig mit der ersten Zeile der Beschriftung. */
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > input[type="checkbox"]) > .feld-wert > input[type="checkbox"] { width: 24px; height: 24px; min-height: 0; min-width: 0; margin: 0; }

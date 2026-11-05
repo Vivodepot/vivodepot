@@ -139,3 +139,11 @@ zustand:   geprüft
 pruefung:  tests/passwort-min12.test.js#[PW-12·Fach·Öffnen] ein Fach mit 8-Zeichen-Passwort aus einer früheren Fassung öffnet weiter
 quelle:    invariante
 ```
+
+## Nachtrag 31.10.2026 — die Stärke-Texte
+
+Die Hinweise der Stärke-Anzeige sind kürzer und nennen die Wahl. Deutsch: „Sicherer sind die sechs Wörter oder 16 Zeichen
+mit Zahlen und Sonderzeichen.“ (`pwStaerkeTipp`), „Dieses Passwort ist weit verbreitet.“ (`pwStaerkeBekannt`) und, nur
+wenn ein Umlaut, ß oder € getippt ist, „Umlaute, ß und € besser weglassen.“ (`pwStaerkeUmlaute`). Englisch entsprechend.
+Die Begründung zu den Umlauten steht in der Hilfe „Depot und Passwort“ (U2-ADR-463, Nachtrag 31.10.2026). Die Balken
+nutzen nur die Zustands-Tokens, ohne Gold. Schranken und Bewertung ändern sich nicht.

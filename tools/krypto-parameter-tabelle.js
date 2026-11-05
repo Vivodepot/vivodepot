@@ -60,7 +60,8 @@ function zeilen(kern, lesen) {
   const hkdfHash = eins(kern, /^const HKDF_HASH = '(SHA-\d+)';/m, 'HKDF_HASH')[1];
 
   const saltAnlegen = zahl(rumpf(kern, 'depotAnlegen'), /const pbkdf2Salt = crypto\.getRandomValues\(new Uint8Array\((\d+)\)\)/, 'depotAnlegen pbkdf2Salt');
-  const saltWechsel = zahl(rumpf(kern, 'passwortWechselDurchfuehren'), /aktuelleSalt = crypto\.getRandomValues\(new Uint8Array\((\d+)\)\)/, 'passwortWechselDurchfuehren aktuelleSalt');
+  // S6 (30.10.2026): Anker- und Sub-Wechsel salzen im gemeinsamen Kern.
+  const saltWechsel = zahl(rumpf(kern, '_passwortWechselKern'), /const pbkdf2Salt = crypto\.getRandomValues\(new Uint8Array\((\d+)\)\)/, '_passwortWechselKern pbkdf2Salt');
   const pbkdf2Salt = gleich([saltAnlegen, saltWechsel], 'PBKDF2-Salt');
 
   const depotSalt = zahl(kern, /^const SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES = (\d+);/m, 'SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES');
@@ -68,6 +69,7 @@ function zeilen(kern, lesen) {
   const infoAdresse = eins(kern, /^const HKDF_INFO_ADRESSE_V4_PREFIX = '([^']+)';/m, 'HKDF_INFO_ADRESSE_V4_PREFIX')[1];
   const infoHalter = eins(kern, /^const HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX = '([^']+)';/m, 'HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX')[1];
   const infoAntwort = eins(kern, /^const ANTWORT_SCHLUESSEL_INFO_PRAEFIX = '([^']+)';/m, 'ANTWORT_SCHLUESSEL_INFO_PRAEFIX')[1];
+  const infoVerzeichnis = eins(kern, /^const HKDF_INFO_AUSSENABLAGE_VERZEICHNIS_V1 = '([^']+)';/m, 'HKDF_INFO_AUSSENABLAGE_VERZEICHNIS_V1')[1];
   const depotKey = rumpf(kern, 'deriveDepotKeyV2');
   eins(depotKey, /info: enc\.encode\(HKDF_INFO_DEPOT_V2_PREFIX \+ depotUUID\)/, 'deriveDepotKeyV2 Info');
   eins(depotKey, /\{ name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS \},\s*false,/, 'deriveDepotKeyV2 nicht extrahierbar');
@@ -101,6 +103,7 @@ function zeilen(kern, lesen) {
   const p2c = zahl(kern, /^const ANTWORT_JWE_P2C = (\d+);/m, 'ANTWORT_JWE_P2C');
   const pbesHash = eins(rumpf(kern, '_jwePbes2Schluessel'), /hash: '(SHA-\d+)'/, '_jwePbes2Schluessel')[1];
   eins(rumpf(kern, '_jweCompactDir'), /alg: 'dir', enc: 'A256GCM'/, '_jweCompactDir');
+  eins(rumpf(kern, '_verzeichnisSchluessel'), /name: 'HKDF', hash: 'SHA-256', salt: new Uint8Array\(0\), info \}, basis, 256\)/, '_verzeichnisSchluessel');
   eins(rumpf(kern, 'antwortJwePasswort'), /generateKey\(\{ name: 'AES-GCM', length: 256 \}, true, \['encrypt'\]\)/, 'antwortJwePasswort Inhaltsschlüssel');
 
   const tsd = (n) => n.toLocaleString('de-DE');
@@ -108,7 +111,7 @@ function zeilen(kern, lesen) {
     ['Passwort-Ableitung', 'PBKDF2-HMAC-' + hash + ', ' + tsd(iter) + ' Iterationen, Ergebnis ' + bits + ' Bit; das Ergebnis ist nur Eingangsschlüssel für HKDF',
       c('PBKDF2_ITERATIONS') + ', ' + c('deriveMasterBits'), 'U2-ADR-213'],
     ['PBKDF2-Salt', pbkdf2Salt + ' Byte, zufällig, neu beim Anlegen und bei jedem Passwortwechsel',
-      c('depotAnlegen') + ', ' + c('passwortWechselDurchfuehren'), 'U2-ADR-002'],
+      c('depotAnlegen') + ', ' + c('_passwortWechselKern'), 'U2-ADR-002'],
     ['Depot-Schlüssel', 'HKDF-' + hkdfHash + ', Salt ' + depotSalt + ' Byte je Depot, Info ' + c(infoDepot) + ' + Depot-UUID, AES-GCM ' + bits + ' Bit, nicht extrahierbar',
       c('deriveDepotKeyV2') + ', ' + c('SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES'), 'U2-ADR-002, U2-ADR-016 · externer Review empfohlen'],
     ['Verschlüsselung', 'AES-' + bits + '-GCM, IV ' + iv + ' Byte, je Verschlüsselung neu per ' + c('crypto.getRandomValues') + ', Tag 128 Bit (WebCrypto-Vorgabe)',
@@ -135,6 +138,8 @@ function zeilen(kern, lesen) {
     ['Einmalpasswort (Lese-App)', 'PBKDF2 direkt zu einem AES-Schlüssel, ohne HKDF', c('_angDeriveKey'), 'U2-ADR-062, U2-ADR-153 · Auflage: externer Review'],
     ['Antwort als JWE, Einmalpasswort', 'PBES2-HS512+A256KW, PBKDF2-' + pbesHash + ' mit ' + tsd(p2c) + ' Iterationen', c('_jwePbes2Schluessel'), 'U2-ADR-449 · Auflage: externer Review'],
     ['SMART Health Link', 'JWE ' + c('alg: dir') + ', A256GCM, zufälliger Schlüssel ' + bits / 8 + ' Byte', c('_jweCompactDir'), 'U2-ADR-047 · externer Review empfohlen (von U2-ADR-449 und U2-ADR-457 als Auflage übernommen)'],
+    ['Verzeichnis der Außenablagen', 'JWE ' + c('alg: dir') + ', A256GCM, ' + c('typ') + ' im geschützten Kopf; Schlüssel per HKDF-SHA-256 aus dem Antwort-Seed des Depots, Salt leer, Info ' + c(infoVerzeichnis) + '; nur der Kern hält ihn, die Pod-Brücke nie',
+      c('_verzeichnisSchluessel') + ', ' + c('podVerzeichnisVerschluesseln'), 'U2-ADR-520'],
     ['Nicht extrahierbar', 'geheime Schlüssel werden mit ' + c('extractable: false') + ' abgeleitet oder importiert; benannte Ausnahme: der Inhaltsschlüssel der Antwort als JWE (' + c('antwortJwePasswort') + '), den das Einmalpasswort wickelt. Eine Prüfung der Suite sieht jede weitere Ausnahme', '—', 'U2-ADR-026'],
   ];
 }

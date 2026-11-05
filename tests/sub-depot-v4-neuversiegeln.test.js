@@ -17,7 +17,7 @@ test('[S2] ein als V4 eingehängtes Sub-Depot behält eine Änderung über das N
   quelle.sektorFeldSetzen('health', 'ongoingTreatmentNext', 'vorher');
   const umschlag = await quelle.depotSerialisieren();
   assert.equal(umschlag.kryptoVersion, 4, 'Vorbedingung: das Depot ist V4');
-  const datei = quelle.blackboxDateiAusUmschlag(umschlag);
+  const datei = quelle.depotDateiAusUmschlag(umschlag);
 
   // Eingehängt in das Depot der Tochter, betreten, geändert, verlassen (versiegelt neu).
   const { V } = ladeKern();
@@ -58,7 +58,7 @@ async function mutterMitFach() {
   const { V } = ladeKern();
   await V.depotAnlegen('anker-pw');
   V.akteurSelbstErklaeren('Tochter Reiter');
-  const e = V.subDepotEinhaengen(quelle.blackboxDateiAusUmschlag(umschlag), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
+  const e = V.subDepotEinhaengen(quelle.depotDateiAusUmschlag(umschlag), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
   return { V, e };
 }
 const umschlagVon = (V, e) => V.getData().verwalteteDepots.find((x) => x.depotUUID === e.depotUUID).umschlag;

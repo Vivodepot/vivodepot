@@ -212,12 +212,12 @@ async function subUmschlagMitFeld() {
 
 test('[Sub-Depot-Wege·Export] der Blackbox-Export lässt ein unbekanntes Umschlag-Feld weg — still, ohne Fehler', async () => {
   const { V, ohne, mit } = await subUmschlagMitFeld();
-  const export_ = V.blackboxDateiAusUmschlag(JSON.parse(JSON.stringify(mit)));
-  assert.ok(!('wiederherstellungshuelle' in export_.umschlag));
+  const export_ = V.depotDateiAusUmschlag(JSON.parse(JSON.stringify(mit)));
+  assert.ok(!('wiederherstellungshuelle' in export_));
   // U2-ADR-002 (Entscheidung 23.09.2026): die Blackbox IST die Depot-Datei des Subs — sie trägt den Ortshinweis wie jede
   // Depot-Datei (Rundlauf: tests/sub-depot-ortshinweis.test.js); unbekannte Felder bleiben weiter draußen.
-  assert.ok('angehoerigenOrt' in export_.umschlag, 'der Ortshinweis reist mit, wie in jeder Depot-Datei');
-  assert.deepEqual(Object.keys(export_.umschlag).sort(), Object.keys(ohne).sort(), 'der Export trägt genau die festen Felder');
+  assert.ok('angehoerigenOrt' in export_, 'der Ortshinweis reist mit, wie in jeder Depot-Datei');
+  assert.deepEqual(Object.keys(export_).sort(), Object.keys(ohne).sort(), 'der Export trägt genau die festen Felder');
 });
 
 test('[Sub-Depot-Wege·Einhängen] eine Depot-Datei mit dem Feld wird eingehängt und verliert es dabei still; die eingehängte Kopie trägt genau die festen Felder', async () => {

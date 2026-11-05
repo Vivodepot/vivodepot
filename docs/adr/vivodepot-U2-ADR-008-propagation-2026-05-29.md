@@ -4,7 +4,7 @@
 **Datum:** 29.05.2026
 **Kategorie:** ARCHITEKTUR, DATENMODELL, UX
 **U2-Bezug:** U2-ADR-005 (Urheberschaft nutzt `data.menschen[]` schon), U2-ADR-006 (Andock-Architektur), U2-ADR-007 (Gesundheits-Sektor).
-**Status heute:** gilt — Propagations-Mechanik im Kern nachweisbar: `CROSS_SEKTOR_FELDER` + `crossSektorAnmelden()` (`vivodepot.html:7149` ff.), Felder vom Typ `ref`/`refMehrfach`, `listenEintragHinzufuegen`/`listenEintragAktualisieren` vorhanden.
+**Status heute:** gilt — Propagations-Mechanik im Kern nachweisbar: `CROSS_SEKTOR_FELDER` + `crossSektorAnmelden()` (`vivodepot.html`), Felder vom Typ `ref`/`refMehrfach`, `listenEintragHinzufuegen`/`listenEintragAktualisieren` vorhanden.
 
 ---
 
@@ -49,6 +49,10 @@ Jeder dieser Typen bekommt einen eigenen zentralen Speicher mit eigenem Schema. 
 3. **Künftige Sektoren werden mit Propagation gebaut**, nicht mehr nachgerüstet.
 
 ## Implementations-Verweis
+
+**Code-Anker** (nachgezogen 31.10.2026; die Commits unten sind seit der Historien-Umschreibung 2026 nicht mehr auflösbar):
+- Schritt 1, Mechanik: `personHinzufuegen()`, `personName()`, `institutionHinzufuegen()`, `personenVorschlag()` in `vivodepot.html`; Probe `tests/propagation-mechanik.test.js`.
+- Schritt 2, Sweep: `CROSS_SEKTOR_FELDER`, `crossSektorAnmelden()`, `listenEintragHinzufuegen()`, `listenEintragAktualisieren()` in `vivodepot.html`; Proben `tests/sektor-maschine-erweiterungen.test.js` und `tests/a473-liste-unterfelder-uebersicht.test.js`.
 
 **Schritt 1 — Mechanik:**
 - Doku-Commit *(nicht mehr auflösbar — Historien-Umschreibung 2026, ADR-Datum 29.05.2026)*, Kern-Commit *(nicht mehr auflösbar — Historien-Umschreibung 2026, ADR-Datum 29.05.2026)*, Suite-Commit *(nicht mehr auflösbar — Historien-Umschreibung 2026, ADR-Datum 29.05.2026)*. Suite 82/82 grün, Block-Hash unverändert `6eb590b9…`, SHA-256 Kern `d72e5e06…`.

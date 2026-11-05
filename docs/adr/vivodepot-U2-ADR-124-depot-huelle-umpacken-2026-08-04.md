@@ -184,6 +184,24 @@ erreichen und mindestens 4,5:1 für den Text, der auf ihr steht.** Geprüft von
 `tests/palette-aufnahmekriterium.test.js`. Details: zwei interne
 Freigabenotizen vom 04.08.2026 (Palette und Reihenfolge; Züge 5 und 6).
 
+## Nachtrag 30.10.2026 — das Teil-Depot wird als Depot-Datei herausgegeben, die Hülle nur noch gelesen
+
+Bis Schale v969 gab die Anwendung ein Teil-Depot in der Blackbox-Hülle heraus
+(`{ dateiTyp: "vivodepot-blackbox-export", formatVersion: 1, umschlag }`, als `.json` ohne Dateikopf).
+Seit v970 ist die herausgegebene Datei eine gewöhnliche `.vivodepot`-Datei mit Kopf: derselbe
+Umschlag, verbatim, ohne Re-Verschlüsselung, dazu das Kennzeichen `art: "sub"`. Das Kennzeichen nennt
+keine Person; Inhaberin und Bezeichnung stehen nur im verschlüsselten Inhalt. Es liegt außerhalb der
+eingefrorenen Basismenge und ist über `fremdHash` im Geheimteil gebunden; gesetzt wird es nur beim
+Versiegeln eines Teil-Depots, nie in einem Anker. Ein Teil-Depot, das vor v970 versiegelt wurde, trägt es
+nicht und wird nach dem Öffnen am Inhalt (`verwaltungsTyp`) erkannt. Das Kennzeichen steuert nur die
+Anzeige, nie Schlüssel oder Lesepfad.
+
+Diese ADR war die Entscheidung, dass die Hülle erkannt und ausgepackt wird. Das bleibt: jede Datei in
+der Hülle bleibt lesbar, in der Anwendung, beim Einhängen, im Kind-Datei-Vergleich und in der Lese-App.
+Neu ist nur, dass die Anwendung sie nicht mehr schreibt. Die Formbeschreibung steht in
+`docs/format/SPEZIFIKATION.md` (Abschnitte 2 und 3). Anlass: Befund SUB-SONDERLOCKEN, Posten S8;
+Beleg `tests/sub-sonderlocken-s8-format.test.js`.
+
 ---
 
 *Vivodepot GmbH · U2-ADR-124 · Entwurf 04.08.2026, angenommen 04.08.2026 (Zug 1a)*

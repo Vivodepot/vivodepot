@@ -114,14 +114,15 @@ konformitaet:
   - aussage: >-
       Der Kopf schließt nur die strukturelle Lücke des Moduls. Er ändert NICHT, was eine
       englischsprachige Bürgerin heute an Datums-/Zahlformaten sieht — der Kern konsumiert
-      datumsformat/dezimaltrenner/tausendertrenner an keiner Stelle (A479, unverändert).
+      dezimaltrenner/tausendertrenner an keiner Stelle, datumsformat seit 01.11.2026 nur für die
+      Kurzdaten der Prüftermine (A479, sonst unverändert).
     zustand: teilweise-erfuellt
     herkunft: U2-ADR-337 (06.09.2026), Grenze aus A479 unverändert übernommen
     pruefung:
       - tests/u2-adr-337-en-modul-regeln.test.js
-        "[U2-ADR-337·Vorbedingung] A479 gilt weiterhin: der Kern liest die drei Regeln nirgends — diese Probe behauptet also keinen sichtbaren Effekt"
+        "[U2-ADR-337·Vorbedingung] A479 gilt weiterhin: der Kern liest die Zahlregeln nirgends und datumsformat nur für die Prüftermine — diese Probe behauptet also keinen weiteren sichtbaren Effekt"
       - tests/a479-lese-app-textsatz-regeln.test.js
-        "[A479·Vorbedingung] Gegenprobe: der Kern selbst liest datumsformat/dezimaltrenner/tausendertrenner NIRGENDS"
+        "[A479·Vorbedingung] Gegenprobe: der Kern liest dezimaltrenner/tausendertrenner NIRGENDS, datumsformat nur für die Prüftermine"
 ```
 
 ## Was dieser Zug NICHT tut

@@ -37,6 +37,19 @@ Entscheidung vom 25.09.2026:
 
 Die Vertretungsseite (Ablauf der sechs Monate am Datum der ärztlichen Feststellung) bleibt unverändert.
 
+## Nachtrag 30.10.2026: Hinweis nennt auch die bestellte Betreuung
+
+Die Rechtslage oben und der Hinweis der Gruppe nannten drei der vier Gründe, aus denen die Notvertretung nicht besteht:
+Getrenntleben, Ablehnung, Vollmacht (§ 1358 Abs. 3 Nr. 1 und 2 BGB). Es fehlte Abs. 3 Nr. 3: Sie besteht auch nicht, wenn
+für die Person eine Betreuerin oder ein Betreuer bestellt ist, deren Aufgabenkreis die Gesundheitsangelegenheiten umfasst.
+Der Hinweis (DE und EN) nennt das jetzt. Ein Wächter in `tests/ehegatten-notvertretung.test.js` verlangt den Inhalt des
+Hinweises, nicht nur die Fundstelle: Voraussetzung, Höchstdauer, Getrenntleben, Ablehnung, Vollmacht, Betreuung, Register,
+„Keine Rechtsberatung“. Er hält auch den Hinweis am Datum der Vertretung: ärztliche Bescheinigung und begrenzte Dauer, ohne
+Norm. Die Zahl steht dort bewusst nicht (Entscheidung vom 22.09.2026, „Paragraphen raus“). Rot-Beweis ist der Hinweis bis
+zu diesem Tag.
+
+Die Entscheidung bleibt unverändert.
+
 ```yaml
 konformitaet:
   - aussage: >-
@@ -64,4 +77,14 @@ konformitaet:
         "[Notvertretung·Angehörige] das Blatt Krankenhaus trägt die Ablehnung, die Angehörigen-Sicht auch — die Nummer nicht"
       - tests/ehegatten-notvertretung.test.js
         "[Notvertretung·jedes Depot gleich] in einem eingehängten Sub-Depot gelten dieselben Felder, dieselbe Karte — kein Sonderweg (U2-ADR-432)"
+  - aussage: >-
+      Der Hinweis der Gruppe nennt die Rechtslage nach § 1358 BGB vollständig, auch die bestellte Betreuung; der Hinweis am
+      Datum der Vertretung nennt Bescheinigung und begrenzte Dauer ohne Norm.
+    zustand: erfuellt
+    herkunft: Entscheidung vom 25.09.2026; Nachtrag 30.10.2026
+    pruefung:
+      - tests/ehegatten-notvertretung.test.js
+        "[Notvertretung·Wächter] der Hinweis nennt die Rechtslage nach § 1358 BGB vollständig, auch die bestellte Betreuung — DE und EN"
+      - tests/ehegatten-notvertretung.test.js
+        "[Notvertretung·Wächter·Rot-Beweis] der Hinweis bis 30.10.2026 fällt genau an der fehlenden Betreuung"
 ```

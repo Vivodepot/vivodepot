@@ -170,7 +170,8 @@ test('[Zug2] „Verwaltete Depots" trägt einen Verweis auf die Konzeptseite, ec
   V.oeffneVerwaltung();
   const contentHtml = dok.getElementById('content').innerHTML;
   assert.match(contentHtml, /id="verwaltete-subkonzept-link"/, 'der Verweis ist am Kopf von „Verwaltete Depots" gerendert');
-  assert.match(contentHtml, />Wofür eingehängte Depots da sind</, 'trägt den erwarteten Link-Text');
+  // NACHGEZOGEN 31.10.2026: der Verweis heißt in Alltagssprache „Was ein Sub-Depot ist“.
+  assert.match(contentHtml, />Was ein Sub-Depot ist</, 'trägt den erwarteten Link-Text');
   const link = dok.getElementById('verwaltete-subkonzept-link');
   assert.equal(typeof link.onclick, 'function', 'die Click-Verdrahtung muss existieren');
   link.onclick();

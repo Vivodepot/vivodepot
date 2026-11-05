@@ -34,14 +34,22 @@ const trackendesDok = () => ({ documentElement: { _attr: {},
 
 /* ══ Vorbedingung — die Gegenprobe zur eigenen Prämisse ═══════════════════ */
 
-test('[A479·Vorbedingung] Gegenprobe: der Kern selbst liest datumsformat/dezimaltrenner/tausendertrenner NIRGENDS', () => {
-  // Der Grund, warum diese Datei nur zwei der sechs Regeln nachbaut: die anderen vier
-  // haben im Kern keine Leseseite. Bricht diese Probe künftig (der Kern liest eine der
-  // drei jetzt doch), gehört die Lese-App an derselben Stelle nachgezogen.
-  for (const regel of ['datumsformat', 'dezimaltrenner', 'tausendertrenner']) {
+test('[A479·Vorbedingung] Gegenprobe: der Kern liest dezimaltrenner/tausendertrenner NIRGENDS, datumsformat nur für die Prüftermine', () => {
+  // Der Grund, warum diese Datei nur zwei der sechs Regeln nachbaut: die anderen
+  // haben im Kern keine Leseseite, die die Lese-App teilt. Bricht diese Probe künftig (der Kern liest eine
+  // davon an einer weiteren Stelle), gehört die Lese-App an derselben Stelle nachgezogen.
+  for (const regel of ['dezimaltrenner', 'tausendertrenner']) {
     assert.ok(!new RegExp('\\.' + regel + '\\b').test(KERN_QUELLE),
       'der Kern liest `.' + regel + '` jetzt doch — die A479-Grenze ist überholt');
   }
+  // B03 (01.11.2026): `datumsformat` liest der Kern an genau einer Stelle, `datumKurzAnzeige` — nur die Prüftermine
+  // rufen sie auf, und die Prüftermine-Sicht hat die Lese-App nicht. `datumKurz` bleibt in beiden fest (Gegenprobe unten).
+  const leser = [...new Set([...KERN_QUELLE.matchAll(/\.datumsformat\b/g)].map((m) => {
+    const vorher = KERN_QUELLE.slice(0, m.index);
+    const f = [...vorher.matchAll(/\nfunction (\w+)\(/g)].pop();
+    return f ? f[1] : '?';
+  }))];
+  assert.deepEqual(leser, ['datumKurzAnzeige'], 'der Kern liest `.datumsformat` außerhalb von datumKurzAnzeige');
   // U2-ADR-480: der Kern liest die Währung an GENAU einer Stelle, `textsatzWaehrung()` — die Lese-App kennt keine
   // Zusammenstellung und liest keine Währung. Jeder andere Leser ist rot (dasselbe Werkzeug wie tests/waehrung-fest.test.js).
   assert.deepEqual(require('../tools/waehrung-fest-erheben.js').leserFinden(KERN_QUELLE), [],

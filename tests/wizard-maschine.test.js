@@ -152,7 +152,7 @@ test('7) Ziel-Generik: wizardZielSetzen/Lesen dispatchen über { sektor } UND { 
 
 test('8) wizardFehlerText bildet Validierungs-Gründe auf STRINGS ab', async () => {
   const { V } = await frischMitDepot();
-  assert.equal(V.wizardFehlerText('datum'), V.STRINGS.feldFehlerDatum);
+  assert.equal(V.wizardFehlerText('datum'), V.STRINGS.feldFehlerDatumTeile);
   assert.equal(V.wizardFehlerText('pflicht'), V.STRINGS.feldFehlerPflicht);
   assert.equal(V.wizardFehlerText('irgendwas'), V.STRINGS.feldFehlerPflicht, 'Default = Pflicht-Phrase');
 });

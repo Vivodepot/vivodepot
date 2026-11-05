@@ -75,8 +75,11 @@ test('[Stick] Schließen sichert auf den Stick und räumt danach die Browser-Kop
     await page.evaluate(() => window.__vdOeffentlich.flowAppSchliessen());
     const dialog = page.locator('#m-ok');
     await expect(dialog).toBeVisible();
-    // Der Hinweis benennt das Restrisiko, bevor sie klickt.
-    await expect(page.locator('.modal, #overlay-inhalt').first()).toContainText('Stick');
+    // Der Hinweis benennt das Restrisiko, bevor sie klickt — im Dialog selbst (#modal-inhalt). Bis 02.11.2026 griff hier
+    // '.modal, #overlay-inhalt' den ersten Treffer, und das war die stehengebliebene Startseite: sie trug am Schreibtisch
+    // „Der Stick allein reicht weiterhin“ im Install-Hinweis, den P08 seitdem nur am Handgerät zeigt. Die Probe bestand
+    // damit über die Startseite, nicht über den Dialog.
+    await expect(page.locator('#modal-inhalt')).toContainText('Stick');
     await dialog.click();
     await page.waitForFunction(() => window.__geschrieben !== null, null, { timeout: 15000 });
 

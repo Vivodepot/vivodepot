@@ -42,10 +42,11 @@ require('./lib/schalter-pruefen.js').schalterPruefen(module);   // --help und un
 
    DATIERTE STELLEN SIND AUSGENOMMEN, strukturell und nicht heuristisch: eine
    Zeile oder ein Abschnitt mit „Stand: TT.MM.JJJJ" erzählt einen vergangenen
-   Tag. `docs/pruefebene.md` nennt Schema 63 und trägt „Stand: 14.08.2026" —
-   das war richtig und bleibt es. `STANDARDS.md` nennt Schema 62 unter der
-   Überschrift „Umfang der Erhebung", ohne Datum, und behauptet damit einen
-   heutigen Stand.
+   Tag. Eine Zahl ohne Datum dagegen, etwa eine Schema-Version unter einer
+   Überschrift wie „Umfang der Erhebung", behauptet einen heutigen Stand und
+   wird gemessen. Besser als die Ausnahme ist, keine Zahl zu tippen:
+   `docs/pruefebene.md` trug bis zum 31.10.2026 Schema 63 unter „Stand:
+   14.08.2026" und verweist seither für alle Zahlen auf `docs/faktenbasis.md`.
 
    GRUNDLINIE STATT NULLTOLERANZ, Bauart wie `tools/pages-lockstep-pruefen.js`:
    ein Gate, das ab dem ersten Commit dauerhaft rot steht, wird nicht ernst
@@ -221,8 +222,8 @@ function standMessen(repo, opt) {
 
 /* ── DATIERTE STELLEN — die eine strukturelle Ausnahme ────────────────────── */
 /* `**Stand:** 14.08.2026` — die Sterne gehören zur Auszeichnung, nicht zum Wort. Ohne sie im
-   Muster lief die Ausnahme an `docs/pruefebene.md` vorbei, das sein Datum ausdrücklich trägt:
-   zwei Falschmeldungen im ersten Lauf, beide berechtigt datiert. */
+   Muster lief die Ausnahme an `docs/pruefebene.md` vorbei, das sein Datum damals so trug (bis
+   31.10.2026): zwei Falschmeldungen im ersten Lauf, beide berechtigt datiert. */
 const DATUM = /\*{0,2}Stand:?\*{0,2}\s*\d{1,2}\.\d{1,2}\.\d{4}/;
 function datierteZeilen(zeilen) {
   /* Ein Datum wirkt bis zur nächsten Überschrift: „Stand: 14.08.2026" in Zeile 9

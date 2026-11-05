@@ -238,33 +238,45 @@ const WYCHEPROOF = [
   { datei: 'ecdsa_secp256r1_sha256_test.json', sha256: '182db4f3e230f6f9fa9f800d2a614dede30284b8e8438bbfe1171905402e9332', kurve: 'P-256', hash: 'SHA-256', valid: 174, invalid: 310 },
   { datei: 'ecdsa_secp521r1_sha512_test.json', sha256: '0fa3bb09a2319242253028b53d555fb8ec2081d891271321205cdaeabb3eef3e', kurve: 'P-521', hash: 'SHA-512', valid: 232, invalid: 310 },
 ];
+// Fährt jeden Vektor einer Datei durch Umwandlung und Prüfung; `kern` liefert die beiden Funktionen (im Rot-Beweis ein Ersatz).
+async function wycheproofLauf(w, kern) {
+  const roh = fs.readFileSync(path.join(VEKTOREN, w.datei));
+  assert.equal(crypto.createHash('sha256').update(roh).digest('hex'), w.sha256, 'Vektordatei unverändert');
+  const d = JSON.parse(roh.toString('utf8'));
+  const zaehler = { valid: 0, invalid: 0 };
+  const falsch = [];
+  for (const g of d.testGroups) {
+    assert.equal(g.type, 'EcdsaVerify');
+    assert.equal(g.sha, w.hash);
+    const spki = new Uint8Array(Buffer.from(g.publicKeyDer, 'hex'));
+    for (const t of g.tests) {
+      assert.ok(t.result === 'valid' || t.result === 'invalid', 'tcId ' + t.tcId + ': Ergebnis „' + t.result + '" ist nicht entschieden');
+      let ok = false;
+      try {
+        const rs = kern._ecdsaDerZuRs(new Uint8Array(Buffer.from(t.sig, 'hex')), w.kurve);
+        ok = await kern._x509EcdsaPruefen(spki, w.kurve, w.hash, new Uint8Array(Buffer.from(t.msg, 'hex')), rs);
+      } catch (_) { ok = false; }
+      zaehler[t.result]++;
+      if (ok !== (t.result === 'valid')) falsch.push(t.tcId + ' (' + t.result + ', ' + t.comment + ')');
+    }
+  }
+  return { falsch, zaehler, gesamt: d.numberOfTests };
+}
 for (const w of WYCHEPROOF) {
   test(`[X509·ECDSA·Wycheproof] ${w.datei}: jeder gültige Vektor trägt, jeder ungültige fällt`, async () => {
-    const roh = fs.readFileSync(path.join(VEKTOREN, w.datei));
-    assert.equal(crypto.createHash('sha256').update(roh).digest('hex'), w.sha256, 'Vektordatei unverändert');
-    const d = JSON.parse(roh.toString('utf8'));
-    const zaehler = { valid: 0, invalid: 0 };
-    const falsch = [];
-    for (const g of d.testGroups) {
-      assert.equal(g.type, 'EcdsaVerify');
-      assert.equal(g.sha, w.hash);
-      const spki = new Uint8Array(Buffer.from(g.publicKeyDer, 'hex'));
-      for (const t of g.tests) {
-        assert.ok(t.result === 'valid' || t.result === 'invalid', 'tcId ' + t.tcId + ': Ergebnis „' + t.result + '" ist nicht entschieden');
-        let ok = false;
-        try {
-          const rs = K()._ecdsaDerZuRs(new Uint8Array(Buffer.from(t.sig, 'hex')), w.kurve);
-          ok = await K()._x509EcdsaPruefen(spki, w.kurve, w.hash, new Uint8Array(Buffer.from(t.msg, 'hex')), rs);
-        } catch (_) { ok = false; }
-        zaehler[t.result]++;
-        if (ok !== (t.result === 'valid')) falsch.push(t.tcId + ' (' + t.result + ', ' + t.comment + ')');
-      }
-    }
+    const { falsch, zaehler, gesamt } = await wycheproofLauf(w, K());
     assert.deepEqual(falsch, []);
-    assert.equal(zaehler.valid + zaehler.invalid, d.numberOfTests, 'alle Vektoren geprüft');
+    assert.equal(zaehler.valid + zaehler.invalid, gesamt, 'alle Vektoren geprüft');
     assert.deepEqual(zaehler, { valid: w.valid, invalid: w.invalid });
   });
 }
+test('[X509·ECDSA·Wycheproof·Rot-Beweis] eine Prüfung, die alles annimmt, und eine, die alles abweist, fallen', async () => {
+  const w = WYCHEPROOF[0];
+  const alles = await wycheproofLauf(w, { _ecdsaDerZuRs: K()._ecdsaDerZuRs, _x509EcdsaPruefen: async () => true });
+  assert.ok(alles.falsch.length >= 1 && alles.falsch.every((f) => / \(invalid,/.test(f)), 'jeder ungültige Vektor, den die Umwandlung durchlässt, fällt auf');
+  const nichts = await wycheproofLauf(w, { _ecdsaDerZuRs: K()._ecdsaDerZuRs, _x509EcdsaPruefen: async () => false });
+  assert.equal(nichts.falsch.length, w.valid, 'jeder gültige Vektor fällt auf');
+});
 
 /* ── x5c-Kette ──────────────────────────────────────────────────────────── */
 

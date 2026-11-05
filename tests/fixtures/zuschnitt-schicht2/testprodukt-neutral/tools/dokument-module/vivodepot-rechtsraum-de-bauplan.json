@@ -1,0 +1,842 @@
+{
+  "modulTyp": "rechtsraumBauplan",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "rechtsraum": "DE",
+  "typen": {
+    "living-will": {
+      "bauplan": [
+        {
+          "dokEinleitung": "Wenn",
+          "feld": {
+            "id": "applicableSituations",
+            "typ": "mehrfachauswahl",
+            "optionen": [
+              {
+                "wert": "sterbeprozess"
+              },
+              {
+                "wert": "endstadium"
+              },
+              {
+                "wert": "gehirnschaedigung"
+              },
+              {
+                "wert": "hirnabbau"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "ownAdditionalSituation",
+            "typ": "textarea",
+            "beispiel": ""
+          }
+        },
+        {
+          "bezug": "Testtext 1",
+          "feld": {
+            "id": "lifeSustainingMeasures",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ausschoepfen"
+              },
+              {
+                "wert": "unterlassen"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.1"
+        },
+        {
+          "bezug": "Testtext 2",
+          "feld": {
+            "id": "painAndSymptomTreatment",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ohne_daempfung"
+              },
+              {
+                "wert": "mit_daempfung"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.2"
+        },
+        {
+          "feld": {
+            "id": "acceptsLifeShorteningFromPain",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.2"
+        },
+        {
+          "bezug": "Testtext 1",
+          "feld": {
+            "id": "artificialNutritionAndHydration",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.3"
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "resuscitationInDescribedSituations",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "Testtext 4"
+        },
+        {
+          "feld": {
+            "id": "emergencyDoctorNotified",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ],
+            "verborgenWenn": {
+              "feld": "resuscitationInDescribedSituations",
+              "wert": "ja"
+            }
+          },
+          "bmjBaustein": "2.3.4"
+        },
+        {
+          "bezug": "Testtext 5",
+          "feld": {
+            "id": "resuscitationInAllCases",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ab"
+              },
+              {
+                "wert": "ab_ausser_op"
+              }
+            ],
+            "verborgenWenn": {
+              "feld": "resuscitationInDescribedSituations",
+              "wert": "ja"
+            }
+          },
+          "bmjBaustein": "Testtext 6"
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "artificialVentilation",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.5"
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "dialysis",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.6"
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "antibiotics",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.7"
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "bloodAndBloodProducts",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.3.8"
+        },
+        {
+          "bezug": "Testtext 7",
+          "feld": {
+            "id": "placeOfTreatmentOrDeath",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "krankenhaus"
+              },
+              {
+                "wert": "zuhause"
+              },
+              {
+                "wert": "hospiz"
+              }
+            ]
+          },
+          "bmjBaustein": "2.4"
+        },
+        {
+          "feld": {
+            "id": "supportFromThesePersons",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          },
+          "bmjBaustein": "2.4"
+        },
+        {
+          "feld": {
+            "id": "supportFromChurchOrCommunity",
+            "typ": "text",
+            "beispiel": ""
+          },
+          "bmjBaustein": "2.4"
+        },
+        {
+          "feld": {
+            "id": "hospiceSupport",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.4"
+        },
+        {
+          "feld": {
+            "id": "confidentialityWaiverFor",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          },
+          "bmjBaustein": "2.5"
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfUnregulated",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt"
+              },
+              {
+                "wert": "betreuer"
+              },
+              {
+                "wert": "arzt"
+              },
+              {
+                "wert": "andere"
+              }
+            ]
+          },
+          "bmjBaustein": "2.6"
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersOtherPersonName",
+            "typ": "text",
+            "beispiel": "",
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfUnregulated",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
+          },
+          "bmjBaustein": "2.6"
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfDeviatingWill",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt"
+              },
+              {
+                "wert": "betreuer"
+              },
+              {
+                "wert": "arzt"
+              },
+              {
+                "wert": "andere"
+              }
+            ]
+          },
+          "bmjBaustein": "2.6"
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfDeviatingOther",
+            "typ": "text",
+            "beispiel": "",
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfDeviatingWill",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
+          },
+          "bmjBaustein": "2.6"
+        },
+        {
+          "feld": {
+            "id": "personalValuesOrFurtherDocuments",
+            "typ": "textarea",
+            "beispiel": ""
+          },
+          "bmjBaustein": "2.8"
+        },
+        {
+          "feld": {
+            "id": "organDonationDecision",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "zustimmung"
+              },
+              {
+                "wert": "ablehnung"
+              }
+            ]
+          },
+          "bmjBaustein": "2.9"
+        },
+        {
+          "feld": {
+            "id": "priorityIfOrganDonationConflict",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "organspende"
+              },
+              {
+                "wert": "patientenverfuegung"
+              }
+            ],
+            "verborgenWenn": {
+              "feld": "organDonationDecision",
+              "wert": "ablehnung"
+            }
+          },
+          "bmjBaustein": "2.9"
+        },
+        {
+          "feld": {
+            "id": "waivesFurtherMedicalInformation",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          },
+          "bmjBaustein": "2.10"
+        },
+        {
+          "feld": {
+            "id": "informationOrCounsellingReceived",
+            "typ": "text"
+          },
+          "bmjBaustein": "2.12"
+        },
+        {
+          "feld": {
+            "id": "counsellingBy",
+            "typ": "text"
+          },
+          "bmjBaustein": "2.12"
+        },
+        {
+          "feld": {
+            "id": "validityDuration",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "unbefristet"
+              },
+              {
+                "wert": "befristet"
+              }
+            ]
+          },
+          "bmjBaustein": "2.14"
+        },
+        {
+          "feld": {
+            "id": "validityDurationDeadline",
+            "typ": "text",
+            "verborgenWenn": {
+              "feld": "validityDuration",
+              "wert": "unbefristet"
+            }
+          },
+          "bmjBaustein": "2.14"
+        }
+      ]
+    },
+    "enduring-power-of-attorney": {
+      "bauplan": [
+        {
+          "frage": "Testtext 8",
+          "feld": {
+            "id": "healthCareGeneralDecision",
+            "label": "Testtext 9",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 10",
+          "feld": {
+            "id": "healthCareMedicalProcedures",
+            "label": "Testtext 11",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 12",
+          "feld": {
+            "id": "healthCareMedicalRecords",
+            "label": "Testtext 13",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 14",
+          "feld": {
+            "id": "healthCarePlacementDepriving",
+            "label": "Testtext 15",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 16",
+          "feld": {
+            "id": "healthCareMeasuresDepriving",
+            "label": "Testtext 17",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 18",
+          "feld": {
+            "id": "healthCareCompulsoryMedical",
+            "label": "Testtext 19",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 20",
+          "feld": {
+            "id": "healthCareAdmissionToHospital",
+            "label": "Testtext 21",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 22",
+          "feld": {
+            "id": "determinePlaceOfResidence",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 23",
+          "feld": {
+            "id": "manageAnExistingTenancyWindUp",
+            "label": "Testtext 24",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 25",
+          "feld": {
+            "id": "concludeAndTerminateANew",
+            "label": "Testtext 26",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 27",
+          "feld": {
+            "id": "concludeAndTerminateHousingAnd",
+            "label": "Testtext 28",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 29",
+          "feld": {
+            "id": "representationWithAuthorities",
+            "label": "Testtext 30",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 31",
+          "feld": {
+            "id": "assetManagementGeneral",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 32",
+          "feld": {
+            "id": "disposeOfAssets",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 33",
+          "feld": {
+            "id": "acceptPaymentsAndValuables",
+            "label": "Testtext 34",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 35",
+          "feld": {
+            "id": "enterIntoLiabilities",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 36",
+          "feld": {
+            "id": "accountsCustodyAccountsSafes",
+            "label": "Testtext 37",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 38",
+          "feld": {
+            "id": "customaryGiftsWithinWhatCare",
+            "label": "Testtext 39",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 40",
+          "hilfetext": "Testtext 41",
+          "feld": {
+            "id": "transactionsExpresslyExcluded",
+            "typ": "textarea"
+          }
+        },
+        {
+          "frage": "Testtext 42",
+          "feld": {
+            "id": "mailAndTelecommunications",
+            "label": "Testtext 43",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 44",
+          "feld": {
+            "id": "representationInCourt",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 45",
+          "feld": {
+            "id": "mayGrantASubPowerOfAttorney",
+            "label": "Testtext 46",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 47",
+          "feld": {
+            "id": "alsoProposeTheAuthorizedPerson",
+            "label": "Testtext 48",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 49",
+          "feld": {
+            "id": "appliesBeyondDeath",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Testtext 50",
+          "hilfetext": "Testtext 51",
+          "feld": {
+            "id": "furtherProvisions",
+            "typ": "textarea"
+          }
+        }
+      ]
+    }
+  }
+}

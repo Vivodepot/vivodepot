@@ -164,6 +164,7 @@ function stufe1(u, P, B) {
 
   if (hat(u, P.whcFeld)) whcPruefen(u[P.whcFeld], P, B);
   for (const k of Object.keys(u)) {
+    if (k === P.teilDepotArtFeld && u[k] === P.teilDepotArtSub) continue;   // das Kennzeichen eines Teil-Depots (Abschnitt 3): beschrieben, gebunden wie jedes Feld außerhalb der Basis
     if (!P.umschlagFelderBasis.includes(k)) B.add('VDF-FREMDFELD', 1, 'Feld außerhalb der Basismenge: „' + String(k).slice(0, 40) + '“ (wird weitergetragen).');
   }
 }

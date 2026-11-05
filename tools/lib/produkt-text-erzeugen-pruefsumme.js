@@ -82,7 +82,10 @@ function codePruefsumme(text) {
 // 16.10.2026 (AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT): eine neue Region AB_WERK_AMTLICHE_VORLAGEN (modulTyp 'amtlicheVorlagen', genau ein
 // Modul, kein Listentyp). Pin neu gehasht (vorher 0d9639c6…). Die Gateway-Kopie hat nachgezogen (Gateway-main, 17.10.2026);
 // die Brücke, die bis dahin den Stand vorher hielt, ist entfernt.
-const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '26b3869eabbde15414043d452e82221c9b6ce4e0abbf1d27ce7c17f4e16092bd';
+// 29.10.2026 (U2-ADR-507 Nachtrag): eine neue Region AB_WERK_KI_KORPUS (modulTyp 'kiKorpus', genau ein Modul) und das Einsetzen der
+// Bauplan-Ergänzungen (modulTyp 'rechtsraumBauplan') in das Rechtsraum-Modul ihres Codes vor dem Backen; der Bau meldet Typen ohne
+// Bauplan als offen. Pin neu gehasht (vorher 26b3869e…). Die Gateway-Kopie zieht Kopie und Pin nach, abgestimmt am Zugkopf.
+const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = 'c54bba694436bd88cb032a5c8a72b3544bbbbf1021878f37c0326cafa5edda50';
 
 const PRODUKT_TEXT_ERZEUGEN_PFAD = path.join(__dirname, 'produkt-text-erzeugen.js');
 

@@ -7,7 +7,7 @@
         die Signaturprüfung kam (rohes Bündel, Depot-Datei mit behaupteten Marken, unsignierter Einlass, Fassung 1), lässt den
         Hinweis in der App-Fußzeile stehen.
    (ii) Ein gültig signiertes Modul mit Schalter blendet NUR die App-Zeile `<span class="ff-powered" data-herkunft-hinweis="app">`
-        aus. Jede PDF-Fußquelle trägt „Erstellt mit der Software Vivodepot“ (`ausgabeErstelltMit`) weiter. Rot-Beweis: ein
+        aus. Jede PDF-Fußquelle trägt „Erstellt mit Vivodepot“ (`ausgabeErstelltMit`) weiter. Rot-Beweis: ein
         Schalter, der auch den PDF-Satz entfernte, macht die Probe rot — am Quelltext und an einem so veränderten Kern.
    Signiert wird mit dem Test-Anker, den die übrigen Vor-Depot-Proben nutzen (tests/vor-depot-konfiguration-branding-css.test.js);
    kein neues Schlüsselmaterial. Auf Zeichenebene, weil die Test-DOM eine Attrappe ist (innerHTML parst nicht).
@@ -29,7 +29,7 @@ const SENTINEL_PRIVATE_JWK = Object.freeze({
 const SENTINEL_PUBLIC_JWK = Object.freeze({ kty: 'OKP', crv: 'Ed25519', alg: 'Ed25519', x: SENTINEL_PRIVATE_JWK.x });
 const OPTS = Object.freeze({ ankerJwk: SENTINEL_PUBLIC_JWK, jetzt: '2026-08-28T09:00:00Z' });
 const HINWEIS = '<span class="ff-powered" data-herkunft-hinweis="app">';
-const ERSTELLT = 'Erstellt mit der Software Vivodepot';
+const ERSTELLT = 'Erstellt mit Vivodepot';
 const MODUL = Object.freeze({ modulTyp: 'branding', moduleVersion: 2, herkunft: 'schalter-probe', name: 'Musterverein Beispielstadt', poweredByAus: true });
 
 function rootAttrappe() { return { style: { _w: {}, setProperty(k, v) { this._w[k] = v; }, removeProperty(k) { delete this._w[k]; } } }; }
@@ -131,7 +131,7 @@ function leserVerstoesse(text) {
   return [...new Set(v)].sort();
 }
 
-test('[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit der Software Vivodepot“ weiter', async () => {
+test('[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit Vivodepot“ weiter', async () => {
   const { V, fuss } = await appFuss(undefined, (W) => signiertesBuendel(W, MODUL).then((b) => [b]));
   assert.equal(V._markeName(), MODUL.name, 'Positivkontrolle: das signierte Modul gilt');
   assert.ok(!fuss.includes('ff-powered') && !fuss.includes('data-herkunft-hinweis'), 'die App-Zeile ist weg: ' + fuss.slice(-200));
@@ -182,6 +182,6 @@ test('[Schalter·Rot-Beweis] ein Schalter, der auch ohne Signatur wirkte, ließe
    Der Wächter ruft daneben `leserVerstoesse` (am Quelltext). (i) und die Rot-Beweise sind Abläufe mit festen Modulen. */
 module.exports = {
   PROBEN: [
-    { fuer: '[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit der Software Vivodepot“ weiter', diskriminante: ausgabeVerstoesse },
+    { fuer: '[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit Vivodepot“ weiter', diskriminante: ausgabeVerstoesse },
   ],
 };

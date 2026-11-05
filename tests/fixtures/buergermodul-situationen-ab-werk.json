@@ -152,7 +152,7 @@
       "icon": "user",
       "modus": "eigen",
       "titel": "Bei Volljährigkeit oder Auszug",
-      "einfuehrung": "Mit 18 oder beim ersten eigenen Zuhause wird vieles zum ersten Mal selbst geregelt — hier sammeln Sie, was ansteht und wo die Unterlagen liegen. Ein eigenes Depot kann das Kind mit der Volljährigkeit selbst mitnehmen: die Eltern geben die verschlüsselte Datei heraus, das Kind öffnet sie wie ein normales Depot über „Schon ein Depot? Datei öffnen“ und setzt in den Einstellungen ein eigenes Passwort — ohne weitere Mitwirkung der Eltern. Die Kopie bei den Eltern bleibt dabei mit dem alten Passwort lesbar; das Mitnehmen entwertet sie nicht.",
+      "einfuehrung": "Mit 18 oder beim ersten eigenen Zuhause regeln Sie vieles zum ersten Mal selbst. Hier sammeln Sie, was ansteht und wo die Unterlagen liegen. Das Kind kann sein eigenes Depot mit der Volljährigkeit selbst mitnehmen. Dazu geben die Eltern die verschlüsselte Datei heraus. Das Kind öffnet sie über „Schon ein Depot? Datei öffnen“ und legt in den Einstellungen ein eigenes Passwort fest. Die Eltern müssen dabei nicht mehr mithelfen. Die Kopie bei den Eltern lässt sich weiter mit dem alten Passwort öffnen. Das Mitnehmen macht diese Kopie nicht unbrauchbar.",
       "anlass": {
         "klasse": 1,
         "icon": "user",
@@ -1312,7 +1312,7 @@
                 "sensibel": true,
                 "typ": "text",
                 "label": "Schulden & Verbindlichkeiten",
-                "hint": "Erben treten auch in Schulden ein — Überblick erspart böse Überraschungen und ermöglicht die Frist für eine Ausschlagung.",
+                "hint": "Wer erbt, übernimmt auch die Schulden. Ein Überblick erspart böse Überraschungen. Er hilft auch, rechtzeitig zu entscheiden, ob Sie das Erbe ausschlagen. Dafür gilt eine Frist.",
                 "beispiel": "Restkredit Hauskauf; Bürgschaft für die Tochter"
               }
             },
@@ -1329,7 +1329,7 @@
                   "quelle": "§ 1944 BGB"
                 },
                 "label": "Kenntnis vom Erbfall am",
-                "hint": "Nicht das Sterbedatum — der Zeitpunkt, zu dem Sie vom Erbfall UND vom Grund der Ausschlagung erfahren haben. Daraus errechnet sich die Ausschlagungsfrist."
+                "hint": "Nicht das Sterbedatum, sondern der Tag, an dem Sie vom Erbfall und vom Grund für die Ausschlagung erfahren haben. Ab diesem Tag läuft die Frist, um das Erbe auszuschlagen."
               }
             },
             {
@@ -1370,7 +1370,7 @@
                 "sensibel": true,
                 "typ": "text",
                 "label": "Renten & Versorgungsbezüge",
-                "hint": "Renten werden nach dem Sterbemonat oft zurückgefordert — Träger zügig informieren.",
+                "hint": "Rente, die nach dem Sterbemonat noch gezahlt wird, wird oft zurückgefordert. Informieren Sie deshalb bald die Stellen, die die Rente zahlen.",
                 "beispiel": "Deutsche Rentenversicherung + Betriebsrente informieren"
               }
             },
@@ -1441,22 +1441,22 @@
         },
         {
           "id": "ueberblick-verschaffen",
-          "hint": "Verschaffen Sie sich einen Überblick, welche Sub-Depots die verstorbene Person verwaltet hat — etwa für Kinder oder andere ihr anvertraute Personen. Falls die verstorbene Person selbst Empfehlungen für die Nachfolge hinterlegt hat, stehen sie in ihren eigenen Unterlagen.",
+          "hint": "Prüfen Sie, welche Sub-Depots die verstorbene Person für andere geführt hat, zum Beispiel für Kinder oder andere Menschen, die ihr anvertraut waren. Hat die verstorbene Person selbst Empfehlungen für die Nachfolge hinterlegt, stehen sie in ihren eigenen Unterlagen.",
           "titel": "Überblick verschaffen"
         },
         {
           "id": "ein-sub-depot-uebernehmen",
-          "hint": "Ein Sub-Depot wird als verschlüsselte Datei übergeben und lässt sich in Ihre eigene Verwaltung aufnehmen, ohne dass die Datei neu verschlüsselt werden muss. Öffnen Sie dazu in Ihrem Depot die Übersicht „Sub-Depots“ (in der Seitenleiste) und wählen Sie dort „Depot einhängen“.",
+          "hint": "Ein Sub-Depot bekommen Sie als verschlüsselte Datei. Sie können es in Ihr eigenes Depot aufnehmen. Die Datei muss dafür nicht neu verschlüsselt werden. Öffnen Sie dazu in Ihrem Depot die Übersicht „Sub-Depots“ in der Seitenleiste. Wählen Sie dort „Depot-Datei aufnehmen“.",
           "titel": "Ein Sub-Depot übernehmen"
         },
         {
           "id": "ein-sub-depot-weitergeben",
-          "hint": "Führen Sie selbst ein Sub-Depot, das jetzt an eine bevollmächtigte Person gehen soll, stehen in „Sub-Depots“ zwei Wege mit unterschiedlicher Folge. „Verschlüsselte Datei exportieren“ gibt eine Kopie heraus — Ihre eigene Verwaltung bleibt bestehen, ein erneuter Export ist jederzeit möglich. „Übergabe abgeschlossen — aus meiner Verwaltung entfernen“ mit der Wahl „Ich gebe es ab.“ löscht den Umschlag bei Ihnen — unumkehrbar, eine spätere Wiederaufnahme ist danach gesperrt.",
+          "hint": "Sie führen selbst ein Sub-Depot, das jetzt an eine bevollmächtigte Person gehen soll? Dann gibt es in „Sub-Depots“ zwei Wege mit unterschiedlicher Folge. „Verschlüsselte Datei exportieren“ gibt eine Kopie heraus. Ihr Sub-Depot bleibt bei Ihnen, und Sie können jederzeit erneut exportieren. „Übergabe abgeschlossen — aus meiner Verwaltung entfernen“ mit der Wahl „Ich gebe es ab.“ löscht das Sub-Depot bei Ihnen. Das lässt sich nicht rückgängig machen. Sie können es danach nicht wieder aufnehmen.",
           "titel": "Ein Sub-Depot weitergeben"
         },
         {
           "id": "zugang-zu-den-daten",
-          "hint": "Ein übergebenes Sub-Depot hängen Sie wie in Schritt 3 beschrieben in „Sub-Depots“ ein — die Datei bleibt dabei mit ihrem eigenen Passwort versiegelt, das Ihnen separat mitgeteilt werden muss. Das ist bei einem übergebenen Sub-Depot der einzige Weg. Nur wenn Sie stattdessen die vollständige Depot-Datei der verstorbenen Person selbst vorliegen haben und diese zu Lebzeiten ein Fach für Sie eingerichtet hatte, öffnen Sie sie über die Willkommensseite mit „Datei öffnen“ und dem Passwort, das sie Ihnen dafür gegeben oder hinterlegt hat — erreichbar nur außerhalb einer bereits offenen Sitzung, also über die Startseite.",
+          "hint": "Ein übergebenes Sub-Depot fügen Sie wie in Schritt 3 beschrieben unter „Sub-Depots“ hinzu. Die Datei bleibt mit ihrem eigenen Passwort verschlüsselt. Dieses Passwort muss man Ihnen getrennt mitteilen. Für ein übergebenes Sub-Depot ist das der einzige Weg. Es gibt einen zweiten Fall: Sie haben die vollständige Depot-Datei der verstorbenen Person, und sie hat zu Lebzeiten ein Fach für Sie eingerichtet. Dann öffnen Sie die Datei auf der Startseite mit „Datei öffnen“ und dem Passwort, das sie Ihnen gegeben oder hinterlegt hat. Das geht nur auf der Startseite, nicht in einer bereits geöffneten Sitzung.",
           "titel": "Zugang zu den Daten"
         },
         {

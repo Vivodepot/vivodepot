@@ -51,13 +51,9 @@ const NOTFALLBLATT_ANGENOMMEN = {
       titel: 'Einmal-Angebot nach dem Anlegen (Notfallblatt) — „Drucken" annehmen',
       veraendernd: false,
       aktion: async (seite) => {
-        // U2-ADR-430: vor dem Notfall-Blatt kommt das Angebot des Codes — abgelehnt, wie in den übrigen Reisen.
+        // Seit S2 (31.10.2026) steht das Passwort-Blatt in Schritt 2 des Anlegens neben dem Code; kein eigenes Angebot danach.
         await seite.waitForSelector('#whc-angebot', { state: 'visible', timeout: 10000 });
-        await seite.click('#m-zweit', { timeout: 5000 });
-        await seite.waitForSelector('#whc-tragweite', { state: 'visible', timeout: 5000 });
-        await seite.click('#m-zweit', { timeout: 5000 });
-        await seite.waitForSelector('#nfb-angebot', { state: 'visible', timeout: 10000 });
-        await seite.click('#m-ok', { timeout: 5000 });
+        await seite.click('#whc-pw-blatt', { timeout: 5000 });
         await seite.waitForSelector('#notfallblatt-overlay', { state: 'visible', timeout: 5000 });
       },
     },

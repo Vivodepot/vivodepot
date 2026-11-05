@@ -24,7 +24,7 @@ test('[Auffindbarkeit] der Modul-Abschnittstitel trägt ein Globus-Icon — sich
   await V.depotAnlegen('modul-auffindbarkeit-pw');
   const html = V.einstellungenHTML();
   const titelStart = html.indexOf('<span class="einst-abschnitt-titel">');
-  const titelBereich = html.slice(titelStart, html.indexOf('Eingelassene Erweiterungen', titelStart) + 30);
+  const titelBereich = html.slice(titelStart, html.indexOf(V.STRINGS.einstAbschnittModule, titelStart) + 30);
   assert.match(titelBereich, /<svg[^>]*>.*<\/svg>/s, 'kein SVG-Icon vor dem Titeltext');
   assert.match(titelBereich, /<circle cx="12" cy="12" r="10"\/><path d="M12 2a14\.5/, 'nicht das Globus-Icon (ICONS.globe)');
 });

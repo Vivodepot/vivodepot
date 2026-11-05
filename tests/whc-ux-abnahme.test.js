@@ -32,7 +32,9 @@ test('[WHC·UX·2] der Hinweis unter dem Kontrollfeld sagt, was fehlt: leer, noc
   assert.equal(V.whcKontrolleHinweis('', code), V.STRINGS.whcKontrolleFehlt);
   assert.equal(V.whcKontrolleHinweis(g.slice(0, 9), code), V.STRINGS.whcKontrolleTeil.replace('{n}', '20'), 'acht Zeichen getippt, zwanzig fehlen');
   const falsch = code.slice(0, -1) + (code.endsWith('0') ? '1' : '0');
-  assert.equal(V.whcKontrolleHinweis(falsch, code), V.STRINGS.whcKontrolleFalsch);
+  // Seit K10 (30.10.2026) nennt der Hinweis die abweichende Stelle und das angezeigte Zeichen, seit S2 (31.10.2026) als Gruppe und
+  // Zeichen in der Gruppe: das letzte Zeichen ist das vierte der siebten Gruppe.
+  assert.equal(V.whcKontrolleHinweis(falsch, code), V.STRINGS.whcKontrolleStelle.replace('{g}', String(code.length / V.WHC_GRUPPE)).replace('{p}', String(V.WHC_GRUPPE)).replace('{z}', code[code.length - 1]));
   assert.equal(V.whcKontrolleHinweis(g.toLowerCase(), code), V.STRINGS.whcKontrolleStimmt, 'klein und mit Bindestrichen zählt');
   const rot = [V.whcKontrolleHinweis('', code), V.whcKontrolleHinweis(g, code)].filter((x) => x === V.STRINGS.whcKontrolleFehlt);
   assert.ok(rot.length > 0 && V.whcKontrolleHinweis(g, code) !== V.STRINGS.whcKontrolleFehlt, 'Rot-Beweis im Test: leer und richtig sind unterscheidbar');

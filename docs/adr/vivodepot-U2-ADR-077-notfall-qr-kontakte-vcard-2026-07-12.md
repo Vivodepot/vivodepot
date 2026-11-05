@@ -94,14 +94,13 @@ tappbar, kein Medizin). Am **Android**-Gerät gescannt (12.07.):
 **gedruckte Notfallkarte** deckt den Fall (Namen + Nummern + Medizin lesbar). Kein Blocker. Feinschliff
 der vCard-Struktur für Android bliebe ein eigener Schritt mit Neu-Test auf BEIDEN Plattformen.
 
-## Lese-App-Empfänger — überholt, stehen gelassen
+## Lese-App-Empfänger für den alten Klartext-QR
 
-`vivodepot-lesen.html: parseNotfallQrText()` las den **Klartext**-Notfall-QR ein (Helfer scannt QR →
-Lese-App zeigt Medizin). Unter C trägt der QR kein Gesundheitsdatum mehr und geht nativ in die
-Kontakte, nicht in die Lese-App — der Empfänger ist **zwecklos** (erkennt neue QRs nicht, hätte auch
-nichts zu zeigen). **Entscheidung:** als **Legacy-Parser stehen gelassen**, hier als **überholt**
-ausgewiesen; Entfernen ist ein eigener, reversibler Folge-Schnitt (nichts veröffentlicht → keine
-Alt-Karten im Umlauf). E2E `T-CROSS-03` von der Klartext-Kette auf den **Anti-Leck-Vertrag** umgestellt.
+`vivodepot-lesen.html: parseNotfallQrText()` liest den **Klartext**-Notfall-QR, wie ihn Karten aus der Zeit
+vor diesem Bau tragen (Helfer scannt QR → Lese-App zeigt Medizin). Ein QR nach Option C trägt kein
+Gesundheitsdatum und geht nativ in die Kontakte, nicht in die Lese-App; der Parser erkennt ihn nicht
+und muss es nicht. **Entscheidung:** Der Parser bleibt als Leser für ältere Karten; ihn zu entfernen ist ein
+eigener, reversibler Schritt. E2E `T-CROSS-03` prüft den **Anti-Leck-Vertrag**, nicht die Klartext-Kette.
 
 ## Zweiter Track (NICHT dieser Bau, VOR v1) — Feld-Scope des passwortlosen Caches
 

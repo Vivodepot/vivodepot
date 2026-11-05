@@ -6,7 +6,11 @@
    „freigabe“, als `_anfrageHerausgeben` asynchron wurde. Die Notiz wartet nur, wenn der Fall `_vorfuehrungAnsichtWartet` setzt.
    Dieser Wächter verlangt das für jeden `case` mit asynchroner Ansicht. Die asynchronen Funktionen kommen aus dem Kern selbst
    (jede `async function`), nicht aus einer Hand-Liste. Grenze: ein synchroner Aufruf, der intern eine asynchrone Funktion ohne
-   Rückgabe anstößt, wird nicht erkannt; dafür bleibt die Verdeckungsprobe der Demo-Journeys im E2E. */
+   Rückgabe anstößt, wird nicht erkannt; dafür bleibt die Verdeckungsprobe der Demo-Journeys im E2E.
+   Genau diese Grenze traf am 29.10.2026 (Befund VERTAMA-SCHRITT6-NOTIZ-UNTER-FENSTER): `_anfrageAntwortSchreiben` rief für eine
+   signierte Antwort `_ausgabeWegWaehlen(…)` ohne return auf, das Warten der Station „ausgabe“ löste vor dem Fenster auf. Die Probe
+   unten hält diese Stelle; gegen die Klasse erzwingt die Verdeckungsprobe der Demo-Journeys den Zeitpunkt (das Lesen der Datei
+   wird verzögert) und misst erst nach dem Öffnen des Fensters. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -56,4 +60,26 @@ test('Gegenprobe: ein synchroner Fall ohne _vorfuehrungAnsichtWartet ist erlaubt
   const sync = faelle(KERN).find((f) => f.name === 'bereich');
   assert.ok(sync && !/_vorfuehrungAnsichtWartet\s*=/.test(sync.rumpf), 'Vorbedingung: „bereich“ setzt nichts');
   assert.ok(!ohneWarten(KERN).includes('bereich'));
+});
+
+/* Jeder Aufruf von `_ausgabeWegWaehlen` in der Antwort steht hinter return: in der Vorführung ist sein Ergebnis das Fenster, auf
+   das die Station „ausgabe“ wartet. */
+function antwortOhneRueckgabe(text) {
+  const s = text.indexOf('function _anfrageAntwortSchreiben(');
+  assert.ok(s >= 0, 'der Kern trägt _anfrageAntwortSchreiben');
+  const e = text.indexOf('\n}\n', s);
+  const rumpf = text.slice(s, e);
+  const aufrufe = [...rumpf.matchAll(/(return\s+)?_ausgabeWegWaehlen\(/g)];
+  assert.ok(aufrufe.length > 0, 'Vorbedingung: die Antwort ruft _ausgabeWegWaehlen');
+  return aufrufe.filter((m) => !m[1]).length;
+}
+
+test('die Antwort gibt die Wahl des Ausgabewegs zurück (Befund VERTAMA-SCHRITT6-NOTIZ-UNTER-FENSTER)', () => {
+  assert.equal(antwortOhneRueckgabe(KERN), 0);
+});
+
+test('Rot-Beweis: ohne return vor _ausgabeWegWaehlen fällt die Antwort auf', () => {
+  const gepflanzt = KERN.replace('return _ausgabeWegWaehlen(STRINGS.anfrageAntwortenCta', '_ausgabeWegWaehlen(STRINGS.anfrageAntwortenCta');
+  assert.notEqual(gepflanzt, KERN, 'der Ersatz greift');
+  assert.equal(antwortOhneRueckgabe(gepflanzt), 1);
 });

@@ -89,7 +89,7 @@ Ein Wortlaut, vier Träger, alle vier angepasst:
 - Fünf Proben, die den alten Wortlaut wörtlich prüften, auf den neuen umgestellt:
   `tests/identitaet-sektor.test.js` (zwei Stellen), `tests/sektor-maschine-erweiterungen.test.js`
   (zwei Stellen, synthetisches Testfeld — kein echter Träger, aber derselbe Wortlaut geliehen),
-  `tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json` (der eingefrorene
+  die eingefrorene Struktur-Fixture (nicht im öffentlichen Repository; der eingefrorene
   Golden-Master aus U2-ADR-320 — geändert, weil er den WERT einer bestehenden Feldstelle hält,
   nicht weil der Massstab selbst in Frage steht; die Struktur-Identität, die er eigentlich bewacht,
   bleibt unberührt)

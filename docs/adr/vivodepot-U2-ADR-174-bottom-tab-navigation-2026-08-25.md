@@ -3,20 +3,13 @@
 **Status:** Akzeptiert
 **Datum:** 25.08.2026
 
-**Nachtrag (25.08.2026, nach Abschluss-Review der Umsetzung):** Die ursprüngliche Fassung dieses
-ADR sah vor, dass die Bottom-Tab-Leiste den Hamburger als primären Navigationsweg ERSETZT (Schritt
-2 der Rollout-Reihenfolge unten). Der Abschluss-Review der vollständigen Umsetzung deckte auf: die
-Sidebar trägt NICHT nur die vier Bottom-Tab-Ziele, sondern zusätzlich „Für einen Anlass", „Notfall",
-„Meine Dokumente", „Prüftermine" und „Übergabe-Protokoll" (Herausgegeben) — neun statt vier
-Einträge. Ein Ausblenden des Hamburgers hätte diese fünf Wege auf mobilen Breiten unerreichbar
-gemacht. Produktentscheidung (25.08.2026): Hamburger BLEIBT bestehen. Die Bottom-Tab-Leiste
-ist ein SCHNELLZUGRIFF für die vier häufigsten Aktionen, keine Ablösung des vollen
-Sidebar-Zugriffswegs. Die „Verworfene Alternative" weiter unten („Hamburger UND Bottom-Tabs
-parallel dauerhaft") ist damit die tatsächlich gewählte Lösung — der ursprüngliche Verwerfungsgrund
-(„zwei Wege zum selben Ziel ohne klare Rangfolge") trifft nicht zu, weil die beiden Wege
-unterschiedliche Zielmengen abdecken (vier vs. neun), keine reine Dopplung. Rollout-Schritt 2 unten
-entfällt ersatzlos; Schritt 1 (additives Karten-Raster) und Schritt 3 (Herausgeben/Einlesen/
-Verwaltete Depots hinter den Tabs) bleiben wie umgesetzt.
+**Hamburger bleibt (Produktentscheidung 25.08.2026, nach Abschluss-Review der Umsetzung):** Die
+Sidebar trägt neben den vier Bottom-Tab-Zielen fünf weitere Wege — „Für einen Anlass", „Notfall",
+„Meine Dokumente", „Prüftermine" und „Übergabe-Protokoll" (Herausgegeben), neun Einträge statt vier.
+Ein Ausblenden des Hamburgers hätte diese fünf Wege auf mobilen Breiten unerreichbar gemacht. Die
+Bottom-Tab-Leiste ist darum ein SCHNELLZUGRIFF für die vier häufigsten Aktionen, keine Ablösung des
+vollen Sidebar-Zugriffswegs. Beide Wege decken unterschiedliche Zielmengen ab (vier gegen neun) und
+sind keine Dopplung.
 **Kategorie:** UX, ARCHITEKTUR
 **Grundlage:** UX-Designsprache Karten-Baustein vom 25.08.2026 (Arbeitsstand, nicht Teil der Veröffentlichung), Abschnitt
 „Teilprojekt 2 — Navigation" (§§85–107). Der Spec verlangt dort ausdrücklich: „Ein ADR wird vor
@@ -24,7 +17,7 @@ Beginn der Teilprojekt-2-Umsetzung geschrieben […], nicht vor diesem Spec — 
 führt noch keinen Code-Pfad ein." Dieses ADR löst diese Vorgabe ein, vor jedem Code dieses
 Teilprojekts.
 **Drei-Anker:**
-- **Code-Stelle (heutiger Zustand, bleibt bestehen — s. Nachtrag oben):** `vivodepot.html`,
+- **Code-Stelle (bleibt bestehen — s. oben):** `vivodepot.html`,
   Hamburger-Knopf `#tb-menue` (`renderTopbar()`, ~Zeile 33177–33184, Icon + Klick-Handler
   `toggleMenue`), sichtbar nur unterhalb des Breakpoints `@media (max-width: 760px)`
   (~Zeile 1979, `.tb-menue { display: inline-flex; }` bei ~Zeile 2028). Datengrundlage für den
@@ -32,7 +25,7 @@ Teilprojekts.
   `BEREICH_CLUSTER_ZUORDNUNG`/`BEREICH_CLUSTER_REIHENFOLGE` (~Zeile 34235–34243), beide aus
   U2-ADR-171.
 - **Betroffener gemeinsamer Weg:** `tests/e2e/helpers.js` — unberührt, da der Hamburger bestehen
-  bleibt (s. Nachtrag oben). Kein Anpassungsbedarf an der Quelle.
+  bleibt (s. oben). Kein Anpassungsbedarf an der Quelle.
 - **Spec-Bezug:** Karten-Baustein-Spec, Teilprojekt 2 (§§85–107) — Bottom-Tab-Struktur,
   Rollout-Reihenfolge, Verhältnis zu U2-ADR-171.
 **Status heute:** gilt — Umsetzung folgt in eigenen, nachfolgenden Commits (Rollout-Reihenfolge
@@ -61,7 +54,7 @@ sein. Für die Zielgruppe (ältere Menschen, pflegende Angehörige, oft am Handy
 einer jüngeren, mobil-erfahrenen Zielgruppe.
 
 Der Karten-Baustein-Spec (Brainstorming-Sitzung 25.08.2026, im Anschluss an U2-ADR-171) hat
-diese Frage bereits konzeptionell entschieden — Bottom-Tabs statt Hamburger, vier Tabs statt
+diese Frage konzeptionell vorbereitet — Bottom-Tabs als direkter Einstieg, vier Tabs statt
 zwölf direkter Bereichs-Links, Karten-Raster im Eintragen-Tab statt Listen-Darstellung. Der Spec
 selbst führt noch keinen Code-Pfad ein und verlangt ausdrücklich ein eigenes ADR vor
 Umsetzungsbeginn, weil die Bottom-Tab-Struktur ein neuer, verbindlicher Navigations-Standard für
@@ -72,8 +65,8 @@ mobile Breiten ist — vergleichbares Gewicht wie U2-ADR-171. Dieses ADR ist die
 **Eine mobile Bottom-Tab-Leiste mit vier Tabs** — Eintragen / Herausgeben / Einlesen / Verwaltete
 Depots, entsprechend den vier häufigsten Sidebar-Hauptaktionen — steht auf Breiten ≤760px
 (derselbe Breakpoint wie das bisherige Hamburger-Menü, `@media (max-width: 760px)`) als
-**Schnellzugriff** NEBEN dem Hamburger, nicht an dessen Stelle (korrigiert per Nachtrag oben — die
-Sidebar trägt fünf weitere Ziele, die nur über den Hamburger erreichbar bleiben). Vier Tabs, nicht
+**Schnellzugriff** NEBEN dem Hamburger, nicht an dessen Stelle — die Sidebar trägt fünf weitere
+Ziele, die nur über den Hamburger erreichbar sind (s. oben). Vier Tabs, nicht
 zwölf: Bottom-Nav-Konvention verträgt 4–5 Ziele, keine zwölf Einzelbereiche direkt als Tabs.
 
 **Der Eintragen-Tab zeigt ein Karten-Raster der fünf Cluster** (aus U2-ADR-171,
@@ -93,12 +86,10 @@ statt einer überwältigenden flachen Liste) ist auf Desktop schon erreicht. Das
 Karten-Raster und die Bottom-Tab-Leiste sind eine mobile-spezifische ERGÄNZUNG, keine Ablösung
 der Desktop-Sidebar.
 
-**Rollout-Reihenfolge (aus dem Spec übernommen — Schritt 2 durch Nachtrag oben ENTFALLEN):**
+**Rollout-Reihenfolge:**
 1. Eintragen-Tab / Karten-Raster mobil — additive, neue Darstellung, rührt an keinem bestehenden
    Code-Pfad (Desktop-Sidebar bleibt exakt wie sie ist, Hamburger bleibt bestehen).
-2. ~~Bottom-Tab-Leiste ersetzt den Hamburger~~ — ENTFÄLLT (Nachtrag 25.08.2026): der Hamburger
-   bleibt der einzige Zugriffsweg zu fünf Sidebar-Zielen, die keine Bottom-Tab-Entsprechung haben.
-3. Herausgeben/Einlesen/Verwaltete Depots hinter die neuen Tabs hängen — bestehende Bildschirme,
+2. Herausgeben/Einlesen/Verwaltete Depots hinter die neuen Tabs hängen — bestehende Bildschirme,
    zusätzlicher (nicht ersetzender) Zugriffsweg über die Tabs.
 
 ## Verworfene Alternativen
@@ -109,23 +100,14 @@ der Desktop-Sidebar.
   verlässliche Trefferflächen oder müssten selbst wieder scrollen — beides löst das
   Überwältigungs-Problem nicht, das U2-ADR-171 bereits für die Sidebar gelöst hat, sondern
   verlagert es nur in die Bottom-Leiste.
-- ~~**Hamburger UND Bottom-Tabs parallel dauerhaft.** Verworfen: zwei Wege zum selben Ziel ohne
-  klare Rangfolge sind genau die Art Redundanz, die dieses Projekt an anderer Stelle bereits
-  vermieden hat (vgl. Code-Kommentar zu `#tb-marke`, `vivodepot.html:2180–2183`).~~ **Korrektur per
-  Nachtrag (25.08.2026):** diese Verwerfung beruhte auf einer falschen Prämisse — dass Hamburger
-  und Bottom-Tabs „zwei Wege zum selben Ziel" seien. Der Abschluss-Review zeigte: die Sidebar trägt
-  neun Ziele, die Bottom-Tabs nur vier. Kein Fall von „zwei Wege, dieselben Ziele", sondern „ein
-  vollständiger Weg (Hamburger) plus ein schneller Teilweg (Bottom-Tabs) für die häufigsten vier".
-  Das ist die tatsächlich umgesetzte Lösung, keine verworfene Alternative mehr.
 - **Karten-Raster auch auf Desktop einführen, um Mobil und Desktop optisch anzugleichen.**
   Verworfen: der Spec entscheidet ausdrücklich „Desktop bleibt unverändert" (Folgesitzung
   25.08.2026) — die Sidebar erreicht das eigentliche Ziel (Übersichtlichkeit bei wachsender
   Bereichs-/Modul-Zahl) bereits über die Cluster-Gruppierung aus U2-ADR-171. Ein zweiter,
   redundanter Umbau auf Desktop ohne benannten Mehrwert stünde gegen den kleinsten Blast-Radius,
   den die Rollout-Reihenfolge bewusst wählt.
-- **Sofortiger, einzelner Umsetzungs-Commit für alle drei Rollout-Schritte zusammen.** Verworfen:
-  vermischt eine additive, risikoarme Änderung (Karten-Raster) mit dem Abschalten eines
-  bestehenden, produktiv genutzten Navigationswegs (Hamburger → Bottom-Tabs) und dem Umhängen
-  dreier weiterer Bildschirme in einem einzigen Zug — bei einem Fehlschlag in Schritt 3 wäre
-  unklar, ob die Ursache in der neuen Darstellung, dem neuen Navigationsweg oder der neuen
-  Bildschirm-Verdrahtung liegt. Die im Spec vorgegebene Reihenfolge trennt diese drei Risiken.
+- **Sofortiger, einzelner Umsetzungs-Commit für alle Rollout-Schritte zusammen.** Verworfen:
+  vermischt eine additive, risikoarme Änderung (Karten-Raster) mit dem Umhängen dreier weiterer
+  Bildschirme in einem einzigen Zug — bei einem Fehlschlag wäre unklar, ob die Ursache in der
+  neuen Darstellung oder der neuen Bildschirm-Verdrahtung liegt. Die Reihenfolge trennt diese
+  Risiken.

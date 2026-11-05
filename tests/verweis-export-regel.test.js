@@ -178,7 +178,7 @@ test('docxBereichModell (advanceCare.provisionInstruments, Zweck vollmacht + Kon
     certifyingBody: 'Notar Dr. Sommer, München', storageLocation: 'beim Notar',
   });
   const modell = V.docxBereichModell('advanceCare');
-  const zeile = modell.zeilen.find(z => z.label === 'Vorsorge-Instrumente');
+  const zeile = modell.zeilen.find(z => z.label === 'Vorsorgedokumente');
   assert.match(zeile.wert, /Maria Vollmacht/);
   assert.match(zeile.wert, /089 33/);
   assert.match(zeile.wert, /Notar Dr\. Sommer/);

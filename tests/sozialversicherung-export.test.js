@@ -123,6 +123,9 @@ test('Soz-6: zwei optionale Ablauf-Felder (U2-ADR-030 Nachtrag) — gemappt, lee
   // gefüllt → beide Claims im Export (reine Datumsfelder, Bürger-Freitext, kein Code).
   // Beide Felder sind schema-sensibel (Liste 1) — Opt-in nötig, um den Mapping-Mechanismus
   // selbst zu prüfen (dieser Test prüft die Mapping-Form, nicht das Zurückhalten).
+  // Befund DATENSATZ-VERBORGENE-WERTE (03.11.2026): die Befristung gilt nur mit Pflegegrad (Tor `careLevel`); ohne ihn ist sie
+  // verborgen und geht nicht ins Format. Die Probe prüft die Mapping-Form, darum steht der Pflegegrad dabei.
+  V2.sektorFeldSetzen('socialInsurance', 'careLevel', '3');
   V2.sektorFeldSetzen('socialInsurance', 'careLevelTimeLimitedUntil', '2027-06-30');
   V2.sektorFeldSetzen('socialInsurance', 'gdbReviewReAssessmentDate', '2026-12-01');
   const voll = V2.sdJwtVcSozialversicherung({ sensibel: true });

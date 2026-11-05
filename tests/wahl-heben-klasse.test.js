@@ -111,7 +111,7 @@ test('[Wahl·Sub-Depot·Rot-Beweis] ohne die Markierung beim Betreten wirkt das 
     V.akteurSelbstErklaeren('Tochter Reiter');
     const inhalt = { schemaVersion: V.SCHEMA_VERSION_AKTUELL, sektoren: {}, menschen: [], institutionen: [], textsprache: 'fr',
       textsatzModule: [fremdesModul('wahl-heben-sub')] };
-    const e = await V.subDepotEinhaengen(V.blackboxDateiAusUmschlag(await V.subDepotVersiegeln(inhalt, SUB_PW)), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
+    const e = await V.subDepotEinhaengen(V.depotDateiAusUmschlag(await V.subDepotVersiegeln(inhalt, SUB_PW)), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Brandt' });
     await V.subDepotVertrauenOeffnen(e.depotUUID, SUB_PW);
     V.subKontextBetreten(e.depotUUID);
     assert.equal(V.textLesen(MESSPUNKT), 'MITGEREIST-WAHL-PROBE');

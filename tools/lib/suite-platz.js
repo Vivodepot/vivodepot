@@ -137,7 +137,7 @@ function plaetzeSetzen({ dir = verzeichnis(), plaetze, grund, jetzt = new Date()
   let alt = {};
   try { alt = JSON.parse(fs.readFileSync(path.join(dir, PLAETZE_DATEI), 'utf8')) || {}; } catch (_) { /* keine */ }
   const klein = Number.isInteger(alt.kleinPlaetze) ? { kleinPlaetze: alt.kleinPlaetze } : {};
-  fs.writeFileSync(path.join(dir, PLAETZE_DATEI), JSON.stringify({ plaetze, ...klein, grund: g, gesetztAm: jetzt.toISOString() }) + '\n');
+  atomarErsetzen(path.join(dir, PLAETZE_DATEI), JSON.stringify({ plaetze, ...klein, grund: g, gesetztAm: jetzt.toISOString() }) + '\n');
 }
 
 /* LASTGRENZE (06.10.2026). Am 06.10.2026 lag die Last bei 86–173 (12:36–12:40, `uptime`), die Verbindung fiel aus, der
@@ -265,7 +265,15 @@ function wartende({ dir = verzeichnis() } = {}) {
 }
 
 // Ticket und Platz entstehen atomar (tools/lib/atomar-anlegen.js, Befund HOLER-PROBE-LASTWACKLER).
-const { atomarAnlegen } = require('./atomar-anlegen.js');
+const { atomarAnlegen, atomarErsetzen } = require('./atomar-anlegen.js');
+/* UNLESBAR IST NICHT TOT (28.10.2026, Befund KLEIN-PLATZ-EINTRAG-NICHT-ATOMAR): eine Platzdatei, die sich nicht lesen lässt, kann
+   gerade geschrieben werden. Verwaist ist sie erst, wenn sie länger als diese Frist unlesbar dasteht (nach mtime). */
+const UNLESBAR_FRIST_MS = 10 * 1000;
+function unlesbarJung(pfad, jetzt = Date.now()) {
+  // Frist 0 schaltet ab; eine mtime knapp nach `jetzt` (Zeitauflösung) zählt sonst als jung. Ist die Datei inzwischen fort
+  // (ENOENT, ein Nachbar hat geräumt) oder schlägt stat anders fehl, ist sie nicht jung: dann entscheidet der Aufrufer wie bisher.
+  try { return UNLESBAR_FRIST_MS > 0 && jetzt - fs.statSync(pfad).mtimeMs < UNLESBAR_FRIST_MS; } catch (_) { return false; }
+}
 let ticketZaehler = 0;
 /** Zieht ein Ticket: der Name ordnet nach Zeit (feste Breite), dann PID und Zähler. */
 function ticketZiehen({ name, pid = process.pid, dir = verzeichnis(), cwd = process.cwd(), extra = {} } = {}) {
@@ -364,7 +372,7 @@ function reiheSetzen({ dir = verzeichnis(), baum, jetzt = Date.now() } = {}) {
   fs.mkdirSync(dir, { recursive: true });
   const alt = reiheLesen({ dir, jetzt });
   const eintrag = { baum: echterPfad(baum), gesetztAm: new Date(jetzt).toISOString() };
-  fs.writeFileSync(path.join(dir, REIHE_DATEI), JSON.stringify(eintrag) + '\n');
+  atomarErsetzen(path.join(dir, REIHE_DATEI), JSON.stringify(eintrag) + '\n');
   if (alt && alt.gueltig && alt.baum !== eintrag.baum) return { ...eintrag, ueberschrieben: { baum: alt.baum, gesetztAm: alt.gesetztAm } };
   return eintrag;
 }
@@ -383,6 +391,21 @@ function reiheLoeschen({ dir = verzeichnis(), cwd = process.cwd(), fremd = false
   if (ergebnis === 'fremd') return { geloescht: false, ergebnis, marke };
   try { fs.unlinkSync(path.join(dir, REIHE_DATEI)); } catch (_) { return { geloescht: false, ergebnis: 'keine', marke: null }; }
   return { geloescht: true, ergebnis, marke };
+}
+/* Ein lebender Halter des markierten Baums auf dem Air-Platz (PLATZ FÜR DEN ZUGKOPF, 03.11.2026). */
+function airLebtImBaum(baum, { dir = verzeichnis(), host = os.hostname() } = {}) {
+  const ad = airVerzeichnis(dir);
+  if (!fs.existsSync(ad)) return false;
+  return halter({ dir: ad, n: anzahlAir() }).some((e) => e && (!e.host || e.host === host) && prozessLebt(e.pid) && imBaum(baum, e.cwd));
+}
+/* Hat der markierte Baum einen vollen Platz genommen, trägt die Marke `gegriffenAm` (PLATZ FÜR DEN ZUGKOPF, 03.11.2026).
+   Nur wenn die Datei noch dieselbe Marke ist (Baum und gesetztAm gleich); eine neu gesetzte Marke beginnt ohne. */
+function reiheGegriffenMerken({ dir, reihe, jetzt = Date.now() }) {
+  if (!reihe || reihe.gegriffenAm) return;
+  let m;
+  try { m = JSON.parse(fs.readFileSync(path.join(dir, REIHE_DATEI), 'utf8')); } catch (_) { return; }
+  if (!m || echterPfad(m.baum || '') !== reihe.baum || m.gesetztAm !== reihe.gesetztAm || m.gegriffenAm) return;
+  atomarErsetzen(path.join(dir, REIHE_DATEI), JSON.stringify({ ...m, gegriffenAm: new Date(jetzt).toISOString() }) + '\n');
 }
 /** Liegt ein Arbeitsverzeichnis im markierten Baum? */
 function imBaum(baum, cwd) {
@@ -403,17 +426,26 @@ function platzHolen(opts = {}) {
   // Der geerbte Platz zuerst, BEVOR ein Verzeichnis aufgelöst wird: ein Kind mit geerbtem Platz braucht keines (s. verzeichnis).
   const env = opts.env || process.env;
   if (env[UMGEBUNG_GEHALTEN]) return geerbterPlatz({ env, art: 'voll' });
-  const { name, pid = process.pid, dir = verzeichnis(), n = anzahl(), cwd = process.cwd(), ticket = null } = opts;
+  const { pid = process.pid, dir = verzeichnis(), n = anzahl() } = opts;
   const erbe = geerbterPlatz({ env, pid, dir, n, art: 'voll' });
   if (erbe) return erbe;
   fs.mkdirSync(dir, { recursive: true });
+  // HÄNGENDE PLÄTZE: wer alle belegt findet, misst die Halter und räumt hängende; die Meldung nennt sie unter `geraeumt`.
+  const haengend = halter({ dir, n }).length >= n ? haengendRaeumen({ dir, n, env }) : [];
+  const r = platzVergeben({ ...opts, env, pid, dir, n });
+  return haengend.length ? { ...r, geraeumt: [...haengend, ...(r.geraeumt || [])] } : r;
+}
+function platzVergeben(opts) {
+  const { name, pid, dir, n, cwd = process.cwd(), ticket = null } = opts;
   // Ein Air-Platz derselben Sitzung sperrt hier nichts mehr (AIR-PLATZ ALS DRITTER PLATZ, 16.10.2026).
   const reihe = reiheLesen({ dir });
   if (reihe && reihe.gueltig) {
     const jetztHalter = halter({ dir, n });
     if (imBaum(reihe.baum, cwd)) {
       if (name === EXKLUSIV && fremderPush({ dir, n, pid })) return { geholt: false, halter: jetztHalter, wartende: wartende({ dir }), exklusiv: true, reihe };
-      return platzNehmen({ name, pid, dir, n, cwd, schlange: [], reihe });   // vor allen Tickets
+      const r = platzNehmen({ name, pid, dir, n, cwd, schlange: [], reihe });   // vor allen Tickets
+      if (r.geholt) reiheGegriffenMerken({ dir, reihe });
+      return r;
     }
     const andere = jetztHalter.filter((h) => !imBaum(reihe.baum, h.cwd));
     const markierterHaelt = jetztHalter.length > andere.length;
@@ -424,7 +456,14 @@ function platzHolen(opts = {}) {
        leerer Platz bei acht Wartenden. Probe: tests/suite-platz-reihe.test.js, [Reihe·nur Air]. */
     const suiteWartet = wartende({ dir }).some((t) => imBaum(reihe.baum, t.cwd));
     const inSchonfrist = Date.now() - Date.parse(reihe.gesetztAm || 0) <= REIHE_SCHONFRIST_MS;
-    const freihalten = !markierterHaelt && (suiteWartet || inSchonfrist);
+    /* PLATZ FÜR DEN ZUGKOPF (03.11.2026). Nach der Schonfrist hielt die Marke keinen Platz mehr frei, solange der markierte
+       Baum nur vorprüfte (vor-pre-commit im Klein-Platz) und noch kein Ticket gezogen hatte: andere volle Läufe nahmen beide
+       Plätze, und der Zugkopf-lv wartete hinter ihnen. Darum hielt ein Halt mit Uhrzeit die Plätze frei. Jetzt bleibt ein
+       Platz frei, bis der markierte Baum seit dem Setzen der Marke einmal einen vollen Platz genommen hat (`gegriffenAm` in
+       der Marke) oder auf dem Air-Platz läuft (dann ist sein Lauf gestartet, NUR AIR oben gilt). Die Marke fällt wie bisher
+       (90 Minuten, verwaist, gelöscht). Probe: tests/suite-platz-reihe.test.js, [Reihe·Zugkopf]. */
+    const gestartet = Boolean(reihe.gegriffenAm) || airLebtImBaum(reihe.baum, { dir });
+    const freihalten = !markierterHaelt && (!gestartet || suiteWartet || inSchonfrist);
     const platzDa = markierterHaelt ? andere.length === 0 && frei >= 1 : freihalten ? andere.length === 0 && frei >= 2 : frei >= 1;
     // Ein Browserlauf nicht neben einem Browserlauf; wer so blockiert ist, hält den Zusatzplatz niemandem zu.
     const e2eHaelt = jetztHalter.some((h) => artVon(h.name) === 'e2e' && h.pid !== pid);
@@ -464,6 +503,7 @@ function platzNehmen({ name, pid, dir, n, cwd, schlange, reihe = null, reiheHinw
       if (!atomarAnlegen(pfad, JSON.stringify(eintrag))) {
         const inhalt = lesen(pfad);
         if (inhalt && prozessLebt(inhalt.pid)) break;          // lebend belegt: nächster Platz
+        if (!inhalt && unlesbarJung(pfad)) break;              // wird gerade geschrieben: belegt
         try { fs.unlinkSync(pfad); } catch (_) { /* schon weg */ }
         geraeumt.push({ platz: k, ...(inhalt || { pid: null, name: 'unlesbar' }) });
         continue;                                               // einmal neu versuchen
@@ -620,7 +660,7 @@ function kleinGruppeEintragen({ pid = process.pid, gruppe, dir = verzeichnis(), 
   for (let k = 1; k <= kleinPlaetzeHoechstens(env, dir); k++) {
     const pfad = platzPfad(kd, k);
     const e = lesen(pfad);
-    if (e && e.pid === pid) { fs.writeFileSync(pfad, JSON.stringify({ ...e, gruppe })); return true; }
+    if (e && e.pid === pid) { atomarErsetzen(pfad, JSON.stringify({ ...e, gruppe })); return true; }
   }
   return false;
 }
@@ -634,6 +674,7 @@ function kleinTotRaeumen({ dir = verzeichnis(), n, host = os.hostname() } = {}) 
     if (!fs.existsSync(pfad)) continue;
     const e = lesen(pfad);
     if (e && prozessLebt(e.pid)) continue;
+    if (!e && unlesbarJung(pfad)) continue;   // wird gerade geschrieben: nicht verwaist
     if (e && Number.isInteger(e.gruppe) && (!e.host || e.host === host)) gruppeBeenden(e.gruppe, { fristMs: 2000 });
     try { fs.unlinkSync(pfad); geraeumt.push({ platz: k, ...(e || { pid: null, name: 'unlesbar' }) }); } catch (_) { /* schon weg */ }
   }
@@ -653,11 +694,14 @@ function kleinPlatzHolen({ name = 'klein', pid = process.pid, dir = verzeichnis(
   fs.mkdirSync(kd, { recursive: true });
   kleinTotRaeumen({ dir, n: hoechst });
   const schlange = wartende({ dir: kd });
+  // HÄNGENDE PLÄTZE: wer alle belegt findet, misst die Halter und räumt hängende.
+  const haengend = halter({ dir: kd, n: hoechst }).length >= nk ? haengendRaeumen({ dir, pdir: kd, n: hoechst, env }) : [];
+  const mit = (r) => (haengend.length ? { ...r, geraeumt: [...haengend, ...(r.geraeumt || [])] } : r);
   const belegt = halter({ dir: kd, n: hoechst });
   const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : schlange.length;
-  if (belegt.length >= nk) return { geholt: false, halter: belegt, wartende: schlange, wirksam: nk };
-  if (eigenerRang > 0 && nk - belegt.length <= eigenerRang) return { geholt: false, halter: belegt, wartende: schlange, wirksam: nk };
-  return { ...platzNehmen({ name, pid, dir: kd, n: hoechst, cwd, schlange }), wirksam: nk };
+  if (belegt.length >= nk) return mit({ geholt: false, halter: belegt, wartende: schlange, wirksam: nk });
+  if (eigenerRang > 0 && nk - belegt.length <= eigenerRang) return mit({ geholt: false, halter: belegt, wartende: schlange, wirksam: nk });
+  return mit({ ...platzNehmen({ name, pid, dir: kd, n: hoechst, cwd, schlange }), wirksam: nk });
 }
 /* KLEIN WARTET AUF VOLLE PLÄTZE (24.10.2026). Am 24.10.2026 um 17:33 lag die Last bei 34,8: zwei volle Plätze
    und zwei Klein-Läufe liefen zugleich, die Klein-Läufe waren 12 s vor einem vollen Lauf gestartet. Der Klein-Weg prüfte nur
@@ -681,6 +725,9 @@ function lastGrenzeKlein(env = process.env) {
 const ZUSCHLAG_VOLL = 10;    // LASTREGEL 24.10.2026 03:34: zwei volle Läufe ergaben 22–28, also etwa 11–14 je Lauf
 const ZUSCHLAG_KLEIN = 4;    // GESCHÄTZT, nicht gemessen (vier Proben im Pool von vor-pre-commit); Nachmessung nach folge33
 const ZUSCHLAG_FRIST_MS = 90 * 1000;
+const KOPF_NAME = 'landung-vorbereiten';
+const KOPF_SCHRITT_BROWSER = 'browser';
+const KOPF_LAST_SCHRANKE = 15;   // = LAST_SCHRANKE des Browser-Schritts (scripts/pruefe-e2e-bereich.js); Gleichheit prüft die Probe
 function kleinStartFrei({ env = process.env, dir = null, n = null, nk = null, grenze = lastGrenzeKlein(env), last = () => os.loadavg()[0],
   jetzt = Date.now(), pruefen = !env.VD_SUITE_PLATZ_DIR && !env[UMGEBUNG_GEHALTEN] && !testlaeuferMerkmale(env).length } = {}) {
   if (!pruefen) return { frei: true, geprueft: false, grenze };
@@ -691,8 +738,39 @@ function kleinStartFrei({ env = process.env, dir = null, n = null, nk = null, gr
   const jung = (h) => jetzt - Date.parse(h.gestartetAm || 0) < ZUSCHLAG_FRIST_MS;
   const klein = halter({ dir: kleinVerzeichnis(d), n: nk || kleinPlaetzeHoechstens(env, d) });
   const zuschlag = voll.filter(jung).length * ZUSCHLAG_VOLL + klein.filter(jung).length * ZUSCHLAG_KLEIN;
+  /* KLEIN NEBEN DEM ZUGKOPF (30.10.2026, Befund KLEIN-NEBEN-ZUGKOPF): seit 29.10. 18:00 endeten 14 Zugköpfe ungemessen, die
+     meisten an der Lastschranke des Browser-Schritts (KOPF_LAST_SCHRANKE), weil Klein-Läufe bis zur Grenze 20 daneben starteten.
+     Hält landung-vorbereiten einen vollen Platz: im Browser-Schritt des Kopfs (Feld schritt im Platz) startet kein Klein-Lauf;
+     sonst gilt die Schranke des Kopfs statt der Klein-Grenze. Läuft gar kein Klein-Lauf, darf einer starten — Klein verhungert nie.
+     Probe: [Klein·Neben Zugkopf]. */
+  const kopf = voll.filter((h) => h.name === KOPF_NAME);
+  if (kopf.some((h) => h.schritt === KOPF_SCHRITT_BROWSER)) return { frei: false, geprueft: true, voll: false, kopfBrowser: true, grenze };
+  const g = kopf.length ? Math.min(grenze, KOPF_LAST_SCHRANKE) : grenze;
   const l = last();
-  return { frei: l + zuschlag < grenze, geprueft: true, voll: false, last: l, zuschlag, voranschlag: l + zuschlag, grenze };
+  if (kopf.length && !klein.length) return { frei: true, geprueft: true, voll: false, last: l, zuschlag, voranschlag: l + zuschlag, grenze: g, mindestens: true };
+  return { frei: l + zuschlag < g, geprueft: true, voll: false, last: l, zuschlag, voranschlag: l + zuschlag, grenze: g };
+}
+/* KLEIN-BRICHT-BEI-KOPFBROWSER (30.10.2026): der Grund, warum ein Klein-Lauf wartet, für jede Form, die kleinStartFrei
+   liefert. Vorher setzte die Klein-Hülle der Kommandozeile den Text selbst zusammen und kannte nur „voll“ und „Last“; der Stand
+   im Browser-Schritt des Kopfs trägt keine Last, `last.toFixed` warf, und jeder --klein brach ab, statt zu warten.
+   Probe: [Klein·Wartegrund]. */
+function kleinWarteGrund(s = {}) {
+  if (s.voll) return `alle vollen Plätze belegt (${(s.halter || []).map((h) => h.name + ' PID ' + h.pid).join(', ')})`;
+  if (s.kopfBrowser) return 'Zugkopf im Browser-Schritt';
+  if (typeof s.last === 'number') return `Last ${s.last.toFixed(1)}` + (s.zuschlag ? ` + ${s.zuschlag} für eben gestartete Läufe` : '') + ` ≥ ${s.grenze}`;
+  return 'Klein-Start nicht frei';
+}
+/** Der volle Platz des Aufrufers trägt den laufenden Schritt (null löscht ihn); Ergebnis: ob ein eigener Platz gefunden wurde. */
+function platzSchrittSetzen({ pid = process.pid, schritt = null, dir = verzeichnis(), env = process.env } = {}) {
+  for (let k = 1; k <= anzahl(env, dir); k++) {
+    const pfad = platzPfad(dir, k);
+    const e = lesen(pfad);
+    if (!e || e.pid !== pid) continue;
+    const { schritt: _alt, ...rest } = e;
+    atomarErsetzen(pfad, JSON.stringify(schritt ? { ...rest, schritt } : rest));
+    return true;
+  }
+  return false;
 }
 /** Wartet höchstens `wartenS` Sekunden auf einen Klein-Platz und die Last, mit Ticket. Bei Abbruch an der Last: { last: true }. */
 function kleinPlatzHolenMitWarten(opts = {}, { wartenS = 0, pauseS = 10, melden = () => {}, warten = schlafen,
@@ -722,6 +800,106 @@ function kleinPlatzHolenMitWarten(opts = {}, { wartenS = 0, pauseS = 10, melden 
 }
 function kleinPlatzFreigeben({ pid = process.pid, dir = verzeichnis(), env = process.env } = {}) {
   return platzFreigeben({ pid, dir: kleinVerzeichnis(dir), n: kleinPlaetzeHoechstens(env, dir) });
+}
+
+/* HÄNGENDE PLÄTZE (26.10.2026, Werkzeug-Zug 2, Posten 1). Bis hierher räumte die Vergabe nur tote Halter. Ein
+   Halter, der lebt, aber nichts mehr tut (eine Sitzung hängt nach Kontowechsel oder Abbruch in einem Warten), hielt seinen Platz,
+   bis ihn jemand von Hand beendete. Jetzt: Wer einen Platz sucht und alle belegt findet, und --anzeigen, messen je Halter den
+   Prozessbaum unter seiner PID (Pids und CPU-Zeit aus ps). Wechselt der Baum einen Prozess oder wächst seine CPU-Zeit um
+   mindestens HAENGT_CPU_S, beginnt die Messung neu. Bleibt beides HAENGT_S lang aus, ist der Halter hängend: sein Baum wird
+   beendet (SIGTERM, nach der Frist SIGKILL; bei einem Klein-Halter auch seine Gruppe), der Platz geräumt, eine Zeile geht nach
+   HAENGEND_PROTOKOLL im Platz-Verzeichnis und die Meldung des Holers nennt ihn (`grund: 'haengend'`).
+   Gemessen wird der Baum, nicht die Prozessgruppe: eine Gruppe kann bei einer Shell ohne Jobsteuerung den Aufrufer einschließen
+   (EIGENEN LAUF BEENDEN). Nie beendet wird ein Vorfahr des Prüfenden. Ausgenommen sind (a) ein Halter, aus dessen Baum ein
+   Prozess selbst mit Ticket wartet (--warten, in einer der Schlangen), und (b) ein Halter, dessen Sitzung (cwd, dieser Rechner)
+   den Air-Platz hält oder auf ihn wartet: der Lauf wartet auf GitHub und rechnet hier nicht.
+   Die Schwelle: Frist 600 s, CPU-Schwelle 2 s je Frist. Gemessen am 26.10.2026 an echten Haltern: ein wartender Klein-Wrapper
+   0,02 s CPU in 13 Minuten, laufende Proben wechseln binnen 60 s Prozesse. Messweg: das Kommandozeilenwerkzeug der Plätze mit
+   --haengend-messen [<s>] (nur lesend). Überschreibbar: VD_SUITE_PLATZ_HAENGT_S,
+   VD_SUITE_PLATZ_HAENGT_CPU_S. Die Messung liegt je Platz in `haengt-<k>.json` neben der Sperre; ohne Blick der Vergabe misst
+   niemand — ein hängender Halter stört erst, wenn jemand wartet, und genau der misst.
+   Probe: tests/suite-platz-haengend.test.js, [Platz·Hängend·Rot-Beweis] und folgende. */
+const HAENGT_S_VORGABE = 600;
+const HAENGT_CPU_S_VORGABE = 2;
+const HAENGEND_PROTOKOLL = 'haengend-freigegeben.ndjson';
+function haengtS(env = process.env) { const n = Number(env.VD_SUITE_PLATZ_HAENGT_S); return Number.isFinite(n) && n > 0 ? n : HAENGT_S_VORGABE; }
+function haengtCpuS(env = process.env) { const n = Number(env.VD_SUITE_PLATZ_HAENGT_CPU_S); return Number.isFinite(n) && n > 0 ? n : HAENGT_CPU_S_VORGABE; }
+/** ps -A -o pid=,ppid=,time= : Zeilen „pid ppid M:SS.ss“ (Stunden möglich). */
+function psMitZeit() {
+  try { return require('node:child_process').execFileSync('ps', ['-A', '-o', 'pid=,ppid=,time='], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'], timeout: 5000 }); } catch (_) { return ''; }
+}
+function cpuKarte(psText) {
+  const karte = new Map();
+  for (const z of String(psText).split('\n')) {
+    const [p, , t] = z.trim().split(/\s+/);
+    if (/^\d+$/.test(p || '') && t) karte.set(Number(p), t.split(':').reduce((a, x) => a * 60 + Number(x), 0));
+  }
+  return karte;
+}
+/** Ein Prozess aus `pids` wartet mit Ticket in einer der Schlangen (voll, Air, Klein). */
+function baumWartet(pids, dir) {
+  const menge = new Set(pids);
+  return [dir, airVerzeichnis(dir), kleinVerzeichnis(dir)].some((d) => fs.existsSync(d) && wartende({ dir: d }).some((t) => menge.has(t.pid)));
+}
+/** Die Sitzung des Halters (cwd, Rechner) hält den Air-Platz oder wartet auf ihn. */
+function sitzungAmAir(h, dir, host) {
+  const ad = airVerzeichnis(dir);
+  if (!fs.existsSync(ad)) return false;
+  return [...halter({ dir: ad, n: anzahlAir() }), ...wartende({ dir: ad })].some((e) => gleicheSitzung(e, h.cwd, host));
+}
+function baumBeenden(pids, { fristMs = 5000 } = {}) {
+  for (const p of pids) { try { process.kill(p, 'SIGTERM'); } catch (_) { /* schon weg */ } }
+  const ende = Date.now() + fristMs;
+  while (Date.now() < ende && pids.some((p) => prozessLebt(p))) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100);
+  for (const p of pids) if (prozessLebt(p)) { try { process.kill(p, 'SIGKILL'); } catch (_) { /* schon weg */ } }
+}
+/**
+ * Misst die Halter der Plätze 1..n in `pdir` (ein Platz-Verzeichnis: das volle, air/ ausgenommen, oder klein/) und räumt hängende.
+ * `dir` ist das Grundverzeichnis (für Schlangen und Air-Platz). Ergebnis: die geräumten Einträge mit grund 'haengend'.
+ * `psText`, `jetzt`, `prozessLebt` und `beenden` sind für Proben ersetzbar.
+ */
+function haengendRaeumen({ dir = verzeichnis(), pdir = dir, n = anzahl(), env = process.env, jetzt = Date.now(), psText = null,
+  prozessLebt: lebtFn = prozessLebt, beenden = null, host = os.hostname() } = {}) {
+  const frist = haengtS(env) * 1000;
+  const schwelle = haengtCpuS(env);
+  const ps = psText === null ? psMitZeit() : psText;
+  if (!ps) return [];
+  const cpu = cpuKarte(ps);
+  const geschuetzt = vorfahren(process.pid, ps); geschuetzt.add(process.pid);
+  const geraeumt = [];
+  for (let k = 1; k <= n; k++) {
+    const sperre = platzPfad(pdir, k);
+    const messung = path.join(pdir, 'haengt-' + k + '.json');
+    const e = lesen(sperre);
+    if (!e || !lebtFn(e.pid)) { try { fs.unlinkSync(messung); } catch (_) { /* keine */ } continue; }
+    if ((e.host && e.host !== host) || geschuetzt.has(e.pid)) continue;
+    const pids = prozessBaum(e.pid, ps).filter((p) => cpu.has(p));
+    const summe = pids.reduce((a, p) => a + cpu.get(p), 0);
+    const schluessel = pids.slice().sort((a, b) => a - b).join(',');
+    const alt = lesen(messung);
+    const gleicherHalter = alt && alt.pid === e.pid && alt.gestartetAm === e.gestartetAm;
+    const ausgenommen = baumWartet(pids, dir) || sitzungAmAir(e, dir, host);
+    if (ausgenommen || !gleicherHalter || alt.pids !== schluessel || summe - alt.cpuS >= schwelle) {
+      try { atomarErsetzen(messung, JSON.stringify({ pid: e.pid, gestartetAm: e.gestartetAm, pids: schluessel, cpuS: summe, seit: jetzt })); } catch (_) { /* nächstes Mal */ }
+      continue;
+    }
+    const stilleMs = jetzt - alt.seit;
+    if (stilleMs < frist) continue;
+    if (pids.some((p) => geschuetzt.has(p))) continue;
+    if (beenden) beenden(pids, e); else {
+      if (Number.isInteger(e.gruppe)) gruppeBeenden(e.gruppe, { fristMs: 2000 });
+      baumBeenden(pids);
+    }
+    const nochDa = lesen(sperre);
+    if (nochDa && nochDa.pid === e.pid) { try { fs.unlinkSync(sperre); } catch (_) { /* schon weg */ } }
+    try { fs.unlinkSync(messung); } catch (_) { /* schon weg */ }
+    const zeile = { zeit: new Date(jetzt).toISOString(), platz: k, verzeichnis: pdir, name: e.name, pid: e.pid, cwd: e.cwd,
+      gestartetAm: e.gestartetAm, prozesse: pids.length, cpuS: Math.round((summe - alt.cpuS) * 100) / 100, stilleS: Math.round(stilleMs / 1000),
+      schwelleCpuS: schwelle, fristS: frist / 1000 };
+    try { fs.appendFileSync(path.join(pdir, HAENGEND_PROTOKOLL), JSON.stringify(zeile) + '\n'); } catch (_) { /* Meldung trägt es */ }
+    geraeumt.push({ ...e, platz: k, grund: 'haengend', cpuS: zeile.cpuS, stilleS: zeile.stilleS });
+  }
+  return geraeumt;
 }
 
 /** Gibt nur die EIGENEN Plätze frei (PID-Abgleich) — nie den eines anderen. */
@@ -937,8 +1115,10 @@ module.exports = {
   eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren, vorfahrHaelt, geerbterPlatz, pushPauseSetzen, pushPauseEnden, fremderPush,
   reiheLesen, reiheSetzen, reiheLoeschen, imBaum, markeHatLauf, REIHE_GUELTIG_MS, REIHE_SCHONFRIST_MS, WARTEN_S_VORGABE, wartenS,
   airVerzeichnis, anzahlAir, airPlatzHolen, airPlatzHolenMitWarten, airPlatzFreigeben, gleicheSitzung,
-  UMGEBUNG_KLEIN, kleinVerzeichnis, anzahlKlein, KLEIN_PLAETZE_DYNAMISCH, KLEIN_DYNAMISCH_LAST, kleinPlaetzeHoechstens, kleinPlaetzeWirksam, kleinTotRaeumen, kleinGruppeEintragen, gruppeLebt, gruppeBeenden, kleinPlatzHolen, kleinPlatzHolenMitWarten, kleinPlatzFreigeben,
-  kleinStartFrei, lastGrenzeVoll, lastGrenzeKlein, ZUSCHLAG_VOLL, ZUSCHLAG_KLEIN, ZUSCHLAG_FRIST_MS,
+  UNLESBAR_FRIST_MS, UMGEBUNG_KLEIN, kleinVerzeichnis, anzahlKlein, KLEIN_PLAETZE_DYNAMISCH, KLEIN_DYNAMISCH_LAST, kleinPlaetzeHoechstens, kleinPlaetzeWirksam, kleinTotRaeumen, kleinGruppeEintragen, gruppeLebt, gruppeBeenden, kleinPlatzHolen, kleinPlatzHolenMitWarten, kleinPlatzFreigeben,
+  haengendRaeumen, psMitZeit, cpuKarte, HAENGEND_PROTOKOLL, HAENGT_S_VORGABE, HAENGT_CPU_S_VORGABE, haengtS, haengtCpuS,
+  kleinStartFrei, kleinWarteGrund, lastGrenzeVoll, lastGrenzeKlein, ZUSCHLAG_VOLL, ZUSCHLAG_KLEIN, ZUSCHLAG_FRIST_MS,
+  platzSchrittSetzen, KOPF_NAME, KOPF_SCHRITT_BROWSER, KOPF_LAST_SCHRANKE,
   istTestlauf, testlaeufeBewerten, testlaeufe,
   AUSLAGERBAR_NAMEN, PLAETZE_DATEI, plaetzeZentral, plaetzeSetzen, auslagerbar, wirklichAuslagerbar, pushtSelbst, airLeerlaufWarnung,
 };

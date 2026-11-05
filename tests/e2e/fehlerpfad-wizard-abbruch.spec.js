@@ -46,7 +46,7 @@ const KONSOLE_HARMLOS = [
   /Content Security Policy directive '(frame-ancestors|report-uri|sandbox)' is ignored when delivered via/i,
 ];
 const istHarmloseKonsole = (t) => KONSOLE_HARMLOS.some((re) => re.test(String(t)));
-const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten, datumSetzen } = require('./helpers');
 
 test('[Fehlerpfad 2/5·A] Wizard abbrechen WÄHREND eine Validierungs-Fehlermeldung sichtbar ist — kein überlebender Banner', async ({ page }) => {
   const fehler = [];
@@ -65,11 +65,11 @@ test('[Fehlerpfad 2/5·A] Wizard abbrechen WÄHREND eine Validierungs-Fehlermeld
   await expect(page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]')).toBeVisible();
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'E2E Fehlerpfad Kind');
   await page.click('#wiz-weiter');
-  await expect(page.locator('#content [data-edit="guidedBirthEntryDateOfBirthNot"]')).toBeVisible();
+  await expect(page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]')).toBeVisible();   // Datum in drei Feldern (Zielbild S4)
 
   // ── DER FEHLERPFAD: ein Datum, das das Format erfüllt, aber unplausibel ist
   // (Jahr weit vor DATUM_JAHR_MIN_WEIT) — feldValidieren liefert grund:'datum'. ──
-  await page.fill('#content [data-edit="guidedBirthEntryDateOfBirthNot"]', '0100-01-01');
+  await datumSetzen(page, '#content [data-edit="guidedBirthEntryDateOfBirthNot"]', '0100-01-01');
   await page.click('#wiz-weiter');
   await expect(page.locator('.feld-fehler[role="alert"]'), 'Fehler-Banner muss erscheinen (grund:"datum")').toBeVisible();
   const grundVorAbbruch = await page.evaluate(() => window.__vdOeffentlich.wizardFehlerGrund);

@@ -160,6 +160,7 @@ test('[Konformität] axe-core WCAG 2.2 AA über alle V1-Sichten', async (t) => {
     // Mappe und Prüftermine stehen in der Gruppe „Austausch“ der Seitenleiste, die zugeklappt ist, solange keiner ihrer Einträge aktiv ist.
     const AUSTAUSCH = { aufklappen: 'details.nav-gruppe-austausch' };
     await klickVersuch('prueftermine',         [AUSTAUSCH, '[data-prueftermine]']);
+    // Seit Befund UX-DOKUMENT-ABLEGEN (30.10.2026) öffnet „Was hier hineingehört“ als Dialog über „Meine Dokumente“; der Name bleibt.
     await klickVersuch('bestand-auswahl',      [AUSTAUSCH, '[data-mappe]', '#mappe-bestand-link']);
     await klickVersuch('depot-liste',          ['#tb-depot-pille', '#tb-depot-menue-liste']);
     // Der Bottom-Tab „Eintragen" steht nur in schmaler Ansicht (.bottom-tabs ab der Mobil-Breite), dort öffnet ihn eine Person.

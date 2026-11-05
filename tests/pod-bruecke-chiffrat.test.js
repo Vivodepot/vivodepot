@@ -27,9 +27,9 @@ const depot = (u) => 'VIVODEPOT\u0001' + JSON.stringify(u, null, 2);
 test('[Pod-Brücke·Chiffrat] die drei Formen des Kerns gehen durch', () => {
   assert.deepEqual(C.pruefen(jwe({ alg: 'dir', enc: 'A256GCM', cty: 'application/fhir+json' })), { art: 'shl' });
   assert.deepEqual(C.pruefen(jwe({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2c: 600000, p2s: 'x', typ: 't', cty: 'json', vorgang: 'v' }, b64u('ek'))), { art: 'antwort' });
-  assert.deepEqual(C.pruefen(jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', vorgang: 'v', anbieter: 'a', epk: {}, apv: 'dg' })), { art: 'antwort' });
+  assert.deepEqual(C.pruefen(jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', vorgang: 'v', epk: {}, apv: 'dg', pad: '...' })), { art: 'antwort' });
   assert.deepEqual(C.pruefen(depot(huelleV3)), { art: 'depot' });
-  assert.deepEqual(C.pruefen(depot(Object.assign({ stand_marke: 'm' }, huelleV4))), { art: 'depot' });
+  assert.deepEqual(C.pruefen(depot(huelleV4)), { art: 'depot' });
 });
 
 test('[Pod-Brücke·Chiffrat·Rot-Beweis] Klartext und alles, was nicht genau die Form des Kerns hat, wird abgewiesen', () => {
@@ -47,6 +47,10 @@ test('[Pod-Brücke·Chiffrat·Rot-Beweis] Klartext und alles, was nicht genau di
     'ECDH-ES+A256KW (schreibt der Kern nicht)': jwe({ alg: 'ECDH-ES+A256KW', enc: 'A256GCM', epk: {} }, b64u('k')),
     'SHL-Kopf mit fremdem Feld': jwe({ alg: 'dir', enc: 'A256GCM', cty: 'x', name: 'Erna Beispiel' }),
     'Antwort-Kopf mit fremdem Feld': jwe({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2s: 'x', p2c: 1, notiz: 'Erna' }, b64u('ek')),
+    'Antwort-Kopf mit anbieter (U2-ADR-520 Nr. 3)': jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', vorgang: 'v', anbieter: 'a', epk: {}, apv: 'dg' }),
+    'Antwort-Kopf mit Text im pad': jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', vorgang: 'v', epk: {}, apv: 'dg', pad: 'Erna' }),
+    'Hülle mit Ort-Hinweis (U2-ADR-520 Nr. 3)': depot(Object.assign({ angehoerigenOrt: 'Ordner im Flur' }, huelleV3)),
+    'Hülle mit Zeitpunkt des Stands': depot(Object.assign({ stand_marke: 'm' }, huelleV4)),
     'JWS statt JWE': [b64u({ alg: 'ES256' }), b64u({ name: 'Erna' }), b64u('sig')].join('.'),
     'leer': ''
   };
@@ -57,24 +61,28 @@ test('[Pod-Brücke·Chiffrat·Rot-Beweis] Klartext und alles, was nicht genau di
 
 test('[Pod-Brücke·Chiffrat·Kern] die Tür kennt genau die Hüllenfelder und das Präfix des Kerns', () => {
   const kern = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  const m = kern.match(/const UMSCHLAG_FELDER_BEKANNT = (\[[^\]]+\]);/);
-  assert.ok(m, 'UMSCHLAG_FELDER_BEKANNT im Kern gefunden');
-  const kernFelder = JSON.parse(m[1].replace(/'/g, '"'));
-  const tuerFelder = C.HUELLE.filter((f) => f !== 'stand_marke' && f !== 'gespeichert_am');
-  assert.deepEqual([...tuerFelder].sort(), [...kernFelder].sort(), 'Feldliste der Tür = Feldliste des Kerns');
+  const liste = (name) => { const m = kern.match(new RegExp('const ' + name + ' = (?:Object\\.freeze\\()?(\\[[^\\]]+\\])')); assert.ok(m, name + ' im Kern gefunden'); return JSON.parse(m[1].replace(/'/g, '"').replace(/\s+/g, ' ')); };
+  // U2-ADR-520 Nr. 3: die Tür hält die Positivliste der Außenablage, nicht die volle Hülle der Datei auf dem Gerät.
+  assert.deepEqual([...C.HUELLE].sort(), liste('AUSSENABLAGE_HUELLE_FELDER').sort(), 'Feldliste der Tür = Positivliste des Kerns');
+  assert.deepEqual(liste('UMSCHLAG_FELDER_BEKANNT').filter((f) => f !== 'angehoerigenOrt').sort(), [...C.HUELLE].sort(),
+    'die Positivliste ist die bekannte Hülle ohne den Ort-Hinweis');
   assert.match(kern, /const DATEI_MAGIC = 'VIVODEPOT';/);
   assert.match(kern, /const DATEI_MAGIC_PREFIX = DATEI_MAGIC \+ String\.fromCharCode\(DATEI_MAGIC_VERSION\);/);
-  assert.match(kern, /dateiInhalt = Object\.assign\(\{\}, umschlag, marke \? \{ stand_marke: marke \} : \{ gespeichert_am: ts \}\);/,
-    'neben die Hülle schreibt der Kern nur stand_marke oder gespeichert_am');
 });
 
 test('[Pod-Brücke·Chiffrat·Kern] die Kopffelder der Tür sind genau die, die der Kern schreibt', () => {
   const kern = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  const shl = kern.match(/const kopf = \{ alg: 'dir', enc: 'A256GCM', cty: 'application\/fhir\+json' \};/);
-  assert.ok(shl, 'SHL-Kopf im Kern unverändert');
-  const basis = kern.match(/function _jweKopfBasis\(meta\) \{[\s\S]*?const k = \{ ([^}]+) \};[\s\S]*?if \(m\.anbieterId\) k\.anbieter =/);
+  const dir = kern.match(/const kopf = Object\.assign\(\{ alg: 'dir', enc: 'A256GCM' \},\n\s*kopfArt === 'verzeichnis' \? \{ typ: VERZEICHNIS_JWE_TYP \} : \{ cty: 'application\/fhir\+json' \}\);/);
+  assert.ok(dir, 'SHL- und Verzeichnis-Kopf im Kern unverändert (U2-ADR-520)');
+  assert.match(kern, new RegExp("const VERZEICHNIS_JWE_TYP = '" + C.VERZEICHNIS_TYP.replace('+', '\\+') + "';"), 'Tür und Kern nennen denselben typ');
+  assert.deepEqual([...C.KOPF.verzeichnis].sort(), ['alg', 'enc', 'typ']);
+  const basis = kern.match(/function _jweKopfBasis\(meta\) \{[\s\S]*?return \{ ([^}]+) \};\n\}/);
   assert.ok(basis, '_jweKopfBasis im Kern gefunden');
-  const basisFelder = basis[1].split(',').map((x) => x.split(':')[0].trim()).concat(['anbieter']);
+  const basisFelder = basis[1].split(',').map((x) => x.split(':')[0].trim());
+  assert.ok(!basisFelder.includes('anbieter'), 'der Kopf nennt die Stelle nicht (U2-ADR-520 Nr. 3)');
+  // pad: die Auffüllung auf eine Größenstufe, nur in _jweVersiegeln.
+  assert.match(kern, /Object\.assign\(\{\}, kopf, \{ pad \}\)/);
+  basisFelder.push('pad');
   assert.match(kern, /Object\.assign\(\{ alg: 'ECDH-ES' \}, _jweKopfBasis\(meta\), \{ epk \}\);[\s\S]{0,120}kopf\.apv = /);
   assert.match(kern, /Object\.assign\(\{ alg: ANTWORT_JWE_PBES2 \}, _jweKopfBasis\(meta\), \{ p2s: [^,]+, p2c: ANTWORT_JWE_P2C \}\);/);
   assert.deepEqual([...C.KOPF['ECDH-ES']].sort(), ['alg', ...basisFelder, 'epk', 'apv'].sort());

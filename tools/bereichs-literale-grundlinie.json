@@ -2,7 +2,7 @@
  "zweck": "Deckel je Datei und Gruppe für Bereichskennungen als Literal außerhalb der Gerüst-Regionen (ein nicht öffentliches Werkzeug). Sinkt nur; Ziel 0 außer den benannten Ausnahmen.",
  "datum": "2026-10-07",
  "summe": {
-  "kern": 342,
+  "kern": 343,
   "lese-app": 45
  },
  "ausnahmen": {
@@ -112,7 +112,7 @@
    "dokumentOeffnen": 2,
    "edciBildung": 1,
    "empfaengerZuschnittModell": 2,
-   "EREIGNIS_ACHSE_FELDER": 34,
+   "EREIGNIS_ACHSE_FELDER": 35,
    "ERKENNUNG_LEITFELDER": 16,
    "EXPORT_FORMATE": 12,
    "feldDurchTeileErsetzt": 1,

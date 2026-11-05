@@ -241,7 +241,7 @@ test('[U2-ADR-305·Hinweis] situationsModulPruefen: eine bloecke-Ablehnung träg
   assert.equal(urteil.verworfene[0].grund, 'bloecke', 'Vorbedingung: derselbe Grund wie vorher, unverändert');
   assert.equal(urteil.verworfene[0].hinweis, V.STRINGS.einlassHinweisSituationBloecke,
     'der Hinweis kommt aus dem Textsatz — dieselbe Quelle, die für die englische App übersetzt');
-  assert.match(urteil.verworfene[0].hinweis, /signierte Vorlage/, 'der Hinweis muss sagen, WAS stattdessen erlaubt ist, nicht nur, dass abgelehnt wurde');
+  assert.match(urteil.verworfene[0].hinweis, /(signierte|digital unterschriebene) Vorlage/, 'der Hinweis muss sagen, WAS stattdessen erlaubt ist, nicht nur, dass abgelehnt wurde');
 });
 
 test('[U2-ADR-305·Hinweis] der Sammelgrund "leer" trägt jetzt den ECHTEN, sonst verdeckten Grund mit — genau die Verwechslung, die heute passierte', async () => {

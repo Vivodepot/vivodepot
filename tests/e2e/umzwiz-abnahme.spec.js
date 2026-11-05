@@ -8,7 +8,7 @@
    `verborgenWenn` bereits heute greift (KEIN Cross-Sektor-Fall, `wohnung_typ` steht im selben
    Zielbereich `wohnen`), node-getestet aber nie im echten Klickweg belegt. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten, datumSetzen } = require('./helpers');
 
 test('umzwiz: voller Klickweg, Mietverhältnis-Schritte sichtbar ohne wohnung_typ', async ({ page }) => {
   await oeffneApp(page);
@@ -39,11 +39,11 @@ test('umzwiz: voller Klickweg, Mietverhältnis-Schritte sichtbar ohne wohnung_ty
   await page.fill('#content [data-edit="tenancyTerminationHandover"]', 'alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll');
   await page.click('#wiz-weiter');
   await expect(page.locator('#content')).toContainText('gekündigt');
-  await page.fill('#content [data-edit="noticeDate"]', '2026-09-30');
+  await datumSetzen(page, '#content [data-edit="noticeDate"]', '2026-09-30');
   await page.click('#wiz-weiter');
-  await page.fill('#content [data-edit="moveOutDate"]', '2026-10-01');
+  await datumSetzen(page, '#content [data-edit="moveOutDate"]', '2026-10-01');
   await page.click('#wiz-weiter');
-  await page.fill('#content [data-edit="handoverDateNewHome"]', '2026-10-02');
+  await datumSetzen(page, '#content [data-edit="handoverDateNewHome"]', '2026-10-02');
   await page.click('#wiz-weiter');
 
   // Abschluss: Wizard schließt, Toast bestätigt die drei Zielbereiche.

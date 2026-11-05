@@ -10,7 +10,8 @@ const path = require('node:path');
 const REPO = path.join(__dirname, '..');
 let _vorDepotFn = null;
 
-function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, ...modulOptionen } = {}) {
+// `entwicklerleiste: false` (31.10.2026): für Bildaufnahmen ohne die Leiste, sonst unverändert.
+function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, entwicklerleiste = true, ...modulOptionen } = {}) {
   const { PRODUKTE, modulDateienFuer } = require(path.join(REPO, 'tools', 'lib', 'vier-produkte.js'));
   const { _unsigniertesModulKlassifizieren, produktTextErzeugen, erscheinungsbildSchriftenVorBacken } = require(path.join(REPO, 'tools', 'lib', 'produkt-text-erzeugen.js'));
   const { PRODUKT_DATEISATZ } = require(path.join(REPO, 'tools', 'produkt-konfektionieren.js'));
@@ -32,7 +33,7 @@ function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, ...mo
     vorDepotKonfigurationInhaltFn: _vorDepotFn,
     unsignierteModule: module,
     serviceWorkerVorhanden: PRODUKT_DATEISATZ.includes('sw.js'),
-    mitEntwicklerleiste: true,
+    mitEntwicklerleiste: entwicklerleiste,
     mitTestflaeche: true,
   }).text);
 }

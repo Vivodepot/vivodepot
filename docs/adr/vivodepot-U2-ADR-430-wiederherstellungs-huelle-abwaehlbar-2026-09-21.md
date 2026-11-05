@@ -191,6 +191,25 @@ tragen sie nicht. Ein Wiederherstellungsweg gehört der Inhaberin. Der Export-Di
 gegen Abschreibfehler; gezeigt in sieben Vierergruppen. Beim Einrichten tippt die Nutzerin den
 abgeschriebenen Code zur Kontrolle ein — erst dann wird die Hülle gewickelt.
 
+## Nachtrag 31.10.2026 — Ziffer 2 im Anlege-Weg: Schritt 2 statt Angebot und Ablehnungs-Dialog
+
+Beim Anlegen ist der Code Schritt 2 desselben Dialogs („Schritt 2 von 2“ über dem Titel). Er steht gleich da, ohne
+vorgeschaltetes Angebot: „Mit diesem Code öffnen Sie Ihr Depot, wenn Sie das Passwort vergessen. Schreiben Sie ihn auf
+und bewahren Sie ihn getrennt vom Passwort auf.“ „Fertig“ ist der Hauptknopf und richtet die Hülle erst nach dem
+Abtippen ein. Die Voreinstellung bleibt damit „eingerichtet“. Die Ablehnung ist „Später einrichten“, ein Textknopf, und
+die Tragweite steht in derselben Zeile daneben: „Bis dahin öffnet nur Ihr Passwort das Depot.“ Ein eigener
+Ablehnungs-Dialog entfällt auf diesem Weg; Ziffer 2 verlangt den benannten Schritt mit der Tragweite daneben, und den
+trägt die Zeile.
+
+Im selben Schritt stehen „Leeres Code-Blatt drucken“ und das Passwort-Blatt; ein eigener Dialog für das Blatt nach dem
+Anlegen entfällt. Das Blatt, das das Passwort trägt, heißt überall „Passwort-Blatt“ (bisher „Notfall-Blatt“). Der Satz
+„Nicht zum Passwort legen.“ (Nachtrag 27.09.2026 zu Ziffer 3) steht weiter wörtlich auf dem Code-Blatt; im Dialog trägt
+der Satz von Schritt 2 dieselbe Zusage. Die Meldung zu einem Abschreibfehler nennt die Gruppe und das Zeichen darin.
+Auf den übrigen Wegen (Nachholen in den Einstellungen, Angebot beim Öffnen) gelten Angebot und Ablehnungs-Schritt
+unverändert.
+
+Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Ablauf], [S2·Schritt 2]).
+
 ## Konformität
 
 Jede Zusicherung steht mit ihrer Probe oder mit dem, was fehlt. Der Bau ist nicht begonnen; die
@@ -247,7 +266,7 @@ aussage:   Die Voreinstellung ist „eingerichtet", und die Ablehnung ist ein ei
            Tragweite daneben (Ziffer 2): das Produkt zeigt der Nutzerin den Satz, der die Tragweite nennt.
 zustand:   prüfbar
 herkunft:  entscheidung
-pruefung:  tests/e2e/wiederherstellungs-code.spec.js#[WHC·#6] nach dem Anlegen: „Code einrichten" ist der Primärknopf; Ablehnen ist ein eigener Schritt mit der Tragweite
+pruefung:  tests/e2e/wiederherstellungs-code.spec.js#[WHC·#6] nach dem Anlegen: Schritt 2 zeigt den Code, „Fertig“ ist der Primärknopf; „Später einrichten“ steht mit der Tragweite daneben
 ```
 
 ```konformitaet

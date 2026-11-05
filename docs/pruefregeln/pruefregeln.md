@@ -261,6 +261,19 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `erscheinung.moduleVersion` | abweisung | moduleVersion fehlt oder ist keine ganze Zahl ab 1. | `moduleVersion` |
 | `erscheinung.nichts-gueltiges-gesetzt` | abweisung | Keine der Angaben ist gültig; mindestens eine muss es sein. | `nichts-gueltiges-gesetzt` |
 
+## lokalesModell
+
+| Kennung | Schwere | Regel | Grund der App |
+|---|---|---|---|
+| `lokalesModell.kein-objekt` | abweisung | Das Modul ist kein JSON-Objekt. | `kein-objekt` |
+| `lokalesModell.unbekannter-schluessel` | abweisung | Der Verweis trägt eine Angabe, die die Liste nicht kennt; ein Verweis auf ein lokales Modell nimmt nur die festgelegten Angaben, keine Adresse und keine Modelldaten. | `unbekannter-schluessel` |
+| `lokalesModell.moduleVersion` | abweisung | moduleVersion fehlt oder ist keine ganze Zahl ab 1. | `moduleVersion` |
+| `lokalesModell.id` | abweisung | id fehlt oder hat nicht die Form: Kleinbuchstabe zuerst, dann Kleinbuchstaben, Ziffern oder Bindestrich, höchstens 64 Zeichen. | `id` |
+| `lokalesModell.label` | abweisung | label fehlt, ist leer oder länger als 120 Zeichen. | `label` |
+| `lokalesModell.modellHash` | abweisung | modellHash fehlt oder hat nicht die Form sha256: und 64 Zeichen 0–9 und a–f; eine andere Kennung wird verworfen. | `modellHash` |
+| `lokalesModell.sprache` | abweisung | Die Beschriftung braucht eine Sprache (sprache). | `sprache` |
+| `lokalesModell.sprache-form` | abweisung | sprache hat nicht die Form eines Sprachkürzels wie de oder en-GB. | `sprache-form` |
+
 ## design
 
 | Kennung | Schwere | Regel | Grund der App |

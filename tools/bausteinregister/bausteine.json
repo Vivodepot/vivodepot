@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/bausteinregister-bauen.js aus vivodepot.html (EINLASS_REGISTER) und tools/bausteinregister/beschriftungen.json. Nicht von Hand bearbeiten.",
   "fassung": {
-    "kern": "v956"
+    "kern": "v1040"
   },
   "lizenz": {
     "spdx": "CC0-1.0",
@@ -20,7 +20,7 @@
     "hinweis": "Die Kennungen des Feldregisters derselben Fassung sind Bausteine."
   },
   "fassungen": "v<kern>/bausteine.json",
-  "anzahl": 15,
+  "anzahl": 16,
   "bausteine": [
     {
       "typ": "textsatz",
@@ -69,8 +69,8 @@
       },
       "schema": {
         "adresse": "https://vivodepot.de/schemas/rechtsraum-modul-schema.json",
-        "fassung": 7,
-        "fassungAdresse": "https://vivodepot.de/schemas/rechtsraum-modul/7.json"
+        "fassung": 8,
+        "fassungAdresse": "https://vivodepot.de/schemas/rechtsraum-modul/8.json"
       }
     },
     {
@@ -239,8 +239,8 @@
       },
       "schema": {
         "adresse": "https://vivodepot.de/schemas/branding-modul-schema.json",
-        "fassung": 2,
-        "fassungAdresse": "https://vivodepot.de/schemas/branding-modul/2.json"
+        "fassung": 3,
+        "fassungAdresse": "https://vivodepot.de/schemas/branding-modul/3.json"
       }
     },
     {
@@ -275,6 +275,23 @@
         "adresse": "https://vivodepot.de/schemas/erscheinung-modul-schema.json",
         "fassung": 2,
         "fassungAdresse": "https://vivodepot.de/schemas/erscheinung-modul/2.json"
+      }
+    },
+    {
+      "typ": "lokalesModell",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Verweis auf ein lokales KI-Modell",
+        "en": "Reference to a local AI model"
+      },
+      "zweck": {
+        "de": "Kennung, Anzeigename und Prüfsumme eines KI-Modells auf dem Gerät der Person; ohne Modelldatei und ohne Adresse.",
+        "en": "Identifier, display name and checksum of an AI model on the person's device; without the model file and without an address."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/lokales-modell-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/lokales-modell-modul/1.json"
       }
     }
   ]

@@ -26,7 +26,7 @@ const DATEI = {
   stellensatz: 'stellensatz.json', rechtsraum: 'rechtsraum.json', institutionsArt: 'institutions-art.json', blattformat: 'blattformat.json',
   bedingungskatalog: 'bedingungskatalog.json', format: 'format.json', bereich: 'bereich.json', situation: 'situation.json',
   wizard: 'wizard.json', ereignisAchse: 'ereignis-achse.json', angehoerigenVorlage: 'angehoerigen-vorlage.json',
-  branding: 'branding.json', logikModul: 'logik.json', erscheinung: 'erscheinung.json',
+  branding: 'branding.json', logikModul: 'logik.json', erscheinung: 'erscheinung.json', lokalesModell: 'lokales-modell.json',
 };
 // Jeder gültige Fall des Registers, der reichste zuerst; angedockt wird der erste, den der Einlass annimmt.
 function gueltigeFaelle(datei) {

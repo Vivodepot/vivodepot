@@ -192,8 +192,8 @@ konformitaet:
       der Person als sensibel markierten und die Zahl der bisherigen Anfragen dieser Stelle; immer, ohne Schwelle, ohne wertendes
       Wort, und ohne etwas zu sperren.
     zustand: offen
-    frist: 2026-10-31
-    bedingung: Anzeige gelandet, Probe mit Rot-Beweis je Fall (Zahlen fehlen, Anzeige hängt an einer Schwelle, wertendes Wort im Text)
+    frist: 2026-11-27
+    bedingung: Anzeige gelandet, Probe mit Rot-Beweis je Fall (Zahlen fehlen, Anzeige hängt an einer Schwelle, wertendes Wort im Text) Frist am 28.10.2026 neu gesetzt, vorher 2026-10-31; Eigentümer Strang Krypto; Abnahme Anzeige inhaltlich geprüft (nicht nur Wortsuche) und gebaut oder als fehlend mit Probe rot.
     herkunft: U2-ADR-152, Nachtrag 11.10.2026
 ```
 

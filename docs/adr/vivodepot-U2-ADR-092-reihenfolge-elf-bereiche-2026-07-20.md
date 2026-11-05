@@ -1,8 +1,8 @@
 # U2-ADR-092 · Reihenfolge der elf Bereiche
 
 **Datum:** 20.07.2026 · **Nachtrag 04.08.2026** (Reihenfolge auf den gebauten Stand gezogen, s. u.)
-**Status:** Angenommen · **Reihenfolge in § 2 ist Historie, § 5 trägt die geltende Fassung**
-**Status heute:** gilt — die in §5 nachgetragene Reihenfolge deckt sich mit `SEKTOREN` in
+**Status:** Angenommen · Nachtrag 04.08.2026: Reihenfolge auf den gebauten Stand gezogen
+**Status heute:** gilt — die Reihenfolge in §2 deckt sich mit `SEKTOREN` in
 `vivodepot.html` (gemessen 15.08.2026); ein zwölfter Bereich „Krisenvorsorge" kam danach hinzu
 und ist von dieser Entscheidung nicht erfasst.
 **Bezug:** U2-ADR-041 („Persönliches" steht immer zuletzt in `SEKTOREN`) · Kassensturz-Posten
@@ -23,44 +23,7 @@ festgeschrieben.
 
 ## 2 · Die Entscheidung
 
-**Ordnungsprinzip: von grundlegend zu spezifisch.** Die elf Bereiche, in dieser Reihenfolge:
-
-1. Identität & Person
-2. Meine Menschen
-3. Gesundheit
-4. Vorsorge & Recht
-5. Finanzen & Zahlungen
-6. Wohnen & Eigentum
-7. Mobilität & Reise
-8. Sozialversicherung
-9. Bildung & Beruf
-10. Verwaltung & Behörden
-11. Persönliches
-
-„Persönliches" bleibt gemäß U2-ADR-041 das letzte Element — hier, mit elf statt zehn
-Bereichen, die elfte Position statt der zehnten. Der frühere Bezug auf „Vivo" im Namen
-entfällt ersatzlos; der Bereich heißt schlicht „Persönliches".
-
-## 3 · Wirkungsradius
-
-Betrifft die Bereichs-Übersicht (App) und die Website-Darstellung gleichermaßen — beide
-müssen dieselbe Reihenfolge zeigen, keine zwei Wahrheiten.
-
-## 4 · Abnahme / Nachzug
-
-**Historisch — siehe § 5 für den geltenden Stand.** Diese ADR schrieb am 20.07. eine
-Entscheidung fest, ist aber nie in der hier festgelegten Reihenfolge gebaut worden; das Produkt
-lief seither mit einer anderen Anordnung weiter. Der Widerspruch fiel erst am 04.08.2026 auf.
-
-## 5 · Nachtrag 04.08.2026 — die geltende Reihenfolge ist die des Produkts
-
-**Gemessen ⟦M⟧, gegen `SEKTOREN` in `vivodepot.html` (`:4498` ff.):** die App zeigt seit Langem elf
-Bereiche in einer Reihenfolge, die von § 2 an neun von elf Positionen abweicht — nur Position 1
-(Identität & Person), 2 (Meine Menschen) und 11 (Persönliches) stimmen überein.
-
-**Die Produktentscheidung (04.08.2026): das Produkt behält seine Reihenfolge, diese ADR
-wird auf den gebauten Stand gezogen.** Die Liste in § 2 bleibt als Historie stehen — sie war die Entscheidung
-vom 20.07., nur nie umgesetzt. Ab diesem Nachtrag ist die **geltende** Reihenfolge der elf Bereiche:
+**Die Reihenfolge der elf Bereiche ist die des Produkts** (Produktentscheidung 04.08.2026):
 
 1. Identität & Person
 2. Meine Menschen
@@ -74,10 +37,30 @@ vom 20.07., nur nie umgesetzt. Ab diesem Nachtrag ist die **geltende** Reihenfol
 10. Wohnen & Eigentum
 11. Persönliches
 
+„Persönliches" bleibt gemäß U2-ADR-041 das letzte Element — mit elf statt zehn Bereichen die
+elfte Position. Der frühere Bezug auf „Vivo" im Namen entfällt ersatzlos; der Bereich heißt
+schlicht „Persönliches".
+
+## 3 · Wirkungsradius
+
+Betrifft die Bereichs-Übersicht (App) und die Website-Darstellung gleichermaßen — beide
+müssen dieselbe Reihenfolge zeigen, keine zwei Wahrheiten.
+
+## 4 · Wie es zu dieser Fassung kam
+
+Am 20.07.2026 wurde eine andere Reihenfolge nach dem Prinzip „von grundlegend zu spezifisch"
+festgeschrieben. Sie ist nie gebaut worden; das Produkt lief mit seiner Anordnung weiter, und der
+Widerspruch fiel erst am 04.08.2026 auf.
+
+**Gemessen ⟦M⟧, gegen `SEKTOREN` in `vivodepot.html` (`:4498` ff.):** die App zeigte elf Bereiche
+in der Reihenfolge aus § 2; die Fassung vom 20.07. wich an neun von elf Positionen davon ab (nur
+Identität & Person, Meine Menschen und Persönliches standen gleich). Entschieden wurde am
+04.08.2026, die gebaute Reihenfolge zu behalten und diese ADR auf sie zu ziehen.
+
 Kein Wächter für diese Reihenfolge: eine Probe, die sie festnagelt, würde jede künftige
 UX-Änderung rot machen — die Anordnung kann sich nach der Testerrunde noch ändern (Produktauflage, 04.08.2026).
 
-**Vorkommen außerhalb des Repos — geprüft, nicht geändert.** Die exakte §2-Reihenfolge wurde in
+**Vorkommen außerhalb des Repos — geprüft, nicht geändert.** Die Reihenfolge vom 20.07. wurde in
 den bislang gesichteten Materialien außerhalb des Repos nicht wortgleich gefunden; eine ältere
 Website-Fassung spricht durchgehend von „20 Bereichen" — einer älteren, nicht mit dem
 Elf-Bereiche-Modell übereinstimmenden Zählung, unabhängig von Reihenfolge.

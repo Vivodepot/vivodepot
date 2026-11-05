@@ -67,7 +67,7 @@ async function exportierenUeberKlickweg(page, uuid, testInfo) {
     page.waitForEvent('download', { timeout: 15_000 }),
     page.click('#m-ok'),
   ]);
-  const ziel = testInfo.outputPath('sub-depot-export.json');   // im Ausgabeordner des Tests, den Playwright selbst verwaltet
+  const ziel = testInfo.outputPath('sub-depot-export.vivodepot');   // im Ausgabeordner des Tests, den Playwright selbst verwaltet
   await download.saveAs(ziel);
   return ziel;
 }
@@ -101,9 +101,11 @@ async function durchspielen(page, testInfo, { nachBetreten }) {
     // frame-ancestors im meta-Element) gehören nicht zu diesem Weg.
     const abExport = konsole.zeilen.length;
     datei = await exportierenUeberKlickweg(page, uuid, testInfo);
-    const inhalt = JSON.parse(fs.readFileSync(datei, 'utf8'));
-    expect(inhalt.dateiTyp, 'die Datei ist keine Übergabe-Datei').toBe('vivodepot-blackbox-export');
-    expect(inhalt.umschlag && inhalt.umschlag.depotUUID, 'die Datei trägt ein anderes Depot').toBe(uuid);
+    const roh = fs.readFileSync(datei, 'utf8');
+    expect(roh.startsWith('VIVODEPOT'), 'S8: die Übergabe-Datei ist eine Depot-Datei mit Kopf').toBe(true);
+    const inhalt = JSON.parse(roh.slice('VIVODEPOT'.length + 1));
+    expect(inhalt.art, 'die Datei ist keine Übergabe-Datei').toBe('sub');
+    expect(inhalt.depotUUID, 'die Datei trägt ein anderes Depot').toBe(uuid);
     expect(konsole.zeilen.slice(abExport).filter((z) => z.startsWith('[pageerror]') || z.startsWith('[error]')),
       'beim Export gab es einen Fehler in der Seite').toEqual([]);
 

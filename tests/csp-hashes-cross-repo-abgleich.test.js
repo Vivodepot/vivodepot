@@ -32,12 +32,21 @@ function abschnitt(text) {
   return text.slice(a + BEGIN.length, e);
 }
 
-// Der Abschnitt so, wie Gateway-main ihn trägt — null, wenn Schwesterrepo oder origin/main hier fehlen.
+// Der Abschnitt so, wie Gateway-main ihn trägt — null, wenn Schwesterrepo oder origin/main hier fehlen. An einem ausgelieferten
+// Stand neben dem Kanon (tests/helfer/bezugsdatum.js, 02.11.2026) gilt Gateway-main vom Tag der Auslieferung, nicht von heute.
+const { bezugsdatum } = require('./helfer/bezugsdatum.js');
 function schwesterAbschnittVonMain() {
   if (!fs.existsSync(path.join(SCHWESTERREPO, '.git'))) return null;
+  const bezug = bezugsdatum();
   let text;
   try {
-    text = execFileSync('git', ['show', 'origin/main:src/csp-hashes.js'],
+    let ref = 'origin/main';
+    if (bezug.grund !== 'heute') {
+      ref = execFileSync('git', ['rev-list', '-1', '--before=' + bezug.datum + 'T23:59:59', 'origin/main'],
+        { cwd: SCHWESTERREPO, env: ohneGitUmgebung(), encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+      if (!ref) return null;
+    }
+    text = execFileSync('git', ['show', ref + ':src/csp-hashes.js'],
       { cwd: SCHWESTERREPO, env: ohneGitUmgebung(), encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
   } catch (e) { return null; }
   return abschnitt(text);

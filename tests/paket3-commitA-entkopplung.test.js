@@ -62,7 +62,8 @@ test('[Entkopplung·neu] EREIGNIS_ACHSE_TRIPEL_EINGEBAUT trägt alle 33 nativen 
   const { V } = ladeKern();
   // 33 → 34 (27.09.2026, U2-ADR-438): advanceCare.supportPerson, als Kontakt ausgenommen.
   // 34 → 36 (22.10.2026, U2-ADR-479): die zwei Tier-Kontakte standen für Pro auch unter identity; 36 → 34 (23.10.2026, Pro P2): der Übergang ist gegangen.
-  assert.equal(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.length, 34);
+  // 34 → 35 (02.11.2026, U2-ADR-518): die Vertrauensperson der Datenspende nach dem Tod, reagiert auf Familienstand und Tod.
+  assert.equal(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.length, 35);
   const ausDenFeldern = V.EREIGNIS_ACHSE_FELDER.map((e) => e.sektorId + '.' + e.feldId + '.' + (e.unterFeldId || ''));
   assert.deepEqual(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.slice().sort(), ausDenFeldern.slice().sort(),
     'die feste Liste muss exakt dieselben Tripel tragen wie EREIGNIS_ACHSE_FELDER selbst');

@@ -20,7 +20,7 @@
    ECHTEN Klickweg (Sektor öffnen, Knopf klicken, Overlay lesen, PDF sichern).
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, browserEd25519SchluesselpaarErzeugen, browserJwsSignieren } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, browserEd25519SchluesselpaarErzeugen, browserJwsSignieren, datumSetzen } = require('./helpers');
 
 const WORTLAUT = 'Ich, Name Vorname, lege hiermit meine Vorsorge-Erklärung fest. Punkt eins. Punkt zwei.';
 const ANBIETER = 'Musterversicherung AG';
@@ -61,7 +61,7 @@ test('Vorlage mit gültiger Signatur importiert → „Dokument erzeugen" → He
   await oeffneSektor(page, 'identity');
   await page.fill('[data-edit="givenName"]', 'Maria');
   await page.fill('[data-edit="familyName"]', 'Mustermann');
-  await page.fill('[data-edit="birthDate"]', '1980-01-01');
+  await datumSetzen(page, '[data-edit="birthDate"]', '1980-01-01');
   await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); });
 
   const importErgebnis = await vorlageEchtSigniertImportieren(page);

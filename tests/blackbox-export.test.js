@@ -31,8 +31,8 @@ test('[Klasse-A] Empfänger-Roundtrip: exportierte Datei öffnet mit dem eigenen
   const { V, eintrag } = await anlageMitSubDepot();
   const datei = V.subDepotBlackboxExportieren(eintrag.depotUUID);
 
-  assert.equal(datei.dateiTyp, 'vivodepot-blackbox-export', 'Datei-Typ-Marker gesetzt');
-  const { inhalt } = await V.subDepotEntsiegeln(datei.umschlag, SUB_PW);   // wirft bei Falschpasswort
+  assert.equal(datei.art, 'sub', 'Kennzeichen des Teil-Depots gesetzt (S8, gebunden)');
+  const { inhalt } = await V.subDepotEntsiegeln(datei, SUB_PW);   // wirft bei Falschpasswort
   assert.equal(inhalt.schemaVersion, V.SCHEMA_VERSION_AKTUELL, 'Klartext-Inhalt nach Roundtrip restauriert');
   assert.equal(inhalt.verwaltungsTyp, 'verwaltet', 'Sub-Depot-Typ im entschlüsselten Inhalt erhalten');
 });
@@ -41,7 +41,7 @@ test('[Klasse-A] Isolation (DSGVO): das Anker-Passwort öffnet die exportierte D
   const { V, eintrag } = await anlageMitSubDepot();
   const datei = V.subDepotBlackboxExportieren(eintrag.depotUUID);
   await assert.rejects(
-    () => V.subDepotEntsiegeln(datei.umschlag, ANKER_PW),
+    () => V.subDepotEntsiegeln(datei, ANKER_PW),
     'Anker-Passwort darf die Sub-Depot-Datei nicht entschlüsseln (eigener Krypto-Pfad).'
   );
 });
@@ -53,12 +53,12 @@ test('[Klasse-A] Keine Re-Verschlüsselung: ct/iv/Salts der Datei sind byte-iden
 
 // U2-ADR-002 (23.09.2026, S1): ein Sub-Depot ist ein Depot wie jedes andere — V4, derselbe Speicherweg. Die Probe
   // bleibt gleich streng: statt ct/iv sind Einheiten und Umschlagstabelle byte-identisch (JSON), statt „sechs Felder" die V4-Felder.
-  assert.equal(JSON.stringify(datei.umschlag.einheiten), JSON.stringify(vorher.einheiten), 'Einheiten VERBATIM — nie neu verschlüsselt');
-  assert.equal(JSON.stringify(datei.umschlag.umschlagTabelle), JSON.stringify(vorher.umschlagTabelle), 'Umschlagstabelle unverändert');
-  assert.equal(datei.umschlag.depotSalt, vorher.depotSalt, 'depotSalt unverändert');
-  assert.equal(datei.umschlag.depotUUID, vorher.depotUUID, 'depotUUID unverändert');
-  assert.equal(datei.umschlag.pbkdf2.salt, vorher.pbkdf2.salt, 'pbkdf2.salt unverändert (Empfänger leitet daraus ab)');
-  assert.equal(datei.umschlag.kryptoVersion, 4, 'kryptoVersion 4 — wie jedes Depot');
+  assert.equal(JSON.stringify(datei.einheiten), JSON.stringify(vorher.einheiten), 'Einheiten VERBATIM — nie neu verschlüsselt');
+  assert.equal(JSON.stringify(datei.umschlagTabelle), JSON.stringify(vorher.umschlagTabelle), 'Umschlagstabelle unverändert');
+  assert.equal(datei.depotSalt, vorher.depotSalt, 'depotSalt unverändert');
+  assert.equal(datei.depotUUID, vorher.depotUUID, 'depotUUID unverändert');
+  assert.equal(datei.pbkdf2.salt, vorher.pbkdf2.salt, 'pbkdf2.salt unverändert (Empfänger leitet daraus ab)');
+  assert.equal(datei.kryptoVersion, 4, 'kryptoVersion 4 — wie jedes Depot');
   // Der Quell-Umschlag im Anker bleibt durch den Export selbst unangetastet.
   assert.equal(JSON.stringify(eintrag.umschlag.einheiten), JSON.stringify(vorher.einheiten), 'Quell-Einheiten im Anker unverändert');
 });
@@ -66,10 +66,10 @@ test('[Klasse-A] Keine Re-Verschlüsselung: ct/iv/Salts der Datei sind byte-iden
 test('[Klasse-A] Datei trägt KEINEN Sub-Schlüssel und KEIN Passwort', () => {
   return anlageMitSubDepot().then(({ V, eintrag }) => {
     const datei = V.subDepotBlackboxExportieren(eintrag.depotUUID);
-    const felder = Object.keys(datei.umschlag).sort();
+    const felder = Object.keys(datei).sort();
     assert.deepEqual(
       felder,
-      ['angehoerigenOrt', 'depotSalt', 'depotUUID', 'einheiten', 'kryptoVersion', 'pbkdf2', 'umschlagTabelle'],
+      ['angehoerigenOrt', 'art', 'depotSalt', 'depotUUID', 'einheiten', 'kryptoVersion', 'pbkdf2', 'umschlagTabelle'],
       'genau die Felder einer Depot-Datei (mit dem Ortshinweis), nichts Geheimes hinzugefügt (U2-ADR-002, S1: dasselbe Format wie jedes Depot)'
     );
     const alsText = JSON.stringify(datei);
@@ -101,13 +101,13 @@ test('Audit-Trail: Übergabe wird NUR im Anker protokolliert, NICHT in der Expor
   assert.equal(alsText.includes('zeitpunkt'), false, 'kein Protokoll-Zeitstempel in der Datei');
 });
 
-test('blackboxDateiAusUmschlag lehnt Nicht-v3-Umschläge ab (v3-only, kein zweiter Krypto-Pfad)', () => {
+test('depotDateiAusUmschlag lehnt Nicht-v3-Umschläge ab (v3-only, kein zweiter Krypto-Pfad)', () => {
   return anlageMitSubDepot().then(({ V, eintrag }) => {
     // B2/v3: Release ist v3-only — v1 UND v2 müssen abgelehnt werden.
     for (const altVer of [1, 2]) {
       const fremd = JSON.parse(JSON.stringify(eintrag.umschlag));
       fremd.kryptoVersion = altVer;
-      assert.throws(() => V.blackboxDateiAusUmschlag(fremd), /kryptoVersion 3/,
+      assert.throws(() => V.depotDateiAusUmschlag(fremd), TypeError,
         'Blackbox-Export nur für das aktuelle Format (v3) — Version ' + altVer + ' abgelehnt');
     }
   });

@@ -77,7 +77,10 @@ test('Nacht × Vollmacht liest Theme-Tokens — Kopfzeile bleibt aussen vor (Pal
 test('Root: pro-Akzent --*-text-Token, EIN dunkler Wert für alle sechs (Palettentausch)', () => {
   const html = kernMitHeute(ladeKern().html);
   // v894: der ganze :root-Block — die Verdrahtung (--akzent: var(--modus-anker) …) steht seitdem VOR den Werten.
-  const a = html.indexOf(':root {');
+  // Gemeint ist der mehrzeilige Token-Block (`:root {` mit Zeilenumbruch): der Stil eines Erscheinungsbilds darf davor
+  // einzeilige :root-Regeln tragen (Rollengrößen der Schrift, 30.10.2026), die keine Palette enthalten.
+  const a = html.indexOf(':root {\n');
+  assert.ok(a >= 0, 'kein mehrzeiliger :root-Block');
   const root = html.slice(a, html.indexOf('\n  }', a));
   for (const t of PALETTE) {
     assert.ok(new RegExp('--' + t + '-text:\\s*#1c2a1e').test(root), t + '-text = #1c2a1e');

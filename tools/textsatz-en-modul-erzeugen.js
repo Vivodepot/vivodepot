@@ -179,8 +179,22 @@ function main() {
   // Ab 80 % der Grenze warnt der Erzeuger, bevor eine längere Übersetzung sie reißt (U2-ADR-513).
   if (bytes > MAX * 0.8) console.warn('WARNUNG: ' + bytes + ' Bytes sind mehr als 80 % der Einlass-Obergrenze (' + MAX + ' Bytes).');
 
-  const ausgabepfad = process.argv[2] || path.join(__dirname, 'textsatz-en-modul.json');
-  fs.writeFileSync(ausgabepfad, JSON.stringify(modul, null, 2) + '\n', 'utf8');
+  /* --check (30.10.2026): dieselben Prüfungen, dann nur vergleichen, nichts schreiben. Ausgang 1 bei Drift. Vorher galt jedes
+     Argument als Ausgabepfad — ein --check hätte eine Datei dieses Namens geschrieben. Gerufen von der Frische-Prüfung der Erzeugnisse. */
+  const argumente = process.argv.slice(2);
+  const ausgabepfad = argumente.find((a) => !a.startsWith('--')) || path.join(__dirname, 'textsatz-en-modul.json');
+  const soll = JSON.stringify(modul, null, 2) + '\n';
+  if (argumente.includes('--check')) {
+    let ist = null;
+    try { ist = fs.readFileSync(ausgabepfad, 'utf8'); } catch (_) { ist = null; }
+    if (ist !== soll) {
+      console.error('DRIFT: ' + ausgabepfad + ' ist nicht frisch — node tools/textsatz-en-modul-erzeugen.js');
+      process.exit(1);
+    }
+    console.log('frisch: ' + ausgabepfad);
+    return;
+  }
+  fs.writeFileSync(ausgabepfad, soll, 'utf8');
   console.log('Modul geschrieben: ' + ausgabepfad);
   // Je-Quelle-Zahlen NICHT hardcodiert (drifteten sonst lautlos, wie hier am 28.08.2026
   // gefunden — "1726 Vollabdeckung" stand im Text, obwohl die Datei längst 1734 trug):

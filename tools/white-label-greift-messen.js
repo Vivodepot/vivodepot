@@ -54,7 +54,7 @@ const HERKUNFTSORT_KENNUNGEN = Object.freeze([
 
 /* Die zwei benannten HINWEISORTE (U2-ADR-400 Nachtrag 18.10.2026, U2-ADR-496 Nr. 6): außer am Herkunftsort steht die Software
    genau hier, auch unter einer Partnermarke — „powered by“ in der App-Fußzeile (Anker `data-herkunft-hinweis="app"`, Schlüssel
-   herkunftPoweredBy, oben schon Herkunftsort) und „Erstellt mit der Software …“ im Fuß jeder Ausgabe (der Schlüssel unten). Die
+   herkunftPoweredBy, oben schon Herkunftsort) und „Erstellt mit …“ im Fuß jeder Ausgabe (der Schlüssel unten). Die
    Messung nimmt aus Fuß und PDF GENAU den aufgelösten Satz dieser Schlüssel heraus, sonst nichts: ein zweites „Vivodepot“ daneben
    bleibt rot. */
 const HINWEISORT_KENNUNGEN = Object.freeze(['strings:ausgabeErstelltMit.text']);

@@ -8,7 +8,7 @@
    Sub-Depot-Dialog (flowKindSubDepotAnlegen); kein Name → kein Vorschlag.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, einmalDialogeSchliessen } = require('./helpers');
+const { oeffneApp, depotAnlegen, einmalDialogeSchliessen, datumSetzen } = require('./helpers');
 
 // Wizard „Geburt eines Kindes" über den echten Anlass-Weg starten (Sidebar → Anlass-Auswahl).
 async function gebwizStarten(page) {
@@ -33,8 +33,8 @@ test('Geburts-Assistent mit genanntem Namen → Kind-Eintrag entsteht → Sub-De
 
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'Mia Musterfrau');
   await page.click('#wiz-weiter');
-  await expect(page.locator('#content [data-edit="guidedBirthEntryDateOfBirthNot"]')).toBeVisible();
-  await page.fill('#content [data-edit="guidedBirthEntryDateOfBirthNot"]', '2027-03-15');
+  await expect(page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]')).toBeVisible();   // Datum in drei Feldern (Zielbild S4)
+  await datumSetzen(page, '#content [data-edit="guidedBirthEntryDateOfBirthNot"]', '2027-03-15');
   await page.click('#wiz-weiter');
   await expect(page.locator('#content select[data-edit="guidedBirthEntryRelationship"]')).toBeVisible();
   await page.selectOption('#content select[data-edit="guidedBirthEntryRelationship"]', 'leiblich');
@@ -70,7 +70,7 @@ test('Geburts-Assistent ohne Namen (Zukunftsform) → kein Kind-Eintrag, kein Su
 
   // Namens-Schritt leer lassen, ebenso Geburtsdatum; Verhältnis auf Vorgabe belassen.
   await page.click('#wiz-weiter');
-  await expect(page.locator('#content [data-edit="guidedBirthEntryDateOfBirthNot"]')).toBeVisible();
+  await expect(page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]')).toBeVisible();   // Datum in drei Feldern (Zielbild S4)
   await page.click('#wiz-weiter');
   await expect(page.locator('#content select[data-edit="guidedBirthEntryRelationship"]')).toBeVisible();
   await page.click('#wiz-weiter');   // Fertig

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 /* WARUM ALLE MARKER-REGIONEN UND NICHT NUR DIE DES BAKERS: `AB_WERK_REGIONEN` in tools/lib/produkt-text-erzeugen.js kennt 14 Regionen; der Kern trägt 23
-   Marker. `AB_WERK_RECHTSRAUM_KATALOG_QUELLE` und `AB_WERK_BASISTEMPLATE_DE` haben keine Konfektionierer-Variable und stehen
-   deshalb in keiner Liste des Bakers. Ein Bestand aus dessen Liste hätte sie nie gesehen. Der Bestand hier ist der Kern selbst.
+   Marker. `AB_WERK_RECHTSRAUM_KATALOG_QUELLE` und `AB_WERK_BASISTEMPLATE_DE` hatten keine Konfektionierer-Variable und standen
+   deshalb in keiner Liste des Bakers (beide sind inzwischen entfallen). Ein Bestand aus dessen Liste hätte sie nie gesehen. Der Bestand hier ist der Kern selbst.
 
    REICHWEITE: grün heißt, die Zeile steht — nicht, dass der Grund stimmt. Der Grund ist Pflicht, aber nicht geprüft; setzt
    jemand eine Zeile auf "fuehrt-nicht", ohne ihn zu prüfen, fällt die Erzwingung weg. Das kann ein Wächter ohne Prosa-Verständnis

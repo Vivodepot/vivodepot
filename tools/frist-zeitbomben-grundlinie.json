@@ -1,0 +1,4 @@
+{
+ "zweck": "Grundlinie von tools/frist-zeitbomben-pruefen.js: jede künftige Frist (festes Datum, in derselben Zeile mit der aktuellen Zeit verglichen) in tests/, tools/, hooks/ und scripts/ steht hier mit Datei, Datum, Eigentümer und Grund. Die Liste kann nur sinken. Ein neuer Eintrag braucht das Wort (Register der Gegenlesung, frist-zeitbomben-grundlinie); drei Tage vor dem Datum wird die Probe rot, ein abgelaufener oder nicht mehr gefundener Eintrag muss gestrichen werden.",
+ "eintraege": []
+}

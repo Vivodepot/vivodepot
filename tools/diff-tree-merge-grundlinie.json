@@ -1,0 +1,31 @@
+{
+ "zweck": "Grundlinie des Wächters tests/diff-tree-merge-schalter.test.js (Befund MERGE-AUSSENTEXT-OHNE-TRAILER, 02.11.2026): `git diff-tree` auf einen einzelnen Commit gibt für einen Merge nichts aus. Ein neuer Aufruf in tools/, hooks/ oder scripts/ trägt einen Merge-Schalter (--diff-merges=…, --cc, -c, -m oder MERGE_GEGEN_ERSTEN) oder ist rot. Die Aufrufe von heute stehen in „anzahlen“ je „Datei Funktion“ (vom Register der Gegenlesung bewacht: ein neuer Schlüssel oder eine höhere Zahl braucht das Wort, diff-tree-merge-grundlinie) und in „eintraege“ mit dem Grund, warum ein Merge dort nicht zählt. Die Liste darf nur sinken; ein behobener Aufruf senkt die Zahl, sonst ist die Probe rot. Einträge zu Dateien, die nicht in den öffentlichen Zuschnitt gehen, stehen in der internen Ergänzung dieser Liste (gelesen über tools/lib/mit-interner-ergaenzung.js).",
+ "anzahlen": {
+  "tools/kdl-historie-pruefen.js commitPruefen": 1,
+  "tools/landung-vollstaendigkeit-pruefen.js dateienRueckwaerts": 2,
+  "tools/landung-vollstaendigkeit-pruefen.js zeilenAnteil": 1,
+  "tools/landung-vollstaendigkeit-pruefen.js pruefen": 1
+ },
+ "eintraege": [
+  {
+   "datei": "tools/kdl-historie-pruefen.js",
+   "funktion": "commitPruefen",
+   "grund": "Historien-Scan auf KDL-Texte; die eingemischten Commits stehen selbst im Bereich und werden gelesen, nur eine Merge-Auflösung mit neuem Text sähe er nicht — Kandidat zum Absenken (Schalter --diff-merges=first-parent)"
+  },
+  {
+   "datei": "tools/landung-vollstaendigkeit-pruefen.js",
+   "funktion": "dateienRueckwaerts",
+   "grund": "Berichtswerkzeug, kein Gate: misst, wie weit ein gepickter Fix-Commit im Landestand steht; ein Merge ergäbe keine Dateien und hieße „fehlt“ — die Meldung irrt zur vorsichtigen Seite"
+  },
+  {
+   "datei": "tools/landung-vollstaendigkeit-pruefen.js",
+   "funktion": "zeilenAnteil",
+   "grund": "Berichtswerkzeug, kein Gate (wie dateienRueckwaerts): ein Merge ergäbe keinen Zeilenanteil und hieße „fehlt“"
+  },
+  {
+   "datei": "tools/landung-vollstaendigkeit-pruefen.js",
+   "funktion": "pruefen",
+   "grund": "Berichtswerkzeug, kein Gate: Vorauswahl der Landestände je Kandidat; ein Merge ergäbe keine Dateien, dann zählt nur die patch-id"
+  }
+ ]
+}

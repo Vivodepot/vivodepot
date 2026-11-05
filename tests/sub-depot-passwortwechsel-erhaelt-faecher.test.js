@@ -25,7 +25,7 @@ async function mutterDatei() {
   q.getData().angehoerigen_passwort_ort = ORT;
   await q.empfaengerkreisSetzen({ name: 'Tante Renate', bausteine: ['notfall'] });
   await q.empfaengerkreisFachEinrichten(q.empfaengerkreiseListe()[0], PW_TANTE);
-  const u = q.blackboxDateiAusUmschlag(await q.depotSerialisieren()).umschlag;
+  const u = q.depotDateiAusUmschlag(await q.depotSerialisieren());
   assert.ok(u.umschlagTabelle.length >= 2, 'Vorbedingung: die Datei trägt ein Fach');
   assert.equal(u.angehoerigenOrt, ORT, 'Vorbedingung: die Datei trägt den Ortshinweis');
   return JSON.parse(JSON.stringify(u));

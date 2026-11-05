@@ -970,12 +970,15 @@ const REISE_5_RENATE = {
     },
     {
       id: 'S11-erbe-eintragen',
-      titel: 'Einen Erben eintragen (Chip-Input: Name tippen, Enter bestätigt)',
+      titel: 'Einen Erben eintragen (Chip-Input: Name tippen, Enter bestätigt, „Hinzufügen“ in der Maske legt an)',
       veraendernd: true,
       aktion: async (seite) => {
         await seite.waitForSelector('[data-edit-refm-override="heirsBriefOverview"]', { state: 'visible', timeout: 5000 });
         await seite.fill('[data-edit-refm-override="heirsBriefOverview"]', 'Katrin Beispiel', { timeout: 5000 });
         await seite.press('[data-edit-refm-override="heirsBriefOverview"]', 'Enter', { timeout: 5000 });
+        // Personenwähler (30.10.2026, Befund UX-PERSONENWAEHLER-DREIFACH): ein neuer Name legt nicht mehr still an; Enter öffnet
+        // unter der Zeile die Maske „neue Person“ (Name vorbelegt, Telefon), erst „Hinzufügen“ legt die Person an.
+        await seite.locator('.inline-neu [data-neu-anlegen]:visible').first().click({ timeout: 5000 });
       },
       wartenMs: 800,
     },

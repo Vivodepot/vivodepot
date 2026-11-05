@@ -56,6 +56,14 @@
             {
               "quelle": "health",
               "feld": "insuranceNumber"
+            },
+            {
+              "quelle": "health",
+              "feld": "generalPractitioner"
+            },
+            {
+              "quelle": "health",
+              "feld": "emergencyContacts"
             }
           ]
         },

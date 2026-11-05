@@ -91,7 +91,8 @@ const NAMENTLICH = Object.freeze([
   'strings:modulWirkungAngehoerigenVorlage.text',
   'strings:modulWirkungBranding.text',
   'strings:modulWirkungLogikModul.text',
-  'strings:modulWirkungErscheinung.text',   // was eine Erweiterung ändert, Teil der Wahl (VD-SEC-009 S5, 16.10.2026)
+  'strings:modulWirkungErscheinung.text',
+  'strings:modulWirkungLokalesModell.text',   // KI-Andockpunkt (U2-ADR-516)   // was eine Erweiterung ändert, Teil der Wahl (VD-SEC-009 S5, 16.10.2026)
   // Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026): die Zeile über nicht angewandte Module, die Kennzeichnung eines neutral gezeigten
   // Bereichs und die Namen der Modularten — ein Modul darf nicht verbergen oder umbenennen, was nicht angewandt wird.
   'strings:moduleNichtAngewandtZeile.text',
@@ -112,6 +113,7 @@ const NAMENTLICH = Object.freeze([
   'strings:modulArtBranding.text',
   'strings:modulArtLogikModul.text',
   'strings:modulArtErscheinung.text',
+  'strings:modulArtLokalesModell.text',
   'strings:abWerkFassungErsetztTitel.text',
   'strings:abWerkFassungErsetztText.text',
   'strings:klartextBindungTitel.text',

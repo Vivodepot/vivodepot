@@ -24,7 +24,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
-const { PRODUKTE, modulDateienFuer, RECHTSRAUM_DE_PFAD } = require('../tools/lib/vier-produkte.js');
+const { PRODUKTE, modulDateienFuer, RECHTSRAUM_DE_PFAD, RECHTSRAUM_BAUPLAN_PFADE } = require('../tools/lib/vier-produkte.js');
 // Der Körper einer benannten Funktion im Quelltext, klammerbalanciert (genügt für die Fassungs- und Wächterproben hier).
 function funktionsKoerper(quelltext, name) {
   const m = new RegExp('function\\s+' + name.replace(/\$/g, '\\$') + '\\s*\\([^)]*\\)\\s*\\{').exec(quelltext);
@@ -47,12 +47,13 @@ async function depot(opts) {
   V.akteurSelbstErklaeren('Tester');
   return V;
 }
-/* Ein Produkt wie privat-de, aber mit anderen Rechtsraum-Modulen ab Werk: ohne tools/rechtsraum-de-modul.json und mit `zusatz`
-   (Pfade). Ohne Zusatz trägt es kein Rechtsraum-Modul — der Rechtsraum der Zusammenstellung ist dann '' (U2-ADR-504 §3). */
+/* Ein Produkt wie privat-de, aber mit anderen Rechtsraum-Modulen ab Werk: ohne tools/rechtsraum-de-modul.json (und ohne die
+   Bauplan-Ergänzung dieses Moduls, U2-ADR-507) und mit `zusatz` (Pfade). Ohne Zusatz trägt es kein Rechtsraum-Modul — der Rechtsraum
+   der Zusammenstellung ist dann '' (U2-ADR-504 §3). */
 function produktMitRechtsraum(zusatz, slug) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rr-liste-' + slug + '-'));
   const { konfektionieren } = require('../tools/produkt-konfektionieren.js');
-  const dateien = modulDateienFuer(PRODUKTE.find((p) => p.slug === 'privat-de')).filter((p) => p !== RECHTSRAUM_DE_PFAD).concat(zusatz);
+  const dateien = modulDateienFuer(PRODUKTE.find((p) => p.slug === 'privat-de')).filter((p) => p !== RECHTSRAUM_DE_PFAD && !RECHTSRAUM_BAUPLAN_PFADE.includes(p)).concat(zusatz);
   const r = konfektionieren({ ziel: tmp, slug, modulauswahl: [],
     vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n', unsignierteModulDateien: dateien });
   return { tmp, htmlPfad: path.join(r.ordner, 'vivodepot.html') };

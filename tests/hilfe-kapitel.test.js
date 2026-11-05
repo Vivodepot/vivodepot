@@ -18,9 +18,12 @@ const ZEHN_THEMEN = ['depot-anlegen-passwort', 'speichern-sicherung', 'eintragen
   'sensibel-zurueckhalten-freigeben', 'notfallkarte', 'module-templates-echtheit', 'datei-ist-das-depot', 'was-vivodepot-nicht-sieht',
   'sub-depot', 'lese-app-empfaengerin', 'daten-hereinholen', 'daten-herausgeben',   // Themen 12 bis 14 (04.10.2026)
   'vorbereitungsauszuege',   // 12.10.2026: wo die Vorbereitungsauszüge stehen (Beratungshilfe, Erbschein) und unter welchem Namen man sie findet
-  'pro-beruflich'];   // 24.10.2026: die berufliche Fassung, nur in Pro (Feld nurMitLogikModul; Pro selbst hält eine eigene Probe)
+  'pro-beruflich',   // 24.10.2026: die berufliche Fassung, nur in Pro (Feld nurMitLogikModul; Pro selbst hält eine eigene Probe)
+  'pro-erste-schritte-verhindert', 'pro-erste-schritte-todesfall', 'pro-erste-schritte-laengere-verhinderung',
+  'pro-erste-schritte-verkauf-uebergabe'];   // 29.10.2026: Einzelheiten zu den Listen „Erste Schritte …“, ebenfalls nur in Pro
+const nurPro = (id) => id.startsWith('pro-');
 
-test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die fünfzehn vereinbarten Themen, keine Nutzerdaten', () => {
+test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die neunzehn vereinbarten Themen, keine Nutzerdaten', () => {
   const { V } = ladeKern({ blank: true });
   assert.deepEqual(V.HILFE_THEMEN.map((t) => t.id), ZEHN_THEMEN);
   for (const t of V.HILFE_THEMEN) assert.ok(Object.keys(t).every((k) => ['id', 'anzahlAbschnitte', 'nurMitLogikModul'].includes(k)), t.id + ' trägt ein unerwartetes Feld');
@@ -71,7 +74,7 @@ test('[Hilfe·Titel] jedes Thema hat einen deutschen Titel aus dem Textsatz, kei
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
   // Das Pro-Thema öffnet nur in Pro; seinen Titel hält die Pro-Probe.
-  for (const id of ZEHN_THEMEN.filter((x) => x !== 'pro-beruflich')) {
+  for (const id of ZEHN_THEMEN.filter((x) => !nurPro(x))) {
     const modell = V.hilfeThemaModell(id);
     assert.ok(modell.titel && modell.titel !== id, id + ': Titel fehlt oder ist die rohe ID');
   }
@@ -96,7 +99,7 @@ test('[Hilfe·Übersicht] listet alle vierzehn Titel in der HILFE_THEMEN-Reihenf
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
   // Ein leeres Depot trägt kein Pro-Logikmodul; das Pro-Thema fehlt (Pro selbst hält eine eigene Probe).
-  assert.deepEqual(V.hilfeUebersichtModell().map((t) => t.id), ZEHN_THEMEN.filter((id) => id !== 'pro-beruflich'));
+  assert.deepEqual(V.hilfeUebersichtModell().map((t) => t.id), ZEHN_THEMEN.filter((id) => !nurPro(id)));
 });
 
 test('[Hilfe·Rendering] hilfeThemaHTML zeigt Titel, Einleitung und alle vier Abschnitte', () => {
@@ -160,9 +163,11 @@ test('[Hilfe·Übersetzbar, kein dritter Weg] ein Sprachmodul mit einer hilfe:-K
     'keine neue Prüf-/Registerfunktion nötig — die bestehende Kennungs-Erkennung reicht');
 });
 
-test('[Hilfe·Druck] das Overlay steht in der Ausnahmeliste des Print-CSS, wie Notfallblatt/PV-Dokument', () => {
-  assert.match(KERN_QUELLE, /body > \*:not\(#pv-dok-overlay\):not\(#notfallblatt-overlay\):not\(#hilfe-overlay\) \{ display: none !important; \}/);
-  assert.match(CSS_QUELLE, /#pv-dok-overlay, #notfallblatt-overlay, #hilfe-overlay \{ position: static;/);
+test('[Hilfe·Druck] das Overlay trägt data-druckbar und bleibt im Druck stehen, wie Notfallblatt/PV-Dokument', () => {
+  // seit 31.10.2026 über das Merkmal statt über eine Liste von Kennungen (tests/druckweg-druckbar.test.js)
+  assert.match(KERN_QUELLE, /body > \*:not\(\[data-druckbar\]\) \{ display: none !important; \}/);
+  assert.match(CSS_QUELLE, /body > \[data-druckbar\] \{ position: static( !important)?;/);
+  assert.match(KERN_QUELLE, /'<div id="hilfe-overlay" data-druckbar>'/);
 });
 
 test('[Hilfe·Druck] hilfeOverlayHTML zeigt Drucken-Knopf immer, Zurück nur bei einem Thema, Schließen nur bei der Übersicht', () => {
@@ -185,7 +190,8 @@ test('[Hilfe·Inhalt] das nachgelieferte zehnte Thema (sub-depot) trägt Titel, 
   assert.ok(modell.titel && modell.titel !== 'sub-depot', 'Titel fehlt oder ist die rohe ID');
   assert.ok(modell.einleitung.length > 0);
   assert.equal(modell.abschnitte.length, 3);
-  assert.match(modell.abschnitte[0], /einhängen/i);
+  // NACHGEZOGEN 31.10.2026: der Knopf heißt „Depot-Datei aufnehmen“ (P04, dann die Frage nach dem Unterschied der beiden Wege).
+  assert.match(modell.abschnitte[0], /Depot-Datei aufnehmen/);
 });
 
 test('[Hilfe·Aktivierung] die Sidebar trägt den Hilfe-Eintrag und ist auf hilfeOeffnen verdrahtet', () => {

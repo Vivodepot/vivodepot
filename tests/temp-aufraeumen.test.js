@@ -11,7 +11,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { spawnSync } = require('node:child_process');
+const { spawn, spawnSync } = require('node:child_process');
 const T = require('../tools/lib/temp-aufraeumen.js');
 
 const REPO = path.join(__dirname, '..');
@@ -42,6 +42,37 @@ test('[Temp·Preload·Rot-Beweis] ohne Preload bleibt jedes mkdtemp liegen, mit 
     assert.deepEqual(kind(tmp, 'a.js', CJS, true), [], 'mit Preload räumt der Prozess beim Ende');
     assert.equal(kind(tmp, 'b.mjs', ESM, false).length, 1);
     assert.deepEqual(kind(tmp, 'b.mjs', ESM, true), [], 'auch ein benannter ESM-Import von mkdtempSync');
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
+test('[TEMP-LECK-TESTS·Preload·Signal] auch ein per SIGTERM oder SIGINT beendeter Testprozess lässt nichts liegen', async () => {
+  const tmp = eigenes();
+  try {
+    for (const sig of ['SIGTERM', 'SIGINT']) {
+      const basis = path.join(tmp, 'basis-' + sig); fs.mkdirSync(basis);
+      const bereit = path.join(tmp, 'bereit-' + sig);
+      const datei = path.join(tmp, 'h-' + sig + '.js');
+      // Ein zweiter Hörer nach derselben Regel wie tests/produkt-html-erzeugen.js (once, neu auslösen nur als letzter):
+      // beide zusammen müssen räumen UND den Prozess beenden — keiner darf auf den anderen warten.
+      fs.writeFileSync(datei, `const fs=require('fs'),os=require('os'),path=require('path');
+const zweit=fs.mkdtempSync(path.join(os.tmpdir(),'zweiter-hoerer-'));
+if(process.env.ZWEITER_HOERER)process.once(${JSON.stringify(sig)},()=>{fs.rmSync(zweit,{recursive:true,force:true});if(process.listenerCount(${JSON.stringify(sig)})===0)process.kill(process.pid,${JSON.stringify(sig)});});
+fs.mkdtempSync(path.join(os.tmpdir(),'leck-'));fs.writeFileSync(${JSON.stringify(bereit)},'1');setTimeout(()=>{},60000);`);
+      const env = { ...process.env, TMPDIR: basis }; delete env.NODE_OPTIONS;
+      for (const [mit, zweiter] of [[false, false], [true, false], [true, true]]) {
+        for (const n of fs.readdirSync(basis)) fs.rmSync(path.join(basis, n), { recursive: true, force: true });
+        fs.rmSync(bereit, { force: true });
+        const k = spawn(process.execPath, [...(mit ? ['--require', PRELOAD] : []), datei], { env: { ...env, ...(zweiter ? { ZWEITER_HOERER: '1' } : {}) }, stdio: 'ignore' });
+        const bis = Date.now() + 30000;
+        while (!fs.existsSync(bereit) && Date.now() < bis) await new Promise((f) => setTimeout(f, 50));
+        const zu = new Promise((f) => k.on('exit', (code, signal) => f(signal)));
+        k.kill(sig);
+        assert.equal(await zu, sig, 'der Prozess endet mit demselben Signal');
+        const rest = fs.readdirSync(basis);
+        if (mit) assert.deepEqual(rest, [], sig + (zweiter ? ' mit zweitem Hörer' : '') + ': mit Preload ist alles geräumt');
+        else assert.equal(rest.length, 2, sig + ': Gegenprobe ohne Preload — das war der Befund');
+      }
+    }
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 });
 

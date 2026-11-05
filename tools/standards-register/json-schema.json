@@ -177,7 +177,7 @@
     {
       "id": "vivodepot-blackbox",
       "name": "Vivodepot-Blackbox (versiegeltes Sub-Depot an die Vertretung)",
-      "version": "eigenes Format (dateiTyp vivodepot-blackbox-export, Umschlag kryptoVersion 3)",
+      "version": "eigenes Format: seit v970 Depot-Datei (.vivodepot, kryptoVersion 4) mit dem gebundenen Kennzeichen art: sub; bis v969 Hülle dateiTyp vivodepot-blackbox-export, nur noch gelesen",
       "herausgeber": "Vivodepot",
       "quelle": {
         "url": "https://vivodepot.de/",
@@ -196,7 +196,7 @@
       "exportwege": [],
       "importwege": [],
       "bezuege": null,
-      "grund": "Das versiegelte Sub-Depot (subDepotBlackboxExportieren, ausgegeben über blackboxHerunterladen, ebenso kindDateiAusgeben). Probe: „[Klasse-A] Empfänger-Roundtrip: exportierte Datei öffnet mit dem eigenen Passwort der Inhaberin“ mit Isolations-Gegenprobe. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "grund": "Das versiegelte Sub-Depot (subDepotBlackboxExportieren, ausgegeben über blackboxHerunterladen, ebenso kindDateiAusgeben). Probe: „[Klasse-A] Empfänger-Roundtrip: exportierte Datei öffnet mit dem eigenen Passwort der Inhaberin“ mit Isolations-Gegenprobe. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug. Formbeschreibung docs/format/SPEZIFIKATION.md Abschnitte 2 und 3, Korpusfälle g07 (Hülle) und g16 (Teil-Depot); beide Richtungen in tests/sub-sonderlocken-s8-format.test.js.",
       "pruefer": "tests/blackbox-export.test.js"
     },
     {

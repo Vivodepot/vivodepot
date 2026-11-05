@@ -27,7 +27,7 @@ test('Depot-Pille → Menü → „Depots, die ich aufbewahre" öffnet die Verwa
   await page.waitForSelector('#tb-depot-menue-verwaltung', { state: 'visible' });
   await page.click('#tb-depot-menue-verwaltung');
   await expect(page.locator('#content')).toContainText('Sub-Depots');
-  // Leerzustand ist klar benannt (kein Crash, kein Code). Wortarbeit 04.08.: „Sub-Depot"
-  // ist internes Wort, die Oberfläche sagt „eingehängtes Depot".
-  await expect(page.locator('#content')).toContainText('eingehängte');
+  // Leerzustand ist klar benannt (kein Crash, kein Code). Seit P04 (31.10.2026) heißt die Übersicht „Sub-Depots“,
+  // „eingehängt“ entfiel; der Leerzustand sagt es mit dem Wort der Übersicht.
+  await expect(page.locator('#content')).toContainText('Noch keine Sub-Depots');
 });

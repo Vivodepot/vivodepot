@@ -172,13 +172,24 @@ const AB_WERK_REGIONEN = Object.freeze([
     nativerWert: 'Object.freeze([])',
   },
   {
-    // Amtliche Dokument-Wortlaute (PV/Vollmacht) und KI-Korpus — EINE Datei, EIN Objekt (kein Listen-Typ):
-    // Datei traegt { modulTyp, ..., dokumente: { pvBmj, kiKorpus, vollmachtBmj } }, der Kern liest .dokumente.
+    // Die Textteile der Patientenverfügung (Eingangsformel, Klauseln, Bestätigung) und der Umschlag ihres Assistenten — EINE Datei,
+    // EIN Objekt (kein Listen-Typ): { modulTyp, ..., dokumente: { pvBmj }, korpusWizard }, der Kern liest .dokumente. Die Schritte
+    // stehen seit U2-ADR-507 (Nachtrag 29.10.2026) als Bauplan im Rechtsraum-Modul, der KI-Korpus in AB_WERK_KI_KORPUS.
     // Nativer Wert null: bei {} wirft _dokumenteAusBuendelMaterialisieren (gefunden === 0).
     modulTyp: 'dokumente',
     kennung: 'AB_WERK_DOKUMENTE_DE',
     begin: '/* AB_WERK_DOKUMENTE_DE:BEGIN */',
     ende: '/* AB_WERK_DOKUMENTE_DE:END */',
+    nativerWert: 'null',
+  },
+  {
+    // U2-ADR-507 (Nachtrag 29.10.2026): der KI-Korpus ist eigene Redaktion (U2-ADR-396), kein amtlicher Wortlaut, und steht darum
+    // nicht im Rechtsraum-Modul, sondern in einer eigenen Datei: { modulTyp, ..., kiKorpus, korpusWizard }. EIN Objekt, nativer
+    // Wert null. Reine Ab-Werk-Saat ohne Signatur und ohne Einlass: EINLASS_REGISTER kennt keinen Typ dafür.
+    modulTyp: 'kiKorpus',
+    kennung: 'AB_WERK_KI_KORPUS',
+    begin: '/* AB_WERK_KI_KORPUS:BEGIN */',
+    ende: '/* AB_WERK_KI_KORPUS:END */',
     nativerWert: 'null',
   },
   {
@@ -254,9 +265,46 @@ function _regionNutzlastSetzen(quelle, region, wert, datei) {
   return quelle.slice(0, innenStart) + neuerInnenText + quelle.slice(innenEnde);
 }
 
+/* U2-ADR-507 (Nachtrag 29.10.2026) — die Bauplan-Ergänzung eines Rechtsraum-Moduls. Der mehrschrittige Bauplan eines Instruments
+   (typen.<typ>.bauplan) kann in einer eigenen Moduldatei stehen (modulTyp 'rechtsraumBauplan', { rechtsraum, typen: { <typ>:
+   { bauplan } } }), wenn er nicht mit dem Rechtsraum-Modul veröffentlicht wird. Sie hat keine eigene Region: hier, vor dem
+   Einbacken, wird ihr Bauplan in eine Kopie des Rechtsraum-Moduls desselben Codes eingesetzt, das dann wie jedes Rechtsraum-Modul
+   in AB_WERK_RECHTSRAUM_PRODUKT steht. Der Kern liest den Bauplan nur dort. Es wirft: eine Ergänzung ohne Rechtsraum-Modul ihres
+   Codes, ein Typ, den das Rechtsraum-Modul nicht kennt, ein Bauplan, der dort schon gesetzt ist (zwei Quellen), und ein leerer
+   Bauplan. `bauplanOffen` nennt jeden Typ, dessen Bauplan nach dem Einsetzen noch null ist; der Aufrufer meldet ihn, damit ein
+   Produkt ohne Ergänzung nicht still ohne Schritte gebaut wird. */
+function _rechtsraumBauplanEinsetzen(module) {
+  const istErgaenzung = (m) => !!(m && m.roh && m.roh.modulTyp === 'rechtsraumBauplan');
+  const ergaenzungen = module.filter(istErgaenzung);
+  const rest = module.filter((m) => !istErgaenzung(m))
+    .map((m) => (m && m.roh && m.roh.modulTyp === 'rechtsraum' && ergaenzungen.length) ? Object.assign({}, m, { roh: JSON.parse(JSON.stringify(m.roh)) }) : m);
+  for (const e of ergaenzungen) {
+    const ziel = rest.find((m) => m && m.roh && m.roh.modulTyp === 'rechtsraum' && m.roh.rechtsraum === e.roh.rechtsraum);
+    if (!ziel) throw new Error('Bauplan-Ergänzung ' + e.basisname + ': kein Rechtsraum-Modul „' + e.roh.rechtsraum + '" im Rezept.');
+    const typen = (e.roh.typen && typeof e.roh.typen === 'object') ? e.roh.typen : {};
+    if (!Object.keys(typen).length) throw new Error('Bauplan-Ergänzung ' + e.basisname + ': trägt keinen Typ.');
+    for (const typ of Object.keys(typen)) {
+      const eintrag = ziel.roh.typen && ziel.roh.typen[typ];
+      if (!eintrag || typeof eintrag !== 'object') throw new Error('Bauplan-Ergänzung ' + e.basisname + ': Typ „' + typ + '" ist im Rechtsraum-Modul „' + e.roh.rechtsraum + '" unbekannt.');
+      if (eintrag.bauplan !== undefined && eintrag.bauplan !== null) throw new Error('Bauplan-Ergänzung ' + e.basisname + ': Typ „' + typ + '" trägt schon einen Bauplan — zwei Quellen.');
+      const bauplan = typen[typ] && typen[typ].bauplan;
+      if (!Array.isArray(bauplan) || !bauplan.length) throw new Error('Bauplan-Ergänzung ' + e.basisname + ': Typ „' + typ + '" ohne Schritte.');
+      eintrag.bauplan = bauplan;
+    }
+  }
+  const bauplanOffen = [];
+  for (const m of rest) {
+    if (!m || !m.roh || m.roh.modulTyp !== 'rechtsraum' || !m.roh.typen) continue;
+    for (const typ of Object.keys(m.roh.typen)) if (m.roh.typen[typ] && m.roh.typen[typ].bauplan === null) bauplanOffen.push(m.roh.rechtsraum + '/' + typ);
+  }
+  return { module: rest, ergaenzungen: ergaenzungen.map((e) => e.basisname), bauplanOffen };
+}
+
 /* Klassifiziert ein BEREITS GEPARSTES Modul-Objekt gegen seinen eigenen, deklarierten `modulTyp`
    (nicht über Array-Position) — reine Objekt-Prüfung, kein `fs`. */
 function _unsigniertesModulKlassifizieren(roh, basisname) {
+  // Die Bauplan-Ergänzung hat keine eigene Region; `_rechtsraumBauplanEinsetzen` setzt sie vor dem Einbacken ins Rechtsraum-Modul ein.
+  if (roh.modulTyp === 'rechtsraumBauplan') return { region: null, roh, basisname };
   const region = AB_WERK_REGIONEN.find((r) => r.modulTyp === roh.modulTyp);
   if (!region) throw new Error('Unbekannter modulTyp „' + roh.modulTyp + '" in ' + basisname + ' — keine Ab-Werk-Region dafür definiert.');
   return { region, roh, basisname };
@@ -676,10 +724,11 @@ function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInha
   if (angabenFehler.length) throw new Error('Das Rezept trägt die Angabe der Urheberin nicht (Spezifikation 34.7):\n  ' + angabenFehler.join('\n  '));
   const nachVorDepot = _vorDepotNachladenSchneiden(_vorDepotKonfigurationAufText(kernText, modulauswahl, vorDepotKonfigurationInhaltFn, datei), datei);
   const nachServiceWorker = _serviceWorkerVorhandenAufText(nachVorDepot, serviceWorkerVorhanden !== undefined ? serviceWorkerVorhanden : false, datei);
-  const klassifiziert = (unsignierteModule || []).map((m) => _unsigniertesModulKlassifizieren(m.roh, m.basisname));
+  const bauplan = _rechtsraumBauplanEinsetzen(unsignierteModule || []);
+  const klassifiziert = bauplan.module.map((m) => _unsigniertesModulKlassifizieren(m.roh, m.basisname));
   _erscheinungsbildVorBacken(nachServiceWorker, klassifiziert, datei);
   const { quelle, ergebnis } = _abWerkModuleAufText(nachServiceWorker, klassifiziert, datei);
-  return { text: _htmlLangAufText(quelle, (unsignierteModule || []).map((m) => m.roh), datei), module: ergebnis.module };
+  return { text: _htmlLangAufText(quelle, bauplan.module.map((m) => m.roh), datei), module: ergebnis.module.concat(bauplan.ergaenzungen), bauplanOffen: bauplan.bauplanOffen };
 }
 /* ==PRODUKT_TEXT_ERZEUGEN:END== */
 
@@ -755,7 +804,7 @@ function erscheinungsbildSchriftenVorBacken(kernText, unsignierteModule, datei =
 
 module.exports = {
   AB_WERK_REGIONEN, _regionSpanne, _regionLinksseite, _regionIstReineNutzlast, _regionNutzlastSetzen,
-  _unsigniertesModulKlassifizieren, _abWerkModuleAufText,
+  _unsigniertesModulKlassifizieren, _abWerkModuleAufText, _rechtsraumBauplanEinsetzen,
   VOR_DEPOT_MARKER_BEGIN, VOR_DEPOT_MARKER_ENDE, _vorDepotKonfigurationSpanne, _vorDepotKonfigurationAufText,
   SERVICE_WORKER_MARKER_BEGIN, SERVICE_WORKER_MARKER_ENDE, _serviceWorkerVorhandenSpanne, _serviceWorkerVorhandenAufText,
   produktTextErzeugen, ENTWICKLERLEISTE_MARKEN, _entwicklerleisteSchneiden,

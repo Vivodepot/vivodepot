@@ -95,8 +95,12 @@ Fragment (U2-ADR-460). Zum Nachsehen: `tests/anfrage-kompakt.test.js`,
 ## 2 · Was von außen nachgewiesen ist
 
 Ein Format richtig zu schreiben, misst niemand, der es selbst geschrieben hat. Vivodepot lässt
-darum fremde Prüfer gegen den eigenen Code laufen. Alle Läufe hängen im
-Konformitäts-Gate (`npm run test:konformitaet`) und laufen vor jedem Push.
+darum fremde Prüfer gegen den eigenen Code laufen. Die Läufe hängen im
+Konformitäts-Gate (`npm run test:konformitaet`), ECDSA und die X.509-Pfadprüfung in der vollen
+Suite. Vor jedem Push verlangt ein Hook einen Beleg, dass die volle Suite für genau diesen Stand
+grün lief. Fehlt der Beleg, fährt er das Konformitäts-Gate und die Suite selbst. Ändert ein Stand
+seit dem letzten belegten nur Dateien einer festen Liste, laufen statt der vollen Suite die Proben
+dieser Dateien.
 
 | Prüfgegenstand | fremder Maßstab | Umfang |
 |---|---|---|
@@ -105,9 +109,21 @@ Konformitäts-Gate (`npm run test:konformitaet`) und laufen vor jedem Push.
 | AES-GCM Randfälle | Wycheproof | 39 gültig, 27 ungültig |
 | HKDF-SHA-256 | RFC 5869 | 3 Testvektoren |
 | HKDF Randfälle | Wycheproof | 83 gültig, 3 ungültig |
+| HMAC-SHA-256 | Wycheproof | 174 Vektoren, 66 gültig, 108 ungültig |
+| PBKDF2-HMAC-SHA-256 | Wycheproof | 60 Vektoren, alle gültig |
+| ECDSA-Signaturen im X.509-Leser | Wycheproof | P-256/SHA-256: 484 Vektoren, 174 gültig, 310 ungültig; P-521/SHA-512: 542 Vektoren, 232 gültig, 310 ungültig |
+| X.509-Pfadprüfung | x509-limbo (C2SP) | 71 von 9 802 Fällen im Umfang des Lesers, 14 SUCCESS, 57 FAILURE; 15 der FAILURE-Fälle nimmt der Leser an, jeder in einer Liste geführt: 13 bewusst anders, 1 nach einer entschiedenen eigenen Regel, 1 als offener Befund geduldet |
 | Barrierefreiheit, Haupt-App | axe-core, WCAG 2.2 AA | 39 Sichten, 0 Verstöße (Liste: `tools/axe-sichten.json`) |
 | Barrierefreiheit, Lese-App | axe-core, WCAG 2.2 AA | 17 Sichten, 0 Verstöße |
 | Offline-Garantie | Playwright, echter Netzwerk-Mitschnitt | 0 externe Requests über den ganzen Ablauf |
+
+Mit den HMAC- und PBKDF2-Vektoren prüft Vivodepot wie bei AES und HKDF die WebCrypto von Chromium, mit
+denselben WebCrypto-Aufrufen wie der Kern, Signieren bzw. Ableiten
+(`tests/konformitaet/krypto-vektoren.mjs`, 5.2-A-13 und 5.2-A-14).
+Mit den ECDSA-Vektoren und x509-limbo prüft Vivodepot eigenen Code aus dem Kern, ausgeführt in Node:
+`tests/x509-leser.test.js` (Vektordateien per SHA-256 gepinnt) und `tests/x509-limbo.test.js`. Die übrigen
+Fälle von x509-limbo sind mit Grund eingeteilt; die Schwelle steht in
+`tests/konformitaet/vectors/x509-limbo/README.md`, die angenommenen Fälle in den Dateien daneben.
 
 **SMART Health Links** (Senden und Abholen, `STANDARDS.md`) wurden in der xShare-Validierung auf
 der Gazelle-Plattform gegen fremde Gegenstellen gefahren; der Manifest-Weg entstand, weil eine

@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/antwort-schema.json",
+  "title": "Vivodepot Antwort auf eine Anfrage",
+  "description": "Der Datensatz, den die Bürger-Anwendung (vivodepot.html) auf eine Anfrage nach anfrage-schema.json zurückgibt, nach dem Entschlüsseln. Wer die Antwort einliest, übernimmt die Angaben aus `felder` (je Kennung `roh` als Wert, `wert` als Anzeigetext), statt sie abzutippen. `fehlend` nennt angefragte Angaben, die das Depot nicht führt; `unbekannt` Kennungen, die es nicht kennt; `zurueckgehalten` zählt, was die Person nicht freigegeben hat, ohne es zu nennen. Verweise auf Personen und Institutionen löst der Block `personen` bzw. `institutionen` auf. Die Schlüssel dieses Schemas sind die, die der Kern schreibt; eine Probe hält beide Seiten zusammen.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatKennung", "anlass", "erstelltAm", "felder", "fehlend", "zurueckgehalten", "anfrage", "unbekannt", "vollstaendig"],
+  "properties": {
+    "format": { "const": "vivodepot-anlass" },
+    "formatKennung": { "type": "string", "pattern": "^vivodepot-anlass@[0-9]+$", "description": "Versionierte Format-Kennung (U2-ADR-151)." },
+    "anlass": {
+      "type": "object", "additionalProperties": false, "required": ["id"],
+      "properties": { "id": { "type": "string" }, "titel": { "type": "string" } }
+    },
+    "erstelltAm": { "type": "string", "description": "ISO 8601, UTC." },
+    "vertretung": {
+      "description": "Gesetzt, wenn jemand unter Vollmacht aus einem verwalteten Depot antwortet; sonst null.",
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "object", "additionalProperties": false, "required": ["handelnd", "fuer"],
+          "properties": {
+            "handelnd": { "type": "string" },
+            "fuer": { "type": "string" },
+            "eigenschaft": { "type": ["string", "null"], "description": "Schlüssel der Rechtsgrundlage der Vertretung." },
+            "eigenschaftText": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "felder": {
+      "type": "array",
+      "description": "Die freigegebenen Angaben mit Wert.",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["kennung", "bereich", "feld", "label", "wert", "roh"],
+        "properties": {
+          "kennung": { "type": "string", "description": "bereich.feld, wie in der Anfrage." },
+          "bereich": { "type": "string" },
+          "feld": { "type": "string" },
+          "label": { "type": "string" },
+          "wert": { "type": "string", "description": "Anzeigetext in der Sprache der Antwortenden." },
+          "roh": { "description": "Der Wert, wie das Depot ihn führt. Ein Verweis auf eine Person oder Institution steht als {\"ref\": <Id>} und ist im Block `personen` bzw. `institutionen` aufgelöst." },
+          "codeForm": {
+            "type": "object", "additionalProperties": false, "required": ["form", "codiert", "freitext", "fremd"],
+            "properties": {
+              "form": { "enum": ["codiert", "freitext", "fremdes-system"] },
+              "codiert": { "type": "integer", "minimum": 0 },
+              "freitext": { "type": "integer", "minimum": 0 },
+              "fremd": { "type": "integer", "minimum": 0 },
+              "systeme": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "abgeleitet": { "const": true },
+          "gueltigBis": { "type": "string" },
+          "herkunft": {
+            "type": "object", "additionalProperties": false, "required": ["art", "verifiziert"],
+            "properties": { "art": { "type": "string" }, "verifiziert": { "type": "boolean" } }
+          },
+          "zweck": { "type": "string" },
+          "pflicht": { "type": "boolean" }
+        }
+      }
+    },
+    "fehlend": {
+      "type": "array",
+      "description": "Angefragte Angaben, die das Depot kennt, aber ohne Eintrag.",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["kennung", "bereich", "feld", "label"],
+        "properties": {
+          "kennung": { "type": "string" },
+          "bereich": { "type": "string" },
+          "feld": { "type": "string" },
+          "label": { "type": "string" },
+          "zweck": { "type": "string" },
+          "pflicht": { "type": "boolean" }
+        }
+      }
+    },
+    "unbekannt": {
+      "type": "array",
+      "description": "Angefragte Kennungen, die dieses Depot nicht kennt.",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["kennung", "grund"],
+        "properties": { "kennung": { "type": "string" }, "grund": { "type": "string" } }
+      }
+    },
+    "zurueckgehalten": {
+      "type": "object", "additionalProperties": false, "required": ["sensibel"],
+      "properties": {
+        "sensibel": { "type": "integer", "minimum": 0, "description": "Zahl der Angaben, die als sensibel zurückgehalten wurden." },
+        "pflicht": { "type": "integer", "minimum": 0, "description": "Zahl der Pflichtangaben der Anfrage, die nicht mitgehen." }
+      }
+    },
+    "modulHerkunft": {
+      "type": "object", "additionalProperties": false, "required": ["format", "geprueft", "ungeprueft", "unbekannt", "module"],
+      "properties": {
+        "format": { "type": "integer" },
+        "geprueft": { "type": "integer", "minimum": 0 },
+        "ungeprueft": { "type": "integer", "minimum": 0 },
+        "unbekannt": { "type": "integer", "minimum": 0 },
+        "module": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["typ", "kennung", "stand"],
+            "properties": {
+              "typ": { "type": "string" },
+              "kennung": { "type": ["string", "null"] },
+              "stand": { "type": "string" },
+              "stufe": { "type": ["string", "integer", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "moduleStand": {
+      "type": "object", "additionalProperties": false, "required": ["format", "unbekannt", "module"],
+      "properties": {
+        "format": { "type": "integer" },
+        "unbekannt": { "type": "integer", "minimum": 0 },
+        "module": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["typ", "kennung", "version"],
+            "properties": {
+              "typ": { "type": "string" },
+              "kennung": { "type": ["string", "null"] },
+              "version": { "type": ["integer", "string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "anfrage": {
+      "type": "object", "additionalProperties": false, "required": ["von", "zweck", "grundlage", "vorgang", "gueltigBis"],
+      "description": "Worauf geantwortet wird, aus der Anfrage übernommen.",
+      "properties": {
+        "von": { "type": "string" },
+        "anbieterId": { "type": ["string", "null"] },
+        "zweck": { "type": "string" },
+        "grundlage": { "type": "string" },
+        "vorgang": { "type": "string" },
+        "gueltigBis": { "type": "string" }
+      }
+    },
+    "absender": {
+      "type": "object", "additionalProperties": false, "required": ["name", "rolle"],
+      "description": "Wer antwortet (U2-ADR-437). Eine Angabe, keine geprüfte Identität.",
+      "properties": {
+        "name": { "type": "string" },
+        "rolle": { "enum": ["selbst", "bevollmaechtigt", "teil", "kreis"] },
+        "fuer": { "type": ["string", "null"] }
+      }
+    },
+    "vollstaendig": { "type": "boolean", "description": "Wahr, wenn nichts Unbekanntes, keine fehlende Pflichtangabe und nichts Zurückgehaltenes aus der Pflicht." },
+    "antwortAuf": {
+      "type": "array",
+      "description": "Je Vorlage, auf die die Anfrage beruht, die Antwort im Schlüsselraum dieser Vorlage (U2-ADR-366).",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["templateId", "antworten"],
+        "properties": {
+          "templateId": { "type": ["string", "null"] },
+          "templateVersion": { "type": ["integer", "null"] },
+          "anfrageId": { "type": ["string", "null"] },
+          "herkunft": { "type": ["string", "null"] },
+          "erzeugtAm": { "type": "string" },
+          "antworten": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object", "additionalProperties": false, "required": ["zustand"],
+              "properties": {
+                "zustand": { "enum": ["wert", "leer", "unbekannt", "zurueckgehalten"] },
+                "wert": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "personen": {
+      "type": "array",
+      "description": "Je Verweis auf eine Person in `roh` ein Eintrag mit ihren Personalien (U2-ADR-467). Enthält nur, was die Antwort ohnehin als `wert` zeigt.",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["ref"],
+        "properties": {
+          "ref": { "type": "string" },
+          "name": { "type": "string" },
+          "familyName": { "type": "string" },
+          "givenName": { "type": "string" },
+          "birthDate": { "type": "string" },
+          "birthPlace": { "type": "string" },
+          "street": { "type": "string" },
+          "houseNumber": { "type": "string" },
+          "postalCode": { "type": "string" },
+          "city": { "type": "string" },
+          "country": { "type": "string" }
+        }
+      }
+    },
+    "institutionen": {
+      "type": "array",
+      "description": "Je Verweis auf eine Institution in `roh` ein Eintrag mit ihrem Namen.",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["ref", "name"],
+        "properties": {
+          "ref": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      }
+    }
+  }
+}

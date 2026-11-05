@@ -38,7 +38,7 @@
 const CACHE = 'vivodepot-shell-v8';
 
 // Die App-Schale. Einzeln & tolerant gecacht (fehlende Einträge brechen den
-// Install NICHT). Pages liefert vivodepot.html aus (U2-ADR-020, Weg 1); './' wird
+// Install NICHT; einzige Pflicht: eine Startseite, s. install). Pages liefert vivodepot.html aus (U2-ADR-020, Weg 1); './' wird
 // zusätzlich vorgehalten, damit ein Verzeichnis-Aufruf die Schale aus dem Cache bekommt.
 const SCHALE = [
   './',
@@ -46,12 +46,16 @@ const SCHALE = [
   './manifest.webmanifest',
 ];
 
+/* Ohne Startseite kein Install (30.10.2026, Befund SW-INSTALL-OHNE-ZUGANG-LEERT-CACHE), logik-gleich zur Wurzel-sw.js: lehnt der
+   Install ab, bleiben der alte Worker und seine Schale. Eine der beiden Startseiten genügt. Probe:
+   tests/sw-install-ohne-startseite-behaelt-schale.test.js. */
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE).then((cache) =>
-      Promise.all(SCHALE.map((url) => cache.add(url).catch(() => undefined)))
-    )
-  );
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await Promise.all(SCHALE.map((url) => cache.add(url).catch(() => undefined)));
+    const startseite = (await cache.match('./')) || (await cache.match('./vivodepot.html'));
+    if (!startseite) throw new Error('Schale ohne Startseite: Install abgelehnt, die bisherige Schale bleibt.');
+  })());
   // KEIN automatisches skipWaiting — der Schalen-Wechsel ist ein bewusster Schnitt
   // (kein Datenbruch; IndexedDB bleibt ohnehin unberührt). Aktivierung über activate.
 });

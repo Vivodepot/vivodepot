@@ -299,12 +299,12 @@ konformitaet:
       - tests/unsignierte-groessen-waechter.test.js "[Wächter·unsignierte Größen·Anwendeort] erscheinungAnwenden setzt aus der Datei nur, was der Einlass auch annähme"
   - aussage: >-
       Der Schalter „powered by aus“ wirkt nur aus einem gültig signierten Modul und nur auf den Hinweis der App-Fußzeile; jede
-      PDF-Fußquelle trägt „Erstellt mit der Software Vivodepot“ weiter.
+      PDF-Fußquelle trägt „Erstellt mit Vivodepot“ weiter.
     zustand: erfuellt
     herkunft: U2-ADR-473 Nachtrag W2 (18.10.2026), Abstimmung 18.10.2026
     pruefung:
       - tests/branding-v2-powered-by-schalter.test.js "[Schalter·i] ein unsigniertes Modul mit Schalter lässt den Hinweis stehen — rohes Bündel, Depot-Datei, Einlass, Fassung 1"
-      - tests/branding-v2-powered-by-schalter.test.js "[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit der Software Vivodepot“ weiter"
+      - tests/branding-v2-powered-by-schalter.test.js "[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit Vivodepot“ weiter"
 ```
 
 ---
@@ -315,3 +315,14 @@ konformitaet:
 
 Die Sub-Depot-Palette ist Modul-Wert (U2-ADR-236, Nachtrag 09.10.2026): Töne und Fassungen stehen in jedem Erscheinungsbild-Modul, das
 Gerüst liest sie auch für das PDF von dort. Die Einfärbung der ganzen Oberfläche im Sub-Depot steht im Stil des Moduls.
+
+## Nachtrag · 01.11.2026 — der Schalter „powered by aus“ nach dem Wegfall der Fußzeile
+
+Die App-Fußzeile entfällt (Entscheidung vom 07.10.2026). „Bereitgestellt mit Vivodepot“ steht seit dem 30.10.2026 ständig und leise
+unten in der Seitenleiste beim Eintrag „Über und Hinweise“, auf kleinen Bildschirmen im Menü, und auf der Seite selbst (Nachtrag zu
+U2-ADR-496 Nr. 6). Für Nr. 7 und die Aussage dazu im Konformitätsblock ändert sich nur der Ort:
+- Der Schalter blendet den Hinweis der App aus, also jede Zeile `data-herkunft-hinweis="app"` an diesen Stellen. Wo Nr. 7 „in der
+  App-Fußzeile“ sagt, gilt mit dem Bau der Seite „an den Stellen des App-Hinweises“.
+- Unverändert bleibt: Er wirkt nur aus einem gültig signierten Modul der geltenden Marke, und nie auf `ausgabeErstelltMit`. Jede
+  PDF-Fußquelle trägt „Erstellt mit Vivodepot“ weiter.
+- `tests/branding-v2-powered-by-schalter.test.js` prüft mit dem Bau der Seite an den neuen Stellen.

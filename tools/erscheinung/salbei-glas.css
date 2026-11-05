@@ -247,14 +247,14 @@
   /* Gewichte */
   --fw-regular: 400; --fw-medium: 550; --fw-semibold: 600; --fw-bold: 700;
   /* Schreibung der Etiketten (G7 § 6.10 Sektion-Header; Profil „Leinen" setzt none) */
-  --label-schreibung: uppercase;
+  --label-schreibung: none;        /* Zielbild 30.10.2026: keine Versalien ab Werk, außer in der Wortmarke */
   /* Laufweite, je Rolle */
   --ls-titel: -0.005em;            /* Bereichs- und Fragetitel */
-  --ls-label: 0.05em;              /* Abschnittsetikett (G7 § 6.10) */
-  --ls-label-klein: 0.04em;        /* Inhalts- und Regal-Etikett */
-  --ls-label-nav: 0.09em;          /* Gruppenetikett der Seitenleiste */
-  --ls-label-klasse: 0.06em;       /* Klassen- und Situationsetikett */
-  --ls-label-quelle: 0.03em;       /* Quellen-Etikett im Suchtreffer */
+  --ls-label: 0;              /* Abschnittsetikett (G7 § 6.10) */
+  --ls-label-klein: 0;        /* Inhalts- und Regal-Etikett */
+  --ls-label-nav: 0;          /* Gruppenetikett der Seitenleiste */
+  --ls-label-klasse: 0;       /* Klassen- und Situationsetikett */
+  --ls-label-quelle: 0;       /* Quellen-Etikett im Suchtreffer */
   --ls-abschnitt: 0.02em;          /* Sektionstitel */
   --ls-depot-name: 0.01em;
   --ls-wortmarke: 0.10em; --ls-wortmarke-schmal: 0.06em;
@@ -275,7 +275,7 @@
   --feld-rahmen: 1px solid #73856a;      /* Bereichs- und Assistentenfelder (WCAG 1.4.11); auf der getönten Dokument-Fläche ≥ 3:1 (vorher #7d8f70: 2,98) */
   --feld-rahmen-dialog: 1px solid #7d8f70;     /* Felder in Dialog, Mappe, Dokument-Erkennung — war --line, 1,5:1 gegen den Grund (WCAG 1.4.11 verlangt 3:1) */
   --feld-flaeche: var(--white);
-  --feld-hoehe: 24px;   /* Untergrenze WCAG 2.5.8; heute liegt jedes Bereichsfeld darüber */
+  --feld-hoehe: 44px;   /* Feldhöhe nach Zielbild 30.10.2026 (mobil 48 px im Stil); Untergrenze WCAG 2.5.8 bleibt 24 px */
   /* Bedienziel: Mindestmaß aller Knöpfe, Schalter und Einträge (Trefferflächen-Regel 10.08.2026) */
   --ziel: 44px;
   /* Akzentrand links — Breite; ein randloses Profil setzt 0 (Einzüge rechnen ihn heraus) */
@@ -351,9 +351,10 @@ html.dark-mode {
   --notfall-flaeche: #2b1a17; --notfall-schrift: #ff9d8f; --fehler-flaeche: #3a1d1a; --feld-fehler-schrift: #ff9a7a;
   --link: #9fb6d4; --btn-sek-hover: #26301f;
   --cream: #151719; --white: #1e2023; --papier-bereich: var(--cream);
-  --ink: #e9ede7; --ink2: #b9c3b9; --ink3: #94a094;
+  --ink: #e9ede7; --ink2: #b9c3b9; --ink3: #98a498;   /* 4,66:1 auf der Karte mit Eintragen-Fläche (Weiß 10 %), vorher 4,43 */
   /* Strang 3 Commit D — Salbei-Nacht-Tönung (hue-gleich, dunkle Füllfläche). NEU, zur Freigabe. */
   --line: #3a3d41; --salbei-light: #26292c; --gold-soft: #2a2418;
+  --line-feiner: #2f3236;   /* nachts dunkel: als Hover-Fläche trägt sie --ink3 mit 4,97:1; hell (#e2eada) fiel die Schrift auf 1,04:1 */
   /* Sub-Depot-Palette (Palettentausch 04.08.2026): KEINE Nacht-spezifische Übersteuerung
      mehr nötig — gerechnet erreichen dieselben Hex-Werte + derselbe dunkle Text die
      Kriterien auch hier (Salbei-dunkel bleibt nachts unverändert #4F6539), s. Palette-

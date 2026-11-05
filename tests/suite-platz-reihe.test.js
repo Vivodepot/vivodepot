@@ -270,3 +270,52 @@ test('[Reihe·nur Air·Rot-Beweis] wartet im Baum ein Suite-Lauf oder liegt die 
     assert.equal(holen(b, 'npm test', b.p(), b.baumAnders).geholt, false, 'in der Schonfrist bleibt der Platz frei');
   } finally { b.aufraeumen(); }
 });
+
+/* PLATZ FÜR DEN ZUGKOPF (03.11.2026): nach der Schonfrist hielt die Marke keinen Platz frei, solange der markierte Baum nur im
+   Klein-Platz vorprüfte; zwei fremde volle Läufe nahmen beide Plätze, und der Zugkopf-lv wartete. Jetzt bleibt einer frei, bis
+   der Baum seit dem Setzen der Marke einmal einen vollen Platz genommen hat. Rot-Beweis: mit der Bibliothek davor
+   (SUITE_PLATZ_LIB auf `git show <davor>:tools/lib/suite-platz.js`) bekommt der zweite fremde Lauf den Platz. */
+function kleinHalterSchreiben(a, pid) {
+  const kd = path.join(a.dir, 'klein');
+  fs.mkdirSync(kd, { recursive: true });
+  fs.writeFileSync(path.join(kd, 'platz-1.lock'), JSON.stringify({ pid, name: 'vor-pre-commit', cwd: fs.realpathSync(a.baumDran), host: os.hostname() }));
+}
+test('[Reihe·Zugkopf·Rot-Beweis] nach der Schonfrist, Baum nur im Klein-Platz, ohne Ticket: ein voller Platz bleibt ihm frei', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    kleinHalterSchreiben(a, a.p());
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'der Klein-Lauf hält die Marke');
+    assert.equal(holen(a, 'pre-commit', a.p(), a.baumAnders).geholt, true, 'ein fremder Lauf neben dem freien Platz');
+    assert.equal(holen(a, 'npm test', a.p(), a.baumAnders).geholt, false, 'der zweite fremde Lauf bekommt den Platz des Zugkopfs nicht');
+    assert.equal(holen(a, 'landung-vorbereiten', a.p(), a.baumDran).geholt, true, 'der Zugkopf-lv nimmt ihn');
+  } finally { a.aufraeumen(); }
+});
+test('[Reihe·Zugkopf] hat der Baum einmal einen vollen Platz genommen, gilt danach die Regel von vorher', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    kleinHalterSchreiben(a, a.p());
+    const lv = a.p();
+    assert.equal(holen(a, 'landung-vorbereiten', lv, a.baumDran).geholt, true);
+    assert.ok(sp.reiheLesen({ dir: a.dir }).gegriffenAm, 'die Marke merkt sich den Griff');
+    sp.platzFreigeben({ pid: lv, dir: a.dir, n: 2 });
+    assert.equal(holen(a, 'pre-commit', a.p(), a.baumAnders).geholt, true);
+    assert.equal(holen(a, 'npm test', a.p(), a.baumAnders).geholt, true, 'nach dem Griff hält die Marke ohne Ticket keinen Platz mehr frei');
+  } finally { a.aufraeumen(); }
+});
+test('[Reihe·Zugkopf] eine neu gesetzte Marke beginnt ohne Griff; ein fremder Griff setzt ihn nicht', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    kleinHalterSchreiben(a, a.p());
+    const lv = a.p();
+    assert.equal(holen(a, 'landung-vorbereiten', lv, a.baumDran).geholt, true);
+    assert.ok(sp.reiheLesen({ dir: a.dir }).gegriffenAm);
+    sp.reiheSetzen({ dir: a.dir, baum: a.baumDran });
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gegriffenAm, undefined, 'neu gesetzt: ohne Griff');
+    sp.platzFreigeben({ pid: lv, dir: a.dir, n: 2 });
+    assert.equal(holen(a, 'pre-commit', a.p(), a.baumAnders).geholt, true);
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gegriffenAm, undefined, 'ein fremder Lauf setzt den Griff nicht');
+  } finally { a.aufraeumen(); }
+});

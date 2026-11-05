@@ -123,12 +123,12 @@
   },
   "abschnitte": [
     {
-      "titel": "Teil 0 — die Person",
+      "titel": "Vorab — die Person",
       "bloecke": [
         {
           "typ": "immer",
           "texte": [
-            "Diese Angaben stehen ohnehin in Ihrem Depot. Der Auszug führt sie mit, damit die Stelle sie nicht noch einmal erfragen muss — das ist der Sinn des Vor-Sammelns."
+            "Diese Angaben stehen schon in Ihrem Depot. Der Auszug enthält sie, damit die Stelle nicht noch einmal danach fragen muss."
           ]
         },
         {
@@ -181,7 +181,7 @@
         {
           "typ": "immer",
           "texte": [
-            "Beratungshilfe und Prozesskostenhilfe verlangen dieselbe Erklärung über die persönlichen und wirtschaftlichen Verhältnisse. Was hier steht, ist Ihre eigene Depot-Angabe, aufbereitet zum Vorbereiten — kein Antrag und keine amtliche Erklärung."
+            "Beratungshilfe und Prozesskostenhilfe verlangen dieselbe Erklärung über die persönlichen und wirtschaftlichen Verhältnisse. Hier stehen Ihre eigenen Depot-Angaben, damit Sie sich vorbereiten können. Das ist kein Antrag und keine amtliche Erklärung."
           ]
         },
         {
@@ -251,7 +251,7 @@
         {
           "typ": "immer",
           "texte": [
-            "Kontostände führt diese Anwendung bewusst nicht — die Konten-Liste nennt, welche Konten es gibt, nicht wie viel darauf liegt. Diese Angabe bleibt darum immer Lücke und ist beim Antrag selbst zu ergänzen."
+            "Kontostände speichert diese Anwendung bewusst nicht. Die Kontenliste zeigt, welche Konten es gibt, nicht wie viel Geld darauf liegt. Diese Angabe bleibt deshalb immer offen. Ergänzen Sie sie beim Antrag selbst."
           ]
         }
       ]
@@ -307,7 +307,7 @@
   "dokAusgabe": {
     "h1": "Beratungshilfe — Vorbereitungsauszug",
     "klasse": "zugang-recht-dok",
-    "herkunftText": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, kein Antrag.",
+    "herkunftText": "Diese Anwendung hat das Blatt aus Ihren Depot-Angaben zusammengestellt. Es ist keine amtliche Vorlage, kein Antrag.",
     "unterschrift": false,
     "unterschriftErsatzHinweis": "Dieser Auszug ist kein Antrag. Den Antrag auf Beratungshilfe stellen Sie beim Amtsgericht, mit dessen eigenem Formular und Ihrer eigenen Unterschrift.",
     "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",

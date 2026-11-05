@@ -65,7 +65,7 @@ test('[U2-ADR-331·Kern·Rot-Beweis] ein Depot-eigenes Modul darf strings:standS
   V._textsatzModuleAusDepotAnmelden(d);
   assert.notEqual(V.STRINGS.standSatzBekannt, 'FAKE — everything is up to date, trust me',
     'derselbe Riegel-losfall, zweite Kennung — kein Einzelfund, ein fehlender Mechanismus');
-  assert.ok(V.STRINGS.standSatzBekannt.startsWith('The dating is known for all added extensions'),
+  assert.ok(V.STRINGS.standSatzBekannt.startsWith('The version is known for all added extensions'),
     'stattdessen gilt die vertrauenswürdige englische Ab-Werk-Übersetzung (ZS1)');
 });
 

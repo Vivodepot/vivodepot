@@ -205,3 +205,15 @@ Umgesetzt, wie der Test dieser ADR es für diesen Fall vorsah („wird der Link 
   Quellcode sei nur auf Anfrage, privat oder nicht öffentlich, solange das öffentliche Repository verlinkt ist.
 - Die Adresse steht in der Allowlist externer URIs (`tests/allowlist-verbote.test.js`, Klasse f) und in
   `tools/https-adressen-positivliste.json`.
+
+## Nachtrag 30.10.2026 — der Quellcode-Link steht auf der Seite „Über und Hinweise“
+
+Die App-Fußzeile entfällt (Entscheidung vom 07.10.2026). Der Quellcode-Link zieht mit Lizenzangabe und Herkunftsort auf die Seite
+„Über und Hinweise“ (entschieden am 30.10.2026).
+- Wortlaut und Ziel bleiben: „Quellcode auf GitHub“ / „Source code on GitHub“, verlinkt auf genau `QUELLCODE_LINK`. Unter einer
+  Partnermarke steht die Aussage als Text ohne Link, wie bisher.
+- Der Maßstab ist „auffindbar im Produkt“ (U2-ADR-400, Kontext). Die Seite ist aus jeder Ansicht in höchstens zwei Schritten
+  erreichbar.
+- Variante (a) bleibt verworfen: Die Zusage verschwindet nicht, sie wechselt nur den Ort.
+- `tests/u2-adr-260-transparenz-link-ohne-ziel.test.js` prüft mit dem Bau der Seite dort statt im Fuß. Der Klassenwächter
+  `tests/quellcode-aussage-oeffentlich.test.js` bleibt unverändert.

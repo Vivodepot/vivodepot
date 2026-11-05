@@ -76,9 +76,10 @@ test('[Reserviert·Quelle] alle Verbraucher sehen für den aktiven Rechtsraum de
 
 test('[Reserviert·Quelle·Rot-Beweis] der Ab-Werk-Sprachwert wird normalisiert gespeichert, nicht roh', () => {
   const kern = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  const zeile = kern.split('\n').find((z) => /data\.textsprache = .*AB_WERK_SPRACHE_PRODUKT\.sprache/.test(z));
+  // Die Schreibstelle schreibt in ihr Ziel (`ziel.textsprache`, Befund SUB-SICHERN-FENSTER 02.11.2026), früher `data.textsprache`.
+  const zeile = kern.split('\n').find((z) => /\b(?:data|ziel)\.textsprache = .*AB_WERK_SPRACHE_PRODUKT\.sprache/.test(z));
   assert.ok(zeile, 'Vorbedingung: die Schreibstelle existiert');
-  assert.match(zeile, /data\.textsprache = sprachCodeNormalisieren\(AB_WERK_SPRACHE_PRODUKT\.sprache\)/);
+  assert.match(zeile, /\b(?:data|ziel)\.textsprache = sprachCodeNormalisieren\(AB_WERK_SPRACHE_PRODUKT\.sprache\)/);
 });
 
 /* Der Wächter: ein Modul-Code (`.rechtsraum`/`.sprache`), roh verglichen mit einem reservierten Wert

@@ -43,7 +43,7 @@ test('[Dateiname·Person] Haupt-, Sub-, Export- und Kreis-Dateien tragen keinen 
   for (const n of namen) assert.doesNotMatch(n, NAMEN, 'Personenname im Dateinamen: ' + n);
   assert.doesNotMatch(V.blackboxDateiname(e.depotUUID, new Date('2026-09-28T10:00:00Z')), NAMEN);
   const kurz = e.depotUUID.replace(/[^0-9a-f]/gi, '').slice(0, 4).toUpperCase();
-  assert.equal(V.blackboxDateiname(e.depotUUID, new Date('2026-09-28T10:00:00Z')), 'Vivodepot-Sub_2026-09-28_' + kurz + '.json');
+  assert.equal(V.blackboxDateiname(e.depotUUID, new Date('2026-09-28T10:00:00Z')), 'Vivodepot-Sub_2026-09-28_' + kurz + '.vivodepot');
 });
 
 /* Dynamisch über die echten Ausgabewege (Erfassung tests/ausgabe-fang.js): was über dateiAusgeben das Gerät verließe, wird

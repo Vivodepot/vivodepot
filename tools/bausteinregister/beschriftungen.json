@@ -45,6 +45,9 @@
       "zweck": { "de": "Ein Auszug als reine Daten: welche Felder er liest und wie er sie darstellt.", "en": "An extract as pure data: which fields it reads and how it presents them." } },
     { "typ": "erscheinung", "schema": "erscheinung-modul", "status": "bereitgestellt",
       "label": { "de": "Erscheinungsmodul", "en": "Appearance module" },
-      "zweck": { "de": "Die Schriftgrößen von bis zu fünf Rollen der Oberfläche.", "en": "The type sizes of up to five interface roles." } }
+      "zweck": { "de": "Die Schriftgrößen von bis zu fünf Rollen der Oberfläche.", "en": "The type sizes of up to five interface roles." } },
+    { "typ": "lokalesModell", "schema": "lokales-modell-modul", "status": "bereitgestellt",
+      "label": { "de": "Verweis auf ein lokales KI-Modell", "en": "Reference to a local AI model" },
+      "zweck": { "de": "Kennung, Anzeigename und Prüfsumme eines KI-Modells auf dem Gerät der Person; ohne Modelldatei und ohne Adresse.", "en": "Identifier, display name and checksum of an AI model on the person's device; without the model file and without an address." } }
   ]
 }

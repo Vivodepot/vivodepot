@@ -1,6 +1,6 @@
 'use strict';
 /* ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-   „Erstellt mit der Software Vivodepot“ auf jeder Ausgabe, „powered by Vivodepot“ in der App (U2-ADR-496 Nr. 6,
+   „Erstellt mit Vivodepot“ auf jeder Ausgabe, „powered by Vivodepot“ in der App (U2-ADR-496 Nr. 6,
    U2-ADR-400 Nachtrag 18.10.2026). Befund WL-AUSGABE-ERSTELLT-MIT-PARTNER (MITTEL): unter einer Partnermarke nannten
    Notfallkarte und Gesamt-PDF den Partner als Werkzeug („Erstellt mit <Partner>“, `{marke}`), drei PDF-Arten trugen gar
    keinen Hinweis.
@@ -16,7 +16,7 @@
    einen Fuß-Träger und zeichnet Text), liest ihn selbst oder über einen direkten Aufruf. Beides aus dem Quelltext abgeleitet,
    keine Liste von Hand.
    ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // nur-privat: s. tests/helfer/nur-privat.js
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -31,7 +31,7 @@ const PARTNER = Object.freeze({
   name: 'Berliner Sparkasse', domain: null,
   farbePrimaer: '#2E5C8A', farbeSekundaer: '#F2A900', schriftart: 'Inter', logo: null,
 });
-const ERSTELLT = { de: 'Erstellt mit der Software Vivodepot', en: 'Created with Vivodepot software' };
+const ERSTELLT = { de: 'Erstellt mit Vivodepot', en: 'Created with Vivodepot' };
 const LIEST = /\b_ausgabeErstelltMit\(/;
 const FUSS_QUELLEN = ['pdfFussText', 'zeichneNotfallkarte', 'zeichneDokumentPdf', 'zeichneWiderrufPdf', 'zeichneVollDepotPdf'];
 // Ein Fuß-Träger: was heute einen Dokument-Fuß liefert (Haftung C, Segmente, der Export-Fuß).
@@ -163,14 +163,36 @@ test('[Erstellt mit·a] jede PDF-Fußquelle liest den Herkunftsort-Schlüssel au
       assert.ok(!/\{marke\}/.test(satz['strings:' + k + '.text']), sprache + ': ' + k + ' nennt die Marke nicht mehr als Werkzeug');
     }
   }
-  assert.equal(de['strings:ausgabeErstelltMit.text'], 'Erstellt mit der Software {urheberin}');
-  assert.equal(en['strings:ausgabeErstelltMit.text'], 'Created with {urheberin} software');
+  assert.equal(de['strings:ausgabeErstelltMit.text'], 'Erstellt mit {urheberin}');
+  assert.equal(en['strings:ausgabeErstelltMit.text'], 'Created with {urheberin}');
+});
+
+// Nachtrag U2-ADR-400 vom 02.11.2026: der Satz ohne „der Software“ / „software“, in jedem Textsatz (privat, pro; DE, EN).
+const WORTLAUT = [['textsatz-de-modul.json', 'Erstellt mit {urheberin}'], ['textsatz-de-pro-modul.json', 'Erstellt mit {urheberin}'],
+                  ['textsatz-en-modul.json', 'Created with {urheberin}'], ['textsatz-en-pro-modul.json', 'Created with {urheberin}']];
+function wortlautVerstoesse(lies) {
+  const v = [];
+  for (const [datei, erwartet] of WORTLAUT) {
+    const satz = lies(datei)['strings:ausgabeErstelltMit.text'];
+    if (satz !== erwartet) v.push(datei + ': „' + satz + '“ statt „' + erwartet + '“');
+    else if (/software/i.test(satz)) v.push(datei + ' nennt „Software“');
+  }
+  return v;
+}
+const lieseTextsatz = (datei) => JSON.parse(fs.readFileSync(path.join(REPO, 'tools', datei), 'utf8')).texte;
+test('[Erstellt mit·Wortlaut] DE und EN ohne „Software“, mit {urheberin}', () => {
+  assert.deepEqual(wortlautVerstoesse(lieseTextsatz), []);
+});
+
+test('[Erstellt mit·Wortlaut·Rot-Beweis] der frühere Satz mit „der Software“ wird gemeldet', () => {
+  const alt = (datei) => Object.assign({}, lieseTextsatz(datei), { 'strings:ausgabeErstelltMit.text': datei.includes('-de') ? 'Erstellt mit der Software {urheberin}' : 'Created with {urheberin} software' });
+  assert.equal(wortlautVerstoesse(alt).length, WORTLAUT.length);
 });
 
 test('[Erstellt mit·a·Rot-Beweis] ohne den Aufruf in einer Fußquelle wird genau diese gemeldet', () => {
-  const zeile = '    moduleStandFussText(moduleStandBerechnen()), _ausgabeErstelltMit()].filter(Boolean).join(\'   ·   \');';
+  const zeile = '    moduleStandFussText(moduleStandBerechnen()), _ausgabeErstelltMit()].filter((t, i, alle) => t && alle.indexOf(t) === i);';
   assert.ok(KERN.includes(zeile), 'die Zeile steht in pdfFussText');
-  const kopie = KERN.replace(zeile, '    moduleStandFussText(moduleStandBerechnen())].filter(Boolean).join(\'   ·   \');');
+  const kopie = KERN.replace(zeile, '    moduleStandFussText(moduleStandBerechnen())].filter((t, i, alle) => t && alle.indexOf(t) === i);');
   assert.deepEqual(quellenVerstoesse(kopie), ['pdfFussText liest ausgabeErstelltMit nicht']);
 });
 
@@ -203,7 +225,7 @@ test('[Erstellt mit·b·Diskriminante] der frühere Wortlaut „Erstellt mit <Pa
 function abweisungVerstoesse(V, fehlt) {
   const v = [];
   const K = 'strings:ausgabeErstelltMit.text';
-  if (fehlt(K, 'Created with {urheberin} software') !== null) v.push('Herkunftsort-Prüfer weist die Übersetzung mit {urheberin} ab');
+  if (fehlt(K, 'Created with {urheberin}') !== null) v.push('Herkunftsort-Prüfer weist die Übersetzung mit {urheberin} ab');
   if (fehlt(K, 'Created with {marke} software') !== 'herkunftsort-marke') v.push('Herkunftsort-Prüfer lässt {marke} durch');
   if (fehlt(K, 'Created with our software') !== 'herkunftsort-angabe') v.push('Herkunftsort-Prüfer lässt einen Satz ohne {urheberin} durch');
   const modul = (text) => {
@@ -213,7 +235,7 @@ function abweisungVerstoesse(V, fehlt) {
   };
   for (const stufe of [true, 'signiert']) {
     const durch = (text) => { const r = V.textsatzModulPruefen(modul(text), { vertrauenswuerdig: stufe }); return !!(r.texte && r.texte[K] === text); };
-    if (!durch('Created with {urheberin} software')) v.push(stufe + ': Einlass weist {urheberin} ab');
+    if (!durch('Created with {urheberin}')) v.push(stufe + ': Einlass weist {urheberin} ab');
     if (durch('Created with {marke} software')) v.push(stufe + ': Einlass lässt {marke} durch');
     if (durch('')) v.push(stufe + ': Einlass lässt einen leeren Satz durch');
   }
@@ -261,5 +283,6 @@ module.exports = {
     { fuer: '[Powered by·d] die App-Fußzeile trägt den Hinweisort, auch unter der Partnermarke', diskriminante: poweredByVerstoesse },
     { fuer: '[Erstellt mit·Klasse] jeder jsPDF-Erzeuger und jeder Fuß-Schreiber erreicht den Schlüssel', diskriminante: fussOhneSchluessel },
     { fuer: '[Erstellt mit·c] ein Sprachmodul mit {marke} statt {urheberin} oder ohne Text wird abgewiesen', diskriminante: abweisungVerstoesse },
+    { fuer: '[Erstellt mit·Wortlaut] DE und EN ohne „Software“, mit {urheberin}', diskriminante: wortlautVerstoesse },
   ],
 };

@@ -1,0 +1,10 @@
+{
+  "modulTyp": "textsatz",
+  "sprache": "de",
+  "texte": {
+    "garten.label": "Garten",
+    "garten.giesskanne.hint": "Wo die Gießkanne steht.",
+    "strings:giessplanHinweis.text": "Der Gießplan liegt im Betrieb, nicht auf diesem Gerät.",
+    "pro-gelaende.navUnterzeile": "Flächen und Zugänge"
+  }
+}

@@ -122,13 +122,26 @@ test('[X509·limbo·bewusst anders] nur vier Regeln, geschlossener Ankersatz, De
   assert.equal(new Set(b.faelle.map((e) => e.id)).size, b.faelle.length, 'kein Fall doppelt');
 });
 
+const gelistet = () => new Set([...bewusst().faelle, ...erwartet().faelle, ...befundOffen().faelle].map((e) => e.id));
+// Angenommene FAILURE-Fälle im Umfang, die in keiner Liste stehen: jeder ist ein Befund.
+const failureBefunde = (failure) => { const l = gelistet(); return failure.filter((e) => e.angenommen && !l.has(e.fall.id)); };
+
+test('[X509·limbo·FAILURE im Umfang·Rot-Beweis] ein Leser, der jede Kette annimmt, wirft Befunde; einer, der alles abweist, verletzt die Schwelle', async () => {
+  const alle = await ergebnisse();
+  const failure = alle.filter((e) => e.fall.art === 'im-umfang' && e.fall.erwartet === 'FAILURE').map((e) => Object.assign({}, e, { angenommen: true }));
+  assert.equal(failureBefunde(failure).length, failure.length - gelistet().size, 'jeder nicht gelistete FAILURE-Fall ist ein Befund');
+  assert.ok(failureBefunde(failure).length > 0);
+  const success = alle.filter((e) => e.fall.art === 'im-umfang' && e.fall.erwartet === 'SUCCESS');
+  assert.ok(success.length > SCHWELLE_SUCCESS, 'alle abgewiesen liegt über der Schwelle');
+});
+
 test('[X509·limbo·FAILURE im Umfang] kein Fall wird angenommen außer den bewusst anderen und erwartet angenommenen — jeder andere ist ein Befund', async (t) => {
   const failure = (await ergebnisse()).filter((e) => e.fall.art === 'im-umfang' && e.fall.erwartet === 'FAILURE');
   const offenListe = new Set(befundOffen().faelle.map((e) => e.id));
   const offenAbgewiesen = failure.filter((e) => !e.angenommen && offenListe.has(e.fall.id));
   assert.deepEqual(offenAbgewiesen.map(zeile), [], 'befund-offen.json: der Leser weist den Fall ab — Befund schließen, Zeile entfernen');
-  const liste = new Set([...bewusst().faelle, ...erwartet().faelle].map((e) => e.id).concat([...offenListe]));
-  const befunde = failure.filter((e) => e.angenommen && !liste.has(e.fall.id));
+  const liste = gelistet();
+  const befunde = failureBefunde(failure);
   for (const e of failure.filter((x) => x.angenommen && liste.has(x.fall.id))) t.diagnostic('gelistet (bewusst anders / erwartet angenommen), angenommen: ' + zeile(e));
   const ohneWirkung = failure.filter((e) => !e.angenommen && liste.has(e.fall.id));
   assert.deepEqual(befunde.map(zeile), [], 'Befund: der Leser nimmt einen FAILURE-Fall im Umfang an (Ratsche +1 je Fall, Einzelwort)');

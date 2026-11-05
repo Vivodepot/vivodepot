@@ -446,6 +446,40 @@ pruefung: tests/white-label-greift.test.js#[White Label greift·de] Stadtbank-B�
 pruefung: tests/white-label-greift.test.js#[White Label greift·en] Stadtbank-Bündel: Marke überall, Vivodepot nur am Herkunftsort
 ```
 
+
+## Nachtrag 30.10.2026 — der Herkunftsort steht auf der Seite „Über und Hinweise“
+
+Die App-Fußzeile entfällt (Entscheidung vom 07.10.2026). Eine Seite „Über und Hinweise“ bündelt die Hinweise (entschieden am
+30.10.2026).
+1. Der Herkunftsort (Abschnitt 3) zieht aus den Einstellungen auf diese Seite: Name, der Satz nach Art. 5 EUPL
+   (`herkunftLizenzhinweis`), der Impressumslink auf `VIVODEPOT_HERKUNFT_LINK` und die Kontaktadresse. Der Anker `data-herkunftsort`
+   zieht mit. Er bleibt neben dem Hinweisort der App (U2-ADR-496 Nr. 6) und dem Satz `ausgabeErstelltMit` der einzige Ort für die
+   Wortmarke.
+2. Kontakt und Aktualisierungen (Abschnitt 5) stehen ebenfalls auf der Seite, mit derselben Regel: bei White Label nur die Adressen
+   des Markenbündels, ohne sie nichts.
+3. Der Maßstab bleibt „auffindbar im Produkt“ (Kontext). Die Seite ist aus jeder Ansicht erreichbar: in der Seitenleiste mit einem
+   Schritt, auf kleinen Bildschirmen über das Menü mit zwei Schritten, auf Start und Entsperren über einen Textlink. Das trägt auch
+   den Impressumslink.
+4. Der Hinweisort der App ist nicht mehr die Fußzeile. Er ist die leise Zeile unten in der Seitenleiste (U2-ADR-496, Nachtrag
+   30.10.2026). Die Aussage im letzten Konformitätsblock („im Anker data-herkunft-hinweis der App-Fußzeile“) und ihre Proben zieht der
+   Bau der Seite im selben Zug nach.
+5. Die Lese-App behält ihren Herkunftsort im Fuß der Hilfe-Sicht. Diesen Nachtrag betrifft sie nicht.
+
 ---
 
-*Vivodepot GmbH · Berlin · 10.09.2026 · Nachtrag 16.09.2026 · Nachtrag 10.10.2026 · Nachtrag 18.10.2026*
+*Vivodepot GmbH · Berlin · 10.09.2026 · Nachtrag 16.09.2026 · Nachtrag 10.10.2026 · Nachtrag 18.10.2026 · Nachtrag 30.10.2026*
+
+## Nachtrag 02.11.2026 — „Erstellt mit {urheberin}“, ohne „der Software“
+
+Der Satz aus dem Nachtrag vom 18.10.2026, Nr. 2, lautet ab jetzt DE „Erstellt mit {urheberin}“ und EN „Created with
+{urheberin}“, ohne „der Software“ bzw. „software“ (Entscheidung der Geschäftsführung vom 02.11.2026). Schlüssel, Ort und
+Regeln bleiben: `ausgabeErstelltMit` im Fuß jeder Ausgabe und auf dem Deckblatt, Pflicht-Platzhalter `{urheberin}`, nie
+`{marke}`, nicht abschaltbar. „Erstellt von <Person>“ und der Haftungsfuß stehen weiter auf denselben Ausgaben. Die
+früheren Abdrücke zieht die Rücknahme-Liste der früher ausgelieferten Schutztexte einzeln zurück.
+
+```konformitaet
+aussage:  ausgabeErstelltMit lautet DE „Erstellt mit {urheberin}“ und EN „Created with {urheberin}“.
+zustand:  geprüft
+herkunft: entscheidung
+pruefung: tests/erstellt-mit-und-powered-by.test.js#[Erstellt mit·Wortlaut] DE und EN ohne „Software“, mit {urheberin}
+```

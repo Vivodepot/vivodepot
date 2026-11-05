@@ -234,6 +234,60 @@
   "gruppe": "A"
  },
  {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "kind",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "institution",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "declaredOn",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "scope",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "validUntil",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "storedUntil",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "withdrawalRoute",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "researchDecisions",
+  "unterfeld": "status",
+  "gruppe": "A"
+ },
+ {
   "sektor": "administration",
   "feld": "bundid",
   "unterfeld": "bundidDocumentsStorageLocation",
@@ -562,6 +616,36 @@
   "feld": "provisionInstruments",
   "unterfeld": "organDonationRegister",
   "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "postMortemDataDonation",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "postMortemDataDonationScope",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "postMortemDataDonationExcluded",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "postMortemDataDonationTrustee",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "postMortemDataHolders",
+  "gruppe": "A"
  },
  {
   "sektor": "advanceCare",
@@ -963,6 +1047,12 @@
   "sektor": "advanceCare",
   "feld": "provisionInstruments",
   "unterfeld": "fileReferenceNumber",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "attachedDocument",
   "gruppe": "A"
  },
  {

@@ -41,8 +41,10 @@ hat keine Whitelist → neue optionale Felder sind additiv (kein Bump); der Doku
 
 3. **Verwaisung** der alten Felder (`patientenverf_haltung`, `patientenverf_wunsch`, `palliativ_wunsch`,
    `organspende`/`organspende_einschraenkung`): bleiben lesbar (Bestandsdaten), werden vom Wizard **nicht mehr
-   geschrieben**. Keine Migration, kein Schema-Bump (U2-ADR-045-Regel). Die neuen `pv_*`-Felder schreiben in
-   denselben Store `data.sektoren.vorsorge` wie die manuelle Eingabe — kein paralleles Modell.
+   geschrieben**. Keine Migration, kein Schema-Bump (U2-ADR-045-Regel). Die 27 amtlichen `pv_*`-Bausteine
+   schreiben in denselben Store `data.sektoren.vorsorge` wie die manuelle Eingabe — kein paralleles Modell.
+   Die Instrument-Zeile in `vorsorge_instrumente` legt pvwiz seit U2-ADR-132 selbst an (U2-ADR-100 §1),
+   die Organspende spiegelt zusätzlich dorthin (Nachtrag 5, Nachtrag 8).
 
 4. **Dokument-Generator = reiner Zusammensteller.** `pvDokumentAbschnitte()` ordnet ausschließlich die
    **gewählten** Bausteine der amtlichen BMJ-Reihenfolge zu (Eingangsformel → Situationen → Maßnahmen mit
@@ -195,9 +197,9 @@ mehr vorhanden). Commit `f553307`. SCHALEN_STAND/CACHE `v121 → v122`.
 ## Nachtrag 6 (09.08.2026) — VdCrypto-Block-Pin geändert: `8d31c678…` → `1182dc89…`
 
 **Auftrag „Die Base64-Grenzen"** (09.08.2026). Der Block-Pin, den dieser ADR als
-byte-identisches Abnahmekriterium nennt (s. Kopf und Verifikationsabschnitte oben — dort
-unverändert stehen gelassen, als historisch korrekter Stand zum jeweiligen Zeitpunkt), ist
-nicht mehr aktuell. Der Nachtrag hält fest, was sich geändert hat und warum.
+byte-identisches Abnahmekriterium des Baus vom 10.07.2026 nennt (Kopf und Verifikationsabschnitte
+oben: `8d31c678…`), wurde am 09.08.2026 zu `1182dc89…`. Der Nachtrag hält fest, was sich geändert
+hat und warum.
 
 **Befund (Zug 0, gemessen, nicht übernommen):** `encryptData` (innerhalb des Blocks) kodierte
 den Ciphertext über `Array.from(new Uint8Array(ciphertext), c => String.fromCharCode(c)).join('')`
@@ -302,8 +304,8 @@ nicht verwandt). SCHALEN_STAND/CACHE `v141 → v142`.
 
 ## Nachtrag 8 (11.08.2026) — Punkt 3 ist an EINER Stelle überholt: U2-ADR-100 gewinnt
 
-**ÜBERHOLT, nicht mehr gültig:** Punkt 3 oben („`pvwiz.ziel` bleibt flach, `pv_*`-Felder
-schreiben ausschließlich in `data.sektoren.vorsorge`") kollidierte seit U2-ADR-100 (24.07.2026,
+**Warum Punkt 3 geändert ist:** Punkt 3 hielt ursprünglich fest, dass `pvwiz.ziel` flach bleibt und
+die `pv_*`-Felder ausschließlich in `data.sektoren.vorsorge` schreiben. Das kollidierte seit U2-ADR-100 (24.07.2026,
 „die Instrument-Liste ist der EINE Ort für ein Vorsorge-Instrument") mit einem später
 angenommenen ADR, ohne dass eines der beiden das andere nannte — der eigentliche Grund, warum
 `pvwiz` bis heute keine Instrument-Zeile anlegte (W-5) und eine vollständig durchlaufene

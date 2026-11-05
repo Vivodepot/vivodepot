@@ -6,11 +6,16 @@
    unveroeffentlichteHashes() sucht in den gegebenen Dateien jeden Hex-Wert in Anführungszeichen (7 bis 40 Zeichen), der
    in diesem Klon ein Commit IST, und meldet ihn, wenn kein Zweig auf origin ihn enthält. Werte, die kein Commit sind
    (erfundene Hashes wie 'deadbeef' oder 'a'.repeat(40)), sind keine Abhängigkeit und bleiben unbeachtet.
+   PRÜFZWEIGE ZÄHLEN NICHT (28.10.2026, Befund PROBE-NENNT-VERGAENGLICHEN-HASH): eine Probe nannte einen Commit, der nur auf
+   einem Prüfzweig (origin/vorpruefung/…) lag. Der Zweig wurde nach dem Lauf gelöscht, und seitdem war jeder Push rot. Ein
+   Prüfzweig ist vergänglich; veröffentlicht ist ein Commit erst in einem anderen Zweig auf origin oder unter einem Tag.
    Probe: tests/proben-hashes-veroeffentlicht.test.js. */
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./ohne-git-umgebung.js');
+
+const PRUEFZWEIG = /^\s*origin\/vorpruefung\//;   // vergängliche Prüfzweige des eigenen Runners
 
 const HEX_IN_ANFUEHRUNG = /['"]([0-9a-f]{7,40})(?::[^'"]*)?['"]/g;   // Code-Anführungszeichen; Backticks in Kommentaren zählen nicht
 
@@ -30,7 +35,10 @@ function unveroeffentlichteHashes(dateien, { repo, git = standardGit(repo) } = {
       let aus = '';
       // Veröffentlicht = in einem Zweig auf origin oder unter einem Tag (Quell-Tags wie quelle-v1.0.857 machen ihren Commit
       // per Tag abrufbar). Ein nur lokaler Tag würde hier mitzählen — Tags entstehen bei uns nur über den Release-Weg.
-      try { aus = git(['branch', '-r', '--contains', h, '--list', 'origin/*']) || git(['tag', '--contains', h]); } catch (_) { aus = ''; }
+      try {
+        aus = git(['branch', '-r', '--contains', h, '--list', 'origin/*']).split('\n').filter((z) => z.trim() && !PRUEFZWEIG.test(z)).join('\n')
+          || git(['tag', '--contains', h]);
+      } catch (_) { aus = ''; }
       aufOrigin.set(h, aus !== '');
     }
     return aufOrigin.get(h);
@@ -91,4 +99,4 @@ function erzeugnisStempelBefunde(dateien, { repo, git = standardGit(repo), ref =
   return funde;
 }
 
-module.exports = { unveroeffentlichteHashes, HEX_IN_ANFUEHRUNG, erzeugnisStempelBefunde };
+module.exports = { unveroeffentlichteHashes, HEX_IN_ANFUEHRUNG, PRUEFZWEIG, erzeugnisStempelBefunde };

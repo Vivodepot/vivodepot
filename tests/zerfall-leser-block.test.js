@@ -70,7 +70,7 @@ const imKernSub = (u, pw) => form(ladeKern().V.subDepotEntsiegeln(kopie(u), pw).
 function leseApp(ladeLesen) {
   return {
     datei: (u, pw) => form(ladeLesen().V.leseDepotUmschlag(kopie(u), pw)),
-    sub: (u, pw) => form(ladeLesen().V.leseSubUmschlag(kopie(u), pw)),
+    sub: (u, pw) => form(ladeLesen().V.leseDepotUmschlag(kopie(u), pw)),
   };
 }
 const L = leseApp((o) => require('./load-lesen.js').ladeLesen(o));

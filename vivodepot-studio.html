@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-8UONujO9Mt5PHY523tgMRwyzJzbFy5UNntGPFGN9GHc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-XHAADtoYwX8jgQNT6vrHaBaHSZxog08qJQ7WORO1XPo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -8353,10 +8353,10 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.ownAdditionalSituation","advanceCare","Eigene Beschreibung der Anwendungssituation","Your own description of the situation"],
   ["advanceCare.lifeSustainingMeasures","advanceCare","Lebenserhaltende Maßnahmen","Life-sustaining measures"],
   ["advanceCare.painAndSymptomTreatment","advanceCare","Schmerz- und Symptombehandlung","Pain and symptom management"],
-  ["advanceCare.acceptsLifeShorteningFromPain","advanceCare","Lebensverkürzung in Kauf","Acceptance of a shortened life"],
+  ["advanceCare.acceptsLifeShorteningFromPain","advanceCare","Lebensverkürzung durch Schmerzbehandlung in Kauf nehmen","Acceptance of a shortened life"],
   ["advanceCare.artificialNutritionAndHydration","advanceCare","Künstliche Ernährung und Flüssigkeitszufuhr","Artificial nutrition and hydration"],
-  ["advanceCare.resuscitationInDescribedSituations","advanceCare","Wiederbelebung (oben beschriebene Situationen)","Resuscitation (situations described above)"],
-  ["advanceCare.emergencyDoctorNotified","advanceCare","Notarzt-Hinweis","Emergency physician notice"],
+  ["advanceCare.resuscitationInDescribedSituations","advanceCare","Wiederbelebung in den oben beschriebenen Situationen","Resuscitation (situations described above)"],
+  ["advanceCare.emergencyDoctorNotified","advanceCare","Hinweis an den Notarzt","Emergency physician notice"],
   ["advanceCare.resuscitationInAllCases","advanceCare","Wiederbelebung (alle Fälle)","Resuscitation (all cases)"],
   ["advanceCare.artificialVentilation","advanceCare","Künstliche Beatmung","Artificial ventilation"],
   ["advanceCare.dialysis","advanceCare","Dialyse","Dialysis"],
@@ -8367,18 +8367,18 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.supportFromChurchOrCommunity","advanceCare","Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft","Support from a representative of the following church or religious or philosophical community"],
   ["advanceCare.hospiceSupport","advanceCare","Hospizlicher Beistand","Hospice support"],
   ["advanceCare.confidentialityWaiverFor","advanceCare","Entbindung von der Schweigepflicht gegenüber folgenden Personen","Release from the duty of confidentiality toward the following people"],
-  ["advanceCare.whoseViewMattersIfUnregulated","advanceCare","Besondere Bedeutung (ungeregelte Situationen)","Particular weight (situations not covered)"],
+  ["advanceCare.whoseViewMattersIfUnregulated","advanceCare","Wessen Meinung zählt, wenn etwas nicht geregelt ist","Particular weight (situations not covered)"],
   ["advanceCare.whoseViewMattersOtherPersonName","advanceCare","Andere Person (Name)","Other person (name)"],
-  ["advanceCare.whoseViewMattersIfDeviatingWill","advanceCare","Besondere Bedeutung (abweichende Willensäußerung)","Particular weight (differing expression of will)"],
+  ["advanceCare.whoseViewMattersIfDeviatingWill","advanceCare","Wessen Meinung zählt, wenn Ihr Wille abzuweichen scheint","Particular weight (differing expression of will)"],
   ["advanceCare.whoseViewMattersIfDeviatingOther","advanceCare","Andere Person (Name)","Other person (name)"],
   ["advanceCare.personalValuesOrFurtherDocuments","advanceCare","Wertvorstellungen / sonstige Unterlagen","Values / other documents"],
   ["advanceCare.organDonationDecision","advanceCare","Organspende","Organ donation"],
-  ["advanceCare.priorityIfOrganDonationConflict","advanceCare","Vorrang bei Konflikt (Organspende vs. Patientenverfügung)","Priority in case of conflict (organ donation vs. living will)"],
+  ["advanceCare.priorityIfOrganDonationConflict","advanceCare","Vorrang, wenn Organspende und Patientenverfügung sich widersprechen","Priority in case of conflict (organ donation vs. living will)"],
   ["advanceCare.waivesFurtherMedicalInformation","advanceCare","Verzicht auf weitere ärztliche Aufklärung","Waiver of further medical disclosure"],
   ["advanceCare.informationOrCounsellingReceived","advanceCare","Informiert bei/durch","Informed at/by"],
   ["advanceCare.counsellingBy","advanceCare","Beraten lassen durch","Advised by"],
   ["advanceCare.validityDuration","advanceCare","Gültigkeit","Validity"],
-  ["advanceCare.validityDurationDeadline","advanceCare","Frist","Time limit"],
+  ["advanceCare.validityDurationDeadline","advanceCare","Dauer der Befristung","Time limit"],
   ["administration.bundid","administration","BundID","BundID"],
   ["administration.bundid/system","administration","Land / System","Country / system"],
   ["administration.bundid/bundidEmailAddress","administration","BundID — E-Mail-Adresse","BundID — email address"],
@@ -8392,7 +8392,7 @@ const FELDKATALOG = Object.freeze([
   ["administration.ongoingAdministrativeCases/start","administration","Datum (Antrag/Beginn)","Date (application/start)"],
   ["administration.ongoingAdministrativeCases/deadline","administration","Gültig bis / Frist","Valid until / deadline"],
   ["administration.ongoingAdministrativeCases/amount","administration","Betrag","Amount"],
-  ["administration.ongoingAdministrativeCases/direction","administration","Richtung","Direction"],
+  ["administration.ongoingAdministrativeCases/direction","administration","Zahlen Sie, oder bekommen Sie Geld?","Direction"],
   ["administration.ongoingAdministrativeCases/currency","administration","Währung","Currency"],
   ["administration.ongoingAdministrativeCases/frequency","administration","Häufigkeit","Frequency"],
   ["administration.ongoingAdministrativeCases/contactPerson","administration","Referenz / Kontaktperson","Reference / contact person"],
@@ -8424,20 +8424,21 @@ const FELDKATALOG = Object.freeze([
   ["administration.seedPhraseStorageLocation","administration","Seed-Phrase — Ablageort","Seed phrase — storage location"],
   ["administration.hardwareWallet","administration","Hardware-Wallet","Hardware wallet"],
   ["administration.olderInheritedCryptoAccess","administration","Ältere/geerbte Krypto-Zugänge","Older/inherited crypto access"],
-  ["advanceCare.provisionInstruments","advanceCare","Vorsorge-Instrumente","Provision instruments"],
-  ["advanceCare.provisionInstruments/instrument","advanceCare","Instrument","Instrument"],
-  ["advanceCare.provisionInstruments/form","advanceCare","Form","Form"],
+  ["advanceCare.provisionInstruments","advanceCare","Vorsorgedokumente","Provision instruments"],
+  ["advanceCare.provisionInstruments/instrument","advanceCare","Art des Dokuments","Instrument"],
+  ["advanceCare.provisionInstruments/form","advanceCare","Form, etwa notariell oder handschriftlich","Form"],
   ["advanceCare.provisionInstruments/certifyingBody","advanceCare","Beurkundende / beglaubigende Stelle","Notarizing / certifying body"],
   ["advanceCare.provisionInstruments/storageLocation","advanceCare","Ablageort","Storage location"],
   ["advanceCare.provisionInstruments/storageStreet","advanceCare","Ablageort: Straße","Storage location: street"],
   ["advanceCare.provisionInstruments/storageHouseNumber","advanceCare","Ablageort: Hausnummer","Storage location: house number"],
   ["advanceCare.provisionInstruments/storagePostalCode","advanceCare","Ablageort: Postleitzahl","Storage location: postcode"],
   ["advanceCare.provisionInstruments/storageCity","advanceCare","Ablageort: Ort","Storage location: city"],
+  ["advanceCare.provisionInstruments/attachedDocument","advanceCare","Unterschriebenes Dokument","Signed document"],
   ["advanceCare.provisionInstruments/dateOfLastChange","advanceCare","Datum der letzten Änderung","Date of last change"],
   ["advanceCare.provisionInstruments/timeLimitedUntilIfAgreed","advanceCare","Befristet gültig bis (falls vereinbart)","Time-limited until (if agreed)"],
   ["advanceCare.provisionInstruments/typeOfPowerOfAttorney","advanceCare","Art der Vollmacht","Type of power of attorney"],
   ["advanceCare.provisionInstruments/note","advanceCare","Hinweis","Note"],
-  ["advanceCare.provisionInstruments/morePreciseDescription","advanceCare","Genauer bezeichnen","More precise description"],
+  ["advanceCare.provisionInstruments/morePreciseDescription","advanceCare","Genauere Beschreibung","More precise description"],
   ["advanceCare.provisionInstruments/authorizedPersons","advanceCare","Bevollmächtigte Person(en)","Authorized person(s)"],
   ["advanceCare.provisionInstruments/howDoThePeopleRepresentYou","advanceCare","Wie vertreten die Personen?","How do the people represent you?"],
   ["advanceCare.provisionInstruments/healthCareGeneralDecision","advanceCare","Gesundheitssorge — allgemein entscheiden","Health care — general decision-making"],
@@ -8474,29 +8475,34 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.provisionInstruments/organDonation","advanceCare","Organspende","Organ donation"],
   ["advanceCare.provisionInstruments/whatRestriction","advanceCare","Welche Einschränkung?","What restriction?"],
   ["advanceCare.provisionInstruments/organDonationRegister","advanceCare","Organspende-Register — Erklärungs-ID","Organ Donation Register — declaration ID"],
-  ["advanceCare.provisionInstruments/statutorySuccessionOr","advanceCare","Gesetzliche Erbfolge oder abweichender Wille?","Statutory succession or a different wish?"],
+  ["advanceCare.provisionInstruments/postMortemDataDonation","advanceCare","Datenspende nach dem Tod","Data donation after death"],
+  ["advanceCare.provisionInstruments/postMortemDataDonationScope","advanceCare","Welche Daten, für welche Zwecke?","Which data, for which purposes?"],
+  ["advanceCare.provisionInstruments/postMortemDataDonationExcluded","advanceCare","Ausgeschlossen","Excluded"],
+  ["advanceCare.provisionInstruments/postMortemDataDonationTrustee","advanceCare","Vertrauensperson, die entscheidet","Trusted person who decides"],
+  ["advanceCare.provisionInstruments/postMortemDataHolders","advanceCare","Wo Ihre Gesundheitsdaten liegen","Where your health data are held"],
+  ["advanceCare.provisionInstruments/statutorySuccessionOr","advanceCare","Gesetzliche Erbfolge oder eigene Regelung?","Statutory succession or a different wish?"],
   ["advanceCare.provisionInstruments/personsNamedInTheWill","advanceCare","Bedachte Person(en)","Beneficiaries"],
   ["advanceCare.provisionInstruments/aboutTheWill","advanceCare","Zum Testament","About the will"],
   ["advanceCare.provisionInstruments/personalNotesOnThis","advanceCare","Persönliche Notizen dazu","Personal notes on this"],
-  ["advanceCare.provisionInstruments/proposedPerson","advanceCare","Vorgeschlagene Person","Proposed person"],
+  ["advanceCare.provisionInstruments/proposedPerson","advanceCare","Vorgeschlagen als Betreuerin oder Betreuer","Proposed as court-appointed representative"],
   ["advanceCare.provisionInstruments/alternatePerson","advanceCare","Ersatzperson","Alternate person"],
-  ["advanceCare.provisionInstruments/whoShouldNotBeAppointed","advanceCare","Wer nicht bestellt werden soll","Who should not be appointed"],
+  ["advanceCare.provisionInstruments/whoShouldNotBeAppointed","advanceCare","Wer nicht Betreuerin oder Betreuer werden soll","Who should not become your court-appointed representative"],
   ["advanceCare.provisionInstruments/whatTheCareArrangementShould","advanceCare","Was die Betreuung regeln soll","What the care arrangement should provide for"],
   ["advanceCare.provisionInstruments/whatTheCareArrangementShould2","advanceCare","Was die Betreuung nicht soll","What the care arrangement should not do"],
   ["advanceCare.provisionInstruments/proposedPerson2","advanceCare","Vorgeschlagene Person","Proposed person"],
   ["advanceCare.provisionInstruments/alternatePerson2","advanceCare","Ersatzperson","Alternate person"],
   ["advanceCare.provisionInstruments/wishesForUpbringingCare","advanceCare","Wünsche zur Erziehung & Betreuung","Wishes for upbringing & care"],
-  ["advanceCare.provisionInstruments/basicDecision","advanceCare","Grundentscheidung","Basic decision"],
-  ["advanceCare.provisionInstruments/purpose","advanceCare","Zweck","Purpose"],
-  ["advanceCare.provisionInstruments/authorizedParties","advanceCare","Berechtigte","Authorized parties"],
+  ["advanceCare.provisionInstruments/basicDecision","advanceCare","Erlauben Sie eine KI-Nachbildung Ihrer Person?","Basic decision"],
+  ["advanceCare.provisionInstruments/purpose","advanceCare","Wofür die Nachbildung genutzt werden darf","Purpose"],
+  ["advanceCare.provisionInstruments/authorizedParties","advanceCare","Wer die Nachbildung nutzen darf","Authorized parties"],
   ["advanceCare.provisionInstruments/namedIndividuals","advanceCare","Namentlich benannte Personen","Named individuals"],
-  ["advanceCare.provisionInstruments/scope","advanceCare","Raum","Scope"],
-  ["advanceCare.provisionInstruments/permittedDataTypes","advanceCare","Zulässige Datenarten","Permitted data types"],
+  ["advanceCare.provisionInstruments/scope","advanceCare","Wo darf die Nachbildung erscheinen?","Scope"],
+  ["advanceCare.provisionInstruments/permittedDataTypes","advanceCare","Welche Angaben verwendet werden dürfen","Permitted data types"],
   ["advanceCare.provisionInstruments/timeLimit","advanceCare","Befristung","Time limit"],
   ["advanceCare.provisionInstruments/numberOfYears","advanceCare","Anzahl Jahre","Number of years"],
   ["advanceCare.provisionInstruments/date","advanceCare","Zeitpunkt","Date"],
-  ["advanceCare.provisionInstruments/behaviouralLimit","advanceCare","Verhaltensgrenze","Behavioural limit"],
-  ["advanceCare.provisionInstruments/digitalEstateAdministration","advanceCare","Digitale Nachlassverwaltung","Digital estate administration"],
+  ["advanceCare.provisionInstruments/behaviouralLimit","advanceCare","Was darf die Nachbildung sagen?","Behavioural limit"],
+  ["advanceCare.provisionInstruments/digitalEstateAdministration","advanceCare","Wer Ihr digitales Erbe verwaltet","Digital estate administration"],
   ["advanceCare.provisionInstruments/digitalEstateAdministration2","advanceCare","Digitale Nachlassverwaltung — Person","Digital estate administration — person"],
   ["advanceCare.provisionInstruments/whoWasAppointedAsCourt","advanceCare","Wer wurde als Betreuer/in bestellt?","Who was appointed as court-appointed representative?"],
   ["advanceCare.provisionInstruments/areasOfResponsibility","advanceCare","Aufgabenbereiche","Areas of responsibility"],
@@ -8618,7 +8624,7 @@ const FELDKATALOG = Object.freeze([
   ["finance.accounts/institution","finance","Bank / Institut","Bank / institution"],
   ["finance.accounts/accountType","finance","Art des Kontos","Account type"],
   ["finance.accounts/iban","finance","IBAN","IBAN"],
-  ["finance.accounts/bankingPowersOfAttorneyFrom","finance","Bankvollmacht(en) (aus Vorsorge)","Banking power(s) of attorney (from Provisions)"],
+  ["finance.accounts/bankingPowersOfAttorneyFrom","finance","Bankvollmachten aus dem Bereich Vorsorge","Banking powers of attorney from the Provisions area"],
   ["finance.accounts/note","finance","Notiz","Note"],
   ["finance.accounts/garnishmentProtection","finance","Pfändungsschutzkonto (P-Konto)","Protected account (garnishment protection, P-Konto)"],
   ["finance.taxAdvisor","finance","Steuerberater","Tax advisor"],
@@ -8662,16 +8668,16 @@ const FELDKATALOG = Object.freeze([
   ["health.healthInsuranceCards","health","Krankenkassenkarten","Health insurance cards"],
   ["health.healthInsuranceCards/system","health","Land / System","Country / system"],
   ["health.healthInsuranceCards/storageLocation","health","Ablageort","Storage location"],
-  ["health.healthInsuranceCards/validUntilInclEhic","health","Gültig bis (inkl. EHIC)","Valid until (incl. EHIC)"],
+  ["health.healthInsuranceCards/validUntilInclEhic","health","Gültig bis","Valid until"],
   ["health.emergencyCardPatientId","health","Notfallkarte / Patientenausweis","Emergency card / patient ID"],
   ["health.smoking","health","Rauchen","Smoking"],
   ["health.alcohol","health","Alkohol","Alcohol"],
   ["health.vaccinations","health","Impfungen","Vaccinations"],
   ["health.findingsOnAUsbStick","health","Befunde auf USB-Stick?","Findings on a USB stick?"],
   ["health.preventiveCheckUpsLatestDates","health","Vorsorgeuntersuchungen — letzte Termine","Preventive check-ups — latest dates"],
-  ["health.dentistNameContact","health","Zahnarzt — Name & Kontakt","Dentist — name & contact"],
+  ["health.dentistNameContact","health","Zahnärztin / Zahnarzt — Name & Kontakt","Dentist — name & contact"],
   ["health.dentalBonusBookletStorage","health","Bonusheft — Ablageort","Dental bonus booklet — storage location"],
-  ["health.ehicCardEuropeanHealth","health","EHIC-Karte (Europäische Krankenversicherungskarte)","EHIC card (European Health Insurance Card)"],
+  ["health.ehicCardEuropeanHealth","health","Europäische Krankenversicherungskarte","European Health Insurance Card"],
   ["health.operationsProcedures","health","Operationen / Eingriffe","Operations / procedures"],
   ["health.operationsProcedures/procedure","health","Eingriff","Procedure"],
   ["health.operationsProcedures/year","health","Jahr","Year"],
@@ -8679,6 +8685,15 @@ const FELDKATALOG = Object.freeze([
   ["health.familyMedicalHistory/familyMember","health","Angehörige / Angehöriger","Family member"],
   ["health.familyMedicalHistory/condition","health","Erkrankung","Condition"],
   ["health.familyMedicalHistory/ageAtDiagnosis","health","Alter bei Erkrankung","Age at diagnosis"],
+  ["health.researchDecisions","health","Forschungsentscheidungen","Research decisions"],
+  ["health.researchDecisions/kind","health","Art der Entscheidung","Type of decision"],
+  ["health.researchDecisions/institution","health","Stelle","Institution"],
+  ["health.researchDecisions/declaredOn","health","Datum der Erklärung","Date of declaration"],
+  ["health.researchDecisions/scope","health","Umfang","Scope"],
+  ["health.researchDecisions/validUntil","health","Gilt bis","Valid until"],
+  ["health.researchDecisions/storedUntil","health","Gespeichert bis","Stored until"],
+  ["health.researchDecisions/withdrawalRoute","health","Widerrufsweg","How to withdraw"],
+  ["health.researchDecisions/status","health","Stand","Status"],
   ["housing.ownedOrRented","housing","Eigentum oder Miete?","Owned or rented?"],
   ["housing.landlordPropertyManagement","housing","Vermieter / Hausverwaltung","Landlord / property management"],
   ["housing.landlordPhone","housing","Vermieter — Telefon","Landlord — phone"],
@@ -8757,7 +8772,7 @@ const FELDKATALOG = Object.freeze([
   ["identity.familyRegisterBookStorage","identity","Familienstammbuch — Ablageort","Family register book (Familienstammbuch) — where kept"],
   ["mobility.vehicles","mobility","Fahrzeuge","Vehicles"],
   ["mobility.vehicles/registrationPlate","mobility","Marke / Modell / Kennzeichen","Make / model / registration plate"],
-  ["mobility.vehicles/vehicleRegistrationDocument","mobility","Fahrzeugausweis — Ablageort","Vehicle registration document — storage location"],
+  ["mobility.vehicles/vehicleRegistrationDocument","mobility","Fahrzeugschein (Zulassungsbescheinigung Teil I) — Ablageort","Vehicle registration document — storage location"],
   ["mobility.vehicles/leaseAgreementStorageLocation","mobility","Leasingvertrag — Ablageort","Lease agreement — storage location"],
   ["mobility.carInsurance","mobility","KFZ-Versicherung","Car insurance"],
   ["mobility.policyNumber","mobility","Versicherungsschein-Nummer","Policy number"],
@@ -9232,7 +9247,7 @@ const FELDKATALOG = Object.freeze([
   ["pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_task","pro-kontakte-vertretungsplan","Aufgabe","Task"],
   ["pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_person","pro-kontakte-vertretungsplan","Person","Person"],
   ["pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_delegated_on","pro-kontakte-vertretungsplan","Übertragen am","Delegated on"],
-  ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent","pro-kontakte-vertretungsplan","Erste Schritte, wenn Sie verhindert sind","First steps if you are unable to act"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent","pro-kontakte-vertretungsplan","Erste Schritte bei vorübergehender Vertretung","First steps during a temporary stand-in"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_step","pro-kontakte-vertretungsplan","Schritt","Step"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_who","pro-kontakte-vertretungsplan","Wer","Who"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
@@ -9242,7 +9257,7 @@ const FELDKATALOG = Object.freeze([
   ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_who","pro-kontakte-vertretungsplan","Wer","Who"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_documents_kept_at","pro-kontakte-vertretungsplan","Unterlagen liegen bei","Documents kept at"],
-  ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence","pro-kontakte-vertretungsplan","Erste Schritte, wenn kein Ende absehbar ist","First steps if no end is in sight"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence","pro-kontakte-vertretungsplan","Erste Schritte bei Vertretung auf unbestimmte Zeit","First steps for a stand-in of indefinite length"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_step","pro-kontakte-vertretungsplan","Schritt","Step"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_who","pro-kontakte-vertretungsplan","Wer","Who"],
   ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
@@ -9280,7 +9295,7 @@ const FELDKATALOG = Object.freeze([
   ["pro-vertretung-vollmachten.tpl_unternehmervollmacht/tpl_urkundennummer","pro-vertretung-vollmachten","Urkundennummer","Deed number"],
   ["pro-vertretung-vollmachten.tpl_unternehmervollmacht/tpl_verwahrort","pro-vertretung-vollmachten","Verwahrort","Storage location"],
   ["pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus","pro-vertretung-vollmachten","Vollmacht über den Tod hinaus","Power of attorney beyond death"],
-  ["pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_gilt","pro-vertretung-vollmachten","Gilt","Applies"],
+  ["pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_gilt","pro-vertretung-vollmachten","Gilt über den Tod hinaus","Applies beyond death"],
   ["pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_bevollmaechtigter","pro-vertretung-vollmachten","Bevollmächtigter","Authorized person"],
   ["pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_urkunde_liegt_bei","pro-vertretung-vollmachten","Urkunde liegt bei","Certificate held at"],
   ["pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung","pro-vertretung-vollmachten","Benannte Person (Wunsch, keine Bestellung)","Named person (preference, not an appointment)"],
@@ -9333,7 +9348,7 @@ const FELDKATALOG = Object.freeze([
   ["socialInsurance.longTermCareAllowanceEarlier","socialInsurance","Pflegegeld — frühere Angabe","Long-term care allowance — earlier entry"],
   ["socialInsurance.degreeOfDisabilityGdb","socialInsurance","Grad der Behinderung (GdB)","Degree of disability (GdB)"],
   ["socialInsurance.markers","socialInsurance","Merkzeichen","Markers"],
-  ["socialInsurance.gdbReviewReAssessmentDate","socialInsurance","GdB — Nachprüfung / Heilungsbewährung am","GdB — review / re-assessment date"],
+  ["socialInsurance.gdbReviewReAssessmentDate","socialInsurance","GdB — Nachprüfung / Heilungsbewährung am","Degree of disability (GdB) — review / re-assessment date"],
   ["socialInsurance.severeDisabilityCards","socialInsurance","Schwerbehindertenausweise","Severe-disability cards"],
   ["socialInsurance.severeDisabilityCards/system","socialInsurance","Land / System","Country / system"],
   ["socialInsurance.severeDisabilityCards/storageLocation","socialInsurance","Ablageort","Storage location"],
@@ -9663,6 +9678,10 @@ function rechtsraumKennung(wert) {
   }
   return teile.sort().join(',');
 }
+const TEXTSATZ_REGEL_FORM = Object.freeze({
+  waehrung: /^[A-Z]{3}$/,                                   // ISO 4217
+  sprachkennung: /^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/,        // BCP 47, konservativ
+});
 const _TAG_ODER_REFERENZ = /<[A-Za-z\/!?]|&(?:#|[A-Za-z][A-Za-z0-9]*;)|"/;
 function _istReinerText(wert) { return typeof wert === 'string' && !_TAG_ODER_REFERENZ.test(wert); }
 const _MODUL_SPRACHE_FORM = /^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/;
@@ -9880,6 +9899,14 @@ function validateRechtsraumModul(modul) {
   if (listenGrund) return listenGrund;   // die Kennung des verletzten Schlüssels ('codeListen' | 'felder')
   if (_rechtsraumRegelnGrund(modul)) return 'regeln';
   return '';
+}
+const _RR_REGELN_SCHLUESSEL = Object.freeze(['waehrung']);
+function _rechtsraumRegelnGrund(modul) {
+  if (modul.regeln === undefined) return false;
+  const r = modul.regeln;
+  if (!r || typeof r !== 'object' || Array.isArray(r)) return true;
+  for (const k of Object.keys(r)) if (_RR_REGELN_SCHLUESSEL.indexOf(k) < 0) return true;
+  return r.waehrung !== undefined && !(typeof r.waehrung === 'string' && TEXTSATZ_REGEL_FORM.waehrung.test(r.waehrung));
 }
 const _RR_LISTE_SCHLUESSEL = Object.freeze(['systemId', 'uri', 'version', 'kuerzel', 'lizenz', 'status', 'hinweis', 'daten']);
 const _RR_LISTENEINTRAG_SCHLUESSEL = Object.freeze(['code', 'anzeigeName', 'iso3166Alpha2', 'hinweis', 'gueltigBis', 'pidSonderwert', 'lesehilfeSchluessel']);

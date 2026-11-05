@@ -71,7 +71,7 @@ function anstoesse(text) {
 }
 
 function playwrightVerzeichnis(text) {
-  const t = /testDir:\s*path\.join\(__dirname,([^)]*)\)/.exec(text);
+  const t = /testDir:\s*(?:process\.env\.[A-Z_]+\s*\|\|\s*)?path\.join\(__dirname,([^)]*)\)/.exec(text);
   if (!t) return null;
   const teile = [...t[1].matchAll(/['"]([^'"]+)['"]/g)].map((x) => x[1]);
   const m = /testMatch:\s*['"]([^'"]+)['"]/.exec(text);

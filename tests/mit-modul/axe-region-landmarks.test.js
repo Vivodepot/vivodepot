@@ -201,10 +201,12 @@ test('[Landmarks·Positivkontrolle] ohne role="dialog" wird der Dialog wieder ge
     // Gemeldet werden Ueberschrift (#modal-titel) und Text — seit U2-ADR-288 (05.09.2026,
     // Kopf/Körper/Fuß-Layout) meldet axe den Textteil am neuen Wrapper (.modal-koerper), der
     // #nfb-angebot jetzt umschließt, nicht mehr am inneren #nfb-angebot selbst.
-    assert.ok(funde.every((f) => /modal-titel|modal-inhalt|modal-koerper|nfb-angebot/.test(f)),
+    // Seit S2 (31.10.2026) steht nach dem Anlegen Schritt 2 mit dem Code offen: axe meldet seine Teile einzeln (Titel, Satz,
+    // Code, Feld mit Beschriftung, Hinweis neben „Später einrichten“) statt des Blatt-Angebots.
+    assert.ok(funde.every((f) => /modal-titel|modal-inhalt|modal-koerper|nfb-angebot|whc-angebot|whc-code|whc-kontrolle|m-zweit-hinweis| → label$/.test(f)),
       'gemeldet werden muss der DIALOG, nicht irgendetwas:\n  ' + funde.join('\n  '));
-    assert.equal(funde.length, SEKTOREN.length * 2,
-      'je Bereich die Ueberschrift und der Text des Dialogs — das sind die 20 Knoten aus dem Befund');
+    const ohneTitel = SEKTOREN.filter((s) => !funde.includes(s + ' → #modal-titel'));
+    assert.deepEqual(ohneTitel, [], 'je Bereich mindestens die Ueberschrift des Dialogs: ' + ohneTitel.join(', '));
   });
 
 test('[Landmarks·Vakuumkontrolle] landmark-loser Absatz an <body> wird gemeldet',

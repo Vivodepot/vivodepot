@@ -57,7 +57,7 @@ async function subUmschlagAlsBlackbox(V, pw) {
   bau.akteurSelbstErklaeren('Bauwerkzeug');
   bau.sektorFeldSetzen('identity', 'givenName', 'Test');
   const sub = await bau.subDepotVersiegeln(bau.getData(), pw);
-  return V.blackboxDateiAusUmschlag(sub);
+  return { dateiTyp: 'vivodepot-blackbox-export', formatVersion: 1, umschlag: V.depotDateiAusUmschlag(sub) };   // die Hülle bis v969 (S8: nur noch gelesen)
 }
 
 test('[U2-124·Zug2·2] die entpackte Datei öffnet über depotLaden — Inhalt byte-identisch zum Sub-Depot-Weg', async () => {

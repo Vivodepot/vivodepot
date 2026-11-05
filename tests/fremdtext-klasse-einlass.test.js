@@ -107,6 +107,8 @@ const FAELLE = {
   branding: { datei: 'branding.json' },
   logikModul: { bau: () => Object.assign(JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'erbschein-vorbereitung-logikmodul.json'), 'utf8')), { id: 'fremd-probe' }) },
   erscheinung: { datei: 'erscheinung.json' },
+  // KI-Andockpunkt: Senke ist der Name des Verweises in der Modulliste der Einstellungen.
+  lokalesModell: { datei: 'lokales-modell.json', zeigen: (V) => V.einstellungenHTML() },
 };
 
 function verfolgeElemente(document) {

@@ -36,9 +36,9 @@ async function betretenesSubDepot() {
 test('[Verwaltung·Karten aus dem Anker] im betretenen Sub-Depot: Export als verschlüsselte Datei, Datei öffnet mit eigenem Passwort', async () => {
   const { V, depotUUID } = await betretenesSubDepot();
   const datei = V.subDepotBlackboxExportieren(depotUUID);
-  assert.equal(datei.dateiTyp, 'vivodepot-blackbox-export');
-  assert.equal(datei.umschlag.depotUUID, depotUUID);
-  await V.subDepotEntsiegeln(datei.umschlag, SUB_PW);   // wirft, wenn die Datei nicht mit dem eigenen Passwort öffnet
+  assert.equal(datei.art, 'sub', 'eine Depot-Datei mit dem Kennzeichen eines Teil-Depots (S8)');
+  assert.equal(datei.depotUUID, depotUUID);
+  await V.subDepotEntsiegeln(datei, SUB_PW);   // wirft, wenn die Datei nicht mit dem eigenen Passwort öffnet
 });
 
 test('[Verwaltung·Karten aus dem Anker] aus dem eigenen Depot: Export wie bisher', async () => {
@@ -46,7 +46,7 @@ test('[Verwaltung·Karten aus dem Anker] aus dem eigenen Depot: Export wie bishe
   await V.depotAnlegen(ANKER_PW);
   const e = await V.subDepotAnlegen({ bezeichnung: 'Depot Klara', inhaberin: 'Klara', verwaltungsTyp: 'verwaltet' }, SUB_PW);
   const datei = V.subDepotBlackboxExportieren(e.depotUUID);
-  await V.subDepotEntsiegeln(datei.umschlag, SUB_PW);
+  await V.subDepotEntsiegeln(datei, SUB_PW);
 });
 
 /* ── Teil 2: die Klasse, am Quelltext ─────────────────────────────────────────────────────────────────────── */

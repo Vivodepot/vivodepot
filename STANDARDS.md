@@ -198,7 +198,7 @@ und `VivodepotProviderCredential`.
 ## Interner Versionsstand
 
 <!-- STANDZAHLEN:BEGIN — erzeugt von tools/build-standzahlen.js; Quelle: vivodepot.html -->
-Schema-Version 94, `SCHALEN_STAND` v956.
+Schema-Version 94, `SCHALEN_STAND` v1040.
 <!-- STANDZAHLEN:END -->
 
 ---

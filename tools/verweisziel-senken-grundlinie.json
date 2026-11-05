@@ -17,6 +17,8 @@
     { "datei": "vivodepot-lesen.html", "ausdruck": "escapeHTML('https://' + domain + '/')", "anzahl": 1, "grund": "topbarMarkeLinkHTML: fest https://, domain nur als reiner Hostname (_MARKE_HOST), sonst kein Link." },
     { "datei": "vivodepot-lesen.html", "ausdruck": "url", "anzahl": 1, "grund": "Download: URL.createObjectURL(blob) unmittelbar davor, eine blob:-Adresse der eigenen Seite." },
     { "datei": "vivodepot-lesen.html", "ausdruck": "adresse + (r < 0 ? '&zurueck=1' : '')", "anzahl": 1, "grund": "Vorführung: AB_WERK_VORFUEHRUNG_LESEN.schrittAdressen, Ab-Werk-Saat zur Bauzeit, keine fremde Eingabe." },
-    { "datei": "vivodepot-lesen.html", "ausdruck": "st.selbst", "anzahl": 1, "grund": "Vorführung: Station aus AB_WERK_VORFUEHRUNG_LESEN, Ab-Werk-Saat zur Bauzeit, keine fremde Eingabe." }
+    { "datei": "vivodepot-lesen.html", "ausdruck": "st.selbst", "anzahl": 1, "grund": "Vorführung: Station aus AB_WERK_VORFUEHRUNG_LESEN, Ab-Werk-Saat zur Bauzeit, keine fremde Eingabe." },
+    { "datei": "vivodepot-lesen.html", "ausdruck": "escapeHTML(VIVODEPOT_HERKUNFT_LINK)", "anzahl": 1, "grund": "herkunftsortHTML: Konstante VIVODEPOT_HERKUNFT_LINK, fest https://vivodepot.de/impressum.html, keine Eingabe." },
+    { "datei": "vivodepot-lesen.html", "ausdruck": "escapeHTML(datenschutz)", "anzahl": 1, "grund": "herkunftsortHTML: Wert aus der eingefrorenen Konstante DATENSCHUTZ_LINK, beide fest https://vivodepot.de/…, Wahl nur nach Sprache." }
   ]
 }

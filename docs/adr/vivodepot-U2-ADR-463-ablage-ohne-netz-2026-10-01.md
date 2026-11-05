@@ -83,6 +83,22 @@ reicht (`window.launchQueue`). Kein Manifest meldete aber die Dateiart an, darum
       markiert jeden Ersatz wie bei ihren übrigen Texten.
     - Ein Wächter verbietet die alte Form in beiden Apps.
 
+## Nachtrag 31.10.2026 — Ziffer 4: der Hinweis steht beim Anlegen in der Hilfe
+
+Beim Anlegen steht der Hinweis aus Ziffer 4 nicht mehr unter dem Feld. Er steht wörtlich in der Hilfe „Depot und
+Passwort“, die „Warum?“ neben dem Satz zum Passwort öffnet (U2-ADR-035, Nachtrag 31.10.2026). Dort steht auch, warum
+Umlaute, ß und € besser fehlen. Am Feld bleiben die Stärke-Anzeige (U2-ADR-027, Nachtrag 31.10.2026) und der Weg zurück:
+„Wieder sechs Wörter nehmen“. Unter dem Vorschlag stehen „Andere Wörter“ und „Vorlesen“ mit einem Mittelpunkt
+dazwischen. Die Bestätigung steht beim Vorschlag direkt unter den Wörtern, ohne Stärke-Anzeige dazwischen, und heißt „Wörter
+zur Probe abtippen“, beim eigenen Passwort „Passwort zur Probe abtippen“. Muster statt Satz: jedes richtig abgetippte Wort
+ist oben in Salbei unterstrichen, wortgenau wie die Kanonform und nur beim Vorschlag (K10).
+Nach neuen Wörtern steht der Fokus in diesem Feld, und die Wörter bleiben beim Tippen sichtbar. Weicht ein Wort ab, nennt die
+Meldung seine Nummer; stimmen die Wörter und nur die Schreibung nicht, sagt sie, dass klein und mit Bindestrichen getippt
+wird. Die Wörter werden so geprüft, wie sie angezeigt sind; ein nachsichtiges Öffnen ist nicht Teil dieses Nachtrags.
+Auf den anderen Wegen, die ein neues Passwort setzen, bleibt der Hinweis unter dem Feld.
+
+Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Schritt 1]).
+
 ## Was nicht entschieden ist
 
 - Register mit eigener Kette: Solange Menschen und Institutionen keine tragen, fragt das Zusammenführen dort jeden

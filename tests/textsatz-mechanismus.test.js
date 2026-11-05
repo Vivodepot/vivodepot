@@ -150,7 +150,7 @@ test('[Textsatz·mobilitaet] Sektor, Sektion, Feld und Unterfeld tragen unverän
   const elefandGueltig = feld('elefandRegistrations').unterFelder.find((u) => u.id === 'validUntil');
   assert.equal(elefandGueltig.hint, 'Registrierungsende, meist an Ihre geplante Reisedauer gekoppelt. Danach neu registrieren.');
   const uf = feld('vehicles').unterFelder.find((u) => u.id === 'vehicleRegistrationDocument');
-  assert.equal(uf.label, 'Fahrzeugausweis — Ablageort');
+  assert.equal(uf.label, 'Fahrzeugschein (Zulassungsbescheinigung Teil I) — Ablageort');
   assert.equal(uf.hint, 'Wird für Ummeldung oder Verkauf benötigt.');
   assert.equal(uf.beispiel, 'Handschuhfach');
 });
@@ -623,7 +623,7 @@ test('[Textsatz·Nachtrag·Rot] ein Modul stellt Dokument-Sprache UND Vorlesesti
   assert.equal(dok.documentElement.getAttribute('lang'), 'ar-EG');
   // Dieselbe Regel trägt die Stimmenwahl — sonst spräche eine deutsche Stimme
   // eine arabische Oberfläche vor.
-  const stimmen = [{ lang: 'de-DE', name: 'D' }, { lang: 'ar-EG', name: 'A' }, { lang: 'en-US', name: 'E' }];
+  const stimmen = [{ lang: 'de-DE', name: 'D', localService: true }, { lang: 'ar-EG', name: 'A', localService: true }, { lang: 'en-US', name: 'E', localService: true }];
   const synth = { getVoices: () => stimmen };
   assert.equal(V.waehleVorleseStimme(synth).name, 'A');
 
@@ -636,11 +636,11 @@ test('[Textsatz·Nachtrag] die Stimmenwahl fällt auf die Sprache zurück, nie a
   const { V } = ladeKern();
   const synth = (liste) => ({ getVoices: () => liste });
   // genaue Kennung fehlt, Sprache da → Sprache
-  assert.equal(V.waehleVorleseStimme(synth([{ lang: 'de-AT', name: 'AT' }]), 'de-DE').name, 'AT');
+  assert.equal(V.waehleVorleseStimme(synth([{ lang: 'de-AT', name: 'AT', localService: true }]), 'de-DE').name, 'AT');
   // gar nichts Passendes → null (Systemstimme ist besser als eine falsche)
-  assert.equal(V.waehleVorleseStimme(synth([{ lang: 'en-US', name: 'E' }]), 'de-DE'), null);
+  assert.equal(V.waehleVorleseStimme(synth([{ lang: 'en-US', name: 'E', localService: true }]), 'de-DE'), null);
   // Unterstrich-Schreibweise mancher Systeme wird erkannt
-  assert.equal(V.waehleVorleseStimme(synth([{ lang: 'de_DE', name: 'U' }]), 'de-DE').name, 'U');
+  assert.equal(V.waehleVorleseStimme(synth([{ lang: 'de_DE', name: 'U', localService: true }]), 'de-DE').name, 'U');
 });
 
 const path = require('node:path');

@@ -130,3 +130,67 @@ test('[Notvertretung·Lese-App] die Notfallkarte der Lese-App zeigt die Ablehnun
   const nein = karteLesen({ spousalRepresentationObjection: 'nein', spousalObjectionRegistered: 'ja' });
   assert.doesNotMatch(nein, /Notvertretung|Vorsorgeregister eingetragen/, 'Rot-Beweis: ohne die Regel stünde hier „nein“ bzw. die verwaiste Eintragung');
 });
+
+/* Wächter am Inhalt (30.10.2026). Die Wortlaut-Probe oben hält nur die Form: die Norm steht in der Fundstelle. Was der Hinweis
+   über die Rechtslage sagt, hielt bis heute nur der Golden Master, und den nimmt die Landung neu auf. Der Hinweis nannte drei
+   der vier Ausschlussgründe aus § 1358 Abs. 3 BGB und las sich doch als vollständige Liste; es fehlte die bestellte Betreuung
+   für Gesundheitsfragen (Abs. 3 Nr. 3) — genau der Fall, den eine Klinik vor sich haben kann.
+   PFLICHT im Hinweis der Gruppe: die Voraussetzung, die Höchstdauer, das Getrenntleben, Ablehnung und Vollmacht, die Betreuung,
+     der Weg ins Register, „Keine Rechtsberatung“.
+   PFLICHT im Hinweis am Datum der Vertretung (Seite des Vertretenden): ärztliche Bescheinigung und begrenzte Dauer, ohne Norm —
+     die Zahl hat die Entscheidung vom 22.09.2026 („Paragraphen raus“) bewusst aus diesem Satz genommen. */
+const NV_PFLICHT = {
+  gruppe: {
+    DE: [/Bewusstlosigkeit oder Krankheit/, /sechs Monate/, /getrennt/, /ablehnen/, /bevollmächtigt/, /Betreuer/, /Vorsorgeregister/, /Keine Rechtsberatung/],
+    EN: [/unconsciousness or illness/, /six months/, /living apart/, /refuse/, /authori[sz]ed/, /court-appointed representative/, /Central Register/, /Not legal advice/],
+  },
+  datum: {
+    DE: [/ärztlichen Bescheinigung/, /begrenzte Zeit/],
+    EN: [/medical certificate/, /limited time/],
+  },
+};
+const NV_KENNUNG = { gruppe: 'advanceCare#spousal-representation.hint', datum: 'people.childrenAndDependants/validSince.hint' };
+
+function nvVerstoesse(text, art, sprache) {
+  const h = String(text || '');
+  const v = NV_PFLICHT[art][sprache].filter((r) => !r.test(h)).map((r) => 'pflicht:' + r.source);
+  if (art === 'datum' && /§|Section \d/.test(h)) v.push('norm-im-datum-hinweis');
+  return v;
+}
+
+function nvHinweise(art) {
+  const de = String(ladeKern().V.textLesen(NV_KENNUNG[art]) || '');
+  const en = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', 'textsatz-en-modul.json'), 'utf8')).texte[NV_KENNUNG[art]];
+  return { DE: de, EN: String(en || '') };
+}
+
+test('[Notvertretung·Wächter] der Hinweis nennt die Rechtslage nach § 1358 BGB vollständig, auch die bestellte Betreuung — DE und EN', () => {
+  for (const art of ['gruppe', 'datum']) {
+    const h = nvHinweise(art);
+    for (const sprache of ['DE', 'EN']) {
+      assert.ok(h[sprache].trim(), 'Vorbedingung: ' + art + ' ' + sprache + ' vorhanden');
+      assert.deepEqual(nvVerstoesse(h[sprache], art, sprache), [], art + ' ' + sprache + ': ' + h[sprache]);
+    }
+  }
+});
+
+// Der Hinweis der Gruppe bis zum 30.10.2026, wörtlich: ohne die bestellte Betreuung.
+const NV_GRUPPE_BIS_30_10 = {
+  DE: 'Können Sie wegen Bewusstlosigkeit oder Krankheit in Gesundheitsfragen nicht selbst entscheiden, darf Ihr Ehegatte Sie darin bis zu sechs Monate vertreten, wenn Sie nicht getrennt leben. Das gilt nicht, wenn Sie eine solche Vertretung ablehnen oder jemanden für Gesundheitsfragen bevollmächtigt haben und die behandelnde Ärztin oder Ihr Ehegatte davon weiß. Damit eine Ablehnung gefunden wird, können Sie sie im Zentralen Vorsorgeregister eintragen lassen. Keine Rechtsberatung. Fundstelle: § 1358 BGB, § 78a BNotO.',
+  EN: 'If, due to unconsciousness or illness, you cannot make decisions on health matters yourself, your spouse may represent you in these matters for up to six months, provided you are not living apart. This does not apply if you refuse such representation or have authorised someone for health matters, and the treating doctor or your spouse knows of it. So that a refusal can be found, you can have it registered in the Central Register of Lasting Powers of Attorney (Zentrales Vorsorgeregister). Not legal advice. Source: Section 1358 German Civil Code (BGB), Section 78a Federal Notarial Code (BNotO).',
+};
+// Der Hinweis am Datum vor dem 22.09.2026, wörtlich: mit Norm und ohne Bescheinigung.
+const NV_DATUM_VOR_22_09 = 'Bei einer Ehegattennotvertretung (§ 1358 BGB) das ärztlich festgestellte Datum — daraus wird der Ablauf berechnet.';
+
+test('[Notvertretung·Wächter·Rot-Beweis] der Hinweis bis 30.10.2026 fällt genau an der fehlenden Betreuung', () => {
+  for (const sprache of ['DE', 'EN']) {
+    assert.deepEqual(nvVerstoesse(NV_GRUPPE_BIS_30_10[sprache], 'gruppe', sprache), ['pflicht:' + NV_PFLICHT.gruppe[sprache][5].source], sprache);
+  }
+});
+
+test('[Notvertretung·Wächter·Rot-Beweis] der Datums-Hinweis von vor dem 22.09.2026 fällt: Norm im Satz, keine Bescheinigung, keine Dauer', () => {
+  const v = nvVerstoesse(NV_DATUM_VOR_22_09, 'datum', 'DE');
+  assert.ok(v.includes('norm-im-datum-hinweis'), v.join(', '));
+  assert.ok(v.includes('pflicht:' + NV_PFLICHT.datum.DE[0].source), v.join(', '));
+  assert.ok(v.includes('pflicht:' + NV_PFLICHT.datum.DE[1].source), v.join(', '));
+});

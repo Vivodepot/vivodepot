@@ -35,7 +35,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
-const { PRODUKTE, modulDateienFuer } = require('./lib/vier-produkte.js');
+const { PRODUKTE, modulDateienFuer, abgeleitetesSprachmodulQuelle } = require('./lib/vier-produkte.js');
 
 const REPO = path.join(__dirname, '..');
 
@@ -49,7 +49,9 @@ const REPO = path.join(__dirname, '..');
 // veralten könnte.
 const DATEIEN = Object.freeze([
   'vivodepot.html', 'vivodepot-lesen.html',
-  ...new Set(PRODUKTE.flatMap((p) => modulDateienFuer(p).map((abs) => path.relative(REPO, abs)))),
+  // Ein abgeleitetes Sprachmodul (ABGELEITETE_SPRACHMODULE) zählt über seine Quelle, die schon in der Liste steht; seine
+  // ersetzten Sätze prüft die Drift-Probe der Pro-Module auf die blanke Wortmarke (25.10.2026).
+  ...new Set(PRODUKTE.flatMap((p) => modulDateienFuer(p).filter((abs) => !abgeleitetesSprachmodulQuelle(abs)).map((abs) => path.relative(REPO, abs)))),
 ]);
 
 // Blanke Form, keine Beugung (die trägt der Nachbar). Wortgrenze VORNE (damit „meinVivodepot"

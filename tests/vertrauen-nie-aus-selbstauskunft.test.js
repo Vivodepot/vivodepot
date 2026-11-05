@@ -56,6 +56,7 @@ const G = Object.freeze({
   BAU_REGION: 'liest herkunft nur an der Bau-Region AB_WERK_BRANDING_PRODUKT (eine Konstante, die der Konfektionierer füllt, nie Datei oder Einlass); die eigene Vivodepot-Marke färbt nicht (einer nicht öffentlichen Probe, U2-ADR-297-Nachtrag); Wort der Gegenlesung 05.10.2026',
   MITSCHRIFT_AUSSCHNITT: 'der Zuschnitt eines Empfängerkreises kopiert die Definitionen der verwendeten Bereiche in den Ausschnitt; entscheidet kein Vertrauen, der Empfänger nimmt sie wie jede Mitschrift aus einer Datei (abWerk: false, nach Inhalt); Wort der Gegenlesung 19.10.2026',
   MITSCHRIFT_LESE_ANZEIGE: 'die Lese-App zeigt Logikmodule der Mitschrift; nicht erkannte zählt modulHerkunftBerechnen als Erweiterung',
+  LOKALES_MODELL_ANGABE: 'Herkunftsangabe eines Modellverweises, nur als Text in den Einstellungen gezeigt (escaped); die Prüfstufe daneben allein aus modulBelegGeprueft (U2-ADR-516)',
 });
 
 /* [Datei, Funktion, genauer Code, Grund, Anzahl (wenn > 1)]. Erzeugt mit `node tools/vertrauen-lesestellen-pruefen.js`, je Stelle
@@ -146,6 +147,8 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "_bereichsModuleAusDepotAnmelden", "herkunftById[b.id] = m.herkunft || null;", G.ANBIETER],
   ["kern", "SITUATION_MODUL_SCHLUESSEL", "const SITUATION_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'herkunft', 'situationen',", G.SCHLUESSEL],
   ["kern", "SITUATION_MODUL_SCHLUESSEL", "'sprache', 'appVersion', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft']);", G.SCHLUESSEL],
+  ["kern", "_LOKALES_MODELL_SCHLUESSEL", "'herkunft', 'appVersion', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft', 'pruefstufe', 'beleg', 'abWerk']);", G.SCHLUESSEL],
+  ["kern", "lokaleModelleUebersicht", "const angabe = m.herkunft;", G.LOKALES_MODELL_ANGABE],
   ["kern", "situationsModulPruefen", "if (typeof modul.herkunft !== 'string' || !modul.herkunft.trim()) {", G.ANBIETER],
   ["kern", "situationsModulPruefen", "return { gueltig: false, grund: 'herkunft', situationen: null, verworfene };", G.ANBIETER],
   ["kern", "situationsModulPruefen", "bloecke: Object.freeze(bloecke), angedockt: true, herkunft: modul.herkunft,", G.ANBIETER],
@@ -207,6 +210,7 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "_zug3TrennenAuswahl57", "if (_m70.beleg) continue;", G.NIE_UMSCHREIBEN],
   ["kern", "_depotModuleBelegPruefen", "if (!m || typeof m !== 'object' || !m.beleg || modulBelegGeprueft(m)) continue;", G.BELEG_AN_PRUEFUNG],
   ["kern", "modulEinlassen", "delete markiert.abWerk;", G.SCHREIBER],
+  ["kern", "modulEinlassen", "delete markiert.pruefstufe;", G.SCHREIBER],
   ["kern", "modulEinlassen", "if (einlassArt === 'ab-werk') markiert.abWerk = true;", G.SCHREIBER],
   ["kern", "modulEinlassen", "markiert.anbieterIdGeprueft = true;", G.SCHREIBER],
   ["kern", "modulEinlassen", "markiert.ungeprueft = false;", G.SCHREIBER],

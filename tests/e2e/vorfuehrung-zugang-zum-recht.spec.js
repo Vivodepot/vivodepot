@@ -158,7 +158,8 @@ test('Beratungshilfe-Auszug — Wahlfall: die englische Altdatei mit eingelassen
 test('Beratungshilfe-Auszug — DE ohne Depot-Kopie: ein frisch angelegtes Depot in privat-de trägt ihn aus dem Template', async ({ page }) => {
   const overlay = await auszugImFrischenDepot(page, KERN_URL_PRIVAT_DE);
   await expect(overlay).toContainText('Beratungshilfe');
-  await expect(overlay).toContainText('Teil 0');
+  // Der erste Teil heißt seit dem 31.10.2026 „Vorab — die Person“ (vorher „Teil 0 — die Person“); geprüft wird sein voller Titel.
+  await expect(overlay).toContainText('Vorab — die Person');
 });
 
 test('Beratungshilfe-Auszug — EN ohne Depot-Kopie: ein frisch angelegtes Depot in privat-en zeigt ihn englisch', async ({ page }) => {

@@ -3,6 +3,7 @@
 **Datum:** 05.09.2026
 **Status heute:** gilt, Punkt 1 gebaut und grün — Punkt 2 entschieden, Bau wartet auf die Überlagerungs-Mechanik einer anderen Sitzung (v574)
 **Bezug:** U2-ADR-292 (Abschnitt 7, „benannt, nicht behoben" — beide Punkte stammen von dort)
+**Löst ab:** U2-ADR-304 (Landkarte vor E4), seit 31.10.2026 überholt durch Punkt 1 dieser Entscheidung: die Stellen in `WIZARDS` lösen auf Lesezeit auf und werfen bei leerem `SEKTOREN` nicht mehr
 
 ---
 

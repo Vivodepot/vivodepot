@@ -78,9 +78,10 @@ test.describe('T-CROSS-15 Der durchgehende Weg der Bürgerin', () => {
        schreibweg.spec.js` als den echten belegt. */
     await H.kern.oeffneSektor(a, FIX.gueltigkeitsfeld.sektor);
     const selGueltig = `[data-edit="${FIX.gueltigkeitsfeld.feld}"]`;
-    await a.waitForSelector(selGueltig, { state: 'visible', timeout: 15000 });
-    await a.locator(selGueltig).fill(FIX.gueltigkeitsfeld.wert);
-    await a.locator(selGueltig).dispatchEvent('change');
+    /* Das Datum steht seit „Datum in drei Feldern“ (Zielbild S4) in drei sichtbaren Teilfeldern; das Feld mit data-edit
+       bleibt verborgen und trägt den ISO-Wert. Gewartet wird auf die Gruppe, gesetzt über den gemeinsamen Helfer. */
+    await a.waitForSelector(`.datum-dreifeld:has(${selGueltig})`, { state: 'visible', timeout: 15000 });
+    await H.kern.datumSetzen(a, selGueltig, FIX.gueltigkeitsfeld.wert);
     const angekommen = await a.evaluate(({ s, f }) => {
       const g = window.__vdOeffentlich.ankerDaten().feldGueltigkeit || {};
       return (g[s] && g[s][f]) || null;

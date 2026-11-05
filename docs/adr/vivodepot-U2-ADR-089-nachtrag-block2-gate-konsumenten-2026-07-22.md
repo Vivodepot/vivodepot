@@ -4,7 +4,7 @@
 **Status:** Angenommen · **Block 2 abgeschlossen** (22.07.2026). Etappen 1–4 gebaut (Suite 1522 grün, Verbatim-Block byte-identisch, kryptoVersion 3); die vier Instrument-Wizards brauchten keine Umstellung (§8).
 **Bezug:** U2-ADR-089 (Vorsorge-Instrument-Liste, Block 1) · U2-ADR-064 (Vollmacht-`liste`-Record — von U2-ADR-089 revidiert) · U2-ADR-090 (Präfix- und Benennungsregel) · Verbatim-Block-Pin `8d31c678…`
 **Commits:** `74e0eec` (E1) · `5a3605a` (E2) · `2ae89d1` (E3) · Etappe 4 + dieser Nachtrag folgen
-**Status heute:** teilweise überholt durch U2-ADR-133 (§8 gebwiz). Zusätzlich ist §3 (Gates bleiben) durch eine spätere interne Entscheidung vom 22.07.2026 abgelöst — das ist KEIN Verweis auf eine andere ADR, sondern eine im selben Dokument festgehaltene Entscheidung (s. Kasten in §3). Im Übrigen gilt, Etappen 1–4 mechanisch geprüft (`tests/import-gate-instrument.test.js`, `tests/fix-b17-import-plan-listenfeld.test.js`).
+**Status heute:** teilweise überholt durch U2-ADR-100 (§3 Gates entfallen) und U2-ADR-133 (§8 gebwiz). Im Übrigen gilt, Etappen 1–4 mechanisch geprüft (`tests/import-gate-instrument.test.js`, `tests/fix-b17-import-plan-listenfeld.test.js`).
 *(Nachtrag 29.08.2026, ADR-Lücken-Prüfung: beide Nachfolger-Verweise standen bereits im Text, nur nicht im ersten Satz dieses Felds. Umformuliert, kein neuer Inhalt.)*
 
 ---
@@ -22,24 +22,20 @@ U2-ADR-089 (Block 1) baute die geteilte Liste `vorsorge_instrumente`. Block 2 st
 „Gibt es dieses Vorsorge-Instrument?" wird generisch über `instrumentTyp` abgeleitet, **Record ODER Gate**, nie über eine neue handgepflegte Liste:
 
 - Ein Instrument-Record (`vorsorge_instrumente.some(r => r.typ === X)`) zählt als „vorhanden", auch wenn das Gate nie gesetzt wurde. **Record schlägt Gate.**
-- Ohne Record zählt das Gate weiter — es trägt den Zustand **„in Vorbereitung"**, den ein Record nicht ausdrücken kann (s. §3).
+- Ohne Record zählte in Block 2 das Gate weiter; mit U2-ADR-100 entfallen die Gates (s. §3).
 
 Die Typ→Gate-Brücke stand bereits in `ERKENNUNG_LEITFELDER` und ist **geschlossen**: die vier Gates sind historisch, Sorgerechts- und KI-Verfügung haben nie eines bekommen. Ein siebtes Instrument erweitert die Brücke nicht — es hätte kein Gate und zeigte record-only. Beschriftungen sind geliehen (Instrument-Name aus den `typ`-Optionen, Wertetexte aus den Gate-Optionen); kein neuer Bürgertext.
 
-## 3 · Die Gates BLEIBEN — wegen „in Vorbereitung"
+## 3 · Die Gates entfallen (U2-ADR-100)
 
-**Nachtrag 02.08.2026 — dieser Abschnitt ist überholt.** Die Entscheidung „Gates bleiben"
-unten ist durch eine spätere interne Entscheidung vom selben Tag (Prinzip-Entscheidung zum
-Vorsorge-Wizard, internes Arbeitsdokument, nicht Teil dieses Repos) bewusst abgelöst: die Instrument-Liste
-wird der eine Ort, die fünf Vorsorge-Gates — inklusive des hier besprochenen — entfallen.
-**Ersetzt durch:** internes Entscheidungsdokument vom 22.07.2026. Der Rest
-dieses Nachtrags (Etappen 1–4, `betreuungsverfuegung`-Alias, §5–§10) bleibt davon unberührt —
-nur dieser eine Abschnitt ist betroffen. Der Absatz unten bleibt stehen als historische Spur,
-nicht als geltender Beschluss.
+Die vier Gate-Felder entfallen; alle Vorsorge-Instrumente liegen als Zeilen in `vorsorge_instrumente`
+(U2-ADR-100 §1, Grundlage: interne Prinzip-Entscheidung zum Vorsorge-Wizard vom 22.07.2026, nicht Teil
+dieses Repos).
 
-**Beschluss, hier erstmals im ADR festgehalten:** Die vier Gate-Felder werden durch Block 2 **nicht abgelöst**. Ein Instrument-Record kennt nur „existiert / existiert nicht"; das Gate trägt zusätzlich den Zwischenzustand „in Vorbereitung" (`plant`), den eine Bürgerin braucht, um „ich kümmere mich gerade darum" auszudrücken. Solange dieser Zustand nur am Gate lebt, bleibt das Gate.
-
-Diese Entscheidung stand bis zum 22.07.2026 **ausschließlich als Code-Kommentar** in der Migration ([vivodepot.html:14672](../../vivodepot.html): „Das Gate `vollmacht_vorhanden` BLEIBT (Existenz/‚in Vorbereitung')"). Sie war real und wirksam, aber an einem Ort, an dem niemand sie sucht — genau das Muster, das im Forschungstagebuch vom 21.07. beschrieben ist („Entscheidungen am falschen Ort"). Sie gehört ins ADR, damit sie nicht bei der nächsten Durchsicht als Versehen gelesen wird.
+**Was damit wegfällt, und warum bewusst:** Ein Instrument-Record kennt nur „existiert / existiert nicht“.
+Den Zwischenzustand „in Vorbereitung“ (`plant`) konnte nur das Gate tragen. Mit den Gates entfällt er:
+ein importiertes `plant` erzeugt keine Instrument-Zeile, weil sie ein Instrument vortäuschen würde, das
+es nicht gibt (`_b16InstrumentZeilen()` in `vivodepot.html`, im Test festgehalten).
 
 ## 4 · Die umgestellten Konsumenten (Etappen 1–4)
 
@@ -60,7 +56,7 @@ Diese Entscheidung stand bis zum 22.07.2026 **ausschließlich als Code-Kommentar
 
 **Entscheidung (22.07.2026): die Gate-Aliase bleiben, der fehlende `betreuungsverfuegung`-Alias wird ergänzt.** Damit ist Etappe 4 kein Streichen, sondern ein **Ergänzen** — und die eigentliche Erkenntnis ist, dass **ADR-089 Alternative 2 überholt ist** (s. u.).
 
-**Begründung.** Das Gate ist der einzige Ort für den Zwischenzustand „in Vorbereitung" (§3), und der Fremd-Import ist die einzige Stelle, an der ein *externes* „in Vorbereitung" ankommen kann. Streicht man den Alias, verwaist genau der Zustand, für den die Gates überhaupt behalten wurden — die beiden Sitzungs-Entscheidungen „Gates bleiben" und „Alias fällt" widersprechen sich, und die Alias-Entscheidung ist die ältere, getroffen bevor „in Vorbereitung" klar war.
+**Begründung.** Der Fremd-Import ist die einzige Stelle, an der ein Vorsorge-Instrument als *externer* Gate-Wert ankommt. Der Alias wandelt diesen Wert in einen Instrument-Record (U2-ADR-100 §1); ohne ihn fiele er ins Freitextfeld.
 
 **Der fehlende `betreuungsverfuegung`-Alias war ein echter Defekt**, kein Symmetrie-Wunsch: Drei Gates nahmen einen Importwert an, das vierte ließ ihn ins Freitextfeld fallen. Ein importiertes „Betreuungsverfügung in Vorbereitung" landete bis dahin im Nirgendwo. Die additive Zeile behebt das. Am Import-Pfad belegt: alle vier Gate-Werte (inkl. `betreuungsverfuegung: plant`) landen jetzt korrekt im jeweiligen Gate.
 
@@ -68,7 +64,7 @@ Diese Entscheidung stand bis zum 22.07.2026 **ausschließlich als Code-Kommentar
 
 ### ADR-089 Alternative 2 ist für die Gate-Aliase aufgehoben
 
-U2-ADR-089 Alternative 2 formulierte „**Import-Alias fällt weg, mit sichtbarem Verwaisen**". Das galt für die **Detail**-Aliase (die zu Listen-Records wurden — bereits mit U2-ADR-064/065 vollzogen) und ist für die **Gate**-Aliase durch die spätere Entscheidung „Gates bleiben wegen in Vorbereitung" (§3, hier erstmals im ADR) **aufgehoben**. Ohne diesen Vermerk läse jemand Alt-2 wörtlich und striche, was in dieser Sitzung bewusst behalten wurde — genau das Muster „Entscheidung am falschen Ort" (Tagebuch 21.07.), hier präventiv geschlossen.
+U2-ADR-089 Alternative 2 formulierte „**Import-Alias fällt weg, mit sichtbarem Verwaisen**". Das galt für die **Detail**-Aliase (die zu Listen-Records wurden — bereits mit U2-ADR-064/065 vollzogen) und ist für die **Gate**-Aliase **aufgehoben**: der Alias bleibt und wandelt den Gate-Wert in einen Instrument-Record (U2-ADR-100 §1). Ohne diesen Vermerk läse jemand Alt-2 wörtlich und striche, was in dieser Sitzung bewusst behalten wurde — genau das Muster „Entscheidung am falschen Ort" (Tagebuch 21.07.), hier präventiv geschlossen.
 
 ## 6 · `betreuungsverfuegung` — ein Name, zwei Bedeutungen
 
@@ -81,7 +77,7 @@ Zwei der im Auftrag als „drei Registries" gefassten Stellen sind **keine** `_i
 - **`ERKENNUNG_LEITFELDER`** lebt in der Dokument-Mappe-Schicht (`dokumentTypExistiert` liest `data.dokumente[]`, nicht die Instrument-Liste). Ihre Aufgabe ist das Gegenteil einer Existenz-Ableitung: sie schlägt das Anlegen eines Mappe-Eintrags vor, *wenn* das Gate „ja" sagt und *noch kein* Dokument existiert. `erfuellt` auf `_instrumentVorhanden` umzustellen wäre zirkulär und schichtfremd.
 - **`standardDokumente[].felder`** ist eine Anzeige-Vorverknüpfung (Liste von `{sektorId, feldId}`), kein Boolescher Existenz-Check — `_instrumentVorhanden` passt nicht einmal typmäßig.
 
-Beide bleiben, weil die Gates bleiben (kein stiller Ausfall). Eine mögliche **Anzeige-Verbesserung** — die Mappe-Vorverknüpfung auf `vorsorge_instrumente` statt aufs Gate zeigen zu lassen — ist als eigener kleiner Posten nach v1.0 vermerkt, nicht Teil von Block 2.
+Beide blieben in Block 2 unverändert (kein stiller Ausfall). Eine mögliche **Anzeige-Verbesserung** — die Mappe-Vorverknüpfung auf `vorsorge_instrumente` statt aufs Gate zeigen zu lassen — ist als eigener kleiner Posten nach v1.0 vermerkt, nicht Teil von Block 2.
 
 ## 8 · Wizards — bleiben Gate-Schreiber, keine Umstellung nötig
 
@@ -120,7 +116,6 @@ Die Ursache ist strukturell, nicht Zufall: Die erste Erhebung hat nach **mechani
 ## 9 · Vertagt (bewusst, nach v1.0)
 
 - **Zusammenlegung** der drei Registry-Aufzählungen (`ERKENNUNG_LEITFELDER`, `_MODUL_KARTE`, `standardDokumente[].felder`) zu *einer* gemeinsamen Liste. Nur die Zusammenlegung ist vertagt — die Ableitung ist mit Block 2 erledigt.
-- Ablösung der Gates insgesamt: hängt daran, ob „in Vorbereitung" jemals ein anderes Zuhause bekommt (§3).
 - **Record-anlegende Wizards** (§8, Variante B): ob und welche der Instrument-Wizards ihren Abschluss als geteilten Listen-Eintrag schreiben sollen — mit der `vvwiz`-Zwei-Schreibpfade-Frage und dem `pvwiz`-Sonderfall. Gehört in die Merklisten-/Teil-B-Ära, wo die Wizards zusammen entworfen werden.
 
 ## 10 · Nachweis-Prinzip

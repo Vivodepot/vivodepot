@@ -121,7 +121,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     const html = document.getElementById('content').innerHTML;
     const karten = html.match(/<details class="feldgruppen-karte"/g) || [];
     assert.equal(karten.length, 5, 'erwartet fünf Statuskarten für person');
-    assert.match(html, /Kernidentität/);
+    assert.match(html, /Name (&amp;|&) Geburt/);   // vorher „Kernidentität“ (Zielbild S4, 31.10.2026)
     assert.match(html, /Kontakt/);
   });
 
@@ -142,7 +142,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
     const kernidentitaetKarte = html.split('<details class="feldgruppen-karte"')
-      .find(b => b.includes('Kernidentität'));
+      .find(b => /Name (&amp;|&) Geburt/.test(b));
     assert.match(kernidentitaetKarte.split('</summary>')[0], new RegExp(V.STRINGS.statuskarteTeilweise));
   });
 
@@ -224,20 +224,21 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] ausbildung-beruf', () => {
 
 describe('[SEKTION_STATUSKARTEN_CLUSTER] notfall-aerzte', () => {
   // 28 → 32 (29.09.2026, U2-ADR-455): die vier NFD-Felder im Cluster „Im Notfall“, weiter sechs Cluster.
-  test('sechs Cluster, jedes der 32 Felder genau einmal zugeordnet', () => {
+  // 32 → 33 Felder, sechs → sieben Cluster (02.11.2026, U2-ADR-518): die Karte „Forschung“ mit den Forschungsentscheidungen.
+  test('sieben Cluster, jedes der 33 Felder genau einmal zugeordnet', () => {
     const { V } = ladeKern();
     const cluster = V.SEKTION_STATUSKARTEN_CLUSTER['notfall-aerzte'];
-    assert.equal(cluster.length, 6);
+    assert.equal(cluster.length, 7);
     const alle = cluster.flatMap(c => c.felder);
     assert.equal(new Set(alle).size, alle.length);
-    assert.equal(alle.length, 32);
+    assert.equal(alle.length, 33);
   });
-  test('renderSektor notfall-aerzte zeigt sechs Statuskarten', async () => {
+  test('renderSektor notfall-aerzte zeigt sieben Statuskarten', async () => {
     const k = ladeKern();
     await k.V.depotAnlegen('pw'); k.V.akteurSelbstErklaeren('Tester');
     k.V.oeffneSektor('health');
     const html = k.document.getElementById('content').innerHTML;
-    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 6);
+    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 7);
     assert.match(html, /Im Notfall/);
     assert.match(html, /Krankenversicherung/);
   });

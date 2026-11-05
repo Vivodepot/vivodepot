@@ -57,6 +57,26 @@ konformitaet:
     herkunft: U2-ADR-496 (Festlegung 08.10.2026); gemessen am 10.10.2026: im Repository und im Studio keine öffentliche Seite mit Anzeigeregeln; Register und Website nicht geprüft. Stand 18.10.2026: docs/pruefregeln/ regelt Annahme und Ablehnung, keine Anzeige; das Schema der Prüfregeln kennt kein Anzeige-Feld.
 ```
 
+
+## Nachtrag 30.10.2026 — wo „powered by Vivodepot“ in der App steht (Nr. 6)
+
+Die App-Fußzeile entfällt (Entscheidung vom 07.10.2026). Nr. 6 sagt „In der App steht ‚powered by Vivodepot‘, sichtbar auch bei
+öffentlichen Stellen“. Eine Zeile nur auf einer Unterseite erfüllt das nicht.
+
+**Entscheidung (30.10.2026):**
+1. „Bereitgestellt mit Vivodepot“ / „Powered by Vivodepot“ bleibt ständig sichtbar, leise, unten in der Seitenleiste beim Eintrag
+   „Über und Hinweise“. Auf kleinen Bildschirmen steht der Hinweis im Menü an derselben Stelle.
+2. Die Seite „Über und Hinweise“ trägt den Hinweis zusätzlich, beim Herkunftsort (U2-ADR-400).
+3. Abschalten kann ihn allein der Schalter im signierten Branding v2 (U2-ADR-473 W2), wie bisher. Die Ausgaben („Erstellt mit
+   Vivodepot“) trifft der Schalter nicht.
+4. Der Anker `data-herkunft-hinweis="app"` zieht mit an den neuen Ort. Die Proben (`tests/erstellt-mit-und-powered-by.test.js`,
+   `tests/branding-v2-powered-by-schalter.test.js`) prüfen ihn mit dem Bau dort statt in der Fußzeile.
+
+**Partnerbedingungen:** Der Entwurf der Partnerbedingungen nennt bisher den Ort „in Fußzeile und Info-Bereich“. Vor seiner Verwendung
+lautet der Ort: „in der Anwendung ständig sichtbar unten in der Navigation, auf kleinen Bildschirmen im Menü, und auf der Seite ‚Über
+und Hinweise‘“. Der Hinweis auf kleinen Bildschirmen steht dann nicht ständig im Blick, sondern einen Schritt entfernt. Die Bedingungen
+sagen das so, damit die Zusage nicht mehr verspricht, als die App zeigt.
+
 ---
 
-*Vivodepot GmbH · Berlin · 08.10.2026*
+*Vivodepot GmbH · Berlin · 08.10.2026 · Nachtrag 30.10.2026*

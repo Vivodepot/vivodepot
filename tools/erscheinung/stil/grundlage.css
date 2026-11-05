@@ -249,9 +249,12 @@
   #overlay-inhalt label { display: block; font-size: var(--fs-sm); color: var(--ink2); margin: var(--space-3) 0 var(--space-1); }
   #overlay-inhalt input[type="password"], #overlay-inhalt input[type="file"], #overlay-inhalt input[type="text"] {
     width: 100%; box-sizing: border-box; padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--line); border-radius: var(--radius-sm);
-    font-size: var(--fs-base); background: var(--white); color: var(--ink);
+    border: var(--feld-rahmen-dialog); border-radius: var(--radius-feld); min-height: 44px;
+    font-size: var(--fs-base); background: var(--feld-flaeche); color: var(--ink);
   }
+  /* Befund UX-ENTSPERRFELD-KONTRAST (UX-Review v963, 30.10.2026): hier stand ein Vollrahmen in --line (1,41:1 gegen die Fläche,
+     WCAG 1.4.11 verlangt 3:1), Radius --radius-sm und keine Mindesthöhe (36 px). Jetzt dieselben Feld-Tokens wie im Dialog;
+     kein Markentoken geändert. */
   /* Navigations-Suche (Suchfunktion, 01.08.2026) — eigenes Element, kein Icon-Muster
      (Niedrigschwelligkeit: die Zielgruppe soll die Suche SEHEN, nicht erst entdecken müssen).
      Vorschlagsliste als position:absolute im eigenen relative-Wrapper — anders als
@@ -307,6 +310,8 @@
   .frage { font-size: var(--fs-xl); color: var(--salbei-dunkel); font-family: var(--font-narrativ); font-weight: var(--fw-semibold); letter-spacing: var(--ls-titel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }
 
   .klasse-titel { font-size: var(--fs-sm); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klasse); color: var(--gold); margin: var(--space-5) 0 var(--space-2) 0; font-weight: var(--fw-semibold); }
+  /* Auf „Was möchten Sie erledigen?“ im App-Rahmen stehen die Rubriken in Tinte; Gold bleibt im Logo (Gestaltungsleitung 31.10.2026). */
+  .erledigen .klasse-titel { color: var(--ink2, var(--ink)); }
   /* min(220px, 100%) statt fester 220px: ein Track wird NIE breiter als der Container.
      Sonst sprengt eine 220px-Spalte auf schmalen Handys (z. B. 320px-Karteninnenraum)
      die Karte; mit #overlay{justify-content:center} rutscht die zu breite Karte dann
@@ -612,13 +617,16 @@
      Ursache Layout war, nicht Typografie. Feste Spalten (Grid) statt Flex+space-between: der
      Status landet bei jeder Kartenbreite an derselben relativen Stelle, unabhängig vom Titel. */
   .feldgruppen-karte > summary, .situation-block > summary, .anfragen-ort > summary {
-    list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto auto; align-items: center;
+    list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center;
     padding: var(--space-3) var(--space-4); gap: var(--space-3);
   }
   .feldgruppen-karte > summary::-webkit-details-marker, .situation-block > summary::-webkit-details-marker, .anfragen-ort > summary::-webkit-details-marker { display: none; }
   .feldgruppen-karte > summary::after, .situation-block > summary::after, .anfragen-ort > summary::after { content: '▾'; color: var(--ink3); transition: transform 0.15s ease; grid-column: 3; }
   .feldgruppen-karte[open] > summary::after, .situation-block[open] > summary::after, .anfragen-ort[open] > summary::after { transform: rotate(180deg); }
-  .feldgruppen-karte-titel { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); color: var(--ink); }
+  /* Ein langes Wort im Gruppentitel („Unterhaltsverpflichtungen“) trennt, statt die Inhaltsspalte zu verbreitern: in der Gruppen-Rolle
+     (17 px) schob es die Ansicht bei 320 px seitlich über den Rand und die Tab-Leiste aus dem Bild (Probe: die Cross-Reise zur
+     A2-Lesbarkeit, 320 px alle Ansichten). */
+  .feldgruppen-karte-titel { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); color: var(--ink); min-width: 0; hyphens: auto; overflow-wrap: break-word; }
   .feldgruppen-karte-status { font-size: var(--fs-xs); color: var(--ink3); }
   .feldgruppen-karte-koerper { padding: 0 var(--space-4) var(--space-4); border-top: 1px solid var(--line); padding-top: var(--space-3); }
   /* Korrektur (25.08.2026, abends, Design-Sprache-Nachtrag) — dieselbe Hierarchie-Stufe wie
@@ -1035,6 +1043,16 @@
   .feld-hint { grid-column: 1 / -1; color: var(--ink); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-xs); margin: var(--space-1) 0 var(--space-2); }
   /* Pro E4: die Vorschrift hinter dem Feld steht dicht unter dem Hinweis, als Fundstelle, nicht als zweiter Hinweis. */
   .feld-hint.feld-vorschrift { margin-top: 0; }
+  /* Hinweis mit Aufklapper (zu U2-ADR-518): der erste Satz steht als .feld-hint, der Rest hinter einem leisen Verweis wie „Alle Angaben“;
+     der Aufklapper trägt .feld-hint mit, Schrift und Farbe kommen von dort. */
+  .feld-hint.feld-hint-mehr { margin-top: calc(-1 * var(--space-1)); }
+  .feld-hint-mehr > summary { list-style: none; display: inline-flex; align-items: center; gap: var(--space-1); min-height: 24px; color: var(--link); cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px; }
+  .feld-hint-mehr > summary::-webkit-details-marker { display: none; }
+  .feld-hint-mehr > summary::before { content: '▸'; display: inline-block; text-decoration: none; transition: transform 0.15s ease; }
+  .feld-hint-mehr[open] > summary::before { transform: rotate(90deg); }
+  .feld-hint-mehr > p { margin: var(--space-1) 0 0; }
+  @media (pointer: coarse) { .feld-hint-mehr > summary { min-height: 44px; } }
   /* Urheberschaft-Zeile (U2-ADR-005) — sehr klein und zurückhaltend; der Stempel
      ist eine Fußnote am Feld, nicht der Inhalt. (Volle Sicht später im Export/Druck.) */
   .feld-urheber { color: var(--ink3); font-size: var(--fs-urheber); opacity: 0.8; margin-top: 2px; line-height: 1.3; }
@@ -1090,8 +1108,13 @@
      künftigen Vorkommen. `input[type="date"]`s interne Segmente (Tag/Monat/Jahr,
      `::-webkit-datetime-edit`) erben `font-family` vom Host-Element selbst — keine eigene
      Pseudo-Element-Regel nötig, geprüft gegen die Spezifikation, nicht angenommen. */
-  textarea, select, input[type="date"] { font-family: inherit; }
-  input::placeholder, textarea::placeholder { color: var(--ink3); font-style: italic; font-size: var(--fs-xs); opacity: 0.65; }
+  /* UX-Review v963 (30.10.2026), Befund UX-DIALOGFELD-ERBT-SCHRIFT-NICHT: die Dialogfelder (`.modal input`) und das Entsperrfeld
+     (`#overlay-inhalt input`) standen trotz dieses Resets in Arial bzw. Systemschrift und reinem Schwarz, weil er nur Textfeld,
+     Auswahl und Datum nannte. Jetzt jedes Feld, samt Farbe; Regeln mit eigener Schrift (Code-Felder) gewinnen weiter über ihre
+     Spezifität. Probe: die Browser-Probe zu Feldschrift und Entsperrfeld. */
+  input, select, textarea { font-family: inherit; color: var(--ink); }
+  /* Platzhalter wie die Eingabe, nicht kursiv, in --ink3 (Zielbild 30.10.2026, Abschnitt 3 „Schrift“). */
+  input::placeholder, textarea::placeholder { color: var(--ink3); font-style: normal; font-size: inherit; opacity: 1; }
   /* Sektor-Einführungstext — die erste Stimme pro Bereich. Serife (Erzählung), dezent. */
   .sektor-intro { color: var(--ink); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-sm); margin: 0 0 var(--space-4); white-space: pre-line; }
   /* Deckblatt (Foto + Name) oben im Identitäts-Bereich. */
@@ -1130,6 +1153,16 @@
      der genau diese Dopplung schon 16.07. benannte, ohne sie zu schließen). Ein Selektor, dieselbe
      berechnete Darstellung wie vorher — kein sichtbarer Unterschied. */
   .liste-eintrag-zusammenfassung, .menschen-register .liste-eintrag-text { color: var(--ink2); flex: 1 1 auto; min-width: 0; }
+  /* Eintragszeile einer Wiederholgruppe am Bildschirm (Nachtrag U2-ADR-497, 01.11.2026): jede Beschriftung steht als eigene Zeile über
+     ihrem Wert, ohne Doppelpunkt und ohne Trennpunkt, wie im Eintragsdialog; am Handy und am Desktop gleich. Beschriftung leise, Wert
+     normal: die Zeile erbte sonst das Gewicht des gefüllten Werts (.sektion--eingabe .feld-wert; dunkel/Hochkontrast .feld-wert) und
+     stand fett. Probe: tests/eintragszeilen-beschriftung-ueber-wert.test.js. */
+  .liste-eintrag-zusammenfassung { display: flex; flex-direction: column; gap: var(--space-2); }
+  .liste-eintrag-feld { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+  .liste-eintrag-label { color: var(--ink2); font-size: var(--fs-role-label); font-weight: var(--fw-regular); }
+  .liste-eintrag-wert { color: var(--ink); font-weight: var(--fw-regular); overflow-wrap: break-word; }
+  html.high-contrast .liste-eintrag-label, html.high-contrast .liste-eintrag-wert,
+  html.dark-mode .liste-eintrag-label, html.dark-mode .liste-eintrag-wert { font-weight: var(--fw-regular); }
   .btn-mini { font-size: var(--fs-xs); padding: var(--space-1) var(--space-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm, 4px); color: var(--ink2); cursor: pointer; }
   .btn-mini:hover { background: var(--flaeche-hover); }
   /* Gerätetest v76 (F3): ein Knopf, der nichts tut, darf nicht bedienbar aussehen. Betrifft die
@@ -1206,8 +1239,18 @@
      Geburtsjahr-Feld und schnitt normale Vornamen ab („Emiliane" passte nicht). Unconditional
      flex-wrap (dieselbe Umbruch-statt-Kollision-Logik wie F1/F2) + das Namensfeld bekommt
      einen größeren Flex-Anteil und eine Mindestbreite, die schmalen Felder bleiben kompakt. */
-  .inline-neu { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-top: var(--space-2); padding: var(--space-2); background: var(--flaeche-hinweis); border: 1px solid var(--gold); border-radius: var(--radius-sm, 4px); grid-column: 1 / -1; }
+  .inline-neu { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-top: var(--space-2); padding: var(--space-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); grid-column: 1 / -1; }
+  /* Beschriftung über dem Feld (Gestaltungsleitung 31.10.2026): eine ruhige Karte statt Hinweisfläche mit Goldrand. */
+  /* Beschriftung über dem Feld, jedes Feld auf voller Breite der Maske (Gestaltungsleitung 31.10.2026). */
+  .inline-neu label { display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--fs-sm); flex: 1 1 100%; }
+  .inline-neu label input, .inline-neu label input[data-neu-name] { flex: 0 0 auto; width: 100%; min-width: 0; box-sizing: border-box; }
   .inline-neu input { font-size: var(--fs-sm); padding: var(--space-1); }
+  /* Anhang im Listeneintrag (Gestaltungsleitung 31.10.2026): die kleine Ablage hat einen Salbei-Rand, `hidden` blendet sie aus
+     (sonst gewinnt display:flex), und die Vertraulich-Zeile steht für sich, das Kästchen neben dem Text. */
+  .inline-neu[hidden] { display: none; }
+  .inline-neu[data-anhang-ablage] { border-color: var(--salbei-mid); }
+  .inline-neu[data-anhang-ablage] .mappe-sensibel-zeile { display: flex; flex-basis: 100%; margin: 0; }   /* gegen `.modal label` */
+  .inline-neu[data-anhang-ablage] .mappe-sensibel-zeile input { flex: none; align-self: center; margin: 0; padding: 0; min-height: 0; height: 24px; }
   .inline-neu input[data-neu-name] { flex: 2 1 160px; min-width: 140px; }
   .inline-neu input:not([data-neu-name]) { flex: 0 1 auto; }
   .bereich-kopf .ico { color: var(--akzent); }
@@ -1253,6 +1296,9 @@
   .feld-zeile--mehrzeilig .feld-label { padding-top: var(--space-1); }   /* optische Grundlinie zur ersten Textzeile */
   .feld-zeile:first-of-type { border-top: none; }
   .feld-label { color: var(--ink2); font-size: var(--fs-role-label); }
+  /* Ein Listenfeld (Personen, Konten …) ist eine Gruppe, kein Einzelwert: sein Titel steht in der Gruppen-Rolle, nicht in der
+     Label-Gestalt (UX-ABSCHNITT-KLEINER-ALS-LABEL, in Pro z. B. „Nicht zu benachrichtigende Personen“). */
+  .feld-zeile:has(> .feld-wert > .feld-liste-editor) > .feld-label { color: var(--ink); font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); hyphens: auto; overflow-wrap: break-word; }
   .feld-wert { color: var(--ink); font-size: var(--fs-role-wert); }
   /* Sektorfeld-Autosave-Rückmeldung (03.08.2026): dezentes Inline-Häkchen statt Toast,
      kein neues SVG-Icon — wiederverwendet die ✓-Glyph-Konvention aus saveStatusGespeichert/
@@ -1289,6 +1335,12 @@
      dunkler als Titel --salbei-dunkel). Leer-Label angehoben auf --fs-sm/--ink2 (7,8:1 ✓, „welches Feld ist offen").
      „nicht hinterlegt" (.leer) bleibt --ink3/12px/kursiv (4,55–4,80:1 ✓) — zartester AA-sicherer Ton. */
   .sektion--eingabe .feld-wert { font-weight: var(--fw-medium); font-size: var(--fs-base); color: var(--ink); }
+  /* Vorgeschlagene Schritte einer Liste (29.10.2026): der Kasten steht im Wertbereich, ist aber noch kein Wert —
+     er erbte das Gewicht des gefüllten Werts (550, dunkel/Hochkontrast 600) und stand fett. Normales Gewicht; eingetragene Werte bleiben
+     hervorgehoben. Listenfelder laufen unter ihrer Beschriftung über die volle Breite, sonst bliebe die 200px-Spalte unter der
+     Beschriftung über die ganze Höhe der Liste leer. Probe: tests/feld-liste-vorschlag-css.test.js. */
+  .sektion--eingabe .feld-wert .liste-vorschlaege { font-weight: var(--fw-regular); }
+  .sektion--eingabe .feld-zeile:has(> .feld-wert > .feld-liste-editor) { grid-template-columns: 1fr; }
   .sektion--eingabe .feld-zeile--leer .feld-label { font-size: var(--fs-sm); color: var(--ink2); }
   /* K4 Zug 3 (10.08.2026): `select` fehlte hier — es bekam bislang NUR die Mindesthöhe
      (Zeile ~1600) und blieb sonst rohe Systemdarstellung (kein Rand/Radius/Innenabstand),
@@ -1298,7 +1350,7 @@
      background-repeat/-position/-size auf ihren Ausgangswert zurück (Anfangswert: repeat) und
      kachelt damit den eigenen Pfeil (real gesehen, K4 Zug 5 Bildvergleich) — die Kurzform
      würde die eigene Pfeil-Regel darüber unbeabsichtigt wieder aufheben. */
-  .feld-zeile input, .feld-zeile select { font-family: inherit; font-size: var(--fs-base); padding: var(--space-2); border: var(--feld-rahmen); border-radius: var(--radius-feld); width: 100%; background-color: var(--feld-flaeche); min-height: var(--feld-hoehe); color: var(--ink); }
+  .feld-zeile input, .feld-zeile select { font-family: inherit; font-size: var(--fs-role-wert); padding: var(--space-2); border: var(--feld-rahmen); border-radius: var(--radius-feld); width: 100%; background-color: var(--feld-flaeche); min-height: var(--feld-hoehe); color: var(--ink); }
   /* §3.4 Strich-Gruppierung — nur CSS-Definitionen, Markup-Umstellung folgt separat. */
   .gruppe { border-left: 2px solid var(--line); padding-left: 14px; background: transparent; }
   .zeile { padding: 11px 0; border-bottom: 1px solid var(--line-feiner); }
@@ -1387,6 +1439,13 @@
   @keyframes vd-spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .btn-laeuft::before { animation: none; } }
   .leer-platzhalter { color: var(--ink); font-family: var(--font-inter); font-style: normal; padding: var(--space-6); text-align: center; }
+  /* C04 (31.10.2026): das Schloss an jeder Karte sagt, dass das Sub-Depot ein eigenes Passwort hat; der Satz steht nicht mehr im Leerzustand. */
+  .sd-kopf { display: flex; align-items: center; gap: var(--space-2); }
+  .sd-kopf .sd-kopf-name { flex: 1; min-width: 0; }
+  .sd-schloss { flex: 0 0 auto; display: inline-flex; color: var(--gold); }  /* GL 02.11.: dieselbe Farbe wie das Schloss bei „Verschlossen“ */
+  #verwaltete-leer svg { color: var(--salbei-dunkel); }
+  html.dark-mode #verwaltete-leer svg { color: var(--salbei-nacht); }  /* U2-ADR-350: derselbe Handgriff wie die Geschwister in der Nachtliste oben */
+  #verwaltete-leer p { margin: var(--space-2) 0 0; }
 
   /* Situationsblätter (U2-ADR-012) — Karte mit Blöcken; sektor-gezogen + eigen gleich gerendert.
      Quelle-Tag dezent, Click-Through auf sektor-gezogene Zeilen, sensibel-Marker am Bildschirm. */
@@ -1531,7 +1590,26 @@
   .pw-vorschlag-anzeige[hidden], .pw-eigen-hinweis[hidden] { display: none; }
   .pw-vorschlag-woerter { font-size: var(--fs-lg); font-weight: var(--fw-semibold); letter-spacing: var(--ls-abschnitt); margin: var(--space-3) 0 var(--space-2); }
   .pw-vorschlag-woerter span { white-space: nowrap; }
+  .pw-vorschlag-woerter .pw-wort-ok { color: var(--salbei-dunkel); text-decoration: underline; }
+  html.dark-mode .pw-vorschlag-woerter .pw-wort-ok { color: var(--salbei-nacht); }
   .pw-eigen-hinweis { margin-top: var(--space-3); }
+  /* S2, Anlegen in zwei Schritten (31.10.2026, Entscheid der Gestaltungsleitung): ein Absatz in
+     Grundschrift statt Warnkasten, Textknöpfe in Salbei ohne Unterstrich, Schrittzeile über dem
+     Titel, Hauptknöpfe als Pille. Kein Gold, nur vorhandene Tokens. */
+  /* Kopf des Anlegen-Fensters (Gestaltungsleitung 01.11.2026): Zeichen und Titel in einer Zeile, „Schritt 1 von 2“ klein darunter. Die Schrittzeile
+     steht im Quelltext vorn (Lesereihenfolge), die Reihenfolge im Bild kommt über order. */
+  .modal h3:has(> .modal-schritt) { flex-wrap: wrap; }
+  .modal-schritt { display: block; font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--ink3); margin: 0; order: 1; flex-basis: 100%; }
+  .pw-satz { font-size: var(--fs-base); line-height: 1.5; color: var(--ink); margin: 0 0 var(--space-5); }
+  .pw-eigen-weg { margin: calc(-1 * var(--space-4)) 0 var(--space-5); }
+  .pw-eigen-weg[hidden] { display: none; }
+  .btn-text { background: none; border: none; padding: 0; font: inherit; font-weight: var(--fw-medium); color: var(--salbei-dunkel); text-decoration: none; cursor: pointer; }
+  .btn-text:hover { text-decoration: underline; }
+  html.dark-mode .btn-text { color: var(--salbei-nacht); }
+  .pw-vorschlag-aktionen { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin: 0; }
+  .pw-trenner { color: var(--ink3); }
+  .modal-zweit-text { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); margin-right: auto; }
+  .btn-pille, .modal:has([data-zwei-schritte]) .modal-aktionen .btn { border-radius: var(--radius-pill); }
   .pw-staerke .pw-staerke-balken { display: inline-flex; gap: 3px; flex: 0 0 auto; }
   .pw-staerke .pw-staerke-balken i { width: 20px; height: 5px; border-radius: var(--radius-balken); background: var(--line); display: inline-block; }
   .pw-staerke-schwach .pw-staerke-balken i:nth-child(1) { background: var(--warning); }
@@ -1546,6 +1624,27 @@
      gestapelt, gleiche Sekundär-Optik) — kein Knopf ist der stille Default. */
   .del-wahl { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-3); }
   .del-wahl .btn { width: 100%; justify-content: center; text-align: center; }
+  /* Wege-Karte (31.10.2026, Bedienmuster „Weiter zu einer Unterseite“): Zeilen in einer Karte, Name links,
+     darunter grau, wofür der Weg ist, › rechts. Die ganze Zeile ist der Knopf; der Pfeil ist reiner Stil. */
+  .wegkarte { margin: var(--space-3) 0 var(--space-5); background: var(--white); border: 1px solid var(--line-feiner); border-radius: var(--radius-sm); overflow: hidden; }
+  .wegkarte-zeile {
+    display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 56px;
+    padding: var(--space-3) var(--space-4); border: none; background: none; cursor: pointer;
+    color: var(--ink); font: inherit; text-align: left;
+  }
+  .wegkarte-zeile + .wegkarte-zeile { border-top: 1px solid var(--line-feiner); }
+  .wegkarte-zeile > svg { flex: 0 0 auto; width: 18px; height: 18px; color: var(--salbei-dunkel); }
+  .wegkarte-zeile::after {
+    content: ""; flex: 0 0 auto; width: 8px; height: 8px; margin-right: 2px;
+    border-top: 2px solid var(--ink3); border-right: 2px solid var(--ink3); transform: rotate(45deg);
+  }
+  .wegkarte-zeile:hover:not(:disabled) { background: var(--line-feiner); }
+  .wegkarte-zeile:disabled { cursor: not-allowed; opacity: .55; }
+  .wegkarte-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .wegkarte-name { font-size: var(--fs-base); font-weight: var(--fw-semibold); }
+  .wegkarte-wert { font-size: var(--fs-sm); color: var(--ink3); }
+  /* Nachts bleibt die Karte dunkel wie jede andere; die umgekehrte helle Karte ließ den grauen Satz darunter auf 2,3:1 fallen. */
+  html.dark-mode .wegkarte-zeile > svg { color: var(--salbei-nacht); }
   /* Einstellungen-Dialog (Bruch B) */
   .einst-abschnitt { padding: var(--space-3) 0; border-top: 1px solid var(--line); }
   .einst-abschnitt:first-child { border-top: none; }
@@ -1800,6 +1899,7 @@
   .wizard-schritt { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-5); box-shadow: var(--shadow-soft); }
   .wizard-frage { font-family: var(--font-inter); font-weight: var(--fw-medium); letter-spacing: var(--ls-frage); font-size: var(--fs-base); color: var(--salbei-dunkel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }   /* Findings 6/10/11 → Nacharbeit 05.07.: von --fs-xl über --fs-lg auf Kern-Größe --fs-base (man will flacher). UX-Konzept §9 (25.08.2026, Produktentscheidung bestätigt): gesperrtes Inter statt Serif, gleiche Begründung wie §12 zur Wortmarke — löst den Konflikt mit der Schrift-Rollen-Probe (Auftrag 04.08.2026) auf, dieser Test wurde entsprechend nachgezogen. */
   .wizard-hilfe { margin: 0 0 var(--space-3) 0; }
+  .wizard-baustein { margin: 0 0 var(--space-3) 0; font-size: var(--fs-sm); font-weight: var(--fw-regular); color: var(--ink3); }
   /* Gerätetest v76 (F1): Das Eingabefeld begann auf jedem Schritt woanders — am Telefon tippt
      man dann auf die Stelle des vorigen Schritts. Gemessen über alle 69 Wizard-Schritte aller
      7 Wizards, in der echten App-Hülle (#app.an mit Topbar/Sidebar), 390px/Standardschrift:
@@ -1922,8 +2022,8 @@
   /* ── iOS-Auto-Zoom-Schutz ───────────────────────────────────────────────────
      Safari/iOS zoomt beim Antippen eines Eingabefelds automatisch ein, sobald das
      Feld eine Schriftgröße < 16px hat — und kehrt nicht von allein wieder zurück.
-     Darum tragen ALLE bedienbaren Formular-Controls eine FESTE Mindestgröße von
-     16px (kein Token, damit der mobile Breakpoint sie NICHT mit verkleinert).
+     Darum tragen ALLE bedienbaren Formular-Controls schmal und auf Touch-Geräten
+     mindestens 16px (max() über der Rolle, damit kein Token sie darunter drückt).
      Labels, Knöpfe und sonstige Texte bleiben über ihre eigenen Regeln kompakt —
      hier geht es ausschließlich um die Felder, in die man tippt. Diese Regeln
      stehen bewusst NACH allen feld-/modal-/picker-Deklarationen, damit sie bei
@@ -1939,8 +2039,27 @@
   .modal select,
   .modal textarea,
   .wizard-eingabe input, .wizard-eingabe textarea, .wizard-eingabe select {
-    font-size: 16px;
+    font-size: var(--fs-role-wert);
   }
+  /* Auf Touch-Geräten und schmal nie unter 16 px (iOS-Zoom-Schutz); am Rechner trägt die Rolle den Wert (Zielbild: 15 px). */
+  @media (max-width: 767px), (pointer: coarse) {
+    input, select, textarea,
+    .feld-input,
+    .feld-zeile input,
+    .feld-ref-picker select, .feld-ref-picker input,
+    .inline-neu input,
+    .feld-code-picker input,
+    .mappe-suche,
+    .modal input,
+    .modal select,
+    .modal textarea,
+    .wizard-eingabe input, .wizard-eingabe textarea, .wizard-eingabe select {
+      font-size: max(16px, var(--fs-role-wert));
+    }
+  }
+  /* Befund UX-DIALOGFELD-ERBT-SCHRIFT-NICHT (30.10.2026): fest 16px wuchs bei „Schrift größer“ nicht mit (Beschriftung 17,6 px,
+     Eingabe 16 px). Die Rolle --fs-role-wert ist in rem und folgt der Skala am Wurzelelement; die 16 px gelten als Untergrenze nur
+     schmal und auf Touch-Geräten (Zielbild 30.10.2026: am Rechner 15 px). */
   /* B5: Tipp-Felder füllen ihre Spalte/Zelle einheitlich — auch native date/number, die ihre
      intrinsische Breite in Grid/Flex sonst nicht aufgeben (min-width:0 ist der entscheidende Hebel,
      v. a. iOS Safari). Niedrige Spezifität (0,0,1): bestehende Kontext-Regeln (.feld-zeile/.modal/
@@ -1982,6 +2101,42 @@
   }
   html.dark-mode select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%2394a094' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
   html.high-contrast select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%23262626' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  /* Auswahl, Datum, Datei im Stil des Leitfadens (Mängelliste der Gestaltungsleitung M21, 31.10.2026): die Systemliste mit blauem
+     Balken und kleinen Einträgen weicht, wo der Browser `appearance: base-select` kennt (progressiv, sonst bleibt die Systemliste).
+     Die Liste trägt Feldfläche, Radius, Linie und Schatten aus den Variablen; Einträge stehen in Normalgröße, der gewählte ist
+     salbei markiert. Hoher Kontrast bleibt unberührt. Den Pfeil trägt weiter das Hintergrundbild von `select` oben. */
+  @supports (appearance: base-select) {
+    html:not(.high-contrast) select { appearance: base-select; }
+    html:not(.high-contrast) select::picker-icon { content: none; }
+    html:not(.high-contrast) select::picker(select) {
+      appearance: base-select; box-sizing: border-box; margin-top: var(--space-1); padding: var(--space-1);
+      background: var(--feld-flaeche); color: var(--ink); border: 1px solid var(--line);
+      border-radius: var(--radius-feld); box-shadow: var(--schatten-aufklapp);
+    }
+    html:not(.high-contrast) select option {
+      min-height: 36px;
+      padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm);
+      font-size: var(--fs-base); line-height: 1.4; font-weight: var(--fw-regular);
+      background: transparent; color: var(--ink); cursor: pointer;
+    }
+    html:not(.high-contrast) select option:hover { background: var(--flaeche-hover); color: var(--ink); }
+    html:not(.high-contrast) select option:checked { background: var(--salbei-light); color: var(--ink); font-weight: var(--fw-semibold); }
+    html:not(.high-contrast) select option::checkmark { color: var(--salbei-dunkel); }
+    html.dark-mode:not(.high-contrast) select option:checked { background: color-mix(in srgb, var(--salbei-nacht) 24%, var(--feld-flaeche)); color: var(--salbei-nacht); }
+    html.dark-mode:not(.high-contrast) select option::checkmark { color: var(--salbei-nacht); }
+  }
+  /* Dateiwahl: der Knopf ist eine Pille wie die Sekundärknöpfe (Linie, salbei), nicht der graue Systemknopf. */
+  input[type="file"]::file-selector-button {
+    font: inherit; font-size: var(--fs-sm); font-weight: var(--fw-semibold); cursor: pointer;
+    padding: var(--space-1) var(--space-4); margin-right: var(--space-3);
+    border: 1px solid var(--salbei-dunkel); border-radius: var(--radius-pill);
+    background: transparent; color: var(--salbei-dunkel);
+  }
+  input[type="file"]::file-selector-button:hover { background: var(--salbei-light); }
+  html.dark-mode input[type="file"]::file-selector-button { border-color: var(--salbei-nacht); color: var(--salbei-nacht); }
+  /* Datumsfeld: nur das Kalendersymbol wird dezent in den Ton der Marke gezogen, sonst bleibt das Feld, wie es ist. */
+  html:not(.high-contrast) input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .75; filter: sepia(1) hue-rotate(65deg) saturate(.6) brightness(.85); }
+  html.dark-mode:not(.high-contrast) input[type="date"]::-webkit-calendar-picker-indicator { opacity: .8; filter: invert(1) sepia(.5) hue-rotate(65deg) saturate(.5); }
   /* Mehrfachauswahl-Feld (U2-ADR-063, Screenshot-Review Befund C 27.08.2026): Optionen als
      antippbare Pillen-Knöpfe statt Checkbox-Zeilen (Produktwunsch, moderneres Muster). Aktiv-
      Optik übernimmt .nav-item.aktiv 1:1 (--salbei-light/--salbei-mid/--ink als Textfarbe) —
@@ -2038,6 +2193,7 @@
   .refm-vorschlaege li { min-height: 44px; display: flex; align-items: center; padding: var(--space-2);
     cursor: pointer; color: var(--ink); font-size: var(--fs-sm);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* Ellipsis nur greift, wenn die Max-Breite anschlägt */
+  .refm-vorschlaege li small { font-weight: normal; color: var(--ink2); }   /* Telefon unter dem Namen: nur der Name fett */
   .refm-vorschlaege li + li { border-top: 1px solid var(--line-feiner); }   /* Optionen sichtbar voneinander abgesetzt */
   .refm-vorschlaege li.refm-aktiv, .refm-vorschlaege li:hover { background: var(--salbei-light); color: var(--salbei-dunkel); }
   /* Chip-Input (Zusatz 2): die Vorschlagsliste zeigt NUR echte Register-Treffer — keine „…anlegen"-Zeile mehr
@@ -2209,6 +2365,10 @@
        ohnehin dismissbar mit eigenem ×-Knopf und default hidden; die Navigation wäre also nie
        DAUERHAFT verdeckt gewesen, aber auch kurzzeitig nicht akzeptabel für eine Haupt-Navigation.) */
     .banner-stapel { bottom: calc(70px + max(var(--space-2), env(safe-area-inset-bottom))); }
+    /* Meldungen (Toasts) stehen über der Tab-Leiste, 8 px darüber (Zielbild Schritt 1, Nachtrag 30.10.2026): derselbe Ausdruck
+       für die reale Balkenhöhe wie #app.an und .banner-stapel, plus var(--space-2). Nur in der App; bei offenem Dialog bleiben
+       sie oben (Regel am #toast-host weiter oben). */
+    body:has(#app.an):not(:has(#modal-rueck.an)) #toast-host { bottom: calc(70px + max(var(--space-2), env(safe-area-inset-bottom)) + var(--space-2)); }
     .content { padding: var(--space-4) var(--space-4); overflow: visible; }
     .content-narrow, .wizard-sicht { max-width: 100%; }
     .topbar { position: sticky; top: 0; z-index: 95; }
@@ -2813,5 +2973,19 @@
      seitwärts (gemessen bei 375 px: bis 469 px Inhalt in 327 px Knopf). */
   .feld-umschau-eintragen-hinweis { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; text-align: right; color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
   html.dark-mode .feld-umschau-eintragen-hinweis { color: var(--salbei-nacht); }
-  .anlegen-grund { margin: 0 0 var(--space-3); color: var(--ink); font-weight: var(--fw-medium); }
+  /* Anlegen-Fenster (Befund der Produktverantwortung 01.11.2026): der Grund steht in Grundschrift, nicht fett; beim Anker stehen Vor- und
+     Nachname als Gruppe unter „Ihr Name“, die Überschrift wie eine Beschriftung im Dialog, darunter die Zeile, wozu der Name dient. Die zwei
+     Felder stehen nebeneinander, damit „Passwort bestätigen“ beim Öffnen über der Knopfleiste steht. */
+  .anlegen-grund { margin: 0 0 var(--space-3); color: var(--ink); font-weight: var(--fw-regular); }
+  .anlegen-name { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .anlegen-name > legend { font-size: var(--fs-sm); color: var(--ink2); padding: 0; margin-bottom: var(--space-1); }
+  .anlegen-name-felder { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-3); }
   .welcome-umsehen { margin: var(--space-3) 0 0; text-align: center; }
+  /* Datum in drei Feldern (Zielbild S4, Abnahme v979 Nr. 5): Tag und Monat je 5.5ch, Jahr 8ch, die Beschriftung jedes Teils
+     klein darüber. Der Kalender des Browsers entfällt; der gespeicherte Wert bleibt ISO (_datumDreifeldHTML). */
+  .datum-dreifeld { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-end; }
+  .datum-teil { display: flex; flex-direction: column; gap: 4px; margin: 0; }
+  .datum-teil-name { color: var(--ink3, var(--ink)); font-size: var(--fs-sm); line-height: 1.4; font-weight: var(--fw-regular); }
+  .datum-teil > input[data-datum-teil] { width: 100%; min-width: 0; min-height: var(--feld-hoehe); text-align: left; font-variant-numeric: tabular-nums; }
+  .datum-teil--t, .datum-teil--m { width: 5.5ch; min-width: 5.5ch; }
+  .datum-teil--j { width: 8ch; min-width: 8ch; }

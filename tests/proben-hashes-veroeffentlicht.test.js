@@ -44,3 +44,27 @@ test('[Hash veröffentlicht·Rot-Beweis] ein nur lokaler Commit fällt, ein gepu
     fs.rmSync(basis, { recursive: true, force: true });
   }
 });
+
+test('[Hash veröffentlicht·Prüfzweig·Rot-Beweis] ein Commit, der nur auf einem Prüfzweig liegt, fällt; derselbe auf einem Zweig nicht', () => {
+  const basis = fs.mkdtempSync(path.join(os.tmpdir(), 'hash-pruefzweig-'));
+  try {
+    const hub = path.join(basis, 'hub.git');
+    const klon = path.join(basis, 'klon');
+    git(['init', '--bare', '-q', '--initial-branch=main', hub], basis);
+    git(['clone', '-q', hub, klon], basis);
+    const c = (n) => { fs.writeFileSync(path.join(klon, n), n); git(['add', n], klon); git(['-c', 'user.email=a@a', '-c', 'user.name=A', 'commit', '-q', '-m', n], klon); return git(['rev-parse', '--short=12', 'HEAD'], klon); };
+    c('a.txt');
+    git(['push', '-q', 'origin', 'HEAD:main'], klon);
+    const nurPruefzweig = c('b.txt');
+    git(['push', '-q', 'origin', 'HEAD:refs/heads/vorpruefung/air-l4-' + nurPruefzweig], klon);
+    git(['fetch', '-q', 'origin'], klon);
+    fs.mkdirSync(path.join(klon, 'tests'));
+    fs.writeFileSync(path.join(klon, 'tests', 'x.test.js'), `const lauf = '${nurPruefzweig}';\n`);
+    assert.deepEqual(unveroeffentlichteHashes(['tests/x.test.js'], { repo: klon }), [`Hash nicht veröffentlicht: ${nurPruefzweig} in tests/x.test.js:1`]);
+    git(['push', '-q', 'origin', 'HEAD:main'], klon);
+    git(['fetch', '-q', 'origin'], klon);
+    assert.deepEqual(unveroeffentlichteHashes(['tests/x.test.js'], { repo: klon }), [], 'auf main gelandet: veröffentlicht');
+  } finally {
+    fs.rmSync(basis, { recursive: true, force: true });
+  }
+});

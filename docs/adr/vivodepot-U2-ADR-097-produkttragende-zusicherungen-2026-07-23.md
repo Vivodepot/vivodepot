@@ -540,3 +540,13 @@ auf den ausgeführten offline-garantie-Runtime-Test („0 externe Requests", pre
 Gate-Nachweis `deepEqual(externeRequests, [])` → rot bei jedem externen Request) **plus** ein additiver
 Always-on-Statik-Test (`tests/netz-verbote.test.js`, läuft in jedem `npm test`), der latenten SDK-/
 Abruf-Code fängt — die Lücke „gedeckt, aber nicht auf jedem Push ausgeführt".*
+
+## Nachtrag — die Ausnahme Quellcode-Link steht auf der Seite „Über und Hinweise“ (01.11.2026)
+
+Die App-Fußzeile entfällt (Entscheidung vom 07.10.2026). Der Quellcode-Link zieht auf die Seite „Über und Hinweise“, entschieden am
+30.10.2026 (Nachtrag zu U2-ADR-260). Für die eine belegte Ausnahme im Konformitätsblock zu §1/§2 ändert sich allein der Ort:
+- Die Ausnahme bleibt der nutzer-initiierte Quellcode-Link (`STRINGS.fussQuellcode`, `rel="noopener noreferrer"`), eine
+  EUPL-/Transparenz-Zusage, kein Abruf. Ziel ist genau `QUELLCODE_LINK`.
+- Wo der Konformitätsblock „in der Fußzeile“ sagt, gilt mit dem Bau der Seite „auf der Seite ‚Über und Hinweise‘“.
+- Eine zweite Ausnahme entsteht nicht. `tests/allowlist-verbote.test.js#b16-063-065-keine-externen-uris-ausserhalb-der-allowlist`
+  prüft unverändert.

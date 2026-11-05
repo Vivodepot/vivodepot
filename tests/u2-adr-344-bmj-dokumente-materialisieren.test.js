@@ -194,7 +194,28 @@ function buendelDokumenteEntfernen(quelle) {
   assert.ok(endeIdx >= 0, 'Anker AB_WERK_DOKUMENTE_DE:END nicht gefunden');
   const nachEnde = endeIdx + ende.length;
   const ersatz = begin + '\nconst AB_WERK_DOKUMENTE_DE = Object.freeze({});\n' + ende;
-  return quelle.slice(0, start) + ersatz + quelle.slice(nachEnde);
+  return ohneBauplanUndKiKorpus(quelle.slice(0, start) + ersatz + quelle.slice(nachEnde));
+}
+/* U2-ADR-507 (Nachtrag 29.10.2026): die Schritte stehen seither als Bauplan im Rechtsraum-Modul und der KI-Korpus in AB_WERK_KI_KORPUS.
+   Der Fall „kein Dokumente-Zweig" leert darum auch diese beiden: der Bauplan wird null, die KI-Region ihre Leerform. */
+function ohneBauplanUndKiKorpus(quelle) {
+  const region = (kennung, fn) => {
+    const begin = '/* ' + kennung + ':BEGIN */', ende = '/* ' + kennung + ':END */';
+    const a = quelle.indexOf(begin), e = quelle.indexOf(ende);
+    assert.ok(a >= 0 && e > a, 'Anker ' + kennung + ' nicht gefunden — Test veraltet');
+    quelle = quelle.slice(0, a + begin.length) + '\n' + fn(quelle.slice(a + begin.length, e)) + '\n' + quelle.slice(e);
+  };
+  region('AB_WERK_KI_KORPUS', () => 'const AB_WERK_KI_KORPUS = null;');
+  region('AB_WERK_RECHTSRAUM_PRODUKT', (innen) => {
+    const m = /^\s*const AB_WERK_RECHTSRAUM_PRODUKT = ([\s\S]*);\s*$/.exec(innen);
+    assert.ok(m, 'AB_WERK_RECHTSRAUM_PRODUKT nicht gebacken — Test veraltet');
+    const module = JSON.parse(m[1]);
+    let geleert = 0;
+    for (const modul of module) for (const t of Object.values(modul.typen || {})) if (Array.isArray(t.bauplan)) { t.bauplan = null; geleert++; }
+    assert.equal(geleert, 2, 'Vorbedingung: Patientenverfügung und Vollmacht tragen je einen Bauplan');
+    return 'const AB_WERK_RECHTSRAUM_PRODUKT = ' + JSON.stringify(module) + ';';
+  });
+  return quelle;
 }
 
 // Die erwarteten Schluessel je Konstante — STRUKTUR, nicht Zeilenzahl (eine Zahl altert, eine

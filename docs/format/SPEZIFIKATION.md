@@ -1,6 +1,6 @@
 # Vivodepot: Spezifikation des Depot-Dateiformats (`.vivodepot`)
 
-**Fassung:** Dateikopf-Version 1, `kryptoVersion` 3 und 4, Inhalt bis Schemastufe 94.
+**Fassung:** Dateikopf-Version 1, `kryptoVersion` 3 und 4, Inhalt bis Schemastufe 94; Teil-Depot als Depot-Datei mit `art: "sub"` (seit Schale v970, 30.10.2026), die Blackbox-Hülle `formatVersion` 1 nur noch lesend.
 **Prüfprogramm:** `node tools/format-pruefen.js --datei <pfad>` (eigene Umsetzung dieses Dokuments, lädt die Anwendung nicht).
 **Testkorpus:** [`korpus/`](korpus/) mit erwartetem Urteil je Datei.
 **Lizenz:** wie das Repository (EUPL-1.2); siehe Abschnitt 12.
@@ -58,7 +58,7 @@ Alle Zahlen und Kennungen dieses Formats an einer Stelle. Die Krypto-Parameter s
 - Ein Leser MUSS eine Datei mit einem Versions-Byte ablehnen, das er nicht kennt, und DARF sie NICHT verändern oder überschreiben. Eine neue Kopf-Version bedeutet eine Form, die ältere Leser nicht verstehen.
 - Leerraum im JSON gehört nicht zum Format. Die Anwendung schreibt mal eingerückt, mal kompakt.
 
-**Blackbox-Hülle.** Eine Datei DARF statt des Umschlags `{ "dateiTyp": "vivodepot-blackbox-export", "formatVersion": 1, "umschlag": { … } }` tragen. Ein Leser nimmt dann `umschlag` als Umschlag. Die Anwendung schreibt diese Form beim Herausgeben eines Teil-Depots, als `.json`-Datei ohne Dateikopf (U2-ADR-043); ein Prüfer meldet dann auch `VDF-OHNE-KOPF`.
+**Blackbox-Hülle.** Eine Datei DARF statt des Umschlags `{ "dateiTyp": "vivodepot-blackbox-export", "formatVersion": 1, "umschlag": { … } }` tragen. Ein Leser nimmt dann `umschlag` als Umschlag. Bis Schale v969 schrieb die Anwendung diese Form beim Herausgeben eines Teil-Depots, als `.json`-Datei ohne Dateikopf (U2-ADR-043); ein Prüfer meldet dann auch `VDF-OHNE-KOPF`. Ein Leser MUSS sie weiter lesen. Seit v970 schreibt die Anwendung ein Teil-Depot als gewöhnliche `.vivodepot`-Datei mit Kopf und dem Kennzeichen `art` (Abschnitt 3); die Hülle schreibt sie nicht mehr (Nachtrag zu U2-ADR-124 und U2-ADR-235).
 
 ## 3 · Der Umschlag
 
@@ -79,6 +79,8 @@ Danach genau eine von zwei Formen. Ein Leser MUSS die Form an der Struktur prüf
 Eine Datei mit beiden Formen oder keiner ist ungültig, ebenso eine Form, die nicht zu `kryptoVersion` passt.
 
 **Felder im Klartext neben dem Umschlag** (Abschnitt 8): `angehoerigenOrt`, `wiederherstellung`, `stand_marke`, `gespeichert_am`. Diese Felder und die oben genannten bilden die **Basismenge**. Ein Feld außerhalb der Basismenge SOLL ein Leser unverändert weitertragen. In Form 4 bindet die Anwendung diese Felder im Geheimteil (Abschnitt 8.3).
+
+**Kennzeichen `art`.** Ein Teil-Depot trägt seit v970 `"art": "sub"`. Das Feld liegt außerhalb der Basismenge und ist damit in Form 4 über `fremdHash` gebunden (8.3). Es nennt keine Person; Inhaberin und Bezeichnung stehen nur im verschlüsselten Inhalt. Ein Anker-Depot trägt das Feld nicht. Ein Teil-Depot, das vor v970 versiegelt wurde, trägt es nicht; ein Leser erkennt es nach dem Öffnen am Inhalt (`verwaltungsTyp`). Das Kennzeichen steuert nur die Anzeige, nie die Schlüsselableitung oder den Lesepfad.
 
 ### 3.1 · Feld-Einheit (`einheiten[adresse]`)
 
@@ -183,7 +185,7 @@ Base64 ist das Standardalphabet mit Auffüllung (RFC 4648 §4). Ein falscher Sch
 
 ## 5 · Lesen
 
-1. Kopf prüfen und abtrennen (Abschnitt 2), JSON lesen, eine Blackbox-Hülle auspacken.
+1. Kopf prüfen und abtrennen (Abschnitt 2), JSON lesen, eine Blackbox-Hülle (Dateien bis v969) auspacken.
 2. Umschlag prüfen (Abschnitt 3, Stufe 1 in Abschnitt 9). Ein Strukturfehler ist kein Passwortfehler und DARF NICHT zum Ausprobieren weiterer Einträge führen.
 3. Master und Depot-Schlüssel ableiten (4.1, 4.2).
 4. **Form 3:** `ct` mit Depot-Schlüssel und AAD öffnen. Das Ergebnis ist der Inhalt.
@@ -252,7 +254,7 @@ Klartextfelder lassen sich in der Datei ändern, ohne dass AES-GCM es merkt. Dar
 - `ortGebunden: true` und `ortHinweis`: den Ort-Hinweis, wie er beim Schreiben gesetzt war;
 - `fremdHash`: Base64 von SHA-256 über die Felder außerhalb der Basismenge, als kanonisches JSON: Objektschlüssel rekursiv sortiert (nach UTF-16-Codeeinheiten), Listen in ihrer Reihenfolge, ohne Leerraum, `undefined` als `null`, Zeichen maskiert wie `JSON.stringify`.
 
-Gebunden sind damit `angehoerigenOrt` und die Felder außerhalb der Basismenge. **Nicht gebunden** sind `stand_marke`, `gespeichert_am` und `wiederherstellung`; Form 3 hat keinen Geheimteil und keine Bindung.
+Gebunden sind damit `angehoerigenOrt` und die Felder außerhalb der Basismenge, darunter `art`. **Nicht gebunden** sind `stand_marke`, `gespeichert_am` und `wiederherstellung`; Form 3 hat keinen Geheimteil und keine Bindung.
 
 Nach dem Öffnen vergleicht ein Leser beides mit dem Klartext. Bei Abweichung warnt die Anwendung; weicht der Hash ab, trägt sie keines der Felder außerhalb der Basismenge weiter. Ein fehlender Ort-Hinweis ist keine Abweichung. Geheimteile ohne `ortGebunden` stammen aus älteren Dateien und werden nicht geprüft.
 
@@ -291,7 +293,7 @@ Eine Datei ist **gültig**, wenn sie alle Prüfungen ihrer Stufe besteht. Das Pr
 | `VDF-IV-LAENGE` | 1 | fehler | ein IV hat nicht 12 Byte |
 | `VDF-PAARE` | 1 | fehler | zu einer Einheit fehlt in einem Eintrag der Umschlag, oder ein Umschlag hat keine Einheit |
 | `VDF-WHC-FORM` | 1 | fehler | Feld `wiederherstellung` hat nicht die beschriebene Form |
-| `VDF-FREMDFELD` | 1 | hinweis | Klartextfeld außerhalb der Basismenge |
+| `VDF-FREMDFELD` | 1 | hinweis | Klartextfeld außerhalb der Basismenge, außer `art: "sub"` (Abschnitt 3) |
 | `VDF-ATTRAPPE` | 1 | hinweis | Umschläge verschieden lang: ohne Passwort ist erkennbar, welche Einheiten ein Fach öffnet |
 | `VDF-POLSTER` | 1, 2 | hinweis | Geheimteile verschieden lang, oder Einheiten nicht aufgefüllt |
 | `VDF-PASSWORT` | 2 | offen | mit diesem Passwort öffnet kein Eintrag |

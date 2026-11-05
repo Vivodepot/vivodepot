@@ -90,15 +90,16 @@ test('[Safari-Lücke·iOS-Tab] „Depot anlegen“ bietet zuerst das Anlegen in 
 
 test('[Safari-Lücke·Hülle] im Anlege-Fluss genau eine Aufrufstelle der Wiederherstellungs-Hülle, höchstens einmal je Anlegen', () => {
   const fluss = /function flowDepotAnlegen\(nach, grund\) \{[\s\S]*?\n\}\n/.exec(KERN)[0];
-  assert.equal((fluss.match(/\bwiederherstellungAnbieten\(/g) || []).length, 1, 'eine Aufrufstelle (U2-ADR-430, kein-master-key G13)');
-  assert.match(fluss, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; wiederherstellungAnbieten\(p, notfallblattAnbieten\); \};/, 'höchstens einmal, und die Fortsetzung hält das Passwort danach nicht mehr');
+  // Seit S2 (31.10.2026) ist die Aufrufstelle Schritt 2 des Anlegens (anlegenCodeSchritt), nicht mehr das vorgeschaltete Angebot.
+  assert.equal((fluss.match(/\b(anlegenCodeSchritt|wiederherstellungAnbieten)\(/g) || []).length, 1, 'eine Aufrufstelle (U2-ADR-430, kein-master-key G13)');
+  assert.match(fluss, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt\(p\); \};/, 'höchstens einmal, und die Fortsetzung hält das Passwort danach nicht mehr');
   assert.match(fluss, /let pw = pwFuerCode; pwFuerCode = null;/, 'pwFuerCode wird beim Übernehmen geleert');
 });
 
 test('[Safari-Lücke·Hülle·Rot-Beweis] ein zweiter Aufrufpfad im WebKit-Zweig zählt zwei Stellen', () => {
   const alt = KERN.replace('if (webkitTabMitFrist()) _dateiNachAnlegenAnbieten(fortsetzen); else fortsetzen();',
-    'if (webkitTabMitFrist()) { _dateiNachAnlegenAnbieten(() => wiederherstellungAnbieten(pw, notfallblattAnbieten)); return; } fortsetzen();');
+    'if (webkitTabMitFrist()) { _dateiNachAnlegenAnbieten(() => anlegenCodeSchritt(pw)); return; } fortsetzen();');
   assert.notEqual(alt, KERN, 'die Mutation greift');
   const fluss = /function flowDepotAnlegen\(nach, grund\) \{[\s\S]*?\n\}\n/.exec(alt)[0];
-  assert.equal((fluss.match(/\bwiederherstellungAnbieten\(/g) || []).length, 2);
+  assert.equal((fluss.match(/\b(anlegenCodeSchritt|wiederherstellungAnbieten)\(/g) || []).length, 2);
 });

@@ -31,6 +31,18 @@
     }
    ]
   },
+  "antwort": {
+   "adresse": "https://vivodepot.de/schemas/antwort-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/antwort/1.json",
+     "blob": "9e98ea9ac76e5237d9b6cc2da78c0a0a39ae36b1",
+     "shaKanon": "d277a26a405b81b70ddb3ca1c2da1f6991a22b09b8c8b6d52d4226951dee7931",
+     "shaAusgeliefert": "dcad732a587cfdecfce07dbda56ca916c13d4e43b98c3d64fc82f287516a953d"
+    }
+   ]
+  },
   "bedingungskatalog-modul": {
    "adresse": "https://vivodepot.de/schemas/bedingungskatalog-modul-schema.json",
    "fassungen": [
@@ -83,6 +95,13 @@
      "blob": "7801848866ae5ac62f09e7b4256762eaf9d26aae",
      "shaKanon": "e9c7032efa5e85965dc5a7e10917b7c980845d6c3f7b4555f3b6602bc444fb73",
      "shaAusgeliefert": "6d9bee8f7db67ca91458ce24705aa9b9d8d4a8d7dc40742c40cd2173068337ce"
+    },
+    {
+     "n": 3,
+     "adresse": "https://vivodepot.de/schemas/branding-modul/3.json",
+     "blob": "c7f12e39c1d85319bb93f72a69d26e18a1135762",
+     "shaKanon": "60c69c0f0529569f8818c4f90e7491792e382b035b591bb3d6123d83f9bc4693",
+     "shaAusgeliefert": "bc6ff8516bb025b8c6c335fe47b1da456e7f21518c413de50953d8bd2aeedff7"
     }
    ]
   },
@@ -231,6 +250,18 @@
     }
    ]
   },
+  "lokales-modell-modul": {
+   "adresse": "https://vivodepot.de/schemas/lokales-modell-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/lokales-modell-modul/1.json",
+     "blob": "289d957c4aa5ac56bc09e25541f629c7ad8f6908",
+     "shaKanon": "505ddff854acee7d44184931cec0c28594898eaf5309d63ed6107daaaf68b865",
+     "shaAusgeliefert": "d47da958a98928c27051171149b5776bacb4710fe99c5cb63402ddf5370badf4"
+    }
+   ]
+  },
   "pruefregeln": {
    "adresse": "https://vivodepot.de/schemas/pruefregeln-schema.json",
    "fassungen": [
@@ -294,6 +325,13 @@
      "blob": "0e991b8b130ecb63c42e721c94ce7a4c60158a3c",
      "shaKanon": "576f7f52c422d0577b4dcfe4e85653474716d49b27832621d28890ac8e401ebe",
      "shaAusgeliefert": "ff0dd7c2e3184784d19653e562461725aaccec596009e1ad845412664e37949c"
+    },
+    {
+     "n": 8,
+     "adresse": "https://vivodepot.de/schemas/rechtsraum-modul/8.json",
+     "blob": "ad8961d363a73a96f56fbc578e8e8c8975943857",
+     "shaKanon": "9a59bbf639ba6fc587c27e50ca2d61af7bed68a0fa722b8845a9d32de59ead74",
+     "shaAusgeliefert": "fdc7bf66fac1f398105260f8509432292483c7b6876c7d5cb3050e4efebcb7ae"
     }
    ]
   },

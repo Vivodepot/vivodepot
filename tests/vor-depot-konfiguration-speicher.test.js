@@ -28,9 +28,11 @@ function EINLASS_REGISTER_SLOTS_SORTIERT() {
   // U2-ADR-284 (05.09.2026): 'stellensatzModule' ergänzt — das elfte Register (stellensatz).
   // U2-ADR-351 Zug 2 (07.09.2026): 'erscheinungsModule' ergänzt — das zwölfte Register (erscheinung).
   // Auftrag „blattformat" (07.09.2026): 'blattformatModule' ergänzt — das dreizehnte Register.
+  // U2-ADR-516 (29.10.2026): 'lokaleModelle' ergänzt — das sechzehnte Register (lokalesModell).
   return ['textsatzModule', 'rechtsraumModule', 'institutionsArten', 'formatModule',
     'bereichsModule', 'brandingModule', 'logikModule', 'situationsModule', 'wizardsModule',
-    'ereignisAchseModule', 'stellensatzModule', 'erscheinungsModule', 'blattformatModule', 'bedingungskatalogModule', 'angehoerigenVorlagenModule'].sort();
+    'ereignisAchseModule', 'stellensatzModule', 'erscheinungsModule', 'blattformatModule', 'bedingungskatalogModule', 'angehoerigenVorlagenModule',
+    'lokaleModelle'].sort();
 }
 
 test('[VDK-Speicher] vorDepotKonfigurationLeer() liefert ein leeres, aber gültiges Grundgerüst — Schlüssel sind Slot-Namen', () => {

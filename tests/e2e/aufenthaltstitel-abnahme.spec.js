@@ -18,7 +18,7 @@
    normale Listen-Eintrag-Dialog statt der Erkennungs-Karte.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, datumSetzen } = require('./helpers');
 
 test('Aufenthaltstitel-Listen-Eintrag mit Gültigkeit in der Vergangenheit → Prüftermine-Zeile ohne zweite Eingabe', async ({ page }) => {
   await oeffneApp(page);
@@ -29,7 +29,7 @@ test('Aufenthaltstitel-Listen-Eintrag mit Gültigkeit in der Vergangenheit → P
   // die Gruppe verlässt.
   const inline = '#content [data-liste-inline="residencePermit"]';
   await page.fill(inline + ' [data-eintrag-edit="number"]', 'AT-12345');
-  await page.fill(inline + ' [data-eintrag-edit="validUntil"]', '2020-01-01');   // eindeutig überfällig
+  await datumSetzen(page, inline + ' [data-eintrag-edit="validUntil"]', '2020-01-01');   // eindeutig überfällig
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
 
   await page.waitForFunction(() =>

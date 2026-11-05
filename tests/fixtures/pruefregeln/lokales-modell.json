@@ -1,0 +1,17 @@
+{
+  "art": "lokalesModell",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"ein Verweis","urteil":"bestanden","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"Probe-Modell","sprache":"de","modellHash":"sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","herkunft":"probe"}},
+    {"name":"mit Adresse","urteil":"abgewiesen","regel":"lokalesModell.unbekannter-schluessel","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"Probe-Modell","sprache":"de","modellHash":"sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","downloadUrl":"https://example.org/modell.gguf"}},
+    {"name":"Prüfsumme zu kurz","urteil":"abgewiesen","regel":"lokalesModell.modellHash","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"Probe-Modell","sprache":"de","modellHash":"abc"}},
+    {"name":"ohne Sprache","urteil":"abgewiesen","regel":"lokalesModell.sprache","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"Probe-Modell","modellHash":"sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"lokalesModell.moduleVersion","dokument":{"modulTyp":"lokalesModell","id":"zz-probe","label":"Probe-Modell","sprache":"de","modellHash":"sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","herkunft":"probe"}},
+    {"name":"Kennung mit Großbuchstaben","urteil":"abgewiesen","regel":"lokalesModell.id","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"ZZ-Probe","label":"Probe-Modell","sprache":"de","modellHash":"sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","herkunft":"probe"}},
+    {"name":"Anzeigename leer","urteil":"abgewiesen","regel":"lokalesModell.label","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"  ","sprache":"de","modellHash":"sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","herkunft":"probe"}},
+    {"name":"Prüfsumme ohne Kennung","urteil":"abgewiesen","regel":"lokalesModell.modellHash","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"Probe-Modell","sprache":"de","modellHash":"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","herkunft":"probe"}},
+    {"name":"Prüfsumme mit anderer Kennung","urteil":"abgewiesen","regel":"lokalesModell.modellHash","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"Probe-Modell","sprache":"de","modellHash":"sha384:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","herkunft":"probe"}},
+    {"name":"Sprache in falscher Form","urteil":"abgewiesen","regel":"lokalesModell.sprache-form","dokument":{"modulTyp":"lokalesModell","moduleVersion":1,"id":"zz-probe","label":"Probe-Modell","sprache":"Deutsch","modellHash":"sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","herkunft":"probe"}},
+    {"name": "eine Zeichenkette statt eines Objekts, als lokalesModell geprüft", "urteil": "abgewiesen", "regel": "lokalesModell.kein-objekt", "erzwingeArt": "lokalesModell", "dokument": "kein Objekt"}
+  ]
+}

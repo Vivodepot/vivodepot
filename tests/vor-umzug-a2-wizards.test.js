@@ -21,6 +21,8 @@ const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
 const { verlorene } = require('../tools/lib/vor-umzug-textwerte');
 const { immerWerte: immerWerteA2 } = require('../tools/lib/vor-umzug-achse-a2-wizards');
+// Ersetzte eigene Wortlaute, je Schritt und Feld wörtlich: tests/helfer/eigene-fragen-ersetzt.js.
+const { verloreneOhneErsetzte } = require('./helfer/eigene-fragen-ersetzt.js');
 
 // Seit S8 (U2-ADR-428) steht der deutsche Satz im gebackenen Produkt (Sprachmodul, kompakte JSON-Form), nicht im rohen Gerüst.
 const KERN = require('./produkt-html-erzeugen.js').produktHtml('privat-de');
@@ -69,13 +71,16 @@ const BEWUSST_ENTFALLEN = Object.freeze({
   'Straße & Hausnummer': 'U2-ADR-467: Beschriftung des entfallenen Zeilen-Schritts (s. o.).',
   'Und PLZ & Ort?': 'U2-ADR-467: Frage des entfallenen Zeilen-Schritts (s. o.).',
   'PLZ & Ort': 'U2-ADR-467: Beschriftung des entfallenen Zeilen-Schritts (s. o.).',
+  'Mit einem weiteren Familienmitglied ändert sich auch der Notvorrat — die Personenzahl für die Bedarfsrechnung in Krisenvorsorge passt sich automatisch an, sobald Sie den Namen im nächsten Schritt eintragen.':
+    'v992 (31.10.2026): der Hilfetext von gebwiz.geburt_kindergeld ist neu gefasst, der neue Wortlaut steht am selben Schritt.',
 });
 
 test('[Vor-Umzug·a2·immer] der Wortlaut der fünf migrierten Wizards ist gegenüber dem Beleg (37038011) erhalten — 0 verloren', () => {
   const fixture = fixtureLesen();
   const { V } = ladeKern();
   const aktuell = immerWerteA2(V);
-  const verl = verlorene(fixture.immerWerte.werte, aktuell).filter((w) => !Object.prototype.hasOwnProperty.call(BEWUSST_ENTFALLEN, w));
+  const schritte = (V.WIZARDS.find((w) => w.id === 'pflwiz') || {}).schritte || [];   // der einzige ersetzte Wortlaut in a2 (v999)
+  const verl = verloreneOhneErsetzte(verlorene(fixture.immerWerte.werte, aktuell), schritte).filter((w) => !Object.prototype.hasOwnProperty.call(BEWUSST_ENTFALLEN, w));
   assert.deepEqual(verl, [],
     'Verlorene Textwerte gegenüber ' + fixture.quelleCommit + ': ' + JSON.stringify(verl.slice(0, 5)));
 });

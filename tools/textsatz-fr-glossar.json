@@ -1,0 +1,13 @@
+{
+  "zweck": "Feste französische Fassung der tragenden Begriffe. Gegen sie prüft tools/textsatz-fr-pruefen.js jede Übersetzung; die Website liest dieselbe Datei, damit beide dieselben Wörter tragen.",
+  "stand": "vorschlag",
+  "standHinweis": "Vorschlag aus dem englischen Satz (dort je Begriff einheitlich gemessen, 29.10.2026). Bis die Gegenlesung ihn bestätigt, gilt er als Vorschlag; erst dann wird stand zu „gegengelesen“.",
+  "begriffe": [
+    { "de": "Depot", "en": ["depot"], "fr": ["dépôt"], "hinweis": "Die Datei der Person, nicht die Anwendung." },
+    { "de": "Vorlage", "en": ["template"], "fr": ["modèle"], "hinweis": "Studio-Vorlage einer Einrichtung." },
+    { "de": "Wiederherstellungs-Code", "en": ["recovery code"], "fr": ["code de récupération"], "hinweis": "Öffnet das Depot ohne Passwort." },
+    { "de": "Notfall-Blatt", "en": ["emergency sheet"], "fr": ["fiche d'urgence", "fiche d’urgence"], "hinweis": "Gedrucktes Blatt für den Notfall; beide Apostrophe zugelassen." },
+    { "de": "Studio", "en": ["studio"], "fr": ["Studio"], "hinweis": "Produktname, bleibt." },
+    { "de": "Signatur", "en": ["signature"], "fr": ["signature"], "hinweis": "Kryptografische Signatur eines Moduls." }
+  ]
+}

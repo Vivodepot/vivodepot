@@ -98,6 +98,8 @@ function main() {
     }
     process.stdout.write('erzeugt: ' + p.slug + ' — ' + ergebnisse[p.slug].ordner + '\n');
     process.stdout.write('  Module: ' + (ergebnisse[p.slug].unsignierteModule.join(', ') || '(keins — nativer Rückfall)') + '\n');
+    // U2-ADR-507 (Nachtrag 29.10.2026): ein Instrument ohne Bauplan baut, trägt aber keine Schritte — gemeldet, nicht verschwiegen.
+    if ((ergebnisse[p.slug].bauplanOffen || []).length) process.stdout.write('  Bauplan offen (keine Schritte): ' + ergebnisse[p.slug].bauplanOffen.join(', ') + '\n');
   }
 
   process.stdout.write('\n── Wächter 1: Gerüst byte-gleich über alle vier ──\n');

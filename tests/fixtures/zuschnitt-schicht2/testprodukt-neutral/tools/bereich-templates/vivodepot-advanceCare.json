@@ -289,6 +289,12 @@
                   }
                 },
                 {
+                  "id": "attachedDocument",
+                  "sensibel": true,
+                  "typ": "ref",
+                  "entitaet": "mappe"
+                },
+                {
                   "id": "dateOfLastChange",
                   "typ": "datum",
                   "keineZukunft": true,
@@ -886,6 +892,131 @@
                   "sichtbarWenn": {
                     "feld": "instrument",
                     "wert": "living-will"
+                  }
+                },
+                {
+                  "id": "postMortemDataDonation",
+                  "sensibel": true,
+                  "hinweisAufklapper": true,
+                  "typ": "auswahl",
+                  "sichtbarWenn": {
+                    "feld": "instrument",
+                    "wert": "living-will"
+                  },
+                  "optionen": [
+                    {
+                      "wert": "ja"
+                    },
+                    {
+                      "wert": "teil"
+                    },
+                    {
+                      "wert": "nein"
+                    },
+                    {
+                      "wert": "vertrauensperson"
+                    }
+                  ]
+                },
+                {
+                  "id": "postMortemDataDonationScope",
+                  "sensibel": true,
+                  "typ": "textarea",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": "teil"
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
+                  }
+                },
+                {
+                  "id": "postMortemDataDonationExcluded",
+                  "sensibel": true,
+                  "typ": "mehrfachauswahl",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": [
+                      "ja",
+                      "teil"
+                    ]
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
+                  },
+                  "optionen": [
+                    {
+                      "wert": "companies"
+                    },
+                    {
+                      "wert": "third-countries"
+                    }
+                  ]
+                },
+                {
+                  "id": "postMortemDataDonationTrustee",
+                  "sensibel": true,
+                  "typ": "ref",
+                  "entitaet": "person",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": "vertrauensperson"
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
+                  }
+                },
+                {
+                  "id": "postMortemDataHolders",
+                  "sensibel": true,
+                  "hinweisAufklapper": true,
+                  "typ": "textarea",
+                  "sichtbarWenn": {
+                    "feld": "postMortemDataDonation",
+                    "wert": [
+                      "ja",
+                      "teil",
+                      "vertrauensperson"
+                    ]
+                  },
+                  "verborgenWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney",
+                      "will",
+                      "contract-of-inheritance",
+                      "custodianship-declaration",
+                      "guardian-nomination",
+                      "ki-verfuegung",
+                      "custodian-appointment"
+                    ]
                   }
                 },
                 {

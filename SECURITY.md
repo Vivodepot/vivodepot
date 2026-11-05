@@ -105,7 +105,7 @@ Schwachstellen werden an folgende Stelle gemeldet:
 
 — **E-Mail:** `security@vivodepot.de`
 — **PGP-Schlüssel:** Datei `docs/security/pgp-pubkey.asc` (Fingerprint: `30FB 9B42 7F12 095D 317B 4485 F527 3B32 959A 7D42`)
-— **Reaktions-Zeit:** Erste Bestätigung innerhalb von 72 Stunden. Eine begründete erste Einschätzung innerhalb von 14 Tagen.
+— **Reaktions-Zeit:** Eingangsbestätigung innerhalb von 2 Werktagen. Eine begründete erste Einschätzung innerhalb von 10 Werktagen.
 — **Offenlegungs-Politik:** Coordinated Disclosure. Veröffentlichung der Schwachstelle nach Bereitstellung einer Mitigation, in Abstimmung mit der meldenden Person. Bei kritischer Schwachstelle ohne Mitigation: Veröffentlichung mit Warnung an Pilotpartner spätestens 90 Tage nach Meldung.
 
 ### 4.1 Meldefähige Schwachstellen
@@ -302,6 +302,26 @@ die dort Fassung, Rolle und Prüfweg nennt. Nachrechnen (macOS/Linux) am öffent
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v1040 | 2026-11-05 | kern | `1fad2db0eb15c74d89be5bbd0ab442b74994aeb925c607ecfd761e94d2fd467d` |
+| v1040 | 2026-11-05 | privat-de | `d899b336374ca9ba0884b5b0be233ee8622079d724c9476e27861ddc02bfd6a0` |
+| v1040 | 2026-11-05 | privat-en | `1810b0bc3def5049e91a784188ae3db5f080b545fc4119c99d94e7bc57f209f8` |
+| v1040 | 2026-11-05 | pro-de | `24098f41c4bb4f4bcb782166289da1bc8bae37e7b7b70cdfdfaa1783781a7bcd` |
+| v1040 | 2026-11-05 | pro-en | `0935c8b29be55e1b2a1597b557a1e1c03031e13957bf54700cf41899c2468027` |
+| v1040 | 2026-11-05 | pro-de-kanzlei | `7b369f3d77d9bc04a26bbb5c9a560959599b3c8887b92c20b04f16c8b30b515e` |
+| v1040 | 2026-11-05 | pro-en-kanzlei | `dce30afe1e1a4ce2df21f5754d7cf560fc695d661bb0eafbbc8d86e21bdee6d2` |
+| v1040 | 2026-11-05 | pro-de-steuerberatung | `6b2e5acb0532518d1ae9dd56386e7338385f748900ba4bc60611095e6a356ed9` |
+| v1040 | 2026-11-05 | pro-en-steuerberatung | `52df3004f55295ec5d6bd05c26d3dafe34e69bfdee2512f6887bc47d5b333847` |
+| v1040 | 2026-11-05 | service-worker | `351ff334321dd3735144e7462e3a179d85d3d0d428d89f73b141e007b15b287c` |
+| v1007 | 2026-11-01 | kern | `1d1669263ed61deaacb9f1f0d9be9ca4c2e795bf816f6aa6839c6c4fed91143e` |
+| v1007 | 2026-11-01 | privat-de | `0d4873233052cd0d449cbcc8548feafa4d0e4f236453710ad81dc7639f380419` |
+| v1007 | 2026-11-01 | privat-en | `4bb83732bd69604ac4423e9adba637fd306adae881a9ff64cda2f5a7837f35a5` |
+| v1007 | 2026-11-01 | pro-de | `6d0650903bec2a8dbe014296af31b8153264711096f63d4b1ed82c635cee9d6a` |
+| v1007 | 2026-11-01 | pro-en | `38963bca2bca14547025a68465278ae0e0f54a11a9ed7c832221da5f09a3e0d4` |
+| v1007 | 2026-11-01 | pro-de-kanzlei | `c38ca6ca1cc45418b0baf398dae41e194edec62a0c35bcc1a3144a69565fb341` |
+| v1007 | 2026-11-01 | pro-en-kanzlei | `f11974505700090dbbd0900086f4919de31c8ae48a532203ad148c5de836e21d` |
+| v1007 | 2026-11-01 | pro-de-steuerberatung | `b40fb8f8460a37ed0d7cf0183eea164f3e69fb83768f56fa5392e91aae281963` |
+| v1007 | 2026-11-01 | pro-en-steuerberatung | `7006061181be97bd098a2b3e8d6bb301e4d83db08f6a768f691936fea2279887` |
+| v1007 | 2026-11-01 | service-worker | `cdf71f6902343666bd5f65e7901fef7e12c67c685d8b62999c4c2d20501b683d` |
 | v956 | 2026-10-28 | kern | `b8df75c22ca5392ea1d059d4648b103ec04d49e46727b13f4dbcbcacea40e49e` |
 | v956 | 2026-10-28 | privat-de | `ceed42da540319967b84b7539bef2a2d78e472838594c4cba17e60a3c44620b9` |
 | v956 | 2026-10-28 | privat-en | `5a94ce54c204d609b74cb18ae5c54c3cd28354c8485b90589eb6ee9e7d184277` |
@@ -502,7 +522,7 @@ Die Zahlen, Längen, Namen und Info-Präfixe in der Spalte „Wert“ sind aus `
 | Angabe | Wert | Code-Stelle | Entscheidung |
 |---|---|---|---|
 | Passwort-Ableitung | PBKDF2-HMAC-SHA-256, 600.000 Iterationen, Ergebnis 256 Bit; das Ergebnis ist nur Eingangsschlüssel für HKDF | `PBKDF2_ITERATIONS`, `deriveMasterBits` | U2-ADR-213 |
-| PBKDF2-Salt | 16 Byte, zufällig, neu beim Anlegen und bei jedem Passwortwechsel | `depotAnlegen`, `passwortWechselDurchfuehren` | U2-ADR-002 |
+| PBKDF2-Salt | 16 Byte, zufällig, neu beim Anlegen und bei jedem Passwortwechsel | `depotAnlegen`, `_passwortWechselKern` | U2-ADR-002 |
 | Depot-Schlüssel | HKDF-SHA-256, Salt 32 Byte je Depot, Info `vivodepot/v3/depot/` + Depot-UUID, AES-GCM 256 Bit, nicht extrahierbar | `deriveDepotKeyV2`, `SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES` | U2-ADR-002, U2-ADR-016 · externer Review empfohlen |
 | Verschlüsselung | AES-256-GCM, IV 12 Byte, je Verschlüsselung neu per `crypto.getRandomValues`, Tag 128 Bit (WebCrypto-Vorgabe) | `encryptData` | — |
 | Krypto-Versionen | [3, 4], in Kern und Lese-App vor jeder Ableitung aus einem Depot-Umschlag geprüft | `KRYPTO_VERSION_ALLOWLIST` | U2-ADR-149 |
@@ -519,6 +539,7 @@ Die Zahlen, Längen, Namen und Info-Präfixe in der Spalte „Wert“ sind aus `
 | Einmalpasswort (Lese-App) | PBKDF2 direkt zu einem AES-Schlüssel, ohne HKDF | `_angDeriveKey` | U2-ADR-062, U2-ADR-153 · Auflage: externer Review |
 | Antwort als JWE, Einmalpasswort | PBES2-HS512+A256KW, PBKDF2-SHA-512 mit 600.000 Iterationen | `_jwePbes2Schluessel` | U2-ADR-449 · Auflage: externer Review |
 | SMART Health Link | JWE `alg: dir`, A256GCM, zufälliger Schlüssel 32 Byte | `_jweCompactDir` | U2-ADR-047 · externer Review empfohlen (von U2-ADR-449 und U2-ADR-457 als Auflage übernommen) |
+| Verzeichnis der Außenablagen | JWE `alg: dir`, A256GCM, `typ` im geschützten Kopf; Schlüssel per HKDF-SHA-256 aus dem Antwort-Seed des Depots, Salt leer, Info `vivodepot/aussenablage-verzeichnis/v1`; nur der Kern hält ihn, die Pod-Brücke nie | `_verzeichnisSchluessel`, `podVerzeichnisVerschluesseln` | U2-ADR-520 |
 | Nicht extrahierbar | geheime Schlüssel werden mit `extractable: false` abgeleitet oder importiert; benannte Ausnahme: der Inhaltsschlüssel der Antwort als JWE (`antwortJwePasswort`), den das Einmalpasswort wickelt. Eine Prüfung der Suite sieht jede weitere Ausnahme | — | U2-ADR-026 |
 
 <!-- krypto-parameter:ende -->

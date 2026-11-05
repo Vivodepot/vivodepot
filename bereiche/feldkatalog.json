@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von einem nicht öffentlichen Werkzeug aus vivodepot.html SEKTOREN und den nicht öffentlichen Bereichs-Vorlagen. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 996,
+  "anzahl": 1011,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -30,7 +30,7 @@
     {
       "kennung": "advanceCare.acceptsLifeShorteningFromPain",
       "bereich": "advanceCare",
-      "label": "Lebensverkürzung in Kauf",
+      "label": "Lebensverkürzung durch Schmerzbehandlung in Kauf nehmen",
       "template": null
     },
     {
@@ -42,13 +42,13 @@
     {
       "kennung": "advanceCare.resuscitationInDescribedSituations",
       "bereich": "advanceCare",
-      "label": "Wiederbelebung (oben beschriebene Situationen)",
+      "label": "Wiederbelebung in den oben beschriebenen Situationen",
       "template": null
     },
     {
       "kennung": "advanceCare.emergencyDoctorNotified",
       "bereich": "advanceCare",
-      "label": "Notarzt-Hinweis",
+      "label": "Hinweis an den Notarzt",
       "template": null
     },
     {
@@ -114,7 +114,7 @@
     {
       "kennung": "advanceCare.whoseViewMattersIfUnregulated",
       "bereich": "advanceCare",
-      "label": "Besondere Bedeutung (ungeregelte Situationen)",
+      "label": "Wessen Meinung zählt, wenn etwas nicht geregelt ist",
       "template": null
     },
     {
@@ -126,7 +126,7 @@
     {
       "kennung": "advanceCare.whoseViewMattersIfDeviatingWill",
       "bereich": "advanceCare",
-      "label": "Besondere Bedeutung (abweichende Willensäußerung)",
+      "label": "Wessen Meinung zählt, wenn Ihr Wille abzuweichen scheint",
       "template": null
     },
     {
@@ -150,7 +150,7 @@
     {
       "kennung": "advanceCare.priorityIfOrganDonationConflict",
       "bereich": "advanceCare",
-      "label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+      "label": "Vorrang, wenn Organspende und Patientenverfügung sich widersprechen",
       "template": null
     },
     {
@@ -180,7 +180,7 @@
     {
       "kennung": "advanceCare.validityDurationDeadline",
       "bereich": "advanceCare",
-      "label": "Frist",
+      "label": "Dauer der Befristung",
       "template": null
     },
     {
@@ -264,7 +264,7 @@
     {
       "kennung": "administration.ongoingAdministrativeCases/direction",
       "bereich": "administration",
-      "label": "Richtung",
+      "label": "Zahlen Sie, oder bekommen Sie Geld?",
       "template": "vivodepot-administration.json"
     },
     {
@@ -456,19 +456,19 @@
     {
       "kennung": "advanceCare.provisionInstruments",
       "bereich": "advanceCare",
-      "label": "Vorsorge-Instrumente",
+      "label": "Vorsorgedokumente",
       "template": "vivodepot-advanceCare.json"
     },
     {
       "kennung": "advanceCare.provisionInstruments/instrument",
       "bereich": "advanceCare",
-      "label": "Instrument",
+      "label": "Art des Dokuments",
       "template": "vivodepot-advanceCare.json"
     },
     {
       "kennung": "advanceCare.provisionInstruments/form",
       "bereich": "advanceCare",
-      "label": "Form",
+      "label": "Form, etwa notariell oder handschriftlich",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -508,6 +508,12 @@
       "template": "vivodepot-advanceCare.json"
     },
     {
+      "kennung": "advanceCare.provisionInstruments/attachedDocument",
+      "bereich": "advanceCare",
+      "label": "Unterschriebenes Dokument",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
       "kennung": "advanceCare.provisionInstruments/dateOfLastChange",
       "bereich": "advanceCare",
       "label": "Datum der letzten Änderung",
@@ -534,7 +540,7 @@
     {
       "kennung": "advanceCare.provisionInstruments/morePreciseDescription",
       "bereich": "advanceCare",
-      "label": "Genauer bezeichnen",
+      "label": "Genauere Beschreibung",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -754,9 +760,39 @@
       "template": "vivodepot-advanceCare.json"
     },
     {
+      "kennung": "advanceCare.provisionInstruments/postMortemDataDonation",
+      "bereich": "advanceCare",
+      "label": "Datenspende nach dem Tod",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/postMortemDataDonationScope",
+      "bereich": "advanceCare",
+      "label": "Welche Daten, für welche Zwecke?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/postMortemDataDonationExcluded",
+      "bereich": "advanceCare",
+      "label": "Ausgeschlossen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/postMortemDataDonationTrustee",
+      "bereich": "advanceCare",
+      "label": "Vertrauensperson, die entscheidet",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/postMortemDataHolders",
+      "bereich": "advanceCare",
+      "label": "Wo Ihre Gesundheitsdaten liegen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
       "kennung": "advanceCare.provisionInstruments/statutorySuccessionOr",
       "bereich": "advanceCare",
-      "label": "Gesetzliche Erbfolge oder abweichender Wille?",
+      "label": "Gesetzliche Erbfolge oder eigene Regelung?",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -780,7 +816,7 @@
     {
       "kennung": "advanceCare.provisionInstruments/proposedPerson",
       "bereich": "advanceCare",
-      "label": "Vorgeschlagene Person",
+      "label": "Vorgeschlagen als Betreuerin oder Betreuer",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -792,7 +828,7 @@
     {
       "kennung": "advanceCare.provisionInstruments/whoShouldNotBeAppointed",
       "bereich": "advanceCare",
-      "label": "Wer nicht bestellt werden soll",
+      "label": "Wer nicht Betreuerin oder Betreuer werden soll",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -828,19 +864,19 @@
     {
       "kennung": "advanceCare.provisionInstruments/basicDecision",
       "bereich": "advanceCare",
-      "label": "Grundentscheidung",
+      "label": "Erlauben Sie eine KI-Nachbildung Ihrer Person?",
       "template": "vivodepot-advanceCare.json"
     },
     {
       "kennung": "advanceCare.provisionInstruments/purpose",
       "bereich": "advanceCare",
-      "label": "Zweck",
+      "label": "Wofür die Nachbildung genutzt werden darf",
       "template": "vivodepot-advanceCare.json"
     },
     {
       "kennung": "advanceCare.provisionInstruments/authorizedParties",
       "bereich": "advanceCare",
-      "label": "Berechtigte",
+      "label": "Wer die Nachbildung nutzen darf",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -852,13 +888,13 @@
     {
       "kennung": "advanceCare.provisionInstruments/scope",
       "bereich": "advanceCare",
-      "label": "Raum",
+      "label": "Wo darf die Nachbildung erscheinen?",
       "template": "vivodepot-advanceCare.json"
     },
     {
       "kennung": "advanceCare.provisionInstruments/permittedDataTypes",
       "bereich": "advanceCare",
-      "label": "Zulässige Datenarten",
+      "label": "Welche Angaben verwendet werden dürfen",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -882,13 +918,13 @@
     {
       "kennung": "advanceCare.provisionInstruments/behaviouralLimit",
       "bereich": "advanceCare",
-      "label": "Verhaltensgrenze",
+      "label": "Was darf die Nachbildung sagen?",
       "template": "vivodepot-advanceCare.json"
     },
     {
       "kennung": "advanceCare.provisionInstruments/digitalEstateAdministration",
       "bereich": "advanceCare",
-      "label": "Digitale Nachlassverwaltung",
+      "label": "Wer Ihr digitales Erbe verwaltet",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -1620,7 +1656,7 @@
     {
       "kennung": "finance.accounts/bankingPowersOfAttorneyFrom",
       "bereich": "finance",
-      "label": "Bankvollmacht(en) (aus Vorsorge)",
+      "label": "Bankvollmachten aus dem Bereich Vorsorge",
       "template": "vivodepot-finance.json"
     },
     {
@@ -1884,7 +1920,7 @@
     {
       "kennung": "health.healthInsuranceCards/validUntilInclEhic",
       "bereich": "health",
-      "label": "Gültig bis (inkl. EHIC)",
+      "label": "Gültig bis",
       "template": "vivodepot-health.json"
     },
     {
@@ -1926,7 +1962,7 @@
     {
       "kennung": "health.dentistNameContact",
       "bereich": "health",
-      "label": "Zahnarzt — Name & Kontakt",
+      "label": "Zahnärztin / Zahnarzt — Name & Kontakt",
       "template": "vivodepot-health.json"
     },
     {
@@ -1938,7 +1974,7 @@
     {
       "kennung": "health.ehicCardEuropeanHealth",
       "bereich": "health",
-      "label": "EHIC-Karte (Europäische Krankenversicherungskarte)",
+      "label": "Europäische Krankenversicherungskarte",
       "template": "vivodepot-health.json"
     },
     {
@@ -1981,6 +2017,60 @@
       "kennung": "health.familyMedicalHistory/ageAtDiagnosis",
       "bereich": "health",
       "label": "Alter bei Erkrankung",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions",
+      "bereich": "health",
+      "label": "Forschungsentscheidungen",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/kind",
+      "bereich": "health",
+      "label": "Art der Entscheidung",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/institution",
+      "bereich": "health",
+      "label": "Stelle",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/declaredOn",
+      "bereich": "health",
+      "label": "Datum der Erklärung",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/scope",
+      "bereich": "health",
+      "label": "Umfang",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/validUntil",
+      "bereich": "health",
+      "label": "Gilt bis",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/storedUntil",
+      "bereich": "health",
+      "label": "Gespeichert bis",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/withdrawalRoute",
+      "bereich": "health",
+      "label": "Widerrufsweg",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.researchDecisions/status",
+      "bereich": "health",
+      "label": "Stand",
       "template": "vivodepot-health.json"
     },
     {
@@ -2454,7 +2544,7 @@
     {
       "kennung": "mobility.vehicles/vehicleRegistrationDocument",
       "bereich": "mobility",
-      "label": "Fahrzeugausweis — Ablageort",
+      "label": "Fahrzeugschein (Zulassungsbescheinigung Teil I) — Ablageort",
       "template": "vivodepot-mobility.json"
     },
     {
@@ -5304,7 +5394,7 @@
     {
       "kennung": "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent",
       "bereich": "pro-kontakte-vertretungsplan",
-      "label": "Erste Schritte, wenn Sie verhindert sind",
+      "label": "Erste Schritte bei vorübergehender Vertretung",
       "template": "vivodepot-pro-kontakte-vertretungsplan.json"
     },
     {
@@ -5364,7 +5454,7 @@
     {
       "kennung": "pro-kontakte-vertretungsplan.tpl_first_steps_long_absence",
       "bereich": "pro-kontakte-vertretungsplan",
-      "label": "Erste Schritte, wenn kein Ende absehbar ist",
+      "label": "Erste Schritte bei Vertretung auf unbestimmte Zeit",
       "template": "vivodepot-pro-kontakte-vertretungsplan.json"
     },
     {
@@ -5592,7 +5682,7 @@
     {
       "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_gilt",
       "bereich": "pro-vertretung-vollmachten",
-      "label": "Gilt",
+      "label": "Gilt über den Tod hinaus",
       "template": "vivodepot-pro-vertretung-vollmachten.json"
     },
     {

@@ -17,7 +17,6 @@ const PAARE = [
   ['einstGesamtExportWegweiser', 'navWeitergeben'],
   ['einstGesamtExportWegweiser', 'herausgebenGanzesDepot'],
   ['anlegenSpeicherHinweisRuhig', 'sicherungskopieMenuepunkt'],
-  ['prueftermineEinfuehrung', 'dokumentPanelTitel'],
   ['vereinbarungAnnahmeUngeprueftText', 'vereinbarungStatusUngeprueft'],
   ['vereinbarungOhneText', 'vereinbarungStatusOhne'],
   ['wiedereinstiegHinweisText', 'welcomeDateiOeffnen'],

@@ -322,7 +322,7 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   // v896: die Schriften des Erscheinungsbilds, mit der Bau-Pflicht „jede Erscheinung trägt eine PDF-Schrift“ — außerhalb des
   // gepinnten Abschnitts von produktTextErzeugen, darum hier davor (s. tools/lib/produkt-text-erzeugen.js).
   erscheinungsbildSchriftenVorBacken(kernText, unsignierteModule);
-  const { text, module } = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste, mitTestflaeche });
+  const { text, module, bauplanOffen } = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste, mitTestflaeche });
   // U2-ADR-494: ohne die Test-Option verlässt kein Erzeugnis mit Test-Fläche diesen Weg (auch nicht aus einem Kern ohne Marken).
   if (mitTestflaeche !== true) require('./lib/produkt-text-erzeugen.js').testflaecheVerweigern(text, 'konfektionieren ' + slug);
   // U2-ADR-470: zuletzt die CSP-Hashes der eingesetzten Blöcke (tools/lib/csp-nach-bau.js).
@@ -336,6 +336,9 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
     dateien: [...dateisatz],
     anzahlModule: modulauswahl.length,
     unsignierteModule: module,
+    // U2-ADR-507 (Nachtrag 29.10.2026): Typen des Rechtsraum-Moduls, deren Bauplan ohne Ergänzung null blieb — gemeldet, nicht
+    // verschwiegen: ein Produkt ohne Ergänzung baut, trägt für diese Instrumente aber keine Schritte.
+    bauplanOffen,
     subdepotPalette: !!subdepotPalette,
   };
 }
