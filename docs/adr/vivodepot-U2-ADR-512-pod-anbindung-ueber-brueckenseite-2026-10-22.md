@@ -10,6 +10,11 @@ JWE) · U2-ADR-464 (aufgefüllte Einheiten) · U2-ADR-501 (Zertifikat der Stelle
 **Status heute:** gilt — Belege im `konformitaet`-Block unten; die Strecke gegen einen lokalen Pod ist seit 27.10.2026 belegt.
 **Nachtrag 25.10.2026:** Stufe 2 (`postMessage` aus dem Kern) ist entschieden in
 `vivodepot-U2-ADR-512-nachtrag-stufe-2-postmessage-aus-dem-kern-2026-10-25.md`.
+**Nachtrag 04.11.2026 zu Nr. 6:** Gilt nicht mehr für den Eintrag unter `vivodepot/grants/`. Ohne AccessGrantService legt die
+Brücke keinen Grant im Pod ab; was er trug, steht im Verzeichnis, das nur als Chiffrat des Kerns im Pod liegt, und alle Ablagen
+liegen im neutralen Ordner `vivodepot/d/` (U2-ADR-520 Nr. 3, `vivodepot-U2-ADR-520-aussenablagen-nur-chiffrat-2026-11-03.md`).
+Den Grant an einen AccessGrantService und an den Posteingang der Stelle gibt es weiter. Weg zum Nachsehen:
+`grep -n "ueberDienst\|ORDNER_ALT" pod/bruecke.js`.
 
 ## Frage
 

@@ -300,14 +300,14 @@ test('flowRefNeueEntitaet: leerer Name legt nichts an (Pflichtfeld, kein onAnleg
    (liesEintragAusWerten) und der gerenderte HTML-String. Der volle Speicher-Pfad geht
    auf die Geräte-Abnahme (Auftrag E2, Tests-Abschnitt). */
 
-test('_institutionFelder: ohne vorgegebene Art alle sechs Felder inkl. Art-Auswahl (12 Typen)', () => {
+test('_institutionFelder: ohne vorgegebene Art alle sechs Felder inkl. Art-Auswahl (13 Typen)', () => {
   const { V } = ladeKern();
   const feld = V._institutionFelder(undefined);
   const ids = feld.unterFelder.map(u => u.id);
   assert.equal(JSON.stringify(ids), JSON.stringify(['name', 'art', 'tel', 'adresse', 'email', 'anmerkung']));
   const artFeld = feld.unterFelder.find(u => u.id === 'art');
   assert.equal(artFeld.typ, 'auswahl');
-  assert.equal(artFeld.optionen.length, 12, 'INSTITUTION_ART hat 12 Typen („Person und Institution", 13.08.2026: Arztpraxis + generische Behörde ergänzt)');
+  assert.equal(artFeld.optionen.length, 13, 'INSTITUTION_ART hat 13 Typen („Person und Institution", 13.08.2026: Arztpraxis + generische Behörde ergänzt; 06.11.2026 U2-ADR-523: Apotheke)');
   assert.ok(artFeld.optionen.some(o => o.wert === 'krankenhaus' && o.label === 'Krankenhaus'));
   assert.ok(artFeld.optionen.some(o => o.wert === 'arztpraxis' && o.label === 'Arztpraxis'));
   assert.ok(artFeld.optionen.some(o => o.wert === 'behoerde' && o.label === 'Behörde'));

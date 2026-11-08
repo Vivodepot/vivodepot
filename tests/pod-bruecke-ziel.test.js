@@ -21,6 +21,8 @@ const { webcrypto } = require('node:crypto');
 const C = require('../pod/chiffrat-pruefen.js');
 
 const QUELLE = fs.readFileSync(path.join(__dirname, '..', 'pod', 'bruecke.js'), 'utf8');
+// Der einzige Schreibweg (U2-ADR-520) läuft in derselben Seite, wie bruecke.html ihn lädt.
+const AUSSENABLAGE = fs.readFileSync(path.join(__dirname, '..', 'pod', 'aussenablage.js'), 'utf8');
 const WEBID = 'https://person.example/profile/card#me';
 const SPEICHER = 'https://speicher.example/person/';
 const DEPOT = 'VIVODEPOT\u0001' + JSON.stringify({ kryptoVersion: 3, depotUUID: 'u', pbkdf2: { salt: 's', iterations: 600000 }, depotSalt: 'd', iv: 'i', ct: 'c' });
@@ -40,21 +42,22 @@ async function seite(quelle = QUELLE) {
     abmelden: async () => 'lokal-geloescht',
     podFetch: async (adresse, o = {}) => {
       anfragen.push({ adresse, methode: (o.method || 'GET').toUpperCase() });
-      // Die Kopie des Verzeichnisses (U2-ADR-512-Nachtrag 29.10.2026) liegt in diesem Pod noch nicht.
-      if (String(adresse).endsWith('vivodepot/intern/verzeichnis.json') && !o.method) return { ok: false, status: 404, headers: { get: () => null } };
+      // Verzeichnis und Ablaufliste unter intern/ (U2-ADR-520) liegen in diesem Pod noch nicht.
+      if (String(adresse).includes('vivodepot/k/') && !String(adresse).endsWith('/') && !o.method) return { ok: false, status: 404, headers: { get: () => null } };
       return { ok: true, status: o.method === 'HEAD' ? 200 : 201, headers: { get: () => null }, json: async () => null, text: async () => '' };
     },
     verzeichnis: { lesen: async () => undefined, schreiben: async () => {}, loeschen: async () => {} }
   };
   const kontext = {
     vdPodAnmeldung: A, vdPodChiffrat: C, vdPodLws: require('../pod/lws.js'),
-    document: { readyState: 'complete', getElementById: el, createElement: () => el('neu-' + Math.random()) },
+    document: { readyState: 'complete', getElementById: el, querySelector: () => null, createElement: () => el('neu-' + Math.random()) },
     window: { opener: null, addEventListener() {} },
     fetch: async () => ({ ok: true, text: async () => '<#me> <http://www.w3.org/ns/pim/space#storage> <' + SPEICHER + '>.\n' }),
     crypto: webcrypto, btoa: (s) => Buffer.from(s, 'binary').toString('base64'), Blob, URL, Promise, Date, Number, String, Error, Uint8Array, JSON
   };
   kontext.self = kontext;
   vm.createContext(kontext);
+  vm.runInContext(AUSSENABLAGE, kontext);
   vm.runInContext(quelle, kontext);
   await new Promise((r) => setTimeout(r, 20));
   return { B: kontext.vdPodBruecke, el, anfragen, schreibend: () => anfragen.filter((a) => a.methode !== 'GET' && a.methode !== 'HEAD') };
@@ -72,7 +75,7 @@ test('[Pod·Ziel] vor dem Klick legt die Brücke nichts ab und löscht nichts; n
   await new Promise((r) => setTimeout(r, 10));
   assert.equal(s.el('ablage-bereich').hidden, false);
   const adresse = await s.B.ablegen(DEPOT, 'eigen');
-  assert.ok(adresse.startsWith(SPEICHER + 'vivodepot/sicherungen/'), adresse);
+  assert.ok(adresse.startsWith(SPEICHER + 'vivodepot/d/'), adresse);
   assert.ok(s.schreibend().some((a) => a.methode === 'PUT' && a.adresse === adresse));
 });
 
@@ -93,7 +96,7 @@ test('[Pod·Ziel] die Tür je Art gilt auch beim Weg über die Datei', async () 
   // ein Freigabe-Link (SHL) ist keine Form für eine Stelle: das fängt erst die Tür je Art
   f = undefined; try { await s.B.ablegen(SHL, 'stelle', STELLE); } catch (x) { f = x.message; }
   assert.equal(f, 'passt-nicht-zur-art');
-  assert.ok((await s.B.ablegen(ANTWORT, 'stelle', STELLE)).startsWith(SPEICHER + 'vivodepot/freigaben/'));
+  assert.ok((await s.B.ablegen(ANTWORT, 'stelle', STELLE)).startsWith(SPEICHER + 'vivodepot/d/'));
 });
 test('[Pod·Ziel·Rot-Beweis] ohne die Tür je Art ginge ein Freigabe-Link als Ablage für eine Stelle hinaus', async () => {
   const ohne = QUELLE.replace("if (!C.passtZurArt(text, art, new Blob([text]).size)) return Promise.reject(new Error('passt-nicht-zur-art'));", '');

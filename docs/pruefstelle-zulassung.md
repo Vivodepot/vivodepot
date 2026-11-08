@@ -20,4 +20,4 @@ Mit ihrer Signatur bürgt die Stelle dafür, dass die Sätze in dieser Sprache d
 
 ## Ablauf der Ausstellung
 
-Die Treuhand stellt der Prüfstelle ein Blatt-Zertifikat aus, ohne neue Anker-Zeremonie: `tools/kundenzertifikat-ausstellen.js … --rolle pruefer --sprachen … --modultypen …`. Das Werkzeug lehnt eine Prüfstelle ohne Geltungsbereich, für Deutsch oder Englisch, an einem `vivodepot/*`-Typ und für mehr als zwölf Monate ab. Die Rolle zählt nur, wenn das Zertifikat unter der eigenen Treuhand steht. Wer Module herausgibt und prüft, bekommt dafür zwei getrennte Zertifikate.
+Vivodepot stellt der Prüfstelle über seine Ausgabestelle ein Blatt-Zertifikat aus, ohne neue Anker-Zeremonie: `tools/kundenzertifikat-ausstellen.js … --rolle pruefer --sprachen … --modultypen …`. Das Werkzeug lehnt eine Prüfstelle ohne Geltungsbereich, für Deutsch oder Englisch, an einem `vivodepot/*`-Typ und für mehr als zwölf Monate ab. Die Rolle zählt nur, wenn das Zertifikat unter der eigenen Ausgabestelle von Vivodepot steht. Wer Module herausgibt und prüft, bekommt dafür zwei getrennte Zertifikate.

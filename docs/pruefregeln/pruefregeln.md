@@ -155,8 +155,15 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `format.schreiber-xml-wurzelname` | abweisung | Der Name des Wurzelelements ist kein gültiger XML-Name. | `schreiber-xml-wurzelname` |
 | `format.schreiber-xml-zwei-wurzeln` | abweisung | Eine Ausgabe mit dem XML-Schreiber nennt wurzel und quelle zugleich. | `schreiber-xml-zwei-wurzeln` |
 | `format.schreiber-xml-zielname` | abweisung | Ein ziel in zuordnung ist kein gültiger XML-Name. | `schreiber-xml-zielname` |
+| `format.schreiber-csv-umschlag` | abweisung | Eine Ausgabe mit dem CSV-Schreiber nennt quelle oder wurzel; eine Tabelle hat keinen Umschlag. | `schreiber-csv-umschlag` |
+| `format.schreiber-csv-liste` | abweisung | Eine Ausgabe mit dem CSV-Schreiber nennt alsListe; eine Zelle trägt keine Liste. | `schreiber-csv-liste` |
+| `format.schreiber-csv-anhang` | abweisung | Eine Ausgabe mit dem CSV-Schreiber nennt einen Anhang; eine Zelle trägt keine Datei. | `schreiber-csv-anhang` |
+| `format.schreiber-csv-zielname` | abweisung | Ein ziel in zuordnung ist für den CSV-Schreiber kein Spaltenname. | `schreiber-csv-zielname` |
 | `format.vertreter-ohne-nachweis` | abweisung | Das Modul schreibt die bevollmächtigte Person, aber keinen Nachweis der Vollmacht als Anhang. | `vertreter-ohne-nachweis` |
 | `format.anhang-rolle-doppelt` | abweisung | Das Modul nennt dieselbe Rolle eines Anhangs mehr als einmal. | `anhang-rolle-doppelt` |
+| `format.antrag-id-doppelt` | abweisung | Das Modul stellt zwei Fragen für einen Antrag unter derselben Kennung. | `antrag-id-doppelt` |
+| `format.pruefung-ohne-xml` | abweisung | Das Modul trägt Regeln der Vorprüfung, ist aber kein XML-Ausgabe-Modul mit Wurzelelement. | `pruefung-ohne-xml` |
+| `format.pruefung` | abweisung | Die Regeln der Vorprüfung haben nicht die verlangte Form. | `pruefung` |
 
 ## bereich
 
@@ -301,6 +308,7 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `anfrage.felder-leer` | abweisung | Von den Einträgen in felder ist keiner gültig. | `felder-leer` |
 | `anfrage.antwort` | abweisung | antwort fehlt oder ist kein Objekt. | `antwort` |
 | `anfrage.antwort-art` | abweisung | antwort.art nennt kein Verfahren, das die App kennt. | `antwort-art` |
+| `anfrage.antwort-format` | abweisung | antwort.format ist keine Format-Kennung (Buchstaben, Ziffern und : . _ @ -, höchstens 120 Zeichen). | `antwort-format` |
 | `anfrage.antwort-schluessel-fehlt` | abweisung | Für das gewählte Antwortverfahren fehlt der öffentliche Schlüssel in antwort.publicKeyJwk. | `antwort-schluessel-fehlt` |
 
 ## vorlage

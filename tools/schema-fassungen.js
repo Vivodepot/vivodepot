@@ -39,6 +39,10 @@ const REPO = path.join(__dirname, '..');
 const VERZEICHNIS = 'docs/schema-fassungen.json';
 const BASIS = 'https://vivodepot.de/schemas/';
 const ID_MUSTER = /^https:\/\/vivodepot\.de\/schemas\/([a-z0-9-]+)-schema\.json$/;
+/* Archiv (06.11.2026, Befund SCHEMA-BLOB-VERLOREN): eine Fassung, deren Bytes nie in einem Kanon-Commit standen, liegt hier
+   byte-gleich als <name>-<n>.json. So hängt ihr Blob an der Geschichte und nicht nur am Objektspeicher eines Rechners. Fall:
+   format-modul/5 entstand in einem Wagen-Commit; die Faltung des Wagens sprang im Kanon von 4 auf 6. */
+const ARCHIV = 'tools/schema-fassungen-archiv';
 
 const sha256 = (b) => crypto.createHash('sha256').update(b).digest('hex');
 function git(args, repo = REPO, eingabe) {
@@ -194,7 +198,28 @@ async function livePruefen(verzeichnis, holen = fetch) {
   return b;
 }
 
-module.exports = { inhaltPruefen, schemasFinden, versioniert, nurIdVerschieden, verzeichnisLesen, pruefen, eintragen, ordnerInhalt, livePruefen, VERZEICHNIS, BASIS, sha256 };
+/* Erreichbar (06.11.2026, Befund SCHEMA-BLOB-VERLOREN): `git cat-file` findet einen Blob auch, wenn er nur im Objektspeicher
+   liegt — geschrieben von `--eintragen` (hash-object -w) oder aus einem Zweig, der später gefaltet wurde. Ein frischer Klon hat
+   ihn dann nicht, die Fassung ist draußen nicht wiederherstellbar. Hier zählt nur, was die Geschichte von HEAD an den Pfaden der
+   Schemas und im Archiv trägt, dazu der Index (eine eben eingetragene Fassung ist gestagt, aber noch nicht committet). */
+function erreichbareBlobs(repo = REPO, pfade) {
+  const da = new Set();
+  const log = git(['log', '--raw', '--no-abbrev', '--no-renames', '--format=', 'HEAD', '--', ...pfade], repo).toString();
+  for (const z of log.split('\n')) { const m = /^:\d+ \d+ ([0-9a-f]{40}) ([0-9a-f]{40}) /.exec(z); if (m) { da.add(m[1]); da.add(m[2]); } }
+  const index = git(['ls-files', '-s', '--', ...pfade], repo).toString();
+  for (const z of index.split('\n')) { const m = /^\d+ ([0-9a-f]{40}) /.exec(z); if (m) da.add(m[1]); }
+  return da;
+}
+function unerreichbar({ repo = REPO, verzeichnis } = {}) {
+  const da = erreichbareBlobs(repo, [...schemasFinden(repo).map((s) => s.pfad), ARCHIV]);
+  const b = [];
+  for (const [n, e] of Object.entries(verzeichnis.schemas)) {
+    for (const f of e.fassungen) if (!da.has(f.blob)) b.push(`${n}/${f.n}: Blob ${f.blob} ist aus der Geschichte von HEAD nicht erreichbar — Bytes nach ${ARCHIV}/${n}-${f.n}.json`);
+  }
+  return b;
+}
+
+module.exports = { erreichbareBlobs, unerreichbar, ARCHIV, inhaltPruefen, schemasFinden, versioniert, nurIdVerschieden, verzeichnisLesen, pruefen, eintragen, ordnerInhalt, livePruefen, VERZEICHNIS, BASIS, sha256 };
 
 if (require.main === module) {
   const argv = process.argv.slice(2);

@@ -239,6 +239,14 @@ const REFERENZ = {
     dateinamen: ['lib/esm/index.js'],
     klasse: { executable: 'executable', archive: 'no archive', structured: 'unstructured' },
   },
+  'zxing-library': {
+    author: 'ZXing authors', // Copyright-Kopf jeder Quelldatei („Copyright 2007 ZXing authors“), github.com/zxing-js/library
+    supplier: { name: 'zxing-js', url: ['https://github.com/zxing-js/library'] },
+    // Data-Matrix-Auszug aus dem ESM-Baum von @zxing/library 0.23.0, gebaut mit tools/datamatrix-auszug-bauen.js;
+    // ts-custom-error durch eine eigene Zeile ersetzt. Prüfung: node tools/datamatrix-auszug-bauen.js --pruefen.
+    dateinamen: ['esm/core/datamatrix/DataMatrixReader.js'],
+    klasse: { executable: 'executable', archive: 'no archive', structured: 'unstructured' },
+  },
   'font-inter': {
     author: 'The Inter Project Authors', // OFL.txt-Lizenzkopf, github.com/rsms/inter
     supplier: { name: 'The Inter Project Authors', url: ['https://github.com/rsms/inter'] },
@@ -502,7 +510,7 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
 
   // jspdf, qrcode-generator — Version/purl/Lizenz aus dem @vd-lib-Marker, Hash aus dem
   // tatsächlichen Skriptblock (nicht aus dem Marker — der trägt keinen verlässlichen Hash).
-  for (const name of ['jspdf', 'qrcode-generator', 'noble-ed25519']) {
+  for (const name of ['jspdf', 'qrcode-generator', 'noble-ed25519', 'zxing-library']) {
     const lib = libs.get(name);
     if (!lib) throw new Error(`Kein @vd-lib status="inline"-Marker für „${name}" gefunden.`);
     const markerIdx = html.indexOf(`@vd-lib name="${name}"`);

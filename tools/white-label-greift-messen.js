@@ -50,6 +50,10 @@ const SENTINEL_PRIVATE_JWK = Object.freeze({
 const HERKUNFTSORT_KENNUNGEN = Object.freeze([
   'strings:herkunftPoweredBy.text', 'strings:herkunftLizenzhinweis.text',
   'strings:herkunftImpressumLink.text', 'strings:herkunftDatenschutzLink.text', 'strings:einstAnbieter.text', 'strings:fussKontakt.text',
+  /* Seit 06.11.2026 (Befund TREUHAND-BEHOERDENNAME, mit Wort vom 06.11.2026): der Signatursatz der Standardvorlagen. Signatur stammt
+     vom Vorlagenschlüssel der Urheberin, nicht von der Marke; darum ein Schlüssel des Herkunftsorts mit {urheberin}
+     (tools/herkunftsort-angaben.json), unter fremder Marke unverändert. */
+  'strings:standardVorlageSigniertVon.text',
 ]);
 
 /* Die zwei benannten HINWEISORTE (U2-ADR-400 Nachtrag 18.10.2026, U2-ADR-496 Nr. 6): außer am Herkunftsort steht die Software

@@ -179,9 +179,10 @@ function anhaengeAblegen(V, anhaenge, vertreter) {
 /** Schreibt die Datei, die der Kern über `modul` aus einem Probe-Depot erzeugt. `ohne` lässt Felder leer; `sensibel`
     ist die Zustimmung, die die Person im Export gibt (ohne sie fehlen sensible Felder wie die Staatsangehörigkeit).
     `anhaenge` (Rolle → Probe-Datei) legt die Dateien ab und wählt sie; `gruende` nimmt die Gründe auf, wenn der Kern keine
-    Datei schreibt (dann ist der Rückgabewert null). */
+    Datei schreibt (dann ist der Rückgabewert null). `aus` (ein Objekt) nimmt unter `vorpruefung` das Ergebnis der Vorprüfung
+    des Kerns auf (U2-ADR-465 Nachtrag W6), für den Gleichlauf mit KoSIT. */
 export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), sensibel = !!process.env.VD_FIM_WERTE,
-  anhaenge = probeAnhaenge().anhaenge, vertreter = probeAnhaenge().vertreter, gruende = [] } = {}) {
+  anhaenge = probeAnhaenge().anhaenge, vertreter = probeAnhaenge().vertreter, gruende = [], aus = null } = {}) {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
@@ -197,7 +198,9 @@ export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), 
   const kanal = V.formatModulZuExportKanal(geprueft);
   const gewaehlt = anhaengeAblegen(V, anhaenge || {}, vertreter);
   if (!kanal) throw new Error('das Modul ergibt keinen Kanal: ' + (V.formatModulPruefen(modul).grund || '?'));
-  const text = kanal.baue({ sensibel, anhaenge: gewaehlt, _anhangGruende: gruende });
+  const opt = { sensibel, anhaenge: gewaehlt, _anhangGruende: gruende, _vorpruefung: null };
+  const text = kanal.baue(opt);
+  if (aus) aus.vorpruefung = opt._vorpruefung;
   if (text === null) return null;
   const pfad = path.join(arbeit(), name + '.xml');
   fs.writeFileSync(pfad, text);

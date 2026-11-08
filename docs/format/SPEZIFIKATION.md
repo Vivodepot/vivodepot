@@ -1,6 +1,6 @@
 # Vivodepot: Spezifikation des Depot-Dateiformats (`.vivodepot`)
 
-**Fassung:** Dateikopf-Version 1, `kryptoVersion` 3 und 4, Inhalt bis Schemastufe 94; Teil-Depot als Depot-Datei mit `art: "sub"` (seit Schale v970, 30.10.2026), die Blackbox-Hülle `formatVersion` 1 nur noch lesend.
+**Fassung:** Dateikopf-Version 1, `kryptoVersion` 3 und 4, Inhalt bis Schemastufe 95; Teil-Depot als Depot-Datei mit `art: "sub"` (seit Schale v970, 30.10.2026), die Blackbox-Hülle `formatVersion` 1 nur noch lesend.
 **Prüfprogramm:** `node tools/format-pruefen.js --datei <pfad>` (eigene Umsetzung dieses Dokuments, lädt die Anwendung nicht).
 **Testkorpus:** [`korpus/`](korpus/) mit erwartetem Urteil je Datei.
 **Lizenz:** wie das Repository (EUPL-1.2); siehe Abschnitt 12.
@@ -37,7 +37,7 @@ Alle Zahlen und Kennungen dieses Formats an einer Stelle. Die Krypto-Parameter s
 | `einheitStufeBytes` | 1024 | Auffüllstufe einer Feld-Einheit |
 | `geheimPolsterZeichen` | 512 | Auffüllstufe eines Geheimteils |
 | `fachKennungPraefix` | Fach␠ | Kennung der Tabelleneinträge: „Fach 1“, „Fach 2“, … (␠ = Leerzeichen) |
-| `schemaVersionAktuell` | 94 | höchste beschriebene Schemastufe des Inhalts |
+| `schemaVersionAktuell` | 95 | höchste beschriebene Schemastufe des Inhalts |
 | `whcForm` | 1 | Form des Feldes `wiederherstellung` |
 | `whcSalzBytes` | 32 | Salz im Feld `wiederherstellung` |
 | `whcHuelleBytes` | 48 | Länge der Hülle im Feld `wiederherstellung` |

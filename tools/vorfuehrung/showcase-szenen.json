@@ -75,8 +75,8 @@
     {
       "ansicht": "schluss",
       "text": {
-        "de": "Verschlüsselt mit AES-256-GCM, Schlüssel aus PBKDF2-HMAC-SHA256 mit 600.000 Iterationen. Die Anwendung selbst baut keine Netzverbindung auf. Ohne Passwort und ohne Wiederherstellungs-Code kommt niemand an das ganze Depot, auch wir nicht.",
-        "en": "Encrypted with AES-256-GCM, key from PBKDF2-HMAC-SHA256 with 600,000 iterations. The application itself opens no network connection. Without the password and without a recovery code, nobody can open the full depot, not even us."
+        "de": "Verschlüsselt mit AES-256-GCM, Schlüssel aus PBKDF2-HMAC-SHA256 mit 600.000 Iterationen. Die Anwendung sendet von sich aus keine Daten aus dem Depot an einen Server, und ihre Content-Security-Policy sperrt Abrufe per Skript. Ohne Passwort und ohne Wiederherstellungs-Code kommt niemand an das ganze Depot, auch wir nicht.",
+        "en": "Encrypted with AES-256-GCM, key from PBKDF2-HMAC-SHA256 with 600,000 iterations. Of its own accord, the application sends no data from the depot to any server, and its Content Security Policy blocks network requests from scripts. Without the password and without a recovery code, nobody can open the full depot, not even us."
       }
     },
     {

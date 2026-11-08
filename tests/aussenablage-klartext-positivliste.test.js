@@ -3,10 +3,11 @@
    ────────────────────────────────────────────────────────────────────────────
    Befund KLARTEXT-NEBEN-CHIFFRAT: die Depot-Datei ging mit dem Ort-Hinweis für Angehörige (angehoerigenOrt, Freitext) und den
    Zeitpunkten des Stands in den Pod, und die Antwort-JWE nannte die Stelle im lesbaren Kopf. Den Grant-Eintrag im Pod nimmt die
-   Anpassung der Brücke heraus (eigener Wagen).
+   Brücke heraus; der Schreibweg lässt einen Grant nur mit POST und nie in den Ordner vivodepot/ hinaus.
    Hier: der Kern schreibt die Hülle aus der Positivliste AUSSENABLAGE_HUELLE_FELDER, pod/chiffrat-pruefen.js hält dieselbe Liste,
    jeder Pod-Aufruf des Kerns mit einer Depot-Datei geht durch _huelleFuerAussenablage, der Kopf der Antwort trägt kein anbieter.
-   ROT-BEWEISE: ein zusätzliches Feld in der Hülle und anbieter im Kopf werden vor dem Netz abgewiesen. */
+   ROT-BEWEISE: ein zusätzliches Feld in der Hülle, anbieter im Kopf und ein Grant per PUT oder in vivodepot/ werden vor dem Netz
+   abgewiesen. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -83,4 +84,20 @@ test('[Brücke·Antwort·pad·Rot-Beweis] eine echte Antwort-JWE des Kerns geht 
     const ohnePad = C.KOPF[kopf.alg].filter((f) => f !== 'pad');
     assert.ok(Object.keys(kopf).some((k) => !ohnePad.includes(k)), 'Rot-Beweis: eine Tür ohne pad wiese genau diese Antwort ab');
   }
+});
+
+/* Der Grant geht nur mit POST an den Dienst des Pods oder an die Inbox der Stelle, nie als Datei in den Ordner der Brücke
+   (U2-ADR-520 Nr. 3). Ein Grant per PUT oder in vivodepot/ stünde im Pod im Klartext mit Stelle, Adresse und Ablauf. */
+test('[Außenablage·Grant·Rot-Beweis] ein Grant per PUT oder in den Ordner der Brücke wird vor dem Netz abgewiesen, per POST an den Dienst geht er', async () => {
+  const L = require('../pod/lws.js');
+  const grant = JSON.stringify(L.grantBauen({ storage: 'https://pod.example/', stelle: 'https://heim.example/profil#ich',
+    adresse: 'https://pod.example/vivodepot/d/a.jwe', bis: '2099-12-31T00:00:00Z', zweck: null, inbox: null }));
+  const gesendet = [];
+  const senden = (adresse, o) => { gesendet.push(o.method + ' ' + adresse); return { ok: true }; };
+  await assert.rejects(W.schreiben(senden, 'PUT', 'https://pod.example/grants/x.json', 'grant', grant), /aussenablage:grant-nur-post/);
+  await assert.rejects(W.schreiben(senden, 'POST', 'https://pod.example/vivodepot/k/', 'grant', grant), /aussenablage:grant-im-pod/);
+  assert.deepEqual(gesendet, [], 'vor dem Netz abgewiesen');
+  await W.schreiben(senden, 'POST', 'https://pod.example/grants', 'grant', grant);
+  await W.schreiben(senden, 'POST', 'https://heim.example/inbox/', 'grant', grant);
+  assert.deepEqual(gesendet, ['POST https://pod.example/grants', 'POST https://heim.example/inbox/']);
 });

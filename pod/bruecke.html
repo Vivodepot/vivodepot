@@ -11,14 +11,20 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https:; img-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <title>Vivodepot — Pod-Brücke</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="bruecke.css">
 </head>
 <body>
 <h1>Pod-Brücke</h1>
 <p class="hinweis">Diese Seite ist nicht Teil der Vivodepot-Anwendung. Sie legt Dateien, die Vivodepot verschlüsselt gespeichert
   hat, in Ihrem Pod ab und holt sie wieder. Andere Dateien nimmt sie nicht an. Ihr Passwort und Ihre Schlüssel kennt sie nicht.</p>
-<p class="hinweis">Wer den Pod betreibt, sieht, wie groß die Dateien sind und wann sie abgelegt und abgerufen werden, nicht ihren
-  Inhalt. Eine Sicherung im Pod ist so stark wie Ihr Passwort.</p>
+<p class="hinweis">Wer den Pod betreibt, sieht Ihre IP-Adresse, wie groß die Dateien sind und wann sie abgelegt und abgerufen werden,
+  dazu Adresse und Ablauf jeder Ablage, für die Sie einen Ablauf angeben, an der Zugriffsregel, ob eine Ablage über einen Link abrufbar
+  oder für welche Stelle sie freigegeben ist, und, wenn Ihr Pod einen Dienst für Freigaben anbietet, die Freigabe. Neben jeder
+  verschlüsselten Datei stehen Angaben zum Verfahren, bei einem Depot auch zu seinem Aufbau; bei einem Link erkennt er, dass es ein
+  Freigabe-Link ist. Den Inhalt der Dateien kann er nicht lesen; das Verzeichnis Ihrer Ablagen liegt dort nur verschlüsselt, welche
+  Ablagen es gibt, kann er aber an den Angaben oben ablesen. Einzelheiten stehen in Ziffer 7b der Datenschutzerklärung. Eine Sicherung
+  im Pod ist so stark wie Ihr Passwort.</p>
 <p id="wer"></p>
 <div id="ziel" class="kasten" hidden>
   <p>Ihr Profil nennt diesen Speicher. Die Brücke legt nur dort ab:</p>
@@ -43,12 +49,15 @@
 <div id="ablage-bereich" class="kasten" hidden>
   <label for="datei">Datei aus Vivodepot</label>
   <input id="datei" type="file">
-  <label for="art">Wofür</label>
-  <select id="art">
-    <option value="stelle">Für eine Stelle (nur sie kann abrufen)</option>
-    <option value="link">Für einen Freigabe-Link (wer den Link hat, kann abrufen)</option>
-    <option value="eigen">Eigene Sicherung (nur Sie)</option>
-  </select>
+  <fieldset id="art" class="art-wahl">
+    <legend>Wofür</legend>
+    <label class="art-karte"><input type="radio" name="art" value="stelle" checked><span class="art-titel">Für eine Stelle</span>
+      <span class="chips"><span class="chip"><svg class="symbol" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>Anbieter sieht: keinen Inhalt, aber welche Stelle</span><span class="chip"><svg class="symbol" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>Öffnen kann: nur diese Stelle</span></span></label>
+    <label class="art-karte"><input type="radio" name="art" value="link"><span class="art-titel">Für einen Freigabe-Link</span>
+      <span class="chips"><span class="chip"><svg class="symbol" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>Anbieter sieht: keinen Inhalt</span><span class="chip"><svg class="symbol" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>Öffnen kann: wer den Link hat</span></span></label>
+    <label class="art-karte"><input type="radio" name="art" value="eigen"><span class="art-titel">Eigene Sicherung</span>
+      <span class="chips"><span class="chip"><svg class="symbol" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>Anbieter sieht: keinen Inhalt</span><span class="chip"><svg class="symbol" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>Öffnen kann: nur Sie</span></span></label>
+  </fieldset>
   <div id="stelle-bereich">
     <label for="stelle">WebID der Stelle</label>
     <input id="stelle" type="url" autocomplete="off" spellcheck="false">
@@ -71,12 +80,15 @@
   <button id="abholen" type="button">Abholen</button>
   <div id="abholung"></div>
   <button id="abmelden" type="button">Abmelden</button>
-  <div id="abmelden-pruefen" class="kasten" hidden>
-    <p id="abmelden-satz"></p>
-    <button id="abmelden-alle" type="button">Alle zurücknehmen und abmelden</button>
-    <button id="abmelden-lassen" type="button">Abmelden, Ablagen bleiben im Pod</button>
-    <button id="abmelden-abbrechen" type="button">Abbrechen</button>
-  </div>
+</div>
+
+<!-- Die Rückfrage vor dem Abmelden steht außerhalb des Ablagebereichs: Sie erscheint auch, wenn der Speicher noch nicht bestätigt
+     und der Ablagebereich daher verborgen ist („Nein, abmelden“). -->
+<div id="abmelden-pruefen" class="kasten" hidden>
+  <p id="abmelden-satz"></p>
+  <button id="abmelden-alle" type="button">Alle zurücknehmen und abmelden</button>
+  <button id="abmelden-lassen" type="button">Abmelden, Ablagen bleiben im Pod</button>
+  <button id="abmelden-abbrechen" type="button">Abbrechen</button>
 </div>
 
 <script src="konfiguration.js"></script>

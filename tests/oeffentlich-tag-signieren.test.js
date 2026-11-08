@@ -69,7 +69,9 @@ function wegwerfUmgebung() {
   fs.writeFileSync(auslieferungen, '| Stand | … |\n' + [857, 899, 900, 901, 905].map((n) => '| v' + n + ' | x |').join('\n') + '\n');
   const staende = path.join(tmp, 'staende.json');
   fs.writeFileSync(staende, JSON.stringify({ staende: [{ fassung: 'v1.0.843' }, { fassung: 'v1.0.857' }] }));
-  const register = { auslieferungen, staende };
+  // --baum-soll (05.11.2026): der Baum, den der eigene Runner grün gemessen hat; hier der Baum von HEAD, damit die Proben oben
+  // aus ihrem eigenen Grund fallen. Ein Getter: er wird beim Ausbreiten in den Aufruf gelesen, nach dem jüngsten Commit.
+  const register = { auslieferungen, staende, get baumSoll() { try { return g('rev-parse', 'HEAD^{tree}').trim(); } catch { return undefined; } } };
   const aufraeumen = () => fs.rmSync(tmp, { recursive: true, force: true });
   return { env, klon, g, schluessel, vertrauen, signierenEinrichten, commit, aufraeumen, register, belegFuerHead, tmp };
 }
@@ -360,4 +362,26 @@ test('[Öffentlicher Lauf·CI-Browser·Rot-Beweis] startet eine Spec einen Brows
     const beleg = lauf.belegLesen(gruen.k, gruen.baum);
     assert.deepEqual(beleg.umgebung, { plattform: process.platform, ciRunner: 'ubuntu-latest', browser: ['chromium', 'webkit'] });
   } finally { gruen.weg(); }
+});
+
+/* Das Tag kommt nur auf den Baum, den der eigene Runner grün gemessen hat (05.11.2026):
+   --baum-soll ist Pflicht. Der Release-Ablauf nennt ihn im fertigen Befehl; fehlt er oder weicht der Baum des Commits ab, bleibt
+   es rot, und kein Tag bleibt stehen. */
+test('[Tag-Signatur·Baum-Soll·Rot-Beweis] ohne --baum-soll oder mit einem anderen Baum: rot, kein Tag', () => {
+  const u = wegwerfUmgebung();
+  try {
+    const k = u.schluessel('release');
+    u.signierenEinrichten(k); u.vertrauen(k.oeffentlich);
+    u.commit(true, k.fp);
+    let text = '';
+    const ohne = { auslieferungen: u.register.auslieferungen, staende: u.register.staende };
+    assert.equal(signieren({ ...ohne, klon: u.klon, tag: 'v1.0.900', schreiben: (t) => { text += t; }, env: u.env }), 1, 'ohne --baum-soll');
+    assert.match(text, /--baum-soll/);
+    text = '';
+    assert.equal(signieren({ ...ohne, baumSoll: 'f'.repeat(40), klon: u.klon, tag: 'v1.0.900', schreiben: (t) => { text += t; }, env: u.env }), 1, 'anderer Baum');
+    assert.match(text, /fffffffff/);
+    assert.equal(signieren({ ...ohne, baumSoll: 'abc', klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 1, 'kein voller Baum');
+    assert.deepEqual(tags(u), [], 'kein Tag bleibt stehen');
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 0, 'mit dem Baum des Commits grün');
+  } finally { u.aufraeumen(); }
 });

@@ -34,6 +34,35 @@ test('[Schema-Fassungen] jedes Schema mit $id unter vivodepot.de/schemas ist ver
   assert.deepEqual(S.pruefen({ verzeichnis: VERZ(), vorher: verzeichnisAmUrsprung() }), []);
 });
 
+/* Erreichbar (06.11.2026, Befund SCHEMA-BLOB-VERLOREN): der Blob einer Fassung muss an der Geschichte von HEAD hängen. Lokal fand
+   `git cat-file` den Blob von format-modul/5 noch in Sicherungszweigen; ein frischer Klon des Kanons nicht (Air-Lauf, sieben Proben
+   rot). Diese Probe ist die Wache gegen die Klasse: eine Faltung oder ein `--eintragen` ohne Commit fällt am eigenen Rechner auf. */
+test('[Schema-Fassungen·erreichbar] jeder Blob des Verzeichnisses hängt an der Geschichte von HEAD, nicht nur am Objektspeicher', () => {
+  assert.deepEqual(S.unerreichbar({ verzeichnis: VERZ() }), []);
+});
+
+test('[Schema-Fassungen·erreichbar·Rot-Beweis] ein Blob nur im Objektspeicher ist rot; im Archiv gestagt ist er grün', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'schema-erreichbar-'));
+  try {
+    const g = (a, eingabe) => { const r = spawnSync('git', a, { cwd: dir, env: ohneGitUmgebung(), encoding: 'utf8', input: eingabe }); assert.equal(r.status, 0, r.stderr); return r.stdout.trim(); };
+    const schema = (titel) => JSON.stringify({ $id: S.BASIS + 'probe-schema.json', title: titel }) + '\n';
+    fs.mkdirSync(path.join(dir, 'docs', 'probe'), { recursive: true });
+    g(['init', '-q']);
+    fs.writeFileSync(path.join(dir, 'docs', 'probe', 'probe-schema.json'), schema('eins'));
+    g(['add', '-A']); g(['-c', 'user.name=Probe', '-c', 'user.email=probe@example.org', 'commit', '-q', '-m', 'eins']);
+    const eins = g(['rev-parse', 'HEAD:docs/probe/probe-schema.json']);
+    const zwei = g(['hash-object', '-w', '--stdin'], schema('zwei'));   // wie eine Fassung aus einem gefalteten Wagen-Commit
+    const verzeichnis = { schemas: { probe: { adresse: S.BASIS + 'probe-schema.json', fassungen: [{ n: 1, blob: eins }, { n: 2, blob: zwei }] } } };
+    const rot = S.unerreichbar({ repo: dir, verzeichnis });
+    assert.equal(rot.length, 1, rot.join('\n'));
+    assert.match(rot[0], /^probe\/2: Blob [0-9a-f]{40} ist aus der Geschichte von HEAD nicht erreichbar/);
+    fs.mkdirSync(path.join(dir, S.ARCHIV), { recursive: true });
+    fs.writeFileSync(path.join(dir, S.ARCHIV, 'probe-2.json'), schema('zwei'));
+    g(['add', '-A']);
+    assert.deepEqual(S.unerreichbar({ repo: dir, verzeichnis }), []);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
 /* Ein Wegwerf-Repo: Basis mit einem Eintrag; der Kanon hängt danach eine Fassung an. Zweig A liegt nur dahinter, Zweig B ändert
    einen Eintrag seiner Basis. Verglichen wird das Verzeichnis selbst über S.pruefen — die Schemas des echten Repos spielen keine Rolle. */
 function ursprungsRepo() {

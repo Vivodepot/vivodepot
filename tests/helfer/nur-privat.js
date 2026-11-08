@@ -29,7 +29,9 @@ const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 93;   // 94 → 93 am 05.11.2026 (Verschärfung, öffentlicher Lauf v1040): antwort-schema fährt Pro nur, wo es gebaut wird.
+const DECKEL = 94;   // 93 → 94 am 07.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 9be434288): shl-einmaligkeit-zusage, nur der Rot-Beweis;
+                     //   er holt den Stand vor dem Fix über git log -S aus der privaten Geschichte (GIT), öffentlich hat der Klon einen Commit.
+                     // 94 → 93 am 05.11.2026 (Verschärfung, öffentlicher Lauf v1040): antwort-schema fährt Pro nur, wo es gebaut wird.
                      // 75 → 94 am 05.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v1040): neunzehn Dateien, BESTAND (öffentlich nur zwei
                      //   Privat-Produkte, Pro-Textsätze und Module der Schicht 2 zurückgehalten); dazu ein Fall in der schon geführten Gerüst-Datei.
                      // 74 → 75 am 01.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v956): pro-meldungen-deckung, BESTAND (öffentlich nur zwei Privat-Produkte).
@@ -85,6 +87,11 @@ const DECKEL = 93;   // 94 → 93 am 05.11.2026 (Verschärfung, öffentlicher La
                      //   Der Befund ZUSCHNITT-TRAEGER-AUSSERHALB holt den Deckel auf 50 zurück.
 
 const NUR_PRIVAT = {
+  // 07.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 9be434288): der Rot-Beweis holt den Stand vor dem Fix mit
+  // git log -S und git show <sha>^ aus der privaten Geschichte (GIT); öffentlich: „invalid object name <sha>^“ im Klon mit einem Commit.
+  "tests/shl-einmaligkeit-zusage.test.js": { grund: GIT, tests: [
+    "[Einmalig·Rot-Beweis] vor dem Fix fehlen Erkennung und Ergebnis, das Zeichen steht offen, die Hilfe sagt „einmal abrufbar“ ohne Bedingung; ein gepflanzter Text macht den Wächter rot",
+  ] },
   // 20.10.2026 (Wort der Gegenlesung): das öffentliche Repo hat keine .gitignore (die private bleibt drinnen). Bis zum Fix, einer festen
   // öffentlichen .gitignore als Positivliste, läuft die Probe nur privat. Befund MERKDATEI-NICHT-IGNORIERT-OEFFENTLICH (offen).
   "tests/modul-app-signieren-und-packen.test.js": { grund: BESTAND, tests: [
@@ -105,6 +112,9 @@ const NUR_PRIVAT = {
     "[Schema-Fassungen] die ausgelieferte Fassung weicht vom Kanon nur im $id ab, mit eigener Adresse",
     "[Schema-Fassungen] index.json nennt nur Name, Fassung, Adresse und Prüfsumme",
     "[Schema-Fassungen] --ordner schreibt genau den geprüften Inhalt",
+    // 07.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 9be434288): die Erreichbarkeit der Fassungen liest die
+    //   Geschichte von HEAD; der öffentliche Klon hat einen Commit (GIT). Der Rot-Beweis daneben baut sein eigenes Repo und läuft weiter.
+    "[Schema-Fassungen·erreichbar] jeder Blob des Verzeichnisses hängt an der Geschichte von HEAD, nicht nur am Objektspeicher",
   ] },
   "tests/mit-modul/schema-fassungen-ajv.test.js": { grund: GIT, tests: [
     "[Schema-Fassungen·Ajv strict] jede ausgelieferte Datei übersetzt mit Ajv 2020, strict",

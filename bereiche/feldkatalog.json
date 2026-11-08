@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von einem nicht öffentlichen Werkzeug aus vivodepot.html SEKTOREN und den nicht öffentlichen Bereichs-Vorlagen. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 1011,
+  "anzahl": 1027,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -182,6 +182,118 @@
       "bereich": "advanceCare",
       "label": "Dauer der Befristung",
       "template": null
+    },
+    {
+      "kennung": "people.person",
+      "bereich": "people",
+      "label": "Menschen, die mir wichtig sind",
+      "template": null,
+      "textSchluessel": "menschenRegister.label"
+    },
+    {
+      "kennung": "people.person/name",
+      "bereich": "people",
+      "label": "Name im Depot",
+      "template": null,
+      "textSchluessel": "menschenRegister/name.label"
+    },
+    {
+      "kennung": "people.person/familyName",
+      "bereich": "people",
+      "label": "Familienname",
+      "template": null,
+      "textSchluessel": "menschenRegister/familyName.label"
+    },
+    {
+      "kennung": "people.person/givenName",
+      "bereich": "people",
+      "label": "Vornamen",
+      "template": null,
+      "textSchluessel": "menschenRegister/givenName.label"
+    },
+    {
+      "kennung": "people.person/relationship",
+      "bereich": "people",
+      "label": "Rolle / Beziehung",
+      "template": null,
+      "textSchluessel": "menschenRegister/beziehung.label"
+    },
+    {
+      "kennung": "people.person/birthDate",
+      "bereich": "people",
+      "label": "Geburtsdatum",
+      "template": null,
+      "textSchluessel": "menschenRegister/birthDate.label"
+    },
+    {
+      "kennung": "people.person/birthYear",
+      "bereich": "people",
+      "label": "Geburtsjahr (falls der Tag unbekannt ist)",
+      "template": null,
+      "textSchluessel": "menschenRegister/yearOfBirthIfTheExactDayIs.label"
+    },
+    {
+      "kennung": "people.person/birthPlace",
+      "bereich": "people",
+      "label": "Geburtsort",
+      "template": null,
+      "textSchluessel": "menschenRegister/birthPlace.label"
+    },
+    {
+      "kennung": "people.person/telephone",
+      "bereich": "people",
+      "label": "Telefon",
+      "template": null,
+      "textSchluessel": "menschenRegister/tel.label"
+    },
+    {
+      "kennung": "people.person/email",
+      "bereich": "people",
+      "label": "E-Mail",
+      "template": null,
+      "textSchluessel": "menschenRegister/email.label"
+    },
+    {
+      "kennung": "people.person/street",
+      "bereich": "people",
+      "label": "Straße",
+      "template": null,
+      "textSchluessel": "menschenRegister/street.label"
+    },
+    {
+      "kennung": "people.person/houseNumber",
+      "bereich": "people",
+      "label": "Hausnummer",
+      "template": null,
+      "textSchluessel": "menschenRegister/houseNumber.label"
+    },
+    {
+      "kennung": "people.person/postalCode",
+      "bereich": "people",
+      "label": "Postleitzahl",
+      "template": null,
+      "textSchluessel": "menschenRegister/postalCode.label"
+    },
+    {
+      "kennung": "people.person/city",
+      "bereich": "people",
+      "label": "Ort",
+      "template": null,
+      "textSchluessel": "menschenRegister/city.label"
+    },
+    {
+      "kennung": "people.person/institution",
+      "bereich": "people",
+      "label": "Wo arbeitet diese Person?",
+      "template": null,
+      "textSchluessel": "menschenRegister/institution.label"
+    },
+    {
+      "kennung": "people.person/deceased",
+      "bereich": "people",
+      "label": "Verstorben",
+      "template": null,
+      "textSchluessel": "strings:kontaktVerstorbenLabel.text"
     },
     {
       "kennung": "administration.bundid",
@@ -421,7 +533,8 @@
       "kennung": "administration.homeKeyWhoHoldsOne/who",
       "bereich": "administration",
       "label": "Wer",
-      "template": "vivodepot-administration.json"
+      "template": "vivodepot-administration.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "administration.homeKeyWhoHoldsOne/note",
@@ -739,7 +852,8 @@
       "kennung": "advanceCare.provisionInstruments/medicalSupervisionBy",
       "bereich": "advanceCare",
       "label": "Ärztlich begleitet durch",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.provisionInstruments/organDonation",
@@ -781,7 +895,8 @@
       "kennung": "advanceCare.provisionInstruments/postMortemDataDonationTrustee",
       "bereich": "advanceCare",
       "label": "Vertrauensperson, die entscheidet",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.provisionInstruments/postMortemDataHolders",
@@ -817,19 +932,22 @@
       "kennung": "advanceCare.provisionInstruments/proposedPerson",
       "bereich": "advanceCare",
       "label": "Vorgeschlagen als Betreuerin oder Betreuer",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.provisionInstruments/alternatePerson",
       "bereich": "advanceCare",
       "label": "Ersatzperson",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.provisionInstruments/whoShouldNotBeAppointed",
       "bereich": "advanceCare",
       "label": "Wer nicht Betreuerin oder Betreuer werden soll",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.provisionInstruments/whatTheCareArrangementShould",
@@ -847,13 +965,15 @@
       "kennung": "advanceCare.provisionInstruments/proposedPerson2",
       "bereich": "advanceCare",
       "label": "Vorgeschlagene Person",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.provisionInstruments/alternatePerson2",
       "bereich": "advanceCare",
       "label": "Ersatzperson",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.provisionInstruments/wishesForUpbringingCare",
@@ -1063,7 +1183,8 @@
       "kennung": "advanceCare.supportPerson",
       "bereich": "advanceCare",
       "label": "Begleit- oder Vertrauensperson bei Gesprächen",
-      "template": "vivodepot-advanceCare.json"
+      "template": "vivodepot-advanceCare.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "advanceCare.whatHelpsMe",
@@ -1513,7 +1634,8 @@
       "kennung": "emergencyPreparedness.neighbourForEmergencies",
       "bereich": "emergencyPreparedness",
       "label": "Nachbar für den Notfall",
-      "template": "vivodepot-emergencyPreparedness.json"
+      "template": "vivodepot-emergencyPreparedness.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "emergencyPreparedness.specialSituation",
@@ -1675,7 +1797,8 @@
       "kennung": "finance.taxAdvisor",
       "bereich": "finance",
       "label": "Steuerberater",
-      "template": "vivodepot-finance.json"
+      "template": "vivodepot-finance.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "finance.taxAdvisorContact",
@@ -1705,7 +1828,8 @@
       "kennung": "finance.financialAdvisorNameContact",
       "bereich": "finance",
       "label": "Finanzberatung — Name & Kontakt",
-      "template": "vivodepot-finance.json"
+      "template": "vivodepot-finance.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "finance.ongoingLoansDebts",
@@ -1771,7 +1895,8 @@
       "kennung": "health.generalPractitioner",
       "bereich": "health",
       "label": "Hausärztin / Hausarzt",
-      "template": "vivodepot-health.json"
+      "template": "vivodepot-health.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "health.specialistDoctors",
@@ -1783,7 +1908,8 @@
       "kennung": "health.specialistDoctors/specialistDoctor",
       "bereich": "health",
       "label": "Fachärztin / Facharzt",
-      "template": "vivodepot-health.json"
+      "template": "vivodepot-health.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "health.specialistDoctors/specialty",
@@ -1963,7 +2089,8 @@
       "kennung": "health.dentistNameContact",
       "bereich": "health",
       "label": "Zahnärztin / Zahnarzt — Name & Kontakt",
-      "template": "vivodepot-health.json"
+      "template": "vivodepot-health.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "health.dentalBonusBookletStorage",
@@ -2083,7 +2210,8 @@
       "kennung": "housing.landlordPropertyManagement",
       "bereich": "housing",
       "label": "Vermieter / Hausverwaltung",
-      "template": "vivodepot-housing.json"
+      "template": "vivodepot-housing.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "housing.landlordPhone",
@@ -2185,7 +2313,8 @@
       "kennung": "housing.furtherHomes/propertyManagement",
       "bereich": "housing",
       "label": "Vermieter / Hausverwaltung",
-      "template": "vivodepot-housing.json"
+      "template": "vivodepot-housing.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "housing.furtherHomes/landlordPhone",
@@ -2659,7 +2788,8 @@
       "kennung": "people.childrenAndDependants/person",
       "bereich": "people",
       "label": "Person",
-      "template": "vivodepot-people.json"
+      "template": "vivodepot-people.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "people.childrenAndDependants/type",
@@ -2773,7 +2903,8 @@
       "kennung": "people.maintenanceObligationsAnd/person",
       "bereich": "people",
       "label": "Person",
-      "template": "vivodepot-people.json"
+      "template": "vivodepot-people.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "people.maintenanceObligationsAnd/type",
@@ -2827,7 +2958,8 @@
       "kennung": "people.whoProvidesThePrimaryCare",
       "bereich": "people",
       "label": "Wer übernimmt die Hauptpflege?",
-      "template": "vivodepot-people.json"
+      "template": "vivodepot-people.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "people.careLeaveFamilyCareLeave",
@@ -2839,7 +2971,8 @@
       "kennung": "people.spouseOrCivilPartner",
       "bereich": "people",
       "label": "Ehepartnerin/Ehepartner oder Lebenspartnerin/Lebenspartner",
-      "template": "vivodepot-people.json"
+      "template": "vivodepot-people.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "personal.physicalPhotosStorageLocation",
@@ -2905,7 +3038,8 @@
       "kennung": "personal.chaplainPastoralCarer",
       "bereich": "personal",
       "label": "Seelsorgerin / Seelsorger",
-      "template": "vivodepot-personal.json"
+      "template": "vivodepot-personal.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "personal.ritualsPrayersSpiritualWishes",
@@ -3013,13 +3147,15 @@
       "kennung": "pets.pets/emergencyCarePersonContact",
       "bereich": "pets",
       "label": "Betreuung im Notfall — Person & Kontakt",
-      "template": "vivodepot-pets.json"
+      "template": "vivodepot-pets.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "pets.pets/vetNameContact",
       "bereich": "pets",
       "label": "Tierarzt — Name & Kontakt",
-      "template": "vivodepot-pets.json"
+      "template": "vivodepot-pets.json",
+      "verweistAuf": "people.person"
     },
     {
       "kennung": "pets.pets/medication",

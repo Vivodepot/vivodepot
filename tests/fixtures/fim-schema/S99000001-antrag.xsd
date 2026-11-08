@@ -6,9 +6,10 @@
   <xs:element name="fim.S99000001.00000001001000">
     <xs:complexType><xs:sequence>
       <xs:element name="G99000002"><xs:complexType><xs:sequence>
-        <xs:element name="F99000003" type="xs:string"/>
-        <xs:element name="F99000004" type="xs:string"/>
+        <xs:element name="F99000003"><xs:annotation><xs:documentation>Familienname (erfunden)</xs:documentation></xs:annotation><xs:simpleType><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="40"/></xs:restriction></xs:simpleType></xs:element>
+        <xs:element name="F99000004"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Z][a-z]+"/></xs:restriction></xs:simpleType></xs:element>
         <xs:element name="F99000005"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="true"/><xs:enumeration value="false"/></xs:restriction></xs:simpleType></xs:element>
+        <xs:element name="F99000012" minOccurs="0"><xs:simpleType><xs:restriction base="xs:integer"><xs:minInclusive value="1"/><xs:maxInclusive value="9"/></xs:restriction></xs:simpleType></xs:element>
         <xs:element name="F99000006" type="xs:anyType" minOccurs="0"/>
       </xs:sequence></xs:complexType></xs:element>
       <xs:element name="G99000007" minOccurs="0"><xs:complexType><xs:sequence>

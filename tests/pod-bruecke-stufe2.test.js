@@ -26,6 +26,8 @@ const C = require('../pod/chiffrat-pruefen.js');
 
 const QUELLE = fs.readFileSync(path.join(__dirname, '..', 'pod', 'bruecke.js'), 'utf8');
 const KONFIG = fs.readFileSync(path.join(__dirname, '..', 'pod', 'konfiguration.js'), 'utf8');
+// Der einzige Schreibweg (U2-ADR-520) läuft in derselben Seite, wie bruecke.html ihn lädt.
+const AUSSENABLAGE = fs.readFileSync(path.join(__dirname, '..', 'pod', 'aussenablage.js'), 'utf8');
 const WEBID = 'https://person.example/profile/card#me';
 const SPEICHER = 'https://speicher.example/person/';
 const DEPOT = 'VIVODEPOT\u0001' + JSON.stringify({ kryptoVersion: 3, depotUUID: 'u', pbkdf2: { salt: 's', iterations: 600000 }, depotSalt: 'd', iv: 'i', ct: 'c' });
@@ -40,7 +42,15 @@ async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
   const el = (id) => (elemente[id] = elemente[id] || { id, hidden: false, textContent: '', value: '', onclick: null, onchange: null, files: [], appendChild() {} });
   const anfragen = [];
   const anOpener = [];
-  const opener = { postMessage: (n, ziel) => anOpener.push({ n, ziel }) };
+  // Der Öffner ist der Kern. Bitten um das Verzeichnis (U2-ADR-520) beantwortet er hier mit „nicht verfügbar“; was die Brücke
+  // dann tut, hält tests/pod-bruecke-verzeichnis-pod.test.js.
+  const opener = { postMessage: (n, ziel) => {
+    anOpener.push({ n, ziel });
+    if (/^vd-pod-verzeichnis-/.test(n.typ)) {
+      const typ = n.typ === 'vd-pod-verzeichnis-oeffnen' ? 'vd-pod-verzeichnis-offen' : 'vd-pod-verzeichnis-verschlossen';
+      Promise.resolve().then(() => hoerer({ source: opener, origin: ziel, data: { typ, fassung: 1, id: n.id, nr: n.nr, fehler: 'nicht-verfuegbar' } }));
+    }
+  } };
   const fremd = { postMessage: () => { throw new Error('nichts an ein fremdes Fenster'); } };
   let hoerer = null;
   const A = {
@@ -50,15 +60,15 @@ async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
     abmelden: async () => 'lokal-geloescht',
     podFetch: async (adresse, o = {}) => {
       anfragen.push({ adresse, methode: (o.method || 'GET').toUpperCase() });
-      // Die Kopie des Verzeichnisses (U2-ADR-512-Nachtrag 29.10.2026) liegt in diesem Pod noch nicht.
-      if (String(adresse).endsWith('vivodepot/intern/verzeichnis.json') && !o.method) return { ok: false, status: 404, headers: { get: () => null } };
+      // Verzeichnis und Ablaufliste unter intern/ (U2-ADR-520) liegen in diesem Pod noch nicht.
+      if (String(adresse).includes('vivodepot/k/') && !String(adresse).endsWith('/') && !o.method) return { ok: false, status: 404, headers: { get: () => null } };
       return { ok: true, status: o.method === 'HEAD' ? 200 : 201, headers: { get: () => null }, json: async () => null, text: async () => '' };
     },
     verzeichnis: { lesen: async () => undefined, schreiben: async () => {}, loeschen: async () => {} }
   };
   const kontext = {
     vdPodAnmeldung: A, vdPodChiffrat: C, vdPodLws: require('../pod/lws.js'),
-    document: { readyState: 'complete', getElementById: el, createElement: () => el('neu-' + Math.random()) },
+    document: { readyState: 'complete', getElementById: el, querySelector: () => null, createElement: () => el('neu-' + Math.random()) },
     window: { opener, addEventListener: (t, f) => { if (t === 'message') hoerer = f; } },
     fetch: async () => ({ ok: true, text: async () => '<#me> <http://www.w3.org/ns/pim/space#storage> <' + SPEICHER + '>.\n' }),
     crypto: webcrypto, btoa: (s) => Buffer.from(s, 'binary').toString('base64'), Blob, URL, Promise, Date, Number, String, Error, Uint8Array, JSON,
@@ -67,6 +77,7 @@ async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
   kontext.self = kontext;
   vm.createContext(kontext);
   vm.runInContext(KONFIG, kontext);
+  vm.runInContext(AUSSENABLAGE, kontext);
   vm.runInContext(quelle, kontext);
   await new Promise((r) => setTimeout(r, 20));
   if (zielBestaetigen) { el('ziel-ja').onclick(); await new Promise((r) => setTimeout(r, 20)); }
@@ -74,7 +85,7 @@ async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
   const warten = () => new Promise((r) => setTimeout(r, 20));
   // Die Brücke nimmt einen Klick erst KLICK_SPERRE_MS nach dem Erscheinen des Auftrags an.
   const ja = async () => { await new Promise((r) => setTimeout(r, 850)); el('auftrag-ja').onclick(); await warten(); };
-  return { el, ja, anfragen, anOpener, opener, fremd, senden, warten, puts: () => anfragen.filter((a) => a.methode === 'PUT' && !a.adresse.endsWith('/') && !a.adresse.endsWith('.acl') && !a.adresse.endsWith('vivodepot/intern/verzeichnis.json')) };
+  return { el, ja, anfragen, anOpener, opener, fremd, senden, warten, puts: () => anfragen.filter((a) => a.methode === 'PUT' && !a.adresse.endsWith('/') && !a.adresse.endsWith('.acl') && !a.adresse.includes('vivodepot/k/')) };
 }
 const auftrag = (art, text, extra) => Object.assign({ typ: 'vd-pod-ablegen', fassung: 1, id: ID, art, bis: Date.now() + 600000, daten: puffer(text) }, extra || {});
 
@@ -99,7 +110,7 @@ test('[Stufe2] bereit erst mit bestätigtem Ziel; Auftrag gezeigt, abgelegt nach
   assert.equal(antwort.ziel, KERN, 'an die Herkunft des Auftrags');
   assert.deepEqual(Object.keys(antwort.n).sort(), ['adresse', 'fassung', 'id', 'typ']);
   assert.equal(antwort.n.id, ID);
-  assert.ok(antwort.n.adresse.startsWith(SPEICHER + 'vivodepot/sicherungen/'));
+  assert.ok(antwort.n.adresse.startsWith(SPEICHER + 'vivodepot/d/'));
   await s.ja();
   assert.equal(s.puts().length, 1, 'ein Auftrag je Klick, kein zweites Ablegen');
 });

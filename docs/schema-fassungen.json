@@ -16,6 +16,13 @@
      "blob": "6dca09cb994973f79942140bf4a23c024359ea94",
      "shaKanon": "d49a23ca8ee33c1ba47f79cb7fdf89e3f82958e5668fcacea139e500bbffa812",
      "shaAusgeliefert": "1e2930c8fd9b568c8a1ce4d100a586fb50cf7c0dc497bfbe8779aae72fbf8c80"
+    },
+    {
+     "n": 3,
+     "adresse": "https://vivodepot.de/schemas/anfrage/3.json",
+     "blob": "fac2e24fbbbbb8640ff1bb5f339b902f3925b028",
+     "shaKanon": "aeda8d888f3d444301bcedbcc1389d2d267f137beb39d6505c9faad809d61d59",
+     "shaAusgeliefert": "c03ca4b0f022d018295b0708a78b097d81038c5badff4d8ca403b05f4755dc72"
     }
    ]
   },
@@ -40,6 +47,13 @@
      "blob": "9e98ea9ac76e5237d9b6cc2da78c0a0a39ae36b1",
      "shaKanon": "d277a26a405b81b70ddb3ca1c2da1f6991a22b09b8c8b6d52d4226951dee7931",
      "shaAusgeliefert": "dcad732a587cfdecfce07dbda56ca916c13d4e43b98c3d64fc82f287516a953d"
+    },
+    {
+     "n": 2,
+     "adresse": "https://vivodepot.de/schemas/antwort/2.json",
+     "blob": "1af1abd914b1d6bc4905e1664b92c248880e72de",
+     "shaKanon": "ba21dfcfd9b8df39a0b24cf71905b56c89877bb7cbce45c939e99072536c9c45",
+     "shaAusgeliefert": "982954c3dc8ff2dcf82dc8c2edc437826d0fa1aded4faff03df9cdf025d7db32"
     }
    ]
   },
@@ -216,6 +230,27 @@
      "blob": "c726373fa1ca1f43a32fe21ed37b1da140f5d55c",
      "shaKanon": "e5dea0b514729ddc891df9c2569a9c4c7447971be1d9d9590d8d0f988c148f01",
      "shaAusgeliefert": "c80dadc9a3b67137a03326abb7b8789732efe9fd105bb939b4710c79a0813cc4"
+    },
+    {
+     "n": 5,
+     "adresse": "https://vivodepot.de/schemas/format-modul/5.json",
+     "blob": "b70c34527a99d3d1eb6a03ee76e98bdf36d74d35",
+     "shaKanon": "f78e37e9f82052a75ac17a538da42cc860c09623e415ef0bbc95d29846fc23b9",
+     "shaAusgeliefert": "0bcab316cff8c10b6df3127f90c2880cccfb888da7681c32e110c9a13b3a7f45"
+    },
+    {
+     "n": 6,
+     "adresse": "https://vivodepot.de/schemas/format-modul/6.json",
+     "blob": "796422ef905c707b7d4c083793da2353345fc314",
+     "shaKanon": "0af682dad9b2c68d744b87ea1da8177bba78f4d16e4579a65787dedae8db0889",
+     "shaAusgeliefert": "3e28b838cd1b946b2cf81f8cc58005f52d5f5833ebeab61520dab681de736197"
+    },
+    {
+     "n": 7,
+     "adresse": "https://vivodepot.de/schemas/format-modul/7.json",
+     "blob": "eb65f996f5bb0a2ef45cabf94a4e26a518a0884e",
+     "shaKanon": "361ad53e137991a641f3364e62311d5cdc684e7ed4a2f5e666c3a2d51dbfb460",
+     "shaAusgeliefert": "8edec7efc0e97217a149065b07f6600e542b72ced86ed5c0a3b2d7b7af1ee222"
     }
    ]
   },

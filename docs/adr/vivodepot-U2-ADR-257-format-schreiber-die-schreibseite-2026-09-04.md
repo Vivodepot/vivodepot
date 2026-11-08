@@ -2,7 +2,7 @@
 
 **Datum:** 04.09.2026
 **Status:** Angenommen und umgesetzt — mit zwei ausdrücklich offen gelassenen Schreibern.
-**Status heute:** gilt — `FORMAT_SCHREIBER` mit zwei Einträgen (`json@1`, `xml@1`),
+**Status heute:** gilt — `FORMAT_SCHREIBER` mit drei Einträgen (`json@1`, `xml@1`, seit dem Nachtrag vom 04.11.2026 `csv@1`),
 `schreiber` als optionaler Schlüssel in `FORMAT_MODUL_SCHLUESSEL`/`formatModulPruefen`,
 `mime`/`endung` am Schreiber statt am Kanal, `tests/u2-adr-257-format-schreiber.test.js` grün.
 **Entscheidung:** Nummer vergeben.
@@ -184,3 +184,31 @@ nachgezogen oder aufgelöst; das ist ein eigener Posten, kein Nebenzug dieses AD
   Schreiber ist ab jetzt ein Tabelleneintrag, keine Umbauarbeit.
 - Zwei Formen bleiben ausdrücklich offen. Wer einen davon baut, beantwortet in seiner ADR die
   hier benannte Frage und streicht den Eintrag aus `_FORMAT_SCHREIBER_LUECKEN`.
+
+## Nachtrag 04.11.2026 — `csv@1` bekommt einen Schreiber
+
+**Anlass:** Die Antwort auf eine Anfrage soll die Datei tragen, die die Stelle einliest (Befund UEBERNAHME-OHNE-ABTIPPEN).
+Bibliothek und Energiegenossenschaft lesen eine Tabelle ein, und das Produkt zeigt diesen Weg. Was gezeigt wird, gehört ins
+Produkt, also wird die oben benannte Lücke geschlossen. Die drei offenen Fragen werden **entschieden**, nicht umgekehrt:
+
+- **Trennzeichen `;`.** Ein deutsches Tabellenprogramm öffnet die Datei damit ohne Einstellung, und die Beispiele des Lesers
+  haben dieselbe Form. Ein Wert mit `;`, `"` oder Zeilenumbruch steht in Anführungszeichen, ein `"` wird verdoppelt
+  (RFC 4180, die Umkehrung von `_csvZerlegen`).
+- **Zeilenende CRLF** (RFC 4180), UTF-8 ohne BOM.
+- **Form:** eine Kopfzeile mit den `ziel`-Namen in der Folge der Zuordnung und eine Datenzeile. Die Spaltenfolge steht je
+  Modul fest, auch wenn ein Wert fehlt; dann bleibt die Zelle leer. Ein `ziel` mit Punkt ist ein Spaltenname, kein Pfad.
+
+**Was eine Zelle nicht darstellen kann, weist der Schreiber beim Andocken ab** (`kanalGrund`, wie bei `xml@1`): einen Umschlag
+(`quelle`, `wurzel`), eine Liste (`alsListe`), einen Anhang und ein `ziel`, das kein Name ist. Die Gründe heißen
+`schreiber-csv-umschlag`, `schreiber-csv-liste`, `schreiber-csv-anhang` und `schreiber-csv-zielname`. Das Modulschema
+`docs/format-modul/format-modul-schema.json` trägt dieselbe Regel.
+
+**Die eine Stelle, an der dieser Schreiber einen Wert ändert:** Eine Zelle, die mit `=`, `+`, `@`, einem Tabulator oder einem
+`-` vor einem Zeichen, das keine Ziffer ist, beginnt, bekommt ein `'` vorangestellt. Ein Tabellenprogramm läse sie sonst als
+Formel (OWASP „CSV Injection“). `-5` bleibt, wie es ist.
+
+**Offen bleiben** `vcard-erste@1` und `sd-jwt@1`; ihre Gründe stehen weiter in `_FORMAT_SCHREIBER_LUECKEN`.
+
+**Prüfung:** `tests/csv-schreiber.test.js` (Konvention, Rundlauf mit dem eigenen Leser, Formelschutz, Abweisungen);
+`tests/u2-adr-257-format-schreiber.test.js` Gruppe E (jede Leseform hat einen Schreiber oder eine benannte Lücke);
+`tests/mit-modul/modul-schema-format.test.js` (Schema und Kern im Gleichlauf).

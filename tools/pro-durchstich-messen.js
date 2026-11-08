@@ -131,6 +131,7 @@ const notiere = (was, wo, folge) => grenzen.push({ was, wo, folge });
   const { V: I } = ladeIssuer();
   const d = I.submissionZuAnbieterDaten(submission);
   const vc = I.baueProviderVC({
+    anbieterPruefungAbgeschaltet: true,   // Messwerkzeug mit Wegwerf-Schlüsseln; die Prüfung vor der Ausstellung ist nicht Gegenstand
     anbieterId: d.anbieterId, anbieterName: d.anbieterName, anbieterTyp: d.anbieterTyp,
     publicKeyJwk: d.publicKeyJwk, templates: d.templates,
     issuanceDate: '2026-08-01T12:00:00Z', expirationDate: '2027-08-01T12:00:00Z',

@@ -25,4 +25,4 @@ function platzIsolieren(env = process.env) {
   return dir;
 }
 
-module.exports = { platzIsolieren };
+module.exports = { platzIsolieren, PLATTE_IN_PROBEN_GB };

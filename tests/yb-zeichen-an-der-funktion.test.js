@@ -53,10 +53,11 @@ test('[YB-Zeichen] Herunterladen und Teilen eines autoritativen Originals tragen
   assert.match(html, /data-mappe-shl="[^"]+">[^]*?data-yb-zeichen="share"/, 'Sicher weitergeben');
 });
 
-test('[YB-Zeichen] der Teilen-Dialog selbst zeigt das Zeichen', async () => {
+test('[YB-Zeichen] der Teilen-Dialog selbst zeigt das Zeichen', async () => {   // seit SHL-EINMALIG-OHNE-TRAEGER verborgen bis zur erkannten Ablage
   const { V, document, id } = await frisch();
   await V.flowShlVorbereiten(id);
-  assert.match(modal(document), /data-yb-zeichen="share"/);
+  assert.match(modal(document), /<p id="shl-yb-zeichen" hidden><img[^>]*data-yb-zeichen="share"/);
+  // sichtbar erst bei erkannter Ablage: tests/shl-einmaligkeit-zusage.test.js [Einmalig·Zeichen]
 });
 
 test('[YB-Zeichen] der Hochladen-Dialog für Labor-/Entlassbefund zeigt das Zeichen', async () => {

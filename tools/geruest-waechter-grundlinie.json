@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 285442
+   "bytes": 292574
   },
   "satz": {
-   "bytes": 27968
+   "bytes": 27825
   }
  },
  "fremdcode": [
@@ -162,6 +162,15 @@
     "scriptId": "noble_ed25519_VivodepotInline"
    },
    "bytes": 2201
+  },
+  {
+   "name": "zxing-library",
+   "herkunft": "@zxing/library 0.23.0 (ZXing authors, Apache-2.0), nur der Lese-Teil für Data Matrix: 53 Dateien aus dem ESM-Baum des npm-Pakets, gebündelt mit tools/datamatrix-auszug-bauen.js aus dem Tarball mit geprüfter Integrität (sha512 des Registry-Eintrags), Bindung nicht beschreibbar; ts-custom-error ist durch eine eigene Zeile ersetzt (CustomError als Unterklasse von Error), sonst unverändert. SHA-256 des Blocks in der @vd-lib-Marke, Prüfung: node tools/datamatrix-auszug-bauen.js --pruefen. Konsument: Medikationsplan einlesen (BMP), Bild des Codes; eingebettet wie qrcode-generator (U2-ADR-524).",
+   "version": "0.23.0",
+   "erkennung": {
+    "scriptId": "zxing_DataMatrixInline"
+   },
+   "bytes": 9909
   }
  ],
  "technischeWoerter": [
@@ -2810,6 +2819,116 @@
    "auf": 285442,
    "daneben": {},
    "grund": "fix(aussenablage): neben dem Chiffrat nur, was zum Öffnen nötig ist (U2-ADR-520 Nr. 3)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 285442,
+   "auf": 285640,
+   "daneben": {},
+   "grund": "L5: „Einmal abrufbar“ nur über die voreingestellte Ablage, sonst sichtbar „Nicht einmalig“ (Befund SHL-EINMALIG-OHNE-TRAEGER)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 285640,
+   "auf": 286018,
+   "daneben": {},
+   "grund": "Angaben für einen Antrag (U2-ADR-465 Nachtrag): Schlüssel abgeleitet und antrag, ihre Formprüfung und Ablehnungsgründe — Struktur, auf die der Kern verzweigt.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 286018,
+   "auf": 286550,
+   "daneben": {},
+   "grund": "Vorprüfung im Format-Modul (U2-ADR-465 Nachtrag W6): Schlüssel pruefung, Typen und Gründe der Vorprüfung — Struktur, auf die der Kern verzweigt.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 286550,
+   "auf": 286789,
+   "daneben": {},
+   "grund": "Zugkopf v1043: XMeld 26.11, Rundgang-Sichten, Gruppentitel und Standardvorlagen-Anzeige zusammen am Kopf gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 286789,
+   "auf": 289584,
+   "daneben": {},
+   "grund": "U2-ADR-523: Fragen am Eintrag, Dialog und Gesprächsblatt bringen neue Bau-Funktionen und Knöpfe in die Oberfläche",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 289584,
+   "auf": 289965,
+   "daneben": {},
+   "grund": "S4-A Kind-Datei im Pod im Zug v1045 auf den Fragen-Wagen, gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 289965,
+   "auf": 290204,
+   "daneben": {},
+   "grund": "Demo Fragen am Eintrag (Vorführungs-Ansichten gespraechsblatt und frage) im Zug v1046 auf dem Kanon v1045, gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 290204,
+   "auf": 291389,
+   "daneben": {},
+   "grund": "BMP einlesen (U2-ADR-524): Knopf, Datei-Auswahl und Liste an der laufenden Medikation, im Zug v1046 auf dem Kanon v1045, gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 291389,
+   "auf": 292280,
+   "daneben": {},
+   "grund": "Sub-Depot W1: Verweise auf Personen und Vollmachten in Anfrage und Antwort, Zieldatei mit CSV-Schreiber, im Zug v1046 auf dem Kanon v1045, gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 292280,
+   "auf": 292574,
+   "daneben": {},
+   "grund": "Kind-Datei im Pod: Ablauf nachtragen und auf den Jahreswechsel umstellen (Auftrag mit Ablauf an die Brücke), Person verknüpfen (Auswahl-Markup im Pod-Schritt)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

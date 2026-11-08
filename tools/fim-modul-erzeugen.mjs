@@ -18,6 +18,12 @@
        einen `hinweis` in der Zuordnung — sonst erzeugt es nichts. Der Wortlaut kommt aus der Zuordnung, nicht aus dem
        Werkzeug.
      · `vertreter` (ein Feld der bevollmächtigten Person) nur zusammen mit der Rolle vollmacht-nachweis.
+     · `abgeleitet` (ja/nein aus einem Feld nach einer Regel des Kerns) und `antrag` (eine Frage beim Erzeugen) stehen allein
+       und gehen unverändert ins Modul; die Codes einer Auswahl müssen in der Aufzählung des Elements stehen. Regel, Typ und
+       Feld prüft der Kern beim Andocken (U2-ADR-465 Nachtrag, 04.11.2026).
+     · `pruefung` (U2-ADR-465 Nachtrag W6, 04.11.2026): je Element des XSD in Dokumentfolge Anzahl, Datentyp und Facetten
+       (Länge, Bereich, Aufzählung, Muster) und der Name aus xs:documentation — die Regeln der Vorprüfung im Kern
+       (formatVorpruefung). Ein Basistyp, den die Vorprüfung nicht kennt, ist ein Fehler, nicht still übergangen.
    JSON-WEG (U2-ADR-465 Nachtrag, 16.10.2026): aus dem JSON-Schema einer Leistung (draft 2020-12, Form des FIM-Portals:
    Schlüssel aus Kennung und Fassung, Gruppen über `$defs`, `required`) ein Modul mit dem Schreiber json@1. Die Ziele sind
    LISTEN von Pfadstufen (ein FIM-Schlüssel trägt selbst einen Punkt), `schemaUri` ist die `$id` des Schemas. In der Zuordnung
@@ -50,26 +56,80 @@ export const FIXTURE_JSON = Object.freeze({
 export const ANHANG_ROLLEN = Object.freeze(['bescheid', 'vollmacht-nachweis', 'lichtbild']);
 export const VERTRETER_FELDER = Object.freeze(['familyName', 'givenName', 'street', 'houseNumber', 'postalCode', 'city']);
 
+/* `abgeleitet` oder `antrag` allein am Pfad: der Eintrag fürs Modul, oder null mit Fehler. */
+function antragsEintrag(e, b, ziel, fehler) {
+  const art = e.abgeleitet ? 'abgeleitet' : 'antrag';
+  if (Object.keys(e).some((k) => k !== art)) { fehler.push(b.pfad + ': `' + art + '` steht allein'); return null; }
+  const werte = (art === 'antrag' && e.antrag && e.antrag.werte) || null;
+  if (werte && b.enum.length) for (const c of Object.keys(werte)) if (!b.enum.includes(c)) fehler.push(b.pfad + ': Code ' + c + ' nicht in der Aufzählung');
+  return { [art]: e[art], ziel };
+}
+
 const attr = (tag, name) => (new RegExp('\\s' + name + '="([^"]*)"').exec(tag) || [])[1];
 
-/** Liest die Element-Struktur eines XSD (anonyme Typen, xs:sequence) zu einem Baum. */
+const ENTITAETEN = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+const entschluesseln = (t) => (t == null ? t : String(t).replace(/&(amp|lt|gt|quot|apos);/g, (_, n) => ENTITAETEN[n]));
+/* Die Basistypen, die die Vorprüfung des Kerns kennt (_FORMAT_PRUEFUNG_TYPEN, ohne `anhang`). */
+export const PRUEFUNG_TYPEN = Object.freeze(['string', 'normalizedString', 'token', 'integer', 'decimal', 'float', 'double', 'boolean', 'date', 'dateTime']);
+
+/** Liest die Element-Struktur eines XSD (anonyme Typen, xs:sequence) zu einem Baum, mit Basistyp, Facetten und Dokumentation. */
 export function schemaLesen(xsdText) {
   const ns = attr(/<xs:schema\b[^>]*>/.exec(xsdText)?.[0] || '', 'targetNamespace') || null;
   const wurzelKnoten = { kinder: [] };
   const stapel = [wurzelKnoten];
-  for (const m of xsdText.matchAll(/<(\/?)xs:(element|enumeration)\b([^>]*?)(\/?)>/g)) {
+  const muster = /<(\/?)xs:(element|enumeration|restriction|length|minLength|maxLength|pattern|minInclusive|maxInclusive|documentation)\b([^>]*?)(\/?)>/g;
+  for (const m of xsdText.matchAll(muster)) {
     const [, zu, art, rest, selbst] = m;
     const oben = stapel[stapel.length - 1];
-    if (art === 'enumeration') { if (!zu && oben.enum) oben.enum.push(attr(' ' + rest, 'value')); continue; }
-    if (zu) { stapel.pop(); continue; }
+    if (zu) { if (art === 'element') stapel.pop(); continue; }
+    const wert = () => entschluesseln(attr(' ' + rest, 'value'));
+    if (art === 'enumeration') { if (oben.enum) oben.enum.push(wert()); continue; }
+    if (art === 'restriction') { if (oben.facetten) oben.basis = attr(' ' + rest, 'base'); continue; }
+    if (art === 'documentation') {
+      if (oben.facetten && oben.doku == null && !selbst) {
+        const ende = xsdText.indexOf('</xs:documentation>', m.index + m[0].length);
+        if (ende > 0) oben.doku = entschluesseln(xsdText.slice(m.index + m[0].length, ende)).trim();
+      }
+      continue;
+    }
+    if (art !== 'element') { if (oben.facetten) oben.facetten[art] = wert(); continue; }
     const k = { name: attr(' ' + rest, 'name'), min: Number(attr(' ' + rest, 'minOccurs') ?? 1),
-      max: attr(' ' + rest, 'maxOccurs') ?? '1', anhang: attr(' ' + rest, 'type') === 'xs:anyType', enum: [], kinder: [] };
+      max: attr(' ' + rest, 'maxOccurs') ?? '1', anhang: attr(' ' + rest, 'type') === 'xs:anyType', enum: [], kinder: [],
+      basis: attr(' ' + rest, 'type') || null, facetten: {}, doku: null };
     if (!k.name) throw new Error('xs:element ohne name (ref wird nicht gelesen): ' + m[0]);
     oben.kinder.push(k);
     if (!selbst) stapel.push(k);
   }
   if (wurzelKnoten.kinder.length !== 1) throw new Error('das XSD hat nicht genau ein Wurzelelement');
   return { ns, wurzel: wurzelKnoten.kinder[0] };
+}
+
+/** Die Regeln der Vorprüfung: je Element unter der Wurzel ein Eintrag in Dokumentfolge (Form: formatPruefungFormPruefen im Kern). */
+export function pruefungAusSchema(wurzel, fehler) {
+  const raus = [];
+  const zahl = (v) => (v == null ? null : Number(v));
+  (function lauf(k, pfad) {
+    for (const c of k.kinder) {
+      const p = pfad ? pfad + '.' + c.name : c.name;
+      const e = { ziel: p };
+      if (c.doku) e.name = c.doku.slice(0, 300);
+      e.min = c.min;
+      e.max = c.max === 'unbounded' ? null : Number(c.max);
+      if (c.kinder.length) { e.gruppe = true; raus.push(e); lauf(c, p); continue; }
+      if (c.anhang) { e.typ = 'anhang'; raus.push(e); continue; }
+      const typ = String(c.basis || '').replace(/^xs:/, '');
+      if (!PRUEFUNG_TYPEN.includes(typ)) { fehler.push(p + ': Basistyp ' + (c.basis || '(keiner)') + ' ist nicht vorprüfbar'); continue; }
+      e.typ = typ;
+      const f = c.facetten;
+      if (f.length != null) e.laenge = [zahl(f.length), zahl(f.length)];
+      else if (f.minLength != null || f.maxLength != null) e.laenge = [zahl(f.minLength), zahl(f.maxLength)];
+      if (f.minInclusive != null || f.maxInclusive != null) e.bereich = [zahl(f.minInclusive), zahl(f.maxInclusive)];
+      if (c.enum.length) e.werte = c.enum.slice();
+      if (f.pattern != null) e.muster = f.pattern;
+      raus.push(e);
+    }
+  })(wurzel, '');
+  return raus;
 }
 
 /** Alle Blätter (Felder und Anhänge) in Dokumentfolge, mit Pfad unterhalb der Wurzel und ob sie Pflicht sind. */
@@ -92,6 +152,7 @@ export function modulErzeugen(xsdText, zuordnung) {
   const jePfad = new Map(liste.map((b) => [b.pfad, b]));
   const z = zuordnung.felder || {};
   const fehler = [];
+  const pruefung = pruefungAusSchema(wurzel, fehler);
   for (const p of Object.keys(z)) if (!jePfad.has(p)) fehler.push('Pfad nicht im Schema: ' + p);
   const offen = liste.filter((b) => b.anhang && b.pflicht && !(z[b.pfad] && z[b.pfad].anhang)).map((b) => b.pfad);
   if (offen.length && !(typeof zuordnung.hinweis === 'string' && zuordnung.hinweis.trim()))
@@ -118,6 +179,7 @@ export function modulErzeugen(xsdText, zuordnung) {
       else eintraege.push({ vertreter: e.vertreter, ziel: b.pfad });
       continue;
     }
+    if (e.abgeleitet || e.antrag) { const a = antragsEintrag(e, b, b.pfad, fehler); if (a) eintraege.push(a); continue; }
     const hatFest = Object.prototype.hasOwnProperty.call(e, 'fest');
     if (hatFest === !!e.feld) { fehler.push(b.pfad + ': genau eines von `feld` und `fest`'); continue; }
     if (b.enum.length) {
@@ -138,6 +200,7 @@ export function modulErzeugen(xsdText, zuordnung) {
   };
   if (typeof zuordnung.hinweis === 'string' && zuordnung.hinweis.trim()) modul.hinweis = zuordnung.hinweis;
   modul.zuordnung = eintraege;
+  modul.pruefung = pruefung;
   return { modul, luecken, fehler: [] };
 }
 
@@ -189,6 +252,7 @@ export function modulErzeugenJson(schema, zuordnung) {
     if (b.typ === 'array') { if (e) fehler.push(b.pfad + ': Listen (type array) trägt der JSON-Weg nicht'); else if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'liste' }); continue; }
     if (!e) { if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'ohne-zuordnung' }); continue; }
     if (e.anhang || e.vertreter) { fehler.push(b.pfad + ': `anhang` und `vertreter` trägt nur der XSD-Weg'); continue; }
+    if (e.abgeleitet || e.antrag) { const a = antragsEintrag(e, b, b.stufen.slice(), fehler); if (a) eintraege.push(a); continue; }
     const hatFest = Object.prototype.hasOwnProperty.call(e, 'fest');
     if (hatFest === !!e.feld) { fehler.push(b.pfad + ': genau eines von `feld` und `fest`'); continue; }
     if (b.enum.length) {

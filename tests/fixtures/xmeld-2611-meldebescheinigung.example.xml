@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Erfundenes Fixture im Aufbau von XMeld 26.11, Nachricht 1701 (Antwort auf den Abruf einer Meldebescheinigung).
+     Elementnamen und Verschachtelung folgen dem Schema der Fassung 26.11; alle Werte sind erfunden, kein Text ist kopiert.
+     Zwei Wohnungen (zuerst die Nebenwohnung, Status 2, dann die Hauptwohnung, Status 1, DSMeld-Blatt 1213) und ein Partner
+     mit eigenem Namen und eigener Anschrift: gelesen werden darf nur die Person selbst und ihre Hauptwohnung. -->
+<xmeld:onlinedienste.meldebescheinigungAntwort.1701 xmlns:xmeld="http://www.osci.de/xmeld2611" produkt="Probe" standard="XMeld" version="26.11">
+  <xmeld:antwortAbrufanfrage>
+    <xmeld:auskunft>
+      <xmeld:meldebescheinigung>
+        <xmeld:meldedaten>
+          <xmeld:personendaten>
+            <xmeld:name>
+              <xmeld:familienname.unstrukturiert>
+                <xmeld:nachname><name>Beispielfrau</name></xmeld:nachname>
+              </xmeld:familienname.unstrukturiert>
+              <xmeld:geburtsname.unstrukturiert><name>Probeherz</name></xmeld:geburtsname.unstrukturiert>
+              <xmeld:vornamen>
+                <xmeld:vornamen><name>Lotte Marie</name></xmeld:vornamen>
+              </xmeld:vornamen>
+            </xmeld:name>
+            <xmeld:geburtsangaben>
+              <xmeld:geburtsort>Kleinstadt am See</xmeld:geburtsort>
+              <xmeld:geburtsdatum><teilbekanntesDatum><jahrMonatTag>1979-03-08</jahrMonatTag></teilbekanntesDatum></xmeld:geburtsdatum>
+            </xmeld:geburtsangaben>
+            <xmeld:wohnung>
+              <xmeld:anschrift>
+                <xmeld:anschrift.inland>
+                  <hausnummer>12</hausnummer>
+                  <postleitzahl>99998</postleitzahl>
+                  <strasse>Nebengasse</strasse>
+                  <wohnort>Ferienort</wohnort>
+                </xmeld:anschrift.inland>
+              </xmeld:anschrift>
+              <xmeld:statusderwohnung><code>2</code></xmeld:statusderwohnung>
+            </xmeld:wohnung>
+            <xmeld:wohnung>
+              <xmeld:anschrift>
+                <xmeld:anschrift.inland>
+                  <hausnummer>7a</hausnummer>
+                  <postleitzahl>99999</postleitzahl>
+                  <strasse>Am Probeweg</strasse>
+                  <wohnort>Musterhausen</wohnort>
+                </xmeld:anschrift.inland>
+              </xmeld:anschrift>
+              <xmeld:statusderwohnung><code>1</code></xmeld:statusderwohnung>
+            </xmeld:wohnung>
+            <xmeld:staatsangehoerigkeit listVersionID="2024-08-01"><code>000</code></xmeld:staatsangehoerigkeit>
+            <xmeld:familienstand>
+              <xmeld:familienstand><code>VH</code></xmeld:familienstand>
+            </xmeld:familienstand>
+          </xmeld:personendaten>
+          <xmeld:partner>
+            <xmeld:name>
+              <xmeld:familienname.unstrukturiert>
+                <xmeld:nachname><name>Partnername</name></xmeld:nachname>
+              </xmeld:familienname.unstrukturiert>
+              <xmeld:vornamen><name>Paul</name></xmeld:vornamen>
+            </xmeld:name>
+            <xmeld:geburt>
+              <xmeld:geburtsdatum><teilbekanntesDatum><jahrMonatTag>1977-11-30</jahrMonatTag></teilbekanntesDatum></xmeld:geburtsdatum>
+            </xmeld:geburt>
+            <xmeld:wohnung>
+              <xmeld:anschrift>
+                <xmeld:anschrift.inland>
+                  <hausnummer>1</hausnummer>
+                  <postleitzahl>99997</postleitzahl>
+                  <strasse>Partnerstraße</strasse>
+                  <wohnort>Anderswo</wohnort>
+                </xmeld:anschrift.inland>
+              </xmeld:anschrift>
+              <xmeld:statusderwohnung><code>0</code></xmeld:statusderwohnung>
+            </xmeld:wohnung>
+          </xmeld:partner>
+        </xmeld:meldedaten>
+      </xmeld:meldebescheinigung>
+    </xmeld:auskunft>
+  </xmeld:antwortAbrufanfrage>
+</xmeld:onlinedienste.meldebescheinigungAntwort.1701>

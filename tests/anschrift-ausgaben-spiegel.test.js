@@ -44,6 +44,11 @@ const AUSGABEN = {
   vcardMenschen: { traeger: 'person', aus: (V) => V.vcardMenschen() },
   personVollzeile: { traeger: 'person', aus: (V) => V.personVollzeile({ ref: 'p1' }) },
   verweisExportFelder: { traeger: 'person', aus: (V) => V._verweisExportZeile('person', 'vollmacht', { ref: 'p1' }) },
+  // Die Antwort auf eine Anfrage, die die bisherigen Zeilen fragt (Befund ANFRAGE-BISHERIGE-ZEILE-STILL, 05.11.2026).
+  _bisherigeZeileAusTeilen: { traeger: 'identity', aus: (V) => V.anfrageAntwortDatensatz({ modulTyp: 'anfrage', anfrageVersion: 1,
+    von: 'Standesamt', zweck: 'Anschrift', grundlage: 'Probe', vorgang: 'A-1', gueltigBis: '2099-12-31',
+    felder: ['identity.streetAddress', 'identity.postcodeCity'].map((kennung) => ({ kennung, zweck: 'Anschrift', pflicht: true })),
+    antwort: { art: 'einmalpasswort' } }, { sensibel: true }).felder },
 };
 
 function aufrufer(quelle) {

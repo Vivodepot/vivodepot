@@ -9,14 +9,22 @@
    Gehalten wird (W1):
    · Neben dem Anfrage-Schema liegt ein Schema für die Antwort (SCHEMA_PFAD unten, draft 2020-12), und die Antwort auf eine
      Sterbefall-Anfrage validiert dagegen.
-   · Jeder Verweis in `roh` hat einen Eintrag in `personen` (Person: `ref` und Personalien nach U2-ADR-467) bzw. in
-     `institutionen` (Institution: `ref` und `name`).
+   · Jeder Verweis in `roh` hat einen Eintrag in `personen` (Person: `ref` und die Namensteile name, familyName,
+     givenName) bzw. in `institutionen` (Institution: `ref` und `name`).
+   · NICHT MEHR: Geburtsdatum, Geburtsort und Anschrift einer verwiesenen Person gehen nicht mit, auch wenn das Depot
+     sie führt (Verweis-Export-Regel D0; die Antwort zeigt von einer Person nur den Namen). Wort der Abstimmung vom
+     04.11.2026; mehr braucht einen eigenen Zuschnitt mit Übersicht vor dem Senden.
    · KLASSE: Eine Anfrage nach JEDEM Verweisfeld auf eine Person oder Institution außerhalb von Listen (Einfach- und
      Mehrfachverweis), so wie der Kern seine Bereiche aufzählt (`bereicheAlle`), wird beantwortet, validiert, und jeder
      Verweis ist aufgelöst. Ein neues Verweisfeld nimmt das mit, ohne dass diese Probe es kennt.
-   ROT-BEWEIS: Die Prüffunktionen melden einen Verweis ohne Eintrag, einen Eintrag ohne Namen und ein Feld, das ein Schema
-   nicht kennt (Positivkontrolle unten). Am Kern vor dem Fix fehlen Schema und Block.
-   Bis zum Fix steht die Probe als todo mit der Kennung. Liegt hier, weil sie Ajv braucht.
+   · NOCH OFFEN (W2): Für den Todesfall bekommt das Bestattungsunternehmen eine kopierbare Vorlage in der Feldfolge der
+     Landesportale und die Mappe nach § 38 PStV (Entscheidung 03.11.2026). Zieldatei, CSV-Schreiber und Knopf in der Lese-App
+     stehen schon (tests/mit-modul/antwort-zieldatei.test.js, tests/csv-schreiber.test.js
+     und die Probe der Lese-App zur Zieldatei). Bis dahin steht die Probe unten als todo mit der Kennung, und der Befund
+     bleibt offen (er schließt erst mit W1, W2 und W3).
+   ROT-BEWEIS: Die Prüffunktionen melden einen Verweis ohne Eintrag, einen Eintrag ohne Namen, ein Feld, das ein Schema
+   nicht kennt, und Personalien über den Namen hinaus (Positivkontrolle unten). Am Kern vor dem Fix fehlte der Block.
+   Liegt hier, weil sie Ajv braucht.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -93,6 +101,24 @@ function personenFehler(ds) {
   return [...verweise(ds)].filter((ref) => !p.some((x) => x && x.ref === ref && (x.familyName || x.name))
     && !i.some((x) => x && x.ref === ref && x.name)).map((ref) => 'kein Eintrag für ' + ref);
 }
+// Personalien, die mit einem Verweis nicht hinausgehen: ihr Wert irgendwo in personen/institutionen, oder ein Schlüssel über ref und Name.
+// Als ganzes Wort: die Hausnummer „4“ steckt sonst in jedem Datum mit einer 4.
+const alsWort = (w) => new RegExp('(^|[^\\p{L}\\p{N}])' + String(w).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '($|[^\\p{L}\\p{N}])', 'u');
+const NUR_NAME = new Set(['ref', 'name', 'familyName', 'givenName']);
+function personalienAbfluss(ds, person) {
+  const aus = [];
+  for (const block of ['personen', 'institutionen']) {
+    for (const e of (Array.isArray(ds && ds[block]) ? ds[block] : [])) {
+      for (const [k, v] of Object.entries(e || {})) {
+        if (!NUR_NAME.has(k)) aus.push(block + '.' + k);
+        for (const t of ['birthDate', 'birthPlace', 'street', 'houseNumber', 'postalCode', 'city']) {
+          if (person[t] && alsWort(person[t]).test(String(v)) && !(t === 'city' && k === 'name')) aus.push(block + '.' + k + '=' + t);
+        }
+      }
+    }
+  }
+  return aus;
+}
 function schemaFehler(ds, schema) {
   if (!schema) return ['kein Schema unter ' + path.relative(WURZEL, SCHEMA_PFAD)];
   const pruefe = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
@@ -102,19 +128,19 @@ function schemaLesen() {
   return fs.existsSync(SCHEMA_PFAD) ? JSON.parse(fs.readFileSync(SCHEMA_PFAD, 'utf8')) : null;
 }
 
-test('[Antwort·Übernahme·Sterbefall] die Antwort validiert gegen das Schema, die Partnerin steht mit Personalien darin', { todo: 'Befund UEBERNAHME-OHNE-ABTIPPEN (HOCH): Fix folgt mit W1 (Schema und Personen-Block)' }, async () => {
+test('[Antwort·Übernahme·Sterbefall] die Antwort validiert gegen das Schema, die Partnerin steht mit Namen darin, ohne weitere Personalien', async () => {
   const V = await kernMitDepot([{ bereich: 'people', feld: 'spouseOrCivilPartner', entitaet: 'person' }]);
   const ds = await antwort(V, anfrage(['identity.givenName', 'identity.familyName', 'identity.birthDate', 'identity.birthPlace',
     'people.spouseOrCivilPartner']));
   assert.ok(verweise(ds).has('p-1'), 'Vorbedingung: die Antwort nennt die Partnerin (Verweis p-1 in roh)');
   assert.deepEqual({ schema: schemaFehler(ds, schemaLesen()), personen: personenFehler(ds) }, { schema: [], personen: [] });
   const p = ds.personen.find((x) => x.ref === 'p-1');
-  for (const k of ['familyName', 'givenName', 'birthDate', 'street', 'houseNumber', 'postalCode', 'city']) {
-    assert.equal(p[k], PARTNERIN[k], 'personen[p-1].' + k);
-  }
+  for (const k of ['name', 'familyName', 'givenName']) assert.equal(p[k], PARTNERIN[k], 'personen[p-1].' + k);
+  assert.ok(PARTNERIN.birthDate && PARTNERIN.street, 'Vorbedingung: das Depot führt Geburtsdatum und Anschrift der Partnerin');
+  assert.deepEqual(personalienAbfluss(ds, PARTNERIN), [], 'Geburtsdatum und Anschrift gehen mit dem Verweis nicht hinaus');
 });
 
-test('[Antwort·Übernahme·Klasse] jedes Verweisfeld auf Person oder Institution: Antwort validiert, der Verweis ist aufgelöst', { todo: 'Befund UEBERNAHME-OHNE-ABTIPPEN (HOCH): Fix folgt mit W1 (Schema und Personen-Block)' }, async () => {
+test('[Antwort·Übernahme·Klasse] jedes Verweisfeld auf Person oder Institution: Antwort validiert, der Verweis ist aufgelöst', async () => {
   const felder = verweisfelder(ladeKern().V);
   assert.ok(felder.some((f) => f.entitaet === 'institution'), 'Vorbedingung: auch Institutionen-Verweise sind dabei');
   assert.ok(felder.length >= 5, 'Vorbedingung: Verweisfelder gefunden: ' + felder.map((f) => f.bereich + '.' + f.feld).join(', '));
@@ -123,7 +149,15 @@ test('[Antwort·Übernahme·Klasse] jedes Verweisfeld auf Person oder Institutio
   const genannt = new Set(ds.felder.map((e) => e.kennung));
   assert.deepEqual(felder.map((f) => f.bereich + '.' + f.feld).filter((k) => !genannt.has(k)), [],
     'Vorbedingung: jedes Verweisfeld geht als Wert hinaus');
-  assert.deepEqual({ schema: schemaFehler(ds, schemaLesen()), personen: personenFehler(ds) }, { schema: [], personen: [] });
+  assert.deepEqual({ schema: schemaFehler(ds, schemaLesen()), personen: personenFehler(ds), abfluss: personalienAbfluss(ds, PARTNERIN) },
+    { schema: [], personen: [], abfluss: [] });
+  assert.ok(ds.personen.length && ds.institutionen.length, 'Vorbedingung: beide Blöcke entstehen');
+});
+
+test('[Antwort·Übernahme·Bestatter] der Kern führt Portal-Feldfolgen für die Bestatter-Vorlage (W2)',
+  { todo: 'Befund UEBERNAHME-OHNE-ABTIPPEN (HOCH): W2 baut die Bestatter-Vorlage und die Mappe nach § 38 PStV' }, () => {
+  const { V } = ladeKern();
+  assert.ok(V.BESTATTER_PORTAL_FELDFOLGEN && Object.keys(V.BESTATTER_PORTAL_FELDFOLGEN).length, 'Feldfolgen je Landesportal');
 });
 
 test('[Antwort·Übernahme·Rot-Beweis] die Prüfung meldet Verweise ohne Eintrag und Felder außerhalb des Schemas', () => {
@@ -142,4 +176,11 @@ test('[Antwort·Übernahme·Rot-Beweis] die Prüfung meldet Verweise ohne Eintra
     properties: { felder: { type: 'array' } } };
   assert.ok(schemaFehler({ felder: [], fremd: 1 }, eng).length >= 1, 'ein Feld außerhalb des Schemas fällt auf');
   assert.deepEqual(schemaFehler({ felder: [] }, eng), [], 'Positivkontrolle');
+  // Personalien über den Namen hinaus: als eigener Schlüssel und als Wert in einem erlaubten Schlüssel.
+  assert.deepEqual(personalienAbfluss({ personen: [{ ref: 'p-1', familyName: 'Beispiel', birthDate: PARTNERIN.birthDate }] }, PARTNERIN),
+    ['personen.birthDate', 'personen.birthDate=birthDate']);
+  assert.deepEqual(personalienAbfluss({ personen: [{ ref: 'p-1', name: 'Erika Beispiel, Lindenweg 4' }] }, PARTNERIN),
+    ['personen.name=street', 'personen.name=houseNumber'], 'Anschrift im Namen fällt auf');
+  assert.deepEqual(personalienAbfluss({ personen: [{ ref: 'p-1', name: 'Erika Beispiel', familyName: 'Beispiel', givenName: 'Erika' }],
+    institutionen: [{ ref: 'i-1', name: 'Beispiel-Krankenkasse' }] }, PARTNERIN), [], 'Positivkontrolle');
 });

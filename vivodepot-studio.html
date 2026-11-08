@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-XHAADtoYwX8jgQNT6vrHaBaHSZxog08qJQ7WORO1XPo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-V8wq2ZxTAb8hsNzEBf6xIQGEiRC7MnT48qMI1NXxCNg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -6028,7 +6028,7 @@ function textLesen(kennung) {
 const _MODUL_SPRACHE_FORM = /^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/;
 const INSTITUTION_ART_EINGEBAUT = Object.freeze(['krankenkasse', 'pflegekasse', 'pflegedienst',
   'krankenhaus', 'arztpraxis', 'bestatter', 'bank', 'versicherung', 'standesamt',
-  'meldebehoerde', 'behoerde', 'arbeitgeber']);
+  'meldebehoerde', 'behoerde', 'arbeitgeber', 'apotheke']);   // apotheke: U2-ADR-523
 /* Mirror von `_modulTraegtBeschriftung`/`_modulSpracheGrund` (vivodepot.html:12553-12580):
    Sprache ist NICHT immer Pflicht — nur wenn das Modul tatsächlich eine Beschriftung trägt
    (institutionsArt: ein arten-Label; bereich: ein bereiche-Label; rechtsraum: ein
@@ -8379,6 +8379,22 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.counsellingBy","advanceCare","Beraten lassen durch","Advised by"],
   ["advanceCare.validityDuration","advanceCare","Gültigkeit","Validity"],
   ["advanceCare.validityDurationDeadline","advanceCare","Dauer der Befristung","Time limit"],
+  ["people.person","people","Menschen, die mir wichtig sind","People who matter to me"],
+  ["people.person/name","people","Name im Depot","Name in the depot"],
+  ["people.person/familyName","people","Familienname","Family name"],
+  ["people.person/givenName","people","Vornamen","Given names"],
+  ["people.person/relationship","people","Rolle / Beziehung","Role / relationship"],
+  ["people.person/birthDate","people","Geburtsdatum","Date of birth"],
+  ["people.person/birthYear","people","Geburtsjahr (falls der Tag unbekannt ist)","Year of birth (if the exact day is unknown)"],
+  ["people.person/birthPlace","people","Geburtsort","Place of birth"],
+  ["people.person/telephone","people","Telefon","Phone"],
+  ["people.person/email","people","E-Mail","Email"],
+  ["people.person/street","people","Straße","Street"],
+  ["people.person/houseNumber","people","Hausnummer","House number"],
+  ["people.person/postalCode","people","Postleitzahl","Postcode"],
+  ["people.person/city","people","Ort","City"],
+  ["people.person/institution","people","Wo arbeitet diese Person?","Where does this person work?"],
+  ["people.person/deceased","people","Verstorben","Deceased"],
   ["administration.bundid","administration","BundID","BundID"],
   ["administration.bundid/system","administration","Land / System","Country / system"],
   ["administration.bundid/bundidEmailAddress","administration","BundID — E-Mail-Adresse","BundID — email address"],
@@ -9726,6 +9742,7 @@ function _modulSpracheGrund(modul) {
 const INSTITUTION_ART_EINGEBAUT = Object.freeze([
   'krankenkasse', 'pflegekasse', 'pflegedienst', 'krankenhaus', 'arztpraxis', 'bestatter',
   'bank', 'versicherung', 'standesamt', 'meldebehoerde', 'behoerde', 'arbeitgeber',
+  'apotheke', // U2-ADR-523
 ]);
 const INSTITUTIONSART_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'arten',
   'sprache', 'herkunft', 'appVersion', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft']);
@@ -11315,7 +11332,8 @@ const ANFRAGE_SCHEMA = {
       "properties": {
         "art": { "type": "string", "enum": ["einmalpasswort", "schluesselpaar"] },
         "an": { "type": "string", "description": "Wohin die Antwort geht — Klartext, den der Bestätigungsschritt zeigt." },
-        "publicKeyJwk": { "type": "object", "description": "Der öffentliche Teil, für das Schlüsselpaar-Verfahren (Auftrag 8)." }
+        "publicKeyJwk": { "type": "object", "description": "Der öffentliche Teil, für das Schlüsselpaar-Verfahren (Auftrag 8)." },
+        "format": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9:._@-]{0,119}$", "description": "Kennung des Ausgabe-Format-Moduls, in dessen Form die Stelle die Angaben einliest. Die Antwort trägt dann die fertige Datei (`zieldatei` im Antwort-Schema), gebaut nur aus den freigegebenen Angaben." }
       }
     }
   }
@@ -12260,7 +12278,7 @@ function _pubAusPriv(privJwk) {
 }
 async function basistemplateTreuhandSignieren(inhalte, privateKeyJwk) {
   if (!Array.isArray(inhalte) || !inhalte.length) throw new Error('Keine Basistemplate-Inhalte geladen.');
-  if (!privateKeyJwk || !privateKeyJwk.d) throw new Error('Kein Treuhand-Private-Key (mit d) geladen.');
+  if (!privateKeyJwk || !privateKeyJwk.d) throw new Error('Kein privater Vorlagenschlüssel (mit d) geladen.');
   const signKey = await _jwsImportSignKey(privateKeyJwk);     // extractable:false
   const verifyKey = await _jwsImportVerifyKey(_pubAusPriv(privateKeyJwk));
   const out = [];

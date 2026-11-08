@@ -69,14 +69,15 @@ test('[Entkopplung·neu] EREIGNIS_ACHSE_TRIPEL_EINGEBAUT trägt alle 33 nativen 
     'die feste Liste muss exakt dieselben Tripel tragen wie EREIGNIS_ACHSE_FELDER selbst');
 });
 
-test('[Entkopplung·U2-ADR-275] INSTITUTION_ART_EINGEBAUT trägt exakt die zwölf nativen Institutions-Kennungen, in Datei-Reihenfolge', () => {
+test('[Entkopplung·U2-ADR-275] INSTITUTION_ART_EINGEBAUT trägt exakt die dreizehn nativen Institutions-Kennungen, in Datei-Reihenfolge', () => {
   const { V } = ladeKern();
   assert.deepEqual(V.INSTITUTION_ART_EINGEBAUT, [
     'krankenkasse', 'pflegekasse', 'pflegedienst', 'krankenhaus', 'arztpraxis', 'bestatter',
     'bank', 'versicherung', 'standesamt', 'meldebehoerde', 'behoerde', 'arbeitgeber',
+    'apotheke', // U2-ADR-523, 06.11.2026
   ]);
   assert.deepEqual(V.INSTITUTION_ART_EINGEBAUT.slice().sort(), Object.values(V.INSTITUTION_ART).slice().sort(),
-    'dieselben zwölf Werte wie das (weiterhin vorhandene) INSTITUTION_ART-Objekt, nur nicht mehr davon abgeleitet');
+    'dieselben dreizehn Werte wie das (weiterhin vorhandene) INSTITUTION_ART-Objekt, nur nicht mehr davon abgeleitet');
 });
 
 /* ══ *Alle() ohne angemeldetes Modul == das native Array — der eigentliche

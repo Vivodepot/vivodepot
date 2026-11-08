@@ -11,6 +11,15 @@ const ohne = (k) => { const m = { ...basis }; delete m[k]; return m; };
 const xmlAus = mit({ richtung: 'export', leser: null, schreiber: 'xml@1', quelle: 'Dokument',
   zuordnung: [{ feld: 'accounts', ziel: 'Konten.Konto' }] });
 const mitXml = (x) => ({ ...xmlAus, ...x });
+// U2-ADR-465 Nachtrag (W6): `pruefung` nur mit `wurzel` (statt `quelle`).
+const mitPruefung = (pruefung, x) => { const m = mitXml({ wurzel: 'W', pruefung, ...x }); delete m.quelle; return m; };
+const PRUEFUNG = [{ ziel: 'Konten', min: 1, max: 1, gruppe: true, name: 'Konten' },
+  { ziel: 'Konten.Konto', min: 1, max: null, typ: 'token', laenge: [1, 34], muster: '[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}' },
+  { ziel: 'Konten.Art', min: 0, max: 1, typ: 'string', werte: ['01', '02'] },
+  { ziel: 'Konten.Zahl', min: 0, max: 1, typ: 'integer', bereich: [1, null] }, { ziel: 'Konten.Bild', min: 0, max: 1, typ: 'anhang' }];
+// Nachtrag zu U2-ADR-257 (04.11.2026): csv@1 — eine Kopfzeile, eine Datenzeile.
+const csvAus = mit({ richtung: 'export', leser: null, schreiber: 'csv@1', zuordnung: [{ feld: 'accounts', ziel: 'konto' }] });
+const mitCsv = (x) => ({ ...csvAus, ...x });
 
 gleichlaufProben({
   typ: 'format',
@@ -21,6 +30,7 @@ gleichlaufProben({
     ['Ausgabe ohne Leser und Schreiber', mit({ richtung: 'export', leser: null })],
     ['Ausgabe mit json@1', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1' }); delete m.leser; return m; })()],
     ['Ausgabe xml@1 mit Wurzel', xmlAus],
+    ['Ausgabe csv@1 mit Spaltennamen mit Punkt', mitCsv({ zuordnung: [{ feld: 'accounts', ziel: 'konto.nummer' }] })],
     ['Ausgabe xml@1 mit Attribut und Text', mitXml({ schreiber: ' xml@1 ', quelle: 'Wurzel.Innen',
       zuordnung: [{ feld: 'accounts', ziel: 'Konto.@nr' }, { feld: 'accounts', ziel: 'Konto.#text', alsListe: true }] })],
     ['Eingabe mit xml-fremdem Ziel und Schreiber xml@1', mit({ schreiber: 'xml@1', zuordnung: [{ feld: 'accounts', ziel: '1 x.y' }] })],
@@ -36,6 +46,11 @@ gleichlaufProben({
     ['U2-ADR-482: Eingabe mit codeliste am Rechtsraum-Codefeld', mit({ sektor: 'identity', zuordnung: [{ feld: 'givenName', ziel: 'given_name' },
       { feld: 'nationality', ziel: 'nationalities', codeliste: true }] })],
     ['U2-ADR-465: xml@1 mit Wurzelnamen mit Punkten', (() => { const m = mitXml({ wurzel: 'fim.S99000001.00000001001000' }); delete m.quelle; return m; })()],
+    ['U2-ADR-465 Nachtrag 04.11.: xml@1 mit abgeleitet und antrag', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'a' },
+      { abgeleitet: { regel: 'nichtLeer', feld: 'accounts' }, ziel: 'b' }, { abgeleitet: { regel: 'gleich', feld: 'accounts', wert: 'x' }, ziel: 'c' },
+      { abgeleitet: { regel: 'ausListe', feld: 'accounts', liste: ['x', 1] }, ziel: 'd' },
+      { antrag: { id: 'u', frage: 'U?', typ: 'janein', pflicht: true, vorschlag: { regel: 'nichtLeer', feld: 'accounts' } }, ziel: 'e' },
+      { antrag: { id: 'w', frage: 'W?', typ: 'auswahl', werte: { '01': 'Eins' } }, ziel: 'f' }, { antrag: { id: 'd', frage: 'Seit?', typ: 'datum' }, ziel: 'g' }] })],
     ['U2-ADR-465 Nachtrag: xml@1 mit Anhängen, Pflicht und bevollmächtigter Person', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'Konto.nr' },
       { anhang: 'vollmacht-nachweis', ziel: 'Vertretung.nachweis' }, { vertreter: 'familyName', ziel: 'Vertretung.name' },
       { anhang: 'bescheid', ziel: 'Bescheid', pflicht: true }, { anhang: 'lichtbild', ziel: 'Bild', pflicht: false }] })],
@@ -44,6 +59,7 @@ gleichlaufProben({
     ['U2-ADR-465 Nachtrag: json@1 mit Ziel-Liste und schemaUri', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', schemaUri: 'https://schema.example.org/s/S99000001V1.0.schema.json',
       zuordnung: [{ feld: 'accounts', ziel: ['G99000002V1.0', 'F99000003V1.0'] }] }); delete m.leser; return m; })()],
     ['U2-ADR-465 Nachtrag: xml@1 mit Ziel-Liste', mitXml({ zuordnung: [{ feld: 'accounts', ziel: ['G1V1.0', '@nr'] }] })],
+    ['U2-ADR-465 Nachtrag (W6): xml@1 mit Wurzel und Regeln der Vorprüfung', mitPruefung(PRUEFUNG)],
   ],
   negativ: [
     ['kein Objekt', null, 'kein-objekt'],
@@ -91,6 +107,9 @@ gleichlaufProben({
     ['zuordnung Ziel kaputt', mit({ zuordnung: [{ feld: 'accounts', ziel: '.x' }] }), 'zuordnung-leer'],
     ['zuordnung fremder Schlüssel', mit({ zuordnung: [{ feld: 'accounts', ziel: 'x', wie: 1 }] }), 'zuordnung-leer'],
     ['zuordnung Eintrag kein Objekt', mit({ zuordnung: [null] }), 'zuordnung-leer'],
+    ['csv@1 mit Umschlag', mitCsv({ quelle: 'Dokument' }), 'schreiber-csv-umschlag'],
+    ['csv@1 mit Wurzel', mitCsv({ wurzel: 'w' }), 'wurzel-ohne-xml'],
+    ['csv@1 mit Liste', mitCsv({ zuordnung: [{ feld: 'accounts', ziel: 'konto', alsListe: true }] }), 'schreiber-csv-liste'],
     ['xml@1 ohne Wurzel', (() => { const m = { ...xmlAus }; delete m.quelle; return m; })(), 'schreiber-xml-ohne-wurzel'],
     ['xml@1 mit Wurzel null', mitXml({ quelle: null }), 'schreiber-xml-ohne-wurzel'],
     ['xml@1 Wurzelname mit Ziffer vorn', mitXml({ quelle: '1Dok' }), 'schreiber-xml-wurzelname'],
@@ -104,11 +123,26 @@ gleichlaufProben({
     ['U2-ADR-465: wurzel an json@1', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', wurzel: 'w' }); delete m.leser; return m; })(), 'wurzel-ohne-xml'],
     ['U2-ADR-465: hinweis mit „--“', mitXml({ hinweis: 'a -- b' }), 'hinweis'],
     ['U2-ADR-465 Nachtrag: nur ein Anhang, kein Depot-Feld', mitXml({ zuordnung: [{ anhang: 'bescheid', ziel: 'a.b', pflicht: true }] }), 'zuordnung-nur-fest'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung an json@1', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', pruefung: PRUEFUNG }); delete m.leser; return m; })(), 'pruefung-ohne-xml'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung an xml@1 mit quelle statt wurzel', mitXml({ pruefung: PRUEFUNG }), 'pruefung-ohne-xml'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung mit unbekanntem Datentyp', mitPruefung([{ ziel: 'a', min: 1, max: 1, typ: 'anyURI' }]), 'pruefung'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung-Gruppe mit Datentyp', mitPruefung([{ ziel: 'a', min: 1, max: 1, gruppe: true, typ: 'string' }]), 'pruefung'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung ohne max', mitPruefung([{ ziel: 'a', min: 1, typ: 'string' }]), 'pruefung'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung leer', mitPruefung([]), 'pruefung'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung null', mitPruefung(null), 'pruefung'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung mit fremdem Schlüssel', mitPruefung([{ ziel: 'a', min: 1, max: 1, typ: 'string', regel: 'x' }]), 'pruefung'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung mit Zahlenpaar aus drei', mitPruefung([{ ziel: 'a', min: 1, max: 1, typ: 'string', laenge: [1, 2, 3] }]), 'pruefung'],
+    ['U2-ADR-465 Nachtrag (W6): pruefung mit __proto__ im Ziel', mitPruefung([{ ziel: 'a.__proto__', min: 1, max: 1, typ: 'string' }]), 'pruefung'],
     ['U2-ADR-465: hinweis an json@1', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', hinweis: 'x' }); delete m.leser; return m; })(), 'hinweis-ohne-xml'],
     ['U2-ADR-465 Nachtrag: schemaUri über http', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', schemaUri: 'http://schema.example.org/x.json' }); delete m.leser; return m; })(), 'schemaUri'],
     ['U2-ADR-465 Nachtrag: schemaUri an einem Eingabe-Modul', mit({ schemaUri: 'https://vivodepot.de/schemas/x.json' }), 'schemaUri-ohne-ausgabe'],
     ['U2-ADR-465 Nachtrag: Ziel-Liste mit __proto__-Stufe', mit({ zuordnung: [{ feld: 'accounts', ziel: ['a', '__proto__'] }] }), 'zuordnung-leer'],
     ['U2-ADR-465 Nachtrag: Ziel-Liste leer', mit({ zuordnung: [{ feld: 'accounts', ziel: [] }] }), 'zuordnung-leer'],
+    ['U2-ADR-465 Nachtrag 04.11.: abgeleitet mit unbekannter Regel', mitXml({ zuordnung: [{ abgeleitet: { regel: 'beliebig', feld: 'accounts' }, ziel: 'b' }] }), 'zuordnung-leer'],
+    ['U2-ADR-465 Nachtrag 04.11.: gleich ohne wert', mitXml({ zuordnung: [{ abgeleitet: { regel: 'gleich', feld: 'accounts' }, ziel: 'b' }] }), 'zuordnung-leer'],
+    ['U2-ADR-465 Nachtrag 04.11.: abgeleitet mit feld daneben', mitXml({ zuordnung: [{ abgeleitet: { regel: 'nichtLeer', feld: 'accounts' }, feld: 'accounts', ziel: 'b' }] }), 'zuordnung-leer'],
+    ['U2-ADR-465 Nachtrag 04.11.: Auswahl ohne werte', mitXml({ zuordnung: [{ antrag: { id: 'x', frage: 'F?', typ: 'auswahl' }, ziel: 'b' }] }), 'zuordnung-leer'],
+    ['U2-ADR-465 Nachtrag 04.11.: Vorschlag an einer Textfrage', mitXml({ zuordnung: [{ antrag: { id: 'x', frage: 'F?', typ: 'text', vorschlag: { regel: 'nichtLeer', feld: 'accounts' } }, ziel: 'b' }] }), 'zuordnung-leer'],
   ],
   nurKern: {
     reserviert: 'Welche Kennungen ab Werk belegt sind, hängt an den eingebauten Ein- und Ausgabekanälen des Kerns — die Liste wächst mit dem Bestand, das Schema kennt sie nicht.',
@@ -117,6 +151,7 @@ gleichlaufProben({
     schreiber: 'Ob eine Schreiber-Kennung auflöst, hängt an der eingebauten Schreibertabelle — das Schema prüft nur die Form.',
     'vertreter-ohne-nachweis': 'U2-ADR-465 Nachtrag: ob neben einem `vertreter` ein Eintrag mit der Rolle vollmacht-nachweis steht, ist eine Bedingung über zwei Einträge der Liste — das Schema prüft jeden Eintrag für sich.',
     'anhang-rolle-doppelt': 'U2-ADR-465 Nachtrag: dass jede Anhang-Rolle höchstens einmal vorkommt, ist eine Bedingung über die ganze Liste — das Schema prüft jeden Eintrag für sich.',
+    'antrag-id-doppelt': 'U2-ADR-465 Nachtrag (04.11.2026): dass jede `id` einer Antragsfrage höchstens einmal vorkommt, ist eine Bedingung über die ganze Liste — das Schema prüft jeden Eintrag für sich.',
     'zuordnung-leer': 'Ob ein Feld im Bereich existiert, hängt am laufenden Feldbestand — der Kern verwirft unbekannte Felder einzeln; bleibt keine Zuordnung übrig, lehnt er ab.',
   },
   nurKernFaelle: [
@@ -124,9 +159,10 @@ gleichlaufProben({
     ['reservierte Ausgabe-Kennung', mit({ format: 'ics-vorsorge', richtung: 'export', leser: null }), 'reserviert'],
     ['unbekannter Bereich', mit({ sektor: 'gibtesnicht' }), 'sektor'],
     ['unbekannter Leser', mit({ leser: 'json@9' }), 'leser'],
-    ['unbekannter Schreiber', mit({ schreiber: 'csv@1' }), 'schreiber'],
+    ['unbekannter Schreiber', mit({ schreiber: 'vcard-erste@1' }), 'schreiber'],
     ['U2-ADR-465 Nachtrag: vertreter ohne Nachweis der Vollmacht', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'a' }, { vertreter: 'familyName', ziel: 'b' }] }), 'vertreter-ohne-nachweis'],
     ['U2-ADR-465 Nachtrag: dieselbe Rolle zweimal', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'a' }, { anhang: 'bescheid', ziel: 'b' }, { anhang: 'bescheid', ziel: 'c' }] }), 'anhang-rolle-doppelt'],
+    ['U2-ADR-465 Nachtrag 04.11.: dieselbe Antrags-id zweimal', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'a' }, { antrag: { id: 'x', frage: 'A?', typ: 'janein' }, ziel: 'b' }, { antrag: { id: 'x', frage: 'B?', typ: 'janein' }, ziel: 'c' }] }), 'antrag-id-doppelt'],
     ['nur unbekannte Felder', mit({ zuordnung: [{ feld: 'gibtesnicht', ziel: 'x' }] }), 'zuordnung-leer'],
   ],
 });

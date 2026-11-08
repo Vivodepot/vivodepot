@@ -143,3 +143,23 @@ test('[Pod-Brücke·ath·Rot-Beweis] eine Kopfzeile, die zugang neu liest, fäll
   const js = lesen('pod/solid-oidc.js');
   assert.ok(athFehler(js.replace("kopf.set('Authorization', 'DPoP ' + b.token)", "kopf.set('Authorization', 'DPoP ' + zugang.token)")).includes('kopfzeile-liest-zugang'));
 });
+
+// Navicon: die Brücke trägt das Icon des Kerns. Ihre CSP erlaubt Bilder nur von der eigenen Herkunft (img-src 'self'), darum
+// liegt es als Datei neben der Seite, byte-gleich mit dem Bild im Kopf des Kerns (eine Quelle, tools/lib/navicon.js).
+const NAVICON = require('../tools/lib/navicon.js');
+function bildIn(html) {
+  const icon = NAVICON.iconLinksIn(html).filter((i) => i.rel === 'icon');
+  return icon.length === 1 && NAVICON.cspErlaubtIcon(html, icon[0]) && fs.existsSync(path.join(W, 'pod', icon[0].href))
+    ? fs.readFileSync(path.join(W, 'pod', icon[0].href)) : null;
+}
+test('[Pod-Brücke·Navicon] die Seite trägt genau ein rel="icon", ihre CSP lädt es, und das Bild ist das des Kerns', () => {
+  const kern = NAVICON.faviconPngAusKern(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
+  const bild = bildIn(lesen('pod/bruecke.html'));
+  assert.ok(bild, 'Icon fehlt, ist nicht ladbar oder die Datei fehlt');
+  assert.ok(bild.equals(kern), 'pod/favicon.png ist nicht das Bild des Kerns');
+});
+test('[Pod-Brücke·Navicon·Rot-Beweis] ein data:-Icon lüde unter img-src \'self\' nicht, eine Seite ohne Icon hat keines', () => {
+  const html = lesen('pod/bruecke.html');
+  assert.equal(bildIn(html.replace('href="favicon.png"', 'href="data:image/png;base64,AAAA"')), null);
+  assert.equal(bildIn(html.replace(/<link rel="icon"[^>]*>\n/, '')), null);
+});

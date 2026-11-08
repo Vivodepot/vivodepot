@@ -319,3 +319,80 @@ test('[Reihe·Zugkopf] eine neu gesetzte Marke beginnt ohne Griff; ein fremder G
     assert.equal(sp.reiheLesen({ dir: a.dir }).gegriffenAm, undefined, 'ein fremder Lauf setzt den Griff nicht');
   } finally { a.aufraeumen(); }
 });
+
+/* MARKE VERWAIST BEI LEBENDEM LAUF (06.11.2026, Befund SUITE-PLATZ-MARKE-VERWAIST-BEI-LAUF): drei Wege, auf denen ein lebender
+   Lauf die Marke nicht hielt. Rot-Beweis: mit der Bibliothek davor (SUITE_PLATZ_LIB auf `git show <davor>:tools/lib/suite-platz.js`)
+   fallen die ersten Zusicherungen der drei Fälle. Die Marke wird als Datei geschrieben; die Startzeit misst die Probe selbst. */
+const { execFileSync } = require('node:child_process');
+const startVon = (pid) => execFileSync('ps', ['-o', 'lstart=', '-p', String(pid)], { encoding: 'utf8' }).trim();
+function markeMitLauf(dir, baum, jetzt, lauf) {
+  fs.writeFileSync(path.join(dir, 'reihe'), JSON.stringify({ baum: fs.realpathSync(baum), gesetztAm: new Date(jetzt).toISOString(), lauf }) + '\n');
+}
+const TOT = 2 ** 22 + 12345;
+
+test('[Reihe·verwaist·Lauf ohne Platz] lebt der eingetragene Lauf der Marke, gilt sie ohne Platz; tot oder mit anderer Startzeit nicht', () => {
+  const a = aufbau();
+  try {
+    const pid = a.p();
+    markeMitLauf(a.dir, a.baumDran, Date.now() - ELF_MIN, { pid, start: startVon(pid) });
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'der Lauf lebt, ohne Platz und ohne Ticket');
+    markeMitLauf(a.dir, a.baumDran, Date.now() - ELF_MIN, { pid, start: 'Thu Jan  1 00:00:00 1970' });
+    const anders = sp.reiheLesen({ dir: a.dir });
+    assert.equal(anders.gueltig, false, 'gleiche PID, andere Startzeit: ein anderer Prozess');
+    assert.match(anders.grund, /anderer Startzeit/);
+    markeMitLauf(a.dir, a.baumDran, Date.now() - ELF_MIN, { pid: TOT, start: 'x' });
+    const tot = sp.reiheLesen({ dir: a.dir });
+    assert.equal(tot.gueltig, false, 'ein toter Lauf hält sie nicht');
+    assert.match(tot.grund, /kein Eintrag im Baum, Lauf der Marke PID \d+ tot/);
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·verwaist·Lauf ohne Platz] reiheLaufMerken trägt nur einen Lauf im markierten Baum in eine gültige Marke ein', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran);
+    const pid = a.p();
+    assert.equal(sp.reiheLaufMerken({ dir: a.dir, pid, cwd: a.baumAnders }), false, 'fremder Baum: kein Eintrag');
+    assert.equal(sp.reiheLaufMerken({ dir: a.dir, pid, cwd: path.join(a.baumDran) }), true);
+    const m = JSON.parse(fs.readFileSync(path.join(a.dir, 'reihe'), 'utf8'));
+    assert.equal(m.lauf.pid, pid);
+    assert.equal(m.lauf.start, startVon(pid));
+    fs.rmSync(path.join(a.dir, 'reihe'));
+    assert.equal(sp.reiheLaufMerken({ dir: a.dir, pid, cwd: a.baumDran }), false, 'ohne Marke: kein Eintrag');
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·verwaist·Platz über Zahl] ein lebender Halter auf einem Platz über der Platzzahl hält die Marke, voll und klein', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    fs.writeFileSync(path.join(a.dir, 'plaetze.json'), JSON.stringify({ plaetze: 1, kleinPlaetze: 1 }));
+    const eintrag = (pid) => JSON.stringify({ pid, name: 'landung-vorbereiten', cwd: fs.realpathSync(a.baumDran), host: os.hostname() });
+    fs.writeFileSync(path.join(a.dir, 'platz-3.lock'), eintrag(a.p()));
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'voller Platz 3 bei Platzzahl 1');
+    fs.rmSync(path.join(a.dir, 'platz-3.lock'));
+    const kd = path.join(a.dir, 'klein');
+    fs.mkdirSync(kd, { recursive: true });
+    fs.writeFileSync(path.join(kd, 'platz-6.lock'), eintrag(a.p()));
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'Klein-Platz 6 über jeder Klein-Zahl');
+    fs.writeFileSync(path.join(kd, 'platz-6.lock'), eintrag(TOT));
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, false, 'ein toter Halter dort hält sie nicht');
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·verwaist·Host] ein Eintrag mit demselben Rechnernamen in anderer Schreibung hält die Marke; ein fremder Rechner nicht', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    const h = os.hostname();
+    const variante = h.includes('.') ? h.split('.')[0].toUpperCase() : h.toUpperCase() + '.local';
+    const schreiben = (host) => fs.writeFileSync(path.join(a.dir, 'platz-1.lock'),
+      JSON.stringify({ pid: a.p(), name: 'landung-vorbereiten', cwd: fs.realpathSync(a.baumDran), host }));
+    schreiben(variante);
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, h + ' gegen ' + variante);
+    schreiben('ganz-anderer-rechner');
+    const r = sp.reiheLesen({ dir: a.dir });
+    assert.equal(r.gueltig, false);
+    assert.match(r.grund, /Host ganz-anderer-rechner/, 'der Grund nennt den Weg');
+  } finally { a.aufraeumen(); }
+});

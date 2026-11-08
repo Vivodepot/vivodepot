@@ -122,3 +122,25 @@ test('[rezept-signatur-pruefen·Leitplanke] das Werkzeug prüft nur: kein Signie
   }
   assert.deepEqual(Object.keys(P).filter((k) => /sign|schreib|ausstell/i.test(k) && k !== 'rezeptSignaturPruefen'), []);
 });
+
+test('[rezept-signatur-pruefen·Anker-alg] am Anker gilt nur EdDSA, wie in der App', async () => {
+  const anker = await paar(); const stelle = await paar();
+  const cs = { anbieterId: 'beispiel/ausgabestelle', anbieterTyp: V.AUSGABESTELLE_ANBIETERTYP, publicKeyJwk: stelle.pub, rolle: 'rezept' };
+  const nutz = { issuer: 'did:web:example.invalid', issuanceDate: '2026-09-01T00:00:00Z', expirationDate: '2027-12-01T00:00:00Z', credentialSubject: cs };
+  const pruefe = async (certJws, ankerPub) => P.rezeptSignaturPruefen('beispiel-de', {
+    rezeptBytes: BYTES, jwsText: await signatur('beispiel-de', BYTES, stelle, certJws), ankerJwk: ankerPub, jetzt: JETZT });
+  // Gegenprobe: EdDSA am Anker trägt.
+  const gut = await pruefe(await V._signJWS(nutz, await V._jwsImportSignKey(anker.priv), { alg: 'EdDSA' }), anker.pub);
+  assert.equal(gut.gueltig, true, gut.grund);
+  // Rot-Beweis: derselbe Schlüssel, Kopfwert Ed25519 — gültige Signatur, aber am Anker nicht angenommen.
+  const ed = await pruefe(await V._signJWS(nutz, await V._jwsImportSignKey(anker.priv), { alg: 'Ed25519' }), anker.pub);
+  assert.equal(ed.gueltig, false);
+  assert.match(ed.grund, /^anker-alg: .*„Ed25519"/);
+  // Rot-Beweis: ein P-256-Anker mit ES256 wird abgelehnt, bevor eine Signatur geprüft wird.
+  const kp = await webcrypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+  const ecPriv = await webcrypto.subtle.exportKey('jwk', kp.privateKey);
+  const ecPub = await webcrypto.subtle.exportKey('jwk', kp.publicKey);
+  const es = await pruefe(await V._signJWS(nutz, await V._jwsImportSignKey(ecPriv), {}), { kty: 'EC', crv: 'P-256', x: ecPub.x, y: ecPub.y });
+  assert.equal(es.gueltig, false);
+  assert.match(es.grund, /^anker-alg: .*„ES256"/);
+});

@@ -16,11 +16,12 @@
    tests/docx-streichung-gegenprobe.test.js: zwei Kerne, dasselbe Depot,
    derselbe erzeugte Text, Byte für Byte.
 
-   ZWEI SCHREIBER, NICHT VIER — und das ist eine Aussage, keine Auslassung:
-   `csv@1` und `vcard-erste@1` haben keine Schreibseite, weil ihre Konventionen
-   sich nicht UMKEHREN, sondern nur ERFINDEN liessen (Trennzeichen, Zeilenende,
-   vCard-VERSION, das Pflichtfeld FN). Gruppe E hält fest, dass die Lücke im Code
-   BENANNT ist und nicht bloss fehlt.
+   DREI SCHREIBER, NICHT FÜNF — und das ist eine Aussage, keine Auslassung:
+   `vcard-erste@1` hat keine Schreibseite, weil ihre Konventionen sich nicht
+   UMKEHREN, sondern nur ERFINDEN liessen (vCard-VERSION, das Pflichtfeld FN).
+   `csv@1` hat seit dem Nachtrag vom 04.11.2026 einen Schreiber mit ENTSCHIEDENER
+   Konvention (Probe tests/csv-schreiber.test.js). Gruppe E hält fest, dass jede
+   übrige Lücke im Code BENANNT ist und nicht bloss fehlt.
    ════════════════════════════════════════════════════════════════════════════ */
 const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // nur-privat: s. tests/helfer/nur-privat.js
 const assert = require('node:assert/strict');
@@ -136,7 +137,7 @@ test('[U2-ADR-257·A] ohne `schreiber` steht im Kanal trotzdem eine Kennung — 
 test('[U2-ADR-257·B] die Schreiber tragen eine Version — dieselbe Form wie die Leser', () => {
   const V = frisch();
   const namen = Object.keys(V.FORMAT_SCHREIBER).sort();
-  assert.deepEqual(namen, ['json@1', 'xml@1']);
+  assert.deepEqual(namen, ['csv@1', 'json@1', 'xml@1']);   // csv@1: Nachtrag 04.11.2026
   for (const n of namen) assert.match(n, /@\d+$/, n + ' trägt keine Version');
   for (const n of namen) {
     const e = V.FORMAT_SCHREIBER[n];
@@ -159,7 +160,7 @@ test('[U2-ADR-257·B·Rot] aufgelöst wird EXAKT — kein Fallback auf den Stamm
   const V = frisch();
   assert.equal(V.schreiberAufloesen('json@1'), V.FORMAT_SCHREIBER['json@1']);
   assert.equal(V.schreiberAufloesen('xml@1'), V.FORMAT_SCHREIBER['xml@1']);
-  for (const k of ['json', 'xml', 'json@9', 'xml@2', 'csv@1', 'vcard-erste@1', 'quatsch', '', null, 42, 'constructor']) {
+  for (const k of ['json', 'xml', 'json@9', 'xml@2', 'csv', 'csv@2', 'vcard-erste@1', 'quatsch', '', null, 42, 'constructor']) {
     assert.equal(V.schreiberAufloesen(k), null, JSON.stringify(k) + ' darf nichts auflösen');
   }
   /* `json` (unversioniert) ist hier ABSICHTLICH kein Rückweg, anders als beim Leser: es gab nie
@@ -174,7 +175,7 @@ test('[U2-ADR-257·B·Rot] aufgelöst wird EXAKT — kein Fallback auf den Stamm
 
 test('[U2-ADR-257·C·Rot] eine unbekannte schreiber-Kennung verwirft das Modul — wie bei leser', () => {
   const V = frisch();
-  for (const k of ['json', 'quatsch@1', 'xml@9', 'csv@1', '', 42, { }]) {
+  for (const k of ['json', 'quatsch@1', 'xml@9', 'csv@9', '', 42, { }]) {
     const g = V.formatModulPruefen(Object.assign({}, BESTANDSMODUL, { schreiber: k }));
     assert.equal(g.gueltig, false, JSON.stringify(k) + ' hätte abgewiesen werden müssen');
     assert.equal(g.grund, 'schreiber');
@@ -329,10 +330,11 @@ test('[U2-ADR-257·E] jede Leseform hat entweder einen Schreiber oder eine BENAN
 });
 
 // 17.09.2026: sd-jwt@1 kam als dritte Lücke dazu — der Digest je Offenlegung ist asynchron, die Schreib-Schnittstelle nicht.
-test('[U2-ADR-257·E] csv@1, sd-jwt@1 und vcard-erste@1 sind die offenen — ein Modul, das sie zum Schreiben nennt, wird abgewiesen', () => {
+// 04.11.2026: csv@1 hat seinen Schreiber (Nachtrag zu U2-ADR-257), offen bleiben sd-jwt@1 und vcard-erste@1.
+test('[U2-ADR-257·E] sd-jwt@1 und vcard-erste@1 sind die offenen — ein Modul, das sie zum Schreiben nennt, wird abgewiesen', () => {
   const V = frisch();
-  assert.deepEqual(Object.keys(V._FORMAT_SCHREIBER_LUECKEN).sort(), ['csv@1', 'sd-jwt@1', 'vcard-erste@1']);
-  for (const k of ['csv@1', 'sd-jwt@1', 'vcard-erste@1']) {
+  assert.deepEqual(Object.keys(V._FORMAT_SCHREIBER_LUECKEN).sort(), ['sd-jwt@1', 'vcard-erste@1']);
+  for (const k of ['sd-jwt@1', 'vcard-erste@1']) {
     const g = V.formatModulPruefen(Object.assign({}, BESTANDSMODUL, { schreiber: k }));
     assert.equal(g.gueltig, false, k + ' darf nicht als Schreiber durchgehen, solange die Konvention offen ist');
     assert.equal(g.grund, 'schreiber');

@@ -170,10 +170,10 @@ test('1b Generator-Round-Trip: basistemplateTreuhandSignieren → Bürger-App ve
   assert.ok(set.has('pv'), 'Generator-signiertes Template → in der Bürger-App verifiziert + inhaltsgebunden');
 });
 
-test('1b Generator: Key ohne d → Fehler (Vorbedingung Treuhand-Private-Key)', async () => {
+test('1b Generator: Key ohne d → Fehler (Vorbedingung privater Vorlagenschlüssel)', async () => {
   const G = ladeGenerator().V;
   const { pubJwk } = await treuhandKeypair();
-  await assert.rejects(() => G.basistemplateTreuhandSignieren([{ id: 'x', felder: [] }], pubJwk), /Private-Key/);
+  await assert.rejects(() => G.basistemplateTreuhandSignieren([{ id: 'x', felder: [] }], pubJwk), /privater Vorlagenschlüssel/);
 });
 
 // ════════════════════════════════════════════════════════════════════════

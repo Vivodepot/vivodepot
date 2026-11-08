@@ -354,7 +354,7 @@ test('[Stapel] ohne Bestätigung wird nicht ausgestellt — F-7 wird nicht erset
   const zeilen = V.stapelPruefen([stapelPaket(1), stapelPaket(2)]);
   zeilen[0].bestaetigt = true;            // nur der erste
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
-  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), {});
+  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), { anbieterPruefung: { abgeschaltet: true } });
   assert.equal(lauf.ausgestellt, 1);
   assert.equal(lauf.uebersprungen, 1);
   assert.equal(lauf.zeilen[1].ausgestellt, false);
@@ -369,7 +369,7 @@ test('[Stapel] ein ungültiger Eintrag hält den Durchlauf NICHT an — er wird 
   const zeilen = V.stapelPruefen([stapelPaket(1), { kaputt: true }, stapelPaket(3)]);
   for (const z of zeilen) if (z.gueltig) z.bestaetigt = true;
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
-  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), {});
+  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), { anbieterPruefung: { abgeschaltet: true } });
   assert.equal(lauf.gesamt, 3);
   assert.equal(lauf.ausgestellt, 2, 'die gültigen Einträge NACH dem Fehler müssen ausgestellt sein');
   assert.equal(lauf.uebersprungen, 1);
@@ -385,6 +385,7 @@ test('[Stapel] jedes ausgestellte Zertifikat verifiziert wirklich gegen den Anke
   for (const z of zeilen) z.bestaetigt = true;
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
   const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), {
+    anbieterPruefung: { abgeschaltet: true },
     issuanceDate: '2026-05-31T12:00:00Z', expirationDate: '2027-11-30T12:00:00Z',
   });
   assert.equal(lauf.ausgestellt, 3);
@@ -406,7 +407,7 @@ test('[Stapel] der Sentinel-Stolperdraht steht an JEDER Zeile, nicht nur an der 
   const zeilen = V.stapelPruefen([stapelPaket(1), stapelPaket(2), stapelPaket(3)]);
   for (const z of zeilen) z.bestaetigt = true;
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
-  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), { istTestSentinel: true });
+  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), { istTestSentinel: true, anbieterPruefung: { abgeschaltet: true } });
   assert.equal(lauf.ausgestellt, 3);
   for (const z of lauf.zeilen) {
     assert.equal(z.istTestSentinel, true, 'Zeile ' + z.nr + ' trägt die Sentinel-Markierung nicht');
@@ -414,7 +415,7 @@ test('[Stapel] der Sentinel-Stolperdraht steht an JEDER Zeile, nicht nur an der 
   // Rot-Beleg-Gegenprobe: ohne Sentinel-Schlüssel trägt keine Zeile die Markierung.
   const zeilen2 = V.stapelPruefen([stapelPaket(9)]);
   zeilen2[0].bestaetigt = true;
-  const ohne = await V.stapelAusstellen(zeilen2, (vc) => V.stelleProviderCredentialAus(vc, key), {});
+  const ohne = await V.stapelAusstellen(zeilen2, (vc) => V.stelleProviderCredentialAus(vc, key), { anbieterPruefung: { abgeschaltet: true } });
   assert.equal(ohne.zeilen[0].istTestSentinel, false);
 });
 
@@ -425,6 +426,7 @@ test('[Stapel] das Audit-Log bekommt einen Eintrag je Ausstellung — und keinen
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
   const gestempelt = [];
   await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), {
+    anbieterPruefung: { abgeschaltet: true },
     stempelFn: (e) => gestempelt.push(e), alg: 'EdDSA',
   });
   assert.equal(gestempelt.length, 2);
@@ -438,7 +440,7 @@ test('[Stapel] das Bündel trägt nur die ausgestellten — kein Platz ohne Inha
   const zeilen = V.stapelPruefen([stapelPaket(1), { kaputt: true }, stapelPaket(3)]);
   for (const z of zeilen) if (z.gueltig) z.bestaetigt = true;
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
-  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), {});
+  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), { anbieterPruefung: { abgeschaltet: true } });
   const buendel = V.stapelBuendel(lauf);
   assert.equal(buendel.anzahl, 2);
   assert.equal(buendel.zertifikate.length, 2);
@@ -459,7 +461,7 @@ test('[Stapel] ein Signaturfehler trifft nur seine Zeile, nicht den Durchlauf', 
     n++;
     if (n === 2) throw new Error('Wegwerf-Fehler zur Probe');
     return V.stelleProviderCredentialAus(vc, key);
-  }, {});
+  }, { anbieterPruefung: { abgeschaltet: true } });
   assert.equal(lauf.ausgestellt, 2);
   assert.equal(lauf.zeilen[1].ausgestellt, false);
   assert.match(lauf.zeilen[1].grund, /Signatur fehlgeschlagen: Wegwerf-Fehler zur Probe/);
@@ -483,4 +485,39 @@ test('[Stapel] die Oberfläche trägt F-8 und die Freigabe bleibt zwingend', () 
                             quelle.indexOf('function stapelBuendel'));
   assert.equal(kern.includes('gibSchluesselFrei'), false,
     'der DOM-freie Kern darf den Schlüssel nicht anfassen');
+});
+
+/* Befund ANBIETERPRUEFUNG-STILL-UMGANGEN (06.11.2026): vor jeder Signatur im Stapel steht die Anbieterprüfung oder ihre
+   Abschaltung, ein Block für den ganzen Stapel. Rot-Beweis: vor dem Fix signierte der Stapel ohne beides, und das Zertifikat
+   las sich als „vor-einfuehrung“. */
+test('[Stapel·Anbieterprüfung] ohne Prüfung und ohne Abschaltung wird nichts signiert', async () => {
+  const { V } = ladeIssuer();
+  const zeilen = V.stapelPruefen([stapelPaket(1), stapelPaket(2)]);
+  zeilen.forEach((z) => { z.bestaetigt = true; });
+  let signiert = 0;
+  const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
+  for (const block of [undefined, null, { methode: 'zuruf' }, { abgeschaltet: 'ja' }]) {
+    const lauf = await V.stapelAusstellen(zeilen, (vc) => { signiert++; return V.stelleProviderCredentialAus(vc, key); }, { anbieterPruefung: block });
+    assert.equal(lauf.ausgestellt, 0, JSON.stringify(block));
+    assert.equal(lauf.uebersprungen, 2);
+    assert.match(lauf.zeilen[0].grund, /Anbieterprüfung/);
+  }
+  assert.equal(signiert, 0, 'keine Signatur ohne Prüfung');
+});
+
+test('[Stapel·Anbieterprüfung] mit Prüfung steht sie im Zertifikat, mit Abschaltung der Vermerk', async () => {
+  const { V } = ladeIssuer();
+  const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
+  const pruefung = { methode: 'email-bestaetigung', geprueftAm: '2026-11-06', geprueftVon: 'Probe-Betrieb', belegHash: 'b'.repeat(64) };
+  const gesehen = [];
+  for (const block of [pruefung, { abgeschaltet: true }]) {
+    const zeilen = V.stapelPruefen([stapelPaket(1)]);
+    zeilen[0].bestaetigt = true;
+    const lauf = await V.stapelAusstellen(zeilen, (vc) => { gesehen.push(vc.credentialSubject); return V.stelleProviderCredentialAus(vc, key); }, { anbieterPruefung: block });
+    assert.equal(lauf.ausgestellt, 1);
+  }
+  assert.deepEqual(JSON.parse(JSON.stringify(gesehen[0].anbieterPruefung)), pruefung);   // Objekt aus dem Aussteller-Kontext
+  assert.equal(gesehen[0].anbieterPruefungAbgeschaltet, undefined);
+  assert.equal(gesehen[1].anbieterPruefung, undefined);
+  assert.equal(gesehen[1].anbieterPruefungAbgeschaltet, true);
 });

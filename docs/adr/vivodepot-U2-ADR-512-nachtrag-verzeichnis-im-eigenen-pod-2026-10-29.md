@@ -7,7 +7,11 @@
 **Bezug:** U2-ADR-512 Nr. 6 (Abmelden löscht alles lokal), Nr. 8 (die Person bestätigt den Speicher), Nr. 9 (Rücknahme und Ablauf)
 · U2-ADR-512-Nachtrag Stufe 2 (25.10.2026)
 
-**Status heute:** gilt. Die Belege stehen im `konformitaet`-Block unten.
+**Status heute:** gilt, mit Nr. 3 ersetzt durch U2-ADR-520 (04.11.2026 in der Brücke gebaut): Die Kopie liegt nicht mehr im Klartext
+unter intern/verzeichnis.json im Pod, sondern als Chiffrat v1.jose im neutralen Ordner k/, das der Kern verschließt; dazu die Ablaufliste
+a1.json. Den Abgleich macht die Brücke mit dem Kern, also während eines Auftrags aus der Anwendung, und erst nach „Ablegen“
+(04.11.2026); beim Eintreffen des Auftrags liest sie nur, entfernt abgelaufene Ablagen samt Grant und zeigt die übrigen aus der Kopie zum Zurücknehmen. Die Belege stehen im
+`konformitaet`-Block unten.
 
 ---
 
@@ -66,47 +70,49 @@ Gerät wieder öffnet und ihren Speicher bestätigt.
 ```yaml
 konformitaet:
   - aussage: >-
-      Die Kopie liegt unter vivodepot/intern/verzeichnis.json mit genau den Feldern der Positivliste, ohne Fragment, SHL-Link,
-      Schlüssel oder Chiffrat; intern/ trägt zuvor die Regel nur für die WebID der Person, und ohne diese Regel wird nichts
-      geschrieben.
+      Die Kopie liegt im internen Ordner (seit U2-ADR-520 vivodepot/k/) mit genau den Feldern der Positivliste, ohne Fragment, SHL-Link, Schlüssel oder
+      Chiffrat einer Ablage, seit U2-ADR-520 nur als Chiffrat (v1.jose); der Ordner trägt zuvor die Regel nur für die WebID der
+      Person, und ohne diese Regel wird nichts geschrieben.
     zustand: erfuellt
-    herkunft: U2-ADR-512-Nachtrag Verzeichnis im eigenen Pod (29.10.2026)
+    herkunft: U2-ADR-512-Nachtrag Verzeichnis im eigenen Pod (29.10.2026), Ort und Form nach U2-ADR-520
     pruefung:
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] eine Ablage schreibt die Kopie nach intern/, mit genau den Feldern der Positivliste, nach der Regel"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] scheitert die Regel für intern/, schreibt die Brücke keine Kopie"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie·Rot-Beweis] ohne die Regel vor dem Schreiben läge die Kopie trotz gescheiterter Regel im Pod"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] mit Kern: im Pod liegen das Verzeichnis als Chiffrat und die Ablaufliste, nach der Regel, ohne Klartext"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] scheitert die Regel für intern/, schreibt die Brücke dort nichts"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis·Rot-Beweis] ohne die Regel vor dem Schreiben läge die Kopie trotz gescheiterter Regel im Pod"
   - aussage: >-
-      Nach Abmelden, auf einem leeren Browser oder einem zweiten Gerät kennt die Brücke die Ablagen nach der Bestätigung wieder und
-      löscht eine inzwischen abgelaufene; vor der Bestätigung liest und schreibt sie die Kopie nicht.
+      Nach Abmelden, auf einem leeren Browser oder einem zweiten Gerät kennt die Brücke die Ablagen nach der Bestätigung wieder
+      (mit Kern, U2-ADR-520) und löscht eine inzwischen abgelaufene, ohne Kern über die Ablaufliste; vor der Bestätigung liest und
+      schreibt sie unter intern/ nichts.
     zustand: erfuellt
     herkunft: U2-ADR-512-Nachtrag Verzeichnis im eigenen Pod (29.10.2026)
     pruefung:
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] abmelden, Ablagen lassen, neu anmelden: die inzwischen abgelaufene Ablage wird gelöscht"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] ein zweites Gerät mit leerem Browser kennt die Ablagen nach der Bestätigung und kann zurücknehmen"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] vor der Bestätigung liest und schreibt die Brücke die Kopie nicht"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie·Rot-Beweis] ohne den Abgleich nach der Bestätigung bleibt die abgelaufene Ablage liegen"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] abmelden, Ablagen lassen, mit Kern neu öffnen: die inzwischen abgelaufene Ablage wird gelöscht"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] ein zweites Gerät mit leerem Browser kennt die Ablagen mit Kern und kann zurücknehmen"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] vor der Bestätigung liest und schreibt die Brücke unter intern/ nichts"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis·Rot-Beweis] ohne den Abgleich mit dem Kern kennt ein zweites Gerät die Ablagen nicht"
   - aussage: >-
       Die Kopie im Pod gilt: was ein Gerät zurücknimmt, holt das andere nicht zurück; ein nur lokaler Eintrag kommt nur mit
       bestehender Ressource hinzu; zwei Geräte verlieren beim Schreiben keine Ablage.
     zustand: erfuellt
     herkunft: U2-ADR-512-Nachtrag Verzeichnis im eigenen Pod (29.10.2026)
     pruefung:
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] was ein Gerät zurücknimmt, holt das andere nicht zurück; was nur lokal und noch da ist, kommt hinzu"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] zwei Geräte schreiben nacheinander: keine Ablage geht verloren"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie·Rot-Beweis] mit einer Vereinigung ohne HEAD-Prüfung holt ein Gerät die Rücknahme des anderen zurück"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] scheitert die Prüfung eines nur lokalen Eintrags (HEAD 500), bleibt alles, wie es war, und die Seite sagt es"
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie·Rot-Beweis] verwürfe die Brücke bei HEAD 500 den Eintrag, fehlte er nach dem Lauf"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] was ein Gerät zurücknimmt, holt das andere nicht zurück; was nur lokal und noch da ist, kommt hinzu"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] zwei Geräte schreiben nacheinander: keine Ablage geht verloren"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis·Rot-Beweis] mit einer Vereinigung ohne HEAD-Prüfung holt ein Gerät die Rücknahme des anderen zurück"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] scheitert die Prüfung eines strittigen Eintrags (HEAD 500), bleibt die Kopie, wie sie war"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis·Rot-Beweis] verwürfe die Brücke bei HEAD 500 den Eintrag, fehlte er nach dem Lauf"
   - aussage: >-
       Eine veränderte Kopie bringt die Brücke nicht dazu, außerhalb ihrer Ordner zu löschen; fremde Felder fallen weg.
     zustand: erfuellt
     herkunft: U2-ADR-512-Nachtrag Verzeichnis im eigenen Pod (29.10.2026)
     pruefung:
-      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Kopie] eine veränderte Kopie: fremde Adressen und Felder fallen weg, gelöscht wird nur in den eigenen Ordnern"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] eine veränderte Kopie oder Ablaufliste: fremde Adressen und Felder fallen weg, gelöscht wird nur in den eigenen Ordnern"
   - aussage: >-
-      Vor dem Abmelden fragt die Brücke weiter nach offenen Ablagen; mit Kopie im Pod sagt sie, dass die Seite sie nach der
-      nächsten Anmeldung wieder kennt.
+      Vor dem Abmelden fragt die Brücke weiter nach offenen Ablagen; mit Kopie im Pod sagt sie, dass die Seite sie wieder kennt,
+      wenn sie aus Vivodepot geöffnet wird.
     zustand: erfuellt
     herkunft: U2-ADR-512-Nachtrag Verzeichnis im eigenen Pod (29.10.2026)
     pruefung:
       - tests/pod-bruecke-abmelden.test.js "[Pod·Abmelden] abgelaufene Ablage wird vor dem Abmelden gelöscht, eine offene hält die Abmeldung an"
+      - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] abmelden, Ablagen lassen, mit Kern neu öffnen: die inzwischen abgelaufene Ablage wird gelöscht"
 ```

@@ -45,7 +45,7 @@ const SHOWCASE_BEGIN = '/* AB_WERK_SHOWCASE:BEGIN */';
 const SHOWCASE_ENDE = '/* AB_WERK_SHOWCASE:END */';
 
 // Dieselbe Liste wie `vorschauDatenUebernehmen` im Kern — die Nutzlast ist Inhalt, nie Verwaltung.
-const INHALTS_FELDER = ['menschen', 'institutionen', 'mappe', 'sektoren', 'situationen', 'codes', 'sensibelFelder', 'schwangerschaften'];
+const INHALTS_FELDER = ['menschen', 'institutionen', 'mappe', 'sektoren', 'situationen', 'codes', 'sensibelFelder', 'schwangerschaften', 'fragen'];
 
 // Das Produkt, auf dem gebaut wird, muss Bereichsquellen gebacken tragen. Der blanke Kern hat die Region leer
 // (`Object.freeze([])`); die Vorführung darauf hätte leere Bereiche („Für diesen Bereich sind noch keine Felder spezifiziert").
@@ -162,6 +162,8 @@ function freitextStellen(V, daten) {
   }
   for (const p of daten.people || []) for (const f of PERSON_FREITEXT) if (typeof p[f] === 'string') nimm('people.' + p.key + '.' + f, p[f]);
   (daten.documents || []).forEach((d, i) => nimm('documents.' + i + '.beschriftung', d.beschriftung));
+  // Fragen am Eintrag (U2-ADR-523): Frage und Antwort sind Freitext der Person.
+  (daten.fragen || []).forEach((f, i) => { for (const k of ['frage', 'antwort']) if (f && typeof f[k] === 'string') nimm('fragen.' + i + '.' + k, f[k]); });
   return aus;
 }
 
@@ -185,6 +187,10 @@ function _pfadSetzen(daten, pfad) {
   if (t[0] === 'documents') {
     const d = (daten.documents || [])[Number(t[1])];
     return d && t[2] === 'beschriftung' ? { holen: () => d.beschriftung, setzen: (w) => { d.beschriftung = w; } } : null;
+  }
+  if (t[0] === 'fragen') {
+    const f = (daten.fragen || [])[Number(t[1])];
+    return f && (t[2] === 'frage' || t[2] === 'antwort') && typeof f[t[2]] === 'string' ? { holen: () => f[t[2]], setzen: (w) => { f[t[2]] = w; } } : null;
   }
   return null;
 }
@@ -288,6 +294,22 @@ function showcaseNutzlastErzeugen({ daten, V, dokumentOrdner, sprache } = {}) {
     }
   }
 
+  /* Fragen am Eintrag (U2-ADR-523, Demo 06.11.2026): über den Schreibweg des Kerns. `ziel.eintrag` ist der Index in der Liste der
+     Depot-Datei und wird zur eintragId des Kerns; `an` ist ein Schlüssel aus people/institutions. */
+  for (const f of daten.fragen || []) {
+    const z = f.ziel || {};
+    const ziel = { bereich: z.bereich, feld: z.feld };
+    if (z.eintrag != null) {
+      const liste = ((V.getData().sektoren || {})[z.bereich] || {})[z.feld];
+      const e = Array.isArray(liste) ? liste[z.eintrag] : null;
+      if (!e || !e.id) throw new Error('fragen: ' + (f.key || f.frage) + ' — Eintrag ' + z.eintrag + ' in ' + z.bereich + '.' + z.feld + ' gibt es nicht.');
+      ziel.eintragId = e.id;
+    }
+    const an = f.an && (f.an.institution ? ids.institution.get(f.an.institution) : f.an.person ? ids.person.get(f.an.person) : null);
+    if (!an) throw new Error('fragen: ' + (f.key || f.frage) + ' — Adressat ' + JSON.stringify(f.an) + ' gibt es nicht.');
+    V.frageAnlegen({ ziel, frage: f.frage, an: { ref: an }, gestellt: f.gestellt });
+  }
+
   _dokumenteEinlesen(V, daten.documents || [], dokumentOrdner);
   // Zugleich freigegeben und zurückgehalten ist ein Widerspruch in der Depot-Datei; er wird vor beiden Schleifen gemeldet.
   for (const kennung of daten.zurueckgehalten || []) {
@@ -325,7 +347,8 @@ function showcaseNutzlastErzeugen({ daten, V, dokumentOrdner, sprache } = {}) {
   }
   if (funde.length) throw new Error('Das Beispieldepot besteht die Feldprüfung nicht: ' + funde.join(' | '));
   const nutzlast = {};
-  for (const f of INHALTS_FELDER) if (d[f] !== undefined && d[f] !== null) nutzlast[f] = d[f];
+  // Ein leeres Fragen-Register gehört nicht in die Nutzlast: die Depots ohne Fragen bleiben byte-gleich.
+  for (const f of INHALTS_FELDER) if (d[f] !== undefined && d[f] !== null && !(f === 'fragen' && Array.isArray(d[f]) && !d[f].length)) nutzlast[f] = d[f];
   return _idsFestschreiben(JSON.parse(JSON.stringify(nutzlast)));
 }
 

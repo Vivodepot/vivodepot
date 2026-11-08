@@ -73,6 +73,229 @@
         "type": "string",
         "pattern": "^(?:[\\p{L}_][\\p{L}\\p{N}._·-]*|#text|@[\\p{L}_][\\p{L}\\p{N}._·-]*)$"
       }
+    },
+    "ableitung": {
+      "description": "U2-ADR-465 Nachtrag (04.11.2026): eine Regel aus der Kern-Liste FORMAT_ABLEITUNGEN und ein Feld; Ergebnis ja/nein. Ob das Feld existiert, prüft nur der Kern.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "regel",
+        "feld"
+      ],
+      "properties": {
+        "regel": {
+          "enum": [
+            "nichtLeer",
+            "gleich",
+            "ausListe"
+          ]
+        },
+        "feld": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "bereich": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "wert": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "liste": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "regel": {
+                "const": "gleich"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "wert"
+            ],
+            "properties": {
+              "wert": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "liste": false
+            }
+          },
+          "else": {
+            "properties": {
+              "wert": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regel": {
+                "const": "ausListe"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "liste"
+            ],
+            "properties": {
+              "liste": {
+                "type": "array"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "liste": false
+            }
+          }
+        }
+      ]
+    },
+    "zahlenpaar": {
+      "description": "U2-ADR-465 Nachtrag (W6): Unter- und Obergrenze, je eine Zahl oder null (offen).",
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": [
+          "number",
+          "null"
+        ]
+      }
+    },
+    "pruefungEintrag": {
+      "description": "U2-ADR-465 Nachtrag (W6, 04.11.2026): eine Regel der Vorprüfung je Element des XSD, in Dokumentfolge. Eine Gruppe (`gruppe: true`) trägt nur Anzahl und Name; ein Element trägt dazu Datentyp und Facetten. `anhang` steht für xs:anyType.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ziel",
+        "min",
+        "max"
+      ],
+      "properties": {
+        "ziel": {
+          "$ref": "#/$defs/pfad"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "description": "Höchstzahl; null heißt unbegrenzt.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "gruppe": {
+          "const": true
+        },
+        "typ": {
+          "enum": [
+            "string",
+            "normalizedString",
+            "token",
+            "integer",
+            "decimal",
+            "float",
+            "double",
+            "boolean",
+            "date",
+            "dateTime",
+            "anhang"
+          ]
+        },
+        "laenge": {
+          "$ref": "#/$defs/zahlenpaar"
+        },
+        "bereich": {
+          "$ref": "#/$defs/zahlenpaar"
+        },
+        "werte": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2000,
+          "items": {
+            "type": "string"
+          }
+        },
+        "muster": {
+          "description": "Muster des XSD; der Kern prüft nur eine enge Form, sonst „nicht vorgeprüft“ (formatMusterUebersetzen).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "gruppe"
+          ],
+          "properties": {
+            "gruppe": true,
+            "typ": false,
+            "laenge": false,
+            "bereich": false,
+            "werte": false,
+            "muster": false
+          }
+        },
+        {
+          "required": [
+            "typ"
+          ],
+          "properties": {
+            "typ": true,
+            "gruppe": false
+          }
+        }
+      ]
     }
   },
   "properties": {
@@ -182,6 +405,15 @@
       "type": "string",
       "pattern": "^https://[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+/[A-Za-z0-9._~/-]{1,400}$"
     },
+    "pruefung": {
+      "description": "U2-ADR-465 Nachtrag (W6, 04.11.2026): die Regeln aus dem XSD der Leistung, mit denen der Kern die Ausgabe vor dem Speichern vorprüft (Pflicht, Anzahl, Reihenfolge, Datentyp, Länge, Bereich, Aufzählung, Muster). Erzeugt von tools/fim-modul-erzeugen.mjs. Nur an einem XML-Ausgabekanal mit `wurzel`.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5000,
+      "items": {
+        "$ref": "#/$defs/pruefungEintrag"
+      }
+    },
     "erkennen": {
       "description": "UND-verknüpfte Vergleiche, an denen der Kanal seine Datei erkennt. Fehlt die Liste, wird der Kanal von Hand gewählt.",
       "type": [
@@ -251,7 +483,7 @@
       }
     },
     "zuordnung": {
-      "description": "Depot-Feld ↔ Pfad in der Datei. Ein Modul erfindet kein Feld: `feld` muss im Bereich `sektor` (bzw. `bereich`) existieren (prüft nur der Kern). U2-ADR-465: `bereich` liest ein Feld aus einem anderen Bereich, `fest` schreibt einen festen Wert statt eines Felds; beides trägt nur in der Ausgabe (der Kern verwirft es beim Einlesen einzeln). Die Folge der Einträge ist die Elementfolge. `werte` bildet den Rohwert auf einen Zielwert ab, `teil` nimmt einen Teil eines Datums; beides nur in der Ausgabe. U2-ADR-465 Nachtrag: `anhang` nennt die Rolle eines Anhangs (die Datei wählt die Person beim Export), `pflicht` sagt, ob ohne ihn keine Datei entsteht; `vertreter` ist ein Feld der bevollmächtigten Person und steht nur mit der Rolle `vollmacht-nachweis` (prüft der Kern). Beide allein, ohne `feld` und `fest`.",
+      "description": "Depot-Feld ↔ Pfad in der Datei. Ein Modul erfindet kein Feld: `feld` muss im Bereich `sektor` (bzw. `bereich`) existieren (prüft nur der Kern). U2-ADR-465: `bereich` liest ein Feld aus einem anderen Bereich, `fest` schreibt einen festen Wert statt eines Felds; beides trägt nur in der Ausgabe (der Kern verwirft es beim Einlesen einzeln). Die Folge der Einträge ist die Elementfolge. `werte` bildet den Rohwert auf einen Zielwert ab, `teil` nimmt einen Teil eines Datums; beides nur in der Ausgabe. U2-ADR-465 Nachtrag: `anhang` nennt die Rolle eines Anhangs (die Datei wählt die Person beim Export), `pflicht` sagt, ob ohne ihn keine Datei entsteht; `vertreter` ist ein Feld der bevollmächtigten Person und steht nur mit der Rolle `vollmacht-nachweis` (prüft der Kern). Beide allein, ohne `feld` und `fest`. U2-ADR-465 Nachtrag (04.11.2026): `abgeleitet` rechnet ja/nein aus einem Feld nach einer Regel des Kerns, `antrag` ist eine Frage an die Person beim Erzeugen (die Antwort wird nicht gespeichert); beide allein, nur mit `ziel`, nur in der Ausgabe.",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -341,6 +573,94 @@
           "codeliste": {
             "description": "U2-ADR-482: das Feld ist ein Rechtsraum-Codefeld (heute identity.nationality); das Ziel trägt die Codes der PID-Form (ISO 3166-1 alpha-2, QS, QU). Die Abbildung kommt aus dem Kern, dieselbe wie die des eingebauten PID-Kanals, alle oder keine. Nur an einem Codefeld (prüft der Kern); ein einlesendes Modul, das ein Codefeld ohne codeliste zuordnet, verliert diese Zuordnung.",
             "const": true
+          },
+          "abgeleitet": {
+            "$ref": "#/$defs/ableitung"
+          },
+          "antrag": {
+            "description": "U2-ADR-465 Nachtrag (04.11.2026): eine Frage beim Erzeugen; Typ aus der Kern-Liste FORMAT_ANTRAG_TYPEN, `werte` genau bei `auswahl`, `vorschlag` nur bei `janein`. Dass jede `id` nur einmal vorkommt, prüft nur der Kern.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "frage",
+              "typ"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_.-]{1,64}$"
+              },
+              "frage": {
+                "type": "string",
+                "pattern": "\\S",
+                "maxLength": 300
+              },
+              "typ": {
+                "enum": [
+                  "janein",
+                  "text",
+                  "datum",
+                  "auswahl"
+                ]
+              },
+              "werte": {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 1000,
+                "additionalProperties": {
+                  "type": "string",
+                  "pattern": "\\S",
+                  "maxLength": 300
+                }
+              },
+              "pflicht": {
+                "type": "boolean"
+              },
+              "vorschlag": {
+                "$ref": "#/$defs/ableitung"
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "typ": {
+                      "const": "auswahl"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "werte"
+                  ],
+                  "properties": {
+                    "werte": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "werte": false
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "typ": {
+                      "const": "janein"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "vorschlag": false
+                  }
+                }
+              }
+            ]
           }
         },
         "anyOf": [
@@ -391,6 +711,26 @@
             "properties": {
               "vertreter": {
                 "type": "string"
+              }
+            }
+          },
+          {
+            "required": [
+              "abgeleitet"
+            ],
+            "properties": {
+              "abgeleitet": {
+                "type": "object"
+              }
+            }
+          },
+          {
+            "required": [
+              "antrag"
+            ],
+            "properties": {
+              "antrag": {
+                "type": "object"
               }
             }
           }
@@ -452,6 +792,36 @@
               "werte": false,
               "teil": false
             }
+          },
+          "abgeleitet": {
+            "properties": {
+              "feld": false,
+              "alsListe": false,
+              "bereich": false,
+              "fest": false,
+              "werte": false,
+              "teil": false,
+              "anhang": false,
+              "pflicht": false,
+              "vertreter": false,
+              "codeliste": false,
+              "antrag": false
+            }
+          },
+          "antrag": {
+            "properties": {
+              "feld": false,
+              "alsListe": false,
+              "bereich": false,
+              "fest": false,
+              "werte": false,
+              "teil": false,
+              "anhang": false,
+              "pflicht": false,
+              "vertreter": false,
+              "codeliste": false,
+              "abgeleitet": false
+            }
           }
         }
       },
@@ -500,6 +870,33 @@
         "properties": {
           "leser": {
             "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "description": "Ein CSV-Ausgabekanal (Nachtrag zu U2-ADR-257) ist eine Kopfzeile und eine Datenzeile: kein Umschlag (`quelle`, `wurzel`), keine Liste, kein Anhang, und jedes `ziel` ist ein Spaltenname.",
+      "if": {
+        "required": ["richtung", "schreiber"],
+        "properties": {
+          "richtung": { "const": "export" },
+          "schreiber": { "type": "string", "pattern": "^\\s*csv@1\\s*$" }
+        }
+      },
+      "then": {
+        "properties": {
+          "quelle": { "type": "null" },
+          "wurzel": { "type": "null" },
+          "zuordnung": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "alsListe": { "not": { "const": true } },
+                "ziel": { "type": "string", "pattern": "\\S" },
+                "anhang": false
+              }
+            }
           }
         }
       }
@@ -682,6 +1079,38 @@
         "properties": {
           "richtung": {
             "const": "export"
+          }
+        }
+      }
+    },
+    {
+      "description": "U2-ADR-465 Nachtrag (W6): `pruefung` nur an einem XML-Ausgabekanal mit `wurzel`.",
+      "if": {
+        "required": [
+          "pruefung"
+        ],
+        "properties": {
+          "pruefung": {
+            "type": "array"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "richtung",
+          "schreiber",
+          "wurzel"
+        ],
+        "properties": {
+          "richtung": {
+            "const": "export"
+          },
+          "schreiber": {
+            "type": "string",
+            "pattern": "^\\s*xml@1\\s*$"
+          },
+          "wurzel": {
+            "type": "string"
           }
         }
       }

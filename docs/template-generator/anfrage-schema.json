@@ -42,7 +42,8 @@
       "properties": {
         "art": { "type": "string", "enum": ["einmalpasswort", "schluesselpaar"] },
         "an": { "type": "string", "description": "Wohin die Antwort geht — Klartext, den der Bestätigungsschritt zeigt." },
-        "publicKeyJwk": { "type": "object", "description": "Der öffentliche Teil, für das Schlüsselpaar-Verfahren (Auftrag 8)." }
+        "publicKeyJwk": { "type": "object", "description": "Der öffentliche Teil, für das Schlüsselpaar-Verfahren (Auftrag 8)." },
+        "format": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9:._@-]{0,119}$", "description": "Kennung des Ausgabe-Format-Moduls, in dessen Form die Stelle die Angaben einliest. Die Antwort trägt dann die fertige Datei (`zieldatei` im Antwort-Schema), gebaut nur aus den freigegebenen Angaben." }
       }
     }
   }

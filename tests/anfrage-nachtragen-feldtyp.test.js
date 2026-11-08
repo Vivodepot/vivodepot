@@ -180,7 +180,11 @@ function maengelKlasseAnfrage(V, art) {
      übrigen Feldern. Abgeleitet aus feldSichtbar, keine Liste. */
   const nachgetragen = [];
   const sektorenVorher = JSON.parse(JSON.stringify(V.getData().sektoren || {}));   // das Tor gilt am Stand der Anfrage, vor jedem Nachtrag
-  const verborgen = new Set(felder.filter((r) => !V.feldSichtbar(r.def, sektorenVorher[r.sektorId] || {}, V.bereichFelder(r.sektorId))).map((r) => r.kennung));
+  /* Ausgenommen die bisherigen Anschriftzeilen der Identität (`ersetztDurch`): `nurMitWert` blendet sie nur in der Ansicht aus;
+     eine Anfrage nach ihnen antwortet aus den Teilen oder führt sie als fehlend (Befund ANFRAGE-BISHERIGE-ZEILE-STILL, 05.11.2026,
+     tests/anfrage-bisherige-zeile.test.js). */
+  const bisherigeZeile = (r) => r.sektorId === 'identity' && Array.isArray(r.def.ersetztDurch) && r.def.ersetztDurch.length > 0;
+  const verborgen = new Set(felder.filter((r) => !bisherigeZeile(r) && !V.feldSichtbar(r.def, sektorenVorher[r.sektorId] || {}, V.bereichFelder(r.sektorId))).map((r) => r.kennung));
   for (const r of felder) {
     if (verborgen.has(r.kennung)) {
       if (fuell.has(r.kennung) || vorhanden.has(r.kennung)) maengel.push(r.klasse + ' (' + r.kennung + '): verborgenes Feld steht in der Antwort');

@@ -73,7 +73,8 @@ test('[Herkunftsort-Angaben] der Konfektionierer liest DIESELBE Schlüsselmenge 
   const a = L.angabenLesen(kern);
   assert.ok(a, 'der Kern trägt den erzeugten Block HERKUNFTSORT_ANGABEN nicht');
   // ausgabeErstelltMit seit dem U2-ADR-400-Nachtrag vom 18.10.2026: „Erstellt mit {urheberin}“ auf jeder Ausgabe.
-  assert.deepEqual(Object.keys(a.schluessel).sort(), ['ausgabeErstelltMit', 'herkunftLizenzhinweis', 'herkunftPoweredBy']);
+  // standardVorlageSigniertVon seit 06.11.2026 (TREUHAND-BEHOERDENNAME, mit Wort vom 06.11.2026): Signatur stammt vom Vorlagenschlüssel der Urheberin, nicht von der Marke.
+  assert.deepEqual(Object.keys(a.schluessel).sort(), ['ausgabeErstelltMit', 'herkunftLizenzhinweis', 'herkunftPoweredBy', 'standardVorlageSigniertVon']);
   const modul = (texte) => [{ modulTyp: 'textsatz', sprache: 'xx', texte }];
   assert.deepEqual(L.rezeptPruefen(kern, modul({ 'strings:herkunftPoweredBy.text': 'Made by {urheberin}' })), []);
   assert.equal(L.rezeptPruefen(kern, modul({ 'strings:herkunftPoweredBy.text': 'Made by someone' })).length, 1);

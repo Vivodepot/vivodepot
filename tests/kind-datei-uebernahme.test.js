@@ -157,7 +157,7 @@ test('[Kind-Datei·5] nach dem Abgeben gibt es keine Kind-Datei und keine Erinne
 test('[Kind-Datei·6] jeder Ort erfüllt dieselbe Schnittstelle — ein weiterer (Solid Pod) dockt ohne Umbau an', () => {
   const { V } = ladeKern();
   const orte = V.KIND_DATEI_ORTE;
-  assert.deepEqual(Object.keys(orte).sort(), ['ausgabe', 'datei']);
+  assert.deepEqual(Object.keys(orte).sort(), ['ausgabe', 'datei', 'pod'], 'der Pod ist der dritte Ort (05.11.2026)');
   for (const [name, ort] of Object.entries(orte)) {
     for (const f of ['verfuegbar', 'einrichten', 'sitzungsbereit', 'schreiben']) {
       assert.equal(typeof ort[f], 'function', name + '.' + f + ' fehlt');

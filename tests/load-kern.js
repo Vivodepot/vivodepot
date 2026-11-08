@@ -319,6 +319,10 @@ const EXPORT_HOOK = `
   kindDateiOrtVorschlag: (typeof kindDateiOrtVorschlag === 'function' ? kindDateiOrtVorschlag : undefined),
   prueftermineKindDateien: (typeof prueftermineKindDateien === 'function' ? prueftermineKindDateien : undefined),
   flowKindDateiEinrichten: (typeof flowKindDateiEinrichten === 'function' ? flowKindDateiEinrichten : undefined),
+  // Lücke 4 A1 (05.11.2026): die Abbildung der Person aus „Meine Menschen“ auf Feldregister-Kennungen.
+  PERSON_REGISTER_KENNUNG: (typeof PERSON_REGISTER_KENNUNG !== 'undefined' ? PERSON_REGISTER_KENNUNG : undefined),
+  PERSON_REGISTER_UNTERFELDER: (typeof PERSON_REGISTER_UNTERFELDER !== 'undefined' ? PERSON_REGISTER_UNTERFELDER : undefined),
+  _kindDateiKarteHTML: (typeof _kindDateiKarteHTML === 'function' ? _kindDateiKarteHTML : undefined),   // KIND-POD-OHNE-ABLAUF, Nachtrag (07.11.2026)
   listenVorschlaegeAbWerk: (typeof listenVorschlaegeAbWerk !== 'undefined' ? listenVorschlaegeAbWerk : undefined),   // Pro E14 (25.10.2026)
   listenVorschlaegeUebernehmen: (typeof listenVorschlaegeUebernehmen !== 'undefined' ? listenVorschlaegeUebernehmen : undefined),
   listenVorschlaegeHTML: (typeof listenVorschlaegeHTML !== 'undefined' ? listenVorschlaegeHTML : undefined),
@@ -327,11 +331,18 @@ const EXPORT_HOOK = `
   listenEintragZeileHTML: (typeof listenEintragZeileHTML === 'function' ? listenEintragZeileHTML : undefined),
   KIND_DATEI_ORTE: (typeof KIND_DATEI_ORTE !== 'undefined' ? KIND_DATEI_ORTE : undefined),
   _kindDateiSitzungsZiele: (typeof _kindDateiSitzungsZiele !== 'undefined' ? _kindDateiSitzungsZiele : undefined),
+  _kindPodAblauf: (typeof _kindPodAblauf === 'function' ? _kindPodAblauf : undefined),   // Kind-Datei im Pod (05.11.2026)
+  _kindPodJahreswechsel: (typeof _kindPodJahreswechsel === 'function' ? _kindPodJahreswechsel : undefined),   // KIND-ABLAUF-VERRAET-GEBURTSDATUM, KIND-POD-OHNE-ABLAUF (07.11.2026)
+  _kindPodIstJahreswechsel: (typeof _kindPodIstJahreswechsel === 'function' ? _kindPodIstJahreswechsel : undefined),
+  _kindPodGeburtsjahr: (typeof _kindPodGeburtsjahr === 'function' ? _kindPodGeburtsjahr : undefined),
+  KIND_POD_FRIST_JAHRE: (typeof KIND_POD_FRIST_JAHRE !== 'undefined' ? KIND_POD_FRIST_JAHRE : undefined),
+  KIND_POD_VOLLJAEHRIG_JAHRE: (typeof KIND_POD_VOLLJAEHRIG_JAHRE !== 'undefined' ? KIND_POD_VOLLJAEHRIG_JAHRE : undefined),
   VOLLIMPORT_MITNEHMEN_SCHLUESSEL: (typeof VOLLIMPORT_MITNEHMEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_MITNEHMEN_SCHLUESSEL : undefined),
   VOLLIMPORT_DRAUSSEN_SCHLUESSEL: (typeof VOLLIMPORT_DRAUSSEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_DRAUSSEN_SCHLUESSEL : undefined),
   VOLLIMPORT_REST_AUSGENOMMEN: (typeof VOLLIMPORT_REST_AUSGENOMMEN !== 'undefined' ? VOLLIMPORT_REST_AUSGENOMMEN : undefined),
   // STANDARDVORLAGE-NUR-DE (23.09.2026): Sprach-Hinweis an der deutschen Standardvorlage im englischen Produkt.
   wortlautVorlageHTML: (typeof wortlautVorlageHTML !== 'undefined' ? wortlautVorlageHTML : undefined),
+  signaturStelleName: (typeof signaturStelleName !== 'undefined' ? signaturStelleName : undefined),
   _standardVorlage: (typeof _standardVorlage !== 'undefined' ? _standardVorlage : undefined),
   _datumDreifeldHTML: (typeof _datumDreifeldHTML !== 'undefined' ? _datumDreifeldHTML : undefined),   // Zielbild S4 (31.10.2026); ältere Fassungen laden ohne sie
   _datumDreifeldZusammensetzen: (typeof _datumDreifeldZusammensetzen !== 'undefined' ? _datumDreifeldZusammensetzen : undefined),
@@ -610,6 +621,24 @@ const EXPORT_HOOK = `
   anschriftFuerAusgabe: (typeof anschriftFuerAusgabe !== 'undefined' ? anschriftFuerAusgabe : undefined),
   feldDurchTeileErsetzt: (typeof feldDurchTeileErsetzt !== 'undefined' ? feldDurchTeileErsetzt : undefined),
   institutionHinzufuegen, institutionAktualisieren, institutionName, institutionenVorschlag, institutionFinden,
+  // Fragen am Eintrag (U2-ADR-523)
+  FRAGEN_ZIELFELDER: (typeof FRAGEN_ZIELFELDER !== 'undefined' ? FRAGEN_ZIELFELDER : undefined),
+  frageAnlegen: (typeof frageAnlegen !== 'undefined' ? frageAnlegen : undefined),
+  frageBeantworten: (typeof frageBeantworten !== 'undefined' ? frageBeantworten : undefined),
+  frageEntfernen: (typeof frageEntfernen !== 'undefined' ? frageEntfernen : undefined),
+  fragenOffen: (typeof fragenOffen !== 'undefined' ? fragenOffen : undefined),
+  fragenZuEintrag: (typeof fragenZuEintrag !== 'undefined' ? fragenZuEintrag : undefined),
+  fragenVerwaist: (typeof fragenVerwaist !== 'undefined' ? fragenVerwaist : undefined),
+  fragenImAusschnitt: (typeof fragenImAusschnitt !== 'undefined' ? fragenImAusschnitt : undefined),
+  frageZielText: (typeof frageZielText !== 'undefined' ? frageZielText : undefined),
+  frageVerweisName: (typeof frageVerweisName !== 'undefined' ? frageVerweisName : undefined),
+  gespraechsblattModell: (typeof gespraechsblattModell !== 'undefined' ? gespraechsblattModell : undefined),
+  gespraechsblattAusschnittVorgabe: (typeof gespraechsblattAusschnittVorgabe !== 'undefined' ? gespraechsblattAusschnittVorgabe : undefined),
+  gespraechsblattHTML: (typeof gespraechsblattHTML !== 'undefined' ? gespraechsblattHTML : undefined),
+  flowFragenDialog: (typeof flowFragenDialog !== 'undefined' ? flowFragenDialog : undefined),
+  flowGespraechsblatt: (typeof flowGespraechsblatt !== 'undefined' ? flowGespraechsblatt : undefined),
+  frageZeileHTML: (typeof frageZeileHTML !== 'undefined' ? frageZeileHTML : undefined),
+  _fragenDialogHTML: (typeof _fragenDialogHTML !== 'undefined' ? _fragenDialogHTML : undefined),
   institutionReferenzStellen, flowInstitutionBearbeiten,   // A210 (Auftragskette 14.08.2026, Glied 9)
   RECHTSGRUNDLAGEN_VERTRETUNG,
   entitaetAnzeige, PERSON_ROLLEN, INSTITUTION_ART, CROSS_SEKTOR_FELDER,
@@ -660,6 +689,7 @@ const EXPORT_HOOK = `
   _auszugInhaltstyp: (typeof _auszugInhaltstyp !== 'undefined' ? _auszugInhaltstyp : undefined),
   // Befund SHL-ABLAGE-URL-UNGEPRUEFT (07.10.2026): Prüfung der Ablage-Adresse und Bestätigung des Hosts
   shlAblageUrlPruefen: (typeof shlAblageUrlPruefen !== 'undefined' ? shlAblageUrlPruefen : undefined),
+  shlEinmaligZusage: (typeof shlEinmaligZusage !== 'undefined' ? shlEinmaligZusage : undefined),   // SHL-EINMALIG-OHNE-TRAEGER
   _shlHostBestaetigungZeigen: (typeof _shlHostBestaetigungZeigen !== 'undefined' ? _shlHostBestaetigungZeigen : undefined),
   // Die zwei Freigabewege (Nachtrag U2-ADR-047): exportiert, damit die Proben den Manifest-Weg
   // gegen die Tabelle halten koennen und nicht gegen eine im Test nachgebaute Kopie.
@@ -1249,6 +1279,16 @@ const EXPORT_HOOK = `
   empfaengerkreisGiltBisVorschlaege: (typeof empfaengerkreisGiltBisVorschlaege === 'function' ? empfaengerkreisGiltBisVorschlaege : undefined),
   fachAbgelaufen: (typeof fachAbgelaufen === 'function' ? fachAbgelaufen : undefined),
   _delegationsRecht: (typeof _delegationsRecht === 'function' ? _delegationsRecht : undefined),
+  // Beziehungscode beim Anlegen (05.11.2026)
+  flowDelegationsExportEntscheid: (typeof flowDelegationsExportEntscheid === 'function' ? flowDelegationsExportEntscheid : undefined),
+  _beziehungZuLesen: (typeof _beziehungZuLesen === 'function' ? _beziehungZuLesen : undefined),
+  subDepotBeziehungSetzen: (typeof subDepotBeziehungSetzen === 'function' ? subDepotBeziehungSetzen : undefined),
+  _beziehungsAuswahlFuellen: (typeof _beziehungsAuswahlFuellen === 'function' ? _beziehungsAuswahlFuellen : undefined),
+  // Benannte Vollmacht im Sub-Depot (05.11.2026)
+  _vertretungsVollmachtLesen: (typeof _vertretungsVollmachtLesen === 'function' ? _vertretungsVollmachtLesen : undefined),
+  subDepotVollmachtSetzen: (typeof subDepotVollmachtSetzen === 'function' ? subDepotVollmachtSetzen : undefined),
+  vertretungsGrundlageMitVollmacht: (typeof vertretungsGrundlageMitVollmacht === 'function' ? vertretungsGrundlageMitVollmacht : undefined),
+  _vollmachtAuswahlFuellen: (typeof _vollmachtAuswahlFuellen === 'function' ? _vollmachtAuswahlFuellen : undefined),
   VERTRETUNG_ROLECODES: (typeof VERTRETUNG_ROLECODES !== 'undefined' ? VERTRETUNG_ROLECODES : undefined),
   _ortHinweisFuerUmschlag,   // F5 Zug 1 (21.08.2026): der Torwaechter des Ort-Hinweises
   _empfaengerFaecherFuerSchreibweg, _zerfallAttrappe, _zerfallEintragLesen,
@@ -1307,6 +1347,7 @@ const EXPORT_HOOK = `
   VORFUEHRUNG_AUSGABEN: (typeof VORFUEHRUNG_AUSGABEN !== 'undefined' ? VORFUEHRUNG_AUSGABEN : undefined),
   vorfuehrungJweAuszug: (typeof vorfuehrungJweAuszug === 'function' ? vorfuehrungJweAuszug : undefined),
   _vorfuehrungAnsichtZeigen: (typeof _vorfuehrungAnsichtZeigen === 'function' ? _vorfuehrungAnsichtZeigen : undefined),
+  _vorfuehrungGespraechsblatt: (typeof _vorfuehrungGespraechsblatt === 'function' ? _vorfuehrungGespraechsblatt : undefined),
   vorfuehrungGebacken: (typeof vorfuehrungGebacken === 'function' ? vorfuehrungGebacken : undefined),
   // Bildungsangaben (01.10.2026, vorher edci-bildung): frühere Kennung und frühere schemaVersion werden gelesen.
   formatKennungLesen: (typeof formatKennungLesen === 'function' ? formatKennungLesen : undefined),
@@ -1492,6 +1533,10 @@ const EXPORT_HOOK = `
   FORMAT_LESER, leserAufloesen, leserKennungHeute, formatModulPruefen, formatModulZuImportKanal, formatModulZuExportKanal,
   formatModulEinbetten, alleImportFormate, alleExportFormate, importFormatFuerId, exportFormatFuerId,
   FORMAT_MODUL_SCHLUESSEL,   // U2-ADR-255 (Auftrag, 04.09.2026) — derselbe Name wie die Zeile darüber, kein Guard nötig
+  // U2-ADR-465 Nachtrag (W6, 04.11.2026): die Vorprüfung; typeof, weil der Harnisch auch ältere Kerne lädt.
+  formatPruefungFormPruefen: (typeof formatPruefungFormPruefen !== 'undefined' ? formatPruefungFormPruefen : undefined),
+  formatMusterUebersetzen: (typeof formatMusterUebersetzen !== 'undefined' ? formatMusterUebersetzen : undefined),
+  formatVorpruefung: (typeof formatVorpruefung !== 'undefined' ? formatVorpruefung : undefined),
   /* U2-ADR-257 (Auftrag, 04.09.2026) — die Schreibseite. ALS typeof-Ausdruck: dieser
      Harnisch laedt auch KERNE AUS AELTEREN COMMITS (s. den Absatz weiter unten), und dort
      gibt es diese Namen nicht — ein blosser Name wuerfe dort "is not defined" und risse eine
@@ -1503,6 +1548,9 @@ const EXPORT_HOOK = `
   schreiberAufloesen: (typeof schreiberAufloesen !== 'undefined') ? schreiberAufloesen : undefined,
   schreiberKennungHeute: (typeof schreiberKennungHeute !== 'undefined') ? schreiberKennungHeute : undefined,
   _objektAlsXmlDokument: (typeof _objektAlsXmlDokument !== 'undefined') ? _objektAlsXmlDokument : undefined,
+  // Nachtrag zu U2-ADR-257 (04.11.2026): csv@1
+  _csvZelle: (typeof _csvZelle !== 'undefined') ? _csvZelle : undefined,
+  _csvKanalGrund: (typeof _csvKanalGrund !== 'undefined') ? _csvKanalGrund : undefined,
   _formatPfadLesen, _formatUnterPfad,
   // Standard-Dokument-Listen (U2-ADR-014, Stufe 2/Einheit 2) — reine Registry-Leser
   SEKTOREN, standardDokumenteFuer, alleStandardDokumente,
@@ -1857,6 +1905,18 @@ const EXPORT_HOOK = `
   _rechtsraumLebenslageHinweise: (typeof _rechtsraumLebenslageHinweise === 'function' ? _rechtsraumLebenslageHinweise : undefined),
   get aktiveLageId() { return aktiveLageId; },
   istCodierterWert, _codeEintraege, chipAusEingabe, chipListeMitNeuem,
+  bmpXmlLesen: (typeof bmpXmlLesen !== 'undefined' ? bmpXmlLesen : undefined),
+  bmpSeitenZusammenfuehren: (typeof bmpSeitenZusammenfuehren !== 'undefined' ? bmpSeitenZusammenfuehren : undefined),
+  bmpEintragText: (typeof bmpEintragText !== 'undefined' ? bmpEintragText : undefined),
+  bmpPlanUebernehmen: (typeof bmpPlanUebernehmen !== 'undefined' ? bmpPlanUebernehmen : undefined),
+  bmpKnopfHTML: (typeof bmpKnopfHTML !== 'undefined' ? bmpKnopfHTML : undefined),
+  bmpDateienLesen: (typeof bmpDateienLesen !== 'undefined' ? bmpDateienLesen : undefined),
+  BMP_DATEI_MAX_BYTES: (typeof BMP_DATEI_MAX_BYTES !== 'undefined' ? BMP_DATEI_MAX_BYTES : undefined),
+  BMP_BILD_MAX_BYTES: (typeof BMP_BILD_MAX_BYTES !== 'undefined' ? BMP_BILD_MAX_BYTES : undefined),
+  BMP_BILD_MAX_PIXEL: (typeof BMP_BILD_MAX_PIXEL !== 'undefined' ? BMP_BILD_MAX_PIXEL : undefined),
+  _bmpBildPixelPruefen: (typeof _bmpBildPixelPruefen !== 'undefined' ? _bmpBildPixelPruefen : undefined),
+  flowBmpEinlesen: (typeof flowBmpEinlesen !== 'undefined' ? flowBmpEinlesen : undefined),
+  bmpDataMatrixLesen: (typeof bmpDataMatrixLesen !== 'undefined' ? bmpDataMatrixLesen : undefined),
   // Gemeinsamer JWS-Block (Krypto-Fundament der drei Säulen)
   JWS_TYP, JWS_ALG_PRIMAER, JWS_ALG_FALLBACK,
   _signJWS, _verifyJWS, _jwsImportSignKey, _jwsImportVerifyKey,

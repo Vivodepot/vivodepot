@@ -9,7 +9,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { execFileSync } = require('node:child_process');
+const { spawnSync } = require('node:child_process');
 const { ladeKern } = require('./load-kern.js');
 
 test('[Vor-Depot·Rückfall] ohne Konfiguration wartet der Kern den Deckel ab und liefert „keine Konfiguration“', async () => {
@@ -37,14 +37,20 @@ test('[Vor-Depot·Rückfall·Browser] gibt setTimeout eine Zahl zurück wie im B
   } finally { /* schon zurückgesetzt */ }
 });
 
-const bisZumEnde = (kernPfad) => {
-  const t0 = Date.now();
-  execFileSync(process.execPath, ['-e', 'require(' + JSON.stringify(path.join(__dirname, 'load-kern.js')) + ').ladeKern(' + (kernPfad ? JSON.stringify({ htmlPfad: kernPfad, backen: true }) : '') + ')'],
-    { stdio: 'ignore', env: { ...process.env, NODE_TEST_CONTEXT: '' } });
-  return Date.now() - t0;
+/* Gemessen wird im Kind, wie lange der Prozess NACH dem Ende des Skripts noch lebt — nicht die Gesamtdauer samt Prozessstart
+   und ladeKern(). Die schwankten unter der Last der vollen Suite um Sekunden und machten die Probe rot, ohne dass ein
+   Zeitgeber hielt (Befund ZEITPROBEN-SUITE-LAST, 05.11.2026). Der Deckel-Zeitgeber steht am Ende von ladeKern(); ohne unref()
+   wartet das Kind ihn also fast ganz ab. */
+const nachDemEnde = (kernPfad, vorlaufMs = 0) => {
+  const skript = 'const _bis = Date.now() + ' + Number(vorlaufMs) + '; while (Date.now() < _bis) {} ' + 'require(' + JSON.stringify(path.join(__dirname, 'load-kern.js')) + ').ladeKern(' + (kernPfad ? JSON.stringify({ htmlPfad: kernPfad, backen: true }) : '') + ');'
+    + ' const t1 = Date.now(); process.on("exit", () => process.stderr.write("\\nNACH_DEM_ENDE " + (Date.now() - t1) + "\\n"));';
+  const r = spawnSync(process.execPath, ['-e', skript], { stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8', env: { ...process.env, NODE_TEST_CONTEXT: '' } });
+  const m = [...String(r.stderr).matchAll(/NACH_DEM_ENDE (\d+)/g)].pop();
+  assert.ok(m, 'das Kind meldet seine Wartezeit (Status ' + r.status + ')');
+  return Number(m[1]);
 };
 test('[Vor-Depot·Zeitgeber] ein Prozess mit ladeKern() endet ohne Warten — ohne unref() wartet er den Deckel ab (Rot-Beweis)', () => {
-  const ohne = bisZumEnde(null);
+  const ohne = nachDemEnde(null);
   assert.ok(ohne < 2000, 'ladeKern() hält den Prozess nicht offen (' + ohne + ' ms)');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'vor-depot-zeitgeber-'));
   try {
@@ -53,7 +59,14 @@ test('[Vor-Depot·Zeitgeber] ein Prozess mit ladeKern() endet ohne Warten — oh
     const ohneUnref = quelle.replace('_ohneProzessHalt(setTimeout(() => resolve(undefined), VOR_DEPOT_NACHLADEN_DECKEL_MS))', 'setTimeout(() => resolve(undefined), VOR_DEPOT_NACHLADEN_DECKEL_MS)');
     assert.notEqual(ohneUnref, quelle, 'die unref()-Stelle steht im Kern');
     fs.writeFileSync(kopie, ohneUnref);
-    const mit = bisZumEnde(kopie);
+    const mit = nachDemEnde(kopie);
     assert.ok(mit >= 2800 && mit - ohne >= 2000, 'Rot-Beweis: ohne unref() wartet der Prozess den Deckel ab (' + mit + ' gegen ' + ohne + ' ms)');
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+/* Lastsimulation: ein Kind, das vor dem Ende künstlich langsam ist (wie unter der Last der vollen Suite), gilt nicht als
+   gehalten. Die alte Messung der Gesamtdauer schlug hier an (Befund ZEITPROBEN-SUITE-LAST, 05.11.2026). */
+test('[Vor-Depot·Zeitgeber·Last] ein langsamer Prozessstart zählt nicht als Warten auf einen Zeitgeber', () => {
+  const langsam = nachDemEnde(null, 3000);
+  assert.ok(langsam < 2000, 'gemessen wird nur die Wartezeit nach dem Ende (' + langsam + ' ms)');
 });

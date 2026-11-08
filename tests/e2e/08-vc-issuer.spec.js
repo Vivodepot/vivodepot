@@ -51,6 +51,18 @@ test('Sentinel-Key-Import zeigt rote Markierung (F-2/T-A-04)', async ({ page }) 
   await expect(page.locator('#sentinelFlag')).toHaveText(/Test-Sentinel-Key erkannt/);
 });
 
+/* Seit dem Befund ANBIETERPRUEFUNG-STILL-UMGANGEN signiert der Aussteller nur mit ausgefülltem Pflichtblock der
+   Ausstellungsart (apEinzelBlock vor F-6, apStapelBlock in F-8). Ausgefüllt wie ein Mensch: Methode, Datum, Prüfende, Beleg. */
+async function pflichtblockAusfuellen(page, id) {
+  const b = page.locator('#' + id);
+  await b.scrollIntoViewIfNeeded();
+  await b.locator('label.ap-methode', { hasText: 'Registerauszug' }).click();
+  await b.locator('input[type=date]').fill('2026-11-06');
+  await b.locator('[data-ap="geprueftVon"]').fill('Prüferin A');
+  await b.locator('input[type=file]').setInputFiles({ name: 'beleg.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 Beleg') });
+  await expect(b).toHaveAttribute('data-zustand', 'voll');
+}
+
 test('Voller Ausstell-Workflow: VC ausstellen → F-7-Verifikation erscheint', async ({ page }) => {
   await page.goto(ISSUER_URL);
 
@@ -61,6 +73,7 @@ test('Voller Ausstell-Workflow: VC ausstellen → F-7-Verifikation erscheint', a
   await page.fill('#anbieterName', 'Sparkasse Musterstadt');
   await page.fill('#anbieterTyp', 'institution/sparkasse-de');
   await page.fill('#pubKeyText', JSON.stringify(ANBIETER_PUBLIC_JWK));
+  await pflichtblockAusfuellen(page, 'apEinzelBlock');
 
   await page.click('#issueBtn');
 
@@ -126,6 +139,7 @@ test('Stapel: nur bestätigte Einträge werden ausgestellt, der Rest steht benan
 
   // F-6 je Eintrag: nur der erste wird bestätigt.
   await page.locator('#stapel-ok-1').check();
+  await pflichtblockAusfuellen(page, 'apStapelBlock');
   await page.locator('#stapelAusstellenBtn').click();
 
   await expect(page.locator('#stapelStatus')).toHaveText(/1 ausgestellt, 2 übersprungen/);

@@ -21,7 +21,7 @@
      7. Rücknahme und Ablauf: danach ist die Ressource weg; der Ablauf greift nach neuer Anmeldung und Bestätigung.
      8. Die Tür: Klartext wird abgewiesen, und es geht keine Schreibanfrage an den Pod.
      9. Abmelden löscht alles lokal; alle Anfragen gehen nur an die beiden lokalen Herkünfte. Ein zweiter Browser kennt die
-        Ablagen aus der Kopie im Pod (vivodepot/intern/), setzt den Ablauf durch, und der erste holt sie nicht zurück.
+        Ablagen aus der Kopie im Pod (vivodepot/k/), setzt den Ablauf durch, und der erste holt sie nicht zurück.
     10. Stufe 2 (Nachtrag zu U2-ADR-512): der Kern unter seiner Herkunft öffnet die Brücke unter pod.vivodepot.de und übergibt
         die Sicherung per postMessage; die Person bestätigt, die Adresse kommt zurück; abgeholt, ohne Anmeldung nicht lesbar;
         ein Freigabe-Link daneben ist lesbar und nach der Rücknahme nicht mehr. Kern und Brücke liefert eine Route des
@@ -152,13 +152,17 @@ function idb(page, schluessel) {
 }
 
 async function dateiAblegen(page, inhalt, art, extra) {
-  await page.selectOption('#art', art);
+  await page.check('#art input[name="art"][value="' + art + '"]');
   if (extra && extra.stelle) await page.fill('#stelle', extra.stelle);
   if (art === 'stelle') { await page.fill('#zweck', (extra && extra.zweck) || ''); await page.fill('#inbox', (extra && extra.inbox) || ''); }
   await page.fill('#tage', extra && extra.tage ? String(extra.tage) : '');
   await page.setInputFiles('#datei', { name: 'x.vivodepot', mimeType: 'application/octet-stream', buffer: Buffer.from(inhalt) });
   await page.click('#ablegen');
-  await expect(page.locator('#ergebnis')).toHaveText(/^http/, { timeout: 15000 });
+  // Ergebnis oder Fehlermeldung, was zuerst kommt; ein Fehler steht so im Protokoll, statt nur „kein Ergebnis nach 15 s“.
+  const ausgang = () => page.evaluate(() => ({ ergebnis: document.getElementById('ergebnis').textContent,
+    fehler: document.getElementById('fehler').textContent }));
+  await expect.poll(async () => { const a = await ausgang(); return a.ergebnis || a.fehler; }, { timeout: 15000 }).toMatch(/\S/);
+  expect(await ausgang(), 'Ablage ' + art + ' endet ohne Fehler').toMatchObject({ fehler: '', ergebnis: expect.stringMatching(/^http/) });
   return page.locator('#ergebnis').textContent();
 }
 
@@ -222,7 +226,7 @@ test('[Pod·Anmeldung] eigener Client: angemeldet, nichts in Web Storage, kein T
 
 test('[Pod·Sicherung] eigene Sicherung: abgelegt, byte-gleich abgeholt, ohne Anmeldung nicht lesbar', async ({ request }) => {
   const adresse = await dateiAblegen(person, DEPOT, 'eigen');
-  expect(adresse).toMatch(/\/vivodepot\/sicherungen\/[A-Za-z0-9_-]{22}$/);
+  expect(adresse).toMatch(/\/vivodepot\/d\/[A-Za-z0-9_-]{22}$/);
   const zurueck = await person.evaluate((a) => self.vdPodBruecke.abholen(a), adresse);
   expect(zurueck).toBe(DEPOT);
   expect((await request.get(adresse)).status()).toBeGreaterThanOrEqual(401);
@@ -233,7 +237,7 @@ test('[Pod·Link] Freigabe-Link: Ressource öffentlich, Container nicht; entschl
   const klar = JSON.stringify({ resourceType: 'Bundle', id: 'spike', type: 'document' });
   const { jwe, key } = shlJwe(klar);
   const adresse = await dateiAblegen(person, jwe, 'link', { tage: 7 });
-  expect(adresse).toMatch(/\/vivodepot\/links\/[A-Za-z0-9_-]{22}$/);
+  expect(adresse).toMatch(/\/vivodepot\/d\/[A-Za-z0-9_-]{22}$/);
   const offen = await request.get(adresse + '?recipient=Spike');
   expect(offen.status()).toBe(200);
   expect(await offen.text()).toBe(jwe);
@@ -301,13 +305,10 @@ test('[Pod·Grant] Freigabe an eine Stelle legt einen Access Grant ab, benachric
   const adresse = await dateiAblegen(person, jwe, 'stelle', { stelle: stelleWebid, tage: 30, zweck, inbox });
   const eintrag = (await idb(person, 'verzeichnis')).filter((e) => e.adresse === adresse)[0];
   expect(eintrag.ueberDienst, 'CSS 7.2.0 hat keinen AccessGrantService').toBe(false);
-  expect(eintrag.grant).toMatch(/\/vivodepot\/grants\/[A-Za-z0-9_-]{22}\.json$/);
+  // Ohne Grant-Dienst liegt kein Grant als Datei im Pod (U2-ADR-520 Nr. 3): den Grant-Ordner früherer Fassungen gibt es nicht.
+  const grantOrdner = adresse.replace(/vivodepot\/.*$/, 'vivodepot/grants/');
+  expect(await person.evaluate((a) => self.vdPodAnmeldung.podFetch(a).then((r) => r.status), grantOrdner), 'kein Grant als Datei im Pod').toBe(404);
   expect(eintrag.benachrichtigt).toBe(true);
-  expect([401, 403]).toContain((await request.get(eintrag.grant)).status());
-  const grant = JSON.parse(await person.evaluate((a) => self.vdPodAnmeldung.podFetch(a).then((r) => r.text()), eintrag.grant));
-  expect(await person.evaluate((g) => self.vdPodLws.pruefen(g, 'AccessGrant'), grant)).toEqual([]);
-  expect(grant.access[0]).toMatchObject({ assignee: stelleWebid, action: ['read'], target: { type: 'DataResource', value: adresse } });
-  expect(grant.access[0].constraint[0]).toEqual({ leftOperand: 'purpose', operator: 'eq', rightOperand: zweck });
   // Im Posteingang der Stelle: genau dieser Grant, und kein Schlüssel.
   const post = await stelle.evaluate(async (inbox) => {
     const A = self.vdPodAnmeldung; const liste = await (await A.podFetch(inbox, { headers: { Accept: 'text/turtle' } })).text();
@@ -315,11 +316,14 @@ test('[Pod·Grant] Freigabe an eine Stelle legt einen Access Grant ab, benachric
     return Promise.all([...new Set(m)].map((u) => A.podFetch(u).then((r) => r.text())));
   }, inbox);
   expect(post.length).toBe(1);
-  expect(JSON.parse(post[0]).access[0].target.value).toBe(adresse);
+  const grant = JSON.parse(post[0]);
+  expect(await person.evaluate((g) => self.vdPodLws.pruefen(g, 'AccessGrant'), grant)).toEqual([]);
+  expect(grant.access[0]).toMatchObject({ assignee: stelleWebid, action: ['read'], target: { type: 'DataResource', value: adresse } });
+  expect(grant.access[0].constraint[0]).toEqual({ leftOperand: 'purpose', operator: 'eq', rightOperand: zweck });
   expect(post[0]).not.toMatch(/"(key|k|passwor[dt]|passcode|secret)"/i);
   expect(post[0]).not.toContain(jwe.split('.')[3]);
   await person.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), adresse);
-  for (const z of [adresse, eintrag.grant]) expect(await person.evaluate((a) => self.vdPodAnmeldung.podFetch(a).then((r) => r.status), z)).toBe(404);
+  expect(await person.evaluate((a) => self.vdPodAnmeldung.podFetch(a).then((r) => r.status), adresse)).toBe(404);
   await ctx.close();
 });
 
@@ -379,7 +383,7 @@ test('[Pod·Stufe2] aus dem Kern: abgelegt nach Bestätigung, Adresse zurück, a
   await expect(bruecke.locator('#auftrag-satz')).toHaveText(/^Vivodepot möchte eine verschlüsselte Sicherung/);
   await bruecke.waitForTimeout(1000);   // Klicksperre der Brücke nach dem Erscheinen des Auftrags
   await bruecke.click('#auftrag-ja');
-  await expect(bruecke.locator('#ergebnis')).toHaveText(/^https:\/\/localhost:\d+\/person\/vivodepot\/sicherungen\/[A-Za-z0-9_-]{22}$/, { timeout: 15000 });
+  await expect(bruecke.locator('#ergebnis')).toHaveText(/^https:\/\/localhost:\d+\/person\/vivodepot\/d\/[A-Za-z0-9_-]{22}$/, { timeout: 15000 });
   const adresse = (await bruecke.locator('#ergebnis').textContent()).trim();
   await expect(kern.locator('.toast').filter({ hasText: 'Im Pod abgelegt bei localhost' })).toBeVisible({ timeout: 15000 });
   const abgeholt = await bruecke.evaluate((a) => self.vdPodBruecke.abholen(a), adresse);
@@ -411,13 +415,13 @@ test('[Pod·Rücknahme] Zurücknehmen und Ablauf löschen die Ressource im Pod',
   await person.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), a1);
   expect(await person.evaluate((a) => self.vdPodAnmeldung.podFetch(a).then((r) => r.status), a1)).toBe(404);
   const a2 = await dateiAblegen(person, shlJwe('{}').jwe, 'link', { tage: 1 });
-  // Die Zeit vergeht für beide Verzeichnisse: lokal und in der Kopie im Pod, die nach der Bestätigung gilt
-  // (U2-ADR-512-Nachtrag „Verzeichnis im eigenen Pod“).
+  // Die Zeit vergeht für das lokale Verzeichnis und für die Ablaufliste im Pod, mit der die Brücke nach der Bestätigung auch
+  // ohne Kern löscht (U2-ADR-520).
   await person.evaluate(async (a) => {
     const v = await self.vdPodAnmeldung._ablage.lesen('verzeichnis');
     v.forEach((e) => { if (e.adresse === a) e.bis = Date.now() - 1000; });
     await self.vdPodAnmeldung._ablage.schreiben('verzeichnis', v);
-    const k = a.replace(/vivodepot\/.*$/, 'vivodepot/intern/verzeichnis.json');
+    const k = a.replace(/vivodepot\/.*$/, 'vivodepot/k/a1.json');
     const j = await self.vdPodAnmeldung.podFetch(k).then((r) => r.json());
     j.ablagen.forEach((e) => { if (e.adresse === a) e.bis = Date.now() - 1000; });
     await self.vdPodAnmeldung.podFetch(k, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(j) });
@@ -433,7 +437,7 @@ test('[Pod·Rücknahme] Zurücknehmen und Ablauf löschen die Ressource im Pod',
 test('[Pod·Tür·Rot-Beweis] Klartext wird abgewiesen, und keine Schreibanfrage geht an den Pod', async () => {
   const schreib = [];
   person.on('request', (r) => { if (r.method() === 'PUT' && r.url().startsWith(POD)) schreib.push(r.url()); });
-  await person.selectOption('#art', 'eigen');
+  await person.check('#art input[name="art"][value="eigen"]');
   await person.setInputFiles('#datei', { name: 'klar.txt', mimeType: 'text/plain', buffer: Buffer.from('Name: Erna Beispiel') });
   await person.click('#ablegen');
   await expect(person.locator('#fehler')).toContainText('nicht-chiffrat');
@@ -464,34 +468,29 @@ test('[Pod·K2] ohne Erneuerungs-Token: nach Ablauf verlangt die Brücke die neu
   await ctx.close();
 });
 
-test('[Pod·Kopie] ein zweiter Browser kennt die Ablage aus der Kopie im Pod, setzt ihren Ablauf durch, und der erste holt sie nicht zurück', async ({ browser, request }) => {
-  // U2-ADR-512-Nachtrag „Verzeichnis im eigenen Pod“ (29.10.2026): Teil 2 von POD-ABMELDEN-VERLIERT-ABLAGEN.
+test('[Pod·Ablauf] ohne Kern: kein Verzeichnis im Klartext im Pod, und ein zweiter Browser setzt den Ablauf aus der Ablaufliste durch', async ({ browser, request }) => {
+  // U2-ADR-520 (löst Nr. 3 des U2-ADR-512-Nachtrags ab): Das Verzeichnis liegt im Pod nur als Chiffrat, das der Kern
+  // verschließt; ohne Kern schreibt die Brücke unter intern/ nur die Ablaufliste { adresse, bis }.
   test.setTimeout(180000);
   const a = await dateiAblegen(person, shlJwe('{}').jwe, 'link', { tage: 1 });
-  const kopie = a.replace(/vivodepot\/.*$/, 'vivodepot/intern/verzeichnis.json');
-  const lesen = (p) => p.evaluate((k) => self.vdPodAnmeldung.podFetch(k).then((r) => r.json()), kopie);
-  expect((await lesen(person)).ablagen.map((e) => e.adresse)).toContain(a);
-  expect((await request.get(kopie)).status(), 'ohne Anmeldung liest niemand die Kopie').toBeGreaterThanOrEqual(401);
+  const intern = a.replace(/vivodepot\/.*$/, 'vivodepot/k/');
+  const status = (p, x) => p.evaluate((u) => self.vdPodAnmeldung.podFetch(u).then((r) => r.status), x);
+  expect(await status(person, intern + 'verzeichnis.json'), 'kein Verzeichnis im Klartext').toBe(404);
+  const liste = await person.evaluate((k) => self.vdPodAnmeldung.podFetch(k).then((r) => r.json()), intern + 'a1.json');
+  for (const e of liste.ablagen) expect(Object.keys(e).sort(), 'nur Adresse und Ablauf').toEqual(['adresse', 'bis']);
+  expect(liste.ablagen.map((e) => e.adresse)).toContain(a);
+  expect((await request.get(intern + 'a1.json')).status(), 'ohne Anmeldung liest niemand die Ablaufliste').toBeGreaterThanOrEqual(401);
   const ctx = await browser.newContext(); const p2 = await ctx.newPage();
   await anmelden(p2, KONTEN[0]);
-  await expect.poll(() => p2.evaluate(() => self.vdPodBruecke.verzeichnis().then((v) => v.map((e) => e.adresse)))).toContain(a);
-  // Der Ablauf ist inzwischen erreicht: in der Kopie vorziehen, neu laden, anmelden, bestätigen.
   await p2.evaluate(async ([k, adr]) => {
     const j = await self.vdPodAnmeldung.podFetch(k).then((r) => r.json());
     j.ablagen.forEach((e) => { if (e.adresse === adr) e.bis = Date.now() - 1000; });
     await self.vdPodAnmeldung.podFetch(k, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(j) });
-  }, [kopie, a]);
+  }, [intern + 'a1.json', a]);
   await p2.reload();
   await anmelden(p2, KONTEN[0], { wieder: true });
-  await expect.poll(() => p2.evaluate((x) => self.vdPodAnmeldung.podFetch(x).then((r) => r.status), a)).toBe(404);
-  expect((await lesen(p2)).ablagen.map((e) => e.adresse)).not.toContain(a);
+  await expect.poll(() => status(p2, a)).toBe(404);
   await ctx.close();
-  // Der erste Browser kennt a noch lokal; nach dem Neuladen gilt die Kopie, und a kommt nicht zurück.
-  await person.reload();
-  await anmelden(person, KONTEN[0], { wieder: true });
-  // Der Abgleich läuft nach dem Klick auf „bestätigen“ an; der Ablagebereich steht schon vorher.
-  await expect.poll(() => person.evaluate(() => self.vdPodBruecke.verzeichnis().then((v) => v.map((e) => e.adresse)))).not.toContain(a);
-  expect((await lesen(person)).ablagen.map((e) => e.adresse)).not.toContain(a);
 });
 
 test('[Pod·Abmelden] Abmelden löscht Schlüssel, Registrierung und Sitzung; Web Storage bleibt leer', async () => {

@@ -1,10 +1,10 @@
 # U2-ADR-465 · Format-Module: Felder aus mehreren Bereichen, feste Werte, Namensraum aus dem Modul
 
 **Status:** Akzeptiert, gebaut.
-**Datum:** 01.10.2026 (Entwurf), ergänzt 05.10.2026 (`werte`, `teil`, `hinweis`; Nachtrag Anhänge), 16.10.2026 (Nachtrag JSON: Ziel als Liste, `schemaUri`)
+**Datum:** 01.10.2026 (Entwurf), ergänzt 05.10.2026 (`werte`, `teil`, `hinweis`; Nachtrag Anhänge), 16.10.2026 (Nachtrag JSON: Ziel als Liste, `schemaUri`), 04.11.2026 (Nachtrag Antragsangaben: `abgeleitet`, `antrag`; Nachtrag Vorprüfung: `pruefung`)
 **Kategorie:** ARCHITEKTUR, STANDARDS
 **Status heute:** gilt
-**Betrifft:** `vivodepot.html` (`FORMAT_MODUL_SCHLUESSEL`, `_xmlKanalGrund`, `FORMAT_ZUORDNUNG_SCHLUESSEL`, `formatNamensraumFremd`, `formatModulPruefen`, `formatModulZuExportKanal`, `_FORMAT_HINWEIS_FORM`, `FORMAT_ANHANG_ROLLEN`, `FORMAT_VERTRETER_FELDER`, `formatAnhaengeAufloesen`, `formatVertreterAufloesen`, `formatAnhangKandidaten`, `_formatAnhangWahl`, `_formatPfadTeile`, `formatSchemaUriFremd`, `_FORMAT_SCHEMA_URI_FORM`), `docs/format-modul/format-modul-schema.json`, ein nicht öffentliches Werkzeug, `tools/fim-modul-erzeugen.mjs`, `tests/konformitaet/adapter/ajv-json-schema.mjs`.
+**Betrifft:** `vivodepot.html` (`FORMAT_MODUL_SCHLUESSEL`, `_xmlKanalGrund`, `FORMAT_ZUORDNUNG_SCHLUESSEL`, `formatNamensraumFremd`, `formatModulPruefen`, `formatModulZuExportKanal`, `_FORMAT_HINWEIS_FORM`, `FORMAT_ANHANG_ROLLEN`, `FORMAT_VERTRETER_FELDER`, `formatAnhaengeAufloesen`, `formatVertreterAufloesen`, `formatAnhangKandidaten`, `_formatAnhangWahl`, `_formatPfadTeile`, `formatSchemaUriFremd`, `_FORMAT_SCHEMA_URI_FORM`, `FORMAT_ABLEITUNGEN`, `FORMAT_ANTRAG_TYPEN`, `formatAbleitungRechnen`, `formatAntragAntwortPruefen`, `formatPruefungFormPruefen`, `formatMusterUebersetzen`, `formatVorpruefung`, `_formatExportDownload`), `docs/format-modul/format-modul-schema.json`, ein nicht öffentliches Werkzeug, `tools/fim-modul-erzeugen.mjs`, `tests/konformitaet/adapter/ajv-json-schema.mjs`.
 **Bezug:** U2-ADR-257 (Schreiber `xml@1`), U2-ADR-145 (ein Einlassweg), U2-ADR-456 (FIM-Bezüge: Kennung, Fassung, Status), U2-ADR-030 (Selbstauskunft im Export), U2-ADR-013 („Meine Dokumente“), U2-ADR-468 (Urschrift der Vollmacht), U2-ADR-467 (getrennte Namen und Anschrift).
 
 ## Frage
@@ -96,9 +96,71 @@ Adapter auf das Schema der Leistung anwenden). Die Prüfung in der App vor dem V
 eigener Schritt; dieser Nachtrag prüft nur in der Suite. Die Lizenzauflage oben gilt für das JSON-Schema einer Leistung
 unverändert.
 
+## Nachtrag 04.11.2026 · Angaben für einen Antrag: `abgeleitet` und `antrag`
+
+**Frage.** Ein Leistungsschema verlangt neben Lebensdaten Angaben, die eine Person nicht dauerhaft führt: Steuerfragen
+(„Einnahmen vorhanden?“, „Umzug geplant?“), Erklärungen (Kenntnisnahme, Datum) und Angaben, die nur für diesen einen Antrag
+gelten. `fest` trägt sie nicht: Ein fester Wert gilt für alle Personen, und „Umzug geplant: nein“ als fester Wert wäre eine
+erfundene Angabe in einem Antrag an eine Behörde. Ein neues Feld im Register trägt sie auch nicht, denn die Person führt
+diese Angabe nicht.
+
+**Entscheidung.**
+
+21. **`abgeleitet` je Zuordnung: eine Regel aus der festen Liste des Kerns und ein Feld.** `FORMAT_ABLEITUNGEN` kennt genau
+    `nichtLeer` (das Feld trägt etwas), `gleich` (der Rohwert ist `wert`) und `ausListe` (der Rohwert steht in `liste`).
+    Ergebnis ist ja/nein. Das Modul nennt Regel, Feld und wahlweise `bereich`; es bringt keinen Code mit. Ein unbekannter
+    Schlüssel, eine unbekannte Regel oder ein Feld, das es nicht gibt, wird abgewiesen (`zuordnung-abgeleitet`).
+22. **Aus Zurückgehaltenem wird kein „nein“.** Das Feld läuft durch denselben Filter wie jedes andere (sensibel nur mit
+    Zustimmung). Gibt der Filter es nicht heraus, fehlt die Angabe und steht in `optionen._unabgebildet`. Ebenso bei `gleich`
+    und `ausListe` an einem leeren Feld. Nur `nichtLeer` an einem leeren Feld ergibt „nein“.
+23. **`antrag` je Zuordnung: eine Frage beim Erzeugen.** Die Frage trägt `id`, `frage`, `typ` aus `FORMAT_ANTRAG_TYPEN`
+    (`janein`, `text`, `datum`, `auswahl` mit `werte`), wahlweise `pflicht`. An einer ja/nein-Frage trägt sie wahlweise
+    `vorschlag` in der Form von `abgeleitet`. Der Kanal legt die Fragen offen (`kanal.antragsfragen`) und rechnet die
+    Vorschläge (`kanal.antragVorschlaege`). Die Antworten kommen über `optionen.antrag = { id: antwort }`. In die Datei geht
+    die Antwort in der Form ihres Typs, bei der Auswahl der Code.
+24. **Die Antworten gehen nicht ins Depot.** Sie leben nur in den Optionen eines Erzeugens. Wer dieselbe Datei noch einmal
+    erzeugt, wird erneut gefragt.
+25. **Keine Datei statt einer erfundenen Antwort.** Fehlt eine Pflichtantwort oder passt eine Antwort nicht zum Typ
+    (`antrag-fehlt`, `antrag-ungueltig`, in `optionen._antragGruende`), entsteht keine Datei. Eine freiwillige Frage ohne
+    Antwort fehlt einfach. Beide Formen stehen allein, nur mit `ziel`, nur in der Ausgabe; jede `id` höchstens einmal je
+    Modul (`antrag-id-doppelt`).
+
+Der Schritt „Angaben für diesen Antrag“ in der Oberfläche, nach dem Muster der Wahl der Anhänge, ist ein eigener Schritt.
+Bis er steht, sagt der Export ohne Antworten nur, dass keine Datei erstellt wurde.
+
+## Nachtrag 04.11.2026 · Vorprüfung im Produkt: `pruefung`
+
+**Frage.** Die amtliche Prüfung einer FIM-Datei ist KoSIT gegen das XSD der Leistung. KoSIT ist Java und steht nicht im Produkt;
+eine volle XSD-Prüfung im Browser bräuchte eine Bibliothek (Größe, Lieferkette). Wie erfährt die Person vor dem Speichern, dass
+ihre Datei eine Regel des Antrags verletzt?
+
+**Entscheidung.**
+
+26. **`pruefung` am Modul: die Regeln aus dem XSD, als flache Liste.** Der Erzeuger (`tools/fim-modul-erzeugen.mjs`) schreibt je
+    Element des XSD in Dokumentfolge einen Eintrag: `ziel`, wahlweise `name` (aus `xs:documentation`), `min`, `max` (`null` =
+    unbegrenzt), und entweder `gruppe: true` oder `typ` (Basistyp, `anhang` für `xs:anyType`) mit wahlweise `laenge`, `bereich`,
+    `werte`, `muster`. Flach, weil der Einlass eine Verschachtelung tiefer als sechs Stufen als Code wertet. Nur an einem
+    Ausgabe-Modul mit `xml@1` und `wurzel` (`pruefung-ohne-xml`); eine falsche Form verwirft das ganze Modul (`pruefung`), denn ein
+    Kanal, dessen Vorprüfung still fehlt, sähe geprüft aus. Der Erzeuger lehnt einen Basistyp ab, den die Vorprüfung nicht kennt.
+27. **Die Vorprüfung ist eine Teilmenge der XSD-Prüfung, im Kern, ohne Bibliothek.** `formatVorpruefung` prüft den Wertebaum, den
+    der Schreiber schreibt: Pflicht (nur, wenn die Elterngruppe in der Datei steht), Anzahl, Reihenfolge, unbekannte Elemente,
+    Datentyp, Länge, Bereich, Aufzählung und Muster. Ein doppeltes Ziel oder eine fehlende Elterngruppe in den Regeln scheitert
+    geschlossen: ein Element ohne Regel ist `unbekannt`.
+28. **Muster nur in enger Form.** `formatMusterUebersetzen` nimmt Zeichen, Zeichenklassen, Gruppen, `|` und die Quantoren `?`,
+    `*`, `+`, `{m,n}`, verankert am ganzen Wert. Eine Gruppe mit Quantor darf weder einen Quantor noch `|` enthalten (Rückverfolgung
+    ohne Ende). `^` und `$` sind im XSD gewöhnliche Zeichen; bis zur Messung mit KoSIT gilt ein Muster mit ihnen als nicht
+    vorgeprüft. Ein Feld mit einem Muster außerhalb dieser Form steht unter `ungeprueft`, nie als grün, und die Person sieht es.
+29. **Keine Datei bei einem Fehler.** Verletzt die Ausgabe eine Regel, speichert der Export nichts; die Liste nennt je Feld den
+    Namen und ob die Angabe fehlt, falsch steht oder der Wert nicht passt. Der Kanal füllt `optionen._vorpruefung` nur, wenn der
+    Aufrufer danach fragt; die Datei selbst ändert sich nicht.
+30. **KoSIT bleibt die amtliche Prüfung.** Die Vorprüfung ersetzt sie nicht. Ein Gleichlauf an der erfundenen Leistung hält fest,
+    dass jede Datei, die die Vorprüfung ablehnt, auch KoSIT ablehnt, und die gültige bei beiden gültig ist.
+
+Die Ansicht der Datei („Was diese Datei enthält“, mit der Herkunft jedes Werts) ist ein eigener Schritt.
+
 ## Was diese Entscheidung nicht leistet
 
-Sie liest keine Datei nach fremdem Schema zurück (Import bleibt ein Bereich, ohne feste Werte). Sie prüft nicht, ob ein Modul das Schema seines Namensraums wirklich erfüllt — das tut ein Prüfer am erzeugten Dokument (für FIM: KoSIT gegen das XSD des Schemas). Sie setzt kein Präfix und keinen zweiten Namensraum.
+Sie liest keine Datei nach fremdem Schema zurück (Import bleibt ein Bereich, ohne feste Werte). Sie prüft nicht vollständig, ob ein Modul das Schema seines Namensraums wirklich erfüllt — das tut ein Prüfer am erzeugten Dokument (für FIM: KoSIT gegen das XSD des Schemas); die Vorprüfung (Nachtrag W6) ist eine Teilmenge davon. Sie setzt kein Präfix und keinen zweiten Namensraum.
 
 ```yaml
 konformitaet:
@@ -253,6 +315,65 @@ konformitaet:
         "[FIM-Modul·JSON] das erzeugte Modul ist genau das Modul, das der Ajv-Lauf prüft, und besteht die Prüfung des Kerns"
       - tests/fim-modul-erzeugen.test.js
         "[FIM-Modul·JSON·Rot-Beweis] unbekannter Pfad, Wert außerhalb der Aufzählung, teil an einem Textfeld, Anhang, fremder Verweis"
+  - aussage: >-
+      `abgeleitet` rechnet ja/nein aus dem Depot nach einer Regel aus der festen Liste; aus einem zurückgehaltenen Feld
+      wird kein „nein“.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026)
+    pruefung:
+      - tests/format-antrag-angaben.test.js
+        "[Antrag·abgeleitet] nichtLeer, gleich, ausListe rechnen ja/nein aus dem Depot, in der Folge der Zuordnung"
+      - tests/format-antrag-angaben.test.js
+        "[Antrag·abgeleitet·Rot-Beweis] aus einem zurückgehaltenen sensiblen Feld wird kein „nein“: die Angabe fehlt und ist benannt"
+  - aussage: >-
+      Antworten für einen Antrag stehen in der Form ihres Typs in der Datei und gehen nicht ins Depot; ohne Pflichtantwort
+      entsteht keine Datei.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026)
+    pruefung:
+      - tests/format-antrag-angaben.test.js
+        "[Antrag·antrag] die Antworten stehen in der Datei in der Form ihres Typs; bei der Auswahl der Code"
+      - tests/format-antrag-angaben.test.js "[Antrag·antrag] die Antworten gehen nicht ins Depot"
+      - tests/format-antrag-angaben.test.js
+        "[Antrag·antrag·Rot-Beweis] ohne Pflichtantwort oder mit unpassender Antwort keine Datei, der Grund ist benannt"
+  - aussage: >-
+      Unbekannte Regel, Code im Modul, fremde Schlüssel, Einlesen und eine doppelte `id` werden abgewiesen.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026)
+    pruefung:
+      - tests/format-antrag-angaben.test.js
+        "[Antrag·Prüfung·Rot-Beweis] unbekannte Regel, Code im Modul, fremde Schlüssel, Einlesen, doppelte id werden abgewiesen"
+  - aussage: >-
+      Die Vorprüfung nennt je Element Feld und Grund (Pflicht nur bei vorhandener Elterngruppe, Anzahl, Reihenfolge,
+      unbekannt, Typ, Länge, Bereich, Aufzählung, Muster); eine gültige Datei hat keinen Fehler.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026, W6)
+    pruefung:
+      - tests/format-vorpruefung.test.js "[W6] jeder Grund mit Feld und Name"
+      - tests/format-vorpruefung.test.js "[W6] Pflicht gilt nur, wenn die Elterngruppe in der Datei steht"
+  - aussage: >-
+      Ein Muster außerhalb der engen Form, auch mit `^` oder `$`, ist nicht vorgeprüft, nie grün; verschachtelte Quantoren
+      werden nicht übersetzt.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026, W6)
+    pruefung:
+      - tests/format-vorpruefung.test.js "[W6] ein Muster mit $ ist nicht vorgeprüft — nie grün, kein Fehler"
+      - tests/format-vorpruefung.test.js "[W6·Rot-Beweis] ohne Ablehnung verschachtelter Quantoren liefe ein Muster ohne Ende"
+  - aussage: >-
+      `pruefung` nur am xml@1-Ausgabe-Modul mit `wurzel` und nur in fester Form; der Erzeuger schreibt die Regeln aus dem XSD
+      und lehnt einen unbekannten Basistyp ab.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026, W6)
+    pruefung:
+      - tests/format-vorpruefung.test.js "[W6] Form der Regeln: was das Modul-Schema ausdrückt"
+      - tests/format-vorpruefung.test.js "[W6] der Erzeuger schreibt die Regeln aus dem XSD und lehnt einen unbekannten Basistyp ab"
+  - aussage: >-
+      Die Vorprüfung läuft mit KoSIT gleich: die gültige Datei ist bei beiden gültig, jede verdorbene bei beiden rot.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026, W6)
+    pruefung:
+      - tests/kosit-validator-lauf.test.js
+        "[KoSIT·Vorprüfung] die Vorprüfung des Kerns läuft mit KoSIT gleich: gültig bei beiden, jede verdorbene Datei bei beiden rot"
   - aussage: >-
       Ein Modul ohne die neuen Schlüssel schreibt wie zuvor.
     zustand: erfuellt

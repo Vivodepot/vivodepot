@@ -10,8 +10,8 @@
 
    Teile:
    (a) Register der Ausgabewege: der Rumpf jeder genannten Funktion ruft `feldSichtbar(` mit Geltungsbereich (drittes
-       Argument, nicht `null`/`undefined`). Ein neuer Ausgabeweg für Abschnittsfelder kommt hier ins Register. Die Wege des
-       Empfänger-Zuschnitts und des Angehörigen-Caches kommen hinzu, wenn der Befund AUSGABE-VERBORGENE-WERTE schließt.
+       Argument, nicht `null`/`undefined`) oder einen Helfer des Registers (`ueber`). Ein neuer Ausgabeweg für Abschnittsfelder
+       kommt hier ins Register.
        Dazu: `verborgenWennTrifft(` — das halbe Tor — steht im Kern nur an den Stellen der Positivliste. Negativprobe daneben.
    (b) Pflege der Positivliste: jeder Eintrag hat einen Aufruf und einen Grund (die Liste kann nur schrumpfen).
    (c) Listen-Unterfeld-Selektor am Kern: eine Zeile, in der das Tor des Unterfelds es verbirgt (direkt oder über ein
@@ -19,6 +19,8 @@
    (d) Leser `_liesSektorWertText`: steht im Register (a) und liefert für ein verborgenes Feld nichts; jeder Aufrufer steht
        in `LESER_AUFRUFER` (SD-JWT-Anschrift, FIM/XÖV, vCard, Mapping), ein neuer Aufrufer fällt auf.
    (e) In einem Ausgabe-Mapping liest kein transform per `feldRohwert(` am Tor vorbei (Teil von (a), Negativprobe daneben).
+   (f) Empfänger-Zuschnitt und Angehörigen-Cache stehen im Register; sie fragen das Tor über `_wertNachTor` (Feld `ueber`),
+       der selbst im Register steht (Befund AUSGABE-VERBORGENE-WERTE, 03.11.2026). Negativprobe: Zuschnitt ohne Helfer.
    Rot-Beweis: gegen den Kern vor dem Fix (8342058db) sind (a), (b) und (c) rot; gegen den Kern nach dem Fix grün.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
@@ -34,6 +36,11 @@ const AUSGABEWEGE = [
   { funktion: '_rohFuerAusgabe', grund: 'Unterfelder einer mitgegebenen Liste im Datensatz' },
   { funktion: 'exportUebersichtModell', grund: 'Übersicht vor dem Senden, der Maßstab der Ausgaben' },
   { funktion: '_liesSektorWertText', grund: 'der eine Leser des Ausgabewerts eines Abschnittsfelds für die Formate (Leser unten)' },
+  { funktion: '_wertNachTor', grund: 'Wert eines Bereichsfelds für eine Datei in fremder Hand: Tor des Felds, je Listenzeile das Tor der Unterfelder' },
+  { funktion: '_listeNachTor', grund: 'je Listenzeile ohne die Unterfelder, die das Tor der Zeile verbirgt (rekursiv)' },
+  { funktion: 'empfaengerZuschnittModell', grund: 'Datei für einen Kreis, QR, Namen fürs Fach; auch der weite Baustein (U2-ADR-156 §3, Nachtrag 03.11.2026)',
+    ueber: '_wertNachTor' },
+  { funktion: 'angehoerigenCacheModell', grund: 'Sicht der Angehörigen', ueber: '_wertNachTor' },
 ];
 /* (d) Wer `_liesSektorWertText` ruft, gibt Werte nach draußen; der Leser fragt das Tor selbst (Register oben). Jeder Aufrufer
    steht hier, damit ein neuer Weg auffällt und bewusst eingetragen wird (Durchsicht vom 03.11.2026: drei Nebenwege lasen
@@ -123,7 +130,9 @@ function torLueckenImKern(code) {
     if (f.length !== 1) { luecken.push('Ausgabeweg ' + w.funktion + ' nicht genau einmal im Kern (' + f.length + ')'); continue; }
     const mitBereich = aufrufe(f[0].rumpf, 'feldSichtbar').filter((a) => a.args.length >= 3
       && !['null', 'undefined', 'void 0', ''].includes(a.args[2]));
-    if (!mitBereich.length) luecken.push('Ausgabeweg ohne feldSichtbar mit Geltungsbereich: ' + w.funktion);
+    // `ueber`: der Weg fragt das Tor über einen Helfer, der selbst im Register steht.
+    const ueberHelfer = w.ueber && aufrufe(f[0].rumpf, w.ueber).length > 0;
+    if (!mitBereich.length && !ueberHelfer) luecken.push('Ausgabeweg ohne feldSichtbar mit Geltungsbereich: ' + w.funktion);
   }
   const leser = new Set(LESER_AUFRUFER.map((e) => e.funktion));
   const mappings = mappingBereiche(code);
@@ -170,6 +179,12 @@ test('[AUSGABE-TOR] (a·Negativprobe) der Wächter schlägt an, wenn ein Ausgabe
   assert.ok(ohneTor.some((x) => /ohne feldSichtbar.*_liesSektorWertText/.test(x)), 'Leser ohne Tor nicht erkannt: ' + ohneTor.join(' | '));
   const neuerWeg = torLueckenImKern(code + '\nfunction neuerAusgabeweg() { return _liesSektorWertText(\'identity\', \'givenName\'); }\n');
   assert.ok(neuerWeg.some((x) => /nicht im Register: neuerAusgabeweg/.test(x)), 'neuer Aufrufer nicht erkannt: ' + neuerWeg.join(' | '));
+  // Rot-Beweis (f): ein Zuschnitt, der den Helfer nicht mehr ruft, fällt auf.
+  const z = code.indexOf('function empfaengerZuschnittModell(');
+  const zh = code.indexOf('_wertNachTor(', z);
+  assert.ok(z >= 0 && zh > z, 'empfaengerZuschnittModell ruft _wertNachTor nicht');
+  const ohneHelfer = torLueckenImKern(code.slice(0, zh) + '_wertOhneTor(' + code.slice(zh + '_wertNachTor('.length));
+  assert.ok(ohneHelfer.some((x) => /ohne feldSichtbar.*empfaengerZuschnittModell/.test(x)), 'Zuschnitt ohne Tor nicht erkannt: ' + ohneHelfer.join(' | '));
   // Rot-Beweis (e): ein transform, das im Mapping wieder feldRohwert liest, fällt auf.
   const vc = mappingBereiche(code).find((x) => x.name === 'VC_IDENTITAET_MAPPING');
   const t = vc ? code.indexOf('_liesSektorWertText(', vc.von) : -1;

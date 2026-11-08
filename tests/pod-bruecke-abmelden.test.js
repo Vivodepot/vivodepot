@@ -25,11 +25,13 @@ const C = require('../pod/chiffrat-pruefen.js');
 const QUELLE = fs.readFileSync(path.join(__dirname, '..', 'pod', 'bruecke.js'), 'utf8');
 const HTML = fs.readFileSync(path.join(__dirname, '..', 'pod', 'bruecke.html'), 'utf8');
 const KONFIG = fs.readFileSync(path.join(__dirname, '..', 'pod', 'konfiguration.js'), 'utf8');
+// Der einzige Schreibweg (U2-ADR-520) läuft in derselben Seite, wie bruecke.html ihn lädt.
+const AUSSENABLAGE = fs.readFileSync(path.join(__dirname, '..', 'pod', 'aussenablage.js'), 'utf8');
 const WEBID = 'https://person.example/profile/card#me';
 const SPEICHER = 'https://speicher.example/person/';
 const TAG = 86400000;
-const KOPIE = SPEICHER + 'vivodepot/intern/verzeichnis.json';
-// Die Felder, die auch in der Kopie im Pod stehen (KOPIE_FELDER in bruecke.js); so sind lokale Liste und Kopie gleich.
+const INTERN = SPEICHER + 'vivodepot/k/';
+// Die Felder, die auch im Verzeichnis im Pod stehen (KOPIE_FELDER in bruecke.js).
 const ABGELAUFEN = { adresse: SPEICHER + 'vivodepot/freigaben/alt', art: 'stelle', stelle: 'https://stelle.example/#id', bis: Date.now() - TAG, am: 1, grant: SPEICHER + 'vivodepot/grants/alt.json', ueberDienst: false };
 const OFFEN = { adresse: SPEICHER + 'vivodepot/links/offen', art: 'link', stelle: null, bis: Date.now() + 30 * TAG, am: 2, grant: null, ueberDienst: null };
 const OHNE_ABLAUF = { adresse: SPEICHER + 'vivodepot/sicherungen/eigen', art: 'eigen', stelle: null, bis: null, am: 3, grant: null, ueberDienst: null };
@@ -40,14 +42,31 @@ const ABMELDEN_ALT = "$('abmelden').onclick = function () {\n" +
   "        .then(function () { angemeldetZeigen(null); });\n" +
   '    };';
 
-async function seite({ quelle = QUELLE, eintraege = [], zielBestaetigen = true, deleteStatus = () => 204 } = {}) {
+/* Die Kette der umschließenden <div id> eines Elements in der Seite: Ist eines davon verborgen, sieht die Person das Element
+   nicht, auch wenn es selbst nicht verborgen ist. */
+function vorfahren(html, id) {
+  const stapel = [];
+  const re = /<div\b([^>]*)>|<\/div>|<[a-z]+\b[^>]*\bid="([^"]+)"/g;
+  let m;
+  while ((m = re.exec(html))) {
+    if (m[0] === '</div>') { stapel.pop(); continue; }
+    const eigene = m[1] !== undefined ? (m[1].match(/\bid="([^"]+)"/) || [])[1] : m[2];
+    if (eigene === id) return stapel.filter(Boolean);
+    if (m[1] !== undefined) stapel.push(eigene || null);
+  }
+  throw new Error('nicht in der Seite: ' + id);
+}
+function anfangsVerborgen(html, id) { return new RegExp('id="' + id + '"[^>]*\\bhidden\\b').test(html); }
+
+async function seite({ quelle = QUELLE, html = HTML, eintraege = [], zielBestaetigen = true, deleteStatus = () => 204 } = {}) {
   const elemente = {};
-  const el = (id) => (elemente[id] = elemente[id] || { id, hidden: false, textContent: '', value: '', onclick: null, onchange: null, files: [], appendChild() {} });
+  const el = (id) => (elemente[id] = elemente[id] || { id, hidden: anfangsVerborgen(html, id), textContent: '', value: '', onclick: null, onchange: null, files: [], appendChild() {} });
   const ablauf = [];
   let gespeichert = eintraege.slice();
   let abgemeldet = false;
-  // Die Kopie im Pod (Teil 2) mit ETag; verzeichnisSetzen setzt lokale Liste und Kopie gleich, wie nach einem Abgleich.
-  let podKopie = null;
+  // Dateien unter intern/ (Ablaufliste, verschlüsseltes Verzeichnis; U2-ADR-520) mit ETag. Ohne Kern (kein Öffner) schreibt die
+  // Brücke nur die Ablaufliste.
+  const intern = new Map();
   let etag = 0;
   const A = {
     ruecksprungVerarbeiten: async () => WEBID,
@@ -57,13 +76,15 @@ async function seite({ quelle = QUELLE, eintraege = [], zielBestaetigen = true, 
     podFetch: async (adresse, o = {}) => {
       const methode = (o.method || 'GET').toUpperCase();
       ablauf.push(methode + ' ' + adresse);
-      if (adresse === KOPIE) {
+      if (adresse.startsWith(INTERN) && adresse !== INTERN && !adresse.endsWith('.acl')) {
         const h = (o.headers || {});
-        const antwort = (status, koerper) => ({ ok: status < 300, status, headers: { get: (k) => (k === 'ETag' && podKopie ? '"' + etag + '"' : null) }, json: async () => koerper });
-        if (methode === 'GET') return podKopie ? antwort(200, JSON.parse(podKopie)) : antwort(404, null);
+        const r = intern.get(adresse);
+        const antwort = (status, x) => ({ ok: status < 300, status, headers: { get: (k) => (k === 'ETag' && x ? x.etag : null) },
+          json: async () => JSON.parse(x.koerper), text: async () => x.koerper });
+        if (methode === 'GET') return r ? antwort(200, r) : antwort(404, null);
         if (methode === 'PUT') {
-          if ((h['If-Match'] && h['If-Match'] !== '"' + etag + '"') || (h['If-None-Match'] === '*' && podKopie)) return antwort(412, null);
-          podKopie = o.body; etag++; return antwort(201, null);
+          if ((h['If-Match'] && (!r || h['If-Match'] !== r.etag)) || (h['If-None-Match'] === '*' && r)) return antwort(412, null);
+          const neu = { koerper: o.body, etag: '"' + (++etag) + '"' }; intern.set(adresse, neu); return antwort(201, neu);
         }
       }
       const status = methode === 'DELETE' ? deleteStatus(adresse) : 200;
@@ -77,7 +98,7 @@ async function seite({ quelle = QUELLE, eintraege = [], zielBestaetigen = true, 
   };
   const kontext = {
     vdPodAnmeldung: A, vdPodChiffrat: C, vdPodLws: require('../pod/lws.js'),
-    document: { readyState: 'complete', getElementById: el, createElement: () => el('neu-' + Math.random()), body: { dataset: {} } },
+    document: { readyState: 'complete', getElementById: el, querySelector: () => null, createElement: () => el('neu-' + Math.random()), body: { dataset: {} } },
     window: { opener: null, addEventListener: () => {} },
     fetch: async () => ({ ok: true, text: async () => '<#me> <http://www.w3.org/ns/pim/space#storage> <' + SPEICHER + '>.\n' }),
     crypto: webcrypto, btoa: (s) => Buffer.from(s, 'binary').toString('base64'), Blob, URL, Promise, Date, Number, String, Error, Uint8Array, JSON,
@@ -86,6 +107,7 @@ async function seite({ quelle = QUELLE, eintraege = [], zielBestaetigen = true, 
   kontext.self = kontext;
   vm.createContext(kontext);
   vm.runInContext(KONFIG, kontext);
+  vm.runInContext(AUSSENABLAGE, kontext);
   vm.runInContext(quelle, kontext);
   const warten = () => new Promise((r) => setTimeout(r, 20));
   await warten();
@@ -95,7 +117,9 @@ async function seite({ quelle = QUELLE, eintraege = [], zielBestaetigen = true, 
   ablauf.length = 0;
   return {
     el, ablauf, warten,
-    verzeichnisSetzen: (v) => { gespeichert = v.slice(); podKopie = JSON.stringify({ fassung: 1, ablagen: v }); etag++; },
+    sichtbar: (id) => [id].concat(vorfahren(html, id)).every((x) => !el(x).hidden),
+    verzeichnisSetzen: (v) => { gespeichert = v.slice(); },
+    ablaufliste: () => (intern.has(INTERN + 'a1.json') ? JSON.parse(intern.get(INTERN + 'a1.json').koerper) : null),
     verzeichnis: () => gespeichert,
     abgemeldet: () => abgemeldet,
     deletes: () => ablauf.filter((a) => a.startsWith('DELETE ')).map((a) => a.slice(7))
@@ -112,7 +136,10 @@ test('[Pod·Abmelden] abgelaufene Ablage wird vor dem Abmelden gelöscht, eine o
   assert.equal(s.abgemeldet(), false, 'mit offener Ablage meldet sich die Brücke nicht still ab');
   assert.equal(s.el('abmelden-pruefen').hidden, false, 'die Rückfrage erscheint');
   assert.match(s.el('abmelden-satz').textContent, /eine Ablage/);
-  assert.match(s.el('abmelden-satz').textContent, /Liste davon liegt in Ihrem Pod/, 'mit Kopie im Pod: die Seite kennt sie nach der nächsten Anmeldung wieder');
+  // Ohne Kern (Datei-Weg) gibt es kein verschlüsseltes Verzeichnis; die Ablaufliste setzt den Ablauf weiter durch. Den Satz mit
+  // Verzeichnis hält tests/pod-bruecke-verzeichnis-pod.test.js.
+  assert.match(s.el('abmelden-satz').textContent, /kennt die Seite sie nicht mehr/);
+  assert.match(s.el('abmelden-satz').textContent, /Ablaufdaten setzt die Seite nach jeder Anmeldung durch/);
   assert.deepEqual(s.verzeichnis().map((e) => e.adresse), [OFFEN.adresse]);
 });
 
@@ -172,7 +199,9 @@ test('[Pod·Abmelden] neu geladen, Ziel unbestätigt, offene Ablage: keine still
   s.verzeichnisSetzen([ABGELAUFEN, OFFEN]);
   await klick(s, 'ziel-nein');
   assert.equal(s.abgemeldet(), false, 'die Rückfrage hält die Abmeldung an');
-  assert.equal(s.el('abmelden-pruefen').hidden, false);
+  assert.equal(s.el('ablage-bereich').hidden, true, 'vor dem Bestätigen ist der Ablagebereich verborgen');
+  assert.ok(s.sichtbar('abmelden-pruefen'), 'die Rückfrage ist sichtbar, kein umschließender Bereich ist verborgen');
+  assert.ok(s.sichtbar('abmelden-lassen'), 'der Knopf zum Abmelden ist erreichbar');
   assert.equal(s.el('abmelden-alle').hidden, true, 'ohne bestätigtes Ziel keine Rücknahme');
   assert.match(s.el('abmelden-satz').textContent, /2 Ablagen[\s\S]*Speicher bestätigt/);
   assert.match(s.el('abmelden-satz').textContent, /Pod-Anbieter/, 'ohne gelesene Kopie gilt der Satz aus Teil 1');
@@ -180,6 +209,22 @@ test('[Pod·Abmelden] neu geladen, Ziel unbestätigt, offene Ablage: keine still
   await klick(s, 'abmelden-lassen');
   assert.equal(s.abgemeldet(), true);
   assert.deepEqual(s.deletes(), []);
+});
+
+test('[Pod·Abmelden·Rot-Beweis] läge die Rückfrage im Ablagebereich, sähe die Person sie vor dem Bestätigen nicht', async () => {
+  const rueckfrage = HTML.match(/\n<div id="abmelden-pruefen"[\s\S]*?\n<\/div>\n/);
+  assert.ok(rueckfrage, 'die Rückfrage steht als eigener Block in der Seite');
+  const ohne = HTML.replace(rueckfrage[0], '\n');
+  const ende = ohne.indexOf('<div id="ablage-bereich"');
+  const schluss = ohne.indexOf('\n</div>\n', ende);
+  assert.ok(ende > 0 && schluss > ende);
+  const drinnen = ohne.slice(0, schluss) + rueckfrage[0] + ohne.slice(schluss);
+  assert.deepEqual(vorfahren(drinnen, 'abmelden-pruefen'), ['ablage-bereich']);
+  const s = await seite({ html: drinnen, zielBestaetigen: false });
+  s.verzeichnisSetzen([ABGELAUFEN, OFFEN]);
+  await klick(s, 'ziel-nein');
+  assert.equal(s.el('abmelden-pruefen').hidden, false, 'für sich nicht verborgen');
+  assert.equal(s.sichtbar('abmelden-pruefen'), false, 'aber im verborgenen Ablagebereich');
 });
 
 test('[Pod·Abmelden] scheitert das Löschen der abgelaufenen, erscheint die Rückfrage ohne Rücknahme', async () => {

@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-11-05 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-11-07 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -87,13 +87,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-10-25, d90eeb9d7 Stand Kanon)
-- E2E (Playwright): 709 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 208 aus Schleifen über CPU-Drosselungen = **917 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
-- Wächter-Register (intern): 158
-- Schema-Version: 94 · SCHALEN_STAND: v1040 · Build-Version: v1.0
+- E2E (Playwright): 713 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 216 aus Schleifen über CPU-Drosselungen = **929 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 162
+- Schema-Version: 95 · SCHALEN_STAND: v1047 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (453)
+## ADR-Register (455)
 
 | Nummer | Titel |
 |---|---|
@@ -550,6 +550,8 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-516 | KI-Andockpunkt — eine eigene Modulart für den Verweis auf ein lokales Modell |
 | U2-ADR-518 | Forschungsentscheidungen und Datenspende nach dem Tod |
 | U2-ADR-520 | Bei einem Dritten liegt nur Chiffrat, auch das Verzeichnis |
+| U2-ADR-523 | Fragen am Eintrag und das Blatt für ein Gespräch |
+| U2-ADR-524 | Bundeseinheitlichen Medikationsplan einlesen, Data-Matrix-Auszug im Kern |
 
 ---
 
@@ -559,18 +561,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 39 | 251 |
-| `.btn-sek` | 15 | 118 |
+| `.btn` | 39 | 255 |
+| `.btn-sek` | 15 | 121 |
 | `.btn-dezent` | 5 | 15 |
-| `.btn-klein` | 3 | 16 |
+| `.btn-klein` | 3 | 18 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 37 |
 | `.karte` | 6 | 73 |
-| `.modal` | 23 | 196 |
-| `.toast` | 9 | 324 |
+| `.modal` | 23 | 201 |
+| `.toast` | 9 | 334 |
 | `.banner-stapel` | 4 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 14 | 6 |
-| `.leer` | 3 | 352 |
+| `.leer` | 3 | 360 |
 | `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 34 |
+| `.hinweis-box` | 7 | 35 |

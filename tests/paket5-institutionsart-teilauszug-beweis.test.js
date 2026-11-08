@@ -46,6 +46,7 @@ const ECHTE_ZWOELF = Object.freeze({
   krankenhaus: 'Krankenhaus', arztpraxis: 'Arztpraxis', bestatter: 'Bestatter',
   bank: 'Bank', versicherung: 'Versicherung', standesamt: 'Standesamt',
   meldebehoerde: 'Meldebehörde', behoerde: 'Behörde', arbeitgeber: 'Arbeitgeber',
+  apotheke: 'Apotheke',   // U2-ADR-523, 06.11.2026: die dreizehnte native Art
 });
 
 // Baut eine Kernkopie, in der INSTITUTION_ART_EINGEBAUT leer ist — die
@@ -56,6 +57,7 @@ function kernkopieOhneNativeInstitutionsarten() {
   const marker = "const INSTITUTION_ART_EINGEBAUT = Object.freeze([\n"
     + "  'krankenkasse', 'pflegekasse', 'pflegedienst', 'krankenhaus', 'arztpraxis', 'bestatter',\n"
     + "  'bank', 'versicherung', 'standesamt', 'meldebehoerde', 'behoerde', 'arbeitgeber',\n"
+    + "  'apotheke', // U2-ADR-523\n"
     + "]);";
   if (!html.includes(marker)) {
     throw new Error('INSTITUTION_ART_EINGEBAUT-Block nicht im erwarteten Wortlaut gefunden — '
@@ -87,7 +89,7 @@ test('[Paket5·institutionsArt·Beweis] Dropdown-Optionsliste ist byte-identisch
   await VEcht.depotAnlegen(PW);
   VEcht.akteurSelbstErklaeren('Beweis-Testerin');
   const referenz = artOptionen(VEcht);
-  assert.equal(referenz.length, 12, 'Vorbedingung: heute genau zwölf native Arten');
+  assert.equal(referenz.length, 13, 'Vorbedingung: heute genau dreizehn native Arten'); // 12 → 13 (06.11.2026, U2-ADR-523)
 
   // Simulation: dieselbe Datei, INSTITUTION_ART_EINGEBAUT geleert — die
   // Nach-Extraktions-Lage — plus ein Modul mit exakt demselben Inhalt.
@@ -104,11 +106,11 @@ test('[Paket5·institutionsArt·Beweis] Dropdown-Optionsliste ist byte-identisch
     ];
     const n = VSim._institutionsArtenAusDepotAnmelden(VSim.getData());
     assert.equal(n, 1, 'Modul muss angenommen werden, Grund bei 0: ' + JSON.stringify(VSim.INSTITUTION_ART_VERWORFEN));
-    assert.deepEqual(VSim.INSTITUTION_ART_VERWORFEN, [], 'keine der zwölf darf als "reserviert" oder sonst verworfen werden');
+    assert.deepEqual(VSim.INSTITUTION_ART_VERWORFEN, [], 'keine der dreizehn darf als "reserviert" oder sonst verworfen werden');
 
     const simuliert = artOptionen(VSim);
     assert.deepEqual(simuliert, referenz,
-      'byte-identisch: dieselben zwölf {wert,label}-Paare, dieselbe Reihenfolge, ob nativ oder moduliert');
+      'byte-identisch: dieselben dreizehn {wert,label}-Paare, dieselbe Reihenfolge, ob nativ oder moduliert');
   } finally {
     fs.rmSync(tempVerzeichnis, { recursive: true, force: true });
   }
@@ -117,7 +119,7 @@ test('[Paket5·institutionsArt·Beweis] Dropdown-Optionsliste ist byte-identisch
 // [Rot-Beleg] (A348 Zug 4): die Probe oben wäre auch grün, wenn sie nichts prüfte — dieser Test
 // zeigt, dass sie es tut. Dasselbe Modul, aber mit ELF statt ZWÖLF Arten (eine fehlt absichtlich):
 // die Hauptprobe (byte-identisch, dieselbe Reihenfolge) MUSS an genau dieser Lücke rot werden.
-test('[Rot-Beleg] eine unvollständige Modul-Antwort (elf statt zwölf Arten) macht die Hauptprobe rot', async () => {
+test('[Rot-Beleg] eine unvollständige Modul-Antwort (zwölf statt dreizehn Arten) macht die Hauptprobe rot', async () => {
   const { V: VEcht } = ladeMitPfad(undefined);
   await VEcht.depotAnlegen(PW);
   VEcht.akteurSelbstErklaeren('Beweis-Testerin');
@@ -133,12 +135,12 @@ test('[Rot-Beleg] eine unvollständige Modul-Antwort (elf statt zwölf Arten) ma
       { herkunft: 'buergerdepot-modul-simulation', moduleVersion: 1, sprache: 'de', arten: { ...ELF_STATT_ZWOELF } },
     ];
     const n = VSim._institutionsArtenAusDepotAnmelden(VSim.getData());
-    assert.equal(n, 1, 'Modul muss auch mit elf Arten angenommen werden, Grund bei 0: '
+    assert.equal(n, 1, 'Modul muss auch mit zwölf Arten angenommen werden, Grund bei 0: '
       + JSON.stringify(VSim.INSTITUTION_ART_VERWORFEN));
 
     const simuliert = artOptionen(VSim);
     assert.notDeepEqual(simuliert, referenz,
-      'ROT ERWARTET, sobald die Hauptprobe wieder byte-identisch meldete: mit nur elf statt zwölf '
+      'ROT ERWARTET, sobald die Hauptprobe wieder byte-identisch meldete: mit nur zwölf statt dreizehn '
       + 'Arten muss der Vergleich tatsächlich scheitern — sonst prüft die Hauptprobe nichts, was '
       + 'ein fehlerhaftes Modul überhaupt aufdecken könnte.');
   } finally {

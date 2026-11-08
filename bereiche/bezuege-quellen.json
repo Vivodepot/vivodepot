@@ -91,6 +91,34 @@
           "kennung": "G00000587",
           "fassung": "2.0",
           "freigabestatus": "in Bearbeitung — nicht fest"
+        },
+        {
+          "pfad": "fim/F60000243_V1.2.xdf.xml",
+          "sha256": "8146223a6a52b078ef9149bb61c45e4528c23f379547cc214ca1e8aad35f7eba",
+          "kennung": "F60000243",
+          "fassung": "1.2",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000244_V1.2.xdf.xml",
+          "sha256": "dfe26d379bba232acb1b46171c0d0abd9955baa0817226a46bf057547d2c7b67",
+          "kennung": "F60000244",
+          "fassung": "1.2",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000246_V1.1.xdf.xml",
+          "sha256": "00a28e4c5beb3ee2cb934d9db8dbf63c6f7b59fc73b986154627b97c2d28420d",
+          "kennung": "F60000246",
+          "fassung": "1.1",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000247_V2.2.xdf.xml",
+          "sha256": "8bb51e5ce110e35163828bb254672b711c83b044e54bbe01a53795b488141823",
+          "kennung": "F60000247",
+          "fassung": "2.2",
+          "freigabestatus": "fachlich freigegeben (gold)"
         }
       ]
     },

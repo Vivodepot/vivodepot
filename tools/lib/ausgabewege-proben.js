@@ -29,6 +29,7 @@ const WEGE = Object.freeze({
   flowAnlassExport: { fremd: 'JSON-Parser (die Datei), poppler (das PDF daneben)', proben: [{ datei: PDF, titel: '[Ausgabeweg·PDF·anlassPdfAusgeben]' }] },
   _formatExportDownload: { fremd: 'siehe FORMATE je Format (JSON-Parser, xmllint/vcard-parser/ical.js je nach Art)', proben: [{ datei: DATEI, titel: '[Ausgabeweg·Datei·_formatExportDownload]' }] },
   flowGesundheitFhirExport: { fremd: 'JSON-Parser + Verweis-Auflösung; HL7-Validator in tests/konformitaet/externe-validatoren.mjs', proben: [{ datei: DATEI, titel: '[Ausgabeweg·Datei·flowGesundheitFhirExport]' }] },
+  flowGespraechsblatt: { fremd: 'HTML-Text des Blatts (gespraechsblattHTML), den der Browser druckt', proben: [{ datei: 'tests/eintrag-fragen.test.js', titel: '[Fragen·c] das Blatt für Adressat A trägt keine Frage an Adressat B' }] },
   flowErbscheinXmlSichern: { fremd: 'xmllint (Wohlgeformtheit, Wurzel)', proben: [{ datei: DATEI, titel: '[Ausgabeweg·Datei·flowErbscheinXmlSichern]' }] },
   notfallblattOeffnen: { fremd: 'keiner (HTML-Druckblatt, Struktur- und Geheimnisprüfung)', proben: [{ datei: DATEI, titel: '[Ausgabeweg·Druck·notfallblattOeffnen]' }] },
   _codeblattOeffnen: { fremd: 'keiner (HTML-Druckblatt, Struktur- und Geheimnisprüfung)', proben: [{ datei: DATEI, titel: '[Ausgabeweg·Druck·_codeblattOeffnen]' }] },

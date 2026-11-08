@@ -26,7 +26,7 @@ const { execFileSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
 
 const REPO = path.join(__dirname, '..');
-const LIB_JE_EINTRAG = Object.freeze({ 'jsPDF': 'jspdf', 'qrcode-generator': 'qrcode-generator' });
+const LIB_JE_EINTRAG = Object.freeze({ 'jsPDF': 'jspdf', 'qrcode-generator': 'qrcode-generator', '@zxing/library': 'zxing-library' });
 const sha = (b) => crypto.createHash('sha256').update(b).digest('hex');
 
 function inlineBlock(kern, name) {

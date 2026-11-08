@@ -1,6 +1,6 @@
 {
  "beschreibung": "Grundlinie der ADR-Fristen-Ratsche (tools/adr-fristen-pruefen.js, tests/adr-fristen-pruefen.test.js). Eine Zeile deckt eine offene Konformitäts-Klausel, die abgelaufen ist oder keine gültige Frist trägt, bis zu ihrer neueFrist: adr (voller Präfix U2-ADR-NNN oder B16-ADR-NNN aus dem Dateinamen — U2 und B16 nummerieren unabhängig ab 1, ein bloßer Zahlenteil wäre mehrdeutig), aussage (die ersten 60 Zeichen, einzeilig), art (abgelaufen | ohne-frist), grund (mind. 40 Zeichen), erstmals (die erste Frist, bleibt für immer stehen; bei art abgelaufen gleich der Frist im ADR), neueFrist (JJJJ-MM-TT, in der Zukunft), verlaengert (Zahl der bisherigen Verlängerungen, steigt mit jeder neuen Zeile). `deckel` ist die exakte Zahl der Zeilen. Zwei Wege aus dem Rot: die Klausel schließen oder ihre Frist im ADR neu setzen, oder eine Zeile hier und `deckel` um eins heben. Beim Anlegen (22.09.2026) ist sie leer: die drei damals ungedeckten Klauseln wurden vorher im ADR entschieden, nicht hier abgelegt.",
- "deckel": 1,
+ "deckel": 2,
  "zeilen": [
   {
    "adr": "U2-ADR-101",
@@ -10,6 +10,15 @@
    "erstmals": "2026-09-30",
    "neueFrist": "2026-11-27",
    "verlaengert": 2
+  },
+  {
+   "adr": "U2-ADR-488",
+   "aussage": ">- Jede Adresse liefert live 200 und die verzeichnete Prüfsu",
+   "art": "abgelaufen",
+   "grund": "Stand 07.11.2026: der Ordner schemas/ ist noch nicht über die Website-Auslieferung hochgeladen, die Live-Prüfung zeigt 404 und abweichende Inhalte. Der Upload steht aus. Läuft die neue Frist ohne Upload ab, wird nicht weiter verlängert.",
+   "erstmals": "2026-11-06",
+   "neueFrist": "2026-11-10",
+   "verlaengert": 1
   }
  ]
 }

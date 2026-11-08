@@ -66,6 +66,9 @@ function _jwkThumbprint(jwk) {
 
 /* Prüft EIN Rezept + seine Signatur. Wirft nie; das Ergebnis trägt den Befund:
    { gueltig: true, nutzlast } oder { gueltig: false, grund }. */
+/* Der einzige Kopfwert, den die App am Anker der Trust-Authority annimmt (vivodepot.html, ANKER_SATZ). */
+const ANKER_ALG = 'EdDSA';
+
 async function rezeptSignaturPruefen(slug, { rezeptBytes, jwsText, ankerJwk, jetzt = new Date(), uebergangAusgabestellen = UEBERGANG_AUSGABESTELLEN }) {
   if (!rezeptBytes) return { gueltig: false, grund: 'kein Rezept (' + slug + '.json).' };
   if (!jwsText) return { gueltig: false, grund: 'keine Signatur (' + slug + '.jws).' };
@@ -77,6 +80,11 @@ async function rezeptSignaturPruefen(slug, { rezeptBytes, jwsText, ankerJwk, jet
   let nutzlast;
   try { nutzlast = _b64uJson(String(jwsText).split('.')[1]); } catch { return { gueltig: false, grund: 'die Signatur ist kein lesbares JWS.' }; }
   if (!nutzlast || typeof nutzlast.ausstellerZertifikatJws !== 'string') return { gueltig: false, grund: 'die Signatur trägt kein Ausgabestellen-Zertifikat.' };
+
+  // Am Anker gilt wie in der App (_ankerWaehlen, Grund anker-alg) nur der Kopfwert EdDSA, geprüft vor jeder Signatur.
+  let zertAlg;
+  try { zertAlg = _b64uJson(nutzlast.ausstellerZertifikatJws.split('.')[0]).alg; } catch { return { gueltig: false, grund: 'das Ausgabestellen-Zertifikat ist kein lesbares JWS.' }; }
+  if (zertAlg !== ANKER_ALG) return { gueltig: false, grund: 'anker-alg: das Ausgabestellen-Zertifikat nennt alg „' + zertAlg + '", am Anker gilt nur ' + ANKER_ALG + '.' };
 
   let zert;
   try { zert = await V._verifyJWS(nutzlast.ausstellerZertifikatJws, await V._jwsImportVerifyKey(ankerJwk), { jetzt }); }

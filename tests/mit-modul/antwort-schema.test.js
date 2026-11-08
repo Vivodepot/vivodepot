@@ -10,6 +10,8 @@
      Schema. Ein neuer Schlüssel im Kern macht die Probe rot, bis das Schema ihn kennt.
    · SCHLÜSSELGLEICHHEIT: Jeder Schlüssel des Schemas kommt in einer dieser Antworten vor, außer den benannten
      (AUSSTEHEND unten, mit Grund). Ein Schlüssel, den der Kern nicht mehr schreibt, macht die Probe rot.
+   · AUSSTEHEND SCHRUMPFT: Schreibt der Kern einen Pfad, der unter AUSSTEHEND steht, ist die Probe rot, bis der Eintrag
+     gestrichen ist. Die Liste kann so nicht stehen bleiben, nachdem der Bau den Schlüssel liefert.
    ROT-BEWEIS: Ein fremder Schlüssel oben, ein fremder Schlüssel in einem Feld und ein fehlender Pflichtschlüssel werden
    gemeldet (Positivkontrolle unten).
    Liegt hier, weil sie Ajv braucht.
@@ -25,10 +27,12 @@ const SCHEMA = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'docs
 const PW = 'antwort-schema-pw-2026';
 /* Schlüssel des Schemas, die diese Probe noch nicht erzeugt — mit Grund. Die Liste kann nur kürzer werden. */
 const AUSSTEHEND = {
-  personen: 'füllt der Personen-Block (W1, nach dem PDF-Anhang)',
-  institutionen: 'füllt der Personen-Block (W1, nach dem PDF-Anhang)',
   antwortAuf: 'nur bei einer Anfrage aus einer geprüften Vorlage (U2-ADR-366); eigene Probe in tests/kette-07-die-anfrage.test.js',
 };
+
+function unterAusstehend(p, liste = AUSSTEHEND) { return Object.keys(liste).some((a) => p === a || p.startsWith(a + '[]') || p.startsWith(a + '.')); }
+/* AUSSTEHEND-Einträge, deren Pfad der Kern schon schreibt (gesehen = Pfade aus echten Antworten). */
+function ausstehendGeliefert(gesehen, liste = AUSSTEHEND) { return Object.keys(liste).filter((a) => [...gesehen].some((p) => unterAusstehend(p, { [a]: 1 }))); }
 
 function pruefer() { return new Ajv2020({ allErrors: true, strict: false, validateFormats: false }).compile(SCHEMA); }
 function fehler(pruefe, ds) { return pruefe(ds) ? [] : pruefe.errors.map((e) => (e.instancePath || '/') + ' ' + e.message + ' ' + JSON.stringify(e.params)); }
@@ -38,28 +42,44 @@ function alleKennungen(V) {
   for (const b of V.bereicheAlle()) for (const s of (b.sektionen || [])) for (const f of (s.felder || [])) k.add(b.id + '.' + f.id);
   return [...k];
 }
-function anfrage(kennungen) {
+function anfrage(kennungen, format) {
   return { modulTyp: 'anfrage', anfrageVersion: 1, von: 'Probe-Stelle', zweck: 'Probe', grundlage: 'Probe', vorgang: 'AS-1',
     gestelltAm: '2026-11-03', gueltigBis: '2099-12-31',
     felder: kennungen.map((k, i) => ({ kennung: k, zweck: 'Probe', pflicht: i % 2 === 0 })),
-    antwort: { art: 'einmalpasswort', an: 'probe@beispiel.invalid' } };
+    antwort: Object.assign({ art: 'einmalpasswort', an: 'probe@beispiel.invalid' }, format ? { format } : {}) };
+}
+// Ein Ausgabe-Format-Modul, damit die Antwort eine Zieldatei trägt (W2).
+const MODUL = { modulTyp: 'format', moduleVersion: 1, sprache: 'de', format: 'antwort-schema-probe', richtung: 'export',
+  sektor: 'identity', label: 'Probe', quelle: 'antrag', zuordnung: [{ feld: 'givenName', ziel: 'vorname' }] };
+function institutionsVerweis(V) {
+  for (const b of V.bereicheAlle()) for (const sek of (b.sektionen || [])) for (const f of (sek.felder || [])) {
+    if ((f.typ !== 'ref' && f.typ !== 'refMehrfach') || f.entitaet !== 'institution') continue;
+    const w = f.sichtbarWenn;
+    return { bereich: b.id, feld: f.id, mehrfach: f.typ === 'refMehrfach', bedingung: (w && w.feld && 'wert' in w) ? { [w.feld]: w.wert } : {} };
+  }
+  return null;
 }
 async function depot(produkt) {
   const { V } = ladeKern(produkt ? { produkt } : {});
   await V.depotAnlegen(PW);
   const d = V.getData();
   d.sektoren.identity = Object.assign({}, d.sektoren.identity, { givenName: 'Walter', familyName: 'Beispiel', birthDate: '1941-05-02' });
+  d.formatModule = (Array.isArray(d.formatModule) ? d.formatModule : []).concat([MODUL]);
   d.menschen.push({ id: 'p-1', name: 'Erika Beispiel', givenName: 'Erika', familyName: 'Beispiel' });
   if (V.SEKTOR_BY_ID.health) {
     d.sektoren.health = Object.assign({}, d.sektoren.health, {
       allergiesMedicationFoodOther: [V.chipAusEingabe('snomedAllergen', 'Penicillin'), { text: 'Hausstaub' }] });
   }
   if (V.SEKTOR_BY_ID.people) d.sektoren.people = Object.assign({}, d.sektoren.people, { spouseOrCivilPartner: { ref: 'p-1' } });
+  // Ein Verweis auf eine Institution, damit der Block `institutionen` entsteht: das erste solche Feld außerhalb von Listen.
+  d.institutionen = (Array.isArray(d.institutionen) ? d.institutionen : []).concat([{ id: 'i-1', name: 'Beispiel-Krankenkasse' }]);
+  const iv = institutionsVerweis(V);
+  if (iv) d.sektoren[iv.bereich] = Object.assign({}, d.sektoren[iv.bereich], iv.bedingung, { [iv.feld]: iv.mehrfach ? [{ ref: 'i-1' }] : { ref: 'i-1' } });
   V.setData(d);
   return V;
 }
-async function antwort(V, kennungen) {
-  const ds = await V.anfrageAntwortDatensatzGeprueft({ anfrage: anfrage(kennungen) }, { sensibel: true });
+async function antwort(V, kennungen, format) {
+  const ds = await V.anfrageAntwortDatensatzGeprueft({ anfrage: anfrage(kennungen, format) }, { sensibel: true });
   assert.ok(ds, 'die Anfrage ist gültig und ergibt einen Datensatz');
   return JSON.parse(JSON.stringify(ds));
 }
@@ -97,7 +117,8 @@ test('[Antwort·Schema·Klasse] jede Kennung des Kerns, Privat und Pro: die Antw
   // der Gleichheitsprobe unten ihre Schlüssel.
   for (const produkt of [undefined, 'pro-de'].filter((p) => !p || baubar(p))) {
     const V = await depot(produkt);
-    const ds = await antwort(V, alleKennungen(V).concat(['xyz.gibtEsNicht']));
+    const ds = await antwort(V, alleKennungen(V).concat(['xyz.gibtEsNicht']), MODUL.format);
+    assert.ok(ds.zieldatei && ds.zieldatei.inhalt, 'Vorbedingung: die Antwort trägt eine Zieldatei (' + (produkt || 'privat-de') + ')');
     assert.ok(ds.felder.length >= 3 && ds.fehlend.length > 0 && ds.unbekannt.length === 1,
       'Vorbedingung: Werte, fehlende und eine unbekannte Kennung (' + (produkt || 'privat-de') + ')');
     assert.deepEqual(fehler(pruefe, ds), [], produkt || 'privat-de');
@@ -123,10 +144,11 @@ test('[Antwort·Schema·Klasse] Vertretung aus einem verwalteten Depot validiert
 
 test('[Antwort·Schema·Gleichheit] jeder Schlüssel des Schemas kommt im Kern vor, außer den benannten', () => {
   assert.ok(GESEHEN.size > 0, 'Vorbedingung: die Klassenproben liefen');
-  const offen = [...schemaPfade(SCHEMA)].filter((p) => !GESEHEN.has(p) && !Object.keys(AUSSTEHEND).some((a) => p === a || p.startsWith(a + '[]') || p.startsWith(a + '.')));
+  const offen = [...schemaPfade(SCHEMA)].filter((p) => !GESEHEN.has(p) && !unterAusstehend(p));
   /* Schlüssel, die nur in seltenen Fällen entstehen, stehen hier mit Ort im Kern, statt in einer eigenen Antwort. */
   const SELTEN = {
     'felder[].codeForm.systeme': 'nur mit geführtem oder fremdem Code (gesehen: Penicillin trägt einen)',
+    'zieldatei.grund': 'nur ohne passendes Modul (Probe: tests/mit-modul/antwort-zieldatei.test.js)',
     'felder[].abgeleitet': 'nur abgeleitete Angaben (_datensatzAusEintraegen, e.abgeleitet)',
     'felder[].gueltigBis': 'nur Felder mit Gültigkeit (feldGueltigkeitLesen)',
     'felder[].herkunft': 'nur Felder mit Eingabe-Stempel (_letzterStempel)',
@@ -137,6 +159,17 @@ test('[Antwort·Schema·Gleichheit] jeder Schlüssel des Schemas kommt im Kern v
     'moduleStand.module[].version': 'wie typ',
   };
   assert.deepEqual(offen.filter((p) => !SELTEN[p]), [], 'Schlüssel im Schema, die der Kern nicht schreibt');
+});
+
+test('[Antwort·Schema·Ausstehend] kein Eintrag unter AUSSTEHEND, den der Kern schon schreibt', () => {
+  assert.ok(GESEHEN.size > 0, 'Vorbedingung: die Klassenproben liefen');
+  assert.deepEqual(ausstehendGeliefert(GESEHEN), [], 'der Kern schreibt diese Schlüssel: Eintrag aus AUSSTEHEND streichen');
+});
+
+test('[Antwort·Schema·Rot-Beweis] ein gelieferter AUSSTEHEND-Pfad wird gemeldet, ein nur ähnlich benannter nicht', () => {
+  const liste = { personen: 'x', antwortAuf: 'y' };
+  assert.deepEqual(ausstehendGeliefert(new Set(['felder', 'personen', 'personen[].ref']), liste), ['personen']);
+  assert.deepEqual(ausstehendGeliefert(new Set(['felder', 'personenZahl', 'anfrage.antwortAufX']), liste), [], 'Präfix ohne Trenner zählt nicht');
 });
 
 test('[Antwort·Schema·Rot-Beweis] fremde und fehlende Schlüssel werden gemeldet', () => {

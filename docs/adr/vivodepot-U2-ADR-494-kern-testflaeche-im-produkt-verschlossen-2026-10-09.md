@@ -14,9 +14,11 @@ Seit dem Kern-Verschluss (18.09.2026) schließt Script 2 mit einer IIFE. Nur ein
 `window.__vdOeffentlich`, gebraucht von E2E-Proben, browsergesteuerten Werkzeugen und den Code-Listen-Anhängen am Dateiende.
 Die Fläche stand bisher auch im ausgelieferten Produkt. Sie gibt den ganzen Zustand frei (`ankerDaten`, `depotSerialisieren`,
 `depotLaden`), auch was gerade nicht angezeigt wird. Ein eingeschleustes Skript braucht dafür zwar eine XSS. Die CSP sperrt aber
-das Abfließen per Navigation der obersten Ebene nicht (`navigate-to` wurde nie Standard). Eine externe Sicherheitsprüfung
-hat das am Produkt v922 gefunden (MITTEL). Wie kommt das Produkt ohne die Fläche aus, ohne dass die Proben ein anderes Produkt
+das Abfließen per Navigation der obersten Ebene nicht (`navigate-to` wurde nie Standard). Eine KI-gestützte Durchsicht der ausgelieferten Datei von außen
+hat das am Produkt v922 gefunden (MITTEL, später als Hoch eingestuft, VD-SEC-022)[^1]. Wie kommt das Produkt ohne die Fläche aus, ohne dass die Proben ein anderes Produkt
 prüfen als das ausgelieferte?
+
+[^1]: Korrektur 07.11.2026. Bisheriger Wortlaut: „Eine externe Sicherheitsprüfung hat das am Produkt v922 gefunden (MITTEL).“ Der Hinweis kam aus einer KI-gestützten Durchsicht der Datei, nicht aus einer beauftragten Prüfung; der Befund wurde intern nachgemessen.
 
 ## Entscheidung
 

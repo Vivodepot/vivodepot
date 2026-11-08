@@ -177,23 +177,30 @@
         }
       }
     },
+    "zieldatei": {
+      "type": "object",
+      "description": "Nur wenn die Anfrage `antwort.format` nennt: die Angaben der Antwort als Datei in diesem Format, gebaut im Kern aus einem Ausgabe-Format-Modul der Person und nur aus den freigegebenen Angaben. Geht das nicht, steht `grund` statt `inhalt` da.",
+      "additionalProperties": false,
+      "required": ["format"],
+      "properties": {
+        "format": { "type": "string" },
+        "mime": { "type": "string" },
+        "endung": { "type": "string" },
+        "dateiname": { "type": "string" },
+        "inhalt": { "type": "string" },
+        "grund": { "enum": ["format-fehlt", "format-liest-am-filter-vorbei", "format-ohne-ergebnis"] }
+      }
+    },
     "personen": {
       "type": "array",
-      "description": "Je Verweis auf eine Person in `roh` ein Eintrag mit ihren Personalien (U2-ADR-467). Enthält nur, was die Antwort ohnehin als `wert` zeigt.",
+      "description": "Je Verweis auf eine Person in `roh` ein Eintrag mit `ref` und ihren Namensteilen. Mehr nicht: die Antwort zeigt von einer Person nur den Namen; Geburtsdatum, Geburtsort und Anschrift gehen mit einem Verweis nie hinaus.",
       "items": {
         "type": "object", "additionalProperties": false, "required": ["ref"],
         "properties": {
           "ref": { "type": "string" },
           "name": { "type": "string" },
           "familyName": { "type": "string" },
-          "givenName": { "type": "string" },
-          "birthDate": { "type": "string" },
-          "birthPlace": { "type": "string" },
-          "street": { "type": "string" },
-          "houseNumber": { "type": "string" },
-          "postalCode": { "type": "string" },
-          "city": { "type": "string" },
-          "country": { "type": "string" }
+          "givenName": { "type": "string" }
         }
       }
     },

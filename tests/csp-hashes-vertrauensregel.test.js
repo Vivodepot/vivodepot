@@ -24,6 +24,43 @@ const TYPFEHLER = (e) => e && e.name === 'TypeError';
 const META = (policy) => `<meta http-equiv="Content-Security-Policy" content="${policy}">`;
 const ANWENDUNGEN_SOLL = ['vivodepot-lesen.html', 'vivodepot-schluessel-teilen.html', 'vivodepot-studio.html', 'vivodepot-vc-issuer.html', 'vivodepot.html'];
 const lies = (f) => fs.readFileSync(path.join(REPO, f), 'utf8');
+/* Netzweg im gebauten Produkt: dieselben zwei Prüfungen wie die Offline-Garantie am Roh-Kern (CSP connect-src 'none', kein
+   Netz-Code), hier über alle Inline-Skripte des Produkts. Liefert die Funde als Liste, leer = kein Netzweg.
+   Ausgenommen vom Netz-Code-Verbot sind nur die eingebetteten Fremdbibliotheken (SBOM-gepinnt, Lizenz in THIRD_PARTY_LICENSES);
+   jsPDF trägt einen GET-Download (FileSaver/loadFile) mit XMLHttpRequest. Für sie gilt allein die CSP: connect-src 'none'
+   sperrt jeden Abruf. Dieselbe Grenze zieht die Offline-Garantie am Roh-Kern (sie prüft nur den eigenen Code). */
+const NETZ_MUSTER = [/\bfetch\s*\(/, /\bXMLHttpRequest\b/, /\bWebSocket\b/, /navigator\s*\.\s*sendBeacon\b/, /\bEventSource\b/, /navigator\s*\.\s*connection\b/];
+/* Ausnahmeliste (entschieden 06.11.2026): je Eintrag Fassung laut SBOM und SHA-256 des Skriptinhalts. Eine
+   Ausnahme gilt nur für genau diesen Inhalt; ein anderer Inhalt fällt unter das Netz-Code-Verbot, und die Prüfung „jede
+   Ausnahme trifft einen Block“ wird rot. Deckel: höchstens so viele Einträge, er sinkt nur (Register gegenlesung-zaehler). */
+const FREMD_DECKEL = 3;
+const sha256 = (t) => require('node:crypto').createHash('sha256').update(t).digest('hex');
+const FREMDBIBLIOTHEKEN = [
+  { name: 'jsPDF', fassung: '4.2.1', pruefsumme: '2a6e2849becf9f71dde408e1d7980734dec040787fc3c8a27326bee2a2a23fc0',
+    grund: 'GET-Download der Bibliothek, durch connect-src none gesperrt',
+    trifft: (attr, inhalt) => /^\s*\/\*\* @license[\s\S]{0,600}jsPDF/.test(inhalt) },
+  { name: 'noble-ed25519', fassung: 'fa14496', pruefsumme: 'acfbf9bf9ad63e851a8f448dc9da37e4bad7fe7eef4ca9a5c66b58a5288c5b62',
+    grund: 'kein Netz-Code gefunden; Bibliothek, nicht eigener Code',
+    trifft: (attr) => /id="noble_ed25519_VivodepotInline"/.test(attr) },
+  { name: 'qrcode', fassung: '1.4.4', pruefsumme: '5acc9afb7b602986a62f79e46956cde71716d019816f44b7b3f93039c8b6b345',
+    grund: 'kein Netz-Code gefunden; Bibliothek, nicht eigener Code',
+    trifft: (attr) => /id="qrcode_VivodepotInline"/.test(attr) },
+];
+function netzwegPruefen(html, gesehen) {
+  const { ohneKommentareUndStrings } = require('../tools/g11-js-code-ohne-kommentare-strings.js');
+  const funde = [];
+  const metas = [...html.matchAll(/<meta\s+http-equiv=["']Content-Security-Policy["'][^>]*>/gi)];
+  if (metas.length !== 1) funde.push(metas.length + ' CSP-Meta statt 1');
+  else if (!/connect-src\s+'none'(?:;|")/.test(metas[0][0])) funde.push("connect-src 'none' fehlt oder ist geöffnet");
+  for (const m of html.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/gi)) {
+    if (/type=["']application\/(ld\+)?json["']/i.test(m[1])) continue;
+    const fremd = FREMDBIBLIOTHEKEN.find((f) => f.trifft(m[1], m[2]) && sha256(m[2]) === f.pruefsumme);
+    if (fremd) { if (gesehen) gesehen.add(fremd.name); continue; }
+    const code = ohneKommentareUndStrings(m[2]);
+    for (const muster of NETZ_MUSTER) if (muster.test(code)) funde.push('Netz-Code ' + muster.source + ' in <script' + m[1] + '>');
+  }
+  return funde;
+}
 
 test('[CSP·Werkzeug] csp-bauen --check ist grün über alle Anwendungen', () => {
   const r = spawnSync(process.execPath, [WERKZEUG, '--check'], { cwd: REPO, encoding: 'utf8' });
@@ -117,6 +154,28 @@ test('[CSP·Bauwege] konfektionieren, Pages (beide Wege), Stick und Vorführung:
     }
     // Rot-Beweis am echten Produkt: ein Zeichen im großen Kern-Skript geändert, ohne nachzuziehen — die CSP passt nicht mehr.
     assert.equal(H.cspPruefen(produkt.replace('SCHALEN_STAND = ', 'SCHALEN_STAND  = ')).ok, false, 'Rot-Beweis');
+    // Kein Netzweg im gebauten Produkt (06.11.2026): die Pro-Bedingungen sagen „Was Sie in Ihr Depot eintragen, wird nicht an uns
+    // übertragen“. Bewacht war das bisher nur am Roh-Kern (in der Offline-Garantie-Probe des Kerns); ausgeliefert wird
+    // das konfektionierte Produkt mit eigener CSP-Zeile. Darum hier je Produkt: genau ein CSP-Meta mit connect-src 'none' und kein
+    // Netz-Code in einem Inline-Skript.
+    for (const p of VP.PRODUKTE) {
+      const text = erzeugnisse['konfektionieren ' + p.slug];
+      const gesehen = new Set();
+      assert.deepEqual(netzwegPruefen(text, gesehen), [], p.slug + ': Netzweg im gebauten Produkt');
+      // Jede Ausnahme trifft noch einen Block — eine Ausnahme ohne Block ist eine tote Zeile und gehört entfernt.
+      assert.deepEqual([...gesehen].sort(), FREMDBIBLIOTHEKEN.map((f) => f.name).sort(), p.slug + ': Fremdbibliotheken');
+    }
+    assert.equal(FREMDBIBLIOTHEKEN.length, FREMD_DECKEL, 'Deckel Fremdbibliotheken exakt');
+    const sbom = JSON.parse(lies('vivodepot.sbom.cdx.json')).components || [];
+    for (const f of FREMDBIBLIOTHEKEN) {
+      assert.ok(sbom.some((c) => c.name.toLowerCase().startsWith(f.name.toLowerCase()) && c.version === f.fassung), f.name + ' ' + f.fassung + ' steht so in der SBOM');
+      assert.ok(f.grund, f.name + ': Grund im Eintrag');
+    }
+    const pro = erzeugnisse['konfektionieren ' + (VP.PRODUKTE.find((p) => p.slug.startsWith('pro-')) || VP.PRODUKTE[0]).slug];
+    // Rot-Beweis Prüfsumme: ein geänderter jsPDF-Inhalt ist keine Ausnahme mehr; sein XMLHttpRequest fällt auf.
+    assert.notDeepEqual(netzwegPruefen(pro.replace(/(\/\*\* @license)/, '$1 '), new Set()), [], 'Rot-Beweis: geänderte Fremdbibliothek');
+    assert.notDeepEqual(netzwegPruefen(pro.replace("connect-src 'none';", "connect-src 'self';")), [], 'Rot-Beweis: connect-src geöffnet');
+    assert.notDeepEqual(netzwegPruefen(pro.replace('<script>', '<script>fetch("https://x.example/");')), [], 'Rot-Beweis: Netzaufruf eingesetzt');
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });
 

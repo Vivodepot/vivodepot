@@ -17,6 +17,38 @@ function raeumen() {
   zuRaeumen.clear();
 }
 let wacheAn = false;
+
+/* Verwaiste Ordner toter Läufe (07.11.2026): SIGKILL lässt sich nicht abfangen. Endet ein Lauf so (Überzeit-Abbruch über
+   suite-platz: erst SIGTERM, nach 2 s SIGKILL), bleibt sein Ordner liegen; am 07.11. lagen 1000 davon mit 5,6 GB im TMPDIR.
+   Darum trägt jeder Ordner die PID seines Laufs im Namen (produkt-html-<slug>-p<pid>-XXXXXX), und der erste Bau eines
+   Prozesses räumt die Ordner, deren PID nicht mehr lebt. Geräumt wird nur genau dieses Namensmuster: ältere Ordner ohne PID,
+   Ordner lebender Läufe und fremde Ordner bleiben stehen. Probe: tests/produkt-html-verwaiste-raeumen.test.js. */
+const VERWAIST_MUSTER = /^produkt-html-(?:privat|pro)-(?:de|en)-p(\d+)-[A-Za-z0-9]{6}$/;
+function pidLebt(pid) {
+  try { process.kill(pid, 0); return true; } catch (e) { return e && e.code === 'EPERM'; }
+}
+function verwaisteRaeumen({ tmp = os.tmpdir(), lebt = pidLebt, eigenePid = process.pid } = {}) {
+  const geraeumt = [];
+  let namen = [];
+  try { namen = fs.readdirSync(tmp); } catch (_) { return geraeumt; }
+  for (const name of namen) {
+    const m = VERWAIST_MUSTER.exec(name);
+    if (!m) continue;
+    const pid = Number(m[1]);
+    if (pid === eigenePid || lebt(pid)) continue;
+    try { fs.rmSync(path.join(tmp, name), { recursive: true, force: true }); geraeumt.push(name); } catch (_) { /* weiter */ }
+  }
+  return geraeumt;
+}
+let verwaistGeraeumt = false;
+/* Legt den Ordner eines Baus an: PID im Namen, beim ersten Mal je Prozess vorher die verwaisten räumen. */
+function _ordnerAnlegen(slug, tmp = os.tmpdir()) {
+  if (!verwaistGeraeumt) { verwaistGeraeumt = true; verwaisteRaeumen({ tmp }); }
+  const ziel = fs.mkdtempSync(path.join(tmp, 'produkt-html-' + slug + '-p' + process.pid + '-'));
+  zuRaeumen.add(ziel);
+  wacheEinrichten();
+  return ziel;
+}
 function wacheEinrichten() {
   if (wacheAn) return;
   wacheAn = true;
@@ -31,9 +63,7 @@ function wacheEinrichten() {
 function _bauArgumente(slug) {
   const { PRODUKTE, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
   const p = PRODUKTE.find((x) => x.slug === slug);
-  const ziel = fs.mkdtempSync(path.join(os.tmpdir(), 'produkt-html-' + slug + '-'));
-  zuRaeumen.add(ziel);
-  wacheEinrichten();
+  const ziel = _ordnerAnlegen(slug);
   return { ziel, slug, modulauswahl: [],
     vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
     unsignierteModulDateien: modulDateienFuer(p) };
@@ -87,4 +117,5 @@ async function depotImProduktLaden(slug, umschlag, passwort) {
   return { V, document, d: V.getData() };
 }
 
-module.exports = { produktHtml, produktHtmlTestfassung, kernAus, depotImProduktAnlegen, depotImProduktLaden };
+module.exports = { produktHtml, produktHtmlTestfassung, kernAus, depotImProduktAnlegen, depotImProduktLaden,
+  verwaisteRaeumen, _ordnerAnlegen, VERWAIST_MUSTER };

@@ -21,6 +21,134 @@ signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie 
 
 ## [Unreleased]
 
+## [v1.0.1047] – 2026-11-07
+
+### Behoben
+- Kind-Datei im Pod: In v1.0.1045 und v1.0.1046 legte die Anwendung die Kind-Datei im Pod immer ohne Ablauf ab, auch wenn
+  das Geburtsdatum des Kindes eingetragen war. Was der Abschnitt v1.0.1046 zum Ablauf mit eingetragenem Geburtsdatum sagt,
+  traf nicht zu. Jetzt nimmt die Anwendung das Geburtsjahr aus der Person, die mit dem Sub-Depot verknüpft ist, und legt
+  die Kind-Datei nie ohne Ablauf ab. Die Ablage läuft mit Ablauf des 31. Dezember des Jahres ab, in dem das Kind 24 wird.
+  Ist keine Person mit Geburtsjahr verknüpft, zeigt die Anwendung statt des Knopfs „Im Pod ablegen“ einen Hinweis und die
+  Auswahl „Person verknüpfen“ aus „Meine Menschen“. Liegt eine Kind-Datei schon ohne Ablauf im Pod, trägt die Anwendung
+  mit „Ablauf nachtragen“ den Ablauf nach, sobald eine Person mit Geburtsjahr verknüpft ist.
+- Feldregister: Neun Feldkennungen, die ausgelieferte Fassungen im Feldkatalog gezeigt hatten, fehlten im Register. Es
+  sind das Feld für Tiere (identity.pets) mit fünf Unterfeldern, Nachfolger pets.pets, und drei Vorlagenfelder. Sie stehen
+  ab dieser Fassung wieder im Register, mit Status und Datum, die Tierfelder auch mit Nachfolger. Wer eine solche Kennung
+  in einer älteren Datei hat, findet sie dort wieder.
+
+### Sicherheit
+- VD-SEC-011 (hoch): Behoben, Hinweis nachgetragen mit v1047.
+  Fehler: Über eine fremde Depot-Datei ließ sich die Herkunftsangabe im PDF-Fuß fälschen. Ein Modul, das sich selbst als
+  geprüft auswies, erschien als „alle geprüft“; eines, das sich als „ab Werk“ auswies, fehlte in der Herkunft. In der
+  Lese-App konnte ein unsigniertes Modul nicht-deutscher Sprache aus der Datei den amtlichen Titel eines Erbschein-Dokuments
+  ändern; der Empfänger sah ihn als Überschrift über Teil A.
+  Behebung: Ob ein Modul geprüft oder ab Werk ist, ergibt sich beim Öffnen aus der nachgeprüften Signatur oder aus seinem
+  Inhalt, nie aus Angaben im Modul selbst; in der Lese-App gilt das seit v920. Einen geschützten Titel setzt in der
+  Lese-App nur ein Modul ab Werk oder ein Modul, dessen Signatur über die eigene Prüfkette von Vivodepot nachgeprüft ist.
+  Betroffen: die Anwendung in den vor v920 ausgelieferten Fassungen (zuletzt v919), die Lese-App in den vor v917
+  ausgelieferten Fassungen (zuletzt v857).
+  Abhilfe: Ein PDF, das vor v920 aus einer fremden Datei erzeugt wurde, mit der aktuellen Fassung neu erzeugen. Für die
+  Lese-App nichts; seit v917 gilt die Korrektur des Titels.
+- VD-SEC-032 (hoch): Behoben, Hinweis nachgetragen mit v1047.
+  Fehler: In der Lese-App galt eine Angehörigen-Vorlage oder Situation aus einer fremden Depot-Datei als geprüft, wenn
+  sie sich selbst so auswies, und ersetzte dann das Blatt gleicher Kennung, das das Produkt mitgeschrieben hatte. Der
+  Empfänger sah an dieser Stelle ein vom Absender gewähltes Blatt, ohne den Hinweis „Nicht geprüfte Vorlage“.
+  Behebung: In der Lese-App ist ein Modul aus der Datei immer ungeprüft und ersetzt nie ein mitgeschriebenes Blatt;
+  Vertrauen ergibt sich nie aus Angaben im Modul selbst.
+  Betroffen: die Lese-App in den vor v920 ausgelieferten Fassungen (zuletzt v919).
+  Abhilfe: Für die Lese-App nichts; seit v920 gilt die Korrektur.
+
+## [v1.0.1046] – 2026-11-07
+
+### Hinzugefügt
+- Medikationsplan einlesen: Wer vom Arzt einen bundeseinheitlichen Medikationsplan bekommt, muss die Mittel nicht mehr
+  abtippen. Mit dem Knopf „Medikationsplan einlesen“ an der laufenden Medikation liest die Anwendung den Plan aus der
+  XML-Datei oder aus einem Bild des Codes, auch mehrseitig. Die Person sieht die Einträge vorher; mit „Übernehmen“ kommen sie
+  in die laufende Medikation, ohne Doppel. Den Knopf sieht nur, wer dort schreiben darf. Fehlen Seiten, nennt die Anwendung
+  die fehlenden Seiten; ist die Datei kein lesbarer Plan oder ist sie oder das Bild zu groß, sagt sie „Das ist kein lesbarer
+  Medikationsplan.“ In beiden Fällen übernimmt sie nichts.
+- Anfragen: Verweist eine erfragte Angabe auf eine Person oder Institution, nennt die Anwendung sie in der Antwort mit Namen.
+  Nennt eine Anfrage ein Dateiformat und gibt es ein passendes Ausgabe-Format-Modul, legt die Anwendung der Antwort
+  eine Datei in diesem Format bei, nur mit den freigegebenen Angaben. Ein Format-Modul kann die Datei jetzt auch als CSV
+  schreiben. In der Lese-App sichert die Stelle diese Datei mit „Für Ihr Verfahren sichern“.
+- Sub-Depot: Beim Anlegen kann die Person ihre Beziehung zu der Person wählen, für die sie das Sub-Depot führt; der
+  delegierte Export schlägt sie vor. Im geöffneten Sub-Depot kann die Person die Vollmacht benennen, auf der es beruht, eine
+  Vorsorgevollmacht oder Betreuerbestellung aus der Liste des Sub-Depots; sie steht dann mit Art und Datum an der Karte und in
+  der Antwort.
+
+### Behoben
+- Kind-Datei im Pod: Ist das Geburtsdatum des Kindes eingetragen, läuft eine neue Ablage im Pod am 31. Dezember des Jahres ab,
+  in dem das Kind 24 wird, nicht mehr am 24. Geburtstag; ohne Geburtsdatum läuft sie nicht ab. Bisher konnte der
+  Pod-Anbieter aus der Ablaufliste und dem Grant das genaue Geburtsdatum des Kindes ablesen, jetzt höchstens das Geburtsjahr.
+  In v1.0.1045 hieß es, die Ablage laufe nicht von selbst ab; mit eingetragenem Geburtsdatum lief sie dort schon zum
+  24. Geburtstag ab. Wurde die Kind-Datei mit v1.0.1045 und eingetragenem Geburtsdatum im Pod abgelegt, ersetzt jedes weitere
+  Sichern nur die Datei; Ablaufliste und Grant beim Pod-Anbieter behalten dort den 24. Geburtstag.
+- Angaben für Behörden (für Computer lesbar): Die Anschrift geht jetzt getrennt nach Straße, Hausnummer, Postleitzahl und Ort
+  in die FIM-Felder. Bisher kam sie nur aus den bisherigen Anschriftfeldern des Depots (Straße & Hausnummer, PLZ & Ort).
+- Anfragen: Fragt eine Stelle nach der Anschrift in den bisherigen Feldern (Straße & Hausnummer, PLZ & Ort) und führt das Depot Straße, Hausnummer, Postleitzahl und Ort,
+  enthält die Antwort jetzt die Anschrift. Bisher meldete der Abgleich „vollständig“, die Antwort trug aber keine Anschrift
+  und zählte Pflichtangaben als zurückgehalten.
+- Wer die Vorführung ansieht, liest in der Schluss-Szene jetzt, dass die Anwendung von sich aus keine Daten aus dem Depot an
+  einen Server sendet und ihre Content-Security-Policy Abrufe per Skript sperrt. Bisher hieß es, die Anwendung baue keine
+  Netzverbindung auf; die Wege, die die Person selbst auslöst, etwa die Ablage im Pod oder das Teilen, waren damit nicht
+  erfasst.
+
+## [v1.0.1045] – 2026-11-07
+
+Diese Fassung enthält auch die Änderungen der Fassungen v1041 bis v1044, die nicht eigens ausgeliefert wurden.
+
+### Hinzugefügt
+- Fragen am Eintrag: An einem Konto und an der laufenden Medikation lassen sich Fragen festhalten, je mit Adressat (ein
+  Mensch oder eine Stelle, etwa die Bank oder die Apotheke) und Datum. Nach dem Gespräch trägt die Person Antwort, Quelle
+  und Datum ein. Der Knopf „Fragen“ am Feld zeigt die Zahl der offenen Fragen. Für jeden Adressaten gibt es ein Blatt „Für
+  das Gespräch mit …“ mit den offenen Fragen an genau diesen Adressaten. Eine sensible Angabe wie die Medikation kommt nur
+  auf das Blatt, wenn die Person sie dort für dieses Blatt ankreuzt. Das Depot steigt damit auf Schemastufe 95; eine ältere
+  Fassung der Anwendung öffnet es danach nur noch lesend.
+- Die Apotheke ist eine eingebaute Art einer Stelle.
+- Export für die Verwaltung: Ein Format-Modul kann jetzt Angaben für einen Antrag verlangen, die das Depot nicht dauerhaft
+  führt, und Regeln des Antragsformats mitbringen. Fehlt eine verlangte Angabe oder verletzt die Datei eine dieser Regeln,
+  speichert Vivodepot keine Datei und sagt das.
+- Kind-Datei: Neben Datei und Ausgabe kann die Kind-Datei jetzt im eigenen Solid Pod liegen, unter einer festen Adresse und
+  nur für die WebID des Kindes lesbar. Jedes Aktualisieren der Kind-Datei ersetzt den Stand dort, jeweils mit Bestätigung in
+  der Pod-Brücke; hat sich die Datei im Pod inzwischen geändert, meldet die Anwendung den Konflikt, statt zu überschreiben.
+  Die Ablage im Pod läuft nicht von selbst ab; die Person kann sie in der Pod-Brücke jederzeit zurücknehmen.
+- Die Pod-Brücke zeigt im Browser-Tab das Zeichen der Anwendung.
+
+### Geändert
+- Hinterlegen: Die Gruppe im Dialog „Was möchten Sie hinterlegen?“ heißt jetzt „Verträge, Kontakte, Zugänge und Vorräte“.
+  Darin stehen etwa Krankenversicherung, Bank, Arbeitgeber und Vermieter, nicht nur Vorräte.
+- Standardvorlagen: Unter der Quellzeile jeder signierten Standardvorlage steht jetzt, dass Vivodepot den Text der Stelle
+  unverändert wiedergibt und mit einem eigenen Schlüssel signiert. Die Stelle selbst hat nicht signiert.
+- Teilen per Link: „Einmal abrufbar“ steht nur noch bei Links über die voreingestellte Ablage, denn nur sie löscht die Datei
+  beim ersten Abruf. Bei einer anderen Ablage oder einem Pod steht sichtbar „Nicht einmalig“.
+- Pod: Das Verzeichnis der Ablagen liegt im Pod nur noch verschlüsselt. Ablagen, Verzeichnis und Ablaufliste stehen in neutralen
+  Ordnern, die die Art der Ablage nicht verraten. Ohne Grant-Dienst des Pods legt die Brücke keinen Grant mehr im Pod ab; den
+  Zugriff gibt die Zugriffsregel. Ablagen aus Ordnern früherer Fassungen nimmt die Brücke weiter zurück.
+- Pod: Die Brücke schreibt Verzeichnis und Ablaufliste erst nach „Ablegen“. Kommt ein Auftrag aus der Anwendung, löscht sie abgelaufene Ablagen
+  samt Grant schon vorher, auch wenn danach „Nicht ablegen“ gewählt wird.
+- Pod: Der Hinweis zum Pod-Betreiber nennt, was neben jeder verschlüsselten Datei steht, dass ein Link als Freigabe-Link
+  erkennbar ist und dass die Ablagen an den übrigen Angaben ablesbar sind. Die Wahl der Ablageart ist eine Auswahl mit Karten.
+
+### Behoben
+- Ein verborgener Wert erscheint nicht mehr im Notfallblatt, im QR-Code, in der Datei für einen Empfängerkreis und im
+  Zwischenspeicher für Angehörige. Wer etwa „kein Widerspruch gegen die Ehegatten-Notvertretung“ gewählt hatte, fand dort
+  bisher noch „Widerspruch registriert: ja“ mit Datum, weil diese Ausgaben den gespeicherten Wert kopierten, auch wenn das
+  Feld ihn verbarg.
+- Vorlagen: Wird der Schlüssel eines Herausgebers widerrufen, gilt das beim nächsten Öffnen des Depots auch für Vorlagen, die
+  schon eingelesen sind.
+- Import: Eine Meldebescheinigung nach XMeld 26.11 wird gelesen, mit Namen und der Anschrift der Hauptwohnung. Bisher blieben
+  Vorname, Nachname und Geburtsname leer.
+- Pod: Lagen im Browser Ablagen, geschah bei „Nein, abmelden“ vor dem Bestätigen des Speichers nichts Sichtbares. Die Rückfrage
+  erscheint jetzt auch vor dem Bestätigen.
+- Pod: Ablagen lassen sich auch in einem anderen Browser und ohne Auftrag aus der Anwendung zurücknehmen. Die Brücke liest dafür
+  den Ablageordner und bietet an, was das Verzeichnis dieses Browsers nicht kennt; bis zum Klick schreibt sie nichts in den Pod.
+- Pod: Lässt sich der Grant für eine Stelle nicht bilden, etwa weil der Posteingang oder der Zweck keine https-Adresse ist, legt die Brücke
+  jetzt nichts ab.
+- Pod: Scheitert nach dem Ablegen ein Schritt (etwa der Grant-Dienst), nimmt die Brücke Ablage und Grant zurück, statt sie ohne
+  Ablauf liegen zu lassen.
+- Pod: Grant-Dateien früherer Fassungen, die im Klartext unter `grants/` lagen, räumt die Brücke nach dem Bestätigen des
+  Speichers ab.
+
 ## [v1.0.1040] – 2026-11-05
 
 ### Hinzugefügt

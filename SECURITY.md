@@ -15,7 +15,7 @@ Wer das Repository als Bürger, Pilotpartner, Rechtsberaterin oder Sicherheits-A
 
 ## 1 · Öffentlicher Schlüssel der Trust-Authority
 
-Der öffentliche Schlüssel der Vivodepot Trust-Authority signiert alle Vivodepot-zertifizierten Templates (Säule 3 → Säule 4 → Säule 1) und alle Vivodepot-zertifizierten Anbieter-Konfigurationen (White-Label-Bereich).
+Mit dem privaten Schlüssel der Vivodepot Trust-Authority werden die Zertifikate signiert, direkt oder über eine Zwischenstufe (Ausgabestelle, Prüfstelle oder Institution), auf denen alle Vivodepot-zertifizierten Templates und Anbieter-Konfigurationen (White-Label-Bereich) beruhen. Die Templates selbst signiert der Anbieter mit dem Schlüssel aus seinem Zertifikat, die Standardvorlagen signiert Vivodepot mit einem eigenen Vorlagenschlüssel (Abschnitt 6.4). Der Weg: Studio (Signatur des Templates) → VC-Issuer oder Zwischenstufe (Zertifikat) → Bürger-App (Prüfung gegen den öffentlichen Schlüssel).
 
 **Algorithmus:** Ed25519 (primär), ES256 (Fallback für Empfänger-Säulen, die Ed25519 nicht unterstützen)
 
@@ -27,7 +27,7 @@ Der öffentliche Schlüssel der Vivodepot Trust-Authority signiert alle Vivodepo
 
 **Schlüssel-Generierung:** offline, durch Vivodepot-Operatorin, in Cold-Storage gehalten.
 
-**Verwendungs-Pfad:** ausschließlich zur Verifikation in den Säulen 1 (Bürger-App) und 2 (Lese-App) eingebettet. Die Säule 4 (VC-Issuer) hält den korrespondierenden Privat-Schlüssel ausschließlich offline.
+**Verwendungs-Pfad:** zur Prüfung eingebettet in die Bürger-App, die Lese-App und das Studio, im Studio für das Zertifikat der Stelle (U2-ADR-501, Punkt 33); der VC-Issuer trägt ihn als den öffentlichen Schlüssel, den er in die Zertifikate für Vivodepots eigene Module schreibt. Den zugehörigen privaten Schlüssel laden nur die Werkzeuge der Ausstellung: der VC-Issuer, der Schlüssel-Teiler und die Zertifikats-Ausstellung über die Kommandozeile; liegt er als Schlüsseldatei vor, öffnet sie auch das Werkzeug zum Ändern der Passphrase. Aufbewahrt wird er offline.
 
 ---
 
@@ -178,7 +178,7 @@ Hart geprüft wird beim Setzen des Passworts nur die Mindestlänge von 8 Zeichen
 
 ### 6.4 Signatur der Standardvorlagen
 
-Die vier Vivodepot-Standard-Templates (Patientenverfügung, Betreuungsverfügung, Vorsorgevollmacht, Organspende) sind **treuhänderisch durch die Trust-Authority signiert** (Privat-Schlüssel aus dem Cold-Storage) und tragen jeweils eine eingebettete Signatur. Die Bürger-App prüft jede Vorlage beim Laden gegen den eingebetteten Trust-Authority-Anker (Fingerprint aus Abschnitt 1); nur gültig signierte Vorlagen werden als amtlich geführt — unsigniert oder abweichend signierte Vorlagen werden **verworfen**. Die amtlichen Aussteller-Zertifikate (Bundesministerium der Justiz, Bundeszentrale für gesundheitliche Aufklärung) sind eingebettet.
+Die vier Vivodepot-Standard-Templates (Patientenverfügung, Betreuungsverfügung, Vorsorgevollmacht, Organspende) sind **mit einem eigenen Vorlagenschlüssel von Vivodepot signiert**, nicht mit dem Schlüssel der Trust-Authority (U2-ADR-040), und tragen jeweils eine eingebettete Signatur. Vivodepot gibt die Muster unverändert wieder; die Stellen, die sie herausgeben, sind an der Signatur nicht beteiligt. Den öffentlichen Teil des Vorlagenschlüssels tragen zwei Zertifikate, die die Trust-Authority ausgestellt hat, je eines für das Bundesministerium der Justiz und für die Bundeszentrale für gesundheitliche Aufklärung (heute Bundesinstitut für Öffentliche Gesundheit, BIÖG); beide sind eingebettet. Die Bürger-App prüft beim Laden zuerst das Zertifikat gegen den eingebetteten Anker (Fingerprint aus Abschnitt 1), dann die Vorlage gegen den Schlüssel im Zertifikat und gegen ihren Inhalt; nur gültig signierte Vorlagen werden als amtlich geführt. Ist allein das Zertifikat abgelaufen und stimmen Signatur und Inhalt, bleibt die Vorlage mit dem Hinweis „veraltet“ sichtbar; unsigniert, abweichend signiert oder mit widerrufenem Zertifikat wird sie **verworfen**.
 
 ### 6.5 Arbeitsspeicher in JavaScript
 
@@ -302,6 +302,16 @@ die dort Fassung, Rolle und Prüfweg nennt. Nachrechnen (macOS/Linux) am öffent
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v1047 | 2026-11-08 | kern | `a8b24eaef41965fb37e9e410d20d1cf1a914d333feed7be2d3d9b36e0955c860` |
+| v1047 | 2026-11-08 | privat-de | `9267767b43be2631c833fc6fba7a3a4fed93d8c237e102d037767203d31f26fa` |
+| v1047 | 2026-11-08 | privat-en | `f32884758b9b82897ccb98b5a203e15138d691c6756fcf7dcbb4b9f813ab0525` |
+| v1047 | 2026-11-08 | pro-de | `685f0b0485229baa0cb83499d0bc5a2ca541ff61b4609b6cc86ae4ab115099b6` |
+| v1047 | 2026-11-08 | pro-en | `a861a83228ab2af5fb4a3157ca750ae54efdcfec929ef0e08bd63ae500ca19e5` |
+| v1047 | 2026-11-08 | pro-de-kanzlei | `2bd16dc97ec9f075e35f81b2537fd87fbf0322198352d9fc4503a42402c77fb6` |
+| v1047 | 2026-11-08 | pro-en-kanzlei | `b1cb1b5dda031c274d1bdae12ff8c8988514481130c28a9f9c49b46b0278f994` |
+| v1047 | 2026-11-08 | pro-de-steuerberatung | `32b3d1861e40f811f3602e224f35f62ceb13838db13b76303222abe9d360ba63` |
+| v1047 | 2026-11-08 | pro-en-steuerberatung | `f0f34ef9f984c686b3d2a103a14df17aa333daa89b294ef4f5f8ae32b37026d9` |
+| v1047 | 2026-11-08 | service-worker | `6cb344d550860ebf174b1ca797c97e001b798e3cbd110418241f2b0d1b570ceb` |
 | v1040 | 2026-11-05 | kern | `1fad2db0eb15c74d89be5bbd0ab442b74994aeb925c607ecfd761e94d2fd467d` |
 | v1040 | 2026-11-05 | privat-de | `d899b336374ca9ba0884b5b0be233ee8622079d724c9476e27861ddc02bfd6a0` |
 | v1040 | 2026-11-05 | privat-en | `1810b0bc3def5049e91a784188ae3db5f080b545fc4119c99d94e7bc57f209f8` |

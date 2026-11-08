@@ -29,10 +29,10 @@ const artOptionen = (V) => V._institutionFelder().unterFelder.find((f) => f.id =
 
 /* ── Rot-Beleg 1 · eine neue Art erscheint in der Maske ───────────────────── */
 
-test('[InstArt] ohne Modul bietet die Maske genau die zwölf eingebauten Arten', async () => {
+test('[InstArt] ohne Modul bietet die Maske genau die dreizehn eingebauten Arten', async () => {
   const V = await mitDepot();
   const o = artOptionen(V);
-  assert.equal(o.length, 12);
+  assert.equal(o.length, 13); // 12 → 13 (06.11.2026, U2-ADR-523: Apotheke)
   assert.equal(o.length, V.INSTITUTION_ART_EINGEBAUT.length, 'die Maske zeigt den eingebauten Satz');
   assert.ok(o.every((x) => typeof x.label === 'string' && x.label.trim()), 'jede Art trägt ihre Beschriftung');
 });
@@ -42,7 +42,7 @@ test('[InstArt·Rot 1] ein angedocktes Modul erscheint in der Auswahlmaske', asy
   V.getData().institutionsArten = [{ herkunft: 'fr-modul', moduleVersion: 1, sprache: 'de', arten: { notaire: 'Notariat' } }];
   assert.equal(V._institutionsArtenAusDepotAnmelden(V.getData()), 1);
   const o = artOptionen(V);
-  assert.equal(o.length, 13, 'die dreizehnte Art steht in der Maske');
+  assert.equal(o.length, 14, 'die vierzehnte Art steht in der Maske'); // 13 → 14 (06.11.2026, U2-ADR-523)
   assert.deepEqual(o[o.length - 1], { wert: 'notaire', label: 'Notariat' });
 });
 

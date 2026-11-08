@@ -68,7 +68,8 @@ test('[Zweck-Wächter] _zweckSlug normalisiert und lehnt Leeres ab', () => {
 });
 
 test('[Zweck-Wächter] onSchluesselErzeugen bricht ohne Zweck ab, BEVOR ein Schlüssel entsteht', async () => {
-  const { V, document } = ladeIssuer();
+  const { V, document, kontext } = ladeIssuer();
+  kontext.anbieterPruefungAusBlock = () => ({ abgeschaltet: true });   // Pflichtblock der Oberfläche; hier nicht Gegenstand
   document.getElementById('keygenZweck').value = '';
   document.getElementById('keygenPw1').value = 'wegwerf-passphrase-123';
   document.getElementById('keygenPw2').value = 'wegwerf-passphrase-123';
@@ -83,7 +84,9 @@ test('[Zweck-Wächter] onSchluesselErzeugen bricht ohne Zweck ab, BEVOR ein Schl
 
 test('[Zwischenstufe im Zertifikator] onAusstellen mit Ausstellerzertifikat → Kundenzertifikat-Bündel, zeichengleich zu tools/kundenzertifikat-ausstellen.js', async () => {
   await mitTmpVerzeichnis(async (tmp) => {
-    const { V, document } = ladeIssuer();
+    const { V, document, kontext } = ladeIssuer();
+    // Der Pflichtblock der Oberfläche liefert dieselbe Prüfung wie die Kommandozeile.
+    kontext.anbieterPruefungAusBlock = () => KUNDE_ANBIETERPRUEFUNG_FIXTURE;
     const ausgabe = await wegwerfKeypair();
     const kunde = await wegwerfKeypair();
     const ausstellerZertifikatJws = await ausstellerZertifikatBauen(V, ausgabe.pubJwk);
@@ -158,7 +161,8 @@ test('[Zwischenstufe im Zertifikator] onAusstellen mit Ausstellerzertifikat → 
 // Testlaufs — anders als der Beleg-Test oben, der nur zufällig traf, weil "heute" der 30. war.
 test('[Zwischenstufe im Zertifikator·Schaltjahr] issuanceDate am Monatsende + Laufzeit bis in einen kürzeren Schaltjahr-Monat: kein Rollover in den Folgemonat', async () => {
   await mitTmpVerzeichnis(async (tmp) => {
-    const { V, document } = ladeIssuer();
+    const { V, document, kontext } = ladeIssuer();
+    kontext.anbieterPruefungAusBlock = () => ({ abgeschaltet: true });   // Pflichtblock der Oberfläche; hier nicht Gegenstand
     const ausgabe = await wegwerfKeypair();
     const kunde = await wegwerfKeypair();
     const ausstellerZertifikatJws = await ausstellerZertifikatBauen(V, ausgabe.pubJwk);
@@ -201,7 +205,8 @@ test('[Zwischenstufe im Zertifikator·Schaltjahr] issuanceDate am Monatsende + L
 });
 
 test('[Zwischenstufe im Zertifikator·Gegenprobe] ein Ausstellerzertifikat eines ANDEREN Ausgabe-Schlüssels wird vor der Signatur abgelehnt', async () => {
-  const { V, document } = ladeIssuer();
+  const { V, document, kontext } = ladeIssuer();
+  kontext.anbieterPruefungAusBlock = () => ({ abgeschaltet: true });   // Pflichtblock der Oberfläche; hier nicht Gegenstand
   const ausgabe = await wegwerfKeypair();
   const einAnderer = await wegwerfKeypair();
   const kunde = await wegwerfKeypair();
@@ -223,7 +228,8 @@ test('[Zwischenstufe im Zertifikator·Gegenprobe] ein Ausstellerzertifikat eines
 });
 
 test('[Zwischenstufe im Zertifikator] leeres Ausstellerzertifikat-Feld → unveränderter direkter Weg', async () => {
-  const { V, document } = ladeIssuer();
+  const { V, document, kontext } = ladeIssuer();
+  kontext.anbieterPruefungAusBlock = () => ({ abgeschaltet: true });   // Pflichtblock der Oberfläche; hier nicht Gegenstand
   const behoerde = await wegwerfKeypair();
   const res = await V._importGeprueftenPrivateJwk(Object.assign({}, SENTINEL_PRIVATE_JWK));
   V._uebernehmeGeladenenSchluessel(res);

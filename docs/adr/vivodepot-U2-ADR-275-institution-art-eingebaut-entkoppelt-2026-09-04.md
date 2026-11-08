@@ -82,10 +82,10 @@ Teilauszug der zwölf Institutions-Arten (U2-ADR-274) kein Namensraum-Loch hinte
 ```konformitaet
 aussage:   INSTITUTION_ART_EINGEBAUT ist eine eigenständige, fest verdrahtete Konstante und
            nicht mehr von INSTITUTION_ART abgeleitet; institutionsArtenAlle() liefert ohne
-           angemeldetes Modul weiterhin exakt die zwölf nativen Einträge in unveränderter
-           Reihenfolge und Beschriftung.
+           angemeldetes Modul weiterhin exakt die nativen Einträge in unveränderter
+           Reihenfolge und Beschriftung (zwölf, seit U2-ADR-523 dreizehn mit der Apotheke am Ende).
 zustand:   prüfbar
-pruefung:  tests/paket3-commitA-entkopplung.test.js#[Entkopplung·U2-ADR-275] INSTITUTION_ART_EINGEBAUT trägt exakt die zwölf nativen Institutions-Kennungen, in Datei-Reihenfolge
+pruefung:  tests/paket3-commitA-entkopplung.test.js#[Entkopplung·U2-ADR-275] INSTITUTION_ART_EINGEBAUT trägt exakt die dreizehn nativen Institutions-Kennungen, in Datei-Reihenfolge
 quelle:    fund
 ```
 

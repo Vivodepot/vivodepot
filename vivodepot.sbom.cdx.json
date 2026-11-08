@@ -4,7 +4,7 @@
   "specVersion": "1.6",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-10-24T00:00:00Z",
+    "timestamp": "2026-11-06T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -1163,6 +1163,56 @@
           "value": "structured"
         }
       ]
+    },
+    {
+      "bom-ref": "zxing-library",
+      "type": "library",
+      "name": "zxing-library",
+      "version": "0.23.0",
+      "description": "Data-Matrix-Leser (Auszug aus @zxing/library: nur der Lese-Teil für Data Matrix), eingebettet für das Einlesen eines Medikationsplans aus einem Bild des Codes",
+      "purl": "pkg:npm/%40zxing/library@0.23.0",
+      "author": "ZXing authors",
+      "supplier": {
+        "name": "zxing-js",
+        "url": [
+          "https://github.com/zxing-js/library"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8b4727690eb4cec88f7177553f155b766ab259063c63781242ba62aceaf208a4"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "82f17c2724ca3a76c7e8c128851427b6c07136ae10a17eba59c1a9ce6fc3ef242aac3ff07bf32ce7217de2cd5807b2911ade78014c551b16ec38cef47a263c32"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "esm/core/datamatrix/DataMatrixReader.js"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
     }
   ],
   "dependencies": [
@@ -1188,7 +1238,8 @@
         "noble-ed25519",
         "code-liste-esco",
         "code-liste-iso4217",
-        "code-liste-xoev-rollencode"
+        "code-liste-xoev-rollencode",
+        "zxing-library"
       ]
     },
     {
@@ -1271,6 +1322,10 @@
     },
     {
       "ref": "code-liste-xoev-rollencode",
+      "dependsOn": []
+    },
+    {
+      "ref": "zxing-library",
       "dependsOn": []
     },
     {

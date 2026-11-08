@@ -196,14 +196,14 @@ function pruefungen(assert) {
         assert.ok(inst, 'Positivkontrolle: die Institution ist angelegt');
         assert.deepEqual(Object.keys(inst).sort(), ['id', 'name'],
           'eine Institution trägt hier nur Id und Name — eine `art` fehlt, s. nächste Zusicherung');
-        /* UND DER GRUND, gemessen statt behauptet: KEINE der zwölf Institutions-Arten
+        /* UND DER GRUND, gemessen statt behauptet: KEINE der dreizehn Institutions-Arten (seit U2-ADR-523 mit `apotheke`)
            paßt auf eine Stiftung oder einen gemeinnützigen Verein. `behoerde` wäre
            falsch, `arbeitgeber` beschreibt eine andere Beziehung. Sie bleibt darum
            ohne Art — und das ist ein Verlust, kein Versäumnis der Persona.
            SCHICHT 3: `institutionsArt` ist eines der fünf Einlass-Register, ein
            Anbieter kann eine Art mitbringen. */
         const arten = V.institutionsArtenAlle().map((o) => o.wert || o);
-        assert.equal(arten.length, 12, 'Positivkontrolle: die Liste ist gefüllt — die Suche greift');
+        assert.equal(arten.length, 13, 'Positivkontrolle: die Liste ist gefüllt — die Suche greift');
         for (const w of ['stiftung', 'verein', 'ngo', 'fundacion', 'gemeinnuetzig']) {
           assert.equal(arten.includes(w), false, 'keine Art `' + w + '` — die Stiftung hat keine');
         }

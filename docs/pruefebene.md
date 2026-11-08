@@ -82,7 +82,8 @@ Diese Prüfungen gibt es nicht:
   Abstürzen sucht, gibt es nicht.
 - **Keine externe Sicherheitsprüfung.** Kein durchgeführter Penetrationstest, kein bezahltes
   Audit. Die Krypto-Bausteine sind gegen Standard-Testvektoren geprüft (Ebene 3), nicht von einer
-  externen Stelle abgenommen.
+  externen Stelle abgenommen. Den Hinweis aus einer KI-gestützten Durchsicht der Fassung v922 (Oktober
+  2026) haben wir nachgemessen; der bestätigte Punkt ist als Schwachstelle erfasst und in v927 behoben.
 - **WebKit nur für eine Auswahl.** Die übrigen Browser-Reisen laufen nicht in WebKit, sondern nur in Chromium
   und Firefox.
 - **Node-Proben mit unklarer Aussagekraft, sortiert, nicht repariert.** Eine Stub-Grenze im

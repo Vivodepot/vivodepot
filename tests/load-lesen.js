@@ -178,6 +178,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   PDF_ANHANG_MAX_BYTES: (typeof PDF_ANHANG_MAX_BYTES !== 'undefined' ? PDF_ANHANG_MAX_BYTES : undefined),
   antwortAnzeigeModell, antwortAngabeHerkunft, antwortHerkunftAbweichung, antwortHerkunftZeileHTML, qrTeileZusammensetzen,
   renderAntwortOeffnen, renderAntwort, antwortWeitergeben, anlassAnzeigeModell, renderAnlass,
+  antwortZieldateiModell: (typeof antwortZieldateiModell !== 'undefined' ? antwortZieldateiModell : undefined),   // W2, Zieldatei der Antwort
   renderKamera, kameraStoppen, kameraMoeglich, kameraLeserMoeglich,
   feldEingetragen, feldWertText, listenEintragZusammenfassung, _unterfeldLabelLesen, entitaetAnzeige,
   // Eintragszeile am Bildschirm (Nachtrag U2-ADR-497, 01.11.2026)

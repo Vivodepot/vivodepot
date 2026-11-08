@@ -172,7 +172,9 @@ function ladeIssuer() {
   const source = script1 + '\n' + script2 + '\n' + EXPORT_HOOK;
   vm.runInContext(source, sandbox, { filename: path.basename(ISSUER_PATH) + '(concat)' });
 
-  return { V: sandbox.__ISSUER__, document: documentStub, html, script1, script2 };
+  // `kontext`: die globale Umgebung des Ausstellers, z. B. für den Pflichtblock der Anbieterprüfung (anbieterPruefungAusBlock),
+  // den eine Probe ohne Oberfläche selbst setzt.
+  return { V: sandbox.__ISSUER__, document: documentStub, html, script1, script2, kontext: sandbox };
 }
 
 module.exports = {

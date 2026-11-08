@@ -31,6 +31,7 @@ const REPO = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const FIXTURE = path.join(REPO, 'tests', 'fixtures', 'fim-schema');
 export const PORTAL = 'https://fimportal.de';
 export const XREPOSITORY = 'https://www.xrepository.de/api/version_codeliste/';
+export const PORTAL_CODELISTEN = PORTAL + '/api/v0/code-lists';
 
 const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 
@@ -54,7 +55,21 @@ const dateiname = (urn) => urn.replace(/[^A-Za-z0-9._-]+/g, '_') + '.gc.xml';
  * Holt Schema, Codelisten und XSD und legt sie unter `ziel` ab. `holen(url, optionen)` ist fetch-kompatibel (für die Probe
  * ersetzbar). Liefert die Manifest-Zeilen.
  */
-export async function beschaffen({ schema, fassung, ziel, holen = fetch, heute = new Date().toISOString().slice(0, 10) }) {
+/** Das Portal drosselt (HTTP 429). Dann wartet der Abruf, nach Retry-After oder steigend, und versucht es höchstens
+ *  `versuche`-mal; jede andere Antwort geht unverändert zurück. */
+export function mitGeduld(holen, { versuche = 6, warten = (ms) => new Promise((f) => setTimeout(f, ms)) } = {}) {
+  return async (url, opt) => {
+    for (let i = 1; ; i++) {
+      const r = await holen(url, opt);
+      if (r.status !== 429 || i >= versuche) return r;
+      const nach = Number(r.headers && r.headers.get && r.headers.get('retry-after'));
+      await warten(Number.isFinite(nach) && nach > 0 ? nach * 1000 : 2000 * i);
+    }
+  };
+}
+
+export async function beschaffen({ schema, fassung, ziel, holen: roh = fetch, heute = new Date().toISOString().slice(0, 10) }) {
+  const holen = mitGeduld(roh);
   if (!/^S\d+$/.test(String(schema)) || !fassung || !ziel) throw new Error('--schema S…, --fassung und --ziel sind Pflicht');
   fs.mkdirSync(ziel, { recursive: true });
   const text = async (url, opt) => {
@@ -80,10 +95,20 @@ export async function beschaffen({ schema, fassung, ziel, holen = fetch, heute =
   const basis = schema + '_V' + fassung;
   ablegen(basis + '.xdf.xml', xdf, xdfUrl, { kennung: schema, fassung: String(fassung), freigabestatus: eintrag.freigabe_status, xdf: kopf.generation });
 
+  // Codelisten zuerst aus dem XRepository. Viele FIM-Codelisten stehen dort nicht (HTTP 404, z. B. die des Wohngeld-Schemas
+  // S00000159), und eine Kennung mit Umlaut lehnt es ab (HTTP 400). Das Portal führt beide unter festen Adressen; dann wird
+  // das Verzeichnis des Portals einmal gelesen.
+  let verzeichnis = null;
   const codelisten = [];
   for (const urn of codelistenAusXdf(xdf.toString('utf8'))) {
-    const url = XREPOSITORY + urn + '/genericode';
-    const gc = await text(url);
+    let url = XREPOSITORY + urn + '/genericode';
+    let r = await holen(url);
+    if (r.status === 404 || r.status === 400) {
+      if (!verzeichnis) verzeichnis = await portalCodelisten(holen);
+      if (verzeichnis.has(urn)) { url = verzeichnis.get(urn); r = await holen(url); }
+    }
+    if (!r.ok) throw new Error(url + ' → ' + r.status + ' ' + (await r.text()).slice(0, 200));
+    const gc = Buffer.from(await r.arrayBuffer());
     ablegen(dateiname(urn), gc, url, { codeliste: urn });
     codelisten.push({ name: dateiname(urn), inhalt: gc });
   }
@@ -102,6 +127,19 @@ export async function beschaffen({ schema, fassung, ziel, holen = fetch, heute =
   const neu = alt.filter((z) => !zeilen.some((n) => n.datei === z.datei)).concat(zeilen).sort((a, b) => (a.datei < b.datei ? -1 : 1));
   fs.writeFileSync(manifestPfad, JSON.stringify(neu, null, 2) + '\n');
   return zeilen;
+}
+
+/** Das Codelisten-Verzeichnis des Portals: versionierte Kennung → feste Adresse der genericode-Datei. Die API kennt nur
+ *  Seitenabruf (offset, limit). Antwortet das Portal nicht, bleibt das Verzeichnis leer und der Abruf scheitert benannt. */
+export async function portalCodelisten(holen = fetch, seite = 200) {
+  const v = new Map();
+  for (let offset = 0; ; offset += seite) {
+    const r = await holen(PORTAL_CODELISTEN + '?limit=' + seite + '&offset=' + offset);
+    if (!r.ok) return v;
+    const items = (JSON.parse(Buffer.from(await r.arrayBuffer()).toString('utf8')).items) || [];
+    for (const x of items) if (x.genericode_canonical_version_uri && x.url && !v.has(x.genericode_canonical_version_uri)) v.set(x.genericode_canonical_version_uri, x.url);
+    if (items.length < seite) return v;
+  }
 }
 
 /** Ein fetch-Ersatz, der die erfundene Fixture ausliefert (für die Probe und den Lauf ohne Argument). */

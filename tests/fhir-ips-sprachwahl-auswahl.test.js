@@ -317,6 +317,8 @@ const AUFRUFER_UEBERSICHT = {
     belege: [/const bauen = \(opt\) => \{\s*const modell = vollDepotModell\(opt\);/] },
   flowFormatExport: { art: 'synchron', grund: 'der Anhang-Dialog (_formatAnhangWahl) erscheint nur bei def.anhaenge; kein Format der Registry hat welche; der Weg hält die Auswahl über sein Versprechen trotzdem',
     belege: [/new Promise\(\(fertig, scheitern\) => \{[^\n]*\n\s*const r = _formatAnhangWahl\(/] },
+  flowGespraechsblatt: { art: 'synchron', grund: 'gespraechsblattModell steht am Anfang von bauen, vor mitVereinbarung und vor dem Druck-Overlay (U2-ADR-523)',
+    belege: [/const bauen = \(exportOpt\) => \{\s*const modell = gespraechsblattModell\(adressat, ausschnitt, exportOpt\);/] },
   _anfrageHerausgeben: { art: 'wartet', grund: 'aufFortfahren ist async und baut selbst (anfrageAntwortDatensatzGeprueft); die Übersicht wartet darauf',
     belege: [/aufFortfahren: async \(o\) => \{\s*const ds = await anfrageAntwortDatensatzGeprueft\(umschlag, o\);/] },
 };

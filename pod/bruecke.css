@@ -5,3 +5,14 @@ body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; 
 input, select, button { font: inherit; }
 /* hidden muss gewinnen: .kasten setzt display, das überstimmte sonst das Attribut (gemessen 16.10.2026). */
 [hidden] { display: none !important; }
+/* Wahl der Art als Karten mit Chips (Gestaltungsleitung 03.11.2026). Werte aus den Kern-Tokens (tools/erscheinung), hier fest,
+   weil die Brücke eine eigene Herkunft hat: Salbei hell #e6eddf, Salbei dunkel #4F6539. Die Linie unter einer nicht gewählten
+   Karte hat gegen den weißen Grund 3,63:1. */
+.art-wahl { border: 0; padding: 0; margin: 0; display: grid; gap: .5rem; }
+.art-wahl legend { padding: 0; margin-bottom: .25rem; }
+.art-karte { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .75rem; padding: .5rem .75rem; cursor: pointer; border-bottom: 1px solid #7f8a74; }
+.art-karte:has(input:checked) { background: #e6eddf; border-bottom: 2px solid #4F6539; }
+.chips { display: flex; flex-wrap: wrap; gap: .25rem .5rem; }
+.chip { display: inline-flex; align-items: center; gap: .3em; font-size: .875rem; padding: .15rem .6rem; border-radius: 999px; background: #f3f5f0; color: #384b39; }
+.art-karte:has(input:checked) .chip { background: #ffffff; }
+.chip .symbol { flex: none; }

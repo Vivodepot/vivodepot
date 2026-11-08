@@ -13,10 +13,24 @@
     { "feld": "familyName", "ziel": "G99000002.F99000003" },
     { "feld": "givenName", "ziel": "G99000002.F99000004" },
     { "fest": "true", "ziel": "G99000002.F99000005" },
+    { "fest": "3", "ziel": "G99000002.F99000012" },
     { "anhang": "lichtbild", "ziel": "G99000002.F99000006" },
     { "anhang": "vollmacht-nachweis", "ziel": "G99000007.F99000008" },
     { "vertreter": "familyName", "ziel": "G99000007.F99000009" },
     { "vertreter": "givenName", "ziel": "G99000007.F99000010" },
     { "anhang": "bescheid", "ziel": "F99000011", "pflicht": true }
+  ],
+  "pruefung": [
+    { "ziel": "G99000002", "min": 1, "max": 1, "gruppe": true },
+    { "ziel": "G99000002.F99000003", "name": "Familienname (erfunden)", "min": 1, "max": 1, "typ": "string", "laenge": [1, 40] },
+    { "ziel": "G99000002.F99000004", "min": 1, "max": 1, "typ": "string", "muster": "[A-Z][a-z]+" },
+    { "ziel": "G99000002.F99000005", "min": 1, "max": 1, "typ": "string", "werte": ["true", "false"] },
+    { "ziel": "G99000002.F99000012", "min": 0, "max": 1, "typ": "integer", "bereich": [1, 9] },
+    { "ziel": "G99000002.F99000006", "min": 0, "max": 1, "typ": "anhang" },
+    { "ziel": "G99000007", "min": 0, "max": 1, "gruppe": true },
+    { "ziel": "G99000007.F99000008", "min": 1, "max": null, "typ": "anhang" },
+    { "ziel": "G99000007.F99000009", "min": 1, "max": 1, "typ": "string" },
+    { "ziel": "G99000007.F99000010", "min": 0, "max": 1, "typ": "string" },
+    { "ziel": "F99000011", "min": 1, "max": null, "typ": "anhang" }
   ]
 }

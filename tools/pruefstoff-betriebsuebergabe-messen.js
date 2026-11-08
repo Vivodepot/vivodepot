@@ -236,6 +236,7 @@ const notiere = (was, wo, folge) => grenzen.push({ was, wo, folge });
 
   const d = I.submissionZuAnbieterDaten(submission);
   const vc = I.baueProviderVC({
+    anbieterPruefungAbgeschaltet: true,   // Messwerkzeug mit Wegwerf-Schlüsseln; die Prüfung vor der Ausstellung ist nicht Gegenstand
     anbieterId: d.anbieterId, anbieterName: d.anbieterName, anbieterTyp: d.anbieterTyp,
     publicKeyJwk: d.publicKeyJwk, templates: d.templates,
     issuanceDate: '2026-08-01T12:00:00Z', expirationDate: '2027-08-01T12:00:00Z',
@@ -313,6 +314,7 @@ const notiere = (was, wo, folge) => grenzen.push({ was, wo, folge });
     && probeSubmission._angeglichen.some((a) => a.was === 'kardinalitaet');
   const probeD = I.submissionZuAnbieterDaten(probeSubmission);
   const probeVc = I.baueProviderVC({
+    anbieterPruefungAbgeschaltet: true,   // Messwerkzeug mit Wegwerf-Schlüsseln; die Prüfung vor der Ausstellung ist nicht Gegenstand
     anbieterId: probeD.anbieterId, anbieterName: probeD.anbieterName, anbieterTyp: probeD.anbieterTyp,
     publicKeyJwk: probeD.publicKeyJwk, templates: probeD.templates,
     issuanceDate: '2026-08-01T12:00:00Z', expirationDate: '2027-08-01T12:00:00Z',

@@ -25,7 +25,7 @@
      (Entwurf, 17.10.2026) je mit ihrem sha256 in script-src, geschrieben von
      tools/csp-bauen.js; dazu Trusted Types (Block „vertrauensregel“). -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-yE8SPFlSO6TXBn032cPuHvKTdqlQ8HxxuWeLBdemoNE='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types default">
+      content="default-src 'self'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-UJ8dfb+tizV7QIUjWyfRYCXVuxSot4gDlL3yXndcehY='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -249,7 +249,9 @@
     padding: 1.1rem 1.25rem;
     border-bottom: 4px solid var(--gold-deep);
   }
-  .ta-banner .inner { max-width: 880px; margin: 0 auto; display: flex; align-items: center; gap: .85rem; }
+  .ta-banner .inner { max-width: 880px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .85rem; }
+  /* VC-ISSUER-KOPF-390 (06.11.2026): der Kopf bricht um, statt über den Rand zu ragen; der Link steht dann rechts in eigener Zeile. */
+  .ta-banner .inner > div { flex: 1 1 14rem; min-width: 0; }
   .ta-badge {
     font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
     background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.45);
@@ -319,6 +321,51 @@
   .audit-row .test { color:var(--error); font-weight:700; }
   .footnote { font-size:.76rem; color:var(--ink3); margin-top:2rem; border-top:1px solid var(--line); padding-top:1rem; }
   .hidden { display:none; }
+
+  /* Pflichtblock Anbieterprüfung (06.11.2026) — einmal vor F-6, einmal für den ganzen Stapel (F-8).
+     Zustand als Chip am Kopf, Methode als Chips, Abschalten als Schalter; Beschriftung de + en. */
+  .ap-block { border:1px solid var(--gold-line); background:var(--gold-soft); border-radius:8px; padding:.85rem 1rem 1rem; margin-top:.9rem; min-width:0; }
+  .ap-kopf { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .6rem; }
+  .ap-kopf h3 { font-size:.98rem; margin:0; color:var(--gold-deep); }
+  .ap-en { display:block; font-weight:400; font-size:.74rem; color:var(--ink3); }
+  .ap-kopf h3 .ap-en, .ap-chip .ap-en, .ap-schalter .ap-en { display:inline; margin-left:.3rem; }
+  .ap-chip { display:inline-flex; align-items:center; gap:.25rem; font-size:.74rem; font-weight:600; line-height:1.2;
+    border-radius:999px; padding:.2rem .6rem; border:1px solid var(--line); background:var(--white); color:var(--ink2); }
+  .ap-chip .ap-en { color:inherit; opacity:.8; }
+  .ap-zustand { margin-left:auto; }
+  .ap-block[data-zustand="leer"] .ap-zustand { background:var(--warn-flaeche); border-color:var(--warn-rand); color:var(--warn-schrift); }
+  .ap-block[data-zustand="teil"] .ap-zustand { background:var(--warn-flaeche); border-color:var(--warn-rand); color:var(--warn-schrift); }
+  .ap-block[data-zustand="voll"] .ap-zustand { background:var(--ok-flaeche); border-color:var(--ok-rand); color:var(--success); }
+  .ap-block[data-zustand="ohne"] .ap-zustand { background:var(--error-soft); border-color:var(--fehler-rand); color:var(--error); }
+  .ap-zustand [data-ap-zustand] { display:none; }
+  .ap-block[data-zustand="leer"] [data-ap-zustand="leer"], .ap-block[data-zustand="teil"] [data-ap-zustand="teil"],
+  .ap-block[data-zustand="voll"] [data-ap-zustand="voll"], .ap-block[data-zustand="ohne"] [data-ap-zustand="ohne"] { display:inline; }
+  .ap-zeilen { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.55rem; }
+  .ap-zeilen .ap-chip { font-weight:500; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ap-felder { border:0; margin:0; padding:0; min-width:0; }
+  .ap-felder:disabled { opacity:.45; }
+  .ap-felder legend { padding:0; font-weight:600; font-size:.85rem; margin:.7rem 0 .3rem; color:var(--ink2); }
+  .ap-methoden { display:grid; grid-template-columns:repeat(auto-fit, minmax(10.5rem, 1fr)); gap:.45rem; }
+  .ap-methode { position:relative; margin:0; font-weight:600; font-size:.86rem; color:var(--ink2); cursor:pointer;
+    border:1px solid var(--line); border-radius:8px; background:var(--white); padding:.5rem .7rem; }
+  .ap-methode input { position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
+  .ap-methode:has(input:checked) { border-color:var(--gold-deep); background:var(--gold); color:var(--auf-gold); }
+  .ap-methode:has(input:checked) .ap-en { color:var(--auf-gold); opacity:.85; }
+  .ap-methode:has(input:focus-visible) { outline:2px solid var(--gold-deep); outline-offset:2px; }
+  .ap-paar { display:grid; grid-template-columns:repeat(auto-fit, minmax(12rem, 1fr)); gap:0 .9rem; }
+  .ap-block input[type=date] { width:100%; font-family:var(--font-ui); font-size:.9rem; padding:.45rem .6rem;
+    border:1px solid var(--line); border-radius:6px; background:var(--auf-gold); color:var(--ink); }
+  .ap-beleg-hash { margin-top:.4rem; font-family:var(--font-mono); max-width:100%; }
+  .ap-beleg-hash:empty { display:none; }
+  .ap-schalter { display:flex; align-items:center; gap:.6rem; margin:.9rem 0 0; padding-top:.75rem; border-top:1px solid var(--gold-line);
+    font-weight:600; font-size:.86rem; color:var(--ink2); cursor:pointer; }
+  .ap-schalter input { appearance:none; -webkit-appearance:none; flex:none; width:2.4rem; height:1.35rem; margin:0; border-radius:999px;
+    background:var(--line); position:relative; cursor:pointer; transition:background .15s; }
+  .ap-schalter input::after { content:""; position:absolute; top:.15rem; left:.15rem; width:1.05rem; height:1.05rem; border-radius:50%;
+    background:var(--white); transition:transform .15s; }
+  .ap-schalter input:checked { background:var(--error); }
+  .ap-schalter input:checked::after { transform:translateX(1.05rem); }
+  .ap-schalter input:focus-visible { outline:2px solid var(--gold-deep); outline-offset:2px; }
 </style>
 </head>
 <body>
@@ -361,8 +408,9 @@
 
   <section class="card">
     <h2><span class="step-no">F-2</span>Trust-Authority-Private-Key importieren</h2>
-    <p class="hint">JWK-Datei (Ed25519 primär, ES256 als Fallback), passwortgeschützte Vivodepot-Schlüsseldatei
-    (<code>.vdkey</code>) oder PEM (PKCS#8) als Fallback. Ein geschützter Schlüssel bleibt nur im Arbeitsspeicher —
+    <p class="hint">JWK-Datei, passwortgeschützte Vivodepot-Schlüsseldatei (<code>.vdkey</code>) oder PEM (PKCS#8)
+    als Fallback. Regelfall ist Ed25519; der Schlüssel der Trust-Authority muss Ed25519 sein. P-256 (ES256) ist nur
+    für den Ausgabe-Schlüssel einer Zwischenstufe zulässig. Ein geschützter Schlüssel bleibt nur im Arbeitsspeicher —
     nichts wird abgelegt. Der Schlüssel wird als nicht-extrahierbarer CryptoKey gehalten — nie im Klartext im DOM.</p>
     <label for="keyFile">Private-Key-Datei wählen</label>
     <input type="file" id="keyFile" accept=".json,.jwk,.vdkey,.pem,.key,application/json,text/plain">
@@ -385,8 +433,8 @@
     <p class="hint">Erzeugen und Schützen laufen in einem Schritt — der private Schlüssel liegt zu keinem
     Zeitpunkt ungeschützt auf einem Datenträger. Passwort zweimal eingeben, dann entweder einen neuen
     Ed25519-Schlüssel erzeugen ODER eine vorhandene rohe JWK-Datei nachträglich schützen.</p>
-    <label for="keygenZweck">Zweck dieses Schlüssels (erscheint im Dateinamen, z. B. „treuhand", „ausgabestelle")</label>
-    <input type="text" id="keygenZweck" autocomplete="off" placeholder="treuhand">
+    <label for="keygenZweck">Zweck dieses Schlüssels (erscheint im Dateinamen, z. B. „vorlagen", „ausgabestelle")</label>
+    <input type="text" id="keygenZweck" autocomplete="off" placeholder="vorlagen">
     <label for="keygenPw1">Neues Passwort</label>
     <input type="password" id="keygenPw1" autocomplete="off">
     <div id="keygenStaerke" class="status" hidden></div>
@@ -483,6 +531,32 @@
 
   <section class="card">
     <h2><span class="step-no">F-6</span>Provider-Zertifikat ausstellen</h2>
+    <!-- BEGIN Pflichtblock Anbieterprüfung (einzel) — Zustand per data-zustand, gelesen von anbieterPruefungAusBlock -->
+    <div class="ap-block" id="apEinzelBlock" data-ap-block="einzel" data-zustand="leer">
+      <div class="ap-kopf">
+        <h3>Anbieterprüfung<span class="ap-en" lang="en">Provider check</span></h3>
+        <span class="ap-chip ap-zustand" aria-live="polite"><span data-ap-zustand="leer">Pflicht<span class="ap-en" lang="en">required</span></span><span data-ap-zustand="teil">unvollständig<span class="ap-en" lang="en">incomplete</span></span><span data-ap-zustand="voll">vollständig<span class="ap-en" lang="en">complete</span></span><span data-ap-zustand="ohne">ohne Prüfung, vermerkt<span class="ap-en" lang="en">not checked, noted</span></span></span>
+      </div>
+      <fieldset class="ap-felder" data-ap="felder">
+        <legend>Methode<span class="ap-en" lang="en">Method</span></legend>
+        <div class="ap-methoden">
+          <label class="ap-methode"><input type="radio" name="apEinzelMethode" value="registerauszug" data-ap="methode">Registerauszug<span class="ap-en" lang="en">Register extract</span></label>
+          <label class="ap-methode"><input type="radio" name="apEinzelMethode" value="email-bestaetigung" data-ap="methode">E-Mail-Bestätigung<span class="ap-en" lang="en">Email confirmation</span></label>
+          <label class="ap-methode"><input type="radio" name="apEinzelMethode" value="ausweis-von-hand" data-ap="methode">Ausweis von Hand<span class="ap-en" lang="en">ID checked in person</span></label>
+        </div>
+        <div class="ap-paar">
+          <div><label for="apEinzelAm">Datum der Prüfung<span class="ap-en" lang="en">Date of check</span></label>
+          <input type="date" id="apEinzelAm" data-ap="geprueftAm"></div>
+          <div><label for="apEinzelVon">Geprüft von<span class="ap-en" lang="en">Checked by</span></label>
+          <input type="text" id="apEinzelVon" data-ap="geprueftVon" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <label for="apEinzelBeleg">Beleg-Datei<span class="ap-en" lang="en">Evidence file</span></label>
+        <input type="file" id="apEinzelBeleg" data-ap="beleg">
+        <span class="ap-chip ap-beleg-hash" data-ap="belegHash"></span>
+      </fieldset>
+      <label class="ap-schalter"><input type="checkbox" role="switch" id="apEinzelOhne" data-ap="ohne">Ohne Anbieterprüfung<span class="ap-en" lang="en">Without provider check</span></label>
+    </div>
+    <!-- END Pflichtblock Anbieterprüfung (einzel) -->
     <div class="row">
       <button type="button" id="issueBtn">Provider-Zertifikat ausstellen</button>
     </div>
@@ -516,6 +590,34 @@
 
     <div id="stapelSentinel" class="sentinel-flag hidden"></div>
     <div id="stapelListe"></div>
+
+    <!-- BEGIN Pflichtblock Anbieterprüfung (stapel) — Zustand per data-zustand, gelesen von anbieterPruefungAusBlock -->
+    <div class="ap-block" id="apStapelBlock" data-ap-block="stapel" data-zustand="leer">
+      <div class="ap-kopf">
+        <h3>Anbieterprüfung für den ganzen Stapel<span class="ap-en" lang="en">Provider check — whole batch</span></h3>
+        <span class="ap-chip ap-zustand" aria-live="polite"><span data-ap-zustand="leer">Pflicht<span class="ap-en" lang="en">required</span></span><span data-ap-zustand="teil">unvollständig<span class="ap-en" lang="en">incomplete</span></span><span data-ap-zustand="voll">vollständig<span class="ap-en" lang="en">complete</span></span><span data-ap-zustand="ohne">ohne Prüfung, vermerkt<span class="ap-en" lang="en">not checked, noted</span></span></span>
+      </div>
+      <div class="ap-zeilen" data-ap="zeilen" aria-label="Gilt für · Applies to"><span class="ap-chip">keine Einträge<span class="ap-en" lang="en">no entries</span></span></div>
+      <fieldset class="ap-felder" data-ap="felder">
+        <legend>Methode<span class="ap-en" lang="en">Method</span></legend>
+        <div class="ap-methoden">
+          <label class="ap-methode"><input type="radio" name="apStapelMethode" value="registerauszug" data-ap="methode">Registerauszug<span class="ap-en" lang="en">Register extract</span></label>
+          <label class="ap-methode"><input type="radio" name="apStapelMethode" value="email-bestaetigung" data-ap="methode">E-Mail-Bestätigung<span class="ap-en" lang="en">Email confirmation</span></label>
+          <label class="ap-methode"><input type="radio" name="apStapelMethode" value="ausweis-von-hand" data-ap="methode">Ausweis von Hand<span class="ap-en" lang="en">ID checked in person</span></label>
+        </div>
+        <div class="ap-paar">
+          <div><label for="apStapelAm">Datum der Prüfung<span class="ap-en" lang="en">Date of check</span></label>
+          <input type="date" id="apStapelAm" data-ap="geprueftAm"></div>
+          <div><label for="apStapelVon">Geprüft von<span class="ap-en" lang="en">Checked by</span></label>
+          <input type="text" id="apStapelVon" data-ap="geprueftVon" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <label for="apStapelBeleg">Beleg-Datei<span class="ap-en" lang="en">Evidence file</span></label>
+        <input type="file" id="apStapelBeleg" data-ap="beleg">
+        <span class="ap-chip ap-beleg-hash" data-ap="belegHash"></span>
+      </fieldset>
+      <label class="ap-schalter"><input type="checkbox" role="switch" id="apStapelOhne" data-ap="ohne">Ohne Anbieterprüfung<span class="ap-en" lang="en">Without provider check</span></label>
+    </div>
+    <!-- END Pflichtblock Anbieterprüfung (stapel) -->
 
     <div class="row">
       <button type="button" id="stapelAusstellenBtn">Bestätigte Einträge ausstellen</button>
@@ -3636,10 +3738,46 @@ function stapelPruefen(pakete, katalog) {
 
    `stempelFn` ist der Audit-Eintrag; ebenfalls hereingereicht, damit der
    Durchlauf nicht heimlich in ein Modul-Global schreibt. */
+/* ANBIETERPRÜFUNG VOR JEDER AUSSTELLUNG (Befund ANBIETERPRUEFUNG-STILL-UMGANGEN, 06.11.2026). Dieselbe Regel wie in den
+   Ausstellungswerkzeugen (tools/lib/anbieterpruefung.js, Handkopie unter Wächter): vor der Signatur steht die Prüfung
+   {methode, geprueftAm, geprueftVon, belegHash}, oder die Abschaltung, die dann im Zertifikat vermerkt wird. Ohne beides wird
+   nicht signiert. Die Angaben liest der Pflichtblock der Oberfläche (anbieterPruefungAusBlock); hier wird nur geprüft. */
+const ANBIETERPRUEFUNG_METHODEN = Object.freeze(['registerauszug', 'email-bestaetigung', 'ausweis-von-hand']);
+function anbieterPruefungPruefen(p) {
+  const wo = 'Anbieterprüfung';
+  if (!p || typeof p !== 'object') throw new Error(wo + ' fehlt — vor jeder Ausstellung Pflicht, es sei denn ausdrücklich abgeschaltet.');
+  if (!ANBIETERPRUEFUNG_METHODEN.includes(p.methode)) throw new Error(wo + ': methode fehlt oder unbekannt (erwartet eine von ' + ANBIETERPRUEFUNG_METHODEN.join('/') + ').');
+  if (!p.geprueftAm || !/^\d{4}-\d{2}-\d{2}/.test(p.geprueftAm)) throw new Error(wo + ': geprueftAm fehlt oder ist kein Datum (ISO, z. B. "2026-09-19").');
+  if (!p.geprueftVon || !String(p.geprueftVon).trim()) throw new Error(wo + ': geprueftVon fehlt — wer hat geprüft?');
+  if (!/^[0-9a-f]{64}$/.test(p.belegHash || '')) throw new Error(wo + ': belegHash fehlt oder ist kein sha256-Hex (64 Zeichen) — der Beleg selbst reist nie mit, nur sein Hash.');
+  return { methode: p.methode, geprueftAm: p.geprueftAm, geprueftVon: p.geprueftVon, belegHash: p.belegHash };
+}
+/* Aus dem gelesenen Block die zwei Felder für baueProviderVC; wirft benannt, wenn weder Prüfung noch Abschaltung vorliegt. */
+function anbieterPruefungFuerAusstellung(block) {
+  if (block && typeof block === 'object' && block.abgeschaltet === true) return { anbieterPruefung: null, anbieterPruefungAbgeschaltet: true };
+  return { anbieterPruefung: anbieterPruefungPruefen(block), anbieterPruefungAbgeschaltet: false };
+}
+/* Gelesen wird genau der Block der Ausstellungsart (einzel vor F-6, stapel in F-8), nicht das ganze Dokument: dort fände
+   querySelector die Felder des ersten Blocks, und der Beleg-Hash steht als Attribut am Block, nicht am Dokument. */
+const ANBIETERPRUEFUNG_BLOCK_ID = Object.freeze({ einzel: 'apEinzelBlock', stapel: 'apStapelBlock' });
+function _anbieterPruefungAusOberflaeche(art) {
+  const id = ANBIETERPRUEFUNG_BLOCK_ID[art];
+  if (!id) throw new Error('Anbieterprüfung: unbekannte Ausstellungsart ' + art + '.');
+  const wurzel = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById(id) : null;
+  return (wurzel && typeof anbieterPruefungAusBlock === 'function') ? anbieterPruefungAusBlock(wurzel) : null;
+}
 async function stapelAusstellen(zeilen, signierFn, opts) {
   const o = opts || {};
   const ergebnis = [];
   let ausgestellt = 0, uebersprungen = 0;
+  // Ein Block je Stapel: ohne Prüfung oder Abschaltung wird keine Zeile signiert.
+  let ap;
+  try { ap = anbieterPruefungFuerAusstellung(o.anbieterPruefung); }
+  catch (e) {
+    const liste = Array.isArray(zeilen) ? zeilen : [];
+    return { zeilen: liste.map((z) => ({ nr: z.nr, anbieterId: z.daten && z.daten.anbieterId,
+      anbieterName: z.daten && z.daten.anbieterName, ausgestellt: false, grund: e.message })), ausgestellt: 0, uebersprungen: liste.length, gesamt: liste.length };
+  }
   for (const z of (Array.isArray(zeilen) ? zeilen : [])) {
     const basis = { nr: z.nr, anbieterId: z.daten && z.daten.anbieterId, anbieterName: z.daten && z.daten.anbieterName };
     if (!z.gueltig) {
@@ -3673,6 +3811,7 @@ async function stapelAusstellen(zeilen, signierFn, opts) {
       issuanceDate: issuanceDate,
       expirationDate: expirationDate,
       templates: z.daten.templates,
+      anbieterPruefung: ap.anbieterPruefung, anbieterPruefungAbgeschaltet: ap.anbieterPruefungAbgeschaltet,
     });
     let jws;
     try {
@@ -3953,7 +4092,7 @@ function _zweckSlug(roh) {
 }
 function _zweckAusFeldOderAbbruch() {
   const slug = _zweckSlug($('keygenZweck') ? $('keygenZweck').value : '');
-  if (!slug) { _keygenStatus('Zweck fehlt — er steht danach im Dateinamen und unterscheidet Anker, Treuhand- und Ausgabe-Schlüssel.', 'err'); return null; }
+  if (!slug) { _keygenStatus('Zweck fehlt — er steht danach im Dateinamen und unterscheidet Anker-, Vorlagen- und Ausgabe-Schlüssel.', 'err'); return null; }
   return slug;
 }
 
@@ -4243,6 +4382,9 @@ async function onAusstellen() {
     }
   }
 
+  let ap;
+  try { ap = anbieterPruefungFuerAusstellung(_anbieterPruefungAusOberflaeche('einzel')); }
+  catch (e) { setStatus('issueStatus', e.message + ' Nichts wird signiert.', 'err'); return; }
   const issuer = ($('issuerInput').value || '').trim() || ISSUER_DEFAULT;
   const issuanceDate = isoJetzt();
   const expirationDate = expirationFeldZuISO(issuanceDate, stamm.anbieterTyp);
@@ -4256,6 +4398,7 @@ async function onAusstellen() {
     issuanceDate: issuanceDate,
     expirationDate: expirationDate,
     templates: _aktivesTemplate ? [_aktivesTemplate] : null,   // Stufe 1 (U2-ADR-037): Feld-Definitionen durchreichen (null bei manueller Anbieter-Eingabe)
+    anbieterPruefung: ap.anbieterPruefung, anbieterPruefungAbgeschaltet: ap.anbieterPruefungAbgeschaltet,
   });
 
   let jws;
@@ -4460,6 +4603,7 @@ async function onStapelAusstellen() {
     alg: _keyAlg,
     istTestSentinel: _keyIstTestSentinel,
     stempelFn: auditEintrag,
+    anbieterPruefung: _anbieterPruefungAusOberflaeche('stapel'),
   });
   stapelErgebnisRendern();
   renderAudit();
@@ -4590,7 +4734,11 @@ async function vivodepotKernSchnellwegBuendel(signKey, modulInhalt, opts) {
     anbieterId: 'vivodepot',
     anbieterName: 'Vivodepot',
     anbieterTyp: VIVODEPOT_KERN_ANBIETERTYP,
-  }, opts, { publicKeyJwk: publicKeyJwk }));
+  }, opts, {
+    publicKeyJwk: publicKeyJwk,
+    // Das eigene Zertifikat der Stelle: sie prüft sich nicht selbst als Anbieter; die Abschaltung steht im Zertifikat.
+    anbieterPruefungAbgeschaltet: true,
+  }));
   const providerCredentialJws = await stelleProviderCredentialAus(vc, signKey, {});
   return baueVorDepotBuendel(signKey, providerCredentialJws, modulInhalt);
 }
@@ -4706,6 +4854,113 @@ function markeLinksSetzen() {
 if (typeof document !== 'undefined' && document.addEventListener) {
   document.addEventListener('DOMContentLoaded', () => { markeLinksSetzen(); boot(); });
 }
+
+/* BEGIN Pflichtblock Anbieterprüfung — Oberfläche (06.11.2026)
+   Zwei Blöcke im Markup: vor F-6 (einzel) und für den ganzen Stapel in F-8 (stapel). Dieser Teil LIEST nur:
+   anbieterPruefungAusBlock(wurzel) gibt die Felder in der Form von tools/lib/anbieterpruefung.js zurück
+   ({methode, geprueftAm, geprueftVon, belegHash}) oder {abgeschaltet: true}, leer → null. Ob die Angaben
+   genügen, entscheidet die Prüfung vor der Signatur, nicht dieser Teil. Die Beleg-Datei wird beim Wählen
+   im Browser gehasht (crypto.subtle, sha256); der Hash steht am Block (data-beleg-hash), die Datei selbst
+   wird weder gehalten noch versandt. Gehalten von tests/anbieterpruefung-block-lesen.test.js. */
+const ANBIETERPRUEFUNG_BLOCK_METHODEN = Object.freeze(['registerauszug', 'email-bestaetigung', 'ausweis-von-hand']);
+
+function _apFeld(wurzel, name) { return wurzel.querySelector('[data-ap="' + name + '"]'); }
+function _apWert(wurzel, name) { const el = _apFeld(wurzel, name); return el && typeof el.value === 'string' ? el.value.trim() : ''; }
+
+/* REIN lesend, synchron. Prüft nicht und signiert nicht. */
+function anbieterPruefungAusBlock(wurzel) {
+  if (!wurzel || typeof wurzel.querySelector !== 'function') return null;
+  const ohne = _apFeld(wurzel, 'ohne');
+  if (ohne && ohne.checked) return { abgeschaltet: true };
+  let methode = '';
+  const radios = wurzel.querySelectorAll('[data-ap="methode"]');
+  for (const r of Array.from(radios || [])) { if (r.checked) { methode = String(r.value || ''); break; } }
+  const geprueftAm = _apWert(wurzel, 'geprueftAm');
+  const geprueftVon = _apWert(wurzel, 'geprueftVon');
+  const belegHash = String((wurzel.getAttribute && wurzel.getAttribute('data-beleg-hash')) || '');
+  if (!methode && !geprueftAm && !geprueftVon && !belegHash) return null;
+  return { methode, geprueftAm, geprueftVon, belegHash };
+}
+
+/* sha256 als Kleinbuchstaben-Hex (64 Zeichen) über die Bytes der Beleg-Datei. */
+async function anbieterPruefungBelegHashRechnen(puffer) {
+  const digest = await crypto.subtle.digest('SHA-256', puffer);
+  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/* Anzeige-Zustand für den Chip am Kopf — keine Prüfung, nur: wie viel ist ausgefüllt. */
+function anbieterPruefungZustand(wurzel) {
+  const p = anbieterPruefungAusBlock(wurzel);
+  if (!p) return 'leer';
+  if (p.abgeschaltet) return 'ohne';
+  return (p.methode && p.geprueftAm && p.geprueftVon && p.belegHash) ? 'voll' : 'teil';
+}
+
+function _apZustandZeigen(wurzel) {
+  const z = anbieterPruefungZustand(wurzel);
+  wurzel.setAttribute('data-zustand', z);
+  const felder = _apFeld(wurzel, 'felder');
+  if (felder) felder.disabled = (z === 'ohne');
+}
+
+function _apBlockEinrichten(wurzel) {
+  let lauf = 0;
+  wurzel.addEventListener('input', () => _apZustandZeigen(wurzel));
+  wurzel.addEventListener('change', () => _apZustandZeigen(wurzel));
+  const beleg = _apFeld(wurzel, 'beleg');
+  const anzeige = _apFeld(wurzel, 'belegHash');
+  if (beleg) beleg.addEventListener('change', async () => {
+    const meinLauf = ++lauf;
+    wurzel.removeAttribute('data-beleg-hash');
+    if (anzeige) anzeige.textContent = '';
+    _apZustandZeigen(wurzel);
+    const datei = beleg.files && beleg.files[0];
+    if (!datei) return;
+    let hex = '';
+    try { hex = await anbieterPruefungBelegHashRechnen(await datei.arrayBuffer()); } catch (e) { hex = ''; }
+    if (meinLauf !== lauf || !hex) return;
+    wurzel.setAttribute('data-beleg-hash', hex);
+    if (anzeige) { anzeige.textContent = 'sha256 ' + hex.slice(0, 12) + '…' + hex.slice(-6); anzeige.title = hex; }
+    _apZustandZeigen(wurzel);
+  });
+  _apZustandZeigen(wurzel);
+}
+
+/* Der Stapel-Block zeigt, für welche Einträge er gilt: je prüfbarer Zeile ein Chip. Er folgt der Stapel-Liste,
+   ohne in deren Code einzugreifen. Aufbau über textContent — die Namen kommen aus fremden Dateien. */
+function _apStapelZeilenZeigen() {
+  const wurzel = document.getElementById('apStapelBlock');
+  const box = wurzel && _apFeld(wurzel, 'zeilen');
+  if (!box) return;
+  const zeilen = (typeof _stapelZeilen !== 'undefined' ? _stapelZeilen : []).filter((z) => z && z.gueltig);
+  box.textContent = '';
+  const chip = (de, en) => {
+    const c = document.createElement('span');
+    c.className = 'ap-chip';
+    c.textContent = de;
+    if (en) { const e = document.createElement('span'); e.className = 'ap-en'; e.lang = 'en'; e.textContent = en; c.appendChild(e); }
+    box.appendChild(c);
+    return c;
+  };
+  if (!zeilen.length) { chip('keine Einträge', 'no entries'); return; }
+  for (const z of zeilen) {
+    const d = z.daten || {};
+    chip(z.nr + ' · ' + (d.anbieterName || '—') + ' · ' + (d.anbieterId || '—')).title = d.anbieterId || '';
+  }
+}
+
+function anbieterPruefungBloeckeEinrichten() {
+  document.querySelectorAll('[data-ap-block]').forEach(_apBlockEinrichten);
+  const liste = document.getElementById('stapelListe');
+  if (liste && typeof MutationObserver === 'function') {
+    new MutationObserver(_apStapelZeilenZeigen).observe(liste, { childList: true });
+  }
+  _apStapelZeilenZeigen();
+}
+if (typeof document !== 'undefined' && document.addEventListener) {
+  document.addEventListener('DOMContentLoaded', anbieterPruefungBloeckeEinrichten);
+}
+/* END Pflichtblock Anbieterprüfung — Oberfläche */
 
 </script>
 </body>

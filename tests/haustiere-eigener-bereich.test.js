@@ -144,7 +144,7 @@ test('[Tiere·Pro] ein Pro-Depot mit Tieren von heute findet sie unter pets, ohn
     assert.deepEqual(d.sektoren.pets && d.sektoren.pets.pets, TIERE, slug + ': Tiere am neuen Ort');
     assert.ok(!(d.sektoren.identity && 'pets' in d.sektoren.identity), slug + ': nicht mehr unter identity');
     assert.equal(d.sektoren.identity.givenName, 'Erna', slug + ': identity sonst unverändert');
-    assert.equal(d.schemaVersion, 94, slug + ': Stufe 94 gesetzt');
+    assert.ok(d.schemaVersion >= 94, slug + ': Stufe 94 gesetzt (oder eine spätere, seit 95 mit U2-ADR-523)');
   }
 });
 

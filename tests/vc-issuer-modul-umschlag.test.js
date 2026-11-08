@@ -71,7 +71,8 @@ test('[Modul-Umschlag-Durchstich] institutionsArt-Modul, vom Generator signiert,
 
   // 2) ISSUER: die reale Upload-Funktion laedt den Umschlag, das reale onAusstellen
   //    baut das Bundle -- keine Handverdrahtung.
-  const { V: I, document } = ladeIssuer();
+  const { V: I, document, kontext } = ladeIssuer();
+  kontext.anbieterPruefungAusBlock = () => ({ abgeschaltet: true });   // Pflichtblock der Oberfläche; hier nicht Gegenstand
   await I.onModulUmschlagDatei(fakeFile(JSON.stringify(umschlag)));
   assert.match(document.getElementById('modulUmschlagStatus').textContent, /institutionsart/);
 
@@ -113,7 +114,9 @@ test('[Modul-Umschlag-Gegenprobe] Modul-Signatur passt nicht zum eingetragenen A
   const state = { institutionsArt: { arten: [{ kennung: 'pflege', label: 'Pflegeeinrichtung' }], sprache: 'de', moduleVersion: 1 }, publicKeyJwk: anbieter.pubJwk };
   const umschlag = await G.baueInstitutionsArtSigniert(state, anbieter.privJwk);
 
-  const { V: I, document } = ladeIssuer();
+  const { V: I, document, kontext } = ladeIssuer();
+
+  kontext.anbieterPruefungAusBlock = () => ({ abgeschaltet: true });   // Pflichtblock der Oberfläche; hier nicht Gegenstand
   await I.onModulUmschlagDatei(fakeFile(JSON.stringify(umschlag)));
 
   const res = await I._importGeprueftenPrivateJwk(Object.assign({}, SENTINEL_PRIVATE_JWK));
@@ -133,7 +136,8 @@ test('[Modul-Umschlag-Gegenprobe] Modul-Signatur passt nicht zum eingetragenen A
 // ── Umschlag ohne modulSignaturJws (unsigniert) -> klare Fehlermeldung beim Laden ──
 
 test('[Modul-Umschlag] Datei ohne modulSignaturJws wird beim Laden abgelehnt, nicht erst beim Ausstellen', async () => {
-  const { V: I, document } = ladeIssuer();
+  const { V: I, document, kontext } = ladeIssuer();
+  kontext.anbieterPruefungAusBlock = () => ({ abgeschaltet: true });   // Pflichtblock der Oberfläche; hier nicht Gegenstand
   await I.onModulUmschlagDatei(fakeFile(JSON.stringify({ format: 'vivodepot-institutionsart@1', modul: { modulTyp: 'institutionsArt' } })));
   assert.match(document.getElementById('modulUmschlagStatus').textContent, /[Ss]ignatur/);
   assert.equal(I._letztesBundleLesen(), null);

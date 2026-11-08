@@ -20,7 +20,7 @@
   <!-- frame-ancestors 'none' WIRKT NICHT (Nachtrag 18.09.2026, gemessen) — s. denselben Vermerk
        im Kern (vivodepot.html, an derselben CSP-Zeile) und tests/d43-etappe6-csp.test.js. -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-LAu7nZn2HONrT2wbrCy10gsxp5rPvQW0ATfKdDCwNp0=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-8DwJfYSHn3l86H/3NOC50s0gLwyLVgN1MtUwGLZGFVM='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
+        content="default-src 'none'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-LAu7nZn2HONrT2wbrCy10gsxp5rPvQW0ATfKdDCwNp0=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-7tSkjQ4ayHyiTaRpfcYaGWqVxu+WTO0T28+Bl4vuCDQ='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -1887,6 +1887,7 @@ const _STRINGS_EINGEBAUT = ({
   antwortUnbekannt: 'Diese Angaben gibt es in Vivodepot nicht:',
   antwortZurueckgehalten: '{n} Angabe(n) wurden als besonders schützenswert zurückgehalten.',
   antwortWeitergeben: 'Als Datensatz sichern',
+  antwortZieldatei: 'Für Ihr Verfahren sichern',
   // Der herausgegebene Datensatz als Klartext-Datei (vivodepot-anlass@1), ohne Anfrage-Umschlag
   anlassTitelOhneName: 'Herausgegebener Datensatz',
   anlassHerausgegebenAm: 'Herausgegeben am',
@@ -2424,7 +2425,6 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:012e3e3a23dfeb26cccbfe40b82f7c2cc233fff2489e1860fd862b3cb42c92be",
   "sha256:0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
   "sha256:0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
-  "sha256:0b9572843514cd731adac27a49d8d25263ade83e80a5655c9ad620c0ace4dd4e",
   "sha256:0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
   "sha256:1c8d8e8c2194f7fa43ecec269f62a2cc244d5e8a99debc9e3680fc67e98909f7",
   "sha256:1dd621218f4bce47d4d862cee94ba9fcca13602ef554361edb42ee42662f8b67",
@@ -2437,11 +2437,12 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:3366e7bd707b2fcc8f731d6d09fe373bedf261423696288789334fe5a014ba6d",
   "sha256:3595cbe53151f7f3ebb618d51621f8478d3fc4e16381e8a77195d5f7dddb0201",
   "sha256:397a6120f3bf79d74c6130ce12d9d76c29aaf6e6b0b447cc1f631e67a0d6d6d9",
+  "sha256:3a32a331a7afe254a1d32780d0ce10537fc44fad8249cb89d27ec37e7a653daf",
   "sha256:3c907297290cc839456ffd577d74afd7321fa69efe72365da7c07cb8852fa297",
+  "sha256:40d6640ae3ec9c3a888198497cbb073868cbc58c4abf75bc8b4a02c0833056e2",
   "sha256:40e63823efbdc60a36623281dd79c87de245e94ffc9f94c9eb5d35a11444bfe7",
   "sha256:4222f38226c7b78ffb6ce20db9dd31cefe2d971e462d95526e6015195a77092f",
   "sha256:4d88a0fe356eb1d9a3f6c8dd9174008b4305bfb5ea611a4ce4b073941c24d9ac",
-  "sha256:4ddc762a9a37438be6bb5db7b17bc48c767605474bb90833fe0fd634d32019ef",
   "sha256:4e09a4a718c8f366875ced7888a2025d88bbb3188675320e46d070c8b1845812",
   "sha256:51ac013377f52f68aedb5f65a08e9ee9240769b82215b2d3a4bdbbb0bd82389c",
   "sha256:5bc5dbbb806248a5c5761982c961c97c99d47c0e52b68a7e6050581624d3c670",
@@ -2458,7 +2459,9 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
   "sha256:75eb4818029d0e0e0c8d9a403783f441880d0ebebb82352229ab49b56c3900fc",
   "sha256:7b79b98f9580e1db1582fa5d26ae10aaae25879357a0996f438b006f178d3098",
+  "sha256:7c15098a81bca4b149daa2dadd053a6ecda6fac0d88de75fc9abd1f4eb470731",
   "sha256:8211701bc1860c8baddf1258e90aa5e4e450e5adf15073df60c0188db4326055",
+  "sha256:8a1ab1002e62b09dcf8d40838c9c2e65bbbeb1493b6237ed739e74aa71122090",
   "sha256:8a28def9657f02c931fcf6e0636059f28579652a564a207861ace7c97b045692",
   "sha256:8da29a666f938b9dd57afccf906d828c10269c59bdbb6008ccec41bb53f519fb",
   "sha256:923f9e59ebcee0efaf47a3d2102efe8fa1b511d00ebf0f911307eca597741028",
@@ -2477,14 +2480,12 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:b504cfa4b188cdfa373fc9e0e463e1148cc1d52de330bc8234352f2ed4e1806b",
   "sha256:b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
-  "sha256:c2baef635b4a847b19b36105cd576fe8ebc1934aed27d4132644f72d601051c0",
   "sha256:cb8b8da4abaa8dca4639eb06fbc6533f1b5ed620fa941ad28ce88e9ea5147761",
   "sha256:ceb89d099b169a98f797046a5622056acde936288a26742d7f68c9760b193622",
   "sha256:cf1df31b293f8c2053b9b42f9faee0d8c86a3c71bb4e86221405febc78d183b2",
   "sha256:d03c8abb578c20c2594035c757be8176f4193fe7a7d2d0d2820a0991dd350464",
   "sha256:dd820a763618b777daf6cfe5abf2d2386fb4c528e990051282a386c6be9d6927",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
-  "sha256:e475823fe05e62f34754ca8f7ff6692436c6b59eff64642fdc96687b51abbd98",
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
   "sha256:eef7c6369adf6609257416b8e3214347656583aeec78dcd3221425803711cda2",
   "sha256:f276021729c7c7c35778be8726ffb1ea7b48308914f4bdb0fa12794fe0d59a38",
@@ -2505,6 +2506,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:07863b2944d284c9dbe6b8aca7fd5beb7aeb76e7783b8730a326439876917587",
   "sha256:0994ec3d41a8518a2bc4c7e774d48595331b45bfa5e7b9ad55eeab0ed69102d9",
   "sha256:0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
+  "sha256:0b9572843514cd731adac27a49d8d25263ade83e80a5655c9ad620c0ace4dd4e",
   "sha256:0d4d10947b17e1946510a7a0ca98e575f32b6df2f5ff28d408ed2614a4e1114b",
   "sha256:0d8605a8bc42b0c2796e2d9f5d6dde4f79563d245e67f7f4c665e3669600b2d2",
   "sha256:0e84db0f4b730a393d6d1d8926347f56909f2e23562057964853e2f65df6f253",
@@ -2528,6 +2530,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:21b9d470296dbbc6ea0e136889279af595835a43bd478c2e147b0cfcc66d5d9e",
   "sha256:2222f19e4ce272fdfe6034eb9eb88ca686f3b86817464abe19a4898d46c6b362",
   "sha256:250a235a528ff23305b7fe06ef36ebd5faf5c220035aa23b830de70a59713dca",
+  "sha256:264d11903184b3fcbb6d2ae13baf556fe29b81a1993d0543b01fce3824759665",
   "sha256:26626948b0e8678a0bfe0052833b5ee9f69b48047910ad1fc359decf5cd2c6f6",
   "sha256:2685b2331a675c920d9272f1c6ce819fa34b3153cc1ec58a654a5a1fa26d4bbf",
   "sha256:27a37b7f2da8eb000d7dbaaebef11d07793c5b5b7c44427a0ef2764eec7c8593",
@@ -2573,6 +2576,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:4d5c60c4d1e6ea36a8af9da9bc1770bb0b3082d5fd68fb0b817d5eb16a9afe30",
   "sha256:4d68ab12ea7f76b92073ae0b3da1646927d6a24ed772878898d69d30c85bde4a",
   "sha256:4d88a0fe356eb1d9a3f6c8dd9174008b4305bfb5ea611a4ce4b073941c24d9ac",
+  "sha256:4ddc762a9a37438be6bb5db7b17bc48c767605474bb90833fe0fd634d32019ef",
   "sha256:4e09a4a718c8f366875ced7888a2025d88bbb3188675320e46d070c8b1845812",
   "sha256:4e7c9b9c03e896932f8f76b41411f4a1d7d755aeaffb294da7d2cbf8b9be9619",
   "sha256:507c2e6d9e186bd29e076bc820c4547a52e82db9a135e50d6957b04c5f883af8",
@@ -2647,6 +2651,8 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:954bb3f50bbbd97e7a8dd61aac58ed92fdfcd94e44e07e7fd46338520c48ae5b",
   "sha256:9555d7dfe9266b3d9d0dc7db52ecb08de0ef3997635701676ddbe06e7e2a6384",
   "sha256:95ec50c9f948594082effa342c12f8c7053729bcfb110d78c6b4b7508cc70f4f",
+  "sha256:95f9fd001c75c073b1c5ef63989987f3f988180bf5fab60d638ce3affa03a760",
+  "sha256:96753ae4cad7c8fc6fb9bc9c720a4f5d95c2d13b2883c972199a2dc0a7ff4ba8",
   "sha256:97789b5f126e243b09878ee5be9eda8dabe46f66d1b7c266f10486721fd2b120",
   "sha256:9838c525bee83bef5d630269c2764a23fc57dbbcc3b375877fde0c94f5ded89d",
   "sha256:986a70306763735576994ec9878dc0de545b1ea53bff13ab855a3eb6c60aef88",
@@ -2694,6 +2700,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:c00302bfe2638cbf65dd79f56822046de7910d6ba6647a5f5d2ba3c07f6edcf9",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
   "sha256:c1ff60b317c8d82505776cce3a8cc954b379a1a187ae01d79d157b9a7b6efc71",
+  "sha256:c2baef635b4a847b19b36105cd576fe8ebc1934aed27d4132644f72d601051c0",
   "sha256:c65b1e49717830345ebc6f4d865e4e498e430cb2640b57093a5f9914626c4998",
   "sha256:c7480022eeaa10f9a0c9bfaa19d81132a8c7665f57759d858892027a859b5aed",
   "sha256:c9a008c4699827452c1c5e395c0b38efd8db44bdc0657ea9283ec1493eb03baa",
@@ -2720,6 +2727,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:dea524a4b091f5c8121ac45e210f10f3362e757148accc781412288566c191b1",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
   "sha256:e2f2d8003f4ff16a46bc25344a5d3f638bf25e6af1b97f62e1ccf29d3a0aede5",
+  "sha256:e475823fe05e62f34754ca8f7ff6692436c6b59eff64642fdc96687b51abbd98",
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
   "sha256:e5458f9a32855890b81d967ebc0a9b6e56555c88f7c3c2a889f261ed57f5cecd",
   "sha256:e596185de7a86c633ba83a0aa9d7d473d6c8437f63ba963561739b133fe64689",
@@ -2734,6 +2742,8 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:f0aa343ddabb16159f31263cfe29e05b90429a9bc316b385e23e946f32fb6487",
   "sha256:f17f2bec7c6aa771c0c038ccf280c269096da99c131cb9f9c790d4df734ac08e",
   "sha256:f276021729c7c7c35778be8726ffb1ea7b48308914f4bdb0fa12794fe0d59a38",
+  "sha256:f31144245206767b4647f3ca2699d6ef09a40c04646d3bf1384e6978b3238eff",
+  "sha256:f320d12207311cd455f45f48b4aae1ea0689c80adfdec6b5a91027bf3fff9ac1",
   "sha256:f61d71827807c73bece1186d31ea3b645c4f2e8b9215fd95603b17c4f0f2a4e1",
   "sha256:f6a8ae9343bb5b5ef1415ada21f7bc69b74cc8fa9ebac433de485a4e83359763",
   "sha256:f83a315b153b8486359fbc28d0180ada8971e0404fe2f03e54d9b87b28c0e5ee",
@@ -4926,6 +4936,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:69bbc568a874bbee6c40b2ae9efac8c7324dbd47879b38eb2643d10d0a3b0460",
   "sha256:69dfbb06208ea22b0ccd2869ed1424eb9818ebe1941ea638c8c90bb052219ff3",
   "sha256:69e3cad04bcd747df76b7c46e1b1513436e7c669bdd8664a17d853eb1bd8cabe",
+  "sha256:69e8c2962e6f4cd86abb7f727b374371b9b3f353a655fd587bd041d9fc06a18c",
   "sha256:69e8f15782e40b72c3a51620054356e1afa8f1af1d4c12562aa2a80c4184d472",
   "sha256:69e9b007ffd5357cbe2450c95bf1d4381d1bccfa76ccbad47a90e6996940636c",
   "sha256:69ea408a90e9f688d544766a41a7b20a722c98e94f76df39c53c6e60c439eae1",
@@ -8154,6 +8165,7 @@ const LESE_TEXTE_EN = Object.freeze({
   antwortUnbekannt: "Vivodepot has no such details:",
   antwortZurueckgehalten: "{n} detail(s) were withheld as particularly sensitive.",
   antwortWeitergeben: "Save as a record",
+  antwortZieldatei: "Save for your system",
   anlassTitelOhneName: "Released record",
   anlassHerausgegebenAm: "Released on",
   anlassVertretung: "Released by {handelnd} on behalf of {fuer}.",
@@ -21987,7 +21999,7 @@ function hilfeEmpfaengerinModell() {
    Lizenzkennung. `schluessel` = die Textsatz-Schlüssel des Herkunftsorts und die Platzhalter, die ihr Text tragen MUSS; `{urheberin}` und `{lizenz}` lösen aus
    DIESER Konstante auf, nie aus dem Branding; `{marke}` ist in diesen Schlüsseln nicht zulässig. DAUERHAFT: Text, den wir führen müssen (tools/geruest-waechter-
    grundlinie.json, regionen.dauerhaft); kein Schnitt nimmt die Urheberin mit. */
-const HERKUNFTSORT_ANGABEN = Object.freeze({ urheberin: Object.freeze({ name: 'Vivodepot GmbH', marke: 'Vivodepot', ort: 'Berlin' }), lizenz: 'EUPL-1.2', schluessel: Object.freeze({ herkunftPoweredBy: Object.freeze(['{urheberin}']), ausgabeErstelltMit: Object.freeze(['{urheberin}']), herkunftLizenzhinweis: Object.freeze(['{urheberin}', '{lizenz}']) }) });
+const HERKUNFTSORT_ANGABEN = Object.freeze({ urheberin: Object.freeze({ name: 'Vivodepot GmbH', marke: 'Vivodepot', ort: 'Berlin' }), lizenz: 'EUPL-1.2', schluessel: Object.freeze({ herkunftPoweredBy: Object.freeze(['{urheberin}']), ausgabeErstelltMit: Object.freeze(['{urheberin}']), herkunftLizenzhinweis: Object.freeze(['{urheberin}', '{lizenz}']), standardVorlageSigniertVon: Object.freeze(['{urheberin}']) }) });
 /* HERKUNFTSORT-ANGABEN:END */
 
 const URHEBER_LESEN = Object.freeze({ name: HERKUNFTSORT_ANGABEN.urheberin.name, ort: HERKUNFTSORT_ANGABEN.urheberin.ort, lizenz: HERKUNFTSORT_ANGABEN.lizenz });
@@ -23734,6 +23746,7 @@ function antwortHerkunftZeileHTML(felder, id) {
 function renderAntwort(datensatz, umschlag, signatur) {
   antwortDatensatz = datensatz;
   const m = antwortAnzeigeModell(datensatz, umschlag);
+  const zd = antwortZieldateiModell(datensatz);
   const wrap = el('app');
   setModusFarbe('anker');
   wrap.className = 'sheet-screen';
@@ -23790,10 +23803,13 @@ function renderAntwort(datensatz, umschlag, signatur) {
   h += '<div class="sheet-aktionen">' +
     '<button type="button" class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button>' +
     '<button type="button" class="btn" id="btn-antwort-weiter">' + escapeHTML(STRINGS.antwortWeitergeben) + '</button>' +
+    (zd ? '<button type="button" class="btn" id="btn-antwort-zieldatei">' + escapeHTML(STRINGS.antwortZieldatei)
+      + ' <span class="feld-quelle" id="antwort-zieldatei-name">' + escapeHTML(zd.dateiname) + '</span></button>' : '') +
     '</div></div>';
   wrap.innerHTML = h;
   el('btn-zurueck').addEventListener('click', () => { antwortUmschlag = null; antwortDatensatz = null; renderWelcome(); });
   el('btn-antwort-weiter').addEventListener('click', () => antwortWeitergeben());
+  if (zd) el('btn-antwort-zieldatei').addEventListener('click', () => antwortWeitergeben(true));
 }
 /* Der Klartext-Datensatz. Trägt er eine Anfrage, ist er eine gesicherte Antwort und bekommt
    dasselbe Blatt wie die geöffnete Antwort. Sonst ein Anlass oder eine Zusammenstellung: dasselbe
@@ -23855,16 +23871,34 @@ function renderAnlass(datensatz) {
 }
 /* WEITERGEBEN als Datensatz — die Fachanwendung der Institution liest JSON, keinen Bildschirm.
    Kein Netz, kein Upload: eine Datei, die der Mensch selbst weiterreicht. */
-function antwortWeitergeben() {
+function antwortWeitergeben(alsZieldatei) {
   if (!antwortDatensatz || typeof Blob !== 'function') return;
-  const name = 'Vivodepot_Antwort_Klartext_'
+  /* Der eine Download-Weg der Lese-App (Klasse A, T-A-03): er sichert die Antwort selbst — als Datensatz oder, mit
+     `alsZieldatei`, die Datei, die sie trägt (W2). Beides kommt aus `antwortDatensatz`, nie aus einem Depot. */
+  const zd = alsZieldatei ? antwortZieldateiModell(antwortDatensatz) : null;
+  if (alsZieldatei && !zd) return;
+  const name = zd ? zd.dateiname : 'Vivodepot_Antwort_Klartext_'
     + String((antwortUmschlag && antwortUmschlag.vorgang) || 'Vorgang').replace(/[^\p{L}\p{N}_-]+/gu, '-') + '.json';
-  const blob = new Blob([JSON.stringify(antwortDatensatz, null, 2)], { type: 'application/json' });
+  const blob = zd ? new Blob([zd.inhalt], { type: zd.mime }) : new Blob([JSON.stringify(antwortDatensatz, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = name;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+/* ÜBERNAHME OHNE ABTIPPEN (W2): die Zieldatei, die der Kern nach `antwort.format` gebaut und eingebettet hat. Die Lese-App
+   packt sie nur aus, sie baut und prüft nichts nach — Schreiber und Signaturprüfung des Moduls liegen im Kern. Angeboten wird
+   sie nur mit Inhalt und einem bekannten Dateityp; der Name kommt aus der Datei und wird darum auf sichere Zeichen gekürzt. */
+const ANTWORT_ZIELDATEI_TYPEN = Object.freeze({ 'application/json': 'json', 'application/xml': 'xml', 'text/csv': 'csv' });
+function antwortZieldateiModell(ds) {
+  const z = ds && ds.zieldatei;
+  if (!z || typeof z !== 'object' || typeof z.inhalt !== 'string' || !z.inhalt) return null;
+  const endung = Object.prototype.hasOwnProperty.call(ANTWORT_ZIELDATEI_TYPEN, z.mime) ? ANTWORT_ZIELDATEI_TYPEN[z.mime] : null;
+  if (!endung) return null;
+  // Der Ersatzname trägt keine Marke: die Marke steht nur am Herkunftsort.
+  const stamm = String(z.dateiname || z.format || 'Antwort').replace(/\.[A-Za-z0-9]{1,5}$/, '')
+    .replace(/[^\p{L}\p{N}_-]+/gu, '-').slice(0, 80) || 'Antwort';
+  return { dateiname: stamm + '.' + endung, mime: z.mime, inhalt: z.inhalt };
 }
 
 /* ══ DER KAMERA-PFAD, WIEDERAUFGENOMMEN (Kette, Auftrag 8 — U2-ADR-085 §5 Entscheidung 3) ══

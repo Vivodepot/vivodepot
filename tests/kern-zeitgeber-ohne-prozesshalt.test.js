@@ -10,7 +10,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { execFileSync } = require('node:child_process');
+const { spawnSync } = require('node:child_process');
 
 const KERN = path.join(__dirname, '..', 'vivodepot.html');
 
@@ -54,15 +54,19 @@ test('[Kern·Zeitgeber·Rot-Beweis] ein neuer ungeschützter Zeitgeber über 1 s
   assert.equal(funde(q + '\n_ohneProzessHalt(setTimeout(() => neu(), 5000));\n').length, 0);
 });
 
-const bisZumEnde = (kernPfad) => {
-  const t0 = Date.now();
+/* Gemessen wird im Kind, wie lange der Prozess NACH der Meldung noch lebt — nicht die Gesamtdauer samt Prozessstart und
+   ladeKern(), die unter der Last der vollen Suite um Sekunden schwankten (Befund ZEITPROBEN-SUITE-LAST, 05.11.2026). */
+const nachDerMeldung = (kernPfad, vorlaufMs = 0) => {
   const ladeOpts = kernPfad ? JSON.stringify({ htmlPfad: kernPfad, backen: true }) : '';
-  execFileSync(process.execPath, ['-e', 'const { V } = require(' + JSON.stringify(path.join(__dirname, 'load-kern.js')) + ').ladeKern(' + ladeOpts + '); V.ui.toast("Probe", "info");'],
-    { stdio: 'ignore', env: { ...process.env, NODE_TEST_CONTEXT: '' } });
-  return Date.now() - t0;
+  const skript = 'const _bis = Date.now() + ' + Number(vorlaufMs) + '; while (Date.now() < _bis) {} ' + 'const { V } = require(' + JSON.stringify(path.join(__dirname, 'load-kern.js')) + ').ladeKern(' + ladeOpts + '); V.ui.toast("Probe", "info");'
+    + ' const t1 = Date.now(); process.on("exit", () => process.stderr.write("\\nNACH_DEM_ENDE " + (Date.now() - t1) + "\\n"));';
+  const r = spawnSync(process.execPath, ['-e', skript], { stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8', env: { ...process.env, NODE_TEST_CONTEXT: '' } });
+  const m = [...String(r.stderr).matchAll(/NACH_DEM_ENDE (\d+)/g)].pop();
+  assert.ok(m, 'das Kind meldet seine Wartezeit (Status ' + r.status + ')');
+  return Number(m[1]);
 };
 test('[Kern·Zeitgeber·Toast] ein Prozess, der eine Meldung zeigt, endet ohne Warten — ohne den Helfer wartet er sie ab (Rot-Beweis)', () => {
-  const ohne = bisZumEnde(null);
+  const ohne = nachDerMeldung(null);
   assert.ok(ohne < 2500, 'ui.toast() hält den Prozess nicht offen (' + ohne + ' ms)');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kern-zeitgeber-'));
   try {
@@ -71,7 +75,14 @@ test('[Kern·Zeitgeber·Toast] ein Prozess, der eine Meldung zeigt, endet ohne W
     const ohneHelfer = quelle.replace('_ohneProzessHalt(setTimeout(() => el.remove(), aktion ? 8000 : 3200))', 'setTimeout(() => el.remove(), aktion ? 8000 : 3200)');
     assert.notEqual(ohneHelfer, quelle, 'die Stelle der Meldungsleiste steht im Kern');
     fs.writeFileSync(kopie, ohneHelfer);
-    const mit = bisZumEnde(kopie);
+    const mit = nachDerMeldung(kopie);
     assert.ok(mit >= 3000 && mit - ohne >= 2000, 'Rot-Beweis: ohne den Helfer wartet der Prozess die Meldung ab (' + mit + ' gegen ' + ohne + ' ms)');
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+/* Lastsimulation: ein Kind, das vor dem Ende künstlich langsam ist (wie unter der Last der vollen Suite), gilt nicht als
+   gehalten. Die alte Messung der Gesamtdauer schlug hier an (Befund ZEITPROBEN-SUITE-LAST, 05.11.2026). */
+test('[Kern·Zeitgeber·Toast·Last] ein langsamer Prozessstart zählt nicht als Warten auf einen Zeitgeber', () => {
+  const langsam = nachDerMeldung(null, 3000);
+  assert.ok(langsam < 2500, 'gemessen wird nur die Wartezeit nach dem Ende (' + langsam + ' ms)');
 });

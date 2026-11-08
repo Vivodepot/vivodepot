@@ -13,6 +13,9 @@
      5  `git tag -v` ist grün
    Vor 3: für den Baum des Release-Commits liegt ein Beleg des öffentlichen Laufs vor, und er ist grün
    (tools/oeffentlicher-lauf-beleg.js, 05.10.2026).
+   Ebenso vor 3 und Pflicht: `--baum-soll <Baum>` ist genau der Baum des Release-Commits (05.11.2026). Der Release-Ablauf
+   nennt ihn im fertigen Befehl: es ist der Baum, den die öffentliche CI auf dem eigenen Runner vorher grün gemessen hat.
+   So kommt das Tag nur auf einen Stand, der vor dem Release-Tag geprobt wurde. Fehlt der Wert oder weicht er ab: rot.
    Ebenso vor 3: der Spiegel nach openCoDE findet im Stand des Commits einen Release-Text (01.11.2026). Er baut die
    Release-Seite aus dem Stand des Tags (tools/opencode-spiegel.js → releaseVorbereiten in tools/opencode-release-vorbereiten.js);
    fehlen Notes und CHANGELOG-Abschnitt oder eine Anlage, bricht er erst nach dem Push ab, und das Tag lässt sich nicht mehr
@@ -30,7 +33,7 @@
    mit einem SSH-Schlüssel). Die Probe (tests/oeffentlich-tag-signieren.test.js) arbeitet mit Wegwerf-Schlüsseln im Temp.
 
    Aufruf:
-     node tools/oeffentlich-tag-signieren.js --klon <öffentlicher Klon> --tag v1.0.<Fassung> --auslieferungen <datei> --staende <datei> [--commit <rev>] [--grundliste <datei>]
+     node tools/oeffentlich-tag-signieren.js --klon <öffentlicher Klon> --tag v1.0.<Fassung> --auslieferungen <datei> --staende <datei> --baum-soll <Baum> [--commit <rev>] [--grundliste <datei>]
    ═════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const os = require('node:os');
@@ -137,7 +140,7 @@ function releaseTextPruefen(klon, commit, tag, env) {
   } finally { fs.rmSync(abzug, { recursive: true, force: true }); }
 }
 
-function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundliste, schreiben = (t) => process.stdout.write(t), env } = {}) {
+function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundliste, baumSoll, schreiben = (t) => process.stdout.write(t), env } = {}) {
   const rot = (satz) => { schreiben('[tag-signieren] ROT — ' + satz + '\n'); return 1; };
   if (!klon || !fs.existsSync(path.join(klon, '.git'))) return rot('kein Git-Klon: ' + klon);
   if (!TAG_MUSTER.test(String(tag || ''))) return rot('der Tag heißt v1.0.<Fassung>, nicht „' + tag + '“');
@@ -162,6 +165,8 @@ function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundl
     if (!Array.isArray(liste) || liste.some((x) => typeof x !== 'string')) return rot('die Grundliste ist keine Liste von Probennamen');
   }
   const baum = git(klon, ['rev-parse', commit + '^{tree}'], { env }).stdout.trim();
+  if (!/^[0-9a-f]{40}$/.test(String(baumSoll || ''))) return rot('--baum-soll <Baum> fehlt oder ist kein voller Baum („' + (baumSoll || '') + '“) — der Release-Ablauf nennt ihn im fertigen Befehl; ohne ihn kein Tag');
+  if (baum !== baumSoll) return rot('der Release-Commit trägt den Baum ' + baum.slice(0, 9) + ', geprobt wurde ' + baumSoll.slice(0, 9) + ' — das Tag kommt nur auf den geprobten Baum');
   const lauf = laufBelegPruefen(belegLesen(klon, baum), { baum, grundliste: liste });
   if (!lauf.ok) return rot(lauf.grund);
   const text = releaseTextPruefen(klon, commit, tag, env);
@@ -192,7 +197,7 @@ function main() {
   const arg = (n) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i + 1] : undefined; };
   return signieren({ klon: arg('klon') && path.resolve(arg('klon')), tag: arg('tag'), commit: arg('commit') || 'HEAD',
     auslieferungen: arg('auslieferungen') && path.resolve(arg('auslieferungen')), staende: arg('staende') && path.resolve(arg('staende')),
-    grundliste: arg('grundliste') && path.resolve(arg('grundliste')) });
+    grundliste: arg('grundliste') && path.resolve(arg('grundliste')), baumSoll: arg('baum-soll') });
 }
 
 if (require.main === module) process.exitCode = main();

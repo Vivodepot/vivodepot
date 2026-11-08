@@ -31,9 +31,9 @@ test('[A468] kein Template-Feldtyp für eine juristische Person/Organisation', (
   assert.equal(m.organisationsFeldtyp, false);
 });
 
-test('[A468] keine der zwölf Institutions-Arten passt auf Stiftung/Verein', () => {
+test('[A468] keine der dreizehn Institutions-Arten passt auf Stiftung/Verein', () => {
   const m = messen();
-  assert.equal(m.institutionArtenAnzahl, 12, 'der gemessene Stand vom 17.08./21.08.2026');
+  assert.equal(m.institutionArtenAnzahl, 13, 'der gemessene Stand vom 17.08./21.08.2026, seit U2-ADR-523 mit `apotheke`');
   assert.deepEqual(m.passendeArtFuerStiftungOderVerein, []);
 });
 

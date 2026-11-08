@@ -240,7 +240,69 @@ function platzPfad(dir, k) { return path.join(dir, 'platz-' + k + '.lock'); }
 function ticketVerzeichnis(dir) { return path.join(dir, 'tickets'); }
 const VORRANG = Object.freeze({ 'pre-push': 0 });
 const EXKLUSIV = 'pre-push';
-function vorrang(name) { return Object.prototype.hasOwnProperty.call(VORRANG, name) ? VORRANG[name] : 1; }
+/* TICKET-VORRANG (06.11.2026, Lücke „Vorrang-Wort für Ticketnamen“): Die Stufe kam nur aus der festen Tabelle VORRANG. Ein Wort
+   wie „Marketing vor allen anderen Klein-Tickets“ ließ sich nicht eintragen; die Rollen mussten es von Hand befolgen. Jetzt
+   kann eine Datei TICKET_VORRANG_DATEI im Platz-Verzeichnis Präfixe nennen ({ praefixe, bis, grund, gesetztAm }). Ein Ticket,
+   dessen Name mit einem Präfix beginnt, bekommt Stufe 0,5: nach dem Push, vor allen anderen. Die Datei gilt für die vollen
+   Plätze, den Air- und den Klein-Platz (sie liegt im Hauptverzeichnis, die Unterverzeichnisse lesen sie dort). Nach `bis` gilt
+   sie nicht mehr. Geschrieben wird sie nur über ticketVorrangSetzen: ohne Grund mit Uhrzeit und ohne `bis` (höchstens
+   TICKET_VORRANG_HOECHSTENS_MS voraus) wird nichts geschrieben. Probe: tests/suite-platz-ticket-vorrang.test.js. */
+const TICKET_VORRANG_DATEI = 'ticket-vorrang.json';
+const TICKET_VORRANG_STUFE = 0.5;
+const TICKET_VORRANG_HOECHSTENS_MS = 12 * 60 * 60 * 1000;
+const UNTER_VERZEICHNISSE = Object.freeze(['klein', 'air']);
+function hauptVerzeichnis(dir) { return dir && UNTER_VERZEICHNISSE.includes(path.basename(dir)) ? path.dirname(dir) : dir; }
+/** Die Regel: null (keine Datei) oder { praefixe, bis, grund, gesetztAm, gueltig, hinweis? }. */
+function ticketVorrangLesen({ dir = verzeichnis(), jetzt = Date.now() } = {}) {
+  const hd = hauptVerzeichnis(dir);
+  let roh;
+  try { roh = fs.readFileSync(path.join(hd, TICKET_VORRANG_DATEI), 'utf8'); } catch (_) { return null; }
+  let r;
+  try { r = JSON.parse(roh); } catch (_) { return { gueltig: false, hinweis: 'Ticket-Vorrang unlesbar, gilt nicht' }; }
+  const bis = Date.parse(r && r.bis);
+  const praefixe = r && Array.isArray(r.praefixe) ? r.praefixe.filter((p) => typeof p === 'string' && p.length) : [];
+  if (!praefixe.length || !Number.isFinite(bis) || typeof r.grund !== 'string' || !r.grund.trim()) {
+    return { ...r, gueltig: false, hinweis: 'Ticket-Vorrang unvollständig, gilt nicht' };
+  }
+  if (jetzt > bis) return { ...r, praefixe, gueltig: false, hinweis: 'Ticket-Vorrang abgelaufen (' + r.bis + ')' };
+  return { ...r, praefixe, gueltig: true };
+}
+const UHRZEIT = /\b([01]?\d|2[0-3]):[0-5]\d\b/;
+/** `bis`: ISO-Zeitpunkt oder HH:MM (die nächste solche Uhrzeit ab jetzt). */
+function bisAuswerten(bis, jetzt = Date.now()) {
+  const t = String(bis || '').trim();
+  const m = /^([01]?\d|2[0-3]):([0-5]\d)$/.exec(t);
+  if (m) {
+    const d = new Date(jetzt);
+    d.setHours(Number(m[1]), Number(m[2]), 0, 0);
+    if (d.getTime() <= jetzt) d.setDate(d.getDate() + 1);
+    return d.getTime();
+  }
+  return Date.parse(t);
+}
+function ticketVorrangSetzen({ dir = verzeichnis(), praefixe, bis, grund, jetzt = Date.now() } = {}) {
+  const liste = (Array.isArray(praefixe) ? praefixe : String(praefixe || '').split(',')).map((p) => String(p).trim()).filter(Boolean);
+  if (!liste.length) throw new Error('Ticket-Vorrang braucht mindestens ein Präfix');
+  if (liste.some((p) => p.length < 2)) throw new Error('ein Präfix braucht mindestens zwei Zeichen');
+  const g = typeof grund === 'string' ? grund.trim() : '';
+  if (g.length < 10 || !UHRZEIT.test(g)) throw new Error('Ticket-Vorrang braucht einen Grund mit der Uhrzeit des Worts');
+  const b = bisAuswerten(bis, jetzt);
+  if (!Number.isFinite(b) || b <= jetzt) throw new Error('Ticket-Vorrang braucht --bis in der Zukunft (HH:MM oder ISO)');
+  if (b - jetzt > TICKET_VORRANG_HOECHSTENS_MS) throw new Error('Ticket-Vorrang gilt höchstens 12 Stunden');
+  const hd = hauptVerzeichnis(dir);
+  fs.mkdirSync(hd, { recursive: true });
+  const eintrag = { praefixe: liste, bis: new Date(b).toISOString(), grund: g, gesetztAm: new Date(jetzt).toISOString() };
+  atomarErsetzen(path.join(hd, TICKET_VORRANG_DATEI), JSON.stringify(eintrag) + '\n');
+  return eintrag;
+}
+function ticketVorrangAufheben({ dir = verzeichnis() } = {}) {
+  try { fs.unlinkSync(path.join(hauptVerzeichnis(dir), TICKET_VORRANG_DATEI)); return true; } catch (_) { return false; }
+}
+function vorrang(name, regel = null) {
+  if (Object.prototype.hasOwnProperty.call(VORRANG, name)) return VORRANG[name];
+  if (regel && regel.gueltig && regel.praefixe.some((p) => String(name || '').startsWith(p))) return TICKET_VORRANG_STUFE;
+  return 1;
+}
 /* Die Art eines Laufs: 'e2e' für alles, was Browser fährt — der Push (E2E-Strecke), landung-vorbereiten und jeder Lauf,
    dessen Name das sagt (e2e, playwright, browser, vorschau, journey). Ein Browserlauf über die Kommandozeile trägt
    eines dieser Wörter im Namen. Alles andere: 'node'. */
@@ -248,16 +310,32 @@ const ART_E2E_NAMEN = Object.freeze(['pre-push', 'landung-vorbereiten']);
 const ART_E2E_MUSTER = /e2e|playwright|browser|vorschau|journey/i;
 function artVon(name) { return ART_E2E_NAMEN.includes(name) || ART_E2E_MUSTER.test(String(name || '')) ? 'e2e' : 'node'; }
 
+/* VORRANG-MARKE IN DER KLEIN-SCHLANGE (07.11.2026, Befund MITTEL): die Vorrang-Marke (`--reihe`) wirkte
+   nur auf die vollen Plätze. In der Klein-Schlange stand ein Lauf aus dem markierten Baum hinter allen älteren Klein-Tickets —
+   der Zug (vor-pre-commit, Ticket fest „vor-pre-commit“) wartete hinter Wagenläufen. Jetzt steht in der Klein-Schlange ein
+   Ticket, dessen Arbeitsverzeichnis im Baum einer GÜLTIGEN Marke liegt, auf Stufe REIHE_KLEIN_STUFE: nach pre-push (0), vor dem
+   Ticket-Vorrang (0.5) und allen übrigen (1). Gemessen wird am Baum (cwd), nicht am Namen. Ein laufender Klein-Lauf wird nicht
+   verdrängt. markeLaufBefund liest die Schlange ohne diese Stufe (`mitReihe: false`), sonst fragte die Marke sich selbst.
+   Probe: tests/suite-platz-reihe-klein.test.js. */
+const REIHE_KLEIN_STUFE = 0.25;
+function reiheBaumKlein(dir) {
+  if (path.basename(dir) !== 'klein') return null;
+  const r = reiheLesen({ dir: hauptVerzeichnis(dir) });
+  return r && r.gueltig ? echterPfad(r.baum) : null;
+}
 /** Die lebenden Tickets, älteste zuerst; Tickets toter Prozesse werden geräumt. */
-function wartende({ dir = verzeichnis() } = {}) {
+function wartende({ dir = verzeichnis(), mitReihe = true } = {}) {
   const tv = ticketVerzeichnis(dir);
   let namen = [];
   try { namen = fs.readdirSync(tv).filter((d) => d.endsWith('.ticket')).sort(); } catch (_) { return []; }
   const liste = [];
+  const regel = ticketVorrangLesen({ dir });
+  const reiheBaum = mitReihe ? reiheBaumKlein(dir) : null;
+  const stufeVon = (e) => Math.min(vorrang(e.name, regel), reiheBaum && imBaum(reiheBaum, e.cwd) ? REIHE_KLEIN_STUFE : Infinity);
   for (const d of namen) {
     const pfad = path.join(tv, d);
     const e = lesen(pfad);
-    if (e && prozessLebt(e.pid)) liste.push({ ...e, pfad, stufe: vorrang(e.name) });
+    if (e && prozessLebt(e.pid)) liste.push({ ...e, pfad, stufe: stufeVon(e) });
     else { try { fs.unlinkSync(pfad); } catch (_) { /* schon weg */ } }
   }
   // Stufe zuerst (Push vor allem anderen), innerhalb der Stufe die Ankunft (Dateiname, sortiert).
@@ -329,16 +407,59 @@ const REIHE_GUELTIG_MS = 90 * 60 * 1000;
    nach der Schonfrist kurz nicht; ein fremder Lauf kann dann einen Platz nehmen. Verloren ist sie nicht: sobald der Push ein
    Ticket zieht, gilt sie wieder. Probe: tests/suite-platz-reihe.test.js, [Reihe·verwaist]. */
 const REIHE_SCHONFRIST_MS = 10 * 60 * 1000;
-function markeHatLauf(baum, { dir = verzeichnis(), host = os.hostname() } = {}) {
-  const lebt = (e) => e && (!e.host || e.host === host) && prozessLebt(e.pid) && imBaum(baum, e.cwd);
+/* MARKE VERWAIST BEI LEBENDEM LAUF (06.11.2026, Befund SUITE-PLATZ-MARKE-VERWAIST-BEI-LAUF): gemessen meldete die Anzeige
+   „Marke verwaist“, während der Landungslauf im Baum lebte; die Marke hielt darum keine Klein-Tickets an. Drei Wege im Code:
+   (1) Gelesen wurden nur die Plätze 1..Platzzahl. Sinkt die zentrale Platzzahl, während ein Lauf auf einem höheren Platz
+       sitzt, sah die Marke ihn nicht. Jetzt zählt jede vorhandene Platzdatei (platzNummern).
+   (2) Der Rechnername wechselt unter macOS mit dem Netz („Name.local“ gegen „Name“). Ein Eintrag mit dem anderen Namen galt
+       als fremd. Jetzt werden die Namen ohne Domainteil und ohne Großschreibung verglichen (hostGleich).
+   (3) Ein Lauf hat Phasen ohne Eintrag (der volle Platz ist freigegeben, solange das Air rechnet, oder zwischen Bilanz und
+       Ende). Jetzt kann der Lauf sich in der Marke eintragen (reiheLaufMerken: PID und Startzeit des Prozesses); die Marke
+       gilt, solange dieser Prozess mit derselben Startzeit lebt, gleich ob er einen Platz hat.
+   reiheLesen nennt bei „verwaist“ den Grund je Weg (markeLaufBefund). Probe: tests/suite-platz-reihe.test.js,
+   [Reihe·verwaist·Lauf ohne Platz], [Reihe·verwaist·Platz über Zahl], [Reihe·verwaist·Host]. */
+function hostKurz(h) { return String(h || '').toLowerCase().split('.')[0]; }
+function hostGleich(a, b) { return !a || !b || hostKurz(a) === hostKurz(b); }
+/** Die Nummern aller vorhandenen Platzdateien eines Verzeichnisses. */
+function platzNummern(dir) {
+  try {
+    return fs.readdirSync(dir).map((d) => /^platz-(\d+)\.lock$/.exec(d)).filter(Boolean).map((m) => Number(m[1]));
+  } catch (_) { return []; }
+}
+/** Die lebenden Halter aller vorhandenen Platzdateien, auch über der Platzzahl. */
+function halterAlle({ dir, n = 0 } = {}) { return halter({ dir, n: Math.max(n, ...platzNummern(dir)) }); }
+/** Startzeit eines Prozesses (Text aus ps), null wenn er nicht lebt oder ps nichts liefert. */
+function prozessStart(pid) {
+  if (!Number.isInteger(pid) || pid <= 0) return null;
+  try {
+    const t = require('node:child_process').execFileSync('ps', ['-o', 'lstart=', '-p', String(pid)], { encoding: 'utf8', maxBuffer: 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'], timeout: 5000 }).trim();
+    return t || null;
+  } catch (_) { return null; }
+}
+function markenLaufLebt(lauf, { startVon = prozessStart } = {}) {
+  if (!lauf || !Number.isInteger(lauf.pid) || !prozessLebt(lauf.pid)) return false;
+  const s = startVon(lauf.pid);
+  return Boolean(s) && s === lauf.start;
+}
+function markeHatLauf(baum, opts = {}) { return markeLaufBefund(baum, opts).hatLauf; }
+/** { hatLauf, grund }: grund nennt bei fehlendem Lauf, was gefunden wurde (Weg zum Nachsehen beim nächsten Fall). */
+function markeLaufBefund(baum, { dir = verzeichnis(), host = os.hostname(), lauf = null, startVon = prozessStart } = {}) {
+  if (markenLaufLebt(lauf, { startVon })) return { hatLauf: true, grund: 'Lauf der Marke lebt (PID ' + lauf.pid + ')' };
+  const imB = (e) => e && prozessLebt(e.pid) && imBaum(baum, e.cwd);
+  const lebt = (e) => imB(e) && hostGleich(e.host, host);
   const ad = airVerzeichnis(dir);
-  const air = fs.existsSync(ad) ? [...halter({ dir: ad, n: anzahlAir() }), ...wartende({ dir: ad })] : [];
+  const air = fs.existsSync(ad) ? [...halterAlle({ dir: ad, n: anzahlAir() }), ...wartende({ dir: ad })] : [];
   /* KLEIN HÄLT DIE MARKE (25.10.2026, Befund VORRANG-MARKE-OHNE-KLEIN): ein Zug, der im Klein-Platz vorprüft (vor-pre-commit),
      hielt die Marke nicht — sie verwaiste nach der Schonfrist, während der Lauf lebte. Klein-Halter und -Tickets zählen jetzt mit.
      Probe: tests/suite-platz-reihe.test.js, [Reihe·verwaist·Klein]. */
   const kd = kleinVerzeichnis(dir);
-  const klein = fs.existsSync(kd) ? [...halter({ dir: kd, n: kleinPlaetzeHoechstens(process.env, dir) }), ...wartende({ dir: kd })] : [];
-  return [...halter({ dir }), ...wartende({ dir }), ...air, ...klein].some(lebt);
+  const klein = fs.existsSync(kd) ? [...halterAlle({ dir: kd, n: kleinPlaetzeHoechstens(process.env, dir) }), ...wartende({ dir: kd, mitReihe: false })] : [];
+  const alle = [...halterAlle({ dir, n: anzahl(process.env, dir) }), ...wartende({ dir }), ...air, ...klein];
+  if (alle.some(lebt)) return { hatLauf: true, grund: 'Eintrag im Baum' };
+  const fremdHost = alle.find(imB);
+  if (fremdHost) return { hatLauf: false, grund: 'Eintrag im Baum mit Host ' + fremdHost.host + ' (hier ' + host + ')' };
+  const pid = lauf && lauf.pid ? 'Lauf der Marke PID ' + lauf.pid + (prozessLebt(lauf.pid) ? ' mit anderer Startzeit' : ' tot') : 'kein Lauf in der Marke';
+  return { hatLauf: false, grund: 'kein Eintrag im Baum, ' + pid };
 }
 /* WARTEZEIT AUF DEN PLATZ (16.10.2026). Vorgabe für jeden Lauf, der einen Platz holt und dabei wartet (Hooks, Landung, die Wache von
    npm test, das CLI): 7200 s. Bis hierher 600 s — sind beide Plätze mit langen Läufen belegt, brach ein Push oder Commit nach zehn
@@ -357,8 +478,9 @@ function reiheLesen({ dir = verzeichnis(), jetzt = Date.now() } = {}) {
   if (!m || typeof m.baum !== 'string' || !Number.isFinite(t)) return { baum: null, gueltig: false, grund: 'Marke unvollständig, altes Verhalten' };
   if (jetzt - t > REIHE_GUELTIG_MS) return { ...m, gueltig: false, grund: 'Marke abgelaufen, altes Verhalten' };
   if (!fs.existsSync(m.baum)) return { ...m, gueltig: false, grund: 'Marke abgelaufen (Baum fehlt), altes Verhalten' };
-  if (jetzt - t > REIHE_SCHONFRIST_MS && !markeHatLauf(echterPfad(m.baum), { dir })) {
-    return { ...m, gueltig: false, verwaist: true, grund: 'Marke verwaist (nach der Schonfrist kein lebender Lauf im Baum ' + m.baum + '), altes Verhalten' };
+  if (jetzt - t > REIHE_SCHONFRIST_MS) {
+    const b = markeLaufBefund(echterPfad(m.baum), { dir, lauf: m.lauf });
+    if (!b.hatLauf) return { ...m, gueltig: false, verwaist: true, grund: 'Marke verwaist (nach der Schonfrist kein lebender Lauf im Baum ' + m.baum + ': ' + b.grund + '), altes Verhalten' };
   }
   return { ...m, gueltig: true };
 }
@@ -406,6 +528,19 @@ function reiheGegriffenMerken({ dir, reihe, jetzt = Date.now() }) {
   try { m = JSON.parse(fs.readFileSync(path.join(dir, REIHE_DATEI), 'utf8')); } catch (_) { return; }
   if (!m || echterPfad(m.baum || '') !== reihe.baum || m.gesetztAm !== reihe.gesetztAm || m.gegriffenAm) return;
   atomarErsetzen(path.join(dir, REIHE_DATEI), JSON.stringify({ ...m, gegriffenAm: new Date(jetzt).toISOString() }) + '\n');
+}
+/* Der Lauf trägt sich in die Marke ein (Weg 3 oben): nur wenn eine Marke steht, sie gilt und cwd in ihrem Baum liegt.
+   Ergebnis: true, wenn eingetragen. */
+function reiheLaufMerken({ dir = verzeichnis(), pid = process.pid, cwd = process.cwd(), jetzt = Date.now(), startVon = prozessStart } = {}) {
+  const reihe = reiheLesen({ dir, jetzt });
+  if (!reihe || !reihe.gueltig || !imBaum(reihe.baum, cwd)) return false;
+  const start = startVon(pid);
+  if (!start) return false;
+  let m;
+  try { m = JSON.parse(fs.readFileSync(path.join(dir, REIHE_DATEI), 'utf8')); } catch (_) { return false; }
+  if (!m || echterPfad(m.baum || '') !== reihe.baum || m.gesetztAm !== reihe.gesetztAm) return false;
+  atomarErsetzen(path.join(dir, REIHE_DATEI), JSON.stringify({ ...m, lauf: { pid, start } }) + '\n');
+  return true;
 }
 /** Liegt ein Arbeitsverzeichnis im markierten Baum? */
 function imBaum(baum, cwd) {
@@ -485,7 +620,7 @@ function platzVergeben(opts) {
   const schlange = wartende({ dir }).filter((t) => !t.pause && (t.name !== EXKLUSIV || t.pfad === ticket || !fremderPush({ dir, n, pid: t.pid })));
   const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : -1;
   // Ohne Ticket: hinter allen derselben oder einer höheren Stufe — ein Push also vor wartenden Vorbereitungen.
-  const rang = eigenerRang >= 0 ? eigenerRang : schlange.filter((t) => t.stufe <= vorrang(name)).length;
+  const rang = eigenerRang >= 0 ? eigenerRang : schlange.filter((t) => t.stufe <= vorrang(name, ticketVorrangLesen({ dir }))).length;
   if (rang > 0 && n - halter({ dir, n }).length <= rang) {
     return { geholt: false, halter: halter({ dir, n }), wartende: schlange, ...(reiheHinweis ? { reiheHinweis } : {}) };
   }
@@ -654,6 +789,18 @@ function gruppeBeenden(g, { fristMs = 5000 } = {}) {
   if (gruppeLebt(g)) { try { process.kill(-g, 'SIGKILL'); } catch (_) { /* schon weg */ } }
   return true;
 }
+/** Wachhund der Klein-Hülle (Abschnitt WACHHUND der Hülle): eine Zeile `grund: 'ueberzeit'` ins Hängend-Protokoll. */
+function ueberzeitProtokollieren({ name, pid, gruppe, cwd, fristS, dir = verzeichnis(), jetzt = Date.now() } = {}) {
+  const zeile = { zeit: new Date(jetzt).toISOString(), grund: 'ueberzeit', art: 'klein', name, pid, gruppe, cwd, fristS };
+  try { fs.appendFileSync(path.join(kleinVerzeichnis(dir), HAENGEND_PROTOKOLL), JSON.stringify(zeile) + '\n'); return true; } catch (_) { return false; }
+}
+/** Die Überzeit-Zeilen des Klein-Protokolls aus den letzten `stunden` Stunden, älteste zuerst. */
+function ueberzeitZeilen({ dir = verzeichnis(), jetzt = Date.now(), stunden = 24 } = {}) {
+  let text = '';
+  try { text = fs.readFileSync(path.join(kleinVerzeichnis(dir), HAENGEND_PROTOKOLL), 'utf8'); } catch (_) { return []; }
+  return text.split('\n').filter(Boolean).map((z) => { try { return JSON.parse(z); } catch (_) { return null; } })
+    .filter((z) => z && z.grund === 'ueberzeit' && jetzt - Date.parse(z.zeit) <= stunden * 3600 * 1000);
+}
 /** Trägt die Prozessgruppe des Befehls in den Klein-Platz des Halters ein. */
 function kleinGruppeEintragen({ pid = process.pid, gruppe, dir = verzeichnis(), env = process.env } = {}) {
   const kd = kleinVerzeichnis(dir);
@@ -698,7 +845,10 @@ function kleinPlatzHolen({ name = 'klein', pid = process.pid, dir = verzeichnis(
   const haengend = halter({ dir: kd, n: hoechst }).length >= nk ? haengendRaeumen({ dir, pdir: kd, n: hoechst, env }) : [];
   const mit = (r) => (haengend.length ? { ...r, geraeumt: [...haengend, ...(r.geraeumt || [])] } : r);
   const belegt = halter({ dir: kd, n: hoechst });
-  const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : schlange.length;
+  // Ohne Ticket steht der Aufrufer hinter allen — aus dem Baum der gültigen Marke nur hinter den Tickets mit kleinerer Stufe.
+  const reiheBaum = reiheBaumKlein(kd);
+  const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket)
+    : reiheBaum && imBaum(reiheBaum, cwd) ? schlange.filter((t) => t.stufe < REIHE_KLEIN_STUFE).length : schlange.length;
   if (belegt.length >= nk) return mit({ geholt: false, halter: belegt, wartende: schlange, wirksam: nk });
   if (eigenerRang > 0 && nk - belegt.length <= eigenerRang) return mit({ geholt: false, halter: belegt, wartende: schlange, wirksam: nk });
   return mit({ ...platzNehmen({ name, pid, dir: kd, n: hoechst, cwd, schlange }), wirksam: nk });
@@ -1108,15 +1258,18 @@ function volllaufPruefen({ env = process.env } = {}) {
 }
 
 module.exports = {
+  REIHE_KLEIN_STUFE,
   volllaufPruefen,
   UMGEBUNG_GEHALTEN, TESTLAEUFER_MERKMALE, testlaeuferMerkmale, verzeichnis, anzahl, prozessLebt, halter, lastGrenze, lastAbwarten,
   platzHolen, platzHolenMitWarten, platzFreigeben, meldungBelegt,
   wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV, artVon,
   eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren, vorfahrHaelt, geerbterPlatz, pushPauseSetzen, pushPauseEnden, fremderPush,
-  reiheLesen, reiheSetzen, reiheLoeschen, imBaum, markeHatLauf, REIHE_GUELTIG_MS, REIHE_SCHONFRIST_MS, WARTEN_S_VORGABE, wartenS,
+  reiheLesen, reiheSetzen, reiheLoeschen, imBaum, markeHatLauf, markeLaufBefund, reiheLaufMerken, prozessStart, hostGleich, platzNummern,
+  halterAlle, ticketVorrangLesen, ticketVorrangSetzen, ticketVorrangAufheben, TICKET_VORRANG_DATEI, TICKET_VORRANG_STUFE,
+  TICKET_VORRANG_HOECHSTENS_MS, REIHE_GUELTIG_MS, REIHE_SCHONFRIST_MS, WARTEN_S_VORGABE, wartenS,
   airVerzeichnis, anzahlAir, airPlatzHolen, airPlatzHolenMitWarten, airPlatzFreigeben, gleicheSitzung,
   UNLESBAR_FRIST_MS, UMGEBUNG_KLEIN, kleinVerzeichnis, anzahlKlein, KLEIN_PLAETZE_DYNAMISCH, KLEIN_DYNAMISCH_LAST, kleinPlaetzeHoechstens, kleinPlaetzeWirksam, kleinTotRaeumen, kleinGruppeEintragen, gruppeLebt, gruppeBeenden, kleinPlatzHolen, kleinPlatzHolenMitWarten, kleinPlatzFreigeben,
-  haengendRaeumen, psMitZeit, cpuKarte, HAENGEND_PROTOKOLL, HAENGT_S_VORGABE, HAENGT_CPU_S_VORGABE, haengtS, haengtCpuS,
+  haengendRaeumen, ueberzeitProtokollieren, ueberzeitZeilen, psMitZeit, cpuKarte, HAENGEND_PROTOKOLL, HAENGT_S_VORGABE, HAENGT_CPU_S_VORGABE, haengtS, haengtCpuS,
   kleinStartFrei, kleinWarteGrund, lastGrenzeVoll, lastGrenzeKlein, ZUSCHLAG_VOLL, ZUSCHLAG_KLEIN, ZUSCHLAG_FRIST_MS,
   platzSchrittSetzen, KOPF_NAME, KOPF_SCHRITT_BROWSER, KOPF_LAST_SCHRANKE,
   istTestlauf, testlaeufeBewerten, testlaeufe,

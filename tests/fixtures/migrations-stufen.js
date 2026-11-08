@@ -1135,6 +1135,12 @@ const STUFEN = [
     nachher: (d) => d.schemaVersion >= 94
                  && d.sektoren.pets.pets[0].petNameSpecies === 'Mira, Katze'
                  && !('pets' in d.sektoren.identity) },
+  { nach: 95, was: 'Register data.fragen[] (U2-ADR-523, 06.11.2026): die Stufe legt das leere Register an und schreibt sonst nichts; '
+                 + 'ein älterer Kern öffnet die Datei nur lesend. Ausführlich: tests/eintrag-fragen.test.js.',
+    baue: () => basis(94, sek('identity', { givenName: 'Erika' })),
+    vorher:  (d) => !('fragen' in d) && d.sektoren.identity.givenName === 'Erika',
+    nachher: (d) => d.schemaVersion >= 95 && Array.isArray(d.fragen) && d.fragen.length === 0
+                 && d.sektoren.identity.givenName === 'Erika' },
 ];
 
 module.exports = { STUFEN, basis };

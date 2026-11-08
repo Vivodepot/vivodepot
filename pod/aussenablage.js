@@ -14,8 +14,8 @@
                  Regelformen der Brücke (eigen, link, stelle), sonst nichts. Die Person wählt je Ablage: für eine Stelle
                  (der Pod prüft, der Betreiber sieht die Stelle) oder als Freigabe-Link (der Betreiber sieht keine Stelle,
                  öffnen kann jeder mit dem Link). Entschieden 03.11.2026.
-   - `grant`     LWS AccessGrant an den Dienst des Pods oder an die Inbox der Stelle: der Dienst wertet ihn aus, die Stelle ist
-                 die Empfängerin. Nur die Felder aus pod/lws.js grantBauen; `purpose` nur als https-Adresse, die die Person
+   - `grant`     LWS AccessGrant an den Dienst des Pods oder an die Inbox der Stelle, nur mit POST und nie in den Ordner
+                 vivodepot/ der Brücke: der Dienst wertet ihn aus, die Stelle ist die Empfängerin. Als Datei im Pod liegt er nie. Nur die Felder aus pod/lws.js grantBauen; `purpose` nur als https-Kennung (Fragment als Bezeichner erlaubt), die die Person
                  selbst eingetragen hat.
    - `ablaufliste` { fassung: 1, ablagen: [{ adresse, bis }] }: damit die Brücke Abgelaufenes ohne geöffnetes Depot löscht.
                  Nur Ablagen mit Ablauf; ohne Stelle, Art, Zweck und Grant (U2-ADR-520 Nr. 3). */
@@ -46,6 +46,15 @@
     if (typeof s !== 'string' || /[\s<>"]/.test(s)) return false;
     try { var u = new URL(s); return u.protocol === 'https:' && !u.username && !u.password && !u.hash; } catch (_) { return false; }
   }
+  /* Ein Zweck ist eine Kennung aus einem Vokabular, keine Adresse zum Abrufen. Solche Kennungen tragen oft ein Fragment
+     (https://w3id.org/dpv#ServiceProvision). Darum ist hier ein Fragment erlaubt, aber nur als Bezeichner, nicht als freier Text
+     (Befund POD-ABLAGE-MIT-ZWECK-SCHEITERT). Sonst gilt dasselbe wie für eine Adresse. */
+  function zweckIri(s) {
+    if (typeof s !== 'string' || /[\s<>"]/.test(s)) return false;
+    var i = s.indexOf('#');
+    if (i < 0) return https(s);
+    return /^#[A-Za-z0-9._~-]{1,128}$/.test(s.slice(i)) && https(s.slice(0, i));
+  }
   function json(text) { try { return JSON.parse(text); } catch (_) { return undefined; } }
 
   function aclGilt(text) {
@@ -65,7 +74,7 @@
       return Array.isArray(p.constraint) && p.constraint.every(function (c) {
         if (!nurFelder(c, CONSTRAINT_FELDER)) return false;
         if (c.leftOperand === 'dateTime') return c.operator === 'lteq' && typeof c.rightOperand === 'string' && !isNaN(Date.parse(c.rightOperand));
-        if (c.leftOperand === 'purpose') return c.operator === 'eq' && https(c.rightOperand);
+        if (c.leftOperand === 'purpose') return c.operator === 'eq' && zweckIri(c.rightOperand);
         return false;
       });
     });
@@ -101,6 +110,9 @@
   function schreiben(senden, methode, adresse, form, koerper, kopf) {
     if (METHODEN.indexOf(methode) < 0) return Promise.reject(new Error('aussenablage:methode'));
     if (!https(adresse) && !/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//.test(String(adresse))) return Promise.reject(new Error('aussenablage:adresse'));
+    // Ein Grant geht an den Dienst des Pods oder an die Inbox der Stelle, nie als Datei in den Ordner der Brücke (U2-ADR-520 Nr. 3).
+    if (form === 'grant' && methode !== 'POST') return Promise.reject(new Error('aussenablage:grant-nur-post'));
+    if (form === 'grant' && /\/vivodepot\//.test(String(adresse))) return Promise.reject(new Error('aussenablage:grant-im-pod'));
     var grund = pruefen(form, koerper);
     if (grund) return Promise.reject(new Error('aussenablage:' + grund));
     var o = { method: methode, headers: kopf || {} };

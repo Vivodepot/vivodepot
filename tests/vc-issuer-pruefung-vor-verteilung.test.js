@@ -135,7 +135,7 @@ test('[Integration] stapelAusstellen weist eine Zeile mit ungültiger Template-S
     { nr: 2, gueltig: true, bestaetigt: true, daten: { anbieterId: 'institution/boese-de', anbieterName: 'Böse', anbieterTyp: 'institution/x-de', publicKeyJwk: SENTINEL_PUBLIC_JWK, templates: [boesesTemplate], templatesJws: [boesesJws], submissionId: 's2' } },
   ];
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);
-  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), {});
+  const lauf = await V.stapelAusstellen(zeilen, (vc) => V.stelleProviderCredentialAus(vc, key), { anbieterPruefung: { abgeschaltet: true } });
   assert.equal(lauf.ausgestellt, 1);
   assert.equal(lauf.uebersprungen, 1);
   assert.equal(lauf.zeilen[0].ausgestellt, true);

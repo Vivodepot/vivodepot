@@ -231,6 +231,37 @@ hielte für „alles, was sie hat", was in Wahrheit sein Ausschnitt ist.
   ziehen sie aus dem Blatt. Wächst ein Blatt, wächst der Baustein mit — das ist bewusst so,
   aber es ist dieselbe Kopplung, die A383 an anderer Stelle gelöst hat.
 
+### Nachtrag 03.11.2026 — zu §3: „mit Wert“ heißt „mit geltendem Wert“
+
+Mit Wort vom 03.11.2026 (Befund AUSGABE-VERBORGENE-WERTE).
+
+§3 nimmt den Sensibel-Filter vom weiten Baustein, nicht das Tor. Ein Feld, das
+sein Tor verbirgt (`sichtbarWenn`, `verborgenWenn`, auch über ein selbst
+verborgenes Torfeld), hat für keinen Baustein einen Wert: Es ist eine überholte
+Angabe, etwa das Telefon des Vermieters nach der Antwort „Eigentum“ oder
+„Widerspruch registriert: ja“ nach der Antwort „kein Widerspruch“. Im Erbfall
+wäre sie falsch, nicht hilfreich. Das gilt für jeden Baustein, für die Blätter
+ohne Sensibel-Filter und für den Angehörigen-Cache. Es gilt auch, wenn nur die
+Antwort auf das Torfeld fehlt. Einer Liste fehlen je Zeile die Unterfelder, die
+das Tor der Zeile verbirgt. Maßstab ist U2-ADR-102 §1 mit dem Nachtrag vom
+03.11.2026. Gespeichert bleibt der Wert in der Datei der Person (U2-ADR-102 §4).
+
+Folge für das Fach: Es nimmt eine Einheit weiterhin nur, wenn ihr Wert im
+Zuschnitt gleich dem vollen Wert ist. Trägt eine Liste eine Zeile mit einem
+verborgenen Unterfeld, fehlt die Liste im Fach; ein verborgenes Feld fehlt dort
+ebenso. Das ist die bestehende Regel, sie greift nur öfter. Die Lese-App bleibt
+unverändert: Sie zeigt, was in der Datei steht.
+
+```konformitaet
+aussage:  Empfänger-Zuschnitt (jeder Baustein, auch der weite) und Angehörigen-Cache
+          kopieren ein Bereichsfeld nur mit geltendem Wert: das Tor wird mit
+          feldSichtbar samt Geltungsbereich geprüft, je Listenzeile das Tor der
+          Unterfelder; beide Wege stehen im Register des Ausgabe-Tor-Wächters.
+zustand:  geprüft
+herkunft: Nachtrag 03.11.2026 (mit Wort vom 03.11.2026)
+pruefung: tests/ausgabe-tor-waechter.test.js#[AUSGABE-TOR] (a) jeder Ausgabeweg im Register ruft feldSichtbar mit Geltungsbereich, das halbe Tor steht nur auf der Positivliste
+```
+
 ---
 
 *Vivodepot GmbH · 21.08.2026*

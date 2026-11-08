@@ -151,7 +151,9 @@ test('[Zweck·angehalten] kein Zweck-Schlüssel ist gebaut worden', () => {
      XML-Kommentar in der Datei. Keiner ist `zweck`; der abgewiesene Zug bleibt abgewiesen. */
   /* NACHGEZOGEN 16.10.2026 (U2-ADR-465 Nachtrag, FIM-JSON): 21 → 22. Der neue Schlüssel ist `schemaUri` — die Adresse des
      Schemas der Stelle, nur als Text, nie aufgelöst. Auch er ist NICHT `zweck`; der abgewiesene Zug bleibt abgewiesen. */
-  assert.equal(schluessel.length, 22,
+  /* NACHGEZOGEN 04.11.2026 (U2-ADR-465 Nachtrag, Vorprüfung): 22 → 23. Der neue Schlüssel ist `pruefung` — die Regeln
+     aus dem XSD der Leistung für die Vorprüfung vor dem Speichern. Auch er ist NICHT `zweck`. */
+  assert.equal(schluessel.length, 23,
     'die Schlüsselmenge hat sich verändert: ' + schluessel.join(', '));
   assert.ok(schluessel.includes('sprache'),
     'der sechzehnte Schlüssel ist `sprache` (1.0a) — steht er nicht mehr da, ist die '
@@ -162,6 +164,7 @@ test('[Zweck·angehalten] kein Zweck-Schlüssel ist gebaut worden', () => {
   assert.ok(schluessel.includes('schreiber'),
     'der achtzehnte Schlüssel ist `schreiber` (U2-ADR-257) — steht er nicht mehr da, kann ein '
     + 'Ausgabe-Modul wieder nur JSON schreiben');
+  assert.ok(schluessel.includes('pruefung'), '`pruefung` (U2-ADR-465 Nachtrag) fehlt — die Vorprüfung hätte keine Regeln');
   for (const k of ['namensraum', 'wurzel', 'hinweis']) {
     assert.ok(schluessel.includes(k), '`' + k + '` (U2-ADR-465) fehlt — eine FIM-Leistungs-XML hätte wieder keinen Namensraum, keine Wurzel oder keinen Hinweis');
   }

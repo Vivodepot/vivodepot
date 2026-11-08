@@ -52,6 +52,7 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   blackboxHerunterladen: { klasse: 'notfall', grund: 'versiegeltes Sub-Depot an die Vertretung, ohne es zu öffnen; Vertretung im Ernstfall' },
 
   flowGesundheitFhirExport: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'FHIR-IPS-Auszug an eine Stelle' },
+  flowGespraechsblatt: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Blatt mit offenen Fragen an genau einen Adressaten, zum Mitnehmen ins Gespräch (U2-ADR-523)' },
   flowIsikExport: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Vollmacht (Urschrift) und IPS als ISiK-DocumentReferences an ein Krankenhaus; hinter dem Tor der Anzeigetexte (U2-ADR-468)' },
   flowKbvPkaExport: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Vorsorgevollmacht als DPE-Bundle der KBV-Patientenkurzakte an eine Arztpraxis; Freigabe der sensiblen Felder und MyTerms vor der Datei (U2-ADR-471)' },
   flowMappeVerwahrungHerunterladen: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'das Original mit Verwahrungsnachweis an eine Stelle; die Hülle trägt Name und Kennung der Person (U2-ADR-444)' },

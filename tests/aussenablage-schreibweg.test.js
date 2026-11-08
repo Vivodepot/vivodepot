@@ -48,11 +48,30 @@ test('[Außenablage] die vier Klartexte in ihrer Form', async () => {
   const g = L.grantBauen({ stelle: 'https://stelle.example/id#it', adresse: ADR, storage: 'https://pod.example/', inbox: 'https://stelle.example/inbox/',
     zweck: 'https://stelle.example/zweck/pflegeantrag', bis: Date.UTC(2026, 11, 1) });
   assert.equal(A.pruefen('grant', JSON.stringify(g)), null, 'der Grant der Brücke geht durch');
+  // Befund POD-ABLAGE-MIT-ZWECK-SCHEITERT: Zwecke aus Vokabularen sind IRIs mit Fragment; der Grant der Brücke geht mit ihnen durch.
+  for (const zweck of ['https://w3id.org/dpv#ServiceProvision', 'https://w3id.org/dpv/purposes#ResearchAndDevelopment', 'https://zweck.example/z#a-b_1']) {
+    const mitFragment = L.grantBauen({ stelle: 'https://stelle.example/id#it', adresse: ADR, storage: 'https://pod.example/',
+      inbox: 'https://stelle.example/inbox/', zweck, bis: Date.UTC(2026, 11, 1) });
+    assert.equal(A.pruefen('grant', JSON.stringify(mitFragment)), null, 'Zweck ' + zweck);
+  }
   assert.equal(A.pruefen('ablaufliste', JSON.stringify({ fassung: 1, ablagen: [{ adresse: ADR, bis: Date.UTC(2026, 11, 1) }] })), null);
   assert.equal(A.pruefen('ablaufliste', JSON.stringify({ fassung: 1, ablagen: [] })), null);
   const a = aufnahme();
   await A.schreiben(a.senden, 'PUT', 'https://pod.example/vivodepot/', 'container', undefined, { 'If-None-Match': '*' });
   assert.equal('body' in a.gesendet[0].o, false, 'Container ohne Körper');
+});
+
+// Wächter gegen die Fehlerklasse von POD-ABLAGE-MIT-ZWECK-SCHEITERT: Jeder Zweck und Posteingang, mit dem die Pod-Strecke ablegt,
+// besteht den Schreibweg schon hier. Sonst fällt eine Abweisung erst auf dem Runner auf, als Ablage ohne Ergebnis.
+test('[Außenablage·Gleichlauf] jeder Zweck der Pod-Strecke besteht den Schreibweg', () => {
+  const spec = require('node:fs').readFileSync(require('node:path').join(__dirname, 'e2e-pod', 'pod-bruecke.spec.js'), 'utf8');
+  const zwecke = [...spec.matchAll(/const zweck = '([^']+)'/g)].map((m) => m[1]);
+  assert.ok(zwecke.length >= 1, 'Vorbedingung: die Pod-Strecke legt mit einem Zweck ab');
+  for (const zweck of zwecke) {
+    const g = L.grantBauen({ stelle: 'https://stelle.example/id#it', adresse: ADR, storage: 'https://pod.example/',
+      inbox: 'https://stelle.example/inbox/', zweck, bis: Date.UTC(2026, 11, 1) });
+    assert.equal(A.pruefen('grant', JSON.stringify(g)), null, 'Zweck der Pod-Strecke ' + zweck);
+  }
 });
 
 test('[Außenablage·Rot-Beweis] Ablaufliste mit stelle, das Klartext-Verzeichnis und anderer Klartext werden abgewiesen', () => {
@@ -72,6 +91,10 @@ test('[Außenablage·Rot-Beweis] Ablaufliste mit stelle, das Klartext-Verzeichni
     'ACL mit fremder Zeile': ['acl', PRAEFIX + eigen(false) + '# Erna Beispiel, Pflegegrad 3\n'],
     'ACL mit öffentlichem Schreiben': ['acl', PRAEFIX + '<#link> a acl:Authorization; acl:agentClass foaf:Agent; acl:accessTo <' + ADR + '>; acl:mode acl:Write.\n'],
     'Grant mit fremdem Feld': ['grant', JSON.stringify({ type: 'AccessGrant', storage: 'https://pod.example/', access: [{ type: 'AccessPolicy' }], notiz: 'Erna' })],
+    'Grant mit Zweck über http': ['grant', JSON.stringify(L.grantBauen({ stelle: 'https://stelle.example/id#it', adresse: ADR, storage: 'https://pod.example/', zweck: 'http://w3id.org/dpv#ServiceProvision' }))],
+    'Grant mit Zweck mit Anmeldedaten': ['grant', JSON.stringify(L.grantBauen({ stelle: 'https://stelle.example/id#it', adresse: ADR, storage: 'https://pod.example/', zweck: 'https://n:pw@w3id.example/dpv#ServiceProvision' }))],
+    'Grant mit Zweck mit Leerzeichen im Fragment': ['grant', JSON.stringify(L.grantBauen({ stelle: 'https://stelle.example/id#it', adresse: ADR, storage: 'https://pod.example/', zweck: 'https://w3id.org/dpv#Erna Beispiel' }))],
+    'Grant mit Posteingang mit Fragment': ['grant', JSON.stringify(L.grantBauen({ stelle: 'https://stelle.example/id#it', adresse: ADR, storage: 'https://pod.example/', inbox: 'https://stelle.example/inbox/#x' }))],
     'Grant mit Zweck als Text': ['grant', JSON.stringify({ type: 'AccessGrant', access: [{ type: 'AccessPolicy', constraint: [{ leftOperand: 'purpose', operator: 'eq', rightOperand: 'Pflegeantrag Erna' }] }] })],
     'unbekannte Form': ['notiz', 'x'],
   };

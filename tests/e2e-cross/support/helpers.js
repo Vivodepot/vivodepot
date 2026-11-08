@@ -370,7 +370,15 @@ const issuer = {
     await page.waitForSelector('#submissionStatus');
   },
   // VC ausstellen → JWS-Compact (signiertes Provider-Zertifikat) aus #jwsOut lesen.
+  // Seit dem Befund ANBIETERPRUEFUNG-STILL-UMGANGEN signiert der Aussteller nur mit ausgefülltem Pflichtblock
+  // (#apEinzelBlock): Methode, Datum, Prüfende, Beleg — wie in tests/e2e/anbieterpruefung-block.spec.js.
   async ausstellenUndJws(page) {
+    const b = page.locator('#apEinzelBlock');
+    await b.scrollIntoViewIfNeeded();
+    await b.locator('label.ap-methode', { hasText: 'Registerauszug' }).click();
+    await b.locator('input[type=date]').fill('2026-11-06');
+    await b.locator('[data-ap="geprueftVon"]').fill('Prüferin A');
+    await b.locator('input[type=file]').setInputFiles({ name: 'beleg.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 Beleg') });
     await page.click('#issueBtn');
     await page.waitForSelector('#resultCard', { state: 'visible' });
     const jws = (await page.locator('#jwsOut').textContent() || '').trim();

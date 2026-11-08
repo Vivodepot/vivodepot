@@ -7,13 +7,15 @@
    XMLHttpRequest, WebSocket). Jede andere Schreibstelle ist rot, außer den Einträgen in POSITIV, je mit Grund.
 
    Gehalten wird:
-   1. Jede Datei in pod/ und share/ wird gelesen (das Verzeichnis, keine Liste); eine neue Datei ist sofort erfasst.
+   1. Jede Datei in pod/ und share/ wird gelesen (das Verzeichnis, keine Liste); eine neue Datei ist sofort erfasst. Gelesen
+      werden .js, .mjs und jeder Skript-Block ohne src in einer .html-Datei.
    2. Außerhalb von aussenablage.js steht keine Schreibstelle außer POSITIV; jeder Eintrag in POSITIV hat noch seine Fundstelle.
    3. Die Brücke lädt aussenablage.js vor bruecke.js.
-   4. bruecke.js schreibt nur über aussenablage.js. Heute noch nicht: Befund POD-VERZEICHNIS-KLARTEXT (die Brücke legt eine
-      Kopie des Verzeichnisses im Klartext im Pod ab). Der Fix kommt mit der Anpassung der Brücke.
+   4. bruecke.js schreibt nur über aussenablage.js (Befund POD-VERZEICHNIS-KLARTEXT, geschlossen mit der Anpassung der Brücke;
+      die Kopie des Verzeichnisses liegt nur als Chiffrat im Pod, tests/pod-bruecke-verzeichnis-pod.test.js).
    Rot-Beweise: ein gepflanztes PUT mit JSON, ein POST in einer erlaubten Datei außerhalb der erlaubten Funktion, eine Methode
-   aus einer Variablen und sendBeacon werden gefunden.
+   aus einer Variablen, sendBeacon, eine nachträglich gesetzte Methode (`o.method =`), ein Request-Objekt und ein POST in einem
+   Skript-Block einer HTML-Datei werden gefunden.
    ═══════════════════════════════════════════════════════════ */
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -38,6 +40,8 @@ const MUSTER = [
   { art: 'sendBeacon', re: /\bsendBeacon\s*\(/g },
   { art: 'XMLHttpRequest', re: /\bXMLHttpRequest\b/g },
   { art: 'WebSocket', re: /\bWebSocket\s*\(/g },
+  { art: 'methode-gesetzt', re: /\.method\s*=(?!=)|\[\s*(['"`])method\1\s*\]\s*=(?!=)/g },
+  { art: 'Request', re: /\bnew\s+Request\s*\(/g },
 ];
 
 function ohneKommentare(text) {
@@ -71,10 +75,22 @@ function urteil(dateien) {
   }
   return { befunde, gefunden };
 }
+/* Eine Datei → die Teile, die als Skript laufen: .js und .mjs ganz, aus .html jeder Skript-Block ohne src (`#skriptN`). */
+function zerlegen(name, text) {
+  if (/\.m?js$/.test(name)) return { [name]: text };
+  if (!name.endsWith('.html')) return {};
+  const aus = {};
+  let i = 0;
+  for (const m of text.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
+    if (/\bsrc\s*=/i.test(m[1])) continue;
+    aus[name + '#skript' + (++i)] = m[2];
+  }
+  return aus;
+}
 function lesen() {
   const aus = {};
   for (const o of ORDNER) {
-    for (const n of fs.readdirSync(path.join(WURZEL, o))) if (n.endsWith('.js')) aus[o + '/' + n] = fs.readFileSync(path.join(WURZEL, o, n), 'utf8');
+    for (const n of fs.readdirSync(path.join(WURZEL, o))) Object.assign(aus, zerlegen(o + '/' + n, fs.readFileSync(path.join(WURZEL, o, n), 'utf8')));
   }
   return aus;
 }
@@ -98,7 +114,7 @@ test('[Außenablage·ein Weg] die Brücke lädt aussenablage.js vor bruecke.js',
   assert.ok(a < h.indexOf('<script src="bruecke.js"></script>'));
 });
 
-test('[Außenablage·ein Weg] bruecke.js schreibt nur über aussenablage.js', { todo: 'POD-VERZEICHNIS-KLARTEXT' }, () => {
+test('[Außenablage·ein Weg] bruecke.js schreibt nur über aussenablage.js', () => {
   assert.deepEqual(urteil({ 'pod/bruecke.js': lesen()['pod/bruecke.js'] }).befunde, []);
 });
 
@@ -121,4 +137,25 @@ test('[Außenablage·ohne Schlüssel] die Brücke leitet keinen Schlüssel ab un
   const verboten = /\b(decrypt|deriveBits|deriveKey|unwrapKey)\s*\(|'HKDF'|_antwortSeedHolen|aussenablage-verzeichnis\/v1/;
   assert.deepEqual(pod.filter(([, t]) => verboten.test(ohneKommentare(t))).map(([k]) => k), []);
   assert.ok(verboten.test("crypto.subtle.deriveBits({ name: 'HKDF' }, k, 256)"), 'Rot-Beweis: eine Ableitung würde gefunden');
+});
+
+/* Lücken des Wächters, geschlossen 06.11.2026: eine Methode, die nachträglich gesetzt wird, ein Request-Objekt und Skript, das
+   in einer HTML-Datei unter pod/ oder share/ steht, sowie Module mit der Endung .mjs. */
+test('[Außenablage·ein Weg·Rot-Beweis] nachträglich gesetzte Methode und Request-Objekt werden gefunden', () => {
+  const f = urteil({ 'share/x.js': "function a(u) { const o = { body: 'x' }; o.method = 'PUT'; return fetch(u, o); }\n" +
+    "function b(u) { const o = {}; o['method'] = 'POST'; return fetch(u, o); }\n" +
+    "function c(u) { return fetch(new Request(u, { body: 'x' })); }\n" +
+    "function d(o) { return o.method === 'PUT'; }\n" }).befunde;
+  assert.deepEqual(f.map((z) => z.replace(/:\d+/, '')), ['share/x.js methode-gesetzt in a', 'share/x.js methode-gesetzt in b', 'share/x.js Request in c']);
+});
+
+test('[Außenablage·ein Weg·Rot-Beweis] Skript in einer HTML-Datei und ein .mjs-Modul werden gelesen', () => {
+  const html = '<!doctype html><script src="bruecke.js"></script><script type="module">function f(u) { return fetch(u, { method: \'POST\', body: \'x\' }); }</script>';
+  const teile = zerlegen('pod/x.html', html);
+  assert.deepEqual(Object.keys(teile), ['pod/x.html#skript1']);
+  assert.deepEqual(urteil(teile).befunde.map((z) => z.replace(/:\d+/, '')), ['pod/x.html#skript1 methode in f']);
+  assert.deepEqual(Object.keys(zerlegen('share/y.mjs', "export function g(u) { return fetch(u, { method: 'PUT' }); }")), ['share/y.mjs']);
+  assert.deepEqual(zerlegen('pod/z.css', 'a { }'), {}, 'andere Dateien zählen nicht');
+  const alle = lesen();
+  assert.ok(Object.keys(alle).every((k) => /\.(m?js|html#skript\d+)$/.test(k)), Object.keys(alle).join(' '));
 });

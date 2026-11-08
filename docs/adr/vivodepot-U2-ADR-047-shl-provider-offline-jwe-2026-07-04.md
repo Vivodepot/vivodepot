@@ -136,11 +136,42 @@ derselbe Link auch für Auszüge, die die Person selbst zusammenstellt; das stan
    eigene Freigabe.
 
 **Was dieser Nachtrag nicht ändert.** Offline-Invariante (`connect-src 'none'`), JWE-Form, Ablage und Abholseite (U2-ADR-183) bleiben
-wie oben. Ob ein Link nur einmal abrufbar ist, entscheidet die Ablage, nicht dieser Weg (Befund SHL-EINMALIG-OHNE-TRAEGER, offen).
+wie oben. Ob ein Link nur einmal abrufbar ist, entscheidet die Ablage, nicht dieser Weg (Nachtrag unten, „Einmal abrufbar nur über die Ablage“).
 Der IPS-Ausbau (weitere Abschnitte) ist nicht Teil dieses Nachtrags.
 
 **Offen.** Den Validator-Beleg für den neuen Fall `ips-auszug-direkt` erzeugt `tools/link-senden-validator-beleg.js` erst auf einer
 Maschine mit Java und Netz; bis dahin gilt der Beleg für die übrigen Fälle.
+
+## Nachtrag (02.11.2026) — „Einmal abrufbar“ nur über die Ablage
+
+Der Text oben bleibt stehen. Er sagt, dass eine Person eine andere Ablage als die voreingestellte verwenden darf. Was der Link
+dann zusagt, stand nirgends: Der Dialog zeigte das One-Time-Share-Zeichen vor jeder Adresswahl, und die Hilfe nannte den Link ohne
+Bedingung „einmal abrufbar“ (Befund SHL-EINMALIG-OHNE-TRAEGER).
+
+**Grundlage.** Einmal abrufbar ist ein Link nur, wenn die Ablage die Datei nach dem ersten Abruf verbraucht. Der Kern kann das
+nicht erzwingen: Wer Datei und Link hat, entschlüsselt beliebig oft, und die SMART-Health-Links-Spezifikation kennt Einmaligkeit
+nur als Eigenschaft des Servers. Die voreingestellte Ablage verbraucht die Datei beim ersten Abruf (U2-ADR-183). Im Pod gibt es
+keinen einmaligen Abruf (U2-ADR-512 Nr. 9). Bei einer anderen Adresse weiß die Anwendung es nicht.
+
+**Entscheidung.**
+
+1. **Erkennung.** `shlEinmaligZusage(url)` sagt `ja` nur, wenn die Adresse durch `shlAblageUrlPruefen` geht, ihr Host gleich dem
+   Host von `MARKEN_ADRESSEN.shlAblage` ist und Pfad und Abfrage genau eine der zwei Formen der Ablage haben:
+   `holen.php?t=` mit 48 Kleinbuchstaben-Hexziffern oder `manifest.php?m=` mit 64. Jede andere Adresse ergibt `nein`, auch ein
+   Doppelgänger des Hosts, ein anderer Port, ein Fragment oder ein weiterer Parameter.
+2. **Anzeige am Link.** Das Ergebnis zeigt über dem Link „Einmal abrufbar · gültig bis {datum}“ (`shlZusageEinmalig`) oder
+   „Nicht einmalig · Ablauf im Link {datum}“ (`shlZusageNichtEinmalig`). Bei einer anderen Ablage trägt die Frist nur der Link
+   (`exp` ist in der SHL-Spezifikation ein Hinweis, ein Pod löscht nichts von selbst); darum dort keine Zusage „gültig bis“.
+3. **Zeichen.** Das One-Time-Share-Zeichen steht verborgen im Dialog und wird erst sichtbar, wenn der gebaute Link `ja` ergibt.
+4. **Hilfe.** Die Hilfe nennt den Link „über die voreingestellte Ablage“ einmal abrufbar und sagt, dass bei einer anderen Ablage
+   „Nicht einmalig“ am Link steht. Die sieben Tage nennt sie als Ablauf im Link; die voreingestellte Ablage löscht die Datei beim Abruf, sonst nach Ablauf
+   (täglicher Aufräumlauf, U2-ADR-183).
+5. **Vermerk.** Die Nachfrage für „Herausgegeben“ belegt den Umfang mit Host und Zusage vor („Link über {host} · …“).
+
+**Was dieser Nachtrag nicht ändert.** Schlüssel, JWE, Payload des Links (`_shlTeile`, `_jweCompactDir`, `shlUriBauen`) und der
+SHL-ABLAGE-URL-BLOCK bleiben gleich, ebenso `connect-src 'none'`. Fremde Ablagen bleiben erlaubt. Ob die Ablage den Code von
+U2-ADR-183 wirklich fährt, kann der Kern nicht nachsehen. Ein Partnerprodukt mit eigener `MARKEN_ADRESSEN.shlAblage` bekommt `ja`
+nur für die zwei Formen dieser Ablage; ob sein Host verbraucht, ist dort nachzuweisen.
 
 ## Konformität
 
@@ -210,4 +241,17 @@ herkunft:  U2-ADR-047-Nachtrag (02.11.2026)
 pruefung:  tests/link-senden-patient-summary.test.js#[Link senden·Patient Summary·Gegenrichtung] nur das andere Feld gewählt: nur dieses steht im Link
 pruefung:  tests/link-senden-patient-summary.test.js#[Link senden·Patient Summary·Wege] dieselbe Verdrahtung wie der Anlass-Auszug: ein Blob, zwei Türen; programmatischer Aufruf nur Datei; Sub-Depot wie der Download
 pruefung:  tests/link-senden-auszug.test.js#[Link senden·Auszug] der Schalter steht seit L1b an; auszugLinkTeile rufen nur die Antwort, der Anlass-Auszug und die Patient Summary
+```
+
+*Bindung nachgetragen 02.11.2026 (Nachtrag 02.11.2026, „Einmal abrufbar“ nur über die Ablage).*
+
+```konformitaet
+aussage:   „Einmal abrufbar“ sagt die Anwendung nur für einen Link auf die voreingestellte Ablage (holen.php?t=… oder
+           manifest.php?m=…); jeder andere Link, auch aus dem Pod, trägt sichtbar „Nicht einmalig“. Jede Einmaligkeits-Formel
+           in Kern und Textsätzen steht mit ihrer Bedingung in einer Liste, die nur kürzer werden darf.
+zustand:   geprüft
+herkunft:  U2-ADR-047-Nachtrag (02.11.2026, „Einmal abrufbar“ nur über die Ablage)
+pruefung:  tests/shl-einmaligkeit-zusage.test.js#[Einmalig·Erkennung] „ja“ nur für holen.php?t=<48 hex> und manifest.php?m=<64 hex> der voreingestellten Ablage, jede andere Form „nein“
+pruefung:  tests/shl-einmaligkeit-zusage.test.js#[Einmalig·Oberfläche] das Ergebnis sagt sichtbar „Einmal abrufbar“ oder „Nicht einmalig“, mit dem Datum; Pod und fremde Ablage „nicht einmalig“
+pruefung:  tests/shl-einmaligkeit-zusage.test.js#[Einmalig·Klasse·Wächter] jede Einmaligkeits-Formel in Kern und Textsätzen steht mit ihrer Bedingung in ZUSAGEN_EINMALIG, jeder Eintrag hat eine Fundstelle
 ```

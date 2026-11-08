@@ -86,7 +86,7 @@ test('[Einlass-Register 4/4] Institutions-Arten-Modul in ein offenes Depot einla
     // Vorher: nur die zwölf eingebauten. Nachher: dreizehn, die neue Art dabei, mit ihrem Label —
     // dieselbe Funktion, die die echte Auswahlmaske (_institutionFelder) speist.
     const arten = await page.evaluate(() => window.__vdOeffentlich.institutionsArtenAlle());
-    expect(arten.length, '_institutionsArtenAusDepotAnmelden muss beim Einlass laufen (nicht nur bei textsatz)').toBe(13);
+    expect(arten.length, '_institutionsArtenAusDepotAnmelden muss beim Einlass laufen (nicht nur bei textsatz)').toBe(14);   // 13 → 14 (06.11.2026, U2-ADR-523: eingebaute Art apotheke)
     const eingelassen = arten.find((a) => a.wert === KENNUNG);
     expect(eingelassen, 'die angedockte Art muss in institutionsArtenAlle() auftauchen').toBeTruthy();
     expect(eingelassen.label).toBe(LABEL);

@@ -114,6 +114,11 @@ function objektDiff(original, kopie) {
    die Kopie führt dessen Object.values() als flaches Array — INSTITUTION_ART
    vs. INSTITUTION_ART_EINGEBAUT). */
 const REGISTRY = [
+  // Befund ANBIETERPRUEFUNG-STILL-UMGANGEN (06.11.2026): der Aussteller im Browser prüft die Anbieterprüfung vor jeder Signatur
+  // mit denselben Methoden wie die Ausstellungswerkzeuge; er kann die Bibliothek nicht requiren.
+  { label: 'ANBIETERPRUEFUNG_METHODEN', art: 'liste',
+    original: { datei: 'tools/lib/anbieterpruefung.js', name: 'METHODEN' },
+    kopien: [{ datei: 'vivodepot-vc-issuer.html', name: 'ANBIETERPRUEFUNG_METHODEN' }] },
   { label: 'FORMAT_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_MODUL_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_MODUL_SCHLUESSEL' }],
@@ -122,7 +127,8 @@ const REGISTRY = [
     // FORMAT_MODUL_SCHLUESSEL-Deklaration in vivodepot-studio.html.
     // U2-ADR-465: `namensraum`, `wurzel`, `hinweis` aus demselben Grund (nur XML-Ausgabe-Module, deren
     // Werte der Kern prüft; der Generator erzeugt keine). U2-ADR-465 Nachtrag: `schemaUri` aus demselben Grund.
-    ausnahmen: ['schreiber', 'namensraum', 'wurzel', 'hinweis', 'schemaUri'] },
+    // U2-ADR-465 Nachtrag W6: `pruefung` (Vorprüfung) aus demselben Grund.
+    ausnahmen: ['schreiber', 'namensraum', 'wurzel', 'hinweis', 'schemaUri', 'pruefung'] },
   { label: 'FORMAT_ERKENNER_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' }] },
@@ -131,7 +137,8 @@ const REGISTRY = [
     kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' }],
     // U2-ADR-465: `bereich`, `fest`, `werte`, `teil` sind benannte Ausnahmen, Grund wie oben bei `namensraum`.
     // U2-ADR-465 Nachtrag: `anhang`, `pflicht`, `vertreter` aus demselben Grund (nur XML-Ausgabe-Module, die das Studio nicht erzeugt).
-    ausnahmen: ['bereich', 'fest', 'werte', 'teil', 'anhang', 'pflicht', 'vertreter'] },
+    // U2-ADR-465 Nachtrag (Angaben für einen Antrag): `abgeleitet`, `antrag` aus demselben Grund.
+    ausnahmen: ['bereich', 'fest', 'werte', 'teil', 'anhang', 'pflicht', 'vertreter', 'abgeleitet', 'antrag'] },
   { label: 'BRANDING_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'BRANDING_MODUL_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'BRANDING_MODUL_SCHLUESSEL' }],

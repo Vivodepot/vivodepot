@@ -53,6 +53,7 @@ const SKOS_KONTEXT = Object.freeze({
   skos: 'http://www.w3.org/2004/02/skos/core#',
   dct: 'http://purl.org/dc/terms/',
   owl: 'http://www.w3.org/2002/07/owl#',
+  schema: 'https://schema.org/',
 });
 
 function adresse(kennung) { return ADRESS_BASIS + kennung; }
@@ -96,6 +97,8 @@ function begriff(f, kennungen) {
   if (t) k['skos:broader'] = { '@id': adresse(t) };
   if (f.status !== 'permanent') k['owl:deprecated'] = true;
   if (f.nachfolger) k['dct:isReplacedBy'] = { '@id': adresse(f.nachfolger) };
+  // Ein Verweisfeld auf eine Person aus „Meine Menschen“ (Lücke 4 A1): sein Wert ist eine Person mit den Feldern unter `verweistAuf`.
+  if (f.verweistAuf) k['schema:rangeIncludes'] = { '@id': adresse(f.verweistAuf) };
   // Entsprechungen (der Erzeuger des Feldregisters, entsprechungenAnhaengen): je Grad der SKOS-Bezug, nur die IRI der Gegenseite.
   for (const e of f.entsprechungen || []) {
     const rel = SKOS_BEZUG[e.grad];
@@ -163,6 +166,9 @@ function begriffSeite(f) {
   if ((f.entsprechungen || []).length) {
     z.push('    <dt>Entsprechungen · Mappings</dt><dd>' + f.entsprechungen.map((e) => '<code>' + htmlText(SKOS_BEZUG[e.grad]) + '</code> '
       + '<a href="' + htmlText(e.ziel) + '"><code>' + htmlText(e.ziel) + '</code></a>').join('<br>') + '</dd>');
+  }
+  if (f.verweistAuf) {
+    z.push('    <dt>Verweist auf · Refers to</dt><dd><a href="' + htmlText(adresse(f.verweistAuf)) + '"><code>' + htmlText(f.verweistAuf) + '</code></a></dd>');
   }
   z.push('    <dt>Adresse · Address</dt><dd><code>' + htmlText(adresse(f.kennung)) + '</code></dd>');
   z.push('    <dt>Maschinenlesbar · Machine-readable</dt><dd><a href="' + JSONLD + '">JSON-LD (SKOS)</a></dd>');
