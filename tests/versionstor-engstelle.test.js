@@ -66,8 +66,9 @@ test('[Versionstor·Engstelle] depotSerialisierenV4 hat genau einen Aufrufer: de
 });
 
 test('[Versionstor·Engstelle] depotSerialisieren trägt die Tor-Prüfung', () => {
+  /* IMPORT A6 (07.11.2026): _ankerNurLesen() ist neuere Fassung ODER Migrationswurf (s. _migrationVersuchen im Kern). */
   const f = funktionen(KERN).find((x) => x.name === 'depotSerialisieren');
-  assert.ok(f && /_ankerNeuereFassung\s*!=\s*null\)\s*_schreibenErlaubtPruefen\(\)/.test(f.rumpf), 'depotSerialisieren prüft das Tor nicht');
+  assert.ok(f && /_ankerNurLesen\(\)\)\s*_schreibenErlaubtPruefen\(\)/.test(f.rumpf), 'depotSerialisieren prüft das Tor nicht');
 });
 
 test('[Versionstor·Engstelle] jede weitere Umschlag- oder Byte-Stelle steht mit Grund in der Liste', () => {

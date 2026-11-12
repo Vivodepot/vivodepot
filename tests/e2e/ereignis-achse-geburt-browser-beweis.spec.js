@@ -35,6 +35,7 @@
    spec.js` u. a.), kein Alleingang.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen } = require('./helpers');
 
 async function gebwizStarten(page) {
@@ -44,8 +45,8 @@ async function gebwizStarten(page) {
   await expect(page.locator('.wizard-frage')).toBeVisible();
 }
 
+// Seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) ist der Namens-Schritt der erste — keine Vorschritte.
 async function bisZumNamenSchrittDurchklicken(page) {
-  for (let i = 0; i < 6; i++) await page.click('#wiz-weiter');
   await expect(page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]')).toBeVisible();
 }
 
@@ -84,7 +85,7 @@ test('Ereignis-Achse: eine Bürgerin trägt eine Geburt ein (echter Klickweg) �
   // Sub-Depot-Vorschlag erscheint (gebwiz-kind-abnahme.spec.js, Zug 4) — nicht Gegenstand dieser
   // Probe, sauber wegklicken, damit der Endzustand prüfbar ist.
   await expect(page.locator('#modal-titel')).toContainText('Eigenes Depot für Ihr Kind?');
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
   await expect(page.locator('#modal-titel')).toHaveCount(0);
 
   // NACHHER: genau EIN Dokument zu derselben Zeile trägt jetzt den geburt-Anlass. Das ist der

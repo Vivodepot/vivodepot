@@ -111,6 +111,7 @@ test('Zug 7: eine Anfrage in einer frischen Anwendung führt IN ein Depot und du
   await page.waitForSelector('#id-vorname', { state: 'visible' });
   await page.fill('#id-vorname', 'Hedwig');
   await page.fill('#id-nachname', 'Brandt');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'e2e-passwort-123');
   await page.fill('#id-pw2', 'e2e-passwort-123');
   await page.click('#m-ok');

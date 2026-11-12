@@ -176,11 +176,14 @@ test('[Anfänge·Grenzwächter] wächst oder schrumpft die Liste, ist das ein BE
      als Fund/ANFANG stehen — das ist eine Umbenennung des Schlüssels, kein Verschwinden des
      Falls (anders als bei `giltAb`/`laeuftAb` selbst, s. Test „Schnitt Glied1" oben, wo die
      Marke tatsächlich entfällt). Der ENTSCHEIDUNG-Registrierungseintrag in
-     `tools/anfaenge-falsch-abgelegt-erheben.js` wurde entsprechend umbenannt. */
+     `tools/anfaenge-falsch-abgelegt-erheben.js` wurde entsprechend umbenannt.
+     08.11.2026 (U2-ADR-465 Nr. 34, mit Wort): 9 → 11, ANFANG 7 → 9 für genau `housing.rentSubsidyFrom`
+     („Mietzuschuss seit“) und `housing.subtenants/mainResidenceSince` („Lebensmittelpunkt seit“). Beide Felder sind neu,
+     tragen keine Altdaten und stehen mit Zeile in der Erhebungsliste (`ENTSCHEIDUNG`). Nicht ummarkiert. */
   const m = mess();
-  assert.equal(m.funde.length, 9,
+  assert.equal(m.funde.length, 11,
     'die Liste hat sich verändert. Sie ist der Umfang der Migrationsstufe — die Änderung gehört '
     + 'in einen Bericht, bevor diese Zahl angefasst wird.');
-  assert.equal(m.funde.filter((f) => f.einordnung === M.ANFANG).length, 7);
+  assert.equal(m.funde.filter((f) => f.einordnung === M.ANFANG).length, 9);
   assert.equal(m.funde.filter((f) => f.einordnung === M.BEIDES).length, 2);
 });

@@ -26,8 +26,8 @@ const depot = (u) => 'VIVODEPOT\u0001' + JSON.stringify(u, null, 2);
 
 test('[Pod-Brücke·Chiffrat] die drei Formen des Kerns gehen durch', () => {
   assert.deepEqual(C.pruefen(jwe({ alg: 'dir', enc: 'A256GCM', cty: 'application/fhir+json' })), { art: 'shl' });
-  assert.deepEqual(C.pruefen(jwe({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2c: 600000, p2s: 'x', typ: 't', cty: 'json', vorgang: 'v' }, b64u('ek'))), { art: 'antwort' });
-  assert.deepEqual(C.pruefen(jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', vorgang: 'v', epk: {}, apv: 'dg', pad: '...' })), { art: 'antwort' });
+  assert.deepEqual(C.pruefen(jwe({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2c: 600000, p2s: 'x', typ: 't', cty: 'json', kennung: 'a4WHfFYRmMRfrMf88oNP-Q' }, b64u('ek'))), { art: 'antwort' });
+  assert.deepEqual(C.pruefen(jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', kennung: 'a4WHfFYRmMRfrMf88oNP-Q', epk: {}, apv: 'YTRXSGZGWVJtTVJmck1mODhvTlAtUQ', pad: '...' })), { art: 'antwort' });
   assert.deepEqual(C.pruefen(depot(huelleV3)), { art: 'depot' });
   assert.deepEqual(C.pruefen(depot(huelleV4)), { art: 'depot' });
 });
@@ -47,8 +47,8 @@ test('[Pod-Brücke·Chiffrat·Rot-Beweis] Klartext und alles, was nicht genau di
     'ECDH-ES+A256KW (schreibt der Kern nicht)': jwe({ alg: 'ECDH-ES+A256KW', enc: 'A256GCM', epk: {} }, b64u('k')),
     'SHL-Kopf mit fremdem Feld': jwe({ alg: 'dir', enc: 'A256GCM', cty: 'x', name: 'Erna Beispiel' }),
     'Antwort-Kopf mit fremdem Feld': jwe({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2s: 'x', p2c: 1, notiz: 'Erna' }, b64u('ek')),
-    'Antwort-Kopf mit anbieter (U2-ADR-520 Nr. 3)': jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', vorgang: 'v', anbieter: 'a', epk: {}, apv: 'dg' }),
-    'Antwort-Kopf mit Text im pad': jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', vorgang: 'v', epk: {}, apv: 'dg', pad: 'Erna' }),
+    'Antwort-Kopf mit anbieter (U2-ADR-520 Nr. 3)': jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', kennung: 'a4WHfFYRmMRfrMf88oNP-Q', anbieter: 'a', epk: {}, apv: 'YTRXSGZGWVJtTVJmck1mODhvTlAtUQ' }),
+    'Antwort-Kopf mit Text im pad': jwe({ alg: 'ECDH-ES', enc: 'A256GCM', typ: 't', cty: 'json', kennung: 'a4WHfFYRmMRfrMf88oNP-Q', epk: {}, apv: 'YTRXSGZGWVJtTVJmck1mODhvTlAtUQ', pad: 'Erna' }),
     'Hülle mit Ort-Hinweis (U2-ADR-520 Nr. 3)': depot(Object.assign({ angehoerigenOrt: 'Ordner im Flur' }, huelleV3)),
     'Hülle mit Zeitpunkt des Stands': depot(Object.assign({ stand_marke: 'm' }, huelleV4)),
     'JWS statt JWE': [b64u({ alg: 'ES256' }), b64u({ name: 'Erna' }), b64u('sig')].join('.'),

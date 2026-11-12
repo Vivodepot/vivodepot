@@ -6,7 +6,10 @@
    (U2-ADR-449). `enc` is always A256GCM; `alg` is one of
      · ECDH-ES (direct key agreement, RFC 7518 §4.6) on P-256 — opened with your private key file, or
      · PBES2-HS512+A256KW (RFC 7518 §4.8) with p2c = 600000 exactly — opened with the one-time password.
-   The protected header is readable and bound as AAD; it names the case (`vorgang`), never a value.
+   The protected header is readable and bound as AAD. It carries a random identifier of the reply (`kennung`, also bound into
+   the key agreement as `apv` and repeated inside as `anfrage.kennung`), never your case number and never a value. The case
+   number (`vorgang`) is inside the encrypted data set (`anfrage.vorgang`). Replies from older versions carried `vorgang` in the
+   header instead of `kennung`; this file reads both.
 
    Any JOSE library can open it. With `jose`, set `maxPBES2Count` to at least 600000. This file does it by hand with
    WebCrypto so you can see every step, and it applies the same checks as the Vivodepot read-only viewer:
@@ -19,7 +22,7 @@
    SIGNED REPLIES (U2-ADR-501). Since version v931 the reply inside the JWE is a JWS Compact (`cty` `JWT`), signed by the person
    with an Ed25519 key that exists only for your organisation. This file checks it: `typ` vivodepot-antwort+jwt, `alg` Ed25519
    (EdDSA still read), the public key in the header (OKP/Ed25519, no private part), `kid` = its RFC 7638 thumbprint if present, no
-   `crit`, a valid signature, `iat`, `aud` and the case number. It then returns the data set without `iat`, `aud`, `anfrageAbdruck`.
+   `crit`, a valid signature, `iat`, `aud` and the reply identifier (`kennung`; replies up to v1050: the case number). It then returns the data set without `iat`, `aud`, `anfrageAbdruck`.
    The signature shows that the entries are unchanged since signing and which key signed them; it does not prove who the person is.
    A reply that is not signed because the person's browser cannot create Ed25519 signatures carries `unsigniert: "browser"`; it is
    reported as such. Unsigned replies from versions that do not sign yet (plain JSON) open as before.
@@ -128,7 +131,10 @@ async function signierteAntwortPruefen(kopf, jws) {
   const n = JSON.parse(Buffer.from(b64u(teile[1])).toString('utf8'));
   if (typeof n.iat !== 'number' || !(n.iat > 0)) throw new Error('jws: iat missing');
   if (typeof n.aud !== 'string' || !n.aud) throw new Error('jws: aud missing');
-  if (!n.anfrage || n.anfrage.vorgang !== kopf.vorgang) throw new Error('jws: signed for a different case');
+  // The header binds the signed data to this message: by `kennung` (current replies) or by `vorgang` (older replies).
+  if (typeof kopf.kennung === 'string' && kopf.kennung) {
+    if (!n.anfrage || n.anfrage.kennung !== kopf.kennung) throw new Error('jws: signed for a different reply');
+  } else if (!n.anfrage || n.anfrage.vorgang !== kopf.vorgang) throw new Error('jws: signed for a different case');
   const datensatz = {};
   for (const k of Object.keys(n)) if (!JWS_ANSPRUECHE.includes(k)) datensatz[k] = n[k];
   return { kopf, datensatz, signatur: { zustand: 'signiert', aud: n.aud, abdruck, signiertAm: new Date(n.iat * 1000).toISOString() } };
@@ -150,8 +156,9 @@ async function hauptprogramm(argv) {
   const a = argumente(argv);
   const schluessel = a.schluessel ? { privateJwk: JSON.parse(fs.readFileSync(a.schluessel, 'utf8')) } : { passwort: a.passwort };
   const { kopf, datensatz, signatur } = await antwortOeffnen(fs.readFileSync(a.datei, 'utf8'), schluessel);
-  // The case number is in the protected header and inside the data set. Compare it with the one you asked for.
-  if (a.vorgang && kopf.vorgang !== a.vorgang) throw new Error('reply is for case "' + kopf.vorgang + '", not "' + a.vorgang + '"');
+  // The case number is inside the data set (older replies also had it in the header). Compare it with the one you asked for.
+  const fall = (datensatz.anfrage && datensatz.anfrage.vorgang) || kopf.vorgang;
+  if (a.vorgang && fall !== a.vorgang) throw new Error('reply is for case "' + fall + '", not "' + a.vorgang + '"');
   console.log(JSON.stringify(datensatz, null, 2));
   // The signature as facts, never as a verified identity: unchanged since signing, by this key, for this recipient identifier.
   if (signatur.zustand === 'signiert') console.warn('signed for ' + signatur.aud + ' with key ' + signatur.abdruck + ' at ' + signatur.signiertAm);

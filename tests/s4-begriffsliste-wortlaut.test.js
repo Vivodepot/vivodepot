@@ -89,11 +89,7 @@ const ALT_NEU = [
   // real eine Datei (`speichernOderFehlschlagMarkieren`/`passwortWechselDurchfuehren` bzw. der
   // `aufDatei`-Zweig von `ueberschreibText`) — die starke Garantie ist zutreffend, „gespeichert"
   // war die Begriffsliste-Verletzung, nicht der Sachverhalt.
-  {
-    schluessel: 'pwSetzenFertig',
-    alt: 'Passwort gesetzt — Ihr Depot ist jetzt verschlüsselt gespeichert.',
-    neu: 'Passwort gesetzt — Ihr Depot ist jetzt verschlüsselt gesichert.',
-  },
+  // pwSetzenFertig stand hier bis 07.11.2026; der Schlüssel entfiel mit dem namenlosen Passwort-Dialog (Rückbau des Vorschau-Passwortwegs).
   {
     // Trug bislang BEIDE Vokabeln für dieselbe Handlung im selben Satz („gesichert und neu
     // abgespeichert") — das „abgespeichert" am Ende entfällt, nicht nur umbenannt.

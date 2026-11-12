@@ -25,6 +25,12 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern, webcrypto } = require('./load-kern.js');
 const { ladeLesen } = require('./load-lesen.js');
+/* Der Datensatz, wie er ankommt: der Kern legt die zufällige Kennung des Kopfs als anfrage.kennung hinein (U2-ADR-520 Nr. 3). */
+const wieAngekommen = (ds, jwe) => {
+  const e = JSON.parse(JSON.stringify(ds));
+  e.anfrage = Object.assign({}, e.anfrage, { kennung: JSON.parse(Buffer.from(jwe.split('.')[0], 'base64url').toString('utf8')).kennung });
+  return e;
+};
 
 // Test-Anker der Suite (Sentinel), derselbe wie in tests/k9-fremde-vorlage-dokument.test.js — nie der Laufzeit-Anker.
 const SENTINEL_PRIVATE_JWK = Object.freeze({
@@ -170,7 +176,7 @@ test('[Vorlagen-Rückweg·P5] die Antwort geht als JWE hinaus, die Lese-App öff
   const jwe = await V.antwortVerschluesseln(ds, a, { passwort: EINMAL });
   const L = ladeLesen().V;
   const offen = await require('./helfer/antwort-datensatz.js').datensatzAusJwe(L, jwe, { passwort: EINMAL });
-  assert.deepEqual(offen, JSON.parse(JSON.stringify(ds)));
+  assert.deepEqual(offen, wieAngekommen(ds, jwe));
   assert.equal(offen.antwortAuf[0].antworten[ANB(A)].wert, 'Praxis Dr. Muster');
 });
 

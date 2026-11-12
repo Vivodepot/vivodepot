@@ -29,7 +29,7 @@ const DEPOT = 'VIVODEPOT\u0001' + JSON.stringify({ kryptoVersion: 3, depotUUID: 
 const b64u = (o) => Buffer.from(typeof o === 'string' ? o : JSON.stringify(o)).toString('base64url');
 const STELLE = 'https://stelle.example/profile/card#me';
 const SHL = [b64u({ alg: 'dir', enc: 'A256GCM', cty: 'application/fhir+json' }), '', b64u('iv'), b64u('c'), b64u('tag')].join('.');
-const ANTWORT = [b64u({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2c: 600000, p2s: 'x', typ: 't', cty: 'json', vorgang: 'v' }), b64u('ek'), b64u('iv'), b64u('c'), b64u('tag')].join('.');
+const ANTWORT = [b64u({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2c: 600000, p2s: 'x', typ: 't', cty: 'json', kennung: 'a4WHfFYRmMRfrMf88oNP-Q' }), b64u('ek'), b64u('iv'), b64u('c'), b64u('tag')].join('.');
 
 async function seite(quelle = QUELLE) {
   const elemente = {};

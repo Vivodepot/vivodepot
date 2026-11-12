@@ -218,9 +218,10 @@ test('[ADR-333] die neuen Arten treffen keinen Knoten der bestehenden Orte', () 
     + 'erweiterte Vokabular sein Verhalten, und das war beim Bau ausdruecklich ausgeschlossen');
 
   /* Die Gegenkontrolle: dass ueberhaupt Knoten mit diesen NAMEN existieren. Ohne sie
-     bestuende die Probe auch dann, wenn der Gang gar nichts mehr besuchte. */
-  assert.ok(objektArten.length >= 7,
-    'erwartet: die sieben Assistenten mit ihrem `abschluss`-Knoten. Gefunden: '
+     bestuende die Probe auch dann, wenn der Gang gar nichts mehr besuchte. Seit dem Assistenten-Urteil W04 (07.11.2026) ist
+     der Anamnese-Assistent gestrichen; es bleiben sechs. */
+  assert.ok(objektArten.length >= 6,
+    'erwartet: die sechs Assistenten mit ihrem `abschluss`-Knoten. Gefunden: '
     + objektArten.length + ' — findet die Probe sie nicht mehr, prueft sie ins Leere');
 });
 

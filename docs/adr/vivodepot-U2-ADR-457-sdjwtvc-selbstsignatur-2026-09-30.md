@@ -38,7 +38,11 @@ eingearbeitet.
    - Der private Schlüssel wird nur nicht extrahierbar importiert, allein für `sign`.
    - Den öffentlichen Schlüssel berechnet eine eingebettete Bibliothek aus einer Kopie des Seeds (`getPublicKey`), siehe
      „Bibliothek“ unten. Genau eine Stelle im Kern reicht sie hinein (`_halterSignaturHolen`), gezählt in
-     `tools/krypto-aufrufer-grundlinie.json`. Aus der Bibliothek wird nur `getPublicKey` genutzt.
+     `tools/krypto-aufrufer-grundlinie.json`. *(Berichtigt 02.11.2026, Befund KRYPTO-AUFRUFER-BLIND: Seit U2-ADR-501 Wagen V4
+     ruft auch der Antwortschlüssel je Stelle die Bibliothek, direkt, und der Wächter zählte nur die Übergabe als Wert. Heute
+     reicht `_ed25519SchluesselAusSeed` sie mit einem direkten Aufruf hinein, für den Antwortschlüssel je Stelle und den
+     Schlüssel je Datei-Ausgabe; `_halterSignaturHolen` übergibt sie als Wert, bis die alte Kette zurückgebaut ist. Der Wächter
+     zählt beide Formen, die Stellen bindet `tests/krypto-aufrufer-noble-seed.test.js`.)* Aus der Bibliothek wird nur `getPublicKey` genutzt.
    - **Selbstprobe im gepinnten Block:** Eine feste, domänengetrennte Nachricht (`vivodepot-halter-selbstprobe-1/` plus
      depot-uuid) wird mit dem WebCrypto-Schlüssel signiert und mit WebCrypto `verify` gegen das berechnete `x` geprüft, nicht
      mit der Bibliothek. Scheitert sie, gibt es keinen Schlüssel und keinen Rückfall.
@@ -124,6 +128,23 @@ Verformbarkeit von Signaturen in verify). Die Zeile oben lautet richtig: keine S
 Bibliothek je aufruft, braucht vorher diesen Fix. Eine Probe hält das über jede Erzeugnis-Datei: der Block fehlt, oder er
 reicht nur getPublicKey hinaus.
 
+**Nachtrag 02.11.2026, Schlüssel je Ausgabe (ersetzt Punkt 2 für alle Datei-Ausgaben).** Maßstab ist Datenschutz durch
+Technikgestaltung nach Art. 25 DSGVO, hier das Gewährleistungsziel Nichtverkettung (Standard-Datenschutzmodell V3.1, C1.5);
+Hersteller sollen nach ErwG 78 dazu ermutigt werden. Mit dem Schlüssel aus Punkt 2 trug jede Ausgabe desselben Depots bis zum
+nächsten Passwortwechsel (Punkt 7) denselben `cnf.jwk` und `kid`; zwei Stellen, die ihre Dateien vergleichen, konnten sie derselben Person zuordnen,
+ohne dass ein Feld es offenlegt.
+1. Jede SD-JWT-VC-Ausgabe bekommt einen eigenen Ed25519-Schlüssel aus 32 Byte `crypto.getRandomValues`, nirgends gespeichert
+   (`sdjwtSchluesselJeAusgabe`). Seed und PKCS#8-Puffer werden überschrieben; privat nur nicht extrahierbar; den öffentlichen
+   Schlüssel liefert wie in Punkt 3 die eingebettete Bibliothek mit Selbstprobe (`_ed25519SchluesselAusSeed`, gemeinsam mit dem
+   Schlüssel je Stelle nach U2-ADR-501). Nicht `generateKey`: den öffentlichen Schlüssel gäbe es dann nur über `exportKey`.
+2. Die Signatur belegt danach, dass die Datei seit dem Signieren unverändert ist und zum Schlüssel in ihrem Kopf passt. Sie belegt
+   keine Wiedererkennung derselben Person über Ausgaben hinweg. Ein Key-Binding für Datei-Ausgaben gibt es weiter nicht (Punkt 5);
+   die Präsentation an eine Stelle behält ihren Schlüssel je Stelle (U2-ADR-502).
+3. Ältere Ausgaben mit dem Schlüssel aus Punkt 2 prüfen weiter; der Import liest den Schlüssel aus dem Kopf.
+4. `deriveHalterSignaturV4` und `VdCrypto.halterSignatur` haben keinen Ausgabeweg mehr. Sie liegen im festgeschriebenen Block der
+   Krypto-Hülle; ihr Rückbau geht mit der nächsten Festschreibung. Bis dahin prüft `tests/holder-schluessel-unverknuepfbar.test.js`,
+   dass außer den Gliedern dieser Kette selbst nichts sie ruft, im Kern und in den anderen Oberflächen.
+
 ## Was nicht entschieden ist
 
 - **Registrierte `vct`** statt `urn:vivodepot:*`: Es gibt dafür heute weder ein Rulebook noch einen Katalogeintrag (Teil 2 von
@@ -158,6 +179,21 @@ konformitaet:
         "[SD-JWT·Selbstsignatur·Schlüssel] dieselbe Sitzung → derselbe Schlüssel; anderes Passwort oder Depot → ein anderer; nicht extrahierbar"
       - tests/sdjwt-selbstsignatur.test.js
         "[SD-JWT·Selbstsignatur·Domäne] die Ableitung ist von Depot- und Adressschlüssel getrennt"
+  - aussage: >-
+      Jede SD-JWT-VC-Ausgabe trägt einen eigenen, zufälligen Schlüssel; zwei Ausgaben derselben Sitzung tragen nie denselben;
+      der Zufall wird überschrieben, der private Schlüssel ist nicht extrahierbar, und kein Ausgabeweg ruft den Schlüssel aus dem
+      Passwort.
+    zustand: erfuellt
+    herkunft: Art. 25 DSGVO · SDM V3.1 C1.5, U2-ADR-457-Nachtrag (02.11.2026)
+    pruefung:
+      - tests/holder-schluessel-unverknuepfbar.test.js
+        "[Holder·je Ausgabe P1] zwei Ausgaben derselben Sitzung tragen verschiedene Schlüssel"
+      - tests/holder-schluessel-unverknuepfbar.test.js
+        "[Holder·je Ausgabe P3] der Zufall wird überschrieben; privat nicht extrahierbar; kein generateKey/exportKey für Ed25519"
+      - tests/holder-schluessel-unverknuepfbar.test.js
+        "[Holder·je Ausgabe P4] kein Ausgabeweg ruft den Schlüssel je Depot; der SD-JWT-Weg nimmt den Schlüssel je Ausgabe"
+      - tests/holder-schluessel-unverknuepfbar.test.js
+        "[Holder·Rot-Beweis P1] mit dem Schlüssel je Depot trügen zwei Ausgaben denselben Schlüssel"
   - aussage: >-
       alg gehört zum Schlüssel; none und HS* sind abgelehnt.
     zustand: erfuellt
@@ -207,7 +243,11 @@ konformitaet:
       - tests/halter-schluessel-noble.test.js
         "[Halter·noble·Pfad] der Kern ruft aus der Bibliothek nur getPublicKey; equals bleibt auf dem Pfad ungerufen (NBL-03-007)"
       - tests/halter-schluessel-noble.test.js
-        "[Halter·Aufrufer] genau eine Stelle im Kern reicht die Bibliothek in die Ableitung"
+        "[Halter·Aufrufer] eine Übergabe und ein direkter Aufruf reichen die Bibliothek in die Ableitung"
+      - tests/krypto-aufrufer-noble-seed.test.js
+        "[Noble·Seed] im Kern genau ein direkter Aufruf (_ed25519SchluesselAusSeed) und eine Übergabe als Wert (_halterSignaturHolen)"
+      - tests/krypto-aufrufer-noble-seed.test.js
+        "[Noble·Seed·Rot-Beweis] ein zweiter direkter Aufruf fällt im Wächter und in der Stellenliste auf"
       - tests/halter-schluessel-noble.test.js
         "[Halter·noble·Erzeugnisse] in jeder Erzeugnis-Datei fehlt der Bibliotheksblock, oder er reicht nur getPublicKey hinaus"
       - tests/halter-schluessel-noble.test.js

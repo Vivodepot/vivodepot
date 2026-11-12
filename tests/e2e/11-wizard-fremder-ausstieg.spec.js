@@ -74,7 +74,7 @@ async function ausSpeicher(page) {
 async function toastTexte(page) {
   return page.$$eval('#toast-host .toast', els => els
     .map(e => e.textContent)
-    .filter(t => !/^Gespeichert\./.test(t) && !/internen Speicher/.test(t)));
+    .filter(t => !/^Gespeichert\./.test(t) && !/internen Speicher/.test(t) && !/^Ihre Datei ist nicht aktuell/.test(t)));   // die Sicherungs-Erinnerung (C02) gehört nicht zum Ausstieg
 }
 
 test.beforeEach(async ({ page }) => {

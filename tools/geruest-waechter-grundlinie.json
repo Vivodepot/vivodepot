@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 292574
+   "bytes": 308499
   },
   "satz": {
-   "bytes": 27825
+   "bytes": 27597
   }
  },
  "fremdcode": [
@@ -2929,6 +2929,357 @@
    "auf": 292574,
    "daneben": {},
    "grund": "Kind-Datei im Pod: Ablauf nachtragen und auf den Jahreswechsel umstellen (Auftrag mit Ablauf an die Brücke), Person verknüpfen (Auswahl-Markup im Pod-Schritt)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 298307,
+   "auf": 298520,
+   "daneben": {},
+   "grund": "M27/C14 auf F6 (v1047): Schritt-Markierung im Vorschau-Passwortweg und Verweis-Chip im Blatt einer Situation, gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 293110,
+   "auf": 293433,
+   "daneben": {},
+   "grund": "Notfall-Ansicht auf Zielbild 06 umgebaut: Gruppenkarten, Personenzeilen mit antippbarer Nummer und deren Schutzstil",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 293433,
+   "auf": 293549,
+   "daneben": {},
+   "grund": "Notfall-Sicht nach Zielbild: Schlusssatz unter der Ansicht, aktiver Seitenleisten-Eintrag Notfall, Tableiste als Rahmen der App in ueberdeckenErlaubt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 293549,
+   "auf": 293623,
+   "daneben": {},
+   "grund": "Notfall-Sicht nach Zielbild: Schlusssatz, aktiver Eintrag Notfall, Tableiste als Rahmen der App nur in Leistenform (Laufzeitprobe)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 293623,
+   "auf": 293639,
+   "daneben": {},
+   "grund": "Notfall-Knopf der Seitenleiste markiert sich in der Notfall-Sicht als aktiv",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 297602,
+   "auf": 298058,
+   "daneben": {},
+   "grund": "Notfall-Ansicht nach Zielbild 06 mit Tableiste in Leistenform (Z11), auf die Kette nach dem Rückbau des Vorschau-Passwortwegs gesetzt, gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 292574,
+   "auf": 300681,
+   "daneben": {
+    "satz": -174
+   },
+   "grund": "Wagen v1050: Vorschau-Passwortweg mit Schritt 2, Assistenten nach Urteil W03/W04, Notfall-Raster mit einer Tableiste, Kopfzeile des Sub-Depots im schmalen Fenster",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 300681,
+   "auf": 300716,
+   "daneben": {},
+   "grund": "notfallTelHref: nur Ziffern und führendes + als tel:-Ziel, sonst kein Link (Probe tests/notfall-tel-verweis.test.js)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 292574,
+   "auf": 292627,
+   "daneben": {},
+   "grund": "Chip „Beispiel“ auf dem Blatt der Vorführung (_blattBeispielChip), Demo Fragen am Eintrag, 08.11.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 292627,
+   "auf": 292718,
+   "daneben": {},
+   "grund": "PID-Identität: Import liest place_of_birth (geburtsortAusPid) und die Kontaktnamen beider Fassungen, Befund PID-KONTAKT-CLAIMNAMEN/PID-BIRTHPLACE-STRUKTUR (08.11.2026, neu aufgesetzt aus 08759cb21)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 292718,
+   "auf": 294045,
+   "daneben": {},
+   "grund": "L6 Freigabe-Link im Kern einlesen (Nachtrag U2-ADR-183), neu aufgesetzt 08.11.2026 auf 9e5855ffa",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 294045,
+   "auf": 294584,
+   "daneben": {},
+   "grund": "A3: Uebersicht und Lese-App zeigen Felder einer verwiesenen Person je Person",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 294584,
+   "auf": 295528,
+   "daneben": {},
+   "grund": "B23 Herausgabe Z1–Z3 (Format je Bereich, Zweck vorbelegt, Auswahl behalten), neu aufgesetzt 08.11.2026 auf 9e5855ffa",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 295528,
+   "auf": 296258,
+   "daneben": {
+    "satz": -47
+   },
+   "grund": "Import A6 und A8 auf v1049 umgesetzt: Text- und Knopf-Mechanik der Migration und des Ziehens",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 296258,
+   "auf": 296862,
+   "daneben": {},
+   "grund": "W2a-3 auf der Fixkette: Felder, Lookup und Bereichsmechanik zu Mietkosten und Anmeldung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 296862,
+   "auf": 297350,
+   "daneben": {},
+   "grund": "08.11.2026 Topf B je Format (Befund ACADEMICDEGREE-OHNE-CLAIM, Klasse): 23 Feldnamen der Identität, Bildungsangaben und Finanzen, +488 Byte",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 297350,
+   "auf": 297449,
+   "daneben": {},
+   "grund": "Holder-Schlüssel je Ausgabe und Antwortschlüssel je Anfrage bei ungeprüfter Stelle (Nachträge U2-ADR-457 und U2-ADR-501)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 297449,
+   "auf": 298919,
+   "daneben": {
+    "satz": -47
+   },
+   "grund": "Import-Anzeige neu auf dem Kanon 9e5855ffa (eine Anzeige für alle Import-Arten), gemessen 08.11.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 298919,
+   "auf": 299388,
+   "daneben": {},
+   "grund": "Sicherung zur Probe öffnen: Zurücklesen nach dem Schreiben, Prüfweg, Knopf in den Einstellungen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299388,
+   "auf": 299431,
+   "daneben": {},
+   "grund": "P03: Karte mit einem Knopf und Abschnitt Für Sie persönlich (09.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299431,
+   "auf": 299476,
+   "daneben": {
+    "satz": -7
+   },
+   "grund": "Attrappen-Fächer und Formprüfung der Umschlagstabelle (U2-ADR-520 Nr. 3, HUELLE-AUFBAU-VERDECKEN)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299476,
+   "auf": 299505,
+   "daneben": {},
+   "grund": "Zwei Rücknahme-Einträge und nachZahl im Kern (Befund B04, neu aufgesetzt auf v1051-Kopf)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299505,
+   "auf": 299548,
+   "daneben": {},
+   "grund": "Chip-Feld dosis, Schema 96, IPS dosage.text",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299548,
+   "auf": 299566,
+   "daneben": {},
+   "grund": "Dosis eines Medikaments am Chip und in der Import-Vorschau sichtbar, zwei Anzeigefunktionen, nur Lesen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299526,
+   "auf": 299777,
+   "daneben": {},
+   "grund": "POD-Rückprobe: die Bezeichner des Rückwegs stehen benannt im Struktur-Deckel (09.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299777,
+   "auf": 299908,
+   "daneben": {},
+   "grund": "Fehlerbeschreibung nach einem Migrationswurf: Helfer und Knopf im Nur-lesend-Hinweis",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299899,
+   "auf": 299908,
+   "daneben": {},
+   "grund": "Platzhalter {kontakt} im Hinweis der Fehlerbeschreibung: die Adresse kommt von der Marke",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 299908,
+   "auf": 308050,
+   "daneben": {
+    "satz": -174
+   },
+   "grund": "Gestaltungs-Kette b20 (v1050: Vorschau-Passwortweg mit Schritt 2, Assistenten nach Urteil, Notfall-Raster, Kopfzeile des Sub-Depots) auf den Kanon neu aufgesetzt: derselbe Zuwachs wie in der Kette (292574 → 300716), +8142",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308050,
+   "auf": 308293,
+   "daneben": {},
+   "grund": "Folgewagen Identität Z1–Z6 (Zielbild 30.10.2026): Ruhezustand der Karten, Herausgeben-Block und Frühere-Namen-Zeile im Kern-Markup; gemessen 308050 → 308293 Byte",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308293,
+   "auf": 308331,
+   "daneben": {},
+   "grund": "Zielbild z2/z3: Identitätszeile, Kopfzeile bei schmaler Breite und die Vorführung öffnet zugeklappte Gruppenkarten (11.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308331,
+   "auf": 308499,
+   "daneben": {},
+   "grund": "Größenleiter: freie Schriftgrößen im Kern-Quelltext zeigen auf var(--fs-role-<stufe>), die Tokens sind länger als die alten; Bestandszähler, folgt aus dem Diff",
    "laengste": {
     "einzel": 0,
     "lauf": 64

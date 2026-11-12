@@ -23,7 +23,7 @@ test('pvwiz: Start in Bereich 8, Fortschritt, Weiter/Zurück, Abbrechen → Ausg
   // Startknopf (ohne Sammel-Überschrift). Die verbleibende Aufklapp-Zeile ist die Anlass-Kategorie
   // „Übergänge" (pflwiz/heirwiz) — pvwiz liegt NICHT darin. Der defensive Klick öffnet sie höchstens
   // harmlos; pvwiz ist ohnehin direkt sichtbar.
-  const gefuehrt = page.locator('.wizard-gruppe > summary');
+  const gefuehrt = page.locator('.bereich-assistenten .wizard-gruppe > summary');
   if (await gefuehrt.count()) await gefuehrt.click();
 
   // Datenlage-adaptiver Startknopf (leer → „erstellen").

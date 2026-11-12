@@ -46,7 +46,11 @@
                   "typ": "ref",
                   "entitaet": "person",
                   "mitGeburt": true,
-                  "verweisZweck": "familiaer"
+                  "verweisZweck": "familiaer",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": ""
+                  }
                 },
                 {
                   "id": "type",
@@ -74,19 +78,30 @@
                 },
                 {
                   "id": "typeAdditionalDetail",
-                  "typ": "text"
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": ""
+                  }
                 },
                 {
                   "id": "note",
                   "typ": "textarea",
-                  "beispiel": ""
+                  "beispiel": "",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": ""
+                  }
                 },
                 {
                   "id": "legalRepresentationParental",
                   "typ": "auswahl",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   },
                   "optionen": [
                     {
@@ -108,7 +123,10 @@
                   "typ": "text",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -123,7 +141,10 @@
                   ],
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -131,7 +152,10 @@
                   "typ": "auswahl",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   },
                   "optionen": [
                     {
@@ -147,7 +171,10 @@
                   "typ": "datum",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -156,7 +183,10 @@
                   "typ": "text",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -170,7 +200,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   },
                   "optionen": [
@@ -196,7 +227,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 },
@@ -211,7 +243,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 },
@@ -226,7 +259,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 },
@@ -243,7 +277,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 }

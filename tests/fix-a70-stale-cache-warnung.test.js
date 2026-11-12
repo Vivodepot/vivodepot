@@ -1,8 +1,8 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════
-   A70 — proaktive Stale-Cache-Warnung im Fuß
+   A70 — proaktive Stale-Cache-Warnung (Band im Banner-Stapel; bis 1.11.2026 im Fuß, der mit der Seite „Über und Hinweise“ entfallen ist)
    ────────────────────────────────────────────────────────────────────────
-   `caches.keys()` beim Fuß-Render lesen, die höchste dort gefundene Schalen-
+   `caches.keys()` beim Aufbau des Bands lesen, die höchste dort gefundene Schalen-
    Generation (`vivodepot-shell-vNN`) gegen die geladene (`SCHALEN_STAND`)
    halten. Weichen sie ab, hat der Service Worker beim letzten Online-Moment
    (`registration.update()`, braucht Netz) bereits eine neuere Schale
@@ -48,31 +48,32 @@ test('[A70·Vorprüfung] SCHALEN_STAND hat die erwartete Form (vNN) — sonst pr
 });
 
 test('[A70] eine bereits installierte, neuere Schale löst die Warnung im Fuß aus', async () => {
+  // Der Testname bleibt; die Warnung steht seit 1.11.2026 im Band #stale-band statt im Fuß.
   const stand = ladeKern().V.SCHALEN_STAND;
   const hoeher = naechsteGeneration(stand);
   const k = await bereit({ caches: mockCaches(['vivodepot-shell-' + stand, 'vivodepot-shell-' + hoeher]) });
-  k.V.renderFooter();
-  await k.V._staleCacheWarnungAnzeigen();
-  const html = k.document.getElementById('app-fuss').innerHTML;
-  assert.match(html, /ff-stale-warnung/, 'kein Warnungs-Element im Fuß');
-  assert.ok(html.includes(k.V.STRINGS.fussStaleCacheWarnung), 'Warntext (final vereinbarter Wortlaut) fehlt');
+  await k.V.staleBandAktualisieren();
+  const band = k.document.getElementById('stale-band');
+  assert.match(band.innerHTML, /stale-warnung/, 'kein Warnungs-Element im Band');
+  assert.equal(band.hidden, false, 'das Band ist sichtbar');
+  assert.ok(band.innerHTML.includes(k.V.STRINGS.fussStaleCacheWarnung), 'Warntext (final vereinbarter Wortlaut) fehlt');
 });
 
 test('[A70·Negativkontrolle] Gleichstand — keine höhere Generation im Cache — zeigt KEINE Warnung', async () => {
   const stand = ladeKern().V.SCHALEN_STAND;
   const k = await bereit({ caches: mockCaches(['vivodepot-shell-' + stand]) });
-  k.V.renderFooter();
-  await k.V._staleCacheWarnungAnzeigen();
-  const html = k.document.getElementById('app-fuss').innerHTML;
-  assert.doesNotMatch(html, /ff-stale-warnung/, 'Gleichstand darf keine Warnung zeigen');
+  await k.V.staleBandAktualisieren();
+  const band = k.document.getElementById('stale-band');
+  assert.doesNotMatch(band.innerHTML, /stale-warnung/, 'Gleichstand darf keine Warnung zeigen');
+  assert.equal(band.hidden, true, 'das Band bleibt verborgen');
 });
 
 test('[A70·Negativkontrolle] keine Cache-API (älterer Browser) — keine Warnung, kein Absturz', async () => {
   const { V, document } = await bereit({});   // kein opts.caches -> kein `caches`-Global im Sandkasten
-  assert.doesNotThrow(() => V.renderFooter());
-  await assert.doesNotReject(V._staleCacheWarnungAnzeigen());
-  const html = document.getElementById('app-fuss').innerHTML;
-  assert.doesNotMatch(html, /ff-stale-warnung/, 'ohne Cache-API darf keine Warnung stehen');
+  await assert.doesNotReject(V.staleBandAktualisieren());
+  const band = document.getElementById('stale-band');
+  assert.doesNotMatch(band.innerHTML, /stale-warnung/, 'ohne Cache-API darf keine Warnung stehen');
+  assert.equal(band.hidden, true, 'das Band bleibt verborgen');
 });
 
 test('[A70] registration.update() schlägt fehl (offline) — die Prüfung bricht trotzdem nicht ab', async () => {

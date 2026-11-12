@@ -15,6 +15,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
+const { echteFachZahl } = require('./lib/echte-faecher.js');   // Attrappen-Fächer: echte Fächer zählen, nicht Einträge (04.11.2026)
 const F = require('../tools/format-pruefen.js');
 
 const REPO = path.join(__dirname, '..');
@@ -36,7 +37,7 @@ test('[Polster·UTF-8] Umlaut, Emoji und ein 120 Zeichen langer Emoji-Name: alle
     await V.empfaengerkreisFachEinrichten(V.empfaengerkreiseListe()[i], 'polster-probe-fach-' + i, 'Ort ' + i);
   }
   const u = await V.depotSerialisieren();
-  assert.equal(u.umschlagTabelle.length, NAMEN.length + 1, 'Positivkontrolle: Anker und vier Fächer');
+  assert.equal(await echteFachZahl(V, u), NAMEN.length, 'Positivkontrolle: Anker und vier Fächer');
   assert.equal(laengen(u).length, 1, 'eine Geheimteil-Länge: ' + laengen(u).join(', '));
   assert.equal(umschlagLaengen(u).length, 1, 'eine Umschlaglänge');
   const r = await F.dateiPruefen('VIVODEPOT' + String.fromCharCode(1) + JSON.stringify(u));

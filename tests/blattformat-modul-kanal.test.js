@@ -161,6 +161,7 @@ test('[blattformat·Gegenprobe] bei A4 (210mm) bleiben QR-Position und Textbreit
   const doc = fakeDoc(210, 297);
   V.zeichneWiderrufPdf(doc, e, nutzlast, 'data:image/png;base64,FAKE');
   const img = doc._bilder[0];
-  assert.equal(img.x, 150, 'bei A4 unveraendert x=150, wie vor der Korrektur hartkodiert');
-  assert.ok(splitBreiten.includes(120), 'Textbreite mit QR bleibt bei A4 120, wie vorher hartkodiert');
+  // Zielbild S6 (31.10.2026): Rand 18 mm, QR 36 mm rechts bündig; daneben Beschriftung und Wert in zwei Spalten.
+  assert.equal(img.x, 156, 'bei A4 steht der QR rechts bündig am Rand (210 - 18 - 36)');
+  assert.ok(splitBreiten.includes(78), 'die Wertspalte neben dem QR ist bei A4 78 mm breit');
 });

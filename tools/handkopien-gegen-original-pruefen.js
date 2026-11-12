@@ -138,7 +138,8 @@ const REGISTRY = [
     // U2-ADR-465: `bereich`, `fest`, `werte`, `teil` sind benannte Ausnahmen, Grund wie oben bei `namensraum`.
     // U2-ADR-465 Nachtrag: `anhang`, `pflicht`, `vertreter` aus demselben Grund (nur XML-Ausgabe-Module, die das Studio nicht erzeugt).
     // U2-ADR-465 Nachtrag (Angaben für einen Antrag): `abgeleitet`, `antrag` aus demselben Grund.
-    ausnahmen: ['bereich', 'fest', 'werte', 'teil', 'anhang', 'pflicht', 'vertreter', 'abgeleitet', 'antrag'] },
+    // U2-ADR-465 Nachtrag (05.11.2026): `leer` (die Unterschrift, bei der Stelle ausgefüllt) aus demselben Grund.
+    ausnahmen: ['bereich', 'fest', 'werte', 'teil', 'anhang', 'pflicht', 'vertreter', 'abgeleitet', 'antrag', 'leer'] },
   { label: 'BRANDING_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'BRANDING_MODUL_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'BRANDING_MODUL_SCHLUESSEL' }],

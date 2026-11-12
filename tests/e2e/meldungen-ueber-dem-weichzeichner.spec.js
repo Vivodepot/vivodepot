@@ -22,7 +22,7 @@ async function oeffnen(page, breite) {
   // Der sichtbare Weg zum Anlegen: der Hinweis oben ODER die Karte im Inhalt (eine Anlege-Aufforderung je Ansicht).
   await page.waitForSelector(h.ANLEGE_WEG_KANON + ':visible', { state: 'attached' });
   await page.click(h.ANLEGE_WEG_KANON + ':visible');                                   // öffnet den Anlege-Dialog (#modal-rueck.an)
-  await page.waitForSelector('#modal-rueck.an #id-pw', { state: 'visible' });
+  await page.waitForSelector('#modal-rueck.an #id-vorname', { state: 'visible' });
 }
 async function messen(page, art) {
   return page.evaluate(({ host, html }) => {

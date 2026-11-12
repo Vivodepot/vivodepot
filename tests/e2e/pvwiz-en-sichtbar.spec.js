@@ -28,7 +28,7 @@ test('[pvwiz·EN] der PV-Assistent in privat-en zeigt keinen deutschen Assistent
   await oeffneApp(page, { url: KERN_URL_PRIVAT_EN });
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
-  const gruppe = page.locator('.wizard-gruppe > summary');
+  const gruppe = page.locator('.bereich-assistenten .wizard-gruppe > summary');
   if (await gruppe.count()) await gruppe.first().click();
   await expect(page.locator('[data-wizard-start="pvwiz"]')).toBeVisible();
   await page.click('[data-wizard-start="pvwiz"]');

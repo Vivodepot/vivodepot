@@ -45,7 +45,9 @@ function formFehler(html) {
 
 test('[Bildmarke·Formen] jeder Aufrufort übergibt eine feste Klasse als Literal', () => {
   const aufrufe = KERN.match(/_vdBildmarkeHTML\(([^)]*)\)/g).filter((a) => !/_vdBildmarkeHTML\(klasse\)/.test(a));
-  assert.ok(aufrufe.length >= 7, 'Aufruforte gefunden: ' + aufrufe.length);
+  // 7 -> 5 (06.11.2026): das Fenster „Depot anlegen“ (Zielbild 01) und die entfallene Anlass-Überlagerung tragen keinen Kopf mit Bildmarke mehr.
+  // 5 -> 4 (08.11.2026): das Fenster zum Setzen des Passworts (Vorschau-Passwortweg mit Schritt 2) trägt keinen Kopf mit Bildmarke mehr.
+  assert.ok(aufrufe.length >= 4, 'Aufruforte gefunden: ' + aufrufe.length);
   for (const a of aufrufe) assert.match(a, /^_vdBildmarkeHTML\('[a-z-]+'\)$/, a);
 });
 

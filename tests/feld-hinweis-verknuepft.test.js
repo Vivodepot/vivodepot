@@ -103,7 +103,15 @@ test('[Feld-Hinweis·Rot-Beweis] der Kern vor dem Helfer (a8243ba7e) hat unverkn
     const KI_REGION = '/* AB_WERK_KI_KORPUS:BEGIN */\nconst AB_WERK_KI_KORPUS = null;\n/* AB_WERK_KI_KORPUS:END */\n';
     const altText = vorher('vivodepot.html');
     assert.ok(altText.includes('/* AB_WERK_DOKUMENTE_DE:BEGIN */'), 'Vorbedingung: der alte Kern trägt die Region AB_WERK_DOKUMENTE_DE');
-    fs.writeFileSync(alt, altText.includes('/* AB_WERK_KI_KORPUS:BEGIN */') ? altText : altText.replace('/* AB_WERK_DOKUMENTE_DE:BEGIN */', KI_REGION + '/* AB_WERK_DOKUMENTE_DE:BEGIN */'));
+    // Seit dem Assistenten-Urteil W03 (07.11.2026) trägt das Rezept keinen `optionenAus`-Verweis mehr; der alte Kern wirft dann in
+    // _wizardOptionenAusMaterialisieren. Er bekommt die Vorbedingung des heutigen Kerns: geworfen wird nur, wenn die Quelle der
+    // Assistenten einen Verweis trägt. Am Befund (Hinweise ohne Verknüpfung) ändert das nichts.
+    const ALT_WACHE = 'function _wizardOptionenAusMaterialisieren(wizardsAngewandt) {';
+    const NEU_WACHE = ALT_WACHE + "\n  wizardsAngewandt = wizardsAngewandt && JSON.stringify(AB_WERK_WIZARD_QUELLEN).includes('\"optionenAus\"');";
+    let altKern = altText.includes('/* AB_WERK_KI_KORPUS:BEGIN */') ? altText : altText.replace('/* AB_WERK_DOKUMENTE_DE:BEGIN */', KI_REGION + '/* AB_WERK_DOKUMENTE_DE:BEGIN */');
+    assert.ok(altKern.includes(ALT_WACHE), 'Vorbedingung: der alte Kern trägt _wizardOptionenAusMaterialisieren');
+    altKern = altKern.replace(ALT_WACHE, NEU_WACHE);
+    fs.writeFileSync(alt, altKern);
     const { fehler, gezaehlt } = pruefe(ladeV({ htmlPfad: alt, backen: true }), 'alt');
     assert.ok(gezaehlt > 100, 'der alte Kern rendert keine Felder mit Hinweis — der Rot-Beweis prüft nichts');
     assert.ok(fehler.length > 100, 'der alte Kern wurde nicht als unverknüpft erkannt (' + fehler.length + ' Funde)');

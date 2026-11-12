@@ -52,7 +52,7 @@ const FELDER = ['adresse', 'art', 'stelle', 'bis', 'am', 'grant', 'ueberDienst']
 
 const b64u = (o) => Buffer.from(typeof o === 'string' ? o : JSON.stringify(o)).toString('base64url');
 const SHL = [b64u({ alg: 'dir', enc: 'A256GCM', cty: 'application/fhir+json' }), '', b64u('iv'), b64u('c'), b64u('tag')].join('.');
-const ANTWORT = [b64u({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2c: 600000, p2s: 'x', typ: 't', cty: 'json', vorgang: 'v' }), b64u('ek'), b64u('iv'), b64u('c'), b64u('tag')].join('.');
+const ANTWORT = [b64u({ alg: 'PBES2-HS512+A256KW', enc: 'A256GCM', p2c: 600000, p2s: 'x', typ: 't', cty: 'json', kennung: 'a4WHfFYRmMRfrMf88oNP-Q' }), b64u('ek'), b64u('iv'), b64u('c'), b64u('tag')].join('.');
 const DEPOT = 'VIVODEPOT\u0001' + JSON.stringify({ kryptoVersion: 3, depotUUID: 'u', pbkdf2: { salt: 's', iterations: 600000 }, depotSalt: 'd', iv: 'i', ct: 'c' });
 const puffer = (s) => { const u = new TextEncoder().encode(s); return u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength); };
 const warten = (ms = 20) => new Promise((r) => setTimeout(r, ms));

@@ -1,0 +1,169 @@
+{
+  "format": "showcaseDepot/1",
+  "owner": "Gerda Mustermann",
+  "hinweis": "Erfundene Beispielperson für die Demos. Verwitwet: es gibt keinen Ehegatten, der sie nach § 1358 BGB vertreten dürfte. Die Festlegungen der Patientenverfügung stehen unter den Schlüsseln, unter die der Assistent schreibt (U2-ADR-440); jede ist sensibel und hier einzeln freigegeben. „freigegeben“: geschützte Angaben, die sie ausdrücklich zum Herausgeben freigegeben hat (dieselbe Entscheidung wie im Produkt). Telefon im reservierten Beispielbereich, keine Nummer realer Herkunft. Fragen am Eintrag (06.11.2026, Demo fragen-am-eintrag): eine Apotheke als Kontakt und zwei Fragen, an die Bank am Girokonto und an die Apotheke an der Medikation; sie gehen über den Schreibweg des Kerns ins Depot.",
+  "people": [
+    {
+      "key": "anna",
+      "name": "Anna Mustermann",
+      "beziehung": "Tochter",
+      "tel": "+49 30 0000041"
+    },
+    {
+      "key": "hausarzt",
+      "name": "Praxis am Beispielplatz",
+      "fachrichtung": "Allgemeinmedizin",
+      "tel": "+49 30 0000042",
+      "adresse": "Am Beispielplatz 4, 10000 Beispielstadt"
+    }
+  ],
+  "institutions": [
+    {
+      "key": "kasse",
+      "name": "Beispielkasse",
+      "art": "krankenkasse"
+    },
+    {
+      "key": "bank",
+      "name": "Beispielbank",
+      "art": "bank"
+    },
+    {
+      "key": "apotheke",
+      "name": "Beispiel-Apotheke",
+      "art": "apotheke"
+    }
+  ],
+  "fields": {
+    "identity.givenName": "Gerda",
+    "identity.familyName": "Mustermann",
+    "identity.birthDate": "1944-03-11",
+    "identity.maritalStatus": "verwitwet",
+    "identity.street": "Beispielgasse",
+    "identity.houseNumber": "9",
+    "identity.postalCode": "10000",
+    "identity.city": "Beispielstadt",
+    "health.generalPractitioner": {
+      "person": "hausarzt"
+    },
+    "health.healthInsurance": {
+      "institution": "kasse"
+    },
+    "health.emergencyContacts": [
+      {
+        "person": "anna"
+      }
+    ],
+    "health.medicationOngoing": [
+      {
+        "text": "Apixaban 2,5 mg, morgens und abends (Blutverdünner)"
+      },
+      {
+        "text": "Bisoprolol 2,5 mg, morgens"
+      }
+    ],
+    "advanceCare.applicableSituations": [
+      "sterbeprozess",
+      "endstadium"
+    ],
+    "advanceCare.lifeSustainingMeasures": "unterlassen",
+    "advanceCare.resuscitationInAllCases": "ab_ausser_op",
+    "advanceCare.whoseViewMattersIfUnregulated": "bevollmaechtigt"
+  },
+  "lists": {
+    "advanceCare.provisionInstruments": [
+      {
+        "instrument": "enduring-power-of-attorney",
+        "typeOfPowerOfAttorney": "vorsorge",
+        "form": "beglaubigt",
+        "authorizedPersons": [
+          {
+            "person": "anna"
+          }
+        ],
+        "healthCareGeneralDecision": "ja",
+        "healthCareMedicalProcedures": "ja",
+        "storageLocation": "Ordner „Vorsorge“, Wohnzimmerschrank; Kopie bei Anna"
+      },
+      {
+        "instrument": "living-will",
+        "storageLocation": "Ordner „Vorsorge“, Wohnzimmerschrank; Kopie beim Hausarzt",
+        "dateOfLastChange": "2024-02-20"
+      }
+    ],
+    "finance.accounts": [
+      {
+        "institution": {
+          "institution": "bank"
+        },
+        "accountType": "Girokonto",
+        "iban": "DE00 0000 0000 0000 0000 00"
+      }
+    ]
+  },
+  "kreise": [
+    {
+      "id": "kreis-anna",
+      "name": "Anna (Tochter, bevollmächtigt)",
+      "bausteine": [
+        "bereich:identity",
+        "bereich:health",
+        "bereich:advanceCare",
+        "bereich:people"
+      ]
+    }
+  ],
+  "freigegeben": [
+    "advanceCare.provisionInstruments[enduring-power-of-attorney].healthCareGeneralDecision",
+    "advanceCare.provisionInstruments[enduring-power-of-attorney].healthCareMedicalProcedures",
+    "advanceCare.provisionInstruments[enduring-power-of-attorney].storageLocation",
+    "advanceCare.provisionInstruments[living-will].storageLocation",
+    "advanceCare.applicableSituations",
+    "advanceCare.resuscitationInAllCases",
+    "advanceCare.whoseViewMattersIfUnregulated",
+    "health.medicationOngoing",
+    "health.generalPractitioner"
+  ],
+  "uebersetzung": {
+    "en": {
+      "fields.identity.street": "Beispielgasse",
+      "fields.identity.city": "Beispielstadt",
+      "fields.health.medicationOngoing.0.text": "Apixaban 2.5 mg, morning and evening (blood thinner)",
+      "fields.health.medicationOngoing.1.text": "Bisoprolol 2.5 mg, morning",
+      "lists.advanceCare.provisionInstruments.0.storageLocation": "Folder “Provisions”, living-room cabinet; copy with Anna",
+      "lists.advanceCare.provisionInstruments.1.storageLocation": "Folder “Provisions”, living-room cabinet; copy with the GP",
+      "lists.finance.accounts.0.accountType": "Current account",
+      "people.anna.beziehung": "daughter",
+      "people.hausarzt.fachrichtung": "General practice",
+      "fragen.0.frage": "Will there be new fees for the current account from January?",
+      "fragen.1.frage": "May I take ibuprofen with my blood thinner when needed?"
+    }
+  },
+  "fragen": [
+    {
+      "key": "bankfrage",
+      "ziel": {
+        "bereich": "finance",
+        "feld": "accounts",
+        "eintrag": 0
+      },
+      "an": {
+        "institution": "bank"
+      },
+      "frage": "Fallen für das Girokonto ab Januar neue Gebühren an?",
+      "gestellt": "2026-11-02"
+    },
+    {
+      "key": "apothekenfrage",
+      "ziel": {
+        "bereich": "health",
+        "feld": "medicationOngoing"
+      },
+      "an": {
+        "institution": "apotheke"
+      },
+      "frage": "Darf ich zu meinem Blutverdünner bei Bedarf Ibuprofen nehmen?",
+      "gestellt": "2026-11-03"
+    }
+  ]
+}

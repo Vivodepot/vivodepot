@@ -15,7 +15,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { _standardProduktBaken } = require('./load-kern.js');
+const { _standardProduktBaken, ladeKern } = require('./load-kern.js');
 const S = require('../tools/vorfuehrung-showcase-erzeugen.js');
 
 let _V = null;
@@ -70,17 +70,53 @@ test('[Listen-Unterfeld·Klasse] jedes als sensibel markierte Listen-Unterfeld b
   assert.deepEqual(abfluss.slice(0, 5), [], abfluss.length + ' von ' + alle.length + ' markierten Unterfeldern gehen trotzdem hinaus');
 });
 
-test('[Listen-Unterfeld·Klasse·Gegenprobe] jedes ausdrücklich freigegebene Listen-Unterfeld geht in zusammenstellungDatensatz mit', () => {
+/* Das Tor der Definition (`verborgenWenn`, TOR-IN-DER-DEFINITION): ein Unterfeld hinter einem geschlossenen Tor steht nicht im Datensatz,
+   wie am Bildschirm. Seit der Art-Wahl (Abnahme v998, Fund 7) schließt das Tor auch, solange die Art leer ist — im leeren Eintrag dieser
+   Probe also. Gemessen wird mit der Tor-Funktion des Kerns am leeren Eintrag, ohne Namensliste. */
+let _trifft = null;
+function torZu(V, kennung) {
+  if (!_trifft) _trifft = ladeKern({ zusatzBindungen: ['verborgenWennTrifft'] }).V.__zusatz.verborgenWennTrifft;
+  const d = V.kennungFeldDef(kennung);
+  return !!(d && d.verborgenWenn && _trifft(d.verborgenWenn, {}));
+}
+/* Rein: ein freigegebenes Unterfeld ist „mit“, „weg wegen Tor“ (nicht im Datensatz UND Tor zu) oder „gesperrt“. */
+function einordnenFreigegeben(ergebnis, zu) {
+  if (ergebnis === 'mit') return 'mit';
+  return (ergebnis === 'weg' && zu) ? 'tor' : 'gesperrt';
+}
+
+test('[Listen-Unterfeld·Klasse·Gegenprobe] jedes ausdrücklich freigegebene Listen-Unterfeld geht in zusammenstellungDatensatz mit (hinter geschlossenem Tor: weg wegen Tor)', () => {
   const V = leeresDepot();
   const alle = alleListenUnterfelder(V);
-  const gesperrt = [];
+  const gesperrt = [], wegenTor = [];
   for (const { kennung, sel } of alle) {
     V.getData().sensibelFelder = {};
     V.sensibelFeldSetzen(sel.sektorId, sel.feldId, false);
-    if (entscheidung(V, kennung) !== 'mit') gesperrt.push(kennung);
+    const art = einordnenFreigegeben(entscheidung(V, kennung), torZu(V, kennung));
+    if (art === 'gesperrt') gesperrt.push(kennung);
+    else if (art === 'tor') wegenTor.push(kennung);
   }
   V.getData().sensibelFelder = {};
   assert.deepEqual(gesperrt.slice(0, 5), [], gesperrt.length + ' von ' + alle.length + ' freigegebenen Unterfeldern bleiben trotzdem zurück');
+  assert.ok(wegenTor.length < alle.length / 2, 'Ausbeute: höchstens die Unterfelder hinter einem Tor fallen weg (' + wegenTor.length + ')');
+});
+
+test('[Listen-Unterfeld·Klasse·Gegenprobe·Rot-Beweis] fehlt ein freigegebenes Unterfeld bei offenem Tor, ist es gesperrt — das Tor entschuldigt nur ein geschlossenes', () => {
+  const V = leeresDepot();
+  const alle = alleListenUnterfelder(V);
+  const offen = alle.find((x) => !torZu(V, x.kennung));
+  const zu = alle.find((x) => torZu(V, x.kennung));
+  assert.ok(offen && zu, 'Vorbedingung: Unterfelder mit offenem und mit geschlossenem Tor');
+  // Ein echtes Fehlen bei offenem Tor: das Unterfeld ist markiert und fehlt darum im Datensatz.
+  V.getData().sensibelFelder = {};
+  V.sensibelFeldSetzen(offen.sel.sektorId, offen.sel.feldId, true);
+  const e = entscheidung(V, offen.kennung);
+  V.getData().sensibelFelder = {};
+  assert.notEqual(e, 'mit', 'Vorbedingung: das markierte Unterfeld fehlt');
+  assert.equal(einordnenFreigegeben(e, torZu(V, offen.kennung)), 'gesperrt', 'offenes Tor: die Gegenprobe wäre rot');
+  assert.equal(einordnenFreigegeben('weg', false), 'gesperrt');
+  assert.equal(einordnenFreigegeben('zurueck', true), 'gesperrt', 'auch hinter geschlossenem Tor entschuldigt das Tor nur „weg“');
+  assert.equal(einordnenFreigegeben('weg', true), 'tor');
 });
 
 test('[Listen-Unterfeld·Klasse·Anlass] anlassDatensatz: jedes Listen-Unterfeld eines Anlasses folgt der Entscheidung der Person', () => {

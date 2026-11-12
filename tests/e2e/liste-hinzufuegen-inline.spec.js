@@ -3,8 +3,8 @@
    ─────────────────────────────────────────────────────────────────
    Bei leerer Liste stehen die Eingaben des ersten Eintrags direkt im Bereich; der Eintrag entsteht, wenn der Fokus die Gruppe
    verlässt, und der Fokus steht danach im nächsten Feld. Ab einem Eintrag steht darunter „Weitere(s) <Einzelname> hinzufügen“,
-   ohne Plus. Einträge mit mehr als sechs Teilen zeigen nur den benennenden Teil und „Alle Angaben“, das den Dialog mit dem schon
-   Eingegebenen öffnet. Die Eingaben des ersten Eintrags tragen einen eigenen Namensraum (data-eintrag-*): sie sind kein Bereichsfeld,
+   ohne Plus. Einträge mit mehr als sechs Teilen zeigen nur den benennenden Teil und „Alle Angaben“, das darunter aufklappt
+   (Bedienmuster 12, weitereAngabenHTML), ohne Dialog. Die Eingaben des ersten Eintrags tragen einen eigenen Namensraum (data-eintrag-*): sie sind kein Bereichsfeld,
    werden nie als solches gespeichert und kollidieren mit keiner Kennung des Bereichs. */
 const { test, expect } = require('@playwright/test');
 const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
@@ -52,34 +52,42 @@ test('[Hinzufügen·Inline·Fokus] per Tastatur aus dem ersten Eintrag heraus: d
   expect(aktiv.imContent, 'der Fokus steht im Bereich').toBe(true);
 });
 
-test('[Hinzufügen·Groß] mehr als sechs Teile: nur der benennende Teil und „Alle Angaben“, das den Dialog vorbelegt öffnet', async ({ page }) => {
+test('[Hinzufügen·Groß] mehr als sechs Teile: nur der benennende Teil und „Alle Angaben“, das darunter aufklappt, ohne Dialog', async ({ page }) => {
   await bereitsicht(page, 'advanceCare');
   const inline = page.locator('#content [data-liste-inline="provisionInstruments"]');
-  await expect(inline.locator('[data-sub-zeile]')).toHaveCount(1);
+  // Sichtbar heißt auch: nicht im geschlossenen Aufklapper (dort steht ohne eigenes hidden z. B. „Unterschriebenes Dokument“).
+  await expect(inline.locator('[data-sub-zeile]:not([hidden])').filter({ visible: true })).toHaveCount(1);
+  const kopf = inline.locator('[data-weitere-angaben-kopf="weitere-provisionInstruments"]');
+  await expect(kopf).toHaveAttribute('aria-expanded', 'false');
   const art = inline.locator('select').first();
   await art.selectOption('will');
-  await inline.locator('[data-eintrag-alle-angaben="provisionInstruments"]').click();
-  await expect(page.locator('#modal-rueck.an')).toBeVisible();
-  await expect(page.locator('#modal-inhalt .liste-eintrag-form select').first()).toHaveValue('will');
+  await kopf.click();
+  await expect(kopf).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#modal-rueck.an'), 'kein Dialog').toBeHidden();
+  await expect(inline.locator('select').first()).toHaveValue('will');
+  await expect(page.locator('#' + (await kopf.getAttribute('aria-controls')))).toBeVisible();
 });
 
 /* Befund LISTE-ALLE-ANGABEN-DOPPELT (31.10.2026): der Eintrag entstand schon beim Öffnen von „Alle Angaben“, das Speichern im Dialog
-   scheiterte dann als Doppel und die Angaben im Dialog gingen verloren. Jetzt entsteht genau ein Eintrag, beim Speichern. */
-test('[Hinzufügen·Groß] „Alle Angaben“ legt den Eintrag erst beim Speichern im Dialog an, genau einen', async ({ page }) => {
+   scheiterte dann als Doppel und die Angaben im Dialog gingen verloren. Jetzt gibt es keinen Dialog: Öffnen legt nichts an, und was im
+   Aufklapper eingegeben wird, steht beim Verlassen im selben, einen Eintrag. */
+test('[Hinzufügen·Groß] „Alle Angaben“ legt beim Öffnen nichts an; beim Verlassen entsteht genau ein Eintrag mit den Angaben aus dem Aufklapper', async ({ page }) => {
   await bereitsicht(page, 'advanceCare');
   const inline = page.locator('#content [data-liste-inline="provisionInstruments"]');
   await inline.locator('select').first().selectOption('living-will');
-  await inline.locator('[data-eintrag-alle-angaben="provisionInstruments"]').click();
-  await expect(page.locator('#modal-rueck.an')).toBeVisible();
-  const anzahl = () => page.evaluate(() => (((window.__vdOeffentlich.ankerDaten().sektoren.advanceCare || {}).provisionInstruments) || []).length);
-  expect(await anzahl(), 'beim Öffnen des Dialogs entsteht noch kein Eintrag').toBe(0);
-  await page.click('#m-ok');
+  await inline.locator('[data-weitere-angaben-kopf="weitere-provisionInstruments"]').click();
   await expect(page.locator('#modal-rueck.an')).toBeHidden();
-  expect(await anzahl()).toBe(1);
+  const anzahl = () => page.evaluate(() => (((window.__vdOeffentlich.ankerDaten().sektoren.advanceCare || {}).provisionInstruments) || []).length);
+  expect(await anzahl(), 'beim Öffnen des Aufklappers entsteht noch kein Eintrag').toBe(0);
+  // Das erste sichtbare Feld: bedingte Felder (z. B. die beglaubigende Stelle, nur bei notarieller Form) bleiben verborgen.
+  const feld = inline.locator('.weitere-angaben-inhalt textarea, .weitere-angaben-inhalt input[data-eintrag-edit]:not([type=hidden]):not([type=checkbox]):not([type=date])').filter({ visible: true }).first();
+  await feld.fill('E2E-ALLE-ANGABEN');
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  await expect.poll(anzahl).toBe(1);
 });
 
-// Klassenprobe: für jede Liste jedes Bereichs, deren erster Eintrag „Alle Angaben“ zeigt, legt das Öffnen des Dialogs nichts an.
-test('[Hinzufügen·Groß·Klasse] in keinem Bereich legt „Alle Angaben“ beim Öffnen einen Eintrag an', async ({ page }) => {
+// Klassenprobe: für jede Liste jedes Bereichs, deren erster Eintrag „Alle Angaben“ zeigt, legt das Aufklappen nichts an und öffnet keinen Dialog.
+test('[Hinzufügen·Groß·Klasse] in keinem Bereich legt „Alle Angaben“ beim Öffnen einen Eintrag an oder öffnet einen Dialog', async ({ page }) => {
   test.setTimeout(180000);
   await oeffneApp(page);
   await depotAnlegen(page);
@@ -92,18 +100,20 @@ test('[Hinzufügen·Groß·Klasse] in keinem Bereich legt „Alle Angaben“ bei
     await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
     const inline = page.locator('#content [data-liste-inline="' + feld + '"]');
     if (!(await inline.count())) continue;
-    const erste = inline.locator('select[data-eintrag-edit], textarea[data-eintrag-edit], input[data-eintrag-edit]:not([type=hidden]):not([type=checkbox]):not([type=date])').first();
+    const erste = inline.locator('select[data-eintrag-edit], textarea[data-eintrag-edit], input[data-eintrag-edit]:not([type=hidden]):not([type=checkbox]):not([type=date])').filter({ visible: true }).first();
     if (!(await erste.count())) { /* der benennende Teil ist keine Eingabe zum Tippen: „Alle Angaben“ ohne Vorbelegung */ }
     else if (await erste.evaluate((el) => el.tagName === 'SELECT')) {
       const wert = await erste.evaluate((el) => [...el.options].map((o) => o.value).find((v) => v && v !== '__neu__') || '');
       if (wert) await erste.selectOption(wert);
     } else await erste.fill('Probe');
-    await inline.locator('[data-eintrag-alle-angaben="' + feld + '"]').click();
-    await expect(page.locator('#modal-rueck.an')).toBeVisible();
+    const kopf = inline.locator('[data-weitere-angaben-kopf="weitere-' + feld + '"]');
+    await kopf.click();
+    await expect(kopf).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.locator('#modal-rueck.an'), sektor + '.' + feld + ': kein Dialog').toBeHidden();
     const n = await page.evaluate(({ s, f }) => (((window.__vdOeffentlich.ankerDaten().sektoren[s] || {})[f]) || []).length, { s: sektor, f: feld });
     expect(n, sektor + '.' + feld + ': beim Öffnen von „Alle Angaben“ entsteht kein Eintrag').toBe(0);
-    await page.click('#m-abbr');
-    await expect(page.locator('#modal-rueck.an')).toBeHidden();
+    await kopf.click();
+    await expect(kopf).toHaveAttribute('aria-expanded', 'false');
     geprueft++;
   }
   expect(geprueft, 'mindestens die Vorsorge-Instrumente').toBeGreaterThanOrEqual(1);
@@ -131,7 +141,8 @@ test('[Hinzufügen·Inline·Karteileiche] Person im ersten Eintrag angelegt, Aus
   const name = 'Inline Leer Eins';
   const inline = await inlinePersonAnlegen(page, name);
   expect(await registerNamen(page), 'Voraussetzung: die Person steht nach dem Anlegen im Register').toContain(name);
-  await inline.locator('[data-eintrag-edit-ref="emergencyCarePersonContact"]').selectOption('');
+  // Seit M21 (03.11.2026) leert der Eintrag „Auswahl entfernen“ die Auswahl; der Platzhalter „Bitte wählen“ ist nicht wählbar.
+  await inline.locator('[data-eintrag-edit-ref="emergencyCarePersonContact"]').selectOption({ label: 'Auswahl entfernen' });
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
   await expect.poll(() => registerNamen(page)).not.toContain(name);
   await expect(page.locator('#content [data-feld-liste="pets"] .liste-eintraege li')).toHaveCount(0);

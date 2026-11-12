@@ -4,7 +4,7 @@
    `document.title = name + ' · v1.0-rc'` — und eine vierte Stelle baute 'v' + BUILD_VERSION, so dass die Einstellungen
    „vv1.0-rc“ zeigten. Gehalten wird: (1) BUILD_VERSION ist die einzige Stelle im Kern-Code, die einen Fassungsnamen als
    Zeichenkette trägt — kein „v1.0…“, kein „-rc“ als Literal außerhalb von Kommentaren; der statische <title> ist genau
-   „Vivodepot · “ + BUILD_VERSION; (2) keine Anzeige setzt ein weiteres „v“ davor; (3) zur Laufzeit zeigen Titel, Fußzeile
+   „Vivodepot · “ + BUILD_VERSION; (2) keine Anzeige setzt ein weiteres „v“ davor; (3) zur Laufzeit zeigen Titel, die Seite „Über und Hinweise“ (vormals Fußzeile)
    und Einstellungen genau diesen Namen; (4) die Sprachmodule und die Lese-App tragen keinen Fassungsnamen im Text;
    (5) der Name steht nur in einem Export, den niemand liest — ein Depot aus v1.0-rc und eines aus v1.0 öffnen beide. */
 const { test } = require('node:test');
@@ -73,8 +73,9 @@ test('[Versionsname] zur Laufzeit: Titel, Fußzeile und Einstellungen zeigen gen
   assert.equal(document.title, 'Vivodepot · v1.0');
   await V.depotAnlegen('versionsname-pw-2026');
   V.betreteApp();
-  const fuss = document.getElementById('app-fuss').innerHTML;
-  assert.ok(fuss.includes('v1.0.' + V.SCHALEN_STAND.replace(/^v/, '')), 'Fußzeile: v1.0.<Stand>');
+  V.oeffneUeberHinweise();   // die Fußzeile ist entfallen; die Fassung steht auf der Seite „Über und Hinweise“
+  const fuss = document.getElementById('content').innerHTML;
+  assert.ok(fuss.includes('v1.0.' + V.SCHALEN_STAND.replace(/^v/, '')), 'Seite „Über und Hinweise“: v1.0.<Stand>');
   V.flowEinstellungen();
   const einst = (document.getElementById('modal-inhalt') || {}).innerHTML || '';
   assert.ok(einst.includes('v1.0'), 'Einstellungen nennen die Fassung');

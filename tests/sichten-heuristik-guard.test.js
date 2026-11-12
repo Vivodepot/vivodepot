@@ -19,7 +19,7 @@
       zusätzliche Sicht ist (dann in die Liste aufnehmen, mit Begründung wie
       dort) oder ein Fehlalarm (dann hier in AUSGESCHLOSSENE_FEHLALARME mit
       Begründung, wie `betreteApp`/`verdrahteEinstellungen`/
-      `schliesseAnlassAuswahl` es schon sind).
+      `geheZuZuhause` es schon sind).
    ════════════════════════════════════════════════════════════════════════════ */
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -36,6 +36,7 @@ const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8
 const WEITERE_SICHTEN_NAMENTLICH = [
   'wiedereinstiegHinweisZeigen', 'zeigeInternenWiedereintritt',
   'passwortWechselAbschlussZeigen', 'notfallblattOeffnen', 'zeigeSchlussSicht',
+  'ueberHinweiseVorDepotZeigen',
 ];
 
 // Von Hand geprüft (06.09.2026) und ausdrücklich KEINE zusätzliche Sicht — jede ruft nur eine
@@ -48,7 +49,7 @@ const AUSGESCHLOSSENE_FEHLALARME = [
   'klartextBindungHinweisZeigen', 'abWerkErsetztHinweisZeigen', 'erweiterungenWahlZeigen',
   'migrationsHinweisZeigen', 'akteurBootstrapFehlerHinweisZeigen', 'notfallblattAnbieten', 'neuereFassungHinweisZeigen',
   // Orchestrator/Schließer/Navigation — Ziel ist ausschließlich eine schon gezählte Sicht:
-  'betreteApp', 'schliesseAnlassAuswahl', 'geheZuZuhause', 'vorschauVerwerfenUndZuhause',
+  'betreteApp', 'geheZuZuhause', 'vorschauVerwerfenUndZuhause',   // schliesseAnlassAuswahl entfiel mit Zielbild 04
   'akutZurueck', 'angehoerigenBlattZurueck', 'booteEingang',
   // Wizard-Schrittsteuerung — bewegt sich INNERHALB des schon über `fn:renderWizard` gezählten
   // Wizard-Renderers, öffnet keine eigene Sicht (a5/B6b zählt die Wizard-Schritte selbst, über
@@ -60,6 +61,9 @@ const AUSGESCHLOSSENE_FEHLALARME = [
   // `renderSaveStatus`, das schon in Klasse 3 (nullstellige render*) gezählt ist:
   'markiereBasislinieOhneVorherigeSitzung', 'markiereGespeichert', 'markiereAlsDateiGesichert',
   'markiereDateiSicherungUnbestaetigt',
+  // Zeigt nur einen kurzen Toast ohne eigenen Inhalt und stößt renderSaveStatus an; der ganze Satz steht im
+  // Blatt am Kopf-ⓘ (speicherHinweisOeffnen). Entschieden 02.11.2026, genau dieser eine Name:
+  'exportErinnerungVielleichtZeigen',
 ];
 
 test('[Heuristik] findet eine Sicht außerhalb des Namensmusters — auf einem Fixture, nicht behauptet', () => {

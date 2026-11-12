@@ -24,7 +24,7 @@ test('1) wizardStartHTML: leer → „erstellen", vorhanden → „bearbeiten"',
   let html = V.wizardStartHTML('gebwiz');
   assert.ok(html.includes(V.STRINGS.wizStartErstellen), 'leer → erstellen');
   assert.ok(!html.includes(V.STRINGS.wizStartBearbeiten));
-  V.wizardSchrittSetzen('gebwiz', 0, 'Klinikum München');
+  V.wizardSchrittSetzen('gebwiz', 0, 'Mia Musterfrau');   // seit C14 (07.11.2026) Schritt 0 = Name des Kindes
   html = V.wizardStartHTML('gebwiz');
   assert.ok(html.includes(V.STRINGS.wizStartBearbeiten), 'vorhanden → bearbeiten');
 });

@@ -30,21 +30,28 @@ async function modalOeffnen(page) {
   await page.click('#w-anfangen');                                  // Vorschau
   await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
   await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');                               // → flowDepotAnlegen-Modal (Setup-first)
-  await page.waitForSelector('#id-pw', { state: 'visible' });       // Mismatch-Prüfung lebt jetzt auf #id-pw/#id-pw2
+  await page.waitForSelector('#id-pw', { state: 'attached' });       // Mismatch-Prüfung lebt jetzt auf #id-pw/#id-pw2
 }
 
-test('D48 — Mismatch: keine Meldung vor erstem blur; nach blur Inline + Felder markiert', async ({ browser }) => {
+test('D48 — Mismatch: keine Meldung beim Tippen und beim Verlassen; bei „Weiter“ Inline + Felder markiert', async ({ browser }) => {
   const ctx = await browser.newContext({ ...devices['iPhone SE'] });
   const page = await ctx.newPage();
   await modalOeffnen(page);
+  await page.fill('#id-vorname', 'Anker');   // die Namenspflicht kommt vor der Passwort-Probe
+  await page.fill('#id-nachname', 'Test');
 
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'passwort-eins');
   await page.fill('#id-pw2', 'passwort-zwei');
-  // (1) VOR dem ersten blur des Bestätigungsfelds: KEINE Meldung.
+  // (1) Beim Tippen: KEINE Meldung.
+  await expect(page.locator('#id-pw2-fehler')).toBeHidden();
+  // (2) Beim Verlassen des Bestätigungsfelds: weiter KEINE Meldung — im Fenster mit Schritten meldet die Probe erst bei
+  //     „Weiter“ (Zielbild 01; ein Hinweis beim Verlassen verschöbe das Fenster unter dem Klick, der das Feld verlässt).
+  await page.locator('#id-pw2').evaluate((e) => e.blur());
   await expect(page.locator('#id-pw2-fehler')).toBeHidden();
 
-  // (2) blur des Bestätigungsfelds → Inline-Meldung + beide Felder markiert.
-  await page.locator('#id-pw2').evaluate((e) => e.blur());
+  // (3) „Weiter“ → Inline-Meldung + beide Felder markiert.
+  await page.click('#m-ok');
   await expect(page.locator('#id-pw2-fehler')).toBeVisible();
   await expect(page.locator('#id-pw2-fehler')).toContainText('stimmen nicht überein');
   expect(await page.locator('#id-pw').evaluate((e) => e.classList.contains('feld-fehler'))).toBe(true);
@@ -62,6 +69,7 @@ test('D48 — Sichern bei Mismatch legt NICHT an; korrigiert → angelegt', asyn
   await page.fill('#id-vorname', 'Anker');
   await page.fill('#id-nachname', 'Test');
 
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'passwort-eins');
   await page.fill('#id-pw2', 'passwort-zwei');
   await page.click('#m-ok');                                        // Sichern bei Mismatch

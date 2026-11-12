@@ -193,7 +193,7 @@ aussage:  Nach dem Ersetzen eines Wizards mit dessen eigenem, aus dem nativen Be
 zustand:  geprüft
 herkunft: invariante
 pruefung: tests/buergermodul-wizard-ersetzen.test.js#[U2-ADR-306] "als waere nichts gewesen" — gebwiz: jeder sichtbare Schritt ist byte-identisch, nachdem der native Bestand durch denselben Bestand via Ladeweg ersetzt wurde
-pruefung: tests/buergermodul-wizard-ersetzen.test.js#[U2-ADR-306·E2] alle sieben nativen Wizards: byte-identischer erster Schritt, null Verwerfungen
+pruefung: tests/buergermodul-wizard-ersetzen.test.js#[U2-ADR-306·E2] alle nativen Wizards: byte-identischer erster Schritt, null Verwerfungen
 pruefung: tests/buergermodul-wizard-ersetzen.test.js#[U2-ADR-306·E2·ROT-BEWEIS] die Sonde selbst findet einen echten Unterschied — sonst prueft die Sammelprobe nichts
 ```
 
@@ -203,7 +203,7 @@ aussage:  Eine Alt-Eigenschaft ohne Modul-Entsprechung (sensibel, codeListe) ver
 zustand:  geprüft
 herkunft: invariante
 pruefung: tests/buergermodul-wizard-ersetzen.test.js#[U2-ADR-306·Identität·ROT] sensibel:true verschwindet, wenn das Modul es nicht mehr trägt — Überschreiben allein reicht nicht
-pruefung: tests/buergermodul-wizard-ersetzen.test.js#[U2-ADR-306·Identität·ROT] codeListe verschwindet, wenn das Modul es nicht mehr trägt (anamwiz.krankheiten, echtes Beispiel)
+pruefung: tests/buergermodul-wizard-ersetzen.test.js#[U2-ADR-306·Identität·ROT] codeListe verschwindet, wenn das Modul es nicht mehr trägt
 ```
 
 ```konformitaet

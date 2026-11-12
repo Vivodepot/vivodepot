@@ -18,6 +18,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
+const { echteFachZahl } = require('./lib/echte-faecher.js');   // Attrappen-Fächer: echte Fächer zählen, nicht Einträge (04.11.2026)
 
 const KERN_QUELLE = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
 const FACH_PW = 'fach-pw-anja-123';
@@ -63,7 +64,7 @@ test('[Fach-Import·Rot] eine Importdatei mit bekanntem K: danach steht K nirgen
   for (const f of Z._FACH_MATERIAL_FELDER) assert.equal(f in kz, false, 'kein ' + f + ' im Kreis');
   assert.equal(JSON.stringify(Z.getData()).includes(bekanntesK), false, 'K steht nirgends im Depot');
   const u = await Z.depotSerialisieren();
-  assert.equal(u.umschlagTabelle.length, 1, 'nur der Anker in der Tabelle: keine Einheit unter dem fremden K');
+  assert.equal(await echteFachZahl(Z, u, [bekanntesK]), 0, 'kein Fach-Eintrag unter dem fremden K: keine Einheit unter ihm');
   assert.deepEqual(erg.faecherNeuEinrichten, ['Anja'], 'die Meldung nennt den Kreis');
 });
 
@@ -76,7 +77,7 @@ test('[Fach-Import·Rot am Code] ohne das Entfernen bleibt K im Depot und das Zi
   Z.importAnwenden(Z.importPlan('json', ex), {});
   assert.ok(JSON.stringify(Z.getData()).includes(k.fachKeyRoh), 'K steht im Depot: die Probe oben kann rot werden');
   // Die Marke trägt die UUID der Quelle: auch ohne das Entfernen schreibt der Kern das Fach nicht mehr (Tiefenverteidigung).
-  assert.equal((await Z.depotSerialisieren()).umschlagTabelle.length, 1, 'die Marke allein hält den Schreibweg');
+  assert.equal(await echteFachZahl(Z, await Z.depotSerialisieren(), [k.fachKeyRoh]), 0, 'die Marke allein hält den Schreibweg');
 });
 
 test('[Fach-Import·Tiefenverteidigung·Rot am Code] ohne Entfernen und ohne Marke schreibt das Zieldepot unter dem fremden K', async () => {
@@ -88,7 +89,7 @@ test('[Fach-Import·Tiefenverteidigung·Rot am Code] ohne Entfernen und ohne Mar
   const ex = JSON.stringify(Ohne.vollExportJSON({ sensibel: true }));
   const Z = await ziel(kernMit([["      for (const k of data.empfaengerkreise) if (_kreisFachMaterialEntfernen(k))", "      for (const k of []) if (_kreisFachMaterialEntfernen(k))"]]));
   Z.importAnwenden(Z.importPlan('json', ex), {});
-  assert.equal((await Z.depotSerialisieren()).umschlagTabelle.length, 2, 'der Stand vor dem Fix: ein Eintrag unter dem fremden K');
+  assert.equal(await echteFachZahl(Z, await Z.depotSerialisieren()), 1, 'der Stand vor dem Fix: ein Eintrag unter dem fremden K');
 });
 
 test('[Fach-Import] eigener Umzug mit gesundem Fach: das Fach ist entfernt, die Meldung sagt „neu einrichten“, neu eingerichtet öffnet es', async () => {
@@ -131,17 +132,17 @@ test('[Fach·Marke] Einrichten setzt fachDepotUUID auf die UUID der Tür, Entfer
 test('[Fach·verwaist·Rot] ein Fach mit fremder Marke wird nicht geschrieben und in der Zeile des Kreises benannt', async () => {
   const { V } = ladeKern();
   const k = await quelleMitFach(V);
-  assert.equal((await V.depotSerialisieren()).umschlagTabelle.length, 2, 'Voraussetzung: das gesunde Fach wird geschrieben');
+  assert.equal(await echteFachZahl(V, await V.depotSerialisieren()), 1, 'Voraussetzung: das gesunde Fach wird geschrieben');
   k.fachDepotUUID = V.uuidV4();                            // ein Altdepot mit totem Fach
   assert.equal(V.empfaengerkreisFachVerwaist(k), true);
   assert.equal(V.empfaengerkreisHatFach(k), false);
-  assert.equal((await V.depotSerialisieren()).umschlagTabelle.length, 1, 'das verwaiste Fach wird nicht geschrieben');
+  assert.equal(await echteFachZahl(V, await V.depotSerialisieren()), 0, 'das verwaiste Fach wird nicht geschrieben');
   const zeile = V._kreisZeileHTML(k);
   assert.ok(zeile.includes(V.escapeHTML(String(V.STRINGS.kreiseFachVerwaist))), 'die Zeile benennt es');
   assert.ok(zeile.includes('data-kreis-fach="'), 'und bietet an, es neu einzurichten');
   await V.empfaengerkreisFachEinrichten(k, FACH_PW, null);
   assert.equal(V.empfaengerkreisFachVerwaist(k), false, 'neu eingerichtet ist es nicht mehr verwaist');
-  assert.equal((await V.depotSerialisieren()).umschlagTabelle.length, 2);
+  assert.equal(await echteFachZahl(V, await V.depotSerialisieren()), 1);
 });
 
 test('[Fach·ohne Marke] ein Fach aus der Zeit vor der Marke gilt weiter und öffnet', async () => {
@@ -150,7 +151,7 @@ test('[Fach·ohne Marke] ein Fach aus der Zeit vor der Marke gilt weiter und öf
   delete k.fachDepotUUID;
   assert.equal(V.empfaengerkreisHatFach(k), true);
   const u = await V.depotSerialisieren();
-  assert.equal(u.umschlagTabelle.length, 2);
+  assert.equal(await echteFachZahl(V, u), 1);
   const E = ladeKern().V;
   await E.depotLaden(JSON.parse(JSON.stringify(u)), FACH_PW);
   assert.equal(E.getData().sektoren.health.bloodType, 'A+');

@@ -30,7 +30,7 @@ can pass your own copy with `--register`.
    (`docs/adr/vivodepot-U2-ADR-152-die-anfrage-von-aussen-2026-08-20.md`, point 6). A signed request needs a provider
    certificate, and this example does not imitate one.
 4. **Receive the reply.** The person chooses which fields to share. The app writes a JWE (RFC 7516, Compact
-   Serialization) as a `.jwe` file. Its protected header names the case and never a value.
+   Serialization) as a `.jwe` file. Its protected header carries a random identifier of the reply, never your case number and never a value.
 5. **Open it.**
    ```
    node antwort-oeffnen.js reply.jwe --schluessel out/antwort-schluessel.privat.jwk --vorgang EXAMPLE-2026-0001
@@ -43,7 +43,8 @@ can pass your own copy with `--register`.
 
 `enc` is always `A256GCM`, and `alg` is one of two values:
 
-- `ECDH-ES` on P-256, opened with the key file. The case number goes into the key derivation (`apv`).
+- `ECDH-ES` on P-256, opened with the key file. The reply identifier (`kennung`) goes into the key derivation (`apv`); replies
+  up to v1050 used the case number.
 - `PBES2-HS512+A256KW` with `p2c` exactly 600000, opened with the one-time password.
 
 A standard JOSE library opens the reply; it was cross-checked against `jose`. With `jose`, set `maxPBES2Count` to at least 600000. `antwort-oeffnen.js` does the same
@@ -51,7 +52,7 @@ by hand with WebCrypto, so every step is visible. It refuses `zip`, any other `a
 
 **Signed replies.** From version v931 the content of the JWE is a JWS Compact (`cty` `JWT`), signed by the person with an
 Ed25519 key that exists only for your organisation (`docs/adr/vivodepot-U2-ADR-501-signierte-antwort-und-zertifikat-der-stelle-2026-10-15.md`).
-`antwort-oeffnen.js` checks it (`typ`, `alg`, the public key in the header, `kid`, the signature, `iat`, `aud`, the case number)
+`antwort-oeffnen.js` checks it (`typ`, `alg`, the public key in the header, `kid`, the signature, `iat`, `aud`, the reply identifier)
 and prints the data set without the signature claims. The signature shows that the entries are unchanged since signing and which
 key signed them; it does not prove who the person is. A reply that is unsigned because the person's browser cannot sign carries
 `unsigniert: "browser"` and is reported as such. Unsigned replies from versions that do not sign yet open as before.

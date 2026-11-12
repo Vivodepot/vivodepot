@@ -183,3 +183,39 @@ test('[Schema-Fassungen·hinaus·Rot-Beweis] ein Pfad- oder Hinweisfeld fällt a
   const w = kopie(VERZ()); w.hinweis = 'x';
   assert.ok(S.inhaltPruefen(w).includes('Verzeichnis: Felder außer „schemas“'));
 });
+
+/* U2-ADR-488, Klausel Live-Adressen: Die Probe hält das Werkzeug fest, das den Webspace misst; sie ersetzt die Messung nicht.
+   Nachmessen: node tools/schema-fassungen.js --live-pruefen. Rot-Beweis: die Negativprobe verlangt je Fehlerart genau die Meldung. */
+const liveBefunde = async (antwort) => {
+  return S.livePruefen(VERZ(), async (url) => antwort(url));
+};
+const liveAdressen = () => Object.entries(S.ordnerInhalt({ verzeichnis: VERZ() })).map(([rel, inhalt]) => ['https://vivodepot.de/' + rel, inhalt]);
+const antwortAus = (eintraege) => (url) => {
+  const inhalt = new Map(eintraege).get(url);
+  return { status: 200, arrayBuffer: async () => inhalt };
+};
+
+test('[Schema-Fassungen·live] liefert jede Adresse 200 und den verzeichneten Inhalt, meldet das Werkzeug nichts', async () => {
+  const adressen = liveAdressen();
+  assert.ok(adressen.length > 0, 'das Verzeichnis nennt keine Adresse, die Probe misst nichts');
+  assert.deepEqual(await liveBefunde(antwortAus(adressen)), []);
+});
+
+test('[Negativprobe] Schema-Fassungen live: eine 404 und ein abweichender Inhalt werden je genannt', async () => {
+  const adressen = liveAdressen();
+  const [fehlt, anders] = adressen.map(([url]) => url);
+  const gut = antwortAus(adressen);
+  const antwort = (url) => {
+    if (url === fehlt) return { status: 404 };
+    if (url === anders) return { status: 200, arrayBuffer: async () => Buffer.from('anders') };
+    return gut(url);
+  };
+  assert.deepEqual(await liveBefunde(antwort), [fehlt + ': 404', anders + ': Inhalt weicht ab']);
+});
+
+module.exports = {
+  PROBEN: [
+    { fuer: '[Schema-Fassungen·live] liefert jede Adresse', diskriminante: liveBefunde },
+    { fuer: '[Negativprobe] Schema-Fassungen live', diskriminante: liveBefunde },
+  ],
+};

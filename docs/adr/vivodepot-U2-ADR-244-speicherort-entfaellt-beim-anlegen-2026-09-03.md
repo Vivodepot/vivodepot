@@ -97,6 +97,15 @@ muss. Danach die Änderung exakt zurückgesetzt (per Diff bestätigt: keine Rest
 Die Gegenprobe (`internerSpeicherModus()` false, `file://`-Herkunft simuliert) bestätigt, dass der
 Datei-Dialog im Ausnahmefall weiterhin gerufen wird — kein ersatzloses Streichen.
 
+## Nachtrag 05.11.2026 — der Hinweis steht hinter „Warum?“
+
+Im Fenster mit zwei Schritten steht der Hinweis, dass das Depot zunächst nur in diesem Browser liegt, nicht mehr als
+Dauertext. Er steht hinter „Warum?“ und klappt dort auf. Die Entscheidung bleibt: einmal, im Anlege-Moment, im selben
+Dialog. Geändert hat sich nur die Form (Muster statt Hinweissatz). Offen sichtbar bleibt der Hinweis im Datei-Fallback,
+weil dort gleich ein Dateiziel gewählt wird.
+
+Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Warum], [S2·Warum·Rot-Beweis]).
+
 ## Verhältnis zu bestehenden ADRs
 
 | ADR | Betroffen? |

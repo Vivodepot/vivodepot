@@ -70,7 +70,11 @@ test('[Konformität] axe-core WCAG 2.2 AA über alle V1-Sichten', async (t) => {
 
     await page.evaluate(() => window.__vdOeffentlich.geheZuZuhause()); await scan(page, 'zuhause', alle);
     for (const id of sektoren) { await page.evaluate(i => window.__vdOeffentlich.oeffneSektor(i), id); await scan(page, 'sektor:' + id, alle); }
-    await page.evaluate(() => window.__vdOeffentlich.oeffneAnlassAuswahl()); await scan(page, 'anlass-auswahl', alle);
+    // Die Anlass-Auswahl ist seit Zielbild 04 die Seite „Was möchten Sie erledigen?“ im App-Rahmen (renderErledigen), nicht mehr die
+    // Überlagerung oeffneAnlassAuswahl. Geöffnet wie von einer Person: über den Eintrag der Seitenleiste. Der Sichtname bleibt (Sollliste).
+    // Der Schließen-Schutz (#modal-rueck) vom Rückweg zur Startseite fängt sonst den Klick ab (wie in klickVersuch unten).
+    await page.evaluate(() => { const mi = document.getElementById('modal-inhalt'); if (mi) mi.innerHTML = ''; const mr = document.getElementById('modal-rueck'); if (mr) { mr.className = ''; mr.removeAttribute('style'); } });
+    await page.locator('[data-anlass-auswahl]').first().click({ timeout: 5000 }); await scan(page, 'anlass-auswahl', alle);
     const sits = await page.evaluate(() => window.__vdOeffentlich.SITUATIONEN.map(s => s.id));
     for (const id of sits) { await page.evaluate(i => window.__vdOeffentlich.oeffneSituation(i), id); await scan(page, 'situation:' + id, alle); }
 

@@ -75,19 +75,19 @@
       }
     },
     "ableitung": {
-      "description": "U2-ADR-465 Nachtrag (04.11.2026): eine Regel aus der Kern-Liste FORMAT_ABLEITUNGEN und ein Feld; Ergebnis ja/nein. Ob das Feld existiert, prüft nur der Kern.",
+      "description": "U2-ADR-465 Nachtrag (04.11.2026): eine Regel aus der Kern-Liste FORMAT_ABLEITUNGEN und ein Feld; Ergebnis ja/nein. Ob das Feld existiert, prüft nur der Kern. Nachtrag 05.11.2026: `heute` (das Datum des Geräts) ohne Feld, wahlweise mit `teil`; an den ja/nein-Regeln wahlweise `werte` (Codes).",
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "regel",
-        "feld"
+        "regel"
       ],
       "properties": {
         "regel": {
           "enum": [
             "nichtLeer",
             "gleich",
-            "ausListe"
+            "ausListe",
+            "heute"
           ]
         },
         "feld": {
@@ -128,6 +128,17 @@
               }
             ]
           }
+        },
+        "teil": {
+          "enum": [
+            "jahr",
+            "monat",
+            "tag",
+            "zeitpunkt"
+          ]
+        },
+        "werte": {
+          "$ref": "#/$defs/janeinWerte"
         }
       },
       "allOf": [
@@ -187,6 +198,32 @@
           "else": {
             "properties": {
               "liste": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regel": {
+                "const": "heute"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "feld": false,
+              "bereich": false,
+              "wert": false,
+              "liste": false,
+              "werte": false
+            }
+          },
+          "else": {
+            "required": [
+              "feld"
+            ],
+            "properties": {
+              "teil": false
             }
           }
         }
@@ -296,6 +333,43 @@
           }
         }
       ]
+    },
+    "janeinWerte": {
+      "description": "U2-ADR-465 Nachtrag (05.11.2026): der Code für ja und für nein in der Datei, statt true/false.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ja",
+        "nein"
+      ],
+      "properties": {
+        "ja": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "nein": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      }
     }
   },
   "properties": {
@@ -544,7 +618,8 @@
             "enum": [
               "jahr",
               "monat",
-              "tag"
+              "tag",
+              "zeitpunkt"
             ]
           },
           "anhang": {
@@ -552,7 +627,12 @@
             "enum": [
               "bescheid",
               "vollmacht-nachweis",
-              "lichtbild"
+              "lichtbild",
+              "betreuungsurkunde",
+              "aufenthaltstitel-nachweis",
+              "mietnachweis",
+              "nachweis-kinderbetreuung",
+              "nachweis"
             ]
           },
           "pflicht": {
@@ -578,7 +658,7 @@
             "$ref": "#/$defs/ableitung"
           },
           "antrag": {
-            "description": "U2-ADR-465 Nachtrag (04.11.2026): eine Frage beim Erzeugen; Typ aus der Kern-Liste FORMAT_ANTRAG_TYPEN, `werte` genau bei `auswahl`, `vorschlag` nur bei `janein`. Dass jede `id` nur einmal vorkommt, prüft nur der Kern.",
+            "description": "U2-ADR-465 Nachtrag (04.11.2026): eine Frage beim Erzeugen; Typ aus der Kern-Liste FORMAT_ANTRAG_TYPEN, `werte` genau bei `auswahl`, `vorschlag` nur bei `janein`. Dass jede `id` nur einmal vorkommt, prüft nur der Kern. Nachtrag 05.11.2026: an `janein` wahlweise `werte: { ja, nein }` (Codes); ein `vorschlag` ohne `heute` und ohne `werte`.",
             "type": "object",
             "additionalProperties": false,
             "required": [
@@ -607,18 +687,28 @@
               "werte": {
                 "type": "object",
                 "minProperties": 1,
-                "maxProperties": 1000,
-                "additionalProperties": {
-                  "type": "string",
-                  "pattern": "\\S",
-                  "maxLength": 300
-                }
+                "maxProperties": 1000
               },
               "pflicht": {
                 "type": "boolean"
               },
               "vorschlag": {
-                "$ref": "#/$defs/ableitung"
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/ableitung"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "regel": {
+                        "not": {
+                          "const": "heute"
+                        }
+                      },
+                      "werte": false
+                    }
+                  }
+                ]
               }
             },
             "allOf": [
@@ -636,11 +726,44 @@
                   ],
                   "properties": {
                     "werte": {
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string",
+                        "pattern": "\\S",
+                        "maxLength": 300
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "typ": {
+                      "const": "janein"
                     }
                   }
                 },
-                "else": {
+                "then": {
+                  "properties": {
+                    "werte": {
+                      "$ref": "#/$defs/janeinWerte"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "typ": {
+                      "enum": [
+                        "text",
+                        "datum"
+                      ]
+                    }
+                  }
+                },
+                "then": {
                   "properties": {
                     "werte": false
                   }
@@ -661,6 +784,21 @@
                 }
               }
             ]
+          },
+          "leer": {
+            "description": "U2-ADR-465 Nachtrag (05.11.2026): ein leeres Element, das bei der Stelle ausgefüllt wird (die Unterschrift); die Beschriftung zeigt der Schritt der Person. Nur in der Ausgabe.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "beschriftung"
+            ],
+            "properties": {
+              "beschriftung": {
+                "type": "string",
+                "pattern": "\\S",
+                "maxLength": 300
+              }
+            }
           }
         },
         "anyOf": [
@@ -733,6 +871,16 @@
                 "type": "object"
               }
             }
+          },
+          {
+            "required": [
+              "leer"
+            ],
+            "properties": {
+              "leer": {
+                "type": "object"
+              }
+            }
           }
         ],
         "dependentSchemas": {
@@ -743,7 +891,8 @@
               "alsListe": false,
               "werte": false,
               "teil": false,
-              "codeliste": false
+              "codeliste": false,
+              "leer": false
             }
           },
           "werte": {
@@ -760,7 +909,8 @@
               "werte": false,
               "teil": false,
               "vertreter": false,
-              "codeliste": false
+              "codeliste": false,
+              "leer": false
             }
           },
           "vertreter": {
@@ -773,7 +923,8 @@
               "teil": false,
               "anhang": false,
               "pflicht": false,
-              "codeliste": false
+              "codeliste": false,
+              "leer": false
             }
           },
           "pflicht": {
@@ -805,7 +956,8 @@
               "pflicht": false,
               "vertreter": false,
               "codeliste": false,
-              "antrag": false
+              "antrag": false,
+              "leer": false
             }
           },
           "antrag": {
@@ -820,7 +972,24 @@
               "pflicht": false,
               "vertreter": false,
               "codeliste": false,
-              "abgeleitet": false
+              "abgeleitet": false,
+              "leer": false
+            }
+          },
+          "leer": {
+            "properties": {
+              "feld": false,
+              "alsListe": false,
+              "bereich": false,
+              "fest": false,
+              "werte": false,
+              "teil": false,
+              "anhang": false,
+              "pflicht": false,
+              "vertreter": false,
+              "codeliste": false,
+              "abgeleitet": false,
+              "antrag": false
             }
           }
         }

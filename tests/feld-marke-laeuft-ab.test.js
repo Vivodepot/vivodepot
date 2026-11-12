@@ -133,7 +133,11 @@ test('[M1·Zug1] wie viele der eingebauten Datumsfelder tragen die Marke — von
   // Ereignis, KEIN laeuftAb (KEIN_FALL); mitMarke bleibt bei 10.
   // 02.11.2026: +2 Datumsfelder (health.researchDecisions/declaredOn und /validUntil, U2-ADR-518). declaredOn ist ein Ereignisdatum;
   // die Marke an validUntil kommt in einem eigenen Schritt (U2-ADR-518, Abgelehnt), mitMarke bleibt bei 10.
-  assert.equal(datumsfelder, 47, 'von siebenundvierzig Datumsfeldern insgesamt');
+  // 04.11.2026: +3 Datumsfelder (housing.rentSubsidyFrom, housing.rentSubsidyUntil, housing.subtenants/mainResidenceSince,
+  // U2-ADR-465 Mietangaben). Beginn und Lebensmittelpunkt sind Ereignisdaten; das Ende eines Mietzuschusses bekommt keine Marke,
+  // weil der Zuschuss keine Unterlage ist, die erneuert werden muss. mitMarke bleibt bei 10.
+  // 50 → 51 (05.11.2026, U2-ADR-465 Nr. 35: Anmeldung, fünf Felder): das Einzugsdatum, ohne Marke.
+  assert.equal(datumsfelder, 51, 'von einundfünfzig Datumsfeldern insgesamt');
   // Ein Geburtsdatum läuft nicht ab — das ist der Sinn der Marke, nicht ihr Nebeneffekt.
   assert.equal(V.feldHatMarke('identitaet', 'birthDate', 'laeuftAb'), false);
   // `ausweis_gueltig` existiert seit Glied 3 nicht mehr als Skalarfeld — kein Absturz, keine Marke.

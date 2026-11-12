@@ -2,7 +2,7 @@
  "zweck": "Deckel je Datei und Gruppe für Bereichskennungen als Literal außerhalb der Gerüst-Regionen (ein nicht öffentliches Werkzeug). Sinkt nur; Ziel 0 außer den benannten Ausnahmen.",
  "datum": "2026-10-07",
  "summe": {
-  "kern": 343,
+  "kern": 336,
   "lese-app": 45
  },
  "ausnahmen": {
@@ -64,7 +64,7 @@
    "_ereignisAlleEntitaetPersonFelder": 1,
    "_ereignisZeileMarkieren": 1,
    "_faltContainer": 1,
-   "_fhirIpsFelder": 8,
+   "_fhirIpsFelder": 2,
    "_fhirPatientAusIdentitaet": 1,
    "_fimFelder": 1,
    "_fristHinweisFuerFeld": 1,
@@ -134,7 +134,6 @@
    "modulKarteZiel": 1,
    "NOTFALL_KERN_FELDER": 28,
    "personLoeschen": 1,
-   "renderNotfall": 1,
    "sdJwtVcFinanzen": 1,
    "sdJwtVcIdentitaet": 5,
    "sdJwtVcSozialversicherung": 2,

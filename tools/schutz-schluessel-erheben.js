@@ -63,6 +63,7 @@ const DOKUMENT_NAMENSRAUM = 'dok:';
    anderen Sprache steht (HAFTUNG-SPRACHGRENZE F3, 06.10.2026). */
 const NAMENTLICH = Object.freeze([
   'strings:fussHaftung.text',
+  'strings:ueberHaftungSaetze.text',   // die Satzform am Kopf der Seite „Über und Hinweise“ (U2-ADR-025, Nachtrag 01.11.2026)
   'strings:dokFussHaftung.text',
   'strings:rueckfallSprachangabe.text',   // die Sprachangabe eines Rückfalls (HAFTUNG-SPRACHGRENZE F3, 06.10.2026)
   'strings:erweiterungWahlTitel.text',

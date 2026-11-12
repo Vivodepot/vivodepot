@@ -1,5 +1,6 @@
 'use strict';
-/* Die kompakte SD-JWT-Form ist selbst signiert (Ed25519, Schlüssel der Halterin aus dem Passwort abgeleitet). Formkonform
+/* Die kompakte SD-JWT-Form ist selbst signiert (Ed25519, seit dem Nachtrag U2-ADR-457 vom 02.11.2026 ein Schlüssel je Ausgabe, Probe
+   tests/holder-schluessel-unverknuepfbar.test.js; die Ableitung aus dem Passwort bleibt hier geprüft, bis sie zurückgebaut ist). Formkonform
    nach RFC 9901 §4.1, Vertrauen null ohne Institutionssignatur. Proben: Normvektoren (RFC 8037 Anhang A, RFC 9901 §5.1),
    die Ausgabe prüft unabhängig vom Kern gegen den jwk im Kopf, Ableitung und Domänentrennung, alg passt zum Schlüssel,
    der Rückfall ohne Ed25519 behauptet kein SD-JWT, und die eigene Selbst-Signatur kommt geprüft wieder herein. */

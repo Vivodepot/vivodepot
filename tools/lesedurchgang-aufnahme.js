@@ -103,9 +103,10 @@ async function frischesDepot(browser, { ordner, enModulAndocken, mitScreens }) {
   if (mitScreens) await schnappschuss(page, ordner, 'a2-vorschau', 'Nach "Anfangen", vor Passwort — passwortlose Vorschau');
 
   await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-vorname', { state: 'visible' });
   await page.fill('#id-vorname', 'Test');
   await page.fill('#id-nachname', 'Beispiel');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'lesedurchgang-pw-1');
   await page.fill('#id-pw2', 'lesedurchgang-pw-1');
   await page.click('#m-ok');
@@ -281,6 +282,7 @@ async function reiseC(browser, { flow, ordner, enModulAndocken }) {
     await page.waitForSelector('#id-vorname', { state: 'visible' });
     await schnappschuss(page, ordner, 'c3-sub-depot-anlegen', 'Sub-Depot anlegen — Dialog');
     await page.fill('#id-vorname', 'Sophie');
+    if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await page.fill('#id-pw', 'sub-lesedurchgang-pw');
     await page.fill('#id-pw2', 'sub-lesedurchgang-pw');
     await page.click('#m-ok');
@@ -392,14 +394,10 @@ async function reiseG(browser, { flow, ordner, enModulAndocken }) {
   } catch (e) { nichtErreicht(flow, 'g1-g2-start', e); return; }
 
   try {
-    // Sechs Schritte laut Referenz-Spec optional/leer durchklickbar bis zum Namens-Schritt —
-    // UNGEPRÜFT übernommen. Bricht die Schritt-Zahl künftig, zeigt g3 sichtbar etwas anderes
-    // als den Namens-Schritt (kein stiller Fehlschlag, ein lesbarer Befund).
-    for (let i = 0; i < 6; i++) {
-      await page.click('#wiz-weiter');
-      await page.waitForTimeout(200);
-    }
-    await schnappschuss(page, ordner, 'g3-assistent-namensschritt', 'Nach sechs "Weiter"-Klicks — sollte der Namens-Schritt sein');
+    // Seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) ist der Namens-Schritt der erste — keine
+    // Vorschritte mehr. Fehlt das Feld, meldet nichtErreicht das lesbar statt still weiterzulaufen.
+    await page.waitForSelector('#content [data-edit="guidedBirthEntryChildsNameNot"]', { state: 'visible' });
+    await schnappschuss(page, ordner, 'g3-assistent-namensschritt', 'Der Namens-Schritt, sofort als erster Schritt');
   } catch (e) { nichtErreicht(flow, 'g3-namensschritt', e); }
 
   try {

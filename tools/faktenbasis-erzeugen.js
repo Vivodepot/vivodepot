@@ -46,6 +46,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { cssQuelle } = require('./lib/kern-mit-erscheinungsbild.js');   // v894: CSS aus „Gerüst + heute"
 const { execSync, execFileSync } = require('node:child_process');
+const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
 const { suiteDateien } = require('../scripts/suite-dateien-kern.js');
 const { mitTestLauf } = require('./lib/test-lauf.js');   // eigenes TMPDIR je Testlauf (Befund TEMP-RESTE-WIEDER)
 const { testParallel } = require('./lib/test-parallel.js');   // dieselbe Parallelgrenze wie die Suite (Befund FAKTENBASIS-OHNE-PARALLELGRENZE)
@@ -65,19 +66,31 @@ const AUSGABE = AUSGABE_ARG_INDEX !== -1 ? path.resolve(process.argv[AUSGABE_ARG
 /* 04.10.2026 (Befund ERZEUGNIS-STEMPEL-ARBEITSSTAND): das frühere Etikett „(Arbeitsstand, noch nicht gepusht)“ hinter einem
    Hash wurde mit dem Push falsch und blieb stehen. Gestempelt wird darum nur ein Hash, der zur Erzeugungszeit von
    origin/u2-kanon erreichbar ist („Stand Kanon“) — ein Prüfzweig zählt nicht, er wird gelöscht. Sonst kein Hash.
-   Die Probe dazu (Erzeugnis-Stempel) läuft drinnen, neben den Stand-Dokumenten. */
-function vonKanonErreichbar(hash) {
+   Die Probe dazu (Erzeugnis-Stempel) läuft drinnen, neben den Stand-Dokumenten.
+   08.11.2026: Am Zugkopf ist HEAD vor dem Push nie erreichbar, darum trugen die Köpfe v1045 bis v1048 keinen Hash. Jetzt steht
+   dort die Basis aus dem Kanon („Basis Kanon“): Sie bleibt auffindbar und sagt nur, worauf der Stand aufsetzt. */
+function gitOptionen(repo, stdio) { return { cwd: repo, env: ohneGitUmgebung(), stdio }; }
+
+function vonKanonErreichbar(hash, repo = REPO) {
   try {
-    execSync('git merge-base --is-ancestor ' + hash + ' origin/u2-kanon', { cwd: REPO, stdio: 'ignore' });
+    execSync('git merge-base --is-ancestor ' + hash + ' origin/u2-kanon', gitOptionen(repo, 'ignore'));
     return true;
   } catch (_) { return false; }
 }
 
-function commitHash() {
+function basisKanon(repo = REPO) {
+  const lesen = (befehl) => execSync(befehl, gitOptionen(repo, ['ignore', 'pipe', 'ignore'])).toString().trim();
+  try { return lesen('git rev-parse --short ' + lesen('git merge-base HEAD origin/u2-kanon')); }
+  catch (_) { return null; }
+}
+
+function commitHash(repo = REPO) {
   let hash;
-  try { hash = execSync('git rev-parse --short HEAD', { cwd: REPO, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); }
+  try { hash = execSync('git rev-parse --short HEAD', gitOptionen(repo, ['ignore', 'pipe', 'ignore'])).toString().trim(); }
   catch (_) { return '(kein Git-Commit ermittelbar)'; }
-  return vonKanonErreichbar(hash) ? hash + ' (Stand Kanon)' : '(Arbeitsstand, ohne Hash)';
+  if (vonKanonErreichbar(hash, repo)) return hash + ' (Stand Kanon)';
+  const basis = basisKanon(repo);
+  return basis ? basis + ' (Basis Kanon)' : '(Arbeitsstand, ohne Hash)';
 }
 
 function versionsBelegeAusFunktion(fn) {
@@ -516,7 +529,6 @@ function suiteZeileFortschreiben(zeile, { herkunftSuchen = herkunftAusGeschichte
 // Der Commit, der die Zahl in docs/faktenbasis.md einführte (der älteste mit dieser Zeile), mit seinem Datum.
 function herkunftAusGeschichte(zahl) {
   try {
-    const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
     const out = execFileSync('git', ['log', '--reverse', '--format=%h %as', '-S', 'TAP-Summenzeile): ' + zahl, '--', 'docs/faktenbasis.md'],
       { cwd: REPO, encoding: 'utf8', env: ohneGitUmgebung(), stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 64 * 1024 * 1024 });
     const erste = out.split('\n').find(Boolean);

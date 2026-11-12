@@ -1,0 +1,24 @@
+{
+ "hinweis": "Erfundene Einrichtung für das Partner-Beispiel (Studio → Vorlage → Felder → signieren → Freigabe → im Depot nutzen). Keine echte Stelle, kein Schlüssel: Partner-Schlüssel und Test-Anker entstehen bei jedem Lauf neu und verlassen den Lauf nicht.",
+ "basis": "bibliothek",
+ "einrichtung": {
+  "anbieterId": "institution/musterverein-lesefoerderung",
+  "anbieterName": "Musterverein Leseförderung (erfunden)",
+  "anbieterTyp": "institution/verein"
+ },
+ "wortlaut": "Hiermit melde ich mich für einen Leseausweis an.\n\nMeine Angaben stehen unten.",
+ "wortlautQuelle": {
+  "behoerde": "Musterverein Leseförderung (erfunden)",
+  "titel": "Anmeldung Leseausweis",
+  "lizenz": "Beispiel, frei verwendbar"
+ },
+ "zertifikat": {
+  "issuanceDate": "2026-01-01T00:00:00Z",
+  "expirationDate": "2027-12-31T00:00:00Z"
+ },
+ "jetzt": "2026-06-01T00:00:00Z",
+ "werte": {
+  "Vorname": "Erika",
+  "Nachname": "Beispiel"
+ }
+}

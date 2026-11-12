@@ -19,7 +19,46 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
-## [Unreleased]
+## [v1.0.1053] – 2026-11-11
+
+### Geändert
+- Telefon (390 px): Der Menü-Knopf in der Kopfzeile bleibt in voller Größe. Die Pille „Beispielansicht“ bleibt einzeilig.
+- Identität: Beim Öffnen sehen Sie zwei Karten offen, die übrigen sind zugeklappt. Die Hinweise sind kürzer geworden, und ein Eintrag unter „Frühere Namen“ steht in einer Zeile.
+- Identität: „Herausgeben“ ist ein heller Zweitknopf im zugeklappten Block „Dokumente & Austausch“.
+- Schrift: Alle Schriftgrößen der Anwendung folgen jetzt einer Größenleiter aus elf Stufen. Auf dem Telefon gelten eigene Größen: Anzeige und Seitentitel sind kleiner, Fließtext, Eingaben, Beschriftungen, Knöpfe und Navigation größer. Die Einstellung „Schriftgröße“ in der Anwendung bleibt wirksam.
+- Englische Oberfläche: Vor dem Öffnen Ihres Depots sehen Sie die Schaltfläche „Open“ und die Begrüßung „Welcome back.“ jetzt auf Englisch.
+- Frühere Namen: Der Hinweis beim Feld „Namenswahl nach der Heirat — frühere Angabe“ verweist jetzt auf den Bereich „Frühere Namen“ (englisch „Former names“).
+- Blutgruppen: Die Angaben stehen jetzt ohne Leerzeichen vor dem Vorzeichen, etwa „0+“ und „AB−“.
+- Pflegegrad: Die Beschriftung „Pflegegrad — befristet bis“ hat einen Gedankenstrich wie in der englischen Fassung.
+
+## [v1.0.1052] – 2026-11-10
+
+### Hinzugefügt
+- Medikamente: Eine eingelesene Dosis sehen Sie jetzt direkt am Eintrag und in der Vorschau beim Einlesen. In der
+  Patientenkurzakte (IPS) geht sie als Dosierungstext mit.
+- Migration: Schlägt eine Migration fehl, können Sie eine Fehlerbeschreibung speichern. Die Datei enthält keine Inhalte
+  aus Ihrem Depot.
+
+### Geändert
+- Ruhende Bereiche: Wer in einen ruhenden Bereich schreibt, sieht ihn sofort.
+- Pod-Sicherung: Sie sehen eine Erfolgsmeldung erst, wenn die Anwendung die Kopie aus dem Pod zurückgelesen und zur
+  Probe geöffnet hat.
+- Englische Oberfläche: Ältere Texte folgen jetzt dem deutschen Stand. Bei genau 1 stehen Meldungen mit Zahl und Verb,
+  etwa „1 new entry will be added“, in der Einzahl, im Deutschen ebenso.
+- Pro: In Anlässen, Hilfetexten und im Auszug „Geschäftsführung — Vertretung und Nachfolge“ steht jetzt die direkte
+  Anrede oder die Funktion, und der Herkunftssatz ist in allen Auszügen gleich.
+- Stellen: Sie lesen Ihr Aktenzeichen nicht mehr im lesbaren Kopf einer Antwort, sondern nach dem Entschlüsseln im Datensatz
+  (`anfrage.vorgang`); im Kopf steht eine zufällige Kennung der Antwort. Antworten bis v1050 öffnen Lese-App und Studio weiter.
+  Ordnen Sie Antworten mit eigener Software nach dem Kopf zu, nehmen Sie dafür künftig `anfrage.vorgang` aus dem
+  entschlüsselten Datensatz (`docs/REQUESTS-AND-RESPONSES.md`).
+- Stellen: Gibt die Person die Antwort als Datei heraus, heißt sie jetzt mit Datum und den ersten sechs Zeichen der Kennung aus dem
+  Kopf, etwa `Vivodepot_Antwort_2026-11-04_a4WHfF.jwe`, statt mit Ihrem Aktenzeichen. Holen Sie die Antwort über einen Link ab,
+  heißt die gespeicherte Datei `freigabe-<JJJJ-MM-TT>.jwe`. Ihr Aktenzeichen lesen Sie nach dem
+  Entschlüsseln im Datensatz (`anfrage.vorgang`).
+
+### Behoben
+- Eingabe und Einlesen: Ein mehrdeutiger Begriff bekommt keinen Code mehr, er bleibt Text. „Penicillin“ wurde bis v1.0.1047 zu
+  „Benzylpenicillin“ mit dem Code J01CE01, obwohl der Begriff in der ATC-Liste drei Codes trifft.
 
 ## [v1.0.1047] – 2026-11-07
 

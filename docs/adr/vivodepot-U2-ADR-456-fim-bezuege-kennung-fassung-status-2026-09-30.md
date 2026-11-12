@@ -25,6 +25,10 @@ Wie zeigt das Produkt, welche Depot-Angabe welchem Datenfeld des FIM-Baukastens 
 
 Entscheidung vom 07.10.2026: keine technischen Markierungen in der Benutzersicht. Die Zeile unter dem Feld (Punkt 6, erster Satz) entfällt, mit ihr die Anzeigefunktion und ihre drei Texte. Der Bezug bleibt in der Kern-Region, im Export `fim-json` und in der öffentlichen Zuordnungsliste; Punkt 7 gilt unverändert.
 
+## Nachtrag 08.11.2026 — die Zustimmung ist belegt
+
+Die FITKO hat am 04.11.2026 telefonisch Auskunft gegeben, dass jeder die Inhalte nutzen darf; die Inhaberin hat am 08.11.2026 entschieden, danach zu verfahren (U2-ADR-465, Nachtrag 08.11.2026). Die Bedingung aus Punkt 1 ist damit erfüllt: `fimNamenFreigabe` in `bereiche/bezuege.json` trägt Datum und Beleg. Namen dürfen nun in die Tabelle, in die Region und in den Export; die Werkzeuge aus Punkt 7 lassen sie ohne Umbau zu. Die Namen einzutragen ist ein eigener Schritt; bis dahin bleibt `name` leer. Der alte Text von Punkt 1 bleibt als Verlauf stehen.
+
 ## Was diese Entscheidung nicht leistet
 
 Sie liefert kein Datenschema einer Verwaltungsleistung und keine Prüfung gegen dessen XSD (U2-ADR-442, eigener Schritt). Sie sagt nichts über die Werte-Entsprechung bei Feldern mit Wertelisten (Staatsangehörigkeit, Familienstand, Geschlecht); diese stehen darum als `naeherung`. Der Import liest die `felder` noch nicht zurück. Für Doktorgrad und Land gibt es kein Depot-Feld.
@@ -68,4 +72,10 @@ konformitaet:
     pruefung:
       - tests/fim-bezuege.test.js "[FIM·Export] fim-json trägt Bezugsdatensatz, Stand und je Wert den gepinnten Bezug — und der Prüfer findet nichts"
       - tests/fim-bezuege.test.js "[FIM·Export·Rot-Beweis] falsche Fassung, falscher Status, fest statt nicht fest, erfundene Zeile, Name, fehlender Stand — je ein Befund"
+  - aussage: >-
+      Die Freigabe der FIM-Namen ist mit Datum und Beleg eingetragen.
+    zustand: erfuellt
+    herkunft: U2-ADR-456, Nachtrag 08.11.2026
+    pruefung:
+      - tests/fim-bezuege.test.js "[FIM·Freigabe] fimNamenFreigabe trägt Datum und Beleg (Nachtrag 08.11.2026)"
 ```

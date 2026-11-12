@@ -1195,6 +1195,72 @@
  },
  {
   "sektor": "housing",
+  "feld": "heatingCostsInRent",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "hotWaterCostsInRent",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "garageCostsInRent",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "parkingSpaceCostsInRent",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "serviceChargeFlatRate",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "householdEnergyCosts",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "costsPaidToThirdParties",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "rentSubsidyAmount",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "subtenants",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "subtenants",
+  "unterfeld": "subtenantServiceCharges",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "landlordConfirmationCode",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
   "feld": "rentalDepositBankAmount",
   "unterfeld": null,
   "gruppe": "C"

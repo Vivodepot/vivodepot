@@ -37,10 +37,6 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Restschlüssel: einstVersionStandSatz (Versionsstand der Anwendung als Beschriftung) und herkunftImpressumLink (Link-Beschriftung) — keine Vertrauensaussage; die Prüfstufen- und Herkunftssätze der Funktion stehen in ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT."
     },
-    "exportErinnerungVielleichtZeigen": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Erinnerungstext an die Nutzerin."
-    },
     "feldInputHTML": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
@@ -54,10 +50,6 @@
       "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
     },
     "flowImportAuto": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
-    },
-    "flowImportAutoritativ": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
     },
@@ -84,6 +76,10 @@
     "flowUebergabeWiderrufErzeugen": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
+    },
+    "idbGeoeffnetText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "„Geöffnet: Depot mit Stand vom …“ nennt nur, welchen Stand die Person gerade selbst geöffnet hat; der Satz verspricht weder Unversehrtheit noch Echtheit (Import-Anzeige, IDB-FALSCHES-PASSWORT, 07.11.2026)."
     },
     "importAnzeigeText": {
       "entscheidung": "kein-zusicherungssatz",
@@ -153,10 +149,6 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Navigationsbeschriftung („Bestand“ als Wortteil), keine Zustandsaussage."
     },
-    "renderFooter": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Beschriftung eines Datums („Stand“ als Wortteil)."
-    },
     "renderMappe": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Navigationsbeschriftung („Bestand“ als Wortteil), keine Zustandsaussage."
@@ -204,6 +196,50 @@
     "zeichneWiderrufPdf": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
+    },
+    "shlEmpfangFehlerText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlertext beim Einlesen eines Freigabe-Links („Der Link ist abgelaufen.“): sagt nur, was der Kern am eingefügten Link selbst gelesen hat, nichts über den Zustand der Anwendung oder einer Datei."
+    },
+    "herkunftsortHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Restschlüssel: herkunftImpressumLink und herkunftDatenschutzLink (Link-Beschriftungen) — keine Vertrauensaussage; die Herkunftssätze der Funktion stehen in ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT (früher Teil von einstellungenHTML)."
+    },
+    "exportErinnerungText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Erinnerungstext an die Nutzerin (Sicherungs-Erinnerung; vorher Teil von exportErinnerungVielleichtZeigen). Liest exportErinnerungZustand: „vor X Tagen, N Änderungen seither“ benennt den Stand der Datei-Sicherung aus den eigenen Angaben der Nutzerin, keine Aussage über Vertrauen oder Prüfung."
+    },
+    "infoBeschriftungHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Baut ⓘ-Knopf und Blatt zu einer Feldbeschriftung; liest nur btnVerstanden (Knopfbeschriftung „Verstanden“, Treffer auf das Vokabular nur durch den Wortteil „stand“). Der Text des Blattes kommt vom Aufrufer, die Funktion selbst sagt nichts über Zustand, Herkunft oder Prüfung aus."
+    },
+    "infoKennung": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Vergibt nur eine laufende Kennung für ein ⓘ-Blatt und liest keinen Satz. Der Treffer (btnVerstanden) stammt aus der unmittelbar folgenden Funktion infoBeschriftungHTML, die die Heuristik mit zur Funktion rechnet; „Verstanden“ ist nur eine Knopfbeschriftung."
+    },
+    "_ueberHinweiseAbschnitteHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines Datums („Stand“ als Wortteil)."
+    },
+    "speicherHinweisOeffnen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Öffnet das Blatt zur Sicherungs-Erinnerung; liest btnVerstanden (Knopfbeschriftung „Verstanden“, Treffer nur durch den Wortteil „stand“). Der angezeigte Satz kommt aus exportErinnerungText (eigene Entscheidung, kein Zusicherungssatz)."
+    },
+    "geruestEintragHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Eintrags im Bereichsgerüst (leerZustand, „Nicht hinterlegt“) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "notfallKernModell": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "liest STRINGS.leerZustand nur zum Vergleich, ob eine Kartenzeile einen Wert trägt (kein Satz über Herkunft/Prüfung)."
+    },
+    "zeichneNotfallkarte": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Restschlüssel: notfallKarteStand (Datums-Beschriftung „Stand: …“ im Fuß der Karte, seit 01.11.2026 statt der Haftungszeile) — sagt, wann die Karte erstellt wurde, nichts über Vertrauen oder Prüfung."
+    },
+    "zeichneSituationPdf": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Restschlüssel: exportGesamtPdfStand (Datums-Beschriftung) und leerZustand (Leerwert-Beschriftung); die pdfHerkunft*-Sätze stehen in ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT. Seit 31.10.2026 (Zielbild S6) trägt das Situationsblatt denselben Kopf mit Stand wie das Gesamt-PDF."
     }
   }
 }

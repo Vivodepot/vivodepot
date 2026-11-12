@@ -147,7 +147,7 @@ test('[M21] option:checked färbt nicht blau, Einträge stehen in normaler Grö�
   const alle = regeln(GRUNDLAGE).filter((r) => r.huelle.some((h) => /base-select/.test(h)));
   const eintrag = alle.find((r) => r.selektoren.some((s) => /select option$/.test(s)));
   assert.ok(eintrag, 'Regel für die Einträge');
-  assert.equal(wert(eintrag, 'font-size'), 'var(--fs-base)');
+  assert.equal(wert(eintrag, 'font-size'), 'var(--fs-role-text)');
   for (const r of alle.filter((x) => hat(x, 'option:checked'))) assert.doesNotMatch(r.dekl.join(';'), /blue|highlight|accentcolor|#|rgba?\(/i);
 });
 

@@ -1,15 +1,15 @@
 {
  "beschreibung": "Ratsche „Anordnung im Gerüst“ (U2-ADR-473 W6): Funktionen, die Rahmen-Markup fest schreiben, und das statische Markup von Kopf und Tab-Leiste (Zahl und Folge der Elemente). Darf nur sinken; W3b senkt auf 0. `schutz`: fest gewollte Schreibwege geschützter Anzeigen, je mit Grund und eigenem Wort. Zählweg: node tools/geruest-anordnung-pruefen.js",
  "funktionen": [
-  "renderFooter",
   "renderSidebar"
  ],
  "kopf": {
-  "anzahl": 51,
+  "anzahl": 54,
   "folge": [
    "header.topbar",
    "button#tb-menue.a11y-btn",
    "span.ico",
+   "span.tb-menue-wort",
    "button#tb-marke.marke",
    "span.logo-mark",
    "svg.logo-svg",
@@ -28,6 +28,7 @@
    "button#tb-depot-menue-sicherungskopie.depot-menue-eintrag",
    "span#tb-sub-hinweis.tb-sub-hinweis",
    "span.tb-sub-punkt",
+   "span#tb-sub-praefix.tb-sub-praefix",
    "span#tb-sub-name",
    "button#tb-pw-hinweis.tb-pw-hinweis",
    "span.ico",
@@ -37,6 +38,7 @@
    "div#tb-save-status.tb-save-status",
    "span.ico",
    "span.tb-save-text",
+   "button#tb-save-info.info-knopf",
    "button#tb-save-knopf.tb-save-knopf",
    "span.spacer",
    "div#tb-a11y.a11y-leiste",
@@ -78,10 +80,5 @@
    "span.bt-label"
   ]
  },
- "schutz": [
-  {
-   "name": "_staleCacheWarnungAnzeigen",
-   "grund": "hängt die Warnung „veraltete Fassung im Speicher“ (ff-stale-warnung, geschützte Anzeige: Warnungen) an die Fußzeile; sie muss in jedem Layout erscheinen und ist darum fest gewollt (U2-ADR-473 Nachtrag v894, Schutz gewinnt). Wort der Gegenlesung einzeln."
-  }
- ]
+ "schutz": []
 }

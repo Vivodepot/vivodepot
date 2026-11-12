@@ -171,7 +171,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   antwortMitSchluesseldateiOeffnen, schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei,
   antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C, ANTWORT_JWE_MAX_ZEICHEN,
   // U2-ADR-501: die signierte Antwort lesen (tests/lese-app-signierte-antwort.test.js)
-  antwortOeffnenMitSignatur, antwortSignaturPruefen, schluesselAnfrageBindung, empfangAnfrageAbdruck, _anfrageZertifikatZumTag, antwortSignaturHTML, antwortSchluesselVermerken, antwortOeffnenFehlerText,
+  antwortOeffnenMitSignatur, antwortSignaturPruefen, _antwortErwartetAusKopf, schluesselAnfrageBindung, empfangAnfrageAbdruck, _anfrageZertifikatZumTag, antwortSignaturHTML, antwortSchluesselVermerken, antwortOeffnenFehlerText,
   antwortJweTraegtJws, ANTWORT_JWS_TYP, ANTWORT_JWS_ALGS, _jwkThumbprint, stellenKennung, stellenKennungTeile,
   // PDF-Anhang-Leser, zeichengleich mit dem Kern (tests/pdf-anhaenge-lesen.test.js)
   pdfAnhaengeLesen: (typeof pdfAnhaengeLesen !== 'undefined' ? pdfAnhaengeLesen : undefined),
@@ -188,7 +188,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   // mit Code- und Optionen-Aufloesung (Zug 1 „Die Empfaengerseite").
   _tplDefAlsFeld, _tplAbschnitte,
   feldSensibelUeberschreibung, feldIstSensibel, unterfeldIstSensibel,
-  personName, institutionName, mappeName, mappeEintrag, _mappeInhaltAlsQuelleLesen, entitaetAnzeige, _wertTextMenschlich, _datumDeutsch, situationModell, notfallKernModell,
+  personName, institutionName, mappeName, mappeEintrag, _mappeInhaltAlsQuelleLesen, entitaetAnzeige, _wertTextMenschlich, _datumDeutsch, situationModell, notfallKernModell, notfallZeileBeschriftung, notfallZeilenGeordnet,
   _bankvollmachtRecordsLesen, _kiHatDatenLesen, _bereichLabelTextLesen,
   liesUrheberschaft, stempelName, urheberschaftZeileHTML, aktuellerAnkerName,
   /* U2-ADR-325: die Datenlesen-Schicht der Logik-Module. Eine Probe ueber sektorHTML allein

@@ -144,7 +144,7 @@ test('[Negativprobe] b16-082 feuert auf die Mutation — und nur auf sie (rot �
 });
 
 test('[Negativprobe] b16-055 feuert auf die Mutation — und nur auf sie (rot ⇄ grün)', () => {
-  const sauber = '{ _aktiv = modus; renderTopbar(); renderContent(); renderFooter(); }';
+  const sauber = '{ _aktiv = modus; renderTopbar(); renderContent(); staleBandAktualisieren(); }';
   assert.deepEqual(schalterVerstoesse(sauber), [], 'sauberer Schalter-Körper meldet Verstöße — Diskriminante zu grob');
 
   // (1) Krypto/Speicher-Berührung einspeisen → rot, je Token einzeln geprüft.

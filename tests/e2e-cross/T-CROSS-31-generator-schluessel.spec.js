@@ -133,6 +133,7 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     const p = await ctx.newPage();
     await H.generator.oeffnen(p, 'de');
     await p.click('#start-module');
+    await p.click('#mod-gruppen [data-mods~="anf"]');
     await p.click('#mod-kacheln [data-mod="anf"]');
     await p.selectOption('#anf-antwort-art', 'schluesselpaar');
     await p.fill('#anf-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#anf-pw2', H.SCHLUESSEL_PASSWORT_E2E);
@@ -184,6 +185,7 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await p.click('#dlg-fertig .dlg-zu');
     await p.click('#bau-start');
     await p.click('#start-module');
+    await p.click('#mod-gruppen [data-mods~="ia"]');
     await p.click('#mod-kacheln [data-mod="ia"]');
     await p.fill('#ia-sprache', 'de');
     await p.fill('#ia-herkunft', 'test');

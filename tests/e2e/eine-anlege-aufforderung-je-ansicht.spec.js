@@ -69,7 +69,9 @@ test('[Eine Aufforderung] „Sub-Depots“: genau ein Weg, der Knopf im Inhalt m
   await h.oeffneApp(page, { url: h.KERN_URL_PRIVAT_DE });
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
-  await page.locator('.topbar button', { hasText: 'Mein Depot' }).first().click();
+  // Vorschau v998, M15: in der Umschau sagt die Pille „Beispielansicht“, nicht „Mein Depot“
+  await expect(page.locator('#tb-depot-pille')).toContainText('Beispielansicht');
+  await page.locator('#tb-depot-pille').click();
   await page.getByText('Sub-Depots', { exact: true }).first().click();
   await expect(page.locator('#sub-pw-link')).toHaveText('Depot anlegen');
   await expect(page.locator(h.ANLEGE_WEG + ':visible'), 'vorher standen hier zwei Wege mit zwei Wörtern: der Hinweis oben und „Passwort jetzt setzen →“').toHaveCount(1);

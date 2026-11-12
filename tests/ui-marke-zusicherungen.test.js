@@ -142,10 +142,11 @@ function wortmarkeVerstoesse(src) {
   const v = [];
   /* NACHGEZOGEN 10.09.2026 (Auftrag „White Label bis ins PDF") — der Ort wechselte von der
      Fußzeile (`function renderFooter()`/`ff-firma`/STRINGS.fussFirma, alle drei entfallen) zum
-     Herkunftsort (Einstellungen → Recht, `data-herkunftsort`, STRINGS.herkunftPoweredBy). Die
+     Herkunftsort (`data-herkunftsort`, STRINGS.herkunftPoweredBy; seit 1.11.2026 auf der Seite „Über und Hinweise“ statt in den Einstellungen). Die
      Diskriminante fragt jetzt genau dort, dieselbe Form wie vorher (Element + Kennung + Wert). */
   if (!/data-herkunftsort=/.test(src)) v.push('Herkunftsort-Element fehlt');
-  if (!/herkunft-powered[\s\S]{0,40}herkunftPoweredBy/.test(src)) v.push('Herkunftsort rendert herkunftPoweredBy nicht');
+  // Das Fenster ist 120 Zeichen weit: seit 1.11.2026 steht zwischen Klasse und Schlüssel der Hinweis-Anker `data-herkunft-hinweis="app"` (Seite „Über und Hinweise“).
+  if (!/herkunft-powered[\s\S]{0,120}herkunftPoweredBy/.test(src)) v.push('Herkunftsort rendert herkunftPoweredBy nicht');
   /* Zwei Formen gelten wie beim Vorgänger — die Negativprobe unten fährt die Tabellenform, der
      echte Kern die Satzform, und der Wächter muss beide finden. */
   const m = src.match(/(?:herkunftPoweredBy:|'strings:herkunftPoweredBy\.text':|"strings:herkunftPoweredBy\.text":)\s*"([^"]*)"/);

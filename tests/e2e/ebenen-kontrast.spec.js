@@ -32,7 +32,8 @@ test('[Ebenen-Kontrast] Depot anlegen, Fehlermeldung am Feld: Schrift ≥ 4,5:1 
   test.setTimeout(240000);
   await (async (page) => {
     await oeffneApp(page); await page.click('#w-anfangen'); await page.evaluate(() => { document.getElementById('tb-pw-hinweis').hidden = false; }); await page.waitForSelector('#tb-pw-hinweis'); await page.click('#tb-pw-hinweis');
-    await page.waitForSelector('#id-pw'); await page.fill('#id-vorname', 'A'); await page.fill('#id-nachname', 'B');
+    await page.waitForSelector('#id-vorname'); await page.fill('#id-vorname', 'A'); await page.fill('#id-nachname', 'B');
+    if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await page.fill('#id-pw', 'x'); await page.fill('#id-pw2', 'y'); await page.click('#m-ok'); await page.waitForTimeout(300);
   })(page);
   expect(await ansichtPruefen(page)).toEqual([]);

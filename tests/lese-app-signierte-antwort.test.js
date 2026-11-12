@@ -24,6 +24,13 @@ const STELLE = 'heim/sonnenhof';
 const VORGANG = 'AUF-2026-1015';
 const b64u = (buf) => Buffer.from(buf).toString('base64url');
 const json = (o) => JSON.parse(JSON.stringify(o));
+/* Der Datensatz, wie er ankommt: der Kern legt die zufällige Kennung des Kopfs als anfrage.kennung hinein (U2-ADR-520 Nr. 3). */
+const wieAngekommen = (ds, jwe) => {
+  const e = JSON.parse(JSON.stringify(ds));
+  e.anfrage = Object.assign({}, e.anfrage, { kennung: JSON.parse(Buffer.from(jwe.split('.')[0], 'base64url').toString('utf8')).kennung });
+  return e;
+};
+
 
 function datensatz(extra) {
   return Object.assign({
@@ -220,9 +227,9 @@ test('[Signierte Antwort·ungebunden·Rot-Beweis] ein Öffnen-Weg, der die ungeb
   const fs = require('node:fs');
   const html = fs.readFileSync(LESEN_PATH, 'utf8');
   // Ohne getragene Anfrage (Schlüsseldatei vor V3b) läuft der Öffnen-Weg über diesen Zweig: ohne Kennung.
-  const zeile = "      : { anbieterId: '', vorgang: String(offen.kopf.vorgang || '') };";
+  const zeile = "      : _antwortErwartetAusKopf(offen.kopf);";
   assert.equal(html.split(zeile).length, 2, 'Vorbedingung: der Öffnen-Weg ruft die Prüfung ohne gebundene Kennung genau einmal ohne Kennung');
-  const falsch = "      : { anbieterId: (schluessel && schluessel.privateJwk && schluessel.privateJwk.anbieterId) || '', vorgang: String(offen.kopf.vorgang || '') };";
+  const falsch = "      : Object.assign(_antwortErwartetAusKopf(offen.kopf), { anbieterId: (schluessel && schluessel.privateJwk && schluessel.privateJwk.anbieterId) || '' });";
   const L = ladeLesen({ html: html.replace(zeile, falsch) }).V;
   const empf = await empfangsPaar(STELLE);
   const r = await oeffne(L, await verschluessele(L, signiere(nutzlast(datensatz(), { aud: audVon(STELLE) }), edPaar()), empf.pub, { cty: 'JWT' }), empf.priv);
@@ -308,7 +315,7 @@ test('[Signierte Antwort·Kern] eine Antwort des heutigen Kerns öffnet sich üb
   const L = ladeLesen().V;
   const r = await oeffne(L, jwe, empf.priv);
   assert.equal(r.signatur.zustand, V.ANTWORT_SIGNIEREN ? 'signatur' : 'ohne', 'der Schalter des Kerns bestimmt, ob signiert wird');
-  assert.deepEqual(json(r.datensatz), json(ds));
+  assert.deepEqual(json(r.datensatz), wieAngekommen(ds, jwe));
 });
 
 test('[Signierte Antwort·Anzeige] neuer Schlüssel, dann „zuerst am“; nie „geprüft“, keine PID verlangt', async () => {

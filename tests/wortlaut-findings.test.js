@@ -56,8 +56,10 @@ test('[Finding 13] Zielbereiche eines Wizards: distinkt, in Reihenfolge, Bürger
   const h = V.wizardZielBereichNamen(V.WIZARD_BY_ID.heirwiz);
   assert.ok(h.includes(V.SEKTOR_BY_ID.identity.label) && h.includes(V.SEKTOR_BY_ID['people'].label));
   assert.ok(!h.includes(V.SEKTOR_BY_ID.advanceCare.label), 'kein Vorsorge-Ziel mehr in heirwiz');
-  // Ein-Ziel-Wizard (anamwiz → nur gesundheit): genau ein Eintrag.
-  assert.deepEqual(Array.from(V.wizardZielBereichNamen(V.WIZARD_BY_ID.anamwiz)), [V.SEKTOR_BY_ID.health.label]);
+  // Ein-Ziel-Wizard (kiwiz → nur vorsorge, kein Schritt-Ziel): genau ein Eintrag. Bis C14
+  // (Assistenten-Urteil W03/W04, 07.11.2026) stand hier anamwiz → gesundheit; anamwiz ist gestrichen.
+  assert.ok(V.WIZARD_BY_ID.kiwiz.schritte.every((s) => !s.ziel), 'Vorbedingung: kiwiz trägt nur das Standardziel');
+  assert.deepEqual(Array.from(V.wizardZielBereichNamen(V.WIZARD_BY_ID.kiwiz)), [V.SEKTOR_BY_ID.advanceCare.label]);
 });
 
 test('[Finding 13] deutsche Aufzählung: A / A und B / A, B und C', () => {

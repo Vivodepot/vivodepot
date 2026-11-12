@@ -10,6 +10,7 @@
    ═════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen } = require('./helpers');
 
 async function mitPerson(page) {
@@ -58,7 +59,7 @@ test('[Rot-Beweis] mit Festlegung: ohne Annahme und ohne Ja kein Auszug — auch
   await page.evaluate(() => { window.__vdOeffentlich.flowFormatExport('vcard-menschen'); });
   await expect(page.locator('#modal-titel')).toHaveText('Ihre Bedingung für diese Weitergabe');
   expect(await keinDownload(page, 1500)).toBe(true);
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
   expect(await keinDownload(page, 1000)).toBe(true);
 });
 
@@ -86,7 +87,7 @@ test('[Rot-Beweis] eine Ablehnung steht im Protokoll, und ohne Ja geht nichts hi
   await expect(page.locator('#modal-titel')).toHaveText('Angebot für die Stelle');
   await antwortEinfuegen(page, 'abgelehnt');
   await expect(page.locator('#modal-titel')).toHaveText('Ohne vereinbarte Bedingung weitergeben?');
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
   expect(await keinDownload(page, 1000)).toBe(true);
   const e = await letzterEintrag(page);
   expect(e.vereinbarung.status).toBe('abgelehnt');

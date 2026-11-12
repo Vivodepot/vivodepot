@@ -13,8 +13,9 @@ const BREITEN = [[1280, 800], [390, 844]];
 async function umschauFeldKlicken(page) {
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
-  const karte = page.locator('#content details summary').first();
-  if (await karte.count()) await karte.click();
+  // Die ersten Karten eines Bereichs stehen ab Werk offen (Ruhezustand, tests/feldgruppen-ruhezustand.test.js): nur eine zugeklappte öffnen.
+  const karte = page.locator('#content details').first();
+  if (await karte.count() && !(await karte.evaluate((d) => d.open))) await karte.locator('summary').first().click();
   const feld = page.locator('#content [data-umschau-eintragen][data-umschau-feld]').first();
   await expect(feld, 'in der Umschau ist der Feldwert eine Schaltfläche').toBeVisible();
   const feldId = await feld.getAttribute('data-umschau-feld');
@@ -28,7 +29,7 @@ for (const [slug, url] of PRODUKTE) {
       await page.setViewportSize({ width: breite, height: hoehe });
       await h.oeffneApp(page, { url });
       await umschauFeldKlicken(page);
-      await expect(page.locator('#modal-rueck.an #id-pw')).toBeVisible();
+      await expect(page.locator('#modal-rueck.an #id-vorname')).toBeVisible();   // Zielbild 01: das Passwort-Feld kommt erst mit dem eigenen Passwort
       await expect(page.locator('#modal-rueck [data-anlegen-grund]')).toBeVisible();
     });
   }
@@ -40,6 +41,7 @@ test('[Umschau → Einrichten] nach dem Anlegen steht der Fokus im angeklickten 
   const feldId = await umschauFeldKlicken(page);
   await page.fill('#id-vorname', 'Erika');
   await page.fill('#id-nachname', 'Probe');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'e2e-passwort-123');
   await page.fill('#id-pw2', 'e2e-passwort-123');
   await page.click('#m-ok');
@@ -57,6 +59,7 @@ test('[Umschau → Einrichten] Fokus auch in ein Auswahlfeld: Familienstand (pri
   await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
   await page.click('#content [data-umschau-eintragen][data-umschau-feld="maritalStatus"]');
   await page.fill('#id-vorname', 'Erika'); await page.fill('#id-nachname', 'Probe');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'e2e-passwort-123'); await page.fill('#id-pw2', 'e2e-passwort-123');
   await page.click('#m-ok');
   await page.waitForSelector('#tb-pw-hinweis', { state: 'hidden' });
@@ -85,6 +88,7 @@ test('[Umschau → Einrichten·Abdeckung] jedes Feld mit „Eintragen“ hat nac
   await page.evaluate(() => { window.__vdOeffentlich.oeffneSektor('identity'); document.querySelectorAll('#content details').forEach((d) => { d.open = true; }); });
   await page.click('#content [data-umschau-eintragen][data-umschau-feld]');
   await page.fill('#id-vorname', 'Erika'); await page.fill('#id-nachname', 'Probe');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'e2e-passwort-123'); await page.fill('#id-pw2', 'e2e-passwort-123');
   await page.click('#m-ok');
   await page.waitForSelector('#tb-pw-hinweis', { state: 'hidden' });

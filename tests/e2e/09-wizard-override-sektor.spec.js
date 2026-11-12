@@ -31,7 +31,7 @@ test('1b: pflwiz-Override-Schritt (pflegezeit) landet in meine-menschen, NICHT i
   await oeffneSektor(page, 'socialInsurance');
 
   // Wizard starten (pflwiz, ziel sozialversicherung; Schritt 4 hat den meine-menschen-Override).
-  const gefuehrt = page.locator('.wizard-gruppe > summary');
+  const gefuehrt = page.locator('.bereich-assistenten .wizard-gruppe > summary');
   if (await gefuehrt.count()) await gefuehrt.click();
   await page.click('[data-wizard-start="pflwiz"]');
   await expect(page.locator('.wizard-frage')).toBeVisible();

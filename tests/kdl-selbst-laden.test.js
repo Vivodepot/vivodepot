@@ -441,7 +441,9 @@ test('[KDL·Texte] jeder Abweisungsgrund wird wirklich erzeugt, und der Dialog l
   const genannt = [...new Set([...html.matchAll(/(?:grund|kdlGrund): '(kdl-[a-z-]+)'/g)].map((m) => m[1]))];
   assert.ok(genannt.length > 0, 'Nicht-leer-Wache: der Kern nennt Abweisungsgründe');
   assert.deepEqual([...erzeugt].sort(), genannt.sort(), 'jeder im Kern genannte Grund wird hier wirklich erzeugt');
-  // Gelesen: der Dialog schlägt den Text mit genau diesem Ausdruck nach (_kdlSelbstLadenDialog).
-  assert.ok(html.includes("_eigenerWert(STRINGS, 'kdlFehler_' + r.grund.replace(/-/g, '_'))"), 'der Dialog liest kdlFehler_<grund>');
+  // Gelesen: der Dialog bildet das Anzeige-Modell der Art kdl (_kdlSelbstLadenDialog); dessen Satzquelle schlägt den Text mit
+  // genau diesem Ausdruck nach (IMPORT_ABWEISUNG_SATZ, 04.11.2026).
+  assert.ok(html.includes("ui.toast(importAnzeigeText(importAnzeigeModell('kdl', r)), 'fehler')"), 'der Dialog bildet das Modell der Art kdl');
+  assert.ok(html.includes("_eigenerWert(STRINGS, 'kdlFehler_' + String(g || '').replace(/-/g, '_'))"), 'die Satzquelle liest kdlFehler_<grund>');
   for (const g of erzeugt) assert.ok(V.STRINGS['kdlFehler_' + g.replace(/-/g, '_')], 'Text zu ' + g);
 });

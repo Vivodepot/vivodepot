@@ -171,16 +171,20 @@ betreibt, sieht die IP-Adresse des Telefons und die Uhrzeit. Grundlage:
 [`U2-ADR-460`](adr/vivodepot-U2-ADR-460-anfrage-qr-kurzlink-2026-10-01.md).
 
 **Die Antwort** ist ein JWE in Compact Serialization (RFC 7516), gespeichert als Datei mit der Endung `.jwe` und dem
-Medientyp `application/jose`. `enc` ist immer `A256GCM`. `antwort.art` in der Anfrage wählt das Verfahren:
+Medientyp `application/jose`. Als Datei herausgegeben heißt sie `<Marke>_Antwort_<JJJJ-MM-TT>_<erste sechs Zeichen der zufälligen Kennung>.jwe`, über einen Link abgeholt `freigabe-<JJJJ-MM-TT>.jwe`:
+Weder der Name noch der lesbare Kopf tragen Ihr Aktenzeichen (`vorgang`) oder den Zweck; zugeordnet wird nach dem Öffnen über
+`anfrage.vorgang`. `enc` ist immer `A256GCM`. `antwort.art` in der Anfrage wählt das Verfahren:
 
 | `antwort.art` | `alg` | Geeignet für |
 |---|---|---|
 | `schluesselpaar` | `ECDH-ES` auf P-256; die Anfrage trägt Ihren öffentlichen Schlüssel in `antwort.publicKeyJwk` | viele Antworten an eine Stelle |
 | `einmalpasswort` | `PBES2-HS512+A256KW`, `p2c` genau 600000 | einen einzelnen Vorgang; das Passwort erreicht die Person auf anderem Weg |
 
-- Der geschützte Kopf trägt `typ` `vivodepot-antwort+jwe`, `vorgang` und, wenn die Anfrage einen nennt, `anbieter`. Der
-  Kopf ist lesbar und nennt keinen Wert. Bei `ECDH-ES` geht die Vorgangskennung zusätzlich in die Schlüsselableitung
-  (`apv`).
+- Der geschützte Kopf trägt `typ` `vivodepot-antwort+jwe` und `kennung`, eine zufällige Kennung dieser Antwort (16 Bytes,
+  base64url). Der Kopf ist lesbar und nennt darum weder Ihre Stelle noch Ihr Aktenzeichen. Bei `ECDH-ES` geht die Kennung
+  zusätzlich in die Schlüsselableitung (`apv`). Im Inneren trägt der Datensatz `anfrage.vorgang` (Ihr Aktenzeichen) und
+  `anfrage.kennung` (dieselbe Kennung wie im Kopf). Antworten aus Fassungen bis v1050 trugen statt der Kennung `vorgang` in
+  Kopf und `apv` (vor v1039 auch `anbieter`); Lese-App und Studio von Vivodepot lesen beide Formen.
 - Die Antwort wird auf feste Größenstufen aufgefüllt und nicht komprimiert. Ein Empfänger sollte `zip` ablehnen.
 - Nehmen Sie nur `p2c` = 600000 an. Ein gefälschter Kopf mit sehr großem Wert legte sonst die Empfängerseite lahm.
 - Bei `einmalpasswort` muss das Passwort zufällig erzeugt sein und mindestens 16 Zeichen haben, Bindestriche und Leerzeichen nicht

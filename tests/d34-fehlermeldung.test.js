@@ -57,7 +57,10 @@ test('[D34] der Anker-Aufrufer trennt Parse vs. GCM; Sub-Entsiegeln nutzt densel
   /* Nachtrag 13.10.2026 (Befund KRYPTO-FASSUNG-HEISST-FALSCHES-PASSWORT): die Öffnen-Stellen reichen ihre Abweisung an
      oeffnenAbweisungText; dort bleibt der Wurf ohne Code (GCM nach NFC+NFD) das falsche Passwort. Klassenwächter:
      tests/oeffnen-abweisung-nennt-grund.test.js. */
-  assert.ok(/zeigeFehler\(oeffnenAbweisungText\(e\)\)/.test(src), 'depotLaden-Fehler → oeffnenAbweisungText (zeigeFehler-Aufrufer)');
+  /* Nachtrag 04.11.2026 (IMPORT-VERWIRFT-OHNE-ANZEIGE, Anschluss): die Stelle bildet das Anzeige-Modell der Art depot-datei und
+     reicht den Wurf als Kontext weiter; dessen Satzquelle ist oeffnenAbweisungText (gleicher Satz: tests/import-anzeige-satz-unveraendert.test.js). */
+  assert.ok(/zeigeFehler\(importAnzeigeText\(importAnzeigeModell\('depot-datei', \{ ok: false, grund: \(e && e\.code\) \|\| 'passwort' \}\), e\)\)/.test(src), 'depotLaden-Fehler → Anzeige-Modell mit dem Wurf (zeigeFehler-Aufrufer)');
+  assert.ok(/'depot-datei': \(g, k\) => oeffnenAbweisungText\(/.test(src), 'die Satzquelle der Art depot-datei ist oeffnenAbweisungText');
   assert.ok(/function oeffnenAbweisungText\(e\) \{[\s\S]*?return vorDepotText\('entsperrPasswortFalsch'\);\n\}/.test(src), 'GCM ohne Code → entsperrPasswortFalsch');
   assert.ok(/!istGueltigerUmschlag\(umschlag\)/.test(src), 'Struktur-Check vor dem Entschlüsseln');
   // Sub-Entsiegeln teilt den „Das Passwort stimmt nicht"-Wortlaut.

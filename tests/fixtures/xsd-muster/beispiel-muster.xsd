@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Erfundenes Schema (Nummernkreis 99) fuer tools/xsd-muster-messen.mjs: X99000001 traegt ein Muster, das auf ein
+     woertliches Dollarzeichen endet; X99000002 dasselbe Muster ohne Dollarzeichen als Gegenprobe. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:vivodepot:probe:xsd-muster-1.0">
+  <xs:element name="probe">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="X99000001">
+          <xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" /></xs:restriction></xs:simpleType>
+        </xs:element>
+        <xs:element minOccurs="0" name="X99000002">
+          <xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}" /></xs:restriction></xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

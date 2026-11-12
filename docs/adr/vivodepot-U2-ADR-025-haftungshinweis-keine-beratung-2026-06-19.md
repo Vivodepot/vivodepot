@@ -108,3 +108,17 @@ Befunde zur Seite vom 01.11.2026 verlangen ganze Sätze.
 5. Die Probe wächst mit dem Bau der Seite. `tests/haftungshinweis.test.js` prüft die Kurzform B auf dem Startschirm wie bisher und
    die Satzform wortgleich am Kopf der Seite, beide Sprachen, mit einer Negativprobe für eine umformulierte Satzform. Die Bindung
    `u2-025-haftungshinweis-wortlaut-b-c` bleibt.
+
+## Nachtrag 01.11.2026 — Notfallkarte ohne Fassung C
+
+Entscheidung der Geschäftsführung vom 01.11.2026: Die A6-Notfallkarte ist von Fassung C ausgenommen. Ihr Fuß trägt statt dessen den Stand mit Datum („Stand: <Datum>“, EN „As of <date>“), dazu „Erstellt mit Vivodepot“ (U2-ADR-400), „Diese Karte ersetzt keinen amtlichen Ausweis.“ und den Namen. Begründung: Gängige Notfallausweise der Krankenkassen tragen keinen Haftungshinweis; auf einer Karte, die im Notfall gelesen wird, soll der Platz den Angaben gehören. Alle anderen Erzeuger bleiben bei Fassung C. Die Ausnahme gilt eng, nur für `zeichneNotfallkarte`; die Klassenprobe prüft jeden anderen PDF-Erzeuger weiter auf C.
+
+```yaml
+konformitaet:
+  - aussage: >-
+      Die Notfallkarte trägt keine Haftungsfassung C, sondern den Stand mit Datum; jeder andere PDF-Erzeuger trägt C weiter.
+    zustand: erfuellt
+    herkunft: U2-ADR-025 (Nachtrag 01.11.2026)
+    pruefung:
+      - tests/haftungshinweis.test.js "[Haftung C·Notfallkarte] die Notfallkarte trägt statt C den Stand mit Datum"
+```

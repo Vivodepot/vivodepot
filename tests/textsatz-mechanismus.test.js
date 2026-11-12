@@ -334,7 +334,7 @@ test('[Textsatz·Modul·Zug 3] Assistent, Anlass, Menschen-Register und Institut
     sprache: 'fr', moduleVersion: 1,
     texte: {
       'wizard:gebwiz.titel': 'Naissance d’un enfant',
-      'wizard:gebwiz.geburt_klinik.label': 'Maternité',
+      'wizard:gebwiz.guidedBirthEntryChildsNameNot.label': 'Nom de l’enfant',   // seit C14 (07.11.2026) der erste Schritt
       'anlass:umzug.label': 'Déménagement',
       'menschenRegister/name.label': 'Nom',
       'institutionsFeld/anmerkung.label': 'Remarque',
@@ -348,7 +348,7 @@ test('[Textsatz·Modul·Zug 3] Assistent, Anlass, Menschen-Register und Institut
   const instAnm = () => V._institutionFelder().unterFelder.find((f) => f.id === 'anmerkung');
 
   assert.equal(wiz.titel, 'Naissance d’un enfant');
-  assert.equal(wiz.schritte[0].feld.label, 'Maternité');
+  assert.equal(wiz.schritte[0].feld.label, 'Nom de l’enfant');
   assert.equal(V.ANLAESSE.find((a) => a.id === 'umzug').label, 'Déménagement');
   assert.equal(mrfName().label, 'Nom');
   assert.equal(instAnm().label, 'Remarque');
@@ -363,7 +363,7 @@ test('[Textsatz·Modul·Zug 3] Assistent, Anlass, Menschen-Register und Institut
   V.getData().textsprache = 'de';
   V.textsatzNeuAnwenden();
   assert.equal(wiz.titel, 'Geburt eines Kindes');
-  assert.equal(wiz.schritte[0].feld.label, 'Geburtsklinik / Geburtsort');
+  assert.equal(wiz.schritte[0].feld.label, 'Name des Kindes');
   assert.equal(V.ANLAESSE.find((a) => a.id === 'umzug').label, 'Umzug oder Haushaltsauflösung');
   assert.equal(mrfName().label, 'Name im Depot');
   assert.equal(instAnm().label, 'Anmerkung');
@@ -704,8 +704,9 @@ test('[Textsatz·Nachtrag] die vier Assistenten-Arten stehen im Satz — vier Be
   }
   const w = V.WIZARDS.find((x) => x.id === 'gebwiz');
   assert.equal(w.einleitung, V.TEXTSATZ_DE_QUELLE.texte['wizard:gebwiz.einleitung']);
-  assert.equal(w.schritte[0].frage, V.TEXTSATZ_DE_QUELLE.texte['wizard:gebwiz.geburt_klinik.frage']);
-  assert.equal(w.schritte[1].hilfetext, V.TEXTSATZ_DE_QUELLE.texte['wizard:gebwiz.geburt_hebamme.hilfetext']);
+  // C14 (Assistenten-Urteil W03/W04, 07.11.2026): gebwiz beginnt mit den Schritten zum Kind.
+  assert.equal(w.schritte[0].frage, V.TEXTSATZ_DE_QUELLE.texte['wizard:gebwiz.guidedBirthEntryChildsNameNot.frage']);
+  assert.equal(w.schritte[1].hilfetext, V.TEXTSATZ_DE_QUELLE.texte['wizard:gebwiz.guidedBirthEntryDateOfBirthNot.hilfetext']);
   assert.equal(w.abschluss.toast, V.TEXTSATZ_DE_QUELLE.texte['wizard:gebwiz.abschluss.toast']);
 });
 
@@ -718,7 +719,7 @@ test('[Textsatz·Nachtrag] die Kennung eines Schritts ist der Baumweg SEINES Fel
     const ids = (w.schritte || []).map((s) => s.feld && s.feld.id);
     assert.equal(new Set(ids).size, ids.length, 'doppelte Feld-Id in ' + w.id + ' — die Kennung kollidierte');
   }
-  assert.ok(Object.keys(V.TEXTSATZ_DE_QUELLE.texte).includes('wizard:gebwiz.geburt_klinik.frage'));
+  assert.ok(Object.keys(V.TEXTSATZ_DE_QUELLE.texte).includes('wizard:gebwiz.guidedBirthEntryChildsNameNot.frage'));
 });
 
 test('[Textsatz·Nachtrag·Rot] ein Modul ersetzt Frage, Hilfetext, Einleitung und Zuruf — und gibt sie wieder frei', async () => {
@@ -733,15 +734,15 @@ test('[Textsatz·Nachtrag·Rot] ein Modul ersetzt Frage, Hilfetext, Einleitung u
   V.getData().textsprache = 'fr';
   V.getData().textsatzModule = [{ sprache: 'fr', moduleVersion: 1, texte: {
     'wizard:gebwiz.einleitung': 'Quelques questions autour de la naissance.',
-    'wizard:gebwiz.geburt_klinik.frage': 'Dans quelle clinique votre enfant naîtra-t-il ?',
-    'wizard:gebwiz.geburt_hebamme.hilfetext': 'Le nom et le téléphone suffisent.',
+    'wizard:gebwiz.guidedBirthEntryChildsNameNot.frage': 'Comment votre enfant doit-il s’appeler ?',
+    'wizard:gebwiz.guidedBirthEntryDateOfBirthNot.hilfetext': 'Une date prévue suffit.',
     'wizard:gebwiz.abschluss.toast': 'Terminé — vos indications sont enregistrées.',
   } }];
   assert.equal(V._textsatzModuleAusDepotAnmelden(V.getData()), 1);
   V.textsatzNeuAnwenden();
   assert.equal(w().einleitung, 'Quelques questions autour de la naissance.');
-  assert.equal(w().schritte[0].frage, 'Dans quelle clinique votre enfant naîtra-t-il ?');
-  assert.equal(w().schritte[1].hilfetext, 'Le nom et le téléphone suffisent.');
+  assert.equal(w().schritte[0].frage, 'Comment votre enfant doit-il s’appeler ?');
+  assert.equal(w().schritte[1].hilfetext, 'Une date prévue suffit.');
   assert.equal(w().abschluss.toast, 'Terminé — vos indications sont enregistrées.');
 
   V.getData().textsprache = 'de';

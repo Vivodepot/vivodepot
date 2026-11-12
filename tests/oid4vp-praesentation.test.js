@@ -17,7 +17,7 @@
    · nur die gewählten Offenlegungen stehen in der Präsentation, weder als Offenlegung noch als Digest mehr;
    · nicht erfüllbare Queries bleiben unbeantwortet; eine verlangte credential_set, die nicht erfüllbar ist, ergibt eine Abweisung
      mit Grund, keinen Wurf; nur eine gebaute Präsentation zu genau dieser geprüften Anfrage wird verschlüsselt;
-   · der Exportweg nach U2-ADR-457 bleibt beim Schlüssel aus dem Passwort;
+   · der Exportweg nach U2-ADR-457 nimmt einen Schlüssel je Ausgabe, nicht den aus dem Passwort (Nachtrag 02.11.2026);
    · kein Netz, kein PID-Typ, kein sdJwtVcIdentitaet in den neuen Teilen.
    · Z (das ECDH-Ergebnis) und der CEK sind nach oid4vpAntwortJweRoh überschrieben, auf dem Erfolgsweg und auf Fehlerwegen
      (encrypt wirft, der Import des CEK wirft). Beobachtet über eine Hülle um crypto.subtle des geladenen Kerns.
@@ -331,14 +331,16 @@ test('[OID4VP·Präsentation·ein Weg] verschlüsselt wird nur eine gebaute Prä
   assert.ok([...K.OID4VP_ANTWORT_GRUENDE].includes('praesentation-fremd'));
 });
 
-test('[OID4VP·Präsentation·Exportweg] der Export nach U2-ADR-457 bleibt beim Schlüssel aus dem Passwort', async () => {
+test('[OID4VP·Präsentation·Exportweg] der Export nach U2-ADR-457 trägt einen Schlüssel je Ausgabe, nicht den aus dem Passwort', async () => {
   const { V } = ladeKern({ zusatzBindungen: NAMEN });
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Hedwig Brandt');
   V.sektorFeldSetzen('finance', 'privatePensionProvision', 'Cosmos Direkt');
   const r = await V.eudiwSdJwtVcSerialisieren(V.sdJwtVcFinanzen());
   assert.equal(r.signiert, true);
-  assert.equal(r.jwtPayload.cnf.jwk.x, (await V.__zusatz._halterSignaturHolen()).jwk.x);
+  assert.notEqual(r.jwtPayload.cnf.jwk.x, (await V.__zusatz._halterSignaturHolen()).jwk.x, 'nicht der Schlüssel aus dem Passwort');
+  const r2 = await V.eudiwSdJwtVcSerialisieren(V.sdJwtVcFinanzen());
+  assert.notEqual(r.jwtPayload.cnf.jwk.x, r2.jwtPayload.cnf.jwk.x, 'zwei Ausgaben, zwei Schlüssel');
   assert.ok(!r.serialisierung.slice(r.serialisierung.lastIndexOf('~') + 1), 'der Export trägt kein KB-JWT');
 });
 

@@ -16,7 +16,7 @@ test('pvwiz vollständig durchlaufen: die Patientenverfügung landet sichtbar in
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
 
-  const gefuehrt = page.locator('.wizard-gruppe > summary');
+  const gefuehrt = page.locator('.bereich-assistenten .wizard-gruppe > summary');
   if (await gefuehrt.count()) await gefuehrt.click();
   await page.click('[data-wizard-start="pvwiz"]');
   await expect(page.locator('.wizard-frage')).toBeVisible();
@@ -67,7 +67,7 @@ test('Bestandsdepot (alter Weg, nur Organspende beantwortet): nichts verschwinde
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
 
-  const gefuehrt = page.locator('.wizard-gruppe > summary');
+  const gefuehrt = page.locator('.bereich-assistenten .wizard-gruppe > summary');
   if (await gefuehrt.count()) await gefuehrt.click();
   await page.click('[data-wizard-start="pvwiz"]');
 

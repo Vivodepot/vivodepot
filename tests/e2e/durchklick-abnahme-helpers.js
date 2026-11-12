@@ -189,6 +189,8 @@ async function registerFormularGeburtsdatumWeg(page, { name = 'Formular Testpers
     // Das Datum aus feldInputHTML steht in drei Feldern (datumSetzen); ein Unterfeld-Datum im Register bleibt ein Browserfeld.
     if (await page.locator('.datum-dreifeld :is([data-edit="birthDate"], [data-edit="geburtsdatum"])').count()) {
       await require('./helpers.js').datumSetzen(page, ':is([data-edit="birthDate"], [data-edit="geburtsdatum"])', geburtsdatum);
+    } else if (await page.locator('[data-sub-zeile="birthDate"] [data-datum-iso], [data-sub-zeile="geburtsdatum"] [data-datum-iso]').count()) {
+      await require('./helpers.js').datumSetzen(page, '[data-sub-zeile="birthDate"] [data-datum-iso], [data-sub-zeile="geburtsdatum"] [data-datum-iso]', geburtsdatum);
     } else {
       await page.fill('[data-sub-zeile="birthDate"] input, [data-sub-zeile="geburtsdatum"] input', geburtsdatum);
     }
@@ -199,7 +201,7 @@ async function registerFormularGeburtsdatumWeg(page, { name = 'Formular Testpers
   }
 }
 
-// Geburts-Assistent (gebwiz): Anlass „geburt" → 6 Vorschritte → Name → Geburtsdatum → Verhältnis
+// Geburts-Assistent (gebwiz): Anlass „geburt" → Name → Geburtsdatum → Verhältnis (seit C14, 07.11.2026, keine Vorschritte)
 // → Fertig, Sub-Depot-Vorschlag ablehnen. Erwartet ein bereits per UI angelegtes, leeres Depot.
 async function gebwizGeburtsdatumWeg(page, { name = 'Gebwiz Testkind', geburtsdatum = '2027-03-15' } = {}) {
   try {
@@ -207,7 +209,6 @@ async function gebwizGeburtsdatumWeg(page, { name = 'Gebwiz Testkind', geburtsda
     await page.waitForSelector('[data-anlass="geburt"]', { state: 'visible', timeout: 5000 });
     await page.click('[data-anlass="geburt"]');
     await page.waitForSelector('.wizard-frage', { state: 'visible', timeout: 5000 });
-    for (let i = 0; i < 6; i++) await page.click('#wiz-weiter');
     const nameFeld = page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]');
     if (!(await nameFeld.count())) {
       return { weg: 'gebwiz', erreichbar: false, grund: 'Namens-Schritt fehlt — Wizard zielt vermutlich auf einen Sektor, den dieses Produkt nicht trägt' };
@@ -218,15 +219,25 @@ async function gebwizGeburtsdatumWeg(page, { name = 'Gebwiz Testkind', geburtsda
     await page.click('#wiz-weiter');
     await page.selectOption('#content select[data-edit="guidedBirthEntryRelationship"]', 'leiblich');
     await page.click('#wiz-weiter');
-    const abbr = page.locator('#m-abbr');
-    if (await abbr.isVisible({ timeout: 2000 }).catch(() => false)) await abbr.click();
+    const abbr = page.locator('#m-abbr, #m-x');
+    if (await abbr.first().isVisible({ timeout: 2000 }).catch(() => false)) await dialogAbbrechen(page);
     return { weg: 'gebwiz', erreichbar: true, ...(await geburtsdatumSchluesselFuer(page, name)) };
   } catch (e) {
     return { weg: 'gebwiz', erreichbar: false, grund: 'Anlass „geburt" nicht startbar: ' + String((e && e.message) || e).slice(0, 200) };
   }
 }
 
+// I02: Dialog abbrechen über den neuen Schließweg (#m-abbr nur in Rückfragen ohne Eingabe, sonst #m-x, ggf. mit „Verwerfen“).
+async function dialogAbbrechen(page) {
+  const abbr = page.locator('#m-abbr');
+  if (await abbr.isVisible().catch(() => false)) await abbr.click();
+  else await page.locator('#m-x').click();
+  const verwerfen = page.locator('#m-verwerfen');
+  if (await verwerfen.isVisible({ timeout: 500 }).catch(() => false)) await verwerfen.click();
+}
+
 module.exports = {
+  dialogAbbrechen,
   allePersonaKennungen, fixturePfadFuer, personaDepotAufbauen, echtesProduktUrl,
   geburtsdatumSchluesselFuer, registerFormularGeburtsdatumWeg, gebwizGeburtsdatumWeg,
 };

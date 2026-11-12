@@ -136,7 +136,13 @@ export function pruefeGegenSchema(umg, xsdPfad, pfade) {
 
 /** Die Werte des Probe-Depots je `bereich.feld`. Für den echten Lauf aus VD_FIM_WERTE (JSON außerhalb des Repos). */
 const PROBE_WERTE = Object.freeze({ 'identity.familyName': 'Muster', 'identity.givenName': 'Erika' });
-function probeWerte() { return process.env.VD_FIM_WERTE ? JSON.parse(fs.readFileSync(process.env.VD_FIM_WERTE, 'utf8')) : PROBE_WERTE; }
+/* M4 (05.11.2026): läuft ein echtes Modul (VD_FIM_MODUL) ohne eigene Werte, kommt die Person aus dem Repo
+   (tests/fixtures/antrag-wohnen-person.js, nur Depot-Felder). VD_FIM_WERTE geht vor. */
+const echterLauf = () => !!process.env.VD_FIM_MODUL;
+function probeWerte() {
+  if (process.env.VD_FIM_WERTE) return JSON.parse(fs.readFileSync(process.env.VD_FIM_WERTE, 'utf8'));
+  return echterLauf() ? require(path.join(REPO, 'tests', 'fixtures', 'antrag-wohnen-person.js')).WERTE : PROBE_WERTE;
+}
 
 /* U2-ADR-465 Nachtrag: ERFUNDENE Probe-Anhänge je Rolle — ein PDF mit Probetext, ein PNG mit einem Bildpunkt. Der Nachweis der
    Vollmacht wird im Probe-Depot als Urschrift der Vorsorgevollmacht abgelegt, mit einer bevollmächtigten Person. Für den echten
@@ -176,13 +182,41 @@ function anhaengeAblegen(V, anhaenge, vertreter) {
   return gewaehlt;
 }
 
+/* U2-ADR-465 Nachtrag (04.11.2026): die Antworten auf die Antragsfragen des Moduls ({ id: antwort }), nie im Depot. Für den
+   echten Lauf aus VD_FIM_ANTRAG (JSON außerhalb des Repos); die erfundene Leistung S99000001 fragt nichts. */
+function probeAntrag() { return process.env.VD_FIM_ANTRAG ? JSON.parse(fs.readFileSync(process.env.VD_FIM_ANTRAG, 'utf8')) : {}; }
+
+/* M4 (05.11.2026): ein signiertes Bündel wie das eines Anbieters. Anker und Anbieter-Schlüssel erzeugt die Probe zur Laufzeit;
+   kein gespeicherter Schlüssel. Der Anker geht als Option an den Einlass, wie in den übrigen Proben des geprüften Einlasses. */
+const EINLASS_JETZT = '2026-11-05T12:00:00Z';
+async function signiertEinlassen(V, modul) {
+  const { webcrypto } = require('node:crypto');
+  const paar = async () => {
+    const kp = await webcrypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
+    return { pub: await webcrypto.subtle.exportKey('jwk', kp.publicKey), priv: await webcrypto.subtle.exportKey('jwk', kp.privateKey) };
+  };
+  const anker = await paar(), anbieter = await paar();
+  const signieren = async (nutzlast, priv) => V._signJWS(nutzlast, await V._jwsImportSignKey(priv), {});
+  const zertifikat = {
+    '@context': ['https://www.w3.org/ns/credentials/v2'], type: ['VerifiableCredential', 'VivodepotProviderCredential'],
+    issuer: 'did:web:vivodepot.de', issuanceDate: '2026-01-01T00:00:00Z', expirationDate: '2027-01-01T00:00:00Z',
+    credentialSubject: { anbieterId: 'institution/test-anbieter', anbieterTyp: 'institution/test', anbieterName: 'Test-Anbieter', publicKeyJwk: anbieter.pub },
+  };
+  const buendel = JSON.stringify({ providerCredentialJws: await signieren(zertifikat, anker.priv), modulSignaturJws: await signieren(modul, anbieter.priv) });
+  return V.modulEinlassenGeprueft(buendel, undefined, { ankerJwk: anker.pub, jetzt: EINLASS_JETZT });
+}
+
 /** Schreibt die Datei, die der Kern über `modul` aus einem Probe-Depot erzeugt. `ohne` lässt Felder leer; `sensibel`
     ist die Zustimmung, die die Person im Export gibt (ohne sie fehlen sensible Felder wie die Staatsangehörigkeit).
-    `anhaenge` (Rolle → Probe-Datei) legt die Dateien ab und wählt sie; `gruende` nimmt die Gründe auf, wenn der Kern keine
+    `anhaenge` (Rolle → Probe-Datei) legt die Dateien ab und wählt sie; `antrag` sind die Antworten auf die Antragsfragen;
+    `gruende` nimmt die Gründe auf, wenn der Kern keine
     Datei schreibt (dann ist der Rückgabewert null). `aus` (ein Objekt) nimmt unter `vorpruefung` das Ergebnis der Vorprüfung
-    des Kerns auf (U2-ADR-465 Nachtrag W6), für den Gleichlauf mit KoSIT. */
-export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), sensibel = !!process.env.VD_FIM_WERTE,
-  anhaenge = probeAnhaenge().anhaenge, vertreter = probeAnhaenge().vertreter, gruende = [], aus = null } = {}) {
+    des Kerns auf (U2-ADR-465 Nachtrag W6), für den Gleichlauf mit KoSIT. `einlass` nimmt den Weg der Person (signierter
+    Einlass ins Depot, Kanal aus den Ausgabeformaten) statt eines gesetzten Belegs; `signiert: false` lässt das Modul dabei
+    unsigniert ein. */
+export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), sensibel = !!process.env.VD_FIM_WERTE || echterLauf(),
+  anhaenge = probeAnhaenge().anhaenge, vertreter = probeAnhaenge().vertreter, antrag = probeAntrag(), gruende = [], aus = null,
+  einlass = false, signiert = true } = {}) {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
@@ -193,12 +227,23 @@ export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), 
     const [bereich, feld] = k.split('.');
     if (!ohne.includes(feld)) V.sektorFeldSetzen(bereich, feld, wert);
   }
-  const geprueft = Object.assign({}, modul);
-  V._modulBelegAlsGeprueftSetzen(geprueft, { stufe: 'extern-ungeprueft', anbieterId: null });
-  const kanal = V.formatModulZuExportKanal(geprueft);
+  let kanal;
+  if (einlass) {
+    // Der Weg der Person: das Modul kommt als signiertes Bündel über den geprüften Einlass ins Depot, der Kanal aus der
+    // Liste der Ausgabeformate. Mit `signiert: false` geht es unsigniert über den einfachen Einlass (Rot-Beweis).
+    const r = signiert ? await signiertEinlassen(V, modul) : V.modulEinlassen(JSON.stringify(modul));
+    gruende.push({ einlass: !!(r && r.angenommen), grund: (r && r.grund) || null });
+    kanal = V.alleExportFormate().find((k) => k.id === modul.format) || null;
+    if (!kanal) return null;
+  } else {
+    const geprueft = Object.assign({}, modul);
+    V._modulBelegAlsGeprueftSetzen(geprueft, { stufe: 'extern-ungeprueft', anbieterId: null });
+    kanal = V.formatModulZuExportKanal(geprueft);
+  }
   const gewaehlt = anhaengeAblegen(V, anhaenge || {}, vertreter);
   if (!kanal) throw new Error('das Modul ergibt keinen Kanal: ' + (V.formatModulPruefen(modul).grund || '?'));
-  const opt = { sensibel, anhaenge: gewaehlt, _anhangGruende: gruende, _vorpruefung: null };
+  // `leerGesehen`: die Person hat im Schritt gesehen, welche Felder leer bleiben und bei der Stelle ausgefüllt werden.
+  const opt = { sensibel, anhaenge: gewaehlt, antrag, leerGesehen: true, _anhangGruende: gruende, _antragGruende: gruende, _vorpruefung: null };
   const text = kanal.baue(opt);
   if (aus) aus.vorpruefung = opt._vorpruefung;
   if (text === null) return null;
@@ -252,14 +297,29 @@ export default {
   },
 
   /* U2-ADR-465 Nachtrag: ein Modul ohne Zuordnung des Pflicht-Anhangs (die Form der ersten Stufe) schreibt eine Datei ohne das
-     Element — das XSD lehnt sie ab. Der Kern selbst schreibt mit Zuordnung ohne gewählte Datei gar keine (tests/fim-anhang.test.js). */
+     Element — das XSD lehnt sie ab. Der Kern selbst schreibt mit Zuordnung ohne gewählte Datei gar keine (tests/fim-anhang.test.js).
+     Nachtrag 05.11.2026: ein Pflicht-Element vom Typ xs:anyType kann auch `leer` zugeordnet sein (die Unterschrift); dann fehlt es. */
   async ohnePflichtAnhang() {
     const q = quelle();
-    const z = q.modul.zuordnung.find((e) => e.anhang && e.pflicht);
+    const z = q.modul.zuordnung.find((e) => (e.anhang && e.pflicht) || e.leer);
     if (!z) return [];
     const modul = Object.assign({}, q.modul, { zuordnung: q.modul.zuordnung.filter((e) => e !== z) });
-    const pfad = await kernDatei(modul, 'kern-ohne-anhang-' + z.anhang);
-    return [{ standard: 'fim-leistungsschema', pfad, warum: 'ohne den Pflicht-Anhang ' + z.anhang + ' fehlt ein Pflichtelement' }];
+    const name = z.anhang || 'leer';
+    const pfad = await kernDatei(modul, 'kern-ohne-anhang-' + name);
+    const element = String(Array.isArray(z.ziel) ? z.ziel[z.ziel.length - 1] : z.ziel).split('.').pop();
+    return [{ standard: 'fim-leistungsschema', pfad, element, warum: 'ohne ' + name + ' fehlt das Pflichtelement ' + element }];
+  },
+
+  /** true im echten Lauf (VD_FIM_XSD/VD_FIM_MODUL), false mit der erfundenen Leistung S99000001. */
+  echt() { return quelle().echt; },
+
+  /* M4 (05.11.2026): die Datei auf dem Weg der Person — Depot, Modul über den signierten Einlass, Kanal aus den Ausgabeformaten,
+     Antworten des Antragsschritts, Datei. `signiert: false` lässt das Modul unsigniert ein (Rot-Beweis). */
+  async einlassArtefakt({ signiert = true } = {}) {
+    const q = quelle();
+    const gruende = [];
+    const pfad = await kernDatei(q.modul, 'kern-einlass-' + (signiert ? 'signiert-' : 'unsigniert-') + q.modul.format, { einlass: true, signiert, gruende });
+    return { pfad, gruende, namensraum: q.modul.namensraum || null };
   },
 
   aufraeumen() { if (_arbeit) { fs.rmSync(_arbeit, { recursive: true, force: true }); _arbeit = null; } },

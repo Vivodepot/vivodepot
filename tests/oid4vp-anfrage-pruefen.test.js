@@ -199,6 +199,8 @@ function faelle() {
     ['response_uri mit Anmeldeteil', 'antwortadresse-fremd', () => [anfrage(s, { response_uri: 'https://verifier.test.invalid@fremd.test.invalid/antwort' }), opts(s)]],
     ['exp vorbei', 'anfrage-zeit', () => [anfrage(s, { exp: sekunden('2026-10-14T11:00:00Z') }), opts(s)]],
     ['nbf in der Zukunft', 'anfrage-zeit', () => [anfrage(s, { nbf: sekunden('2026-10-14T13:00:00Z') }), opts(s)]],
+    // Schritt 9; die Fälle je Detail stehen in tests/oid4vp-registrierung.test.js.
+    ['verifier_info: registration_cert mit credential_ids (ETSI TS 119 472-2 RO-14)', 'registrierung-abgewiesen', () => [anfrage(s, { verifier_info: [{ format: 'registration_cert', data: 'a.b.c', credential_ids: ['probe'] }] }), opts(s, { registrarAnker: s.anker })]],
   ];
 }
 

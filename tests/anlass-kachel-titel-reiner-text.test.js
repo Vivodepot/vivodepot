@@ -2,7 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    Befund ANLASS-KACHEL-TITEL-ROH: der Titel einer Situation ab Werk stand unmaskiert in der Anlass-Kachel
    ────────────────────────────────────────────────────────────────────────
-   Eine Anlass-Kachel ohne eigene Beschriftung trägt den Titel ihrer Situation (`_anlassAusSituation`). `renderAnlassAuswahl`
+   Eine Anlass-Kachel ohne eigene Beschriftung trägt den Titel ihrer Situation (`_anlassAusSituation`). `_anlassKachelnHTML`
    setzte ihn roh ins Markup, und für Situationen ab Werk prüft der Kern nur die Struktur, nie den Text. Eine Zutat mit Markup
    im Titel (der Weg, auf dem Partner-Inhalt in ein Produkt kommt) hätte es auf die Startseite gebracht.
    Zwei Stellen halten jetzt, jede mit eigenem Rot-Beweis:

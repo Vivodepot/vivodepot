@@ -44,6 +44,17 @@ const AUSGABEN = {
   vcardMenschen: { traeger: 'person', aus: (V) => V.vcardMenschen() },
   personVollzeile: { traeger: 'person', aus: (V) => V.personVollzeile({ ref: 'p1' }) },
   verweisExportFelder: { traeger: 'person', aus: (V) => V._verweisExportZeile('person', 'vollmacht', { ref: 'p1' }) },
+  // Die Antwort auf eine Anfrage, die am Verweis alle vier Anschriftteile der Person verlangt (personFelder, 06.11.2026).
+  _antwortPersonFelder: { traeger: 'person', aus: (V) => {
+    const d = V.getData();
+    d.sektoren.people = Object.assign({}, d.sektoren.people, { spouseOrCivilPartner: { ref: 'p1' } });
+    V.setData(d);
+    return V.anfrageAntwortDatensatz({ modulTyp: 'anfrage', anfrageVersion: 1, von: 'Meldebehörde', zweck: 'Anmeldung',
+      grundlage: 'Probe', vorgang: 'A-2', gueltigBis: '2099-12-31',
+      felder: [{ kennung: 'people.spouseOrCivilPartner', zweck: 'Ehegatte', pflicht: true,
+        personFelder: ['street', 'houseNumber', 'postalCode', 'city'].map((t) => 'people.person/' + t) }],
+      antwort: { art: 'einmalpasswort' } }, { sensibel: true }).personen;
+  } },
   // Die Antwort auf eine Anfrage, die die bisherigen Zeilen fragt (Befund ANFRAGE-BISHERIGE-ZEILE-STILL, 05.11.2026).
   _bisherigeZeileAusTeilen: { traeger: 'identity', aus: (V) => V.anfrageAntwortDatensatz({ modulTyp: 'anfrage', anfrageVersion: 1,
     von: 'Standesamt', zweck: 'Anschrift', grundlage: 'Probe', vorgang: 'A-1', gueltigBis: '2099-12-31',

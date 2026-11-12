@@ -6,8 +6,7 @@
       "feldname": "Testfeld 1",
       "feldtyp": "jaNein",
       "bereich": "pro-vertretung-vollmachten",
-      "gruppe": "Testgruppe 2",
-      "pflicht": true
+      "gruppe": "Testgruppe 2"
     },
     {
       "feldname": "Testfeld 3",

@@ -5,9 +5,9 @@
    Selektoren stammen 1:1 aus dem clean-rebuild (statisches Shell + Render-IDs):
    Welcome Lage A #w-anlegen/#w-anfangen/#w-datei/#w-notfall · Lage B (crypto-overlay)
    #co-pw/#w-oeffnen/#co-angehoerige/#co-notfall · Depot-Anlage seit Strang 2 Commit A
-   über Vorschau (#w-anfangen) → Topbar-Passwort-Hinweis (#tb-pw-hinweis → flowPasswortSetzen)
-   → name-loser Verankerungs-Dialog (U2-ADR-017; A1/D46: der alte #tb-speichern-Knopf ist entfernt)
-   #pw-neu/#pw-neu2/#m-ok · App-Shell #app.an, #content, Sidebar [data-sektor], Topbar
+   über Vorschau (#w-anfangen) → Topbar-Passwort-Hinweis (#tb-pw-hinweis → flowDepotAnlegen)
+   → „Depot anlegen“ mit Namen (A1/D46: der alte #tb-speichern-Knopf ist entfernt; der namenlose Dialog
+   #pw-neu/#pw-neu2 entfiel am 07.11.2026) · App-Shell #app.an, #content, Sidebar [data-sektor], Topbar
    #tb-modus-select/#tb-einstellungen · Sektor-Edit #b-bearb/[data-edit]/#b-fertig ·
    Wizard #wiz-weiter/#wiz-zurueck/#wiz-abbr · Modal #modal-rueck/#m-ok.
    ════════════════════════════════════════════════════════════════════════ */
@@ -96,6 +96,16 @@ const ANLEGE_WEG = ':is([data-anlegen-weg], #tb-pw-hinweis, [data-bereich-leer="
 const ANLEGE_WEG_FRIST_MS = 60_000;
 // Der Willkommensschirm ausgelieferter Altstände (vor „Einstieg nach Zustand“, 13.10.2026): Hauptknopf „Was möchten Sie erledigen?“.
 const WILLKOMMEN_ALTSTAND = '#w-anlass';
+/* Zielbild 01 (Umbau 05.11.2026): im Anlegen-Fenster stehen zuerst die sechs Wörter als Raster und die Probe; das Passwort-Feld
+   (#id-pw) erscheint erst nach „Lieber ein eigenes Passwort“ (#id-pw-eigen-weg). Reisen mit festem Passwort gehen diesen Weg;
+   in Dialogen ohne den Weg (Sub-Depot, übrige Passwort-Dialoge) steht das Feld schon da, dann tut der Helfer nichts. */
+async function eigenesPasswortWaehlen(page) {
+  await page.waitForSelector('#id-pw', { state: 'attached' });
+  if (await page.isVisible('#id-pw')) return;
+  await page.click('#id-pw-eigen-weg');
+  await page.waitForSelector('#id-pw', { state: 'visible' });
+}
+
 async function depotAnlegen(page, { name = 'Maria Mustermann', pw = 'e2e-passwort-123' } = {}) {
   const teile = String(name).trim().split(/\s+/);
   const vorname = teile[0] || 'Maria';
@@ -111,9 +121,10 @@ async function depotAnlegen(page, { name = 'Maria Mustermann', pw = 'e2e-passwor
   const wege = await page.locator(ANLEGE_WEG_KANON + ':visible').count();
   if (wege > 1) throw new Error('Anlege-Aufforderungen in dieser Ansicht: ' + wege + ' (erwartet: genau eine)');
   await page.click((wege === 1 ? ANLEGE_WEG_KANON : ANLEGE_WEG_ALTSTAND) + ':visible');                   // Vorschau → Anker-Dialog (flowDepotAnlegen)
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-vorname', { state: 'visible' });
   await page.fill('#id-vorname', vorname);
   await page.fill('#id-nachname', nachname);
+  await eigenesPasswortWaehlen(page);                               // Zielbild 01: das Passwort-Feld steht erst beim eigenen Passwort da
   await page.fill('#id-pw', pw);
   await page.fill('#id-pw2', pw);                                   // Bestätigung (Pflicht, == pw)
   await page.click('#m-ok');
@@ -480,19 +491,34 @@ async function streifenUeberdeckt(seite) {
 }
 
 /* Hinzufügen (07.10.2026, Produktentscheidung): bei leerer Liste steht der erste Eintrag als Eingaben im Bereich, der Dialog „Neuer
-   Eintrag“ öffnet sich über „Weitere … hinzufügen“ (ab einem Eintrag) oder, bei Einträgen mit mehr als sechs Teilen, über „Alle
-   Angaben“. Proben, die den Dialog selbst prüfen, öffnen ihn über diesen einen Weg. Für eine leere kurze Liste gibt es keinen
+   Eintrag“ öffnet sich über „Weitere … hinzufügen“ (ab einem Eintrag). „Alle Angaben“ bei mehr als sechs Teilen klappt im Eintrag auf
+   (Bedienmuster 12) und öffnet keinen Dialog. Proben, die den Dialog selbst prüfen, öffnen ihn über diesen einen Weg. Für eine leere kurze Liste gibt es keinen
    Dialog-Einstieg mehr: dann legt `vorbelegen` einen Eintrag an (wie ein früher eingetragener), und der Zweitknopf öffnet ihn. */
 async function listenDialogOeffnen(page, feldId, { bereich = '', sektor = null, vorbelegen = null } = {}) {
   const vor = bereich ? bereich + ' ' : '';
   let knopf = page.locator(vor + '[data-eintrag-hinzufuegen="' + feldId + '"]');
-  if (!(await knopf.count())) knopf = page.locator(vor + '[data-eintrag-alle-angaben="' + feldId + '"]');
   if (!(await knopf.count()) && sektor && vorbelegen) {
     await page.evaluate(({ sektor, feldId, vorbelegen }) => {
       window.__vdOeffentlich.listenEintragHinzufuegen(sektor, feldId, vorbelegen);
       window.__vdOeffentlich.oeffneSektor(sektor);
     }, { sektor, feldId, vorbelegen });
     knopf = page.locator(vor + '[data-eintrag-hinzufuegen="' + feldId + '"]');
+  }
+  if (!(await knopf.count()) && (await page.locator(vor + '[data-weitere-angaben-kopf="weitere-' + feldId + '"]').count())) {
+    // Eine lange leere Liste (mehr als sechs Teile) klappt „Alle Angaben“ im Eintrag auf (Bedienmuster 12) und hat keinen Dialog-Einstieg mehr:
+    // wie bei der kurzen Liste legt `vorbelegen` (sonst ein leerer Eintrag) einen Eintrag an, und der Zweitknopf öffnet den Dialog.
+    const sektorId = sektor || await page.evaluate((fid) => {
+      const b = window.__vdOeffentlich.bereicheAlle().find((x) => [].concat(...(x.sektionen || []).map((s) => s.felder || []), x.felder || []).some((f) => f && f.id === fid));
+      return b && b.id;
+    }, feldId);
+    await page.evaluate(({ sektorId, feldId, vorbelegen }) => {
+      window.__vdOeffentlich.listenEintragHinzufuegen(sektorId, feldId, vorbelegen || {});
+      window.__vdOeffentlich.oeffneSektor(sektorId);
+    }, { sektorId, feldId, vorbelegen });
+    knopf = page.locator(vor + '[data-eintrag-hinzufuegen="' + feldId + '"]');
+    // Ohne `vorbelegen` öffnet der Dialog den eben angelegten leeren Eintrag selbst (Bearbeiten), statt einen zweiten anzulegen:
+    // sonst bliebe ein leerer Eintrag „nicht hinterlegt“ vor dem eigentlichen stehen (03.11.2026, Air-Rotliste).
+    if (!vorbelegen) knopf = page.locator(vor + '[data-feld-liste="' + feldId + '"] [data-eintrag-bearbeiten]').last();
   }
   if (!(await knopf.count())) throw new Error('listenDialogOeffnen: kein Einstieg in den Dialog für ' + feldId + ' (leere kurze Liste ohne vorbelegen?)');
   await knopf.first().click();
@@ -536,7 +562,7 @@ async function ausgabeWegHerunterladen(page, opt = {}) {
 module.exports = { baubar, inLeisteKlicken, listenDialogOeffnen, ausgabeWegHerunterladen,
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
-  oeffneApp, depotAnlegen, datumSetzen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
+  oeffneApp, depotAnlegen, eigenesPasswortWaehlen, datumSetzen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
   fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, einstellungenAbschnittOeffnen,
   erweiterungEinlesenBestaetigen, erweiterungenWaehlen,
   starteLokalenServer,

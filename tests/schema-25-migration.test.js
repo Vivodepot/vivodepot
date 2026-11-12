@@ -60,8 +60,14 @@ test('[Schema 25 / E3] Export-Format fhir-lab abgewickelt — der IMPORT-Weg fhi
   assert.equal(V.EXPORT_FORMAT_BY_ID['fhir-lab'], undefined, 'E3: kein self-erzeugter Laborbericht-Export mehr');
   assert.ok(!V.EXPORT_FORMATE.find(f => f.id === 'fhir-lab'), 'auch nicht in der Registry-Liste');
   assert.ok(V.IMPORT_FORMAT_BY_ID['fhir-lab'], 'Kollisions-Warnung beachtet: autoritative Klasse-4-Erkennung (U2-ADR-045/048) unberührt');
-  // E2 traf BEIDE Orte des Markers: Sektor-Feld (sektoren-spec) UND anamwiz-Wizard-Schritt (hier).
-  const anam = V.WIZARD_BY_ID.anamwiz;
-  const schritt = (anam.schritte || []).find(s => s.feld && s.feld.id === 'vaccinations');
-  assert.ok(schritt && !schritt.feld.codeListe, 'anamwiz-impfungen-Schritt ohne codeListe-Stub');
+  // E2 traf BEIDE Orte des Markers: Sektor-Feld (sektoren-spec) UND anamwiz-Wizard-Schritt. Seit C14
+  // (Assistenten-Urteil W03/W04, 07.11.2026) ist anamwiz gestrichen; geprüft wird das Feld im Bereich und,
+  // dass kein Assistent den Stub zurückbringt.
+  const feld = V.SEKTOR_BY_ID.health.sektionen.flatMap(s => s.felder || []).find(f => f.id === 'vaccinations');
+  assert.ok(feld && !feld.codeListe, 'Feld vaccinations im Bereich health ohne codeListe-Stub');
+  for (const w of V.WIZARDS) {
+    for (const s of w.schritte || []) {
+      assert.ok(!(s.feld && s.feld.id === 'vaccinations' && s.feld.codeListe), w.id + ': impfungen-Schritt ohne codeListe-Stub');
+    }
+  }
 });

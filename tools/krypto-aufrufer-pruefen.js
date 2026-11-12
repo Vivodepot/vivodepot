@@ -9,7 +9,8 @@
    ist nur benannt erlaubt (`--anheben <operation> --grund "…"`), nie still. Die Hülle des Codes braucht
    genau: einen `deriveMasterBits`-Aufruf mehr je Weg (Einwickeln, Öffnen), einen `encrypt` (Einwickeln),
    einen `unwrapKey` (Öffnen), einen `importKey('raw', …)` für den Code-Schlüssel.
-   Kommentarzeilen zählen nicht.
+   Kommentarzeilen zählen nicht. Gezählt wird jedes Vorkommen, nicht jede Zeile: zwei Aufrufe in einer Zeile zählen zwei
+   (seit 03.11.2026; vorher zählte eine Zeile einmal, Hinweis aus der Abnahme von KRYPTO-AUFRUFER-BLIND).
 
    Aufruf: node tools/krypto-aufrufer-pruefen.js [--kern <pfad>]          prüft gegen die Grundlinie (Exit 1 bei Zuwachs)
            node tools/krypto-aufrufer-pruefen.js --messen                   druckt die Zahlen
@@ -43,13 +44,20 @@ const OPERATIONEN = Object.freeze({
   encrypt: /\.encrypt\(/,
   deriveBits: /\.deriveBits\(/,
   importKeyRaw: /\.importKey\(\s*['"]raw['"]/,
-  // U2-ADR-457, Nachtrag v865: die Stelle, die die eingebettete noble-ed25519 in die Ableitung des Halter-Schlüssels reicht
-  // (Übergabe ohne Aufrufklammer). Genau eine; eine zweite hieße, eine Funktion sieht den geheimen Seed.
-  halterOeffentlichAusSeed: /\b_ed25519OeffentlichAusSeed\b(?!\s*\()/,
+  // Jede Stelle, die einen geheimen Ed25519-Seed an die eingebettete noble-ed25519 reicht (`_ed25519OeffentlichAusSeed`): als
+  // Aufruf und als Übergabe eines Werts; die Definition zählt nicht. Bis 02.11.2026 zählte das Muster nur die Übergabe ohne
+  // Aufrufklammer und sah den direkten Aufruf nicht (Befund KRYPTO-AUFRUFER-BLIND, tests/krypto-aufrufer-noble-seed.test.js).
+  // Der Name der Operation bleibt, damit Grundlinie und Register gleich lesen.
+  halterOeffentlichAusSeed: /(?<!function\s+)\b_ed25519OeffentlichAusSeed\b/,
   // Signatur nachrechnen und erzeugen (auch HMAC), ebenfalls ohne `subtle.` davor. `Math.sign(` ist keine Signatur.
   verify: /\.verify\(/,
   sign: /(?<!Math)\.sign\(/,
 });
+
+// Vorkommen eines Musters in einer Zeile (das Muster ohne g-Flag, darum hier je Aufruf ein globales).
+function vorkommen(re, zeile) {
+  return (zeile.match(new RegExp(re.source, re.flags.includes('g') ? re.flags : re.flags + 'g')) || []).length;
+}
 
 function blockGrenzen(zeilen) {
   const start = zeilen.findIndex((z) => /SCRIPT 1 — KRYPTO-KERN/.test(z));
@@ -67,7 +75,7 @@ function messen(text) {
     zeilen.forEach((z, i) => {
       if (i >= s && i <= e) return;
       if (/^\s*(\/\/|\*|\/\*)/.test(z)) return;
-      if (re.test(z)) raus[op]++;
+      raus[op] += vorkommen(re, z);
     });
   }
   return raus;
@@ -79,7 +87,7 @@ function messenGanz(text) {
   const raus = {};
   for (const [op, re] of Object.entries(OPERATIONEN)) {
     raus[op] = 0;
-    for (const z of zeilen) { if (/^\s*(\/\/|\*|\/\*)/.test(z)) continue; if (re.test(z)) raus[op]++; }
+    for (const z of zeilen) { if (/^\s*(\/\/|\*|\/\*)/.test(z)) continue; raus[op] += vorkommen(re, z); }
   }
   return raus;
 }
@@ -105,7 +113,7 @@ function pruefenWeitere(lesen, grundlinie) {
   return funde;
 }
 
-module.exports = { messen, messenGanz, pruefen, pruefenWeitere, blockGrenzen, OPERATIONEN, GRUNDLINIE, WEITERE_DATEIEN };
+module.exports = { messen, messenGanz, vorkommen, pruefen, pruefenWeitere, blockGrenzen, OPERATIONEN, GRUNDLINIE, WEITERE_DATEIEN };
 
 if (require.main === module) {
   const arg = (n) => { const i = process.argv.indexOf(n); return i > 0 ? process.argv[i + 1] : null; };

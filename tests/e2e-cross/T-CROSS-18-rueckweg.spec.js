@@ -118,10 +118,12 @@ test('T-CROSS-18 die Bürgerin beantwortet, die Institution öffnet — verschl�
     const kopf = JSON.parse(Buffer.from(roh.trim().split('.')[0], 'base64url').toString('utf8'));
     expect(kopf.typ, 'die Antwort trägt ihren Typ').toBe('vivodepot-antwort+jwe');
     expect(kopf.alg).toBe('PBES2-HS512+A256KW');
-    expect(kopf.vorgang, 'der Empfänger sieht, worauf das die Antwort ist').toBe('AUF-2026-0815');
+    // U2-ADR-520 Nr. 3: im Kopf steht nur eine zufällige Kennung, das Aktenzeichen steht im Chiffrat.
+    expect(kopf.vorgang, 'kein Aktenzeichen im lesbaren Kopf').toBeUndefined();
+    expect(kopf.kennung).toMatch(/^[A-Za-z0-9_-]{22}$/);
     // Gesucht wird im lesbaren Teil (Kopf samt apu/apv dekodiert) — im rohen base64url-Text wäre die Suche still grün.
     const lesbar = jweLesbarerTeil(roh);
-    for (const w of ['Hedwig', 'A123456780']) {
+    for (const w of ['Hedwig', 'A123456780', 'AUF-2026-0815']) {
       expect(lesbar.includes(w), 'kein Feldwert steht im Klartext: ' + w).toBe(false);
     }
     await buerger.close();

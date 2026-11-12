@@ -149,9 +149,12 @@ test.describe('Fixliste Nr. 6 — Trefferflächen', () => {
     await page.setViewportSize(HANDY);
     await oeffneApp(page);
     await depotAnlegen(page);
-    await page.evaluate(() => { window.__vdOeffentlich.oeffneSektor('health'); });
+    // Mit der Größenleiter (Hilfe 14 px) sind die Links in der Einleitung eines Bereichs nicht mehr kleiner als 24 px: gesucht wird über mehrere Bereiche.
+    const ausgenommen = [];
+    for (const bereich of ['health', 'identity', 'people', 'finance', 'housing', 'advanceCare', 'administration']) {
+    await page.evaluate((b) => { window.__vdOeffentlich.oeffneSektor(b); }, bereich);
     await page.waitForSelector('#content .bereich-kopf');
-    const ausgenommen = await page.evaluate(() => {
+    ausgenommen.push(...await page.evaluate(() => {
       const raus = [];
       for (const a of document.querySelectorAll('#content a[href]')) {
         const b = a.getBoundingClientRect();
@@ -164,13 +167,14 @@ test.describe('Fixliste Nr. 6 — Trefferflächen', () => {
         }
       }
       return raus;
-    });
+    }));
+    }
     expect(ausgenommen.length,
       'Ohne einen echten Fliesstext-Link unter 24 px prüft die Ausnahme nichts — dann wäre sie eine Behauptung.')
       .toBeGreaterThan(0);
   });
 
-  /* ── B12 · Die Fusszeile (28.07.2026) ────────────────────────────────────
+  /* ── B12 · Die Fusszeile (28.07.2026); seit 1.11.2026 die Seite „Über und Hinweise“, in die ihr Inhalt umgezogen ist ───────────────
      Der Kopf dieser Datei sagte: „Wer diese Prüfung erweitert, erweitert damit
      den Posten." Genau das ist hier gewollt und entschieden — B12 der
      Arbeitsliste.
@@ -184,8 +188,10 @@ test.describe('Fixliste Nr. 6 — Trefferflächen', () => {
     await page.setViewportSize(HANDY);
     await oeffneApp(page);
     await depotAnlegen(page);
-    await page.waitForSelector('.app-fuss a');
-    const { zuKlein: funde } = await page.evaluate(ERHEBUNG, { mindest: PFLICHT_PX, raum: '.app-fuss *' });
+    // Seit 03.11.2026 ist die Fußzeile die Seite „Über und Hinweise“; geöffnet über ihren Eintrag in der Navigation.
+    await page.evaluate(() => document.querySelector('[data-ueber-hinweise]').click());
+    await page.waitForSelector('.ueber-hinweise a');
+    const { zuKlein: funde } = await page.evaluate(ERHEBUNG, { mindest: PFLICHT_PX, raum: '.ueber-hinweise *' });
     expect(funde, 'Fusszeilen-Ziele unter ' + PFLICHT_PX + ' px:\n' + JSON.stringify(funde, null, 1))
       .toEqual([]);
   });
@@ -197,8 +203,10 @@ test.describe('Fixliste Nr. 6 — Trefferflächen', () => {
     await page.setViewportSize(HANDY);
     await oeffneApp(page);
     await depotAnlegen(page);
-    await page.waitForSelector('.app-fuss a');
-    const { zuKlein: funde } = await page.evaluate(ERHEBUNG, { mindest: 40, raum: '.app-fuss *' });
+    // Seit 03.11.2026 ist die Fußzeile die Seite „Über und Hinweise“; geöffnet über ihren Eintrag in der Navigation.
+    await page.evaluate(() => document.querySelector('[data-ueber-hinweise]').click());
+    await page.waitForSelector('.ueber-hinweise a');
+    const { zuKlein: funde } = await page.evaluate(ERHEBUNG, { mindest: 40, raum: '.ueber-hinweise *' });
     expect(funde.length,
       'Bei 40 px muss die Erhebung in der Fusszeile fündig werden. Tut sie es nicht, misst sie dort nichts — ' +
       'und die Null oben wäre ein Leerbefund, kein Ergebnis.')

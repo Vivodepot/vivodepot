@@ -52,6 +52,15 @@ bleibt auf den übrigen Wegen, die ein Passwort setzen, ohne den Code im selben 
 
 Probe: `tests/passwort-zwei-schritte.test.js` ([S2·kein Zurücksetzen]).
 
+## Nachtrag 05.11.2026 — Ziffer 4: die Schritt-Leiste steht rechts neben dem Titel
+
+Im Fenster „Depot anlegen“ steht der Schritt nicht mehr als Zeile über dem Titel. Rechts neben dem Titel zeigen zwei Balken,
+welcher von zwei Schritten offen ist; der Text „Schritt 1 von 2“ bleibt für Vorlesehilfen erhalten. Der Satz aus dem
+Nachtrag vom 31.10.2026 steht unverändert da, mit „Warum?“ daneben. „Warum?“ klappt jetzt im Fenster auf, statt die Hilfe
+zu öffnen; dort steht der Weg in die Hilfe. Statt eines weiteren Satzes steht damit ein Muster im Fenster.
+
+Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Schritt 1], [S2·Warum]).
+
 ## Cross-Referenz
 
 U2-ADR-034 (Wiedereintritts-Akteur — gleiche Wurzel, Rückkehrer-Lage; `darfBearbeiten()`-Akteur-Kopplung baut auf der dort eingeführten Inhaber-Akteur-Regel auf), U2-ADR-005 (Urheberschaft/Provenienz), U2-ADR-031 (Persistenz/Wiedereinstieg, App-first-Türen — hier auf „Erkunden, nicht Eintragen" verengt). Befund `befund-erstnutzer-onboarding-akteur-timing-2026-06-22` (intern). Produktiv: —

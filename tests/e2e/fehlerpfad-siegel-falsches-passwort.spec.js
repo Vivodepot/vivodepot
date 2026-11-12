@@ -43,6 +43,7 @@ async function subDepotAnlegen(page) {
   await page.click('#sub-neu');
   await page.waitForSelector('#id-vorname', { state: 'visible' });
   await page.fill('#id-vorname', SUB_VORNAME);
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', SUB_PW);
   await page.fill('#id-pw2', SUB_PW);
   await page.click('#m-ok');

@@ -58,6 +58,11 @@ const TEXTE = {
     'passcode-label': 'Passcode (dieser Link verlangt einen — die Absenderin hat ihn separat mitgeteilt):',
     'link-label': 'Freigabe-Link (beginnt mit shlink:/):',
     'pruefen-knopf': 'Link prüfen',
+    'auftrag-text': 'Abholauftrag: Den Schlüssel behält die Anwendung, die diese Seite geöffnet hat. Diese Seite holt nur die verschlüsselte Datei und gibt sie zurück.',
+    'auftrag-knopf': 'Abholen und zurückgeben',
+    'auftrag-weg-direkt': 'Direkt-Abruf einer Datei',
+    'auftrag-datei-knopf': 'Verschlüsselte Datei speichern (.jwe)',
+    'auftrag-fertig': 'Die verschlüsselte Datei ist zurückgegeben. Kommt sie nicht an, speichern Sie sie hier und wählen Sie sie dort.',
     'befund-text': 'Der Link ist lesbar. Das steht darin:',
     'warnung-einmal': 'Bitte einmal lesen, bevor Sie abrufen. Eine Freigabe gilt für genau einen Abruf. Danach ist der Link tot — auch für Sie. Speichern Sie das Dokument also, sobald es da ist.',
     'warnung-cors': 'Es kann sein, dass der fremde Server den Abruf aus einem Browser nicht erlaubt. Dann erscheint hier ein Fehler, obwohl der Server die Datei möglicherweise schon herausgegeben hat — die Freigabe wäre dann verbraucht. Das liegt an der Gegenstelle und lässt sich von hier aus nicht verhindern. Fragen Sie in dem Fall dort nach einem neuen Link.',
@@ -94,6 +99,11 @@ const TEXTE = {
     'passcode-label': 'Passcode (this link requires one — the sender provided it separately):',
     'link-label': 'Sharing link (starts with shlink:/):',
     'pruefen-knopf': 'Check link',
+    'auftrag-text': 'Collection request: the application that opened this page keeps the key. This page only collects the encrypted file and hands it back.',
+    'auftrag-knopf': 'Collect and hand back',
+    'auftrag-weg-direkt': 'Direct retrieval of one file',
+    'auftrag-datei-knopf': 'Save encrypted file (.jwe)',
+    'auftrag-fertig': 'The encrypted file has been handed back. If it does not arrive, save it here and choose it there.',
     'befund-text': 'The link is readable. Here is what it says:',
     'warnung-einmal': 'Please read this before retrieving. A share is valid for exactly one retrieval. After that the link is dead — for you as well. So save the document as soon as it arrives.',
     'warnung-cors': 'The other server may not allow browser retrieval. You would then see an error here even though the server may already have handed out the file — the share would be used up. That is up to the sender’s server and cannot be prevented from here. In that case, ask them for a new link.',
@@ -149,6 +159,7 @@ function spracheSetzen(neu) {
   btnEn.setAttribute('aria-pressed', String(neu === 'en'));
   if (teile) befundZeigen();
   if (klartext) ergebnisZeigen();
+  if (auftrag) auftragZeigen();
 }
 
 function fehler(schluessel) {
@@ -253,7 +264,7 @@ async function jweHolen(p) {
     // „SMART Health Link Direct File Request (with U Flag)").
     const adresse = new URL(p.url);
     adresse.searchParams.set('recipient', EMPFAENGER_VORGABE);
-    const antwort = await fetch(adresse.toString(), { method: 'GET', referrerPolicy: 'no-referrer' });
+    const antwort = await fetch(adresse.toString(), { method: 'GET', credentials: 'omit', referrerPolicy: 'no-referrer' });
     if (antwort.status === 404 || antwort.status === 410) throw new Error('verbraucht');
     if (!antwort.ok) throw new Error('verbindung');
     return (await antwort.text()).trim();
@@ -265,6 +276,7 @@ async function jweHolen(p) {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(koerper),
+    credentials: 'omit',
     referrerPolicy: 'no-referrer',
   });
   if (antwort.status === 404 || antwort.status === 410) throw new Error('verbraucht');
@@ -287,7 +299,7 @@ async function jweHolen(p) {
   if (typeof datei.location === 'string' && datei.location) {
     const ort = shlAblageUrlPruefen(datei.location, { ohneLaenge: true });
     if (!ort.ok) throw new Error(ort.grund === 'kein-https' ? 'nichthttps' : 'adresse');
-    const zweite = await fetch(datei.location, { method: 'GET', referrerPolicy: 'no-referrer' });
+    const zweite = await fetch(datei.location, { method: 'GET', credentials: 'omit', referrerPolicy: 'no-referrer' });
     if (zweite.status === 404 || zweite.status === 410) throw new Error('verbraucht');
     if (!zweite.ok) throw new Error('verbindung');
     return (await zweite.text()).trim();
@@ -430,6 +442,93 @@ document.getElementById('manifest-knopf').addEventListener('click', () => {
   dateiGeben(JSON.stringify(manifest, null, 2) + '\n',
     'manifest-' + new Date().toISOString().slice(0, 10) + '.json', 'application/json');
 });
+
+/* ── Auftragsmodus (L6, 02.11.2026, Nachtrag zu U2-ADR-183) ───────────────────────────────────────────────────────────────
+   Öffnet Vivodepot diese Seite, schickt sie „bereit“ an ihren Öffner. Der Kern antwortet mit einem Auftrag: url und flag aus
+   dem Link, NIE den Schlüssel. Diese Seite holt nur die verschlüsselte Datei und gibt sie zurück; entschlüsselt wird im Kern.
+   - Angenommen wird nur ein Auftrag von genau dem Öffner, mit genau diesen Feldern, vor Fristende, mit einer Adresse, die
+     der SHL-ABLAGE-URL-BLOCK durchlässt, ohne Passcode-Flag.
+   - Abgeholt wird erst nach einem Klick der Person; der Host steht vorher da.
+   - fetch ohne Anmeldedaten (credentials: 'omit') und ohne Referrer; nur https (Block).
+   - Zurück geht nur eine Antwort in JWE-Form (fünf Abschnitte, base64url, Größe begrenzt), mit der id des Auftrags.
+   - Ein Kern vom Stick hat die Herkunft null; dann geht die Antwort an '*'. Sie ist Chiffrat; der Schlüssel liegt im Kern.
+   Probe: tests/shl-abholseite.test.js [Auftrag]. */
+const AUFTRAG_FELDER = Object.freeze(['typ', 'fassung', 'id', 'url', 'flag', 'bis']);
+const AUFTRAG_HOECHSTENS = 12 * 1024 * 1024;
+const JWE_FORM = /^[A-Za-z0-9_-]+\.\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/;
+let auftrag = null;      // { id, url, flag, bis, host, quelle, herkunft }
+let auftragJwe = null;
+
+function auftragPruefen(e, oeffner, jetzt) {
+  if (!oeffner || !e || e.source !== oeffner) return null;
+  const d = e.data;
+  if (!d || typeof d !== 'object' || d.typ !== 'vd-shl-holen' || d.fassung !== 1) return null;
+  if (Object.keys(d).some((k) => AUFTRAG_FELDER.indexOf(k) < 0)) return null;
+  if (typeof d.id !== 'string' || !/^[A-Za-z0-9_-]{8,64}$/.test(d.id)) return null;
+  if (typeof d.flag !== 'string' || !/^[LU]*$/.test(d.flag)) return null;
+  if (!Number.isFinite(d.bis) || d.bis < (jetzt || Date.now)()) return null;
+  const adresse = shlAblageUrlPruefen(d.url);
+  if (!adresse.ok) return null;
+  return { id: d.id, url: d.url, flag: d.flag, bis: d.bis, host: adresse.host, quelle: e.source, herkunft: e.origin };
+}
+
+function antwortJwe(jwe) {
+  const s = typeof jwe === 'string' ? jwe.trim() : '';
+  return s && s.length <= AUFTRAG_HOECHSTENS && JWE_FORM.test(s) ? s : null;
+}
+
+function auftragZeigen() {
+  const liste = document.getElementById('auftrag-liste');
+  liste.textContent = '';
+  zeile(liste, t().feld.adresse, auftrag.host);
+  zeile(liste, t().feld.weg, istDirektweg(auftrag) ? t()['auftrag-weg-direkt'] : t().weg.manifest);
+  document.getElementById('auftrag').hidden = false;
+  // Im Auftragsmodus gibt es kein Einfügefeld und keinen Hinweis dazu: kein zweiter Weg daneben.
+  linkEingabe.closest('.kasten').hidden = true;
+  document.querySelector('[data-t="nicht-klicken"]').hidden = true;
+}
+
+async function auftragAusfuehren() {
+  if (!auftrag) return;
+  const knopf = document.getElementById('auftrag-knopf');
+  const meldung = document.getElementById('auftrag-fehler');
+  meldung.textContent = '';
+  knopf.disabled = true;
+  try {
+    if (auftrag.bis < Date.now()) throw new Error('verbraucht');
+    const jwe = antwortJwe(await jweHolen({ url: auftrag.url, flag: auftrag.flag }));
+    if (!jwe) throw new Error('manifestform');
+    auftragJwe = jwe;
+    auftrag.quelle.postMessage({ typ: 'vd-shl-geholt', fassung: 1, id: auftrag.id, jwe },
+      auftrag.herkunft && auftrag.herkunft !== 'null' ? auftrag.herkunft : '*');
+    meldung.textContent = t()['auftrag-fertig'];
+    meldung.className = 'hinweis';
+    knopf.hidden = true;
+    document.getElementById('auftrag-datei-knopf').hidden = false;
+  } catch (e) {
+    console.error('[empfangen] Auftrag gescheitert:', e);
+    const bekannt = ['verbraucht', 'verbindung', 'manifestform', 'nichthttps', 'adresse'];
+    meldung.textContent = t().fehler[bekannt.includes(e && e.message) ? e.message : 'verbindung'];
+    knopf.disabled = false;
+    if (e && e.message === 'verbraucht') knopf.hidden = true;   // nichts mehr abrufbar: nur die Meldung bleibt
+  }
+}
+
+if (window.opener) {
+  const oeffner = window.opener;
+  window.addEventListener('message', (e) => {
+    if (auftrag) return;   // ein Auftrag je geöffneter Seite
+    const a = auftragPruefen(e, oeffner);
+    if (!a) return;
+    auftrag = a;
+    auftragZeigen();
+  });
+  document.getElementById('auftrag-knopf').addEventListener('click', auftragAusfuehren);
+  document.getElementById('auftrag-datei-knopf').addEventListener('click', () => {
+    if (auftragJwe) dateiGeben(auftragJwe + '\n', 'freigabe-' + new Date().toISOString().slice(0, 10) + '.jwe', 'application/jose');
+  });
+  try { oeffner.postMessage({ typ: 'vd-shl-bereit', fassung: 1 }, '*'); } catch (e) { /* ohne Öffner bleibt die Seite, wie sie ist */ }
+}
 
 btnDe.addEventListener('click', () => spracheSetzen('de'));
 btnEn.addEventListener('click', () => spracheSetzen('en'));

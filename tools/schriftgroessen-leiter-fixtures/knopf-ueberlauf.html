@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Fixture: Knopf läuft über</title>
+<!-- Erfundene Fixture für das Schriftgrößen-Werkzeug (Rot-Beweis im Browser): ein Knopf, dessen Text breiter ist als
+     seine Box, ein Knopf, der umbricht, zwei Knöpfe, die sich überdecken, eine Zeile in 13 px und ein Block, der die Seite
+     waagrecht überlaufen lässt. -->
+<style>
+  :root { --fs-role-text: 0.9375rem; --fs-role-knopf: 0.9375rem; }
+  body { margin: 16px; font-family: sans-serif; font-size: var(--fs-role-text); }
+  button { font-size: var(--fs-role-knopf); font-weight: 550; padding: 8px 12px; }
+  .eng { width: 90px; white-space: nowrap; overflow: hidden; }
+  .bricht { width: 90px; }
+  .reihe { display: flex; }
+  .reihe button { width: 120px; flex: none; }
+  .reihe button + button { margin-left: -40px; }
+  .klein { font-size: 13px; }
+  .breit { width: 1500px; height: 10px; }
+</style>
+</head>
+<body>
+  <p>Fließtext auf der Leiter.</p>
+  <button type="button" class="eng">Sicherungskopie herunterladen</button>
+  <button type="button" class="bricht">Neue Person anlegen</button>
+  <div class="reihe"><button type="button">Zurück</button><button type="button">Weiter</button></div>
+  <p class="klein">Ein Hinweis in 13 px.</p>
+  <div class="breit"></div>
+</body>
+</html>

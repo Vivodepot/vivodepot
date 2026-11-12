@@ -118,7 +118,7 @@ konformitaet:
     pruefung:
       - tests/studio-eingang.test.js "[Eingang · 1] keine Fachbegriffe im Eingang, deutsch und englisch"
       - tests/studio-eingang.test.js "[Eingang · 2] kein Kacheltext verspricht eine Direktübertragung"
-      - tests/studio-eingang.test.js "[Eingang · 6] der Eingang ist der Start; die Fachebene liegt einen Klick dahinter, zurück ebenso"
+      - tests/studio-eingang.test.js "[Eingang · 6] der Eingang ist der Start; die Fachebene (sichtbar „Expertensicht“) liegt einen Klick dahinter, zurück ebenso über den Kopf-Schalter"
       - tests/studio-eingang.test.js "[Eingang · 6 · Rot-Beweis] ein Studio-Ziel an „Dokumente empfangen“ fiele auf"
   - aussage: >-
       Der Assistent legt Felder über denselben Weg an wie die Arbeitsfläche und übergibt an den bestehenden Einreichweg; eine

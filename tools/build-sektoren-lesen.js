@@ -62,7 +62,7 @@ const BEREICH_SCHLUESSEL = Object.freeze([
 const ROLLEN_SCHLUESSEL = Object.freeze(['ankerNameFelder']);
 const SEKTION_SCHLUESSEL = Object.freeze(['id', 'label', 'felder']);
 const FELD_SCHLUESSEL = Object.freeze([
-  'id', 'label', 'typ', 'beispiel', 'hint', 'sensibel', 'optionen', 'sichtbarWenn', 'verborgenWenn',
+  'id', 'label', 'ausgabeLabel', 'typ', 'beispiel', 'hint', 'sensibel', 'optionen', 'sichtbarWenn', 'verborgenWenn',
   'ebene', 'entitaet', 'marken', 'eingabeTyp', 'pflicht', 'minAnzahl', 'keineZukunft',
   'verweisZweck', 'verweisKontextFeld', 'codeListe', 'art', 'feld', 'unterFelder',
 ]);
@@ -115,7 +115,7 @@ const MENSCHEN_REGISTER_SEKTION = Object.freeze({
   id: 'menschen-liste', label: 'Menschen',
   hint: 'Menschen, die Ihnen wichtig sind. Manche kennt jeder, manche kennt sonst niemand — alle '
     + 'gehören hierher: auch nicht-verheiratete Partnerinnen und Partner, beste Freundinnen und '
-    + 'Freunde, wichtige Bezugspersonen. Einmal erfasst, überall im Depot referenzierbar.',
+    + 'Freunde, wichtige Bezugspersonen.',
   felder: [
     { id: 'menschen', label: 'Menschen, die mir wichtig sind', typ: 'liste',
       unterFelder: [

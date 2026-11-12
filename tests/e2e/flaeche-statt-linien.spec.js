@@ -47,6 +47,9 @@ async function oeffnen(page, url) {
     else if (i > 5) break;
     await page.waitForTimeout(150);
   }
+  // Eine Meldung unten in der Mitte (Toast) liegt über einem Feld nahe der Fensterunterkante und verfälscht dessen Feldgrenze am Bild:
+  // erst messen, wenn sie gegangen ist.
+  await page.waitForSelector('#toast-host .toast', { state: 'detached', timeout: 15000 }).catch(() => {});
 }
 
 async function bereich(page, id) {
@@ -182,6 +185,8 @@ test.describe('Fläche statt Linien', () => {
         for (const modus of ['tag', 'nacht']) {
           if (modus === 'nacht') await page.evaluate(() => document.getElementById('tb-nacht').click());
           await page.waitForTimeout(250);
+          // Ein Hinweis (`.toast`) unten über einem Feld ist keine Feldlinie; seit C02 kommt die Sicherungs-Erinnerung nach dem Anlegen-Dialog (wie unterDieFussleiste).
+          await page.evaluate(() => document.querySelectorAll('.toast').forEach((t) => t.remove()));
           const k = await feldgrenzen(page);
           felderGesamt += k.length;
           expect(Math.min(...k.map((x) => x.k)), slug + '/' + id + ' ' + modus + ': Feldgrenze ' + k.filter((x) => x.k < FELDREGEL.mindestKontrast).map((x) => x.name + ' ' + x.k).join(', ')).toBeGreaterThanOrEqual(FELDREGEL.mindestKontrast);
@@ -224,11 +229,23 @@ test.describe('Fläche statt Linien', () => {
     return { leisteOben: oben, unterkante: el.getBoundingClientRect().bottom, inhalt: !!leiste.closest('#content') };
   }, kennung);
   const FUSSFELD = 'tpl_vertretungsregelung';
+  /* Seit 03.11.2026 hat die App keine feste Fußleiste mehr (die Seite „Über und Hinweise“ ersetzt sie). Die Messregel bleibt für jede
+     feste Leiste unten gültig; die beiden Proben pflanzen darum eine solche Leiste außerhalb des Inhalts, 56 px hoch, in der Fläche des
+     Inhalts, wie die Fußleiste bis dahin stand. */
+  const fussleistePflanzen = (page) => page.evaluate(() => {
+    const l = document.createElement('div'); l.setAttribute('data-probe-fussleiste', '');
+    l.style.cssText = 'position:fixed;left:0;right:0;bottom:0;height:56px;z-index:50;background:' + getComputedStyle(document.querySelector('#content')).backgroundColor;
+    if (/rgba\(0, 0, 0, 0\)|transparent/.test(l.style.background)) l.style.background = getComputedStyle(document.body).backgroundColor;
+    // Wie der Rand der alten Leiste deckt sie die Feldlinie, die höchstens 1 px unter ihrer Oberkante beginnt, ganz.
+    l.style.boxShadow = '0 -3px 0 ' + l.style.background;
+    document.body.appendChild(l);
+  });
 
   (h.baubar('pro-en') ? test : test.skip)('[Linien·Feldgrenze·Fußleiste] Rot-Beweis: der alte Filter misst unter der Fußleiste die Leiste, der neue das gescrollte Feld', async ({ page }) => {
     test.setTimeout(120000);
     await oeffnen(page, h.KERN_URL_PRO_EN);
     await bereich(page, 'pro-vertretung-vollmachten');
+    await fussleistePflanzen(page);
     const lage = await unterDieFussleiste(page, FUSSFELD);
     expect(lage.inhalt, 'Voraussetzung: unten steht eine feste Leiste außerhalb des Inhalts').toBe(false);
     expect(lage.unterkante, 'Voraussetzung: die Feldlinie liegt unter der Oberkante der Fußleiste').toBeGreaterThan(lage.leisteOben);
@@ -247,6 +264,7 @@ test.describe('Fläche statt Linien', () => {
     await oeffnen(page, h.KERN_URL_PRO_EN);
     await bereich(page, 'pro-vertretung-vollmachten');
     await page.evaluate((k) => { const s = new CSSStyleSheet(); s.replaceSync('#content [data-edit="' + k + '"] { border-bottom: 1px solid rgba(0,0,0,.05) !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; }, FUSSFELD);
+    await fussleistePflanzen(page);
     const lage = await unterDieFussleiste(page, FUSSFELD);
     expect(lage.unterkante, 'Voraussetzung: die Feldlinie liegt unter der Oberkante der Fußleiste').toBeGreaterThan(lage.leisteOben);
     await page.waitForTimeout(150);
@@ -278,7 +296,7 @@ test.describe('Fläche statt Linien', () => {
       await page.click('#w-anfangen');
       await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
       await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
-      await page.waitForSelector('#id-pw', { state: 'visible' });
+      await page.waitForSelector('#id-pw', { state: 'attached' });
       pruefe(slug + '/anlegen-dialog', await ausserhalb(page));
       messenSchreiben();
     });
@@ -304,6 +322,7 @@ test.describe('Fläche statt Linien', () => {
     await page.waitForSelector('#id-vorname', { state: 'visible' });
     await page.fill('#id-vorname', 'Ida Beispiel');
     await page.click(`.farb-kreis[data-akzent="${akzent}"]`);
+    if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await page.fill('#id-pw', pw);
     await page.fill('#id-pw2', pw);
     await page.click('#m-ok');
@@ -318,7 +337,7 @@ test.describe('Fläche statt Linien', () => {
     await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
     for (let i = 0; i < 6; i++) {
       if (!(await page.locator('#modal-rueck.an').count())) break;
-      await page.locator('#modal-rueck.an').locator('#m-abbr, #m-zweit, #m-ok').first().click().catch(() => {});
+      await page.locator('#modal-rueck.an').locator('#m-abbr, #m-x, #m-zweit, #m-ok').first().click().catch(() => {});
       await page.waitForTimeout(250);
     }
   }
@@ -378,9 +397,9 @@ test.describe('Fläche statt Linien', () => {
     const ziele = await page.evaluate(() => [...document.querySelectorAll('#sidebar .nav-item[data-sektor]')].filter((b) => b.checkVisibility({ visibilityProperty: true }) && b.getBoundingClientRect().height > 0).map((b) => b.getAttribute('data-sektor')));
     return ziele.slice(0, 2);
   }
-  const rand = (page) => page.evaluate(() => { const h1 = document.querySelector('#content .bereich-kopf h1'); return { fokus: document.activeElement === h1, w: parseFloat(getComputedStyle(h1).borderLeftWidth) }; });
+  const rand = (page) => page.evaluate(() => { const h1 = document.querySelector('#content .bereich-kopf h1'); return { fokus: document.activeElement === h1, w: parseFloat(getComputedStyle(h1).borderBottomWidth), links: parseFloat(getComputedStyle(h1).borderLeftWidth) }; });
 
-  test('[Fokus·Überschrift] Maus: kein Rand an der Bereichsüberschrift; Tastatur: Rand sichtbar (Chromium), mit Rot-Beweis', async ({ page }) => {
+  test('[Fokus·Überschrift] Maus: kein Rand an der Bereichsüberschrift; Tastatur: Unterkante sichtbar, nie ein Balken links (Chromium), mit Rot-Beweis', async ({ page }) => {
     const [a, b] = await umschau(page);
     expect(b, 'Voraussetzung: zwei sichtbare Bereiche in der Leiste').toBeTruthy();
     await page.locator('#sidebar .nav-item[data-sektor="' + b + '"]').click();
@@ -391,15 +410,16 @@ test.describe('Fläche statt Linien', () => {
     await page.waitForTimeout(200);
     const taste = await rand(page);
     expect(taste.fokus, 'Voraussetzung: die Überschrift hat den Fokus').toBe(true);
-    expect(taste.w, 'Tastatur: Rand sichtbar').toBeGreaterThan(0);
+    expect(taste.w, 'Tastatur: Unterkante sichtbar').toBeGreaterThan(0);
+    expect(taste.links, 'Tastatur: kein Balken links am Seitentitel').toBe(0);
     // Rot-Beweis: mit der Regel auf :focus (wie bis 07.10.2026) zeigte sich der Rand auch nach dem Mausklick.
-    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.bereich-kopf h1:focus { border-left: 3px solid #456 !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
+    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.bereich-kopf h1:focus { border-bottom: 3px solid #456 !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
     await page.locator('#sidebar .nav-item[data-sektor="' + b + '"]').click();
     await page.waitForTimeout(200);
     expect((await rand(page)).w, 'Rot-Beweis: :focus zeigt den Rand auch bei der Maus').toBeGreaterThan(0);
   });
 
-  test('[Fokus·Überschrift·WebKit] dieselbe Regel in WebKit: Maus kein Rand, Tastatur Rand', async () => {
+  test('[Fokus·Überschrift·WebKit] dieselbe Regel in WebKit: Maus kein Rand, Tastatur Unterkante', async () => {
     const browser = await webkit.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const page = await browser.newPage();

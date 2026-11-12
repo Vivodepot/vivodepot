@@ -5,6 +5,7 @@
    kehrt beim Abbrechen zum Auslöser zurück. Legt man im Dialog eine neue Person an, steht der Fokus danach in der Auswahl, nicht auf der
    Seite. Personen-Listen zeigen „Weitere Person hinzufügen“ erst ab einer Person. */
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers');
 
 async function bereitsicht(page, sektor) {
@@ -21,7 +22,7 @@ test('[Dialog·Fokus] der Dialog nimmt den Fokus ins erste Feld und gibt ihn bei
   await expect(page.locator('#modal-rueck.an')).toBeVisible();
   const imDialog = await page.evaluate(() => !!(document.activeElement && document.activeElement.closest && document.activeElement.closest('#modal-inhalt .liste-eintrag-form')));
   expect(imDialog, 'Fokus im ersten Feld des Dialogs').toBe(true);
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
   await expect(page.locator('#modal-rueck.an')).toHaveCount(0);
   await expect(page.locator('#content [data-eintrag-hinzufuegen="pets"]')).toBeFocused();
 });

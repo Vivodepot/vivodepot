@@ -9,7 +9,7 @@ wer antwortet, als Angabe der Person) · U2-ADR-449 (die Antwort als JWE) · U2-
 U2-ADR-080 (kein Import fremder Nachweise; bleibt) · U2-ADR-486 (Post-Quanten-Übergang, `ANKER_SATZ`) · U2-ADR-062 (externe
 Krypto-Prüfung vor Produktivschaltung)
 **Status heute:** gilt. **Gebaut und ausgeliefert** ist die Datei-Antwort: Die Lese-App liest signierte Antworten (G), der Kern
-signiert jede Antwort mit dem Schlüssel je Stelle (H); der Schalter `ANTWORT_SIGNIEREN` steht seit 1ba9ffb42 auf `true` und ist mit
+signiert jede Antwort mit dem Schlüssel je Stelle (H), bei einer ungeprüften Stelle je Anfrage (J); der Schalter `ANTWORT_SIGNIEREN` steht seit 1ba9ffb42 auf `true` und ist mit
 v933 ausgeliefert (Nachsehen: `git show <kanon>:vivodepot.html | grep '^const ANTWORT_SIGNIEREN'`). Im Studio ist der Hauptweg mit
 Schlüsselpaar nur mit geprüftem Zertifikat gebaut (I). **Nicht gebaut** ist die direkte Übergabe nach OpenID4VP: kein Versand ohne
 Zertifikat, und der Ankersatz „Zugang“ schließt nur mit Test-Listen (unten, „Was nicht entschieden ist“). Jeder weitere Bau braucht
@@ -180,6 +180,23 @@ Dieses ADR gilt für **beide Wege**: die Datei-Antwort auf eine Anfrage nach U2-
     verlangt nur, dass es nicht kritisch ist), und das Test-Zertifikat des EU-Referenz-Verifiers trägt keines. Weg zum Nachsehen:
     ETSI-Dokumente unter `etsi.org/deliver/etsi_ts/119400_119499/11941108/01.01.01_60/`, Abschnitt 6.6.1.
 
+**Nachtrag 09.11.2026 · Registrierungszertifikat der Stelle (OpenID4VP, Schritt W2).** `_anfrageRegistrierungPruefen` prüft das
+Element `registration_cert` aus `verifier_info`. Keine Oberfläche ruft `oid4vpAnfragePruefen` bisher auf (`grep -n oid4vpAnfragePruefen vivodepot.html`).
+Solange `OID4VP_REGISTRAR_ANKER` leer ist, kann Vivodepot kein Zertifikat prüfen. Die Stelle gilt dann als `nicht-registriert` (Grund
+`kein-anker`), auch bei einem Zertifikat in falscher Form. Nur eine unlesbare Liste `verifier_info` weist die Anfrage ab. Zugangs-Anker und
+Registrar-Anker sind getrennte Listen; ein Zugangs-Anker ergibt `anker-unbekannt` (Proben `[Registrierung·leere Ankerliste]` und
+`[Registrierung·Trennung]` in `tests/oid4vp-registrierung.test.js`). Vier Bedingungen stehen aus:
+
+- **Vor oder mit der Anzeige (W3), Mehrverlangen:** Der Abgleich sammelt alle Treffer und gibt sie als `mehr` zurück, damit die Person sieht,
+  was mehr verlangt wird (Punkt 18). Heute endet er beim ersten Treffer. Abnahme: ein Fall mit zwei nicht registrierten Pfaden prüft beide in `mehr`.
+- **Vor oder mit der Anzeige (W3), Bestätigung:** Die Bestätigung bei „Zweck nicht registriert“ bindet an die Sendestelle:
+  Ohne sie baut `oid4vpPraesentationBauen` bei `nicht-registriert` nichts. Abnahme: Probe „nicht-registriert ohne Bestätigung ergibt einen eigenen
+  Grund und keine Präsentation“, mit Rot-Beweis.
+- **Vor dem ersten Eintrag in `OID4VP_REGISTRAR_ANKER`, Form der Signierzertifikate:** `_x509StellePruefen` ist an Zugangsketten gemessen.
+  Echte Signierzertifikate laufen vorher durch diesen Eingang (`tools/wrprc-register-messen.js --register <url>`), auch eines mit CA:TRUE, und die Pflicht zu
+  `certificatePolicies` wird an der Norm belegt. Abnahme: Tabelle im Bericht zum Wort für den Anker.
+- **Vor dem ersten Eintrag in `OID4VP_REGISTRAR_ANKER`, Frist:** Die Registrar-Anker bekommen eine Frist wie die Liste „Zugang“ (Punkt 16). Abnahme: Fall „Liste abgelaufen“ ergibt `nicht-registriert`.
+
 ### E · Der X.509-Leser
 
 20. **Eigener Leser im Produktteil des Kerns, keine Bibliothek.**
@@ -279,6 +296,26 @@ Passwort; das Einmalpasswort bleibt der zweite Weg.
     Lese-App. `aud` wird gegen die Kennung aus dem signierten Zertifikat gehalten, der Vorgang gegen die getragene Anfrage. Ohne
     Schlüsseldatei öffnet das Einmalpasswort wie bisher, ohne Abgleich von `aud`.
 
+### J · Öffentlicher Schlüssel über die eingebettete Bibliothek (Nachtrag 02.11.2026)
+
+36. **Öffentlicher Schlüssel über die eingebettete Bibliothek** (Befund KRYPTO-AUFRUFER-BLIND). Den öffentlichen Schlüssel je
+    Stelle berechnet seit Wagen V4 die eingebettete noble-ed25519 (`getPublicKey`, U2-ADR-457 „Bibliothek“) aus einer Kopie des
+    abgeleiteten Seeds; privat bleibt er nur nicht extrahierbar importiert. Die Stelle ist `_ed25519SchluesselAusSeed`, gezählt im
+    Wächter `tools/krypto-aufrufer-pruefen.js` (Aufruf und Übergabe als Wert) und gebunden in
+    `tests/krypto-aufrufer-noble-seed.test.js`. Bis 02.11.2026 nannte dieser ADR die Bibliothek nicht.
+
+### K · Ungeprüfte Stelle: Schlüssel je Anfrage (Nachtrag 02.11.2026)
+
+37. **Abdruck in der Ableitung.** Für `aud` mit „unsigniert:“ hängt die info hinter der Kennung den SHA-256 der Anfrage
+    (kanonisches JSON, 32 Byte) an; derselbe Abdruck steht schon in der Nutzlast (Punkt 11). Die Kennung einer ungeprüften Anfrage
+    wählt die Stelle selbst. Ohne Abdruck bekamen zwei Stellen, die dieselbe Kennung behaupten, denselben Schlüssel, und ihre
+    Antworten ließen sich derselben Person zuordnen. Maßstab ist Datenschutz durch Technikgestaltung nach Art. 25 DSGVO,
+    Gewährleistungsziel Nichtverkettung (SDM V3.1, C1.5).
+38. **Geprüfte Stellen bleiben byte-gleich.** Für „signiert:“ ist ein Zusatz verboten; die info und der Testvektor aus Punkt 28
+    bleiben unverändert. Dieselbe geprüfte Stelle erkennt die Person weiter wieder, eine ungeprüfte nicht mehr: Die Lese-App zeigt
+    bei einer ungeprüften Stelle deshalb jede Antwort auf eine neue Anfrage mit neuem Schlüssel. Antworten, die vor diesem Nachtrag ungeprüft signiert
+    wurden, prüfen weiter gegen den Schlüssel in ihrem Kopf.
+
 ## Abgrenzung
 
 - U2-ADR-080 bleibt: Vivodepot importiert und prüft keine Nachweise fremder Aussteller. Dieses ADR prüft das Zertifikat der
@@ -343,6 +380,15 @@ konformitaet:
       - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·Vektor] info in fester Form und der öffentliche Schlüssel aus dem Vektor, unabhängig nachgerechnet"
       - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·je Stelle] zwei Stellen, zwei Schlüssel; dieselbe Stelle, derselbe; signiert und unsigniert getrennt"
       - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·je Stelle·Rot-Beweis] eine Ableitung ohne die Kennung in info machte zwei Stellen gleich"
+  - aussage: >-
+      Eine ungeprüfte Stelle bekommt je Anfrage einen eigenen Schlüssel: dieselbe Kennung mit verschiedenen Anfragen ergibt
+      verschiedene Schlüssel, dieselbe Anfrage denselben; für eine geprüfte Stelle ist kein Zusatz möglich und der Vektor bleibt.
+    zustand: erfuellt
+    herkunft: Art. 25 DSGVO · SDM V3.1 C1.5, U2-ADR-501-Nachtrag (02.11.2026)
+    pruefung:
+      - tests/holder-schluessel-unverknuepfbar.test.js "[Holder·je Anfrage P5] dieselbe anbieterId, verschiedene Anfragen → verschiedene Schlüssel; dieselbe Anfrage → derselbe"
+      - tests/holder-schluessel-unverknuepfbar.test.js "[Holder·je Stelle P6] signiert: bleibt byte-gleich (Testvektor U2-ADR-501 Punkt 28)"
+      - tests/holder-schluessel-unverknuepfbar.test.js "[Holder·Rot-Beweis P5] ohne den Abdruck in der Ableitung ergäbe dieselbe anbieterId denselben Schlüssel"
       - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·Sicherbarkeit] Sicherung, frischer Kern, Wiederherstellung mit Code und neuem Passwort: derselbe Schlüssel je Stelle"
   - aussage: >-
       Die Lese-App nimmt nur eine Ed25519-Signatur an und weist ein geändertes Byte, ein fremdes aud und den JWS einer anderen

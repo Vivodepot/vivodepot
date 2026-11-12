@@ -45,6 +45,44 @@ test('[Datum·Dreifeld] kein Browser-Datumsfeld mehr im Erzeuger der Dokumentkar
   assert.match(KERN, /_datumDreifeldHTML\('id="doku-neu-datum" class="doku-input" data-doku-neu-datum="1"'/);
 });
 
+test('[Datum·Dreifeld·Klasse] im Kern steht kein type="date" mehr, an keiner Stelle und in keinem Kommentar', () => {
+  // Abnahme: grep -c 'type="date"' vivodepot.html → 0. Jede Datumseingabe des Kerns läuft über _datumDreifeldHTML (Tag, Monat, Jahr).
+  const stellen = KERN.split('\n').map((z, i) => [i + 1, z]).filter(([, z]) => /type="date"|type=\\"date\\"|type='date'/.test(z)).map(([i]) => i);
+  assert.deepEqual(stellen, [], 'Zeilen mit einem Browser-Datumsfeld: ' + stellen.join(', '));
+  // Die sechs Stellen, die zuletzt umgestellt wurden, rufen den Helfer: Geburtsdatum der Neuanlage, Gültig bis des Empfängerkreises,
+  // gültig von/bis am Feld, Wiedervorlage des Widerspruchs, Prüfdatum der Vorsorge-Anweisung.
+  for (const [muster, name] of [
+    [/_datumDreifeldHTML\('data-neu-geburtsdatum="'/, 'Neuanlage Geburtsdatum'],
+    [/_datumDreifeldHTML\('id="kreis-fach-bis"'/, 'Empfängerkreis gilt bis'],
+    [/_datumDreifeldHTML\('data-gueltig-von="'/, 'Gültigkeit von'],
+    [/_datumDreifeldHTML\('data-gueltig-bis="'/, 'Gültigkeit bis'],
+    [/_datumDreifeldHTML\('id="ws-wv"'/, 'Wiedervorlage Widerspruch'],
+    [/_datumDreifeldHTML\('id="sub-vorsorge-pruefen"'/, 'Prüfdatum Vorsorge-Anweisung'],
+  ]) assert.match(KERN, muster, name);
+});
+
+test('[Datum·Dreifeld·Klasse] die Gültigkeitszeile und die Neuanlage tragen das ISO-Feld mit den Attributen, die die Speicherwege lesen', () => {
+  const { V } = ladeKern();
+  const neu = V._personNeuMaskeHTML('person', '', true);
+  assert.doesNotMatch(neu, /type="date"/);
+  assert.match(neu, /<input type="text" hidden="" tabindex="-1" aria-hidden="true" data-datum-iso="1" data-neu-geburtsdatum="person" min="1900-01-01" max="\d{4}-\d{2}-\d{2}" value="">/);
+  assert.match(neu, /data-datum-teil="t"/);
+  assert.doesNotMatch(neu, /autocomplete="bday/, 'das Geburtsdatum eines anderen Menschen wird nicht mit dem eigenen vorbelegt');
+});
+
+test('[Datum·Dreifeld·Klasse] ein Vorschlag füllt das versteckte Feld UND die drei Teile', () => {
+  const { V } = ladeKern();
+  const felder = {};
+  const teil = (k) => (felder[k] = { value: '' });
+  const g = { querySelector: (sel) => { const m = /data-datum-teil="(\w)"/.exec(sel); return m ? (felder[m[1]] || teil(m[1])) : null; } };
+  const iso = { value: '', hasAttribute: (n) => n === 'data-datum-iso', closest: () => g };
+  V._datumDreifeldWertSetzen(iso, '2031-05-04');
+  assert.equal(iso.value, '2031-05-04');
+  assert.deepEqual([felder.t.value, felder.m.value, felder.j.value], ['04', '05', '2031']);
+  V._datumDreifeldWertSetzen(iso, '');
+  assert.deepEqual([felder.t.value, felder.m.value, felder.j.value], ['', '', '']);
+});
+
 function gruppeMit(werte) {
   const versteckt = { value: '', ereignisse: [], getAttribute: () => null, dispatchEvent(e) { this.ereignisse.push(e.type); } };
   const teile = { t: { value: werte.t }, m: { value: werte.m }, j: { value: werte.j } };

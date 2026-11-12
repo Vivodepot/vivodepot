@@ -37,6 +37,7 @@ function exportPruefen(exp, tabelle, lock) {
     if (String(b.freigabestatus) !== String(freigabestatusCode(z.status))) befunde.push(ort + ': Freigabestatus ' + b.freigabestatus + ', gepinnt ' + freigabestatusCode(z.status) + ' („' + z.status + '")');
     if (b.fest !== !nichtFest(z.status)) befunde.push(ort + ': fest=' + b.fest + ' passt nicht zum Status „' + z.status + '"');
     if (b.name !== undefined && !freigabe) befunde.push(ort + ': Name ohne belegte fimNamenFreigabe');
+    else if (b.name !== undefined && b.name !== (z.name === undefined ? null : z.name)) befunde.push(ort + ': Name „' + b.name + '" steht so nicht in der Tabelle');
   }
   return befunde;
 }

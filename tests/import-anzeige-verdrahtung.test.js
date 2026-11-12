@@ -42,7 +42,7 @@ test('[Import-Anzeige·Verdrahtung·Rot-Beweis] eine Stelle, die das Modell nich
    Namen ist in den 3,2 s eines gewöhnlichen Hinweises nicht zu lesen, und was zurückblieb, wäre für die Person verloren. */
 const zeigenBleibt = (quelle) => {
   const zeigen = funktion('importAnzeigeZeigen', quelle);
-  const i = quelle.indexOf('  toast(text, art, aktion) {');
+  const i = quelle.indexOf('  toast(text, art, aktion, optionen) {');
   const toast = quelle.slice(i, quelle.indexOf('\n  },', i));
   return /bleibt: true/.test(zeigen) && /STRINGS\.btnSchliessen/.test(zeigen) && /aktion && aktion\.bleibt\) \? null/.test(toast);
 };

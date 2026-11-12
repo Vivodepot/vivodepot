@@ -122,7 +122,7 @@ test('Beratungshilfe-Auszug — EN: derselbe Weg geht auf Englisch genauso durch
   // Knöpfe „Drucken"/„Als PDF sichern"/„Schließen", der Werkzeugleisten-Hinweis oben) bleibt
   // Deutsch — das ist kein Fund, sondern der geprüfte Geltungsbereich (s. Bericht).
   await expect(overlay).toContainText('Advisory assistance — preparatory extract');
-  await expect(overlay).toContainText('About the applicant');   // Abschnittstitel seit 253a899c3 (vorher „Part 0 — the person“)
+  await expect(overlay).toContainText('About the applicant');   // dok:zugang-zum-recht-beratungshilfe#0.titel, live seit 253a899c3 (vorher „Part 0 — the person“); geprüft, bleibt
   await expect(overlay).toContainText('First name? Elisabeth');
   await expect(overlay).toContainText('Surname? Wredenhagen Sonnenschein');
 

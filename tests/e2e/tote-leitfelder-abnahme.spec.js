@@ -86,7 +86,10 @@ test('Gegentest: Zeile wieder entfernen lässt den Vorschlag verschwinden', asyn
   // Die Zeile über den echten Entfernen-Weg löschen — über die Zeile mit dem sichtbaren Label
   // gesucht, nicht über den Index (der ist nur innerhalb SEINER Liste eindeutig, nicht seitenweit).
   const zeile = page.locator('li[data-eintrag]', { hasText: 'Betreuungsverfügung' }).first();
-  await zeile.locator('[data-eintrag-entfernen]').click();
+  // Entfernen steht hinter dem › der Zeile, im Dialog des Eintrags (Zielbild 05); danach die Rückfrage.
+  await zeile.locator('[data-eintrag-bearbeiten]').click();
+  await page.click('#modal-rueck.an #m-dritt');
+  await expect(page.locator('#modal-rueck.an #m-dritt')).toHaveCount(0);
   await page.waitForSelector('#m-ok');
   await page.click('#m-ok');   // Bestätigungs-Modal „wirklich entfernen?"
   await page.waitForFunction(() => !document.querySelector('#modal-rueck.an')).catch(() => {});

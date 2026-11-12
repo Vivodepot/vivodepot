@@ -30,7 +30,14 @@
         "properties": {
           "kennung": { "type": "string", "minLength": 3, "description": "Feldkennung in der Form aus Auftrag 2: bereich.feld bzw. bereich.feld[eintrag].unterfeld." },
           "zweck": { "type": "string", "minLength": 3, "description": "Wozu DIESE Angabe. Ein Sammelzweck beantwortet die Frage nicht." },
-          "pflicht": { "type": "boolean", "description": "Nötig (Standard) oder freigestellt." }
+          "pflicht": { "type": "boolean", "description": "Nötig (Standard) oder freigestellt." },
+          "personFelder": {
+            "type": "array", "minItems": 1,
+            "description": "Nur an einem Feld, das auf eine Person verweist: welche Felder dieser Person die Antwort tragen soll, je als Kennung des Feldregisters. Die Person sieht jedes als eigene Zeile vor dem Senden und kann es abwählen. Ein anderes Feld verwirft die Zeile.",
+            "items": { "enum": ["people.person/name", "people.person/familyName", "people.person/givenName", "people.person/birthDate",
+              "people.person/birthYear", "people.person/birthPlace", "people.person/street", "people.person/houseNumber",
+              "people.person/postalCode", "people.person/city", "people.person/telephone", "people.person/deceased"] }
+          }
         }
       }
     },

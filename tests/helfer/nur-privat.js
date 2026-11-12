@@ -29,7 +29,8 @@ const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 94;   // 93 → 94 am 07.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 9be434288): shl-einmaligkeit-zusage, nur der Rot-Beweis;
+const DECKEL = 95;   // 96 → 95 am 09.11.2026 (Verschärfung): die öffentliche .gitignore steht, die Merkdatei-Probe läuft auch öffentlich. 95 → 96 am 09.11.2026 (Wort der Gegenlesung): weckung-beim-schreiben, BESTAND. 94 → 95: katalog-statt-anzeige-index, BESTAND (öffentlich nur zwei Privat-Produkte).
+                     // 93 → 94 am 07.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 9be434288): shl-einmaligkeit-zusage, nur der Rot-Beweis;
                      //   er holt den Stand vor dem Fix über git log -S aus der privaten Geschichte (GIT), öffentlich hat der Klon einen Commit.
                      // 94 → 93 am 05.11.2026 (Verschärfung, öffentlicher Lauf v1040): antwort-schema fährt Pro nur, wo es gebaut wird.
                      // 75 → 94 am 05.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v1040): neunzehn Dateien, BESTAND (öffentlich nur zwei
@@ -92,11 +93,6 @@ const NUR_PRIVAT = {
   "tests/shl-einmaligkeit-zusage.test.js": { grund: GIT, tests: [
     "[Einmalig·Rot-Beweis] vor dem Fix fehlen Erkennung und Ergebnis, das Zeichen steht offen, die Hilfe sagt „einmal abrufbar“ ohne Bedingung; ein gepflanzter Text macht den Wächter rot",
   ] },
-  // 20.10.2026 (Wort der Gegenlesung): das öffentliche Repo hat keine .gitignore (die private bleibt drinnen). Bis zum Fix, einer festen
-  // öffentlichen .gitignore als Positivliste, läuft die Probe nur privat. Befund MERKDATEI-NICHT-IGNORIERT-OEFFENTLICH (offen).
-  "tests/modul-app-signieren-und-packen.test.js": { grund: BESTAND, tests: [
-    "[Merkdatei] die echte MERKDATEI ist gitignored",
-  ] },
   // 20.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v933): öffentlich gibt es nur die zwei Privat-Produkte; Pro bleibt drinnen,
   // wie bei den vier Pro-Dateien vom 17.10.2026 (BESTAND). Öffentlich: „Vorbedingung: vier Produkte, 2 !== 4“ bzw. „mindestens ein Pro-Modul ist geführt“.
   "tests/rechtsraum-reservierung-vier-produkte.test.js": { grund: BESTAND, tests: [
@@ -108,6 +104,8 @@ const NUR_PRIVAT = {
   // 20.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v933): die Fassungen der Schemas liegen als Blobs in der privaten Geschichte
   // (GIT); öffentlich: „git cat-file blob 79306b8e…: bad file“ bzw. „design-modul/1: Blob 5e075d57… nicht im Repo“.
   "tests/schema-fassungen.test.js": { grund: GIT, tests: [
+    "[Schema-Fassungen·live] liefert jede Adresse 200 und den verzeichneten Inhalt, meldet das Werkzeug nichts",
+    "[Negativprobe] Schema-Fassungen live: eine 404 und ein abweichender Inhalt werden je genannt",
     "[Schema-Fassungen] jedes Schema mit $id unter vivodepot.de/schemas ist verzeichnet, jede Fassung wiederherstellbar",
     "[Schema-Fassungen] die ausgelieferte Fassung weicht vom Kanon nur im $id ab, mit eigener Adresse",
     "[Schema-Fassungen] index.json nennt nur Name, Fassung, Adresse und Prüfsumme",
@@ -432,6 +430,34 @@ const NUR_PRIVAT = {
     "[Testamentsform·Pro] pro-de: eine vorgesehene Form geht weiter in den Auszug",
   ] },
   // 01.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v956): baut pro-de und pro-en; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/katalog-statt-anzeige-index.test.js": { grund: BESTAND, tests: [
+    "[K1] liesBereich trifft den Datensatz eines ruhenden Bereichs",
+    "[K1] schreibBereich trifft den Datensatz eines ruhenden Bereichs",
+    "[K2] feldDefFuer und _feldDef kennen das Feld eines ruhenden Bereichs",
+    "[K2] der Typ-Wächter in sektorFeldSetzen greift auch im ruhenden Bereich",
+  ] },
+  "tests/weckung-beim-schreiben.test.js": { grund: BESTAND, tests: [
+    "[Weckung·Bestätigt] ein bestätigtes Einlesen übersteht das Zurücknehmen der Vorschau",
+    "[Weckung·Bestätigt·Rot-Beweis] ohne die Weckung über die Daten fällt der Bereich mit der Vorschau weg",
+    "[Weckung·Einlesen] camt.053: der ruhende Bereich steht nach dem Einlesen da, mit Wert",
+    "[Weckung·Einlesen] ELSTER: der ruhende Bereich steht nach dem Einlesen da, mit Wert",
+    "[Weckung·Einlesen] IPS: der ruhende Bereich steht nach dem Einlesen da, mit Wert",
+    "[Weckung·Einlesen] vCard: die Werte kommen an, identity ruht in Pro nie",
+    "[Weckung·Schreiben] sektorFeldSetzen weckt in derselben Sitzung",
+    "[Weckung·Schreiben] kernAPI.schreibBereich weckt in derselben Sitzung",
+    "[Weckung·Schreiben] ein neuer Listeneintrag weckt in derselben Sitzung",
+    "[Weckung·Kennung] eine Kennung im ruhenden Bereich gilt, eine außerhalb des Katalogs bleibt unbekannt",
+    "[Weckung·Gegenprobe] ein Abbruch der Vorschau nimmt die Weckung zurück und schreibt nichts",
+    "[Weckung·Gegenprobe] ein leerer Wert weckt nicht",
+    "[Weckung·Gegenprobe] ein Bereich außerhalb des Katalogs bleibt draußen",
+    "[Weckung·Kennung] eine Kennung im ruhenden Bereich steht in „fehlend“ und verschwindet nicht",
+    "[Weckung·Gegenprobe] Privat: abgewählter Bereich bleibt weggelassen, Kennung und Einlesen eingeschlossen",
+    "[Weckung·Gegenprobe] Privat: der Bereichssatz der Datei bleibt, wie er ist",
+    "[Weckung·Ratsche] die direkten Schreibstellen sind genau die bekannten, und die Schreibwege wecken",
+    "[Weckung·Ratsche·Rot-Beweis] eine neue Schreibstelle und eine fehlende Weckung werden gemeldet",
+    "[Weckung·Rot-Beweis] ohne die Weckungen bleibt der Bereich nach Einlesen und Schreiben verborgen",
+    "[Weckung·Rot-Beweis] vCard: ohne den Wächter auf den Katalog kommt nichts an",
+  ] },
   "tests/pro-meldungen-deckung.test.js": { grund: BESTAND, tests: [
     "[Pro·E7] pro-de: eine Gruppe für die Meldungen an alle Stellen, mit Stelle, Anlass, Gemeldet am und Zu melden bis",
     "[Pro·E7·Werterhalt] pro-de: ein eingetragenes Finanzamt steht nach dem Öffnen unverändert unter „Stelle“",

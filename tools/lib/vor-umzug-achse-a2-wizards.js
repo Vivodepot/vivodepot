@@ -36,6 +36,8 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { textwerteAusSchritten } = require('./vor-umzug-textwerte');
 
+// anamwiz bleibt stehen, obwohl seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) gestrichen: die Liste bestimmt, was gegen den
+// Anker-Commit gezogen wird; der Beleg trägt seinen Wortlaut, die Probe nimmt ihn benannt aus. Heute überspringt die Schleife ihn.
 const WIZARD_IDS_A2 = Object.freeze(['gebwiz', 'anamwiz', 'pflwiz', 'heirwiz', 'umzwiz']);
 
 function textwerteAusWizardKopf(w) {

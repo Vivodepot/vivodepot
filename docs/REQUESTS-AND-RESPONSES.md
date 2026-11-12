@@ -47,15 +47,20 @@ the phone's IP address and the time. Basis:
 ## 4 · The reply
 
 The reply is a JWE in Compact Serialization (RFC 7516), saved as a file ending in `.jwe` with the media type
-`application/jose`. `enc` is always `A256GCM`. `antwort.art` in the request chooses the method:
+`application/jose`. Handed over as a file, it is named `<brand>_Antwort_<YYYY-MM-DD>_<first six characters of the random kennung>.jwe`; collected through a link, it is saved as `freigabe-<YYYY-MM-DD>.jwe`:
+neither the name nor the readable header carries your case number (`vorgang`) or the purpose; you match the reply to your
+case after opening it, via `anfrage.vorgang`. `enc` is always `A256GCM`. `antwort.art` in the request chooses the method:
 
 | `antwort.art` | `alg` | Suited for |
 |---|---|---|
 | `schluesselpaar` | `ECDH-ES` on P-256; the request carries your public key in `antwort.publicKeyJwk` | many replies to one recipient |
 | `einmalpasswort` | `PBES2-HS512+A256KW`, `p2c` exactly 600000 | a single case; the password reaches the person by another channel |
 
-- The protected header carries `typ` `vivodepot-antwort+jwe`, `vorgang` and, if the request named one, `anbieter`.
-  The header is readable and names no value. For `ECDH-ES` the case number also goes into the key derivation (`apv`).
+- The protected header carries `typ` `vivodepot-antwort+jwe` and `kennung`, a random identifier of this reply (16 bytes,
+  base64url). The header is readable, so it names neither your organisation nor your case number. For `ECDH-ES` the
+  identifier also goes into the key derivation (`apv`). Inside, the data set carries `anfrage.vorgang` (your case number)
+  and `anfrage.kennung` (the same identifier as in the header). Replies from versions up to v1050 carried `vorgang` in the
+  header and in `apv` instead (before v1039 also `anbieter`); the Vivodepot viewer and the Studio read both forms.
 - The reply is padded to fixed size steps and is not compressed. A receiver should refuse `zip`.
 - Accept only `p2c` = 600000. A forged header with a very large count would otherwise stall the receiving side.
 - With `einmalpasswort`, the password must be randomly generated and have at least 16 characters, not counting hyphens

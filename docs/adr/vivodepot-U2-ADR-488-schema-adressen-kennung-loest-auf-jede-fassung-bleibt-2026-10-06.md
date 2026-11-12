@@ -62,10 +62,10 @@ konformitaet:
       - tests/mit-modul/schema-fassungen-ajv.test.js "[Schema-Fassungen·Ajv strict] jede ausgelieferte Datei übersetzt mit Ajv 2020, strict"
   - aussage: >-
       Jede Adresse liefert live 200 und die verzeichnete Prüfsumme.
-    zustand: offen
-    herkunft: U2-ADR-488 (06.10.2026)
-    frist: 2026-11-06
-    bedingung: >-
-      Der Ordner schemas/ ist über die Website-Auslieferung hochgeladen und `node tools/schema-fassungen.js --live-pruefen`
-      ist grün. Bis dahin steht der Befund SCHEMA-ID-NICHT-AUFLOESBAR in der Befund-Ratsche offen.
+    zustand: erfuellt
+    herkunft: U2-ADR-488 (06.10.2026); live gemessen am 09.11.2026 nach dem Upload. Nachmessen mit
+      `node tools/schema-fassungen.js --live-pruefen`. Die Proben halten das Werkzeug fest, nicht den Webspace.
+    pruefung:
+      - tests/schema-fassungen.test.js "[Schema-Fassungen·live] liefert jede Adresse"
+      - tests/schema-fassungen.test.js "[Negativprobe] Schema-Fassungen live"
 ```

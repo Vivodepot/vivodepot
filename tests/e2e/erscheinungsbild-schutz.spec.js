@@ -77,9 +77,10 @@ test('[Schutz·Rot-Beweis] ein breiter Selektor auf die Kopfzeile → die gesch�
   // Sein Text war durchsichtig, der Notfall-Eintrag nicht gerendert — die Probe fällt zurück, und alles ist wieder da.
   await expect.poll(async () => (await zustand(page)).attr, { timeout: 5000 }).toBe('rueckfall');
   await page.click('#tb-pw-hinweis');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-pw', { state: 'attached' });
   await page.fill('#id-vorname', 'Maria');
   await page.fill('#id-nachname', 'Mustermann');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'e2e-passwort-123');
   await page.fill('#id-pw2', 'e2e-passwort-123');
   await page.click('#m-ok');

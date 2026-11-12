@@ -53,9 +53,10 @@ test('[Gerüst·nackt] Schutzregeln: Mindestkontrast, Hinweis auf Ungesichertes 
   // Ein Depot anlegen, wie tests/e2e/helpers.js#depotAnlegen — aber ohne auf die Einmal-Dialoge zu warten: das
   // Notfall-Blatt-Angebot erscheint im Gerüst nicht (es hat keinen Sprachsatz, seit S8), und das ist hier nicht Gegenstand.
   await page.click('#tb-pw-hinweis');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-pw', { state: 'attached' });
   await page.fill('#id-vorname', 'Maria');
   await page.fill('#id-nachname', 'Mustermann');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'e2e-passwort-123');
   await page.fill('#id-pw2', 'e2e-passwort-123');
   await page.click('#m-ok');

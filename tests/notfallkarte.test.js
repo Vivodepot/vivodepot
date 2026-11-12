@@ -75,9 +75,9 @@ test('2) zeichneNotfallkarte schreibt die Akut-Zeilen ins Dokument', async () =>
   const doc = fakeDoc();
   V.zeichneNotfallkarte(doc, V.notfallKernModell(), V.notfallKartenMeta(), null);
   const txt = doc.calls.join('|');
-  assert.ok(txt.includes('NOTFALL'), 'Titel');
+  assert.ok(txt.includes(V.STRINGS.notfallKarteBand), 'Titel im Band (Zielbild S6: keine Versalien)');
   assert.ok(txt.includes('Maria'), 'Wert');
-  assert.ok(txt.includes('A +'), 'Blutgruppe');
+  assert.ok(txt.includes('A+'), 'Blutgruppe');
 });
 
 test('3) QR wird eingebettet, wenn eine DataURL übergeben wird', async () => {

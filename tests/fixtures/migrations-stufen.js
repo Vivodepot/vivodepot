@@ -1141,6 +1141,12 @@ const STUFEN = [
     vorher:  (d) => !('fragen' in d) && d.sektoren.identity.givenName === 'Erika',
     nachher: (d) => d.schemaVersion >= 95 && Array.isArray(d.fragen) && d.fragen.length === 0
                  && d.sektoren.identity.givenName === 'Erika' },
+  { nach: 96, was: 'Chip-Feld dosis an der laufenden Medikation (09.11.2026): die Stufe ändert keinen Wert; ein älterer Kern öffnet die '
+                 + 'Datei nur lesend. Ausführlich: tests/ips-medikation-dosierung.test.js.',
+    baue: () => basis(95, sek('health', { medicationOngoing: [{ text: 'Beispielol · 1-0-1-0' }] })),
+    vorher:  (d) => !('dosis' in d.sektoren.health.medicationOngoing[0]),
+    nachher: (d) => d.schemaVersion >= 96 && !('dosis' in d.sektoren.health.medicationOngoing[0])
+                 && d.sektoren.health.medicationOngoing[0].text === 'Beispielol · 1-0-1-0' },
 ];
 
 module.exports = { STUFEN, basis };

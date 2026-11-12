@@ -150,6 +150,19 @@ const ZUWACHS = Object.freeze([
   ...['postMortemDataDonation', 'postMortemDataDonationScope', 'postMortemDataDonationExcluded', 'postMortemDataDonationTrustee',
     'postMortemDataHolders'].map((unterfeld) =>
     ({ bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld, art: 'feld', adr: 'U2-ADR-518' })),
+  // U2-ADR-465 — Mietkosten, Mietzuschuss, beruflich genutzte Fläche sowie Mitbewohner und Untermieter an der Hauptwohnung
+  // (Wohngeld-Durchstich, Feldregister; tests/wohnen-miete-angaben.test.js).
+  ...['heatingCostsInRent', 'hotWaterCostsInRent', 'garageCostsInRent', 'parkingSpaceCostsInRent', 'serviceChargeFlatRate',
+    'householdEnergyCosts', 'costsPaidToThirdParties', 'rentSubsidyProvider', 'rentSubsidyAmount', 'rentSubsidyFrom',
+    'rentSubsidyUntil', 'commercialUseArea', 'subtenants'].map((feld) =>
+    ({ bereich: 'housing', sektion: 'wohnen-haupt', feld, unterfeld: null, art: 'feld', adr: 'U2-ADR-465' })),
+  ...['subtenantRelationship', 'subtenantRoomSize', 'mainResidence', 'mainResidenceSince', 'subtenantServiceCharges'].map((unterfeld) =>
+    ({ bereich: 'housing', sektion: 'wohnen-haupt', feld: 'subtenants', unterfeld, art: 'feld', adr: 'U2-ADR-465' })),
+  // U2-ADR-465 Nr. 35 — Angaben der Meldebehörde bei der Anmeldung: Einzugsdatum, Wohnungsgeber als Eigentümer,
+  // Name des Eigentümers, Zuordnungsmerkmal der elektronischen Bestätigung, Doktorgrad (tests/wohnsitz-anmeldung-felder.test.js).
+  ...['moveInDate', 'landlordIsOwner', 'ownerName', 'landlordConfirmationCode'].map((feld) =>
+    ({ bereich: 'housing', sektion: 'wohnen-haupt', feld, unterfeld: null, art: 'feld', adr: 'U2-ADR-465' })),
+  { bereich: 'identity', sektion: 'person', feld: 'academicDegree', unterfeld: null, art: 'feld', adr: 'U2-ADR-465' },
 ]);
 
 // Sicht 1 — der eingefrorene BEREICHSBESTAND: benannte Feld-Stellen, nie Array-Positionen.

@@ -1,5 +1,6 @@
 'use strict';
-/* U2-ADR-501, Wagen V4 — der Kern signiert jede Antwort an eine Stelle (sign-then-encrypt), mit einem Schlüssel je Stelle.
+/* U2-ADR-501, Wagen V4 — der Kern signiert jede Antwort an eine Stelle (sign-then-encrypt), mit einem Schlüssel je Stelle;
+   bei einer ungeprüften Stelle je Anfrage (Nachtrag 02.11.2026, Probe tests/holder-schluessel-unverknuepfbar.test.js).
 
    Was gehalten wird (alles zur Laufzeit erzeugt; kein Schlüssel liegt im Repo):
      · Ableitung: die info-Bytes in fester Form (Länge 2 Byte big-endian) und ein Testvektor, unabhängig mit node:crypto
@@ -33,6 +34,13 @@ const STELLE = 'heim/sonnenhof';
 const VORGANG = 'AUF-2026-1016';
 const b64u = (b) => Buffer.from(b).toString('base64url');
 const kopie = (o) => JSON.parse(JSON.stringify(o));
+/* Der Datensatz, wie er ankommt: der Kern legt die zufällige Kennung des Kopfs als anfrage.kennung hinein (U2-ADR-520 Nr. 3). */
+const wieAngekommen = (ds, jwe) => {
+  const e = JSON.parse(JSON.stringify(ds));
+  e.anfrage = Object.assign({}, e.anfrage, { kennung: JSON.parse(Buffer.from(jwe.split('.')[0], 'base64url').toString('utf8')).kennung });
+  return e;
+};
+
 
 /* Seit dem Umlege-Wagen (v931) steht der Schalter an. Varianten des Kerns (Schalter aus, Browser ohne Ed25519) entstehen als Kopie
    der Quelle in einem Wegwerf-Verzeichnis, gebacken wie das Standard-Produkt. */
@@ -100,7 +108,8 @@ test('[Antwort-Signatur·je Stelle] zwei Stellen, zwei Schlüssel; dieselbe Stel
   const a1 = await V.antwortSchluesselJeStelle(kennung('heim/a'), z);
   const a2 = await V.antwortSchluesselJeStelle(kennung('heim/a'), z);
   const b = await V.antwortSchluesselJeStelle(kennung('heim/b'), z);
-  const u = await V.antwortSchluesselJeStelle(kennung('heim/a', false), z);
+  // Eine ungeprüfte Kennung leitet nur mit dem Abdruck der Anfrage ab (Nachtrag U2-ADR-501, 02.11.2026).
+  const u = await V.antwortSchluesselJeStelle(kennung('heim/a', false), z, undefined, new Uint8Array(32));
   assert.equal(a1.jwk.x, a2.jwk.x);
   assert.notEqual(a1.jwk.x, b.jwk.x);
   assert.notEqual(a1.jwk.x, u.jwk.x, 'eine unsignierte Anfrage mit der Kennung einer geprüften Stelle ergibt nie deren Schlüssel');
@@ -109,7 +118,7 @@ test('[Antwort-Signatur·je Stelle] zwei Stellen, zwei Schlüssel; dieselbe Stel
 });
 
 test('[Antwort-Signatur·je Stelle·Rot-Beweis] eine Ableitung ohne die Kennung in info machte zwei Stellen gleich', async () => {
-  const zeile = '  info.set(k, i);\n  return info;';
+  const zeile = '  info.set(k, i); i += k.length;\n  info.set(z, i);\n  return info;';
   assert.equal(KERN.split(zeile).length, 2, 'Vorbedingung: die Zeile steht genau einmal');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-antwort-signieren-rot-'));
   try {
@@ -182,7 +191,9 @@ test('[Antwort-Signatur·an] Schlüsselpaar und Einmalpasswort: die Lese-App öf
   assert.equal(V.ANTWORT_SIGNIEREN, true);
   await mitDepot(V);
   const L = ladeLesen().V;
-  const erwartet = (await V.antwortSchluesselJeStelle(kennung(STELLE, false))).jwk;
+  // Ungeprüfte Stelle: Schlüssel je Anfrage, der Abdruck der Anfrage geht in die Ableitung (Nachtrag U2-ADR-501, 02.11.2026).
+  const erwartetFuer = async (a) => (await V.antwortSchluesselJeStelle(kennung(STELLE, false), undefined, undefined,
+    new Uint8Array(nodeCrypto.createHash('sha256').update(V._kanonischJSON(a)).digest()))).jwk;
   const paar = await empfangsPaar();
   for (const [art, a, opt, schluessel] of [
     ['schluesselpaar', anfrage({ art: 'schluesselpaar', publicKeyJwk: paar.pub }), {}, { privateJwk: paar.priv }],
@@ -193,8 +204,8 @@ test('[Antwort-Signatur·an] Schlüsselpaar und Einmalpasswort: die Lese-App öf
     const r = await L.antwortOeffnenMitSignatur(L.antwortJweAlsUmschlag(jwe), schluessel);
     assert.equal(r.signatur.zustand, 'signatur', art);
     assert.equal(r.signatur.aud, kennung(STELLE, false), art + ': ohne geprüfte Anfrage unsigniert:');
-    assert.equal(r.signatur.abdruck, await V.jwkThumbprintOkp(erwartet), art + ': der Schlüssel dieser Stelle');
-    assert.deepEqual(kopie(r.datensatz), kopie(ds), art + ': derselbe Datensatz');
+    assert.equal(r.signatur.abdruck, await V.jwkThumbprintOkp(await erwartetFuer(a)), art + ': der Schlüssel dieser Anfrage');
+    assert.deepEqual(kopie(r.datensatz), wieAngekommen(ds, jwe), art + ': derselbe Datensatz');
   }
 });
 
@@ -273,7 +284,7 @@ test('[Antwort-Signatur·ohne Ed25519] die Antwort bleibt unsigniert, trägt das
   const r = await L.antwortOeffnenMitSignatur(L.antwortJweAlsUmschlag(jwe), { passwort: EINMAL });
   assert.equal(r.signatur.zustand, 'ohne-browser');
   assert.equal(r.datensatz.unsigniert, undefined, 'das Kennzeichen gehört nicht zum Datensatz');
-  assert.deepEqual(kopie(r.datensatz), kopie(ds));
+  assert.deepEqual(kopie(r.datensatz), wieAngekommen(ds, jwe));
   assert.match(L.antwortSignaturHTML(r.signatur), /data-signatur="ohne-browser"/);
   // Unterscheidbar: weder die Zeile der älteren Fassungen noch einer der beiden Zustände einer signierten Antwort.
   assert.notEqual(L.antwortSignaturHTML(r.signatur), L.antwortSignaturHTML({ zustand: 'ohne' }));

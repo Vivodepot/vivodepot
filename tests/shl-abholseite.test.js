@@ -198,3 +198,75 @@ test('[Rechtslinks·Rot-Beweis] nur die zwei Rechtslinks mit noreferrer gehen du
     assert.equal(fall(html).length, 1, name + ' fällt auf');
   }
 });
+
+/* ── Auftragsmodus (L6, 02.11.2026): der Kern hält den Schlüssel, diese Seite holt nur das Chiffrat ─────────────────────────── */
+function auftragTeil() {
+  const vm = require('node:vm');
+  const js = S('empfangen.js');
+  const a = js.indexOf('/* ══ SHL-ABLAGE-URL-BLOCK'); const b = js.indexOf('/* ══ ENDE SHL-ABLAGE-URL-BLOCK ══ */');
+  const c = js.indexOf('const AUFTRAG_FELDER'); const d = js.indexOf('function auftragZeigen');
+  assert.ok(a > 0 && b > a && c > 0 && d > c, 'Block und Auftragsteil in empfangen.js');
+  const k = { URL, Date };
+  vm.runInNewContext(js.slice(a, b) + '\n' + js.slice(c, d) + '\nthis.pruefen = auftragPruefen; this.form = antwortJwe;', k);
+  return k;
+}
+// Jeder fetch-Aufruf bis zu seinem Ende `);` (die Optionen können verschachtelte Objekte tragen).
+function fetchAufrufe(js) {
+  const aus = [];
+  for (let i = js.indexOf('await fetch('); i >= 0; i = js.indexOf('await fetch(', i + 1)) aus.push(js.slice(i, js.indexOf(');', i) + 2));
+  return aus;
+}
+const AUFTRAG = { typ: 'vd-shl-holen', fassung: 1, id: 'AbCdEfGhIjKlMnOpQrStUv', url: 'https://share.vivodepot.de/holen.php?t=' + 'a'.repeat(48), flag: 'U', bis: 2000 };
+
+test('[Auftrag] angenommen nur vom Öffner, mit genau diesen Feldern, vor Fristende, mit geprüfter Adresse, ohne Passcode', () => {
+  const { pruefen } = auftragTeil();
+  const oeffner = {};
+  const jetzt = () => 1000;
+  const a = pruefen({ source: oeffner, origin: 'null', data: AUFTRAG }, oeffner, jetzt);
+  assert.equal(a.host, 'share.vivodepot.de');
+  assert.equal(a.quelle, oeffner);
+  const rot = {
+    'fremdes Fenster': [{ source: {}, origin: 'null', data: AUFTRAG }],
+    'kein Öffner': [{ source: oeffner, origin: 'null', data: AUFTRAG }, null],
+    'Schlüssel mitgeschickt': [{ source: oeffner, data: Object.assign({}, AUFTRAG, { key: 'k' }) }],
+    'Passcode-Flag': [{ source: oeffner, data: Object.assign({}, AUFTRAG, { flag: 'P' }) }],
+    'http': [{ source: oeffner, data: Object.assign({}, AUFTRAG, { url: 'http://share.vivodepot.de/x' }) }],
+    'Zugangsdaten': [{ source: oeffner, data: Object.assign({}, AUFTRAG, { url: 'https://a:b@x.example/x' }) }],
+    'abgelaufen': [{ source: oeffner, data: Object.assign({}, AUFTRAG, { bis: 999 }) }],
+    'id': [{ source: oeffner, data: Object.assign({}, AUFTRAG, { id: 'x' }) }],
+    'Fassung': [{ source: oeffner, data: Object.assign({}, AUFTRAG, { fassung: 2 }) }],
+  };
+  for (const [name, [e, o]] of Object.entries(rot)) assert.equal(pruefen(e, o === undefined ? oeffner : o, jetzt), null, name);
+});
+
+test('[Auftrag] zurück geht nur eine Antwort in JWE-Form mit begrenzter Größe', () => {
+  const { form } = auftragTeil();
+  assert.equal(form(' a..b.c.d\n'), 'a..b.c.d');
+  for (const j of ['a.b.c.d', 'a..b.c', '{"resourceType":"Bundle"}', 'a..b.c.d+', '<html>', '', null]) assert.equal(form(j), null, String(j));
+  assert.equal(form('a..b.c.' + 'd'.repeat(12 * 1024 * 1024)), null, 'Größe');
+});
+
+test('[Auftrag] Abruf nur nach Klick, jeder fetch ohne Anmeldedaten und ohne Referrer; die Antwort mit der id an den Öffner', () => {
+  const js = S('empfangen.js');
+  const fetches = fetchAufrufe(js);
+  assert.equal(fetches.length, 3, 'drei fetch-Aufrufe in jweHolen');
+  for (const f of fetches) {
+    assert.match(f, /credentials: 'omit'/, f);
+    assert.match(f, /referrerPolicy: 'no-referrer'/, f);
+  }
+  const hoerer = js.slice(js.indexOf("window.addEventListener('message'"), js.indexOf("document.getElementById('auftrag-knopf')"));
+  assert.doesNotMatch(hoerer, /jweHolen|fetch|auftragAusfuehren/, 'die Nachricht allein holt nichts');
+  assert.match(js, /getElementById\('auftrag-knopf'\)\.addEventListener\('click', auftragAusfuehren\)/);
+  assert.match(js, /auftrag\.quelle\.postMessage\(\{ typ: 'vd-shl-geholt', fassung: 1, id: auftrag\.id, jwe \}/);
+  assert.doesNotMatch(js.slice(js.indexOf('async function auftragAusfuehren')), /entschluesseln\(/, 'im Auftragsmodus entschlüsselt die Seite nicht');
+  assert.match(js, /linkEingabe\.closest\('\.kasten'\)\.hidden = true;/, 'im Auftragsmodus steht das Einfügefeld nicht daneben');
+  const html = S('empfangen.html');
+  for (const id of ['auftrag', 'auftrag-liste', 'auftrag-knopf', 'auftrag-fehler', 'auftrag-datei-knopf']) assert.match(html, new RegExp('id="' + id + '"'), id);
+});
+
+test('[Auftrag·Rot] vor L6 gingen die fetch-Aufrufe mit Anmeldedaten (Vorgabe same-origin) hinaus', () => {
+  const alt = S('empfangen.js').replace(/credentials: 'omit', /g, '').replace(/\n {4}credentials: 'omit',/g, '');
+  const fetches = fetchAufrufe(alt);
+  assert.equal(fetches.length, 3);
+  assert.ok(fetches.every((f) => !/credentials/.test(f)), 'ohne die Angabe fällt jede Probe oben');
+});

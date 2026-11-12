@@ -89,8 +89,8 @@ Endung `.sd-jwt`:
 | Finanzen | `sd-jwt-vc-finanzen` | `sdJwtVcFinanzen` | `urn:vivodepot:finanzen` |
 | Sozialversicherung | `sd-jwt-vc-sozialversicherung` | `sdJwtVcSozialversicherung` | `urn:vivodepot:sozialversicherung` |
 
-Alle drei sind **Selbstauskünfte, selbst signiert** mit einem Ed25519-Schlüssel, den die App aus dem Passwort der Person
-ableitet (U2-ADR-457): formkonform nach RFC 9901 §4.1, Vertrauen null ohne Institutionssignatur. Ein SD-JWT-VC-Prüfer lehnt
+Alle drei sind **Selbstauskünfte, selbst signiert** mit einem Ed25519-Schlüssel, den die App für jede Ausgabe neu aus Zufall
+erzeugt (U2-ADR-457, Nachtrag 02.11.2026): formkonform nach RFC 9901 §4.1, Vertrauen null ohne Institutionssignatur. Ein SD-JWT-VC-Prüfer lehnt
 den Aussteller ab, weil der Schlüssel keiner Stelle zugeordnet ist (weder ein https-Aussteller noch x5c). Kann der Browser kein
 Ed25519, entsteht eine unsignierte Selbstauskunft unter eigenem Typ (`application/jwt`, Endung `.jwt`), kein SD-JWT. Die
 `vct`-Kennungen sind mechanisch aus dem jeweiligen Erzeuger extrahiert, kein handgepflegter Wert; registrierte Typen gibt es
@@ -198,7 +198,7 @@ und `VivodepotProviderCredential`.
 ## Interner Versionsstand
 
 <!-- STANDZAHLEN:BEGIN — erzeugt von tools/build-standzahlen.js; Quelle: vivodepot.html -->
-Schema-Version 95, `SCHALEN_STAND` v1047.
+Schema-Version 96, `SCHALEN_STAND` v1053.
 <!-- STANDZAHLEN:END -->
 
 ---

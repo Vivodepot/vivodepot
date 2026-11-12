@@ -326,3 +326,7 @@ U2-ADR-496 Nr. 6). Für Nr. 7 und die Aussage dazu im Konformitätsblock ändert
 - Unverändert bleibt: Er wirkt nur aus einem gültig signierten Modul der geltenden Marke, und nie auf `ausgabeErstelltMit`. Jede
   PDF-Fußquelle trägt „Erstellt mit Vivodepot“ weiter.
 - `tests/branding-v2-powered-by-schalter.test.js` prüft mit dem Bau der Seite an den neuen Stellen.
+
+## Nachtrag 01.11.2026 — Wortlaut der PDF-Fußquelle
+
+Entscheidung der Geschäftsführung vom 31.10.2026: Die PDF-Fußquelle trägt „Erstellt mit Vivodepot“ (EN „Created with Vivodepot“) statt „Erstellt mit der Software Vivodepot“. Wirkung und Schalter „powered by aus“ bleiben, wie im Nachtrag W2 beschrieben; Näheres in U2-ADR-400, Nachtrag 01.11.2026.

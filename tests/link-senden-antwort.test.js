@@ -130,10 +130,10 @@ test('[Link senden·Wahl] nach „Antworten“: „Herunterladen“ und „Link 
   const { V, document } = ladeKern();
   assert.equal(V.LINK_SENDEN_FUER_AUSZUEGE, true);
   let geladen = 0, gesendet = 0;
-  V._ausgabeWegWaehlen('Antworten', 'Vivodepot_Antwort_PS-2026-1019.jwe', () => { geladen++; }, () => { gesendet++; });
+  V._ausgabeWegWaehlen('Antworten', 'Vivodepot_Antwort_2026-10-19_a4WHfF.jwe', () => { geladen++; }, () => { gesendet++; });
   const box = document.getElementById('modal-inhalt');
   const html = box.innerHTML;
-  assert.match(html, /<p class="einst-hint" id="ausgabe-datei">Vivodepot_Antwort_PS-2026-1019\.jwe<\/p>/);
+  assert.match(html, /<p class="einst-hint" id="ausgabe-datei">Vivodepot_Antwort_2026-10-19_a4WHfF\.jwe<\/p>/);
   assert.match(html, /id="m-zweit">Link senden</);
   assert.match(html, /id="m-ok">Herunterladen</);
   assert.match(html, /id="m-abbr">/, 'Abbrechen bleibt');
@@ -152,13 +152,14 @@ test('[Link senden·Wege] Antwort und Anlass-Auszug fragen nach dem Weg, die Ant
   assert.match(anlassWeg, /flowLinkSenden\(\(o\) => auszugLinkTeile\(blob,/);
 });
 
-test('[Link senden·Ergebnis] der Dialog: kurzer Gültig-Satz, kein Einführungssatz; nach dem Bauen „Link kopieren“, der QR desselben Links und der Link nur eingeklappt', async () => {
+test('[Link senden·Ergebnis] der Dialog: kein Einführungssatz; nach dem Bauen der kurze Gültig-Satz, „Link kopieren“, der QR desselben Links und der Link nur eingeklappt', async () => {
   const { V, document } = ladeKern({ Blob });
   const teile = await V.auszugLinkTeile(new Blob(['{"a":1}'], { type: 'application/json' }), { label: 'Krankenhaus' });
   V._shlDialogZeigen(teile, { titel: 'Link senden', gueltigBis: V.STRINGS.linkSendenGueltigBis });
   const html = document.getElementById('modal-inhalt').innerHTML;
   assert.doesNotMatch(html, /Schlüssel/, 'kein Einführungssatz mit „Schlüssel“ (Vorschau 19.10.2026)');
-  assert.match(html, /Gültig bis \d{4}-\d{2}-\d{2}\.</, 'der kurze Gültig-Satz');
+  assert.doesNotMatch(html, /Gültig bis/, 'vor dem Bauen keine Gültig-Zeile (Befund SHL-GUELTIG-NAN, 06.11.2026)');
+  assert.equal(V._shlGueltigZeile(teile, V.STRINGS.linkSendenGueltigBis), 'Gültig bis ' + V.heuteLokal(new Date(teile.exp * 1000)) + '.', 'nach dem Bauen der kurze Gültig-Satz');
   assert.match(html, /id="shl-url"/); assert.match(html, /id="shl-bauen"/);
   /* Das Klicken (Bauen → Host bestätigen → Ergebnis) braucht einen echten DOM; der Test-DOM liefert für querySelector je Aufruf
      ein leeres Element. Geprüft im Browser beim Bilderlauf (Bericht); hier hält die Probe den Quelltext des Ergebnisses. */

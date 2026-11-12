@@ -76,7 +76,9 @@ test('Pille zeigt IMMER „Mein Depot" (Palettentausch Zug 2); der Sub-Hinweis d
   V.subKontextBetreten(e.depotUUID);
   assert.equal(document.getElementById('tb-depot-name').textContent, 'Mein Depot', 'Pille bleibt unverändert — die Kopfzeile ist der Anker-Rahmen');
   assert.equal(document.getElementById('tb-sub-hinweis').hidden, false, 'Sub-Hinweis sichtbar im Sub-Kontext');
-  assert.equal(document.getElementById('tb-sub-name').textContent, 'Geöffnet: Oma Erna');
+  // Fund 6 (05.11.2026): „Geöffnet:“ steht in einer eigenen Spanne, die eng entfällt; der Name steht allein, das aria-label trägt beides.
+  assert.equal(document.getElementById('tb-sub-praefix').textContent + document.getElementById('tb-sub-name').textContent, 'Geöffnet: Oma Erna');
+  assert.equal(document.getElementById('tb-sub-name').textContent, 'Oma Erna');
   await V.subKontextVerlassen();
   assert.equal(document.getElementById('tb-depot-name').textContent, 'Mein Depot');
   assert.equal(document.getElementById('tb-sub-hinweis').hidden, true, 'Sub-Hinweis verschwindet am Anker');

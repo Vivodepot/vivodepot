@@ -1,5 +1,5 @@
 /* Profil „Salbei mit Glas“ (U2-ADR-473 W5a): helle Kopfzeile und Leiste als Glas (M2/F2 Teil 1), Glas-Werte wie vivodepot.de, Nacht neutral,
- Fußzeile gegliedert. Die Anordnung (Kachel-Zone, „i“, zwei Spalten) ist Layout und folgt mit W5b. */
+ Die Anordnung (Kachel-Zone, „i“, zwei Spalten) ist Layout und folgt mit W5b. */
 /* ── Kopfzeile: hell auf Grund, Rahmen trägt die Depot-Farbe (U2-ADR-236) ── */
 /* --auf-akzent folgt einer Marken-Kopfzeile (deren geprüfte Schriftfarbe), sonst dunkle Tinte auf dem hellen Glas. Der geschützte Speicherstatus malt
    damit; fest dunkel ergab er auf einer Marken-Kopfzeile 1,76 bzw. 2,28:1, und der Kern fiel aufs nackte Gerüst zurück (gemessen 07.10.2026). */
@@ -34,8 +34,8 @@ html:not(.dark-mode):not(.high-contrast) .nav-item:hover { background: rgba(255,
 .nav-gruppe > summary { font-weight: var(--fw-semibold); }
 
 /* ── Eingabesicht: Spaltenlinien statt Karten ── */
-.content { padding-left: var(--space-7); }
-.bereich-kopf h1, .bereich-kopf h2 { color: var(--ink); font-size: 2rem; letter-spacing: -0.025em; }
+@media (min-width: 761px) { .content { padding-left: var(--space-7); } }   /* auf dem Telefon bleibt der Rand der Grundlage: links wie rechts 16 px */
+.bereich-kopf h1, .bereich-kopf h2 { color: var(--ink); font-size: var(--fs-role-anzeige); letter-spacing: -0.025em; }
 .sektion, .sektion--eingabe { background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; box-shadow: none; padding: var(--space-4) 0 0; }
 /* Rangfolge (UX-ABSCHNITT-KLEINER-ALS-LABEL, Zielbild 30.10.2026 Abschnitt 3 „Schrift“): Abschnitt > Gruppe > Label, jede Stufe größer
  und kräftiger; Abschnitt in normaler Schreibung, ohne Sperrung. Die Rollen-Tokens bleiben der Schreibweg (U2-ADR-351): ein Modul, das
@@ -56,8 +56,8 @@ border-top: 1px solid var(--line);
 .feld-label { color: var(--ink2); font-weight: 500; }   /* Label 500 in --ink2: leiser als der Wert (Zielbild Abschnitt 3) */
 /* Feldhinweise in der Rolle Hilfe (Zielbild Abschnitt 3; Nachtrag Schritt 1, 30.10.2026): 13/19, mobil 14/20, normal, in --ink3.
    Sie erben sonst von .feld-wert Stärke und Tinte und stehen lauter als das Label. Probe: die Browser-Probe zu den Feldhinweisen. */
-.feld-hint { color: var(--ink3); font-size: 0.8125rem; line-height: 1.1875rem; font-weight: var(--fw-regular); }
-@media (max-width: 767px), (pointer: coarse) { .feld-hint { font-size: 0.875rem; line-height: 1.25rem; } }
+.feld-hint { color: var(--ink3); font-size: var(--fs-role-hilfe); line-height: 1.1875rem; font-weight: var(--fw-regular); }
+@media (max-width: 767px), (pointer: coarse) { .feld-hint { font-size: var(--fs-role-hilfe); line-height: 1.25rem; } }
 .feld-zeile input, .feld-zeile select { background-color: var(--feld-flaeche); }
 
 /* Im Sub-Depot färbt die Farbe nur Linie und Punkt, nicht den Text (Zielbild F2): die Rollen-Regel „Text = --vm-akzent-stark"
@@ -86,22 +86,10 @@ border: 1px solid var(--vm-linie); border-left: 8px solid var(--vm-linie);
 @media (max-width: 600px) { .tb-sub-praefix { display: none; } }
 /* Salbei mit Glas (Vorschau 05.10.2026, Attrappe): Salbei bleibt Markenfarbe wie vivodepot.de, Kopf und Leiste als Glas, nachts neutral. */
 html.dark-mode #app:not(.modus-vollmacht) #sidebar.sidebar { border-left-color: #d4d7d1; }
-html.dark-mode #app:not(.modus-vollmacht) .app-fuss { border-top-color: #d4d7d1; }
-html.dark-mode:not(.high-contrast) #app #sidebar .nav-item.aktiv { background: color-mix(in srgb, var(--salbei-nacht) 18%, transparent); border-left-color: transparent; color: var(--ink); }
+html.dark-mode:not(.high-contrast) #app #sidebar .nav-item.aktiv { background: var(--salbei-light); border-left-color: transparent; color: var(--ink); }
 html:not(.dark-mode):not(.high-contrast) body, html:not(.dark-mode):not(.high-contrast) #app { background: radial-gradient(1200px 500px at 15% 0%, #DCE6D0 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #E4E9F0 0%, transparent 55%), var(--cream); }
 html.dark-mode body, html.dark-mode #app { background: radial-gradient(1200px 700px at 8% 0%, #262b27 0%, transparent 60%), radial-gradient(1000px 800px at 95% 100%, #2a2622 0%, transparent 65%), var(--cream); }
 html:not(.high-contrast) .sidebar, html:not(.high-contrast) .main, html:not(.high-contrast) .content { background-color: transparent; }
-/* Fußzeile gegliedert (Produktentscheidung 05.10.2026): Hinweis allein in Zeile 1, darunter links Version, Stand,
- Lizenz und rechts Kontakt, Quellcode, Aktualisierungen. Ohne Trenner, Abstand gliedert. */
-#app .app-fuss { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 20px; row-gap: 6px; padding: 10px 24px 12px; }
-#app .app-fuss .ff-trenner { display: none; }
-#app .app-fuss .ff-haftung { flex: 1 0 100%; order: 0; color: var(--ink2); }
-#app .app-fuss .ff-version { order: 1; }
-#app .app-fuss .ff-datum { order: 2; }
-#app .app-fuss .ff-lizenz { order: 3; }
-#app .app-fuss a[href^="mailto:"] { order: 5; margin-left: auto; }
-#app .app-fuss .ff-quellcode { order: 6; }
-#app .app-fuss a[target="_blank"]:not(.ff-quellcode) { order: 7; }
 /* Glas wie vivodepot.de (vd.css, Glas-Bahn 05.10.2026). Abweichungen mit Grund: Kopf und Leiste liegen bündig am Fensterrand, darum ohne
  Radius 24px; die Kachel-Zone ist dichter (.86), weil Leisten-Einträge unter ihr laufen; nachts und „Transparenz reduzieren“ eigene Werte. */
 html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .topbar, html.dark-mode #app:not(.modus-vollmacht) .sidebar { border-color: rgba(255,255,255,.08); box-shadow: none; }
@@ -117,19 +105,18 @@ html.dark-mode #sidebar .nav-item.aktiv .nav-item-sub { color: inherit; }
  deckend (Lesbarkeit). Werte wie vivodepot.de (Glas-Bahn). Rückfall: „Transparenz reduzieren“ und Hochkontrast deckend. */
 html:not(.dark-mode):not(.high-contrast) body, html:not(.dark-mode):not(.high-contrast) #app, html:not(.dark-mode):not(.high-contrast) #app .content { background: radial-gradient(1200px 500px at 15% 0%, #DCE6D0 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #E4E9F0 0%, transparent 55%), var(--cream); background-attachment: fixed; }
 html:not(.dark-mode):not(.high-contrast) #app .sidebar { background: rgba(255,255,255,.58); border-right: 1px solid rgba(255,255,255,.92); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); }
-html:not(.dark-mode):not(.high-contrast) #app .app-fuss { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
 html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(28,42,30,.22); -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2); }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,var(--dialog-deckkraft)); border: 1px solid transparent; box-shadow: 0 18px 50px rgba(79,101,57,.14); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: 24px; }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal .modal-aktionen { background: transparent; }
 html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); }
-html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar, html.dark-mode:not(.high-contrast) #app .app-fuss { background: rgba(26,28,31,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar { background: rgba(26,28,31,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
 html.dark-mode:not(.high-contrast) body, html.dark-mode:not(.high-contrast) #app { background: radial-gradient(1200px 500px at 15% 0%, #262b27 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #23262d 0%, transparent 55%), var(--cream); background-attachment: fixed; }
 html.dark-mode:not(.high-contrast) #modal-rueck .modal { background: rgba(30,32,35,.82); border: 1px solid rgba(255,255,255,.08); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-radius: 24px; }
 @media (prefers-reduced-transparency: reduce) {
 /* Dieselben Selektoren wie das Glas oben (gleiche Spezifität, später = gewinnt): sonst bliebe das Glas stehen (Probe glas-flaechen). */
-html:not(.dark-mode):not(.high-contrast) .topbar, html:not(.dark-mode):not(.high-contrast) #app .sidebar, html:not(.dark-mode):not(.high-contrast) #app .app-fuss, html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal, html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte, html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: #f7f8f4; -webkit-backdrop-filter: none; backdrop-filter: none; }
-html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar, html.dark-mode:not(.high-contrast) #app .app-fuss, html.dark-mode:not(.high-contrast) #modal-rueck .modal, html.dark-mode:not(.high-contrast) .vorfuehrung-spalte, html.dark-mode:not(.high-contrast) #app .sektion, html.dark-mode:not(.high-contrast) #app .feldgruppen-karte { background: #1e2023; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html:not(.dark-mode):not(.high-contrast) .topbar, html:not(.dark-mode):not(.high-contrast) #app .sidebar, html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal, html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte, html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: #f7f8f4; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar, html.dark-mode:not(.high-contrast) #modal-rueck .modal, html.dark-mode:not(.high-contrast) .vorfuehrung-spalte, html.dark-mode:not(.high-contrast) #app .sektion, html.dark-mode:not(.high-contrast) #app .feldgruppen-karte { background: #1e2023; -webkit-backdrop-filter: none; backdrop-filter: none; }
 /* Die Abdunklung bleibt ein Schleier, nur ohne Weichzeichner. */
 html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(28,42,30,.45); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
@@ -146,7 +133,8 @@ html:not(.high-contrast) .sektion-titel { color: var(--ink); }
 html:not(.high-contrast) .feldgruppen-karte, html:not(.high-contrast) .situation-block, html:not(.high-contrast) .anfragen-ort { border-top: 0; margin-top: var(--space-4); }
 html:not(.high-contrast) .feld-zeile { border-top: 0; }
 html:not(.high-contrast) .toc { border: 0; background: transparent; padding-left: 0; padding-right: 0; }
-html:not(.high-contrast) .toc-liste a { border-bottom: 0; text-decoration: underline; text-decoration-color: transparent; }
+/* Die Sprungmarken-Pillen tragen Fläche statt Linie (Entscheidung 07.10.2026); vorher blieb nach border-bottom: 0 ein Rand an drei Seiten. */
+html:not(.high-contrast) .toc-liste a { border: 0; text-decoration: underline; text-decoration-color: transparent; }
 html:not(.high-contrast) .toc-liste a:hover { text-decoration-color: currentColor; }
 html:not(.high-contrast) :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) {
 border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: rgba(79,101,57,.07);
@@ -164,7 +152,7 @@ html:not(.high-contrast) .gueltigkeit-zeile--eingebettet { border-left: 0; }
 html:not(.high-contrast) .doku-vorschlag-zeile, html:not(.high-contrast) .zusatz-aktionen { border-top: 0; }
 html:not(.high-contrast) .doku-std-badge { border-color: transparent; background: rgba(79,101,57,.10); }
 html.dark-mode:not(.high-contrast) .doku-std-badge { border-color: transparent; background: rgba(255,255,255,.10); }
-html:not(.high-contrast) .content .btn-sek:not(:disabled) { border-color: transparent; background: rgba(79,101,57,.10); }
+html:not(.high-contrast) .content :is(.btn-sek, .btn[data-doku-neu-add]):not(:disabled) { border-color: transparent; background: rgba(79,101,57,.10); }
 /* Listen und Karten: Fläche und Abstand statt Rahmen und Trennstrich. */
 html:not(.high-contrast) .regal-karten { border: 0; background: transparent; gap: var(--space-1); }
 html:not(.high-contrast) .regal-karte { border-top: 0; border-radius: var(--radius-sm); background: rgba(79,101,57,.05); }
@@ -181,13 +169,13 @@ html:not(.high-contrast) .feld-mehrfach-pill { border-color: transparent; backgr
 html:not(.dark-mode):not(.high-contrast) .feld-mehrfach-pill.aktiv { border-color: transparent; background: var(--salbei-dunkel); color: var(--white); }
 html.dark-mode:not(.high-contrast) .feld-mehrfach-pill { border-color: transparent; background: rgba(255,255,255,.10); }
 html.dark-mode:not(.high-contrast) .feld-mehrfach-pill.aktiv { border-color: transparent; background: rgba(255,255,255,.28); color: var(--white); }
-html.dark-mode:not(.high-contrast) .content .btn-sek:not(:disabled) { background: rgba(255,255,255,.10); }
+html.dark-mode:not(.high-contrast) .content :is(.btn-sek, .btn[data-doku-neu-add]):not(:disabled) { background: rgba(255,255,255,.10); }
 html:not(.high-contrast) .btn-mini { border-color: transparent; background: rgba(79,101,57,.10); color: var(--ink); }
 html.dark-mode:not(.high-contrast) .btn-mini { background: rgba(255,255,255,.10); }
 /* Wo man ist (Zielbild Nr. 13, Fläche statt Linien, 01.11.2026): eine zarte Salbei-Fläche aus dem Token und kräftigere Schrift,
    keine Randlinie. Die volle dunkle Fläche vom 05.10. wirkte schwer, die Randlinie vom 31.10. sprengte den Linien-Deckel. */
 html:not(.high-contrast) .nav-item.aktiv { background: var(--salbei-light); border-left-color: transparent; color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
-html.dark-mode:not(.high-contrast) .nav-item.aktiv { background: color-mix(in srgb, var(--salbei-nacht) 18%, transparent); border-left-color: transparent; color: var(--ink); }
+html.dark-mode:not(.high-contrast) .nav-item.aktiv { background: var(--salbei-light); border-left-color: transparent; color: var(--ink); }
 /* Sub-Depot: die ganze Oberfläche im Ton des Depots (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag), ausgenommen die Marke in der
    Kopfzeile; kein Salbei neben der Depot-Farbe, keine Linie (Fläche statt Linien, 07.10.2026). Nur in einem eingehängten Depot (.vm-akzent,
    gesetzt vom Kern beim Betreten), nicht im reinen Vollmacht-Modus mit seinem dunklen Akzent. Die Fläche ist der Pastellton, Knopf und
@@ -205,7 +193,6 @@ html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht {
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .topbar { background: color-mix(in srgb, var(--akzent) 70%, #f7f9f5); }
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .sidebar { background: color-mix(in srgb, var(--akzent) 85%, #f7f9f5); }
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content { background: color-mix(in srgb, var(--akzent) 45%, #f7f9f5); }
-html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .app-fuss { background: color-mix(in srgb, var(--akzent) 70%, #f7f9f5); }
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content :is(.sektion, .feldgruppen-karte, .karte) { background: color-mix(in srgb, var(--akzent) 18%, #ffffff); }
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .vollmacht-banner { background: var(--akzent); color: var(--ink); }
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.55); }
@@ -214,6 +201,10 @@ html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv { background: color-mix(in srgb, var(--white) 60%, transparent); border-left-color: transparent; color: var(--ink); }
 /* Die Marke ist ausgenommen: sie behält ihre eigene helle Fläche, damit die Wortmarke lesbar bleibt (auf der getönten Kopfzeile 3,93:1). */
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .topbar .marke { background: rgba(255,255,255,.78); border-radius: var(--radius-pill); }
+/* Kopfzeile im Sub-Depot (Befund SUBDEPOT-KOPF-390): der Tonpunkt am Namen trägt einen Ring, damit er auf der getönten Kopfzeile
+   sichtbar bleibt; die Pille „Mein Depot“ behält ihren eigenen Punkt, den Ton des fremden Depots trägt nur der Punkt am Namen. */
+html.vm-akzent:not(.high-contrast) #app.modus-vollmacht .tb-sub-punkt { background: var(--akzent); box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--akzent) 45%, #1c1c1c); }
+html.vm-akzent #app.modus-vollmacht .dp-punkt { background: var(--modus-anker); }
 /* Hinweistexte, die im eigenen Depot eine Akzent- oder Zweitfarbe tragen, stehen auf der getönten Fläche in der Schriftfarbe (3,86 bzw. 4,0:1). */
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht :is(.doku-std-badge, .pause-erlaubnis) { color: var(--ink); }
 html.vm-akzent:not(.high-contrast) #app.modus-vollmacht .doku-std-badge { border-color: transparent; }
@@ -228,7 +219,7 @@ html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht {
   --sd-hell: color-mix(in srgb, var(--akzent) 70%, #e9ede7);
 }
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .content { background: color-mix(in srgb, var(--akzent) 16%, #1b1f1c); }
-html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht :is(.topbar, .sidebar, .app-fuss) { background: color-mix(in srgb, var(--akzent) 24%, #1b1f1c); }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht :is(.topbar, .sidebar) { background: color-mix(in srgb, var(--akzent) 24%, #1b1f1c); }
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .content :is(.sektion, .feldgruppen-karte, .karte) { background: color-mix(in srgb, var(--akzent) 10%, #1b1f1c); }
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner,
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner #vm-zurueck,
@@ -238,9 +229,9 @@ html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .nav-item.akti
 /* ── Seitenleiste, Ebenen (07.10.2026, Vorschau freigegeben): „Bereiche“ und „Austausch und Überblick“ sind dieselbe Stufe und die
    stärkste; die Gruppen darunter ruhiger. Gegliedert über Abstand, ohne Linien. ── */
 .sidebar .gruppe-titel, .sidebar .nav-gruppe-austausch > summary {
-font-size: 15px; font-weight: 700; letter-spacing: normal; text-transform: none; color: var(--ink); padding-top: 14px;
+font-size: var(--fs-role-text); font-weight: 700; letter-spacing: normal; text-transform: none; color: var(--ink); padding-top: 14px;
 }
-.sidebar details.nav-gruppe:not(.nav-gruppe-austausch) > summary { font-size: 14px; font-weight: 500; color: var(--ink2); }
+.sidebar details.nav-gruppe:not(.nav-gruppe-austausch) > summary { font-size: var(--fs-role-hilfe); font-weight: 500; color: var(--ink2); }
 .sidebar .nav-gruppe-austausch, .sidebar .nav-item-klein { border-top: 0; border-bottom: 0; }
 .sidebar .nav-gruppe-austausch { margin-top: 12px; }
 
@@ -253,15 +244,15 @@ border: 0; border-radius: 22px; background: rgba(255,255,255,.72); box-shadow: 0
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-kopf { position: relative; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .vor-depot-sprache { position: absolute; top: -18px; right: -20px; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-brand { margin: 8px 0 22px; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub { font-size: 17px; line-height: 1.6; color: var(--ink2); margin: 0 0 6px; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub:first-of-type { font-size: 20px; font-weight: 650; color: var(--ink); letter-spacing: -0.005em; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub { font-size: var(--fs-role-gruppe); line-height: 1.6; color: var(--ink2); margin: 0 0 6px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub:first-of-type { font-size: var(--fs-role-abschnitt); font-weight: 650; color: var(--ink); letter-spacing: -0.005em; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt > .welcome-kopf + div { text-align: center; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #vorlese-sicht {
-border: 0; background: none; box-shadow: none; color: var(--ink2); padding: 4px; text-decoration: underline; text-underline-offset: 3px; font-size: 14px;
+border: 0; background: none; box-shadow: none; color: var(--ink2); padding: 4px; text-decoration: underline; text-underline-offset: 3px; font-size: var(--fs-role-hilfe);
 }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-aktionen { margin-top: 26px; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anlegen {
-border-radius: var(--radius-pill); padding: 15px 26px; font-size: 16px; font-weight: 600; box-shadow: 0 10px 24px rgba(79,101,57,.18);
+border-radius: var(--radius-pill); padding: 15px 26px; font-size: var(--fs-role-text); font-weight: 600; box-shadow: 0 10px 24px rgba(79,101,57,.18);
 }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer { gap: 10px; margin-top: 12px; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer .btn-sek {
@@ -270,8 +261,8 @@ border: 0; border-radius: var(--radius-pill); background: rgba(79,101,57,.10); c
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer .btn-sek svg { display: none; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anfangen { color: var(--ink2); }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung { background: none; border: 0; box-shadow: none; padding: 0; margin-top: 30px; text-align: center; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung-titel { font-size: 13px; color: var(--ink2); font-weight: 600; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .webapp-hinweis { font-size: 13px; color: var(--ink2); justify-content: center; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung-titel { font-size: var(--fs-role-hilfe); color: var(--ink2); font-weight: 600; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .webapp-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink2); justify-content: center; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .webapp-hinweis svg { display: none; }
 @media (max-width: 600px) {
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt.karte { padding: 32px 20px 28px; border-radius: 18px; }
@@ -288,23 +279,23 @@ display: flex; align-items: baseline; gap: 16px; padding: 10px 12px; margin-bott
    Breite und die Knöpfe brechen darunter um; mit 0 teilte sie sich die Reihe mit ihnen und stand wenige Wörter breit. */
 .feld-liste-editor .liste-eintrag-zusammenfassung { flex: 1 1 16rem; color: var(--ink); }
 html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege .btn-mini {
-background: none; border: 0; box-shadow: none; padding: 2px 0; min-height: 24px; color: var(--link); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px;
+background: none; border: 0; box-shadow: none; padding: 2px 0; min-height: 24px; color: var(--link); font: inherit; font-size: var(--fs-role-hilfe); text-decoration: underline; text-underline-offset: 3px;
 }
 .feld-liste-editor .liste-eintraege .btn-mini[disabled] { display: none; }
 html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:not([hidden]) {
 display: inline-block; align-self: flex-start; margin-top: 8px; padding: 9px 16px; min-height: 40px; border: 0; border-radius: var(--radius-md); box-shadow: none;
-background: rgba(79,101,57,.10); color: var(--ink); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
+background: rgba(79,101,57,.10); color: var(--ink); font: inherit; font-size: var(--fs-role-hilfe); font-weight: 500; cursor: pointer;
 }
 html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:hover { background: rgba(79,101,57,.16); }
 /* Auf grobem Zeigegerät bleibt die Trefferfläche bei 44 px (A47), auch für die leisen Verweise. */
 @media (pointer: coarse) {
 html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:not([hidden]),
 html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege .btn-mini { min-height: 44px; }
-.liste-alle-angaben { min-height: 44px; }
+.weitere-angaben-kopf { min-height: 44px; }
 }
 
 /* ── Fläche statt Linien (Produktentscheidung 07.10.2026, bestätigt 08.10.2026: „Fläche statt Linien“, nicht „Fläche plus Unterkante“):
-   gegliedert wird über Fläche und Abstand; Linien und Rahmen nur für Fokus und Fehler. Kopf, Seitenleiste, Fußzeile, Dialoge und Hinweise
+   gegliedert wird über Fläche und Abstand; Linien und Rahmen nur für Fokus und Fehler. Kopf, Seitenleiste, Dialoge und Hinweise
    ohne Linien; Knöpfe mit sichtbarem Inhalt (Text oder Icon) brauchen keine Grenze (WCAG 2.2 Understanding 1.4.11, „Boundaries“) und tragen
    eine ruhige Fläche. Hochkontrast bleibt unverändert. Zählprobe: tests/e2e/linien-je-ansicht.spec.js. ── */
 html:not(.high-contrast) .topbar,
@@ -319,18 +310,20 @@ html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .sidebar, ht
 html.dark-mode #app:not(.modus-vollmacht) #sidebar.sidebar { border-left-color: transparent; border-right-color: transparent; }
 html:not(.high-contrast) #app.modus-vollmacht .sidebar { border-right-color: transparent; }
 html:not(.high-contrast) .nav-item, html:not(.high-contrast) .nav-item.aktiv { border-left-color: transparent; }
-html:not(.high-contrast) #app .app-fuss, html.dark-mode #app:not(.modus-vollmacht) .app-fuss { border-top-color: transparent; }
+html:not(.high-contrast) #app .nav-fuss-ort, html.dark-mode #app:not(.modus-vollmacht) .nav-fuss-ort { border-top-color: transparent; }
 html:not(.high-contrast) .content .feld-umschau-eintragen { border-color: transparent; background: rgba(79,101,57,.10); }
 html.dark-mode:not(.high-contrast) .content .feld-umschau-eintragen { background: rgba(255,255,255,.10); }
+html:not(.high-contrast) .content .feld-umschau-eintragen--kaestchen, html.dark-mode:not(.high-contrast) .content .feld-umschau-eintragen--kaestchen,
+html:not(.high-contrast) .content .feld-umschau-eintragen:has(> .feld-umschau-wahl), html.dark-mode:not(.high-contrast) .content .feld-umschau-eintragen:has(> .feld-umschau-wahl) { background: transparent; }
 html:not(.high-contrast) .deckblatt-platzhalter, html:not(.high-contrast) .deckblatt-foto { border-color: transparent; background: rgba(79,101,57,.10); }
 /* Nachts dunkler statt heller unterlegt: helle Schrift auf weiß getönter Fläche fiel unter 4,5:1 (Kampagne Ebene 4, „Foto“ 4,39:1). */
 html.dark-mode:not(.high-contrast) .deckblatt-platzhalter, html.dark-mode:not(.high-contrast) .deckblatt-foto { background: rgba(0,0,0,.22); }
-html:not(.high-contrast) .btn-sek:not(:disabled) { border-color: transparent; background: rgba(79,101,57,.10); }
+html:not(.high-contrast) :is(.btn-sek, .btn[data-doku-neu-add]):not(:disabled) { border-color: transparent; background: rgba(79,101,57,.10); }
 /* Der Passwort-Hinweis steht in der Kopfzeile, auch auf einer Partnerfarbe: er behält seine eigene, deckende Hinweisfläche (durchscheinend fiel er auf Weinrot auf 1,1:1, und der Kern nahm das ganze Erscheinungsbild zurück, Befund FREMDMARKE-FARBE-UEBERDECKT). */
 html:not(.high-contrast) .tb-pw-hinweis { border-color: transparent; }
 /* Anlegen ist freiwillig: kein Warndreieck am Hinweis (Bedingung der Gegenlesung, 09.10.2026); der Text bleibt, die Fläche bleibt. */
 .tb-pw-hinweis .ico { display: none; }
-html.dark-mode:not(.high-contrast) .btn-sek:not(:disabled) { border-color: transparent; background: rgba(255,255,255,.10); }
+html.dark-mode:not(.high-contrast) :is(.btn-sek, .btn[data-doku-neu-add]):not(:disabled) { border-color: transparent; background: rgba(255,255,255,.10); }
 html:not(.high-contrast) .hinweis-box, html:not(.high-contrast) .install-empfehlung,
 html:not(.high-contrast) .d37-namensbanner, html:not(.high-contrast) .sprach-luecke { border-color: transparent; }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal, html.dark-mode:not(.high-contrast) #modal-rueck .modal,
@@ -358,16 +351,31 @@ html:not(.high-contrast) #app .sektion.sektion--eingabe, html:not(.high-contrast
 }
 html:not(.high-contrast) #app .feldgruppen-karte > summary { padding: 0; }
 /* Zustand der Gruppe als kleine Pille rechts im Kopf (Abnahme v979 Nr. 2). */
-html:not(.high-contrast) #app .feldgruppen-karte-status { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--flaeche-neutral); color: var(--ink2); font-weight: var(--fw-medium); white-space: nowrap; }
+html:not(.high-contrast) #app .feldgruppen-karte-status { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: var(--radius-pill); background: var(--flaeche-neutral); color: var(--ink2); font-weight: var(--fw-medium); white-space: nowrap; }
 html:not(.high-contrast) #app .feldgruppen-karte[open] > summary { margin-bottom: var(--space-5); }
 html:not(.high-contrast) #app .feldgruppen-karte-koerper { padding: 0; border-top: 0; }
 /* Paare nur bei Name, Straße + Hausnummer, Postleitzahl + Ort (4.1); schmal steht der Name untereinander, die übrigen Paare bleiben. */
 html:not(.high-contrast) #app .feldgruppen-karte[open] > .feldgruppen-karte-koerper { display: flex; flex-wrap: wrap; column-gap: var(--space-3); row-gap: var(--abstand-feld-feld); max-width: var(--spalte-formular); }
 .feldgruppen-karte-koerper > * { flex: 1 1 100%; min-width: 0; }
 .feldgruppen-karte-koerper > .feld-zeile { grid-template-columns: minmax(0, 1fr); row-gap: 6px; max-width: var(--spalte-formular); padding: 0; align-items: start; }
+/* Eine Liste ist ein Block, keine Eingabe: ihre Zeilen laufen über die volle Kartenbreite, die Eingabefelder bleiben in der
+   Formularspalte (GL M12 Runde 1). */
+html:not(.high-contrast) #app .feldgruppen-karte[open] > .feldgruppen-karte-koerper:has(> .feld-zeile > .feld-wert > .feld-liste-editor) { max-width: none; }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > .feld-liste-editor) { max-width: none; }
+/* Ein Kästchen steht links in einer Zeile mit seiner Beschriftung, der Hilfetext darunter unter der Beschriftung (Zielbild S4) — auf jeder
+   Breite dieselbe Form, im Depot wie in der Umschau (GL v999 Runde 2, Punkt f). */
+.feld-zeile:has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen)) { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-3); row-gap: var(--space-1); align-items: center; }
+.feld-zeile:has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen)) > .feld-wert { grid-column: 1; grid-row: 1; }
+.feld-zeile:has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen)) > .feld-label { grid-column: 2; grid-row: 1; }
+.feld-zeile:has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen)) > :not(.feld-wert, .feld-label) { grid-column: 2; }
+.feld-zeile:has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen)) > .feld-wert > .feld-umschau-eintragen--kaestchen { width: auto; }
 .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="givenName"], [data-feld="familyName"])) { flex: 1 1 calc(50% - var(--space-3)); }
-.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="street"], [data-feld="city"])) { flex: 1 1 calc(var(--feld-breite-text) / 2); }   /* Mindestbreite als Basis: ein langer Knopftext der Nachbarzeile quetscht Straße/Ort nicht auf wenige Pixel, sondern bricht um */
-.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="houseNumber"], [data-feld="postalCode"])) { flex: 0 0 auto; }
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="street"], [data-feld="city"])) { flex: 1 1 0; min-width: 12ch; }   /* Mindestbreite: ein langer Knopftext der Nachbarzeile quetscht Straße/Ort nicht auf wenige Pixel, das Paar bricht um */
+/* Hausnummer und Postleitzahl behalten die Breite ihres Feldes, dürfen aber schrumpfen und nie breiter sein als die Zeile: mit `flex: 0 0 auto`
+   zählte die Breite des Knopfes „Eintragen“ (width: 100%) ungekürzt, und bei 390 px ragte der Kasten über den Kartenrand (Abnahme v998, M06).
+   Passt neben Straße oder Ort weniger als ihre Mindestbreite, rückt das Paar in die nächste Zeile (flex-wrap). Eine eigene Probe hält das fest. */
+.feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="houseNumber"], [data-feld="postalCode"])) { flex: 0 1 auto; min-width: 0; max-width: 100%; }
+.feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld="houseNumber"], [data-feld="postalCode"]) > .feld-umschau-eintragen { min-width: 0; max-width: 100%; }
 .feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld="givenName"], [data-feld="familyName"], [data-feld="street"], [data-feld="city"]) > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { max-width: none; }
 @media (max-width: 767px) { .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="givenName"], [data-feld="familyName"])) { flex-basis: 100%; } }
 .feldgruppen-karte-koerper > .feld-zeile > .feld-label { padding-top: 0; }
@@ -381,3 +389,120 @@ html:not(.high-contrast) #app .feldgruppen-karte[open] > .feldgruppen-karte-koer
 .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > input[type="checkbox"]) > :not(.feld-label):not(.feld-wert) { grid-column: 2; }
 /* Das Kästchen selbst 20 px in einem 24-px-Ziel (WCAG 2.5.8), oben bündig mit der ersten Zeile der Beschriftung. */
 .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert > input[type="checkbox"]) > .feld-wert > input[type="checkbox"] { width: 24px; height: 24px; min-height: 0; min-width: 0; margin: 0; }
+/* Zielbild 01/02 (Depot anlegen): das Fenster ist deckend, der Schleier dahinter trägt das Glas (Glas nur am Rahmen). Felder auf der
+ ruhigen Feldfläche mit Unterkante. */
+html:not(.dark-mode):not(.high-contrast) #modal-rueck:has([data-zwei-schritte]) { background: rgba(22,37,23,.40); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal:has([data-zwei-schritte]) { background: var(--white); box-shadow: 0 24px 64px rgba(22,37,23,.18); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.dark-mode:not(.high-contrast) #modal-rueck .modal:has([data-zwei-schritte]) { background: #1e2023; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal:has([data-zwei-schritte]) input:not([type="checkbox"]):not([type="radio"]) { background-color: #edf1e8; border-bottom-color: #6a7c61; }
+@media (prefers-reduced-transparency: reduce) {
+  html:not(.dark-mode):not(.high-contrast) #modal-rueck:has([data-zwei-schritte]),
+  html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal:has([data-zwei-schritte]),
+  html.dark-mode:not(.high-contrast) #modal-rueck .modal:has([data-zwei-schritte]) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+/* Zielbild 04/05: der aktive Eintrag der Seitenleiste steht auf dunkler Salbei-Fläche mit heller Schrift (tags; nachts und im
+   Hochkontrast bleibt die eigene Fassung, im Vollmacht-Modus die Kontextfarbe). */
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv { background: var(--salbei-dunkel); color: var(--white); }
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv .nav-item-sub,
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv .ico { color: inherit; }
+/* Zielbild 03 (Entsperren): die Karte ohne Rand mit weichem Schatten, wie die Startkarte. */
+html:not(.dark-mode):not(.high-contrast) #overlay .entsperren-karte { border: 0; box-shadow: 0 18px 50px rgba(79,101,57,.10); }
+
+/* ── Bereichsseite nach Zielbild 05 „Identität & Person“ (05.11.2026), als Regel für jede Bereichsseite mit Gruppenkarten ──────────────
+   (a) Felder in Halbspalten (ab 900 px): jede einzeilige Eingabe einer Gruppe ist eine halbe Formularspalte breit, zwei stehen nebeneinander; über
+       die ganze Spalte gehen nur Kästchen, Listen, mehrzeilige Felder und Personenwahl. Das Anschriftpaar behält seine Inhaltsbreiten.
+   (b) Eine zugeklappte Gruppe ist eine Zeile: Titel, was in ihr steckt, Zahl, Zustand, Pfeil. Erst ab 1100 px (breite Inhaltsspalte); darunter
+       steht der Titel ganz in der ersten Zeile, Inhalt und Zahl darunter. Ein Titel bricht nie mitten im Wort.
+   (c) Ein Listeneintrag ist eine Zeile „Wert · Wert · Wert ›“; die Zeile öffnet den Eintrag, dort steht auch Entfernen; die Pfeile zum Umsortieren bleiben daneben.
+   (d) Seitenleiste: der aktive Eintrag auf dunkler Fläche; die Einträge am Fuß auf derselben Kante und in derselben Größe.
+   Hoher Kontrast nimmt dieselbe Ordnung, die Gruppen mit 2-px-Rahmen. Proben: tests/feldgruppen-ruhezustand.test.js und die Bilder. */
+#app .feldgruppen-karte[open] > .feldgruppen-karte-koerper { display: flex; flex-wrap: wrap; column-gap: var(--space-4); row-gap: var(--abstand-feld-feld); max-width: var(--spalte-formular); }
+#app .feldgruppen-karte-koerper > * { flex: 1 1 100%; min-width: 0; }
+#app .feldgruppen-karte-koerper > .feld-zeile { flex: 0 0 calc((100% - var(--space-4)) / 2); max-width: calc((100% - var(--space-4)) / 2); align-content: start; }
+#app .feldgruppen-karte-koerper > .feld-zeile:is(.feld-zeile--mehrzeilig, :has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen, .feld-liste-editor, .feld-refm, .feld-ref-picker, [role="group"]:not(.datum-dreifeld)))) { flex: 1 1 100%; max-width: none; }
+#app .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="street"], [data-feld="city"])) { flex: 1 1 0; min-width: 12ch; max-width: none; }
+#app .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="houseNumber"], [data-feld="postalCode"])) { flex: 0 1 auto; min-width: 0; max-width: 100%; }
+#app .feldgruppen-karte-koerper > .feld-zeile > .feld-wert > :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select) { width: 100%; max-width: none; }
+#app .feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld$="ostalCode"]) > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { width: 13ch; max-width: 13ch; }
+#app .feldgruppen-karte-koerper > .feld-zeile > .feld-wert:is([data-feld$="ouseNumber"]) > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { width: 10ch; max-width: 10ch; }
+#app .feldgruppen-karte-koerper .feld-liste-editor :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select) { max-width: var(--feld-breite-text); }
+@media (max-width: 899px) {
+#app .feldgruppen-karte-koerper > .feld-zeile { flex: 1 1 100%; max-width: none; }
+#app .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="street"], [data-feld="city"])) { flex: 1 1 0; }
+#app .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="houseNumber"], [data-feld="postalCode"])) { flex: 0 1 auto; }
+}
+/* (b) zugeklappte Gruppe als eine Zeile */
+html:not(.high-contrast) #app .feldgruppen-karte:not([open]) { padding-top: var(--space-4); padding-bottom: var(--space-4); margin-top: var(--space-3); }
+@media (min-width: 1100px) {
+#app .feldgruppen-karte:not([open]) > summary { grid-template-columns: auto minmax(0, 1fr) auto auto auto; column-gap: var(--space-4); }
+#app .feldgruppen-karte:not([open]) > summary > .feldgruppen-karte-zeile { display: contents; }
+#app .feldgruppen-karte:not([open]) > summary > .feldgruppen-karte-titel { grid-column: 1; grid-row: 1; min-width: max-content; }
+#app .feldgruppen-karte:not([open]) > summary .feldgruppen-karte-inhalt { grid-column: 2; grid-row: 1; }
+#app .feldgruppen-karte:not([open]) > summary .feldgruppen-karte-zahl { grid-column: 3; grid-row: 1; }
+#app .feldgruppen-karte:not([open]) > summary > .feldgruppen-karte-status { grid-column: 4; grid-row: 1; }
+#app .feldgruppen-karte:not([open]) > summary::after { grid-column: 5; grid-row: 1; }
+}
+@media (max-width: 1099px) {
+/* Schmal: Titel und Pfeil, darunter eine Zeile mit Inhalt und Zahl; der Zustand steckt in der Zahl und bleibt für Vorleseprogramme da. */
+#app .feldgruppen-karte:not([open]) > summary { grid-template-columns: minmax(0, 1fr) auto auto; row-gap: var(--space-1); }
+#app .feldgruppen-karte:not([open]) > summary > .feldgruppen-karte-titel { grid-column: 1 / span 2; grid-row: 1; }
+#app .feldgruppen-karte:not([open]) > summary > .feldgruppen-karte-status { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+#app .feldgruppen-karte:not([open]) > summary > .feldgruppen-karte-zeile { grid-column: 1 / span 2; grid-row: 2; }
+#app .feldgruppen-karte:not([open]) > summary::after { grid-column: 3; grid-row: 1 / span 2; }
+}
+/* Kopfzeile ganz in jeder Breite: kein Wort bricht, keine Zeile endet auf „…“; die Inhaltszeile bricht nur zwischen Wörtern.
+   Probe: tests/e2e/gruppenkarte-titel-ganz.spec.js. Der Inhalt rollt nie die Seite: die Spalte darf schmaler werden als ihr Inhalt. */
+#app .feldgruppen-karte > summary :is(.feldgruppen-karte-titel, .feldgruppen-karte-inhalt) { overflow-wrap: normal; word-break: normal; hyphens: manual; }
+#app .feldgruppen-karte:not([open]) > summary .feldgruppen-karte-inhalt { white-space: normal; overflow: visible; text-overflow: clip; }
+#app > #content { min-width: 0; }
+/* Das Inhaltsverzeichnis ist eine Reihe Chips; sein Titel ist nur für Vorleseprogramme da. */
+#app .toc { border: 0; background: transparent; padding: 0; margin-top: var(--space-4); }
+#app .toc .toc-titel { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* (c) Listeneintrag als eine Zeile */
+/* Entfernen steht hinter dem › (im Dialog des Eintrags), nicht in der Zeile. */
+.feld-liste-editor .liste-eintraege [data-eintrag-entfernen] { display: none; }
+.feld-liste-editor .liste-eintraege > li { position: relative; align-items: center; flex-wrap: nowrap; }
+.feld-liste-editor .liste-eintraege > li > .liste-eintrag-zusammenfassung { flex: 1 1 auto; min-width: 0; }
+/* Schmal wie breit: die Zeile wächst mit ihrem Inhalt (keine feste Höhe, nichts abgeschnitten); Pfeil und › bleiben neben ihr, der ganze Eintrag steht hinter dem ›. */
+.feld-liste-editor .liste-eintraege > li > .liste-eintrag-zusammenfassung { line-height: 1.5; }
+.feld-liste-editor .liste-eintrag-zusammenfassung { display: flex; flex-direction: row; flex-wrap: wrap; align-items: baseline; row-gap: 2px; column-gap: 0; }
+.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld { flex-direction: row; align-items: baseline; gap: 4px; }
+.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld + .liste-eintrag-feld::before { content: "·"; margin: 0 8px; color: var(--ink3); }
+.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld:not(.liste-eintrag-feld--datum) > .liste-eintrag-label { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld--datum > .liste-eintrag-label { font-size: inherit; }
+.feld-liste-editor .liste-eintraege > li > button { position: relative; z-index: 1; }
+#app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten] { position: static; z-index: 0; order: 99; font-size: 0; text-decoration: none; padding: 0 4px; min-width: 24px; }
+@media (pointer: coarse) { #app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten] { min-width: var(--ziel); } }   /* grobes Zeigegerät: die Zeile behält ihr 44-px-Ziel */
+#app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten]::after { content: ""; display: inline-block; width: 8px; height: 8px; border-top: 2px solid var(--ink2); border-right: 2px solid var(--ink2); transform: rotate(45deg); margin-right: 4px; }
+#app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten]::before { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+/* Das › (order: 99) ist Flex-Element und malt sonst zuletzt, seine Fläche läge über Entfernen, den Pfeilen und „Depot für dieses Kind anlegen“: z-index 0 legt sie unter deren z-index 1. */
+/* (d) Seitenleiste */
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv { background: var(--salbei-dunkel); color: #ffffff; border-left-color: transparent; font-weight: var(--fw-semibold); border-radius: var(--radius-md); }
+html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv { background: #2b2e32; color: var(--ink); border-left-color: transparent; font-weight: var(--fw-semibold); border-radius: var(--radius-md); }
+#app:not(.modus-vollmacht) #sidebar .nav-item.aktiv .nav-item-sub { color: inherit; }
+#app #sidebar .nav-fuss-ort { padding-top: 0; }
+/* Einträge ohne Gruppe (oben und am Fuß) stehen auf der Kante der Gruppentitel; die Einträge einer Gruppe sind eingerückt. */
+#app #sidebar > .nav-item, #app #sidebar .nav-fuss-ort > .nav-item, #app #sidebar > .nav-item-klein { font-size: var(--fs-role-hilfe); color: var(--ink2); padding-left: var(--space-5); border-top: 0; margin-top: 0; }
+#app #sidebar > .nav-item.aktiv, #app #sidebar .nav-fuss-ort > .nav-item.aktiv { color: inherit; }
+#app #sidebar .nav-hinweis-app { margin: 0; padding: 0 var(--space-5) var(--space-2) calc(var(--space-5) + var(--akzent-rand)); font-size: var(--fs-role-hilfe); color: var(--ink3); }
+/* Die Bereichsgruppen (Zur Person, Alltag …) sind Einträge wie die übrigen: dieselbe Größe, dasselbe Gewicht, dieselbe Kante, dieselbe Zeilenhöhe. */
+#app #sidebar details.nav-gruppe:not(.nav-gruppe-austausch) > summary { font-size: var(--fs-role-hilfe); font-weight: var(--fw-regular); color: var(--ink2); min-height: 44px; padding: 6px var(--space-5) 6px calc(var(--space-5) + var(--akzent-rand)); }
+#app #sidebar .gruppe-titel, #app #sidebar .nav-gruppe-austausch > summary { padding-left: calc(var(--space-5) + var(--akzent-rand)); }
+/* Hoher Kontrast: dieselbe Ordnung, die Gruppe mit 2-px-Rahmen */
+html.high-contrast #app .feldgruppen-karte { border: 2px solid #000000; border-radius: var(--radius-gruppe); padding: var(--abstand-gruppe-innen); margin-top: var(--space-5); box-shadow: none; }
+html.high-contrast #app .feldgruppen-karte:not([open]) { padding-top: var(--space-4); padding-bottom: var(--space-4); margin-top: var(--space-3); }
+html.high-contrast #app .feldgruppen-karte > summary { padding: 0; }
+html.high-contrast #app .feldgruppen-karte[open] > summary { margin-bottom: var(--space-5); }
+html.high-contrast #app .feldgruppen-karte-koerper { padding: 0; border-top: 0; }
+html.high-contrast #app .feldgruppen-karte-koerper > .feld-zeile { border: 0; padding: 0; }
+html.high-contrast #app .sektion.sektion--eingabe { border: 0; padding-left: 0; padding-right: 0; }
+html #app .feldgruppen-karte-inhalt { font-weight: var(--fw-regular); }
+/* Abschnitt nach Abschnitt und die zugeklappten Zeilen am Seitenende stehen dicht: eine Zeile je Weg, keine Leerfläche dazwischen. */
+#app .content .sektion.sektion--eingabe + .sektion.sektion--eingabe { margin-top: var(--space-6); }
+/* Die Wege unter dem Inhalt stehen zugeklappt als Pillen in einer Reihe; ein aufgeklappter Weg nimmt die ganze Breite. */
+#app .content .bereich-wege { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-2); margin-top: var(--space-6); }
+#app .content .bereich-wege > * { flex: 0 0 auto; max-width: 100%; margin: 0; padding-top: 0; border-top: 0; }
+#app .content .bereich-wege > :is([open], :has(> details[open])) { flex: 1 1 100%; }
+#app .content .bereich-wege :is(.bereich-assistenten, .zusatz-aktionen) .wizard-gruppe { margin: 0; }
+#app .content .bereich-wege :is(.doku-panel, .wizard-gruppe):not([open]) > summary { display: flex; align-items: center; min-height: 44px; box-sizing: border-box; border-radius: var(--radius-pill); padding: 0 18px; margin: 0; font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); gap: var(--space-2); }
+#app .content .bereich-wege .doku-panel:not([open]) { border-radius: var(--radius-pill); padding: 0; }

@@ -216,7 +216,9 @@ strings:passwortWortliste.text)
    Geändert (Altered source, MIT-Hinweis unten bleibt): die eine Zeile `import nodeCrypto from 'crypto';` ist durch
    `const nodeCrypto = undefined;` ersetzt (Node-Import, im Browser nicht auflösbar). Eingebettet:
    SHA-256 15974ff9d8ae30b1a5c649f7e03857b4341a7faac4decb26fd1f57bc5153201b.
-   Konsument: nur getPublicKey, in der Ableitung des Halter-Schlüssels (deriveHalterSignaturV4); signiert wird mit WebCrypto.
+   Konsument: nur getPublicKey, über _ed25519OeffentlichAusSeed: direkt in antwortSchluesselJeStelle (Antwortschlüssel je
+   Stelle) und als Wert in der alten Ableitung des Halter-Schlüssels (deriveHalterSignaturV4,
+   ohne Ausgabeweg bis zu ihrem Rückbau); signiert wird mit WebCrypto. Gezählt in tools/krypto-aufrufer-grundlinie.json.
 
    The MIT License (MIT)
 

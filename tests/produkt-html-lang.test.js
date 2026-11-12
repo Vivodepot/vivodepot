@@ -22,7 +22,7 @@ function sprachmodulVon(p) {
 
 for (const p of PRODUKTE) {
   test(`[Produkt-lang·Rot-Beweis] ${p.slug}: das ausgelieferte Produkt trägt statisch die Sprache seines Sprachmoduls`, () => {
-    const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'produkt-html-lang-'));
+    const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'produkt-html-' + p.slug + '-p' + process.pid + '-'));   // PID im Namen: nach SIGKILL räumt der nächste Bau
     try {
       const gebaut = konfektionieren({
         ziel: ordner, slug: p.slug, modulauswahl: [],

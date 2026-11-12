@@ -8,7 +8,7 @@
       "grund": "Unterzeile der Kern-Seitenleiste"
     },
     "katalog-kern": {
-      "anzahl": 98,
+      "anzahl": 116,
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
     },
     "feld-nur-im-kern": {
@@ -16,16 +16,20 @@
       "grund": "Feld oder Sektion, die die Lese-App nicht führt"
     },
     "hinweis-beispiel": {
-      "anzahl": 585,
+      "anzahl": 590,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "unterfeld-beschriftung": {
-      "anzahl": 106,
+      "anzahl": 111,
       "grund": "Beschriftung eines sensiblen Listen-Unterfelds (selbst oder über sein Trägerfeld); die Lese-App zeigt den Wert nie, also auch nicht seine Beschriftung. Alle übrigen Unterfelder tragen ihre Beschriftung seit 05.10.2026"
     },
     "feldgruppen": {
       "anzahl": 70,
       "grund": "Feldgruppen und Vorschlagslisten des Kerns (Eingabe)"
+    },
+    "label-durch-ausgabelabel": {
+      "anzahl": 1,
+      "grund": "Lese-App beschriftet wie der Kern mit ausgabeLabel vor label; die Eingabe-Beschriftung eines Felds mit eigener kurzer Ausgabe-Beschriftung erscheint dort nie"
     },
     "situationsblaetter": {
       "anzahl": 85,
@@ -36,11 +40,11 @@
       "grund": "Beschriftung der Eingabemaske des Menschen-Registers"
     },
     "assistenten": {
-      "anzahl": 330,
+      "anzahl": 284,
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
     },
     "eingabe-zweitknopf": {
-      "anzahl": 126,
+      "anzahl": 127,
       "grund": "Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe"
     },
     "suche-alltag": {

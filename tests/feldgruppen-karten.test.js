@@ -71,6 +71,14 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] Datentabelle', () => {
       const { sektion } = sektionUndFotoFeld(V, sektionId);
       assert.ok(sektion, '[' + sektionId + '] keine Sektion mit dieser id im Katalog gefunden');
       const echteIds = new Set(sektion.felder.map(f => f.id));
+      // Abnahme v998 (M07): ein Cluster mit `vereint` nimmt die Felder eines anderen Abschnitts auf („Frühere Namen“ in „Person“).
+      for (const c of V.SEKTION_STATUSKARTEN_CLUSTER[sektionId]) {
+        for (const vid of (c.vereint || [])) {
+          const { sektion: vs } = sektionUndFotoFeld(V, vid);
+          assert.ok(vs, '[' + sektionId + '] Cluster nimmt den Abschnitt "' + vid + '" auf, den es im Katalog nicht gibt');
+          vs.felder.forEach(f => echteIds.add(f.id));
+        }
+      }
       for (const id of V.SEKTION_STATUSKARTEN_CLUSTER[sektionId].flatMap(c => c.felder)) {
         assert.ok(echteIds.has(id),
           '[' + sektionId + '] Cluster nennt "' + id + '" — kein Feld dieser Sektion trägt diese Id');
@@ -120,7 +128,8 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
     const karten = html.match(/<details class="feldgruppen-karte"/g) || [];
-    assert.equal(karten.length, 5, 'erwartet fünf Statuskarten für person');
+    // Abnahme v998 (M07): fünf Karten im Abschnitt „Person“ und die Karte „Personenstandsurkunden“ (jeder Abschnitt trägt Karten).
+    assert.equal(karten.length, 6, 'erwartet fünf Statuskarten für person und die Karte Personenstandsurkunden');
     assert.match(html, /Name (&amp;|&) Geburt/);   // vorher „Kernidentität“ (Zielbild S4, 31.10.2026)
     assert.match(html, /Kontakt/);
   });
@@ -130,7 +139,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
     const kartenBloecke = html.split('<details class="feldgruppen-karte"').slice(1);
-    assert.equal(kartenBloecke.length, 5);
+    assert.equal(kartenBloecke.length, 6);
     for (const block of kartenBloecke) {
       assert.match(block.split('</summary>')[0], new RegExp(V.STRINGS.statuskarteLeer));
     }
@@ -168,7 +177,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
       'gesamt zählte den ausgeblendeten Zustand mit (Regression von _clusterZaehlung)');
   });
 
-  test('andere Sektionen ohne Cluster-Eintrag rendern weiterhin flach (kein feldgruppen-karte)', async () => {
+  test('andere Sektionen ohne Cluster-Eintrag stehen als EINE Karte mit allen Feldern (Abnahme v998, M07: keine Gruppe lose)', async () => {
     const { V, document } = await frischMitDepot();
     // sozialversicherung (Task 2) und wohnen (Task 4) dienten hier nacheinander als Beispiel, bis
     // ADR-175 sie migrierte — inzwischen hat JEDER Bereich mindestens eine migrierte Sektion,
@@ -177,8 +186,9 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     // (fünf Cluster) — die Probe hält fest, dass bundid-vorgaenge KEINE zusätzliche Karte beisteuert.
     V.oeffneSektor('administration');
     const html = document.getElementById('content').innerHTML;
-    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 5,
-      'bundid-vorgaenge ist nicht in SEKTION_STATUSKARTEN_CLUSTER — nur die fünf Cluster von geraete-digitale-zugaenge dürfen erscheinen');
+    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 6,
+      'bundid-vorgaenge ist nicht in SEKTION_STATUSKARTEN_CLUSTER — die fünf Cluster von geraete-digitale-zugaenge und EINE Karte für bundid-vorgaenge');
+    assert.match(html, /feldgruppen-karte-titel">BundID und Vorgänge</, 'die Karte trägt den Namen des Abschnitts');
   });
 });
 
@@ -258,17 +268,18 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] geraete-digitale-zugaenge', () => {
     await k.V.depotAnlegen('pw'); k.V.akteurSelbstErklaeren('Tester');
     k.V.oeffneSektor('administration');
     const html = k.document.getElementById('content').innerHTML;
-    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 5);
+    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 6);   // fünf Cluster + die Karte von bundid-vorgaenge
     assert.match(html, /Passwörter &amp; Zugangscodes/);
     assert.match(html, /Kryptowerte/);
   });
-  test('bundid-vorgaenge bleibt flach (kein zusätzlicher feldgruppen-karte-Block dafür)', async () => {
+  test('bundid-vorgaenge steht als eine eigene Karte (nicht lose neben den Karten)', async () => {
     const k = ladeKern();
     await k.V.depotAnlegen('pw'); k.V.akteurSelbstErklaeren('Tester');
     k.V.oeffneSektor('administration');
     const html = k.document.getElementById('content').innerHTML;
-    // genau 5 Karten (nur geraete-digitale-zugaenge) — bundid-vorgaenge fügt keine weiteren hinzu
-    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 5);
+    // sechs Karten: die fünf von geraete-digitale-zugaenge und genau eine für bundid-vorgaenge
+    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 6);
+    assert.equal((html.match(/feldgruppen-karte-titel">BundID und Vorgänge</g) || []).length, 1);
   });
 });
 
@@ -373,17 +384,18 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] erinnerungen-briefe', () => {
     await k.V.depotAnlegen('pw'); k.V.akteurSelbstErklaeren('Tester');
     k.V.oeffneSektor('personal');
     const html = k.document.getElementById('content').innerHTML;
-    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 6);
+    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 7);   // sechs Cluster + die Karte von bestattung-abschied
     assert.match(html, /Abhängige Personen &amp; Konflikte/);
     assert.match(html, /Religion &amp; Spiritualität/);
   });
-  test('bestattung-abschied bleibt flach (kein zusätzlicher feldgruppen-karte-Block dafür)', async () => {
+  test('bestattung-abschied steht als eine eigene Karte (nicht lose neben den Karten)', async () => {
     const k = ladeKern();
     await k.V.depotAnlegen('pw'); k.V.akteurSelbstErklaeren('Tester');
     k.V.oeffneSektor('personal');
     const html = k.document.getElementById('content').innerHTML;
-    // genau 6 Karten (nur erinnerungen-briefe) — bestattung-abschied fügt keine weiteren hinzu
-    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 6);
+    // sieben Karten: die sechs von erinnerungen-briefe und genau eine für bestattung-abschied
+    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 7);
+    assert.equal((html.match(/feldgruppen-karte-titel">Bestattung und Abschied</g) || []).length, 1);
   });
 });
 
@@ -488,12 +500,12 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] vorsorge', () => {
     }
   });
 
-  test('renderSektor vorsorge zeigt drei Statuskarten', async () => {
+  test('renderSektor vorsorge zeigt drei Statuskarten der Tabelle und je eine Karte für die beiden Abschnitte ohne Cluster', async () => {
     const k = ladeKern();
     await k.V.depotAnlegen('pw'); k.V.akteurSelbstErklaeren('Tester');
     k.V.oeffneSektor('advanceCare');
     const html = k.document.getElementById('content').innerHTML;
-    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 3);
+    assert.equal((html.match(/<details class="feldgruppen-karte"/g) || []).length, 5);   // drei Cluster + zwei Abschnitte ohne Eintrag (Abnahme v998, M07)
     assert.match(html, /Meine Vorsorge/);
     assert.match(html, />Erbe</);
     assert.match(html, /Pflegewünsche/);
@@ -516,7 +528,7 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] vorsorge', () => {
 describe('[SEKTION_STATUSKARTEN_CLUSTER] wohnen', () => {
   test('zwei Sektionen mit Cluster-Eintrag, jedes ihrer Felder genau einmal zugeordnet', () => {
     const { V } = ladeKern();
-    const erwarteteFelderZahl = { 'wohnen-haupt': 14, 'wohnen-zweit': 1 };
+    const erwarteteFelderZahl = { 'wohnen-haupt': 31, 'wohnen-zweit': 1 };   // 27 → 31 (05.11.2026, U2-ADR-465 Nr. 35 Anmeldung); 14 → 27 (04.11.2026, U2-ADR-465 Mietangaben)
     for (const sektionId of Object.keys(erwarteteFelderZahl)) {
       const cluster = V.SEKTION_STATUSKARTEN_CLUSTER[sektionId];
       assert.ok(Array.isArray(cluster), '[' + sektionId + '] fehlt in SEKTION_STATUSKARTEN_CLUSTER');

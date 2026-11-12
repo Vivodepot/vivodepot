@@ -45,8 +45,9 @@ async function inWebkit(kontext, fn) {
 }
 
 async function ankerDialogAusfuellen(page) {
-  await expect(page.locator('#modal-rueck.an #id-pw')).toBeVisible();
+  await expect(page.locator('#modal-rueck.an #id-vorname')).toBeVisible();   // Zielbild 01: das Passwort-Feld kommt erst mit dem eigenen Passwort
   await page.fill('#id-vorname', 'Erika'); await page.fill('#id-nachname', 'Probe');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', PW); await page.fill('#id-pw2', PW);
   await page.click('#m-ok');
 }
@@ -86,7 +87,7 @@ test('[Safari-Tab·WebKit] die Signale, wie WebKit sie von sich aus liefert, mit
 async function bisZumAnlegeDialog(page) {
   await page.click('#w-anlegen');
   const angebot = page.locator('#modal-rueck.an #safari-app-anlegen');
-  const dialog = page.locator('#modal-rueck.an #id-pw');
+  const dialog = page.locator('#modal-rueck.an #id-vorname');   // Zielbild 01: der Anlege-Dialog beginnt mit dem Vornamen
   await expect(angebot.or(dialog).first(), 'nach „Depot anlegen“ erscheint das App-Angebot oder der Anlege-Dialog').toBeVisible({ timeout: 15000 });
   const mitAngebot = await angebot.isVisible();
   if (mitAngebot) await page.click('#m-zweit');   // der zweite Knopf des Angebots führt im Browser weiter, in jeder Sprache
@@ -138,9 +139,9 @@ test.describe('[Safari-Tab·WebKit] Safari-Wege', () => {
         await page.reload();
         const pwFeld = page.locator('input[type="password"]:visible').first();
         await pwFeld.waitFor({ state: 'visible', timeout: 20000 });
-        await expect(page.getByText('Ihr Depot ist auf diesem Gerät gespeichert'), 'der Gerätespeicher trägt das Depot').toBeVisible();
+        await expect(page.getByText('liegt auf diesem Gerät'), 'der Gerätespeicher trägt das Depot').toBeVisible();   // Zielbild 03
         await pwFeld.fill(PW);
-        await page.getByRole('button', { name: 'Mein Depot öffnen' }).click();
+        await page.locator('#w-oeffnen').click();
         await page.waitForSelector('#app.an', { state: 'attached', timeout: 20000 });
         expect(fehler, 'kein Seitenfehler: ' + fehler.join(' | ')).toEqual([]);
       });

@@ -37,7 +37,7 @@ const ID = 'A'.repeat(22);
 const KERN = 'https://privat-de.vivodepot.org';
 const puffer = (s) => { const u = new TextEncoder().encode(s); return u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength); };
 
-async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
+async function seite({ quelle = QUELLE, zielBestaetigen = true, rueck = null } = {}) {
   const elemente = {};
   const el = (id) => (elemente[id] = elemente[id] || { id, hidden: false, textContent: '', value: '', onclick: null, onchange: null, files: [], appendChild() {} });
   const anfragen = [];
@@ -60,6 +60,7 @@ async function seite({ quelle = QUELLE, zielBestaetigen = true } = {}) {
     abmelden: async () => 'lokal-geloescht',
     podFetch: async (adresse, o = {}) => {
       anfragen.push({ adresse, methode: (o.method || 'GET').toUpperCase() });
+      if (rueck && o.method === 'GET') { anfragen[anfragen.length - 1].cache = o.cache; return rueck(adresse); }
       // Verzeichnis und Ablaufliste unter intern/ (U2-ADR-520) liegen in diesem Pod noch nicht.
       if (String(adresse).includes('vivodepot/k/') && !String(adresse).endsWith('/') && !o.method) return { ok: false, status: 404, headers: { get: () => null } };
       return { ok: true, status: o.method === 'HEAD' ? 200 : 201, headers: { get: () => null }, json: async () => null, text: async () => '' };
@@ -191,4 +192,77 @@ test('[Stufe2·Rot-Beweis] ohne die Prüfung auf das öffnende Fenster nähme di
   // Ein anderes Fenster derselben bekannten Herkunft (etwa ein zweiter Tab): nur die Fensterprüfung hält es ab.
   s.senden(s.fremd, KERN, auftrag('eigen', DEPOT));
   assert.match(s.el('auftrag-satz').textContent, /möchte/, 'ROT ohne Prüfung: der fremde Auftrag steht zur Bestätigung');
+});
+
+/* Rückprobe der eigenen Sicherung (Nachtrag zu U2-ADR-512). Die Bytes gehen in einer eigenen Nachricht zurück, „abgelegt“ bleibt für alte Kerne,
+   wie es ist. Gelesen wird nur bei Art eigen; mehr als die gesendete Bytezahl wird nicht gehalten. */
+function koerper(bytes, stueck = 1000) {
+  const u = new TextEncoder().encode(bytes), z = { abgebrochen: 0, geholt: 0 };
+  return { z, antwort: { ok: true, status: 200, headers: { get: () => null }, body: { getReader: () => ({
+    read: async () => { if (z.geholt >= u.length) return { done: true }; const s = u.slice(z.geholt, z.geholt + stueck); z.geholt += s.length; return { done: false, value: s }; },
+    cancel: async () => { z.abgebrochen++; },
+  }) } } };
+}
+async function eigenAblegen(rueck) {
+  const s = await seite({ rueck });
+  s.senden(s.opener, KERN, auftrag('eigen', DEPOT));
+  await s.warten();
+  await s.ja();
+  await s.warten();
+  return s;
+}
+const zurueck = (s) => s.anOpener.filter((x) => x.n.typ === 'vd-pod-zurueck');
+
+test('[Rückprobe] eigen: GET ohne Zwischenspeicher, die Bytes an den Öffner, „abgelegt“ bleibt bei genau vier Feldern', async () => {
+  const k = koerper(DEPOT, 7);
+  const s = await eigenAblegen(async () => k.antwort);
+  const ab = s.anOpener.find((x) => x.n.typ === 'vd-pod-abgelegt');
+  assert.deepEqual(Object.keys(ab.n).sort(), ['adresse', 'fassung', 'id', 'typ'], 'ein alter Kern bekommt „abgelegt“ unverändert');
+  const get = s.anfragen.filter((a) => a.methode === 'GET' && a.cache === 'no-store');
+  assert.equal(get.length, 1);
+  assert.equal(get[0].adresse, ab.n.adresse);
+  const z = zurueck(s);
+  assert.equal(z.length, 1);
+  assert.equal(z[0].ziel, KERN);
+  assert.deepEqual(Object.keys(z[0].n).sort(), ['daten', 'fassung', 'id', 'typ']);
+  assert.equal(Buffer.from(z[0].n.daten).toString('utf8'), DEPOT);
+  assert.ok(s.anOpener.indexOf(ab) < s.anOpener.indexOf(z[0]), '„abgelegt“ geht zuerst');
+});
+test('[Rückprobe] zu groß: Abbruch beim ersten überzähligen Byte, keine Bytes', async () => {
+  const k = koerper(DEPOT + ' ', 1);
+  const s = await eigenAblegen(async () => k.antwort);
+  assert.deepEqual(zurueck(s).map((x) => x.n.fehler), ['groesse']);
+  assert.equal(k.z.abgebrochen, 1, 'das Lesen bricht ab');
+  assert.equal(k.z.geholt, Buffer.byteLength(DEPOT) + 1, 'nichts über das erste überzählige Byte hinaus');
+  assert.ok(!('daten' in zurueck(s)[0].n));
+});
+test('[Rückprobe] Content-Length über der Grenze: abgewiesen, bevor der Körper gelesen wird', async () => {
+  let gelesen = 0;
+  const s = await eigenAblegen(async () => ({ ok: true, status: 200, headers: { get: (n) => (n === 'content-length' ? '99999999' : null) }, body: { cancel: () => {}, getReader: () => { gelesen++; return {}; } } }));
+  assert.deepEqual(zurueck(s).map((x) => x.n.fehler), ['groesse']);
+  assert.equal(gelesen, 0);
+});
+test('[Rückprobe] Netz, Status, ohne Körper, falsche Form, kein UTF-8: nur die Angabe aus der festen Liste', async () => {
+  const faelle = [
+    [async () => { throw new Error('x'); }, 'netz'],
+    [async () => ({ ok: false, status: 500, headers: { get: () => null } }), 'status'],
+    [async () => ({ ok: true, status: 200, headers: { get: () => null } }), 'form'],
+    [async () => koerper('<html>Anmeldung</html>').antwort, 'form'],
+    [async () => ({ ok: true, status: 200, headers: { get: () => null }, body: { getReader: () => { let n = 0; return { read: async () => (n++ ? { done: true } : { done: false, value: new Uint8Array([0xFF, 0xFE]) }), cancel: async () => {} }; } } }), 'form'],
+  ];
+  for (const [rueck, fehler] of faelle) {
+    const s = await eigenAblegen(rueck);
+    assert.deepEqual(zurueck(s).map((x) => [x.n.fehler, Object.keys(x.n).sort().join()]), [[fehler, 'fassung,fehler,id,typ']], fehler);
+  }
+});
+test('[Rückprobe] link und stelle lesen nicht zurück', async () => {
+  let gelesen = 0;
+  const s = await seite({ rueck: async () => { gelesen++; return koerper(SHL).antwort; } });
+  s.senden(s.opener, KERN, auftrag('link', SHL));
+  await s.warten();
+  await s.ja();
+  await s.warten();
+  assert.ok(s.anOpener.some((x) => x.n.typ === 'vd-pod-abgelegt'));
+  assert.equal(gelesen, 0);
+  assert.equal(zurueck(s).length, 0);
 });

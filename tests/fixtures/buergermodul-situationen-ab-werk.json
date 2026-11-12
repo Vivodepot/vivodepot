@@ -8,6 +8,12 @@
       "modus": "eigen",
       "titel": "Bei der Geburt eines Kindes",
       "einfuehrung": "Was rund um die Geburt zu regeln ist — und wo die Unterlagen hingehören. Für das Kind lässt sich ein eigenes, getrennt verschlüsseltes Depot anlegen — der Knopf dafür sitzt im Bereich „Meine Menschen“ bei der Kinder-Liste, sobald das Kind dort eingetragen ist.",
+      "verweisBereiche": [
+        {
+          "sektor": "emergencyPreparedness",
+          "feld": "numberOfPeopleForTheSupply"
+        }
+      ],
       "anlass": {
         "klasse": 1,
         "icon": "baby",

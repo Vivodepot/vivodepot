@@ -127,9 +127,10 @@ test('ein bereits geladener Tab stellt nach dem Laden keine same-origin-Anfrage 
     await page.waitForSelector('#app.an', { state: 'attached' });
     await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
     await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
-    await page.waitForSelector('#id-pw', { state: 'visible' });
+    await page.waitForSelector('#id-pw', { state: 'attached' });
     await page.fill('#id-vorname', 'Marlies');
     await page.fill('#id-nachname', 'Sonnenschein');
+    if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await page.fill('#id-pw', 'sw-uebernahme-messung-2026');
     await page.fill('#id-pw2', 'sw-uebernahme-messung-2026');
     await page.click('#m-ok');
@@ -161,6 +162,7 @@ test('ein bereits geladener Tab stellt nach dem Laden keine same-origin-Anfrage 
     await page.click('#sub-neu');
     await page.waitForSelector('#id-vorname', { state: 'visible' });
     await page.fill('#id-vorname', 'Anja');
+    if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await page.fill('#id-pw', 'sub-messung-pw-2026');
     await page.fill('#id-pw2', 'sub-messung-pw-2026');
     await page.click('#m-ok');

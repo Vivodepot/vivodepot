@@ -65,6 +65,8 @@ const TEXT_ROLLEN = Object.freeze([
   'label', 'hint', 'beispiel', 'frage', 'hilfetext', 'titel', 'text',
   'einfuehrungstext', 'navUnterzeile', 'name', 'vorschlaege', 'hinweis',
   'satz', 'toast', 'luecke', 'pruefen', 'einleitung', 'sektion', 'einfuehrung',
+  // 02.11.2026 (Nachtrag U2-ADR-497): die kurze Ausgabe-Beschriftung kommt wie `label` aus dem Textsatz.
+  'ausgabeLabel',
 ]);
 
 // Kennungs-Praefixe der quer liegenden 65% (Sprachachse-Befund 17.09.2026) —

@@ -77,7 +77,7 @@ test('B2-5 Katalog-Sync: pflegegrad_befristet_bis + gdb_nachpruefung sind im Les
   const { V } = ladeLesen();
   const sek = V.SEKTOR_BY_ID['socialInsurance'];
   const alleFelder = sek.sektionen.flatMap(s => s.felder || []);
-  assert.ok(alleFelder.some(f => f.id === 'careLevelTimeLimitedUntil' && f.label === 'Pflegegrad befristet bis'),
+  assert.ok(alleFelder.some(f => f.id === 'careLevelTimeLimitedUntil' && f.label === 'Pflegegrad — befristet bis'),
     'pflegegrad_befristet_bis im Lese-Katalog');
   assert.ok(alleFelder.some(f => f.id === 'gdbReviewReAssessmentDate' && f.label.startsWith('GdB — Nachprüfung')),
     'gdb_nachpruefung im Lese-Katalog');

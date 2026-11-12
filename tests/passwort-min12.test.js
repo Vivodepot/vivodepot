@@ -28,7 +28,7 @@ const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8
 const FELDER_NEUES_EIGENES_PW = ['id-pw', 'pw-neu', 'pw-wechsel-neu', 'whc-pw-neu', 'ssb-neu'];
 const SETZ_WEGE = [
   '_depotIdentitaetUndPasswortAbfragen', '_subSelbstPasswortAendernZeigen', 'codeOverlayOeffnen',
-  'flowPasswortSetzen', 'flowPasswortWechseln',
+  'flowPasswortWechseln',   // flowPasswortSetzen entfiel mit dem Rückbau des Vorschau-Passwortwegs (07.11.2026)
 ];
 
 /* Liefert je Top-Level-Funktion, ob sie den WERT eines der Felder liest (document.getElementById(…) oder der
@@ -70,7 +70,7 @@ test('[PW-12·Klasse] jeder Weg, der ein neues eigenes Passwort liest, geht durc
   const r = setzWegeMessen(KERN);
   assert.deepEqual(r.ohneSchranke, [], 'Setz-Wege ohne pwGrundFehler: ' + r.ohneSchranke.join(', '));
   assert.deepEqual(r.lesende, [...SETZ_WEGE].sort(),
-    'die Setz-Wege sind genau die bekannten fünf — ein neuer gehört bewusst in SETZ_WEGE, nachdem er die Schranke ruft');
+    'die Setz-Wege sind genau die bekannten vier — ein neuer gehört bewusst in SETZ_WEGE, nachdem er die Schranke ruft');
 });
 
 test('[PW-12·Klasse·Rot-Beweis] ein Setz-Weg ohne Schranke wird gefunden', () => {

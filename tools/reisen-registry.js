@@ -135,7 +135,7 @@ const REISE_1_MARLIES = {
       veraendernd: false,
       aktion: async (seite) => {
         await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
-        await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
+        await seite.waitForSelector('#id-vorname', { state: 'visible', timeout: 5000 });
       },
     },
     {
@@ -145,6 +145,7 @@ const REISE_1_MARLIES = {
       aktion: async (seite) => {
         await seite.fill('#id-vorname', 'Marlies', { timeout: 5000 });
         await seite.fill('#id-nachname', 'Beispiel', { timeout: 5000 });
+        if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
         await seite.fill('#id-pw', PW, { timeout: 5000 });
         await seite.fill('#id-pw2', PW, { timeout: 5000 });
         await seite.click('#m-ok', { timeout: 5000 });
@@ -276,7 +277,7 @@ const REISE_2_PETRA = {
       veraendernd: false,
       aktion: async (seite) => {
         await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
-        await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
+        await seite.waitForSelector('#id-vorname', { state: 'visible', timeout: 5000 });
       },
     },
     {
@@ -286,6 +287,7 @@ const REISE_2_PETRA = {
       aktion: async (seite) => {
         await seite.fill('#id-vorname', 'Petra', { timeout: 5000 });
         await seite.fill('#id-nachname', 'Beispiel', { timeout: 5000 });
+        if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
         await seite.fill('#id-pw', PW, { timeout: 5000 });
         await seite.fill('#id-pw2', PW, { timeout: 5000 });
         await seite.click('#m-ok', { timeout: 5000 });
@@ -473,7 +475,7 @@ const REISE_3_ANJA = {
       veraendernd: false,
       aktion: async (seite) => {
         await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
-        await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
+        await seite.waitForSelector('#id-vorname', { state: 'visible', timeout: 5000 });
       },
     },
     {
@@ -483,6 +485,7 @@ const REISE_3_ANJA = {
       aktion: async (seite) => {
         await seite.fill('#id-vorname', 'Mutter', { timeout: 5000 });
         await seite.fill('#id-nachname', 'Beispiel', { timeout: 5000 });
+        if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
         await seite.fill('#id-pw', PW, { timeout: 5000 });
         await seite.fill('#id-pw2', PW, { timeout: 5000 });
         await seite.click('#m-ok', { timeout: 5000 });
@@ -723,7 +726,7 @@ const REISE_4_THOMAS = {
       veraendernd: false,
       aktion: async (seite) => {
         await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
-        await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
+        await seite.waitForSelector('#id-vorname', { state: 'visible', timeout: 5000 });
       },
     },
     {
@@ -733,6 +736,7 @@ const REISE_4_THOMAS = {
       aktion: async (seite) => {
         await seite.fill('#id-vorname', 'Thomas', { timeout: 5000 });
         await seite.fill('#id-nachname', 'Beispiel', { timeout: 5000 });
+        if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
         await seite.fill('#id-pw', PW, { timeout: 5000 });
         await seite.fill('#id-pw2', PW, { timeout: 5000 });
         await seite.click('#m-ok', { timeout: 5000 });
@@ -766,6 +770,7 @@ const REISE_4_THOMAS = {
       aktion: async (seite) => {
         await seite.fill('#id-vorname', 'Heinrich', { timeout: 5000 });
         await seite.selectOption('#sub-grundlage', 'vorsorge', { timeout: 5000 });
+        if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
         await seite.fill('#id-pw', SUB_PW, { timeout: 5000 });
         await seite.fill('#id-pw2', SUB_PW, { timeout: 5000 });
         await seite.click('#m-ok', { timeout: 5000 });
@@ -898,9 +903,10 @@ const REISE_5_RENATE = {
       veraendernd: true,
       aktion: async (seite) => {
         await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
-        await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
+        await seite.waitForSelector('#id-vorname', { state: 'visible', timeout: 5000 });
         await seite.fill('#id-vorname', 'Renate', { timeout: 5000 });
         await seite.fill('#id-nachname', 'Beispiel', { timeout: 5000 });
+        if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
         await seite.fill('#id-pw', PW, { timeout: 5000 });
         await seite.fill('#id-pw2', PW, { timeout: 5000 });
         await seite.click('#m-ok', { timeout: 5000 });

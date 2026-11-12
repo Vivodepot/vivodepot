@@ -8,6 +8,7 @@ Dieses Verzeichnis trägt die öffentlichen Dokumente zum Cyber Resilience Act:
 |---|---|
 | `schwachstellen-priorisierung.md` | wie Schwachstellen priorisiert und belegt werden |
 | `supportzeitraum-und-eol.md` | Unterstützungszeitraum und Produktende |
+| `technische-dokumentation.md` | technische Dokumentation, gegliedert nach Anhang VII |
 
 Sicherheitslücken melden: [`SECURITY.md`](../../SECURITY.md). Dort stehen Meldeweg, Fristen und der öffentliche
 Schlüssel für verschlüsselte Meldungen.

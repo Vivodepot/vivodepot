@@ -1,0 +1,645 @@
+{
+ "format": "demoSzenario/1",
+ "name": "fragen-am-eintrag",
+ "titel": {
+  "de": "Fragen am Eintrag: vorbereitet ins Gespräch",
+  "en": "Questions on an entry: prepared for the conversation"
+ },
+ "kurz": {
+  "de": "Gerda Mustermann bereitet zwei Gespräche vor, bei der Bank und in der Apotheke: Frage am Eintrag, ein Blatt je Gegenüber, Antwort mit Quelle und Datum.",
+  "en": "Gerda Mustermann prepares two conversations, at the bank and at the pharmacy: a question on the entry, one sheet per counterpart, an answer with source and date."
+ },
+ "stand": "2026-11-06T09:00:00.000Z",
+ "situation": {
+  "de": "Gerda Mustermann, 82, hat diese Woche einen Termin bei ihrer Bank und geht danach in ihre Apotheke.\nSie möchte in beiden Gesprächen ihre Fragen stellen und die Antworten behalten.",
+  "en": "Gerda Mustermann, 82, has an appointment at her bank this week and then goes to her pharmacy.\nShe wants to ask her questions in both conversations and keep the answers."
+ },
+ "hinweis": "Demo „Fragen am Eintrag“ (06.11.2026). Zwei gleichrangige Gespräche nach einem Muster; Rahmen ist die Vorbereitung eines Gesprächs auf Augenhöhe. Die Fragen sind erfunden und tragen keine Rechts- oder Heilaussage. Kein Passwort, keine Datei; das Beispiel ist in die Seiten gebacken (tools/demo-bauen.js).",
+ "texte": {
+  "de": {
+   "streifen": "Demo · Beispieldaten einer erfundenen Person",
+   "zurueck": "Zurück",
+   "weiter": "Weiter",
+   "selbstAusprobieren": "Selbst ausprobieren",
+   "notizLabel": "Erklärung",
+   "mehr": "mehr",
+   "weniger": "weniger",
+   "schrittVon": "Schritt {n} von {m}",
+   "tippen": "Tippen Sie, um das Beispiel selbst zu bedienen.",
+   "leerlaufHinweis": "Die Demo beginnt gleich von vorn.",
+   "weiterAnsehen": "Weiter ansehen",
+   "gesperrt": "Das ist in der Demo gesperrt; Sie sehen, was hinausgehen würde.",
+   "schliessen": "Schließen",
+   "auszug": "Auszug",
+   "situationTitel": "Die Situation",
+   "ueberblick": "Situation und alle Schritte",
+   "wechsel": "Jetzt wechseln Sie die Seite.",
+   "antwortBeispiel": "Bitte zuerst mit der Hausarztpraxis absprechen; wir geben Ihnen eine Liste für das Gespräch mit."
+  },
+  "en": {
+   "streifen": "Demo · sample data of a fictional person",
+   "zurueck": "Back",
+   "weiter": "Next",
+   "selbstAusprobieren": "Try it yourself",
+   "notizLabel": "Explanation",
+   "mehr": "more",
+   "weniger": "less",
+   "schrittVon": "Step {n} of {m}",
+   "tippen": "Tap to use the example yourself.",
+   "leerlaufHinweis": "The demo will start again shortly.",
+   "weiterAnsehen": "Keep looking",
+   "gesperrt": "This is locked in the demo; you see what would go out.",
+   "schliessen": "Close",
+   "auszug": "Extract",
+   "situationTitel": "The situation",
+   "ueberblick": "Situation and all steps",
+   "wechsel": "Now you switch sides.",
+   "antwortBeispiel": "Please check with your GP practice first; we will give you a list for that conversation."
+  }
+ },
+ "beispiele": {
+  "gerda": {
+   "depot": "gerda-mustermann-depot.json",
+   "zurueckgehalten": [
+    "health.medicationOngoing"
+   ]
+  }
+ },
+ "animation": {
+  "hinweis": "Demo im Animationsstil (U2-ADR-413 Nachtrag (5)), 08.11.2026. Jeder Satz und jedes Etikett trägt Belege {pfad, zitat} aus den Schritten dieses Szenarios.",
+  "ort": {
+   "de": "Zwei Termine diese Woche",
+   "en": "Two appointments this week",
+   "belege": [
+    {
+     "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+     "zitat": "hat diese Woche zwei Termine"
+    },
+    {
+     "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+     "zitat": "has two appointments this week"
+    }
+   ]
+  },
+  "seiten": {
+   "person": {
+    "de": "Gerda",
+    "en": "Gerda"
+   },
+   "stelle": {
+    "de": "Gespräche",
+    "en": "Conversations"
+   }
+  },
+  "etiketten": {
+   "apotheke": {
+    "de": "Apotheke",
+    "en": "Pharmacy",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "in ihrer Apotheke"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "at her pharmacy"
+     }
+    ]
+   },
+   "bank": {
+    "de": "Beispielbank",
+    "en": "Beispielbank",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "eine Frage an die Beispielbank"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "a question for the Beispielbank"
+     }
+    ]
+   },
+   "medikation": {
+    "de": "Medikation",
+    "en": "Medication",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "Ihre Medikation stammt aus dem Plan"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "Her medication comes from"
+     }
+    ]
+   },
+   "girokonto": {
+    "de": "Girokonto",
+    "en": "Current account",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "Am Girokonto notiert sie"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "On her current account"
+     }
+    ]
+   },
+   "frageApotheke": {
+    "de": "Frage an die Apotheke",
+    "en": "Pharmacy question",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "eine Frage an die Apotheke"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "a question for the pharmacy"
+     }
+    ]
+   },
+   "frageBank": {
+    "de": "Frage an die Bank",
+    "en": "Bank question",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "die Frage an die Bank"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "the question for the bank"
+     }
+    ]
+   },
+   "offen": {
+    "de": "Frage offen",
+    "en": "Question open",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "dass eine Frage offen ist"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "that a question is open"
+     }
+    ]
+   },
+   "freigeben": {
+    "de": "freigegeben",
+    "en": "released",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "Medikation freigeben"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "Release the medication"
+     }
+    ]
+   },
+   "blatt": {
+    "de": "Blatt",
+    "en": "Sheet",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "Blatt für die Apotheke"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "Sheet for the pharmacy"
+     }
+    ]
+   },
+   "quelle": {
+    "de": "Quelle",
+    "en": "Source",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "mit Quelle und Datum"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "with source and date"
+     }
+    ]
+   },
+   "datum": {
+    "de": "Datum",
+    "en": "Date",
+    "belege": [
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "mit Quelle und Datum"
+     },
+     {
+      "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+      "zitat": "with source and date"
+     }
+    ]
+   }
+  },
+  "kapitel": [
+   {
+    "name": {
+     "de": "Fragen",
+     "en": "Questions"
+    },
+    "schritte": [
+     {
+      "rolle": "person",
+      "titel": {
+       "de": "Frage zur Medikation",
+       "en": "Medication question"
+      },
+      "satz": {
+       "de": "Gerdas Medikation stammt aus dem Plan ihrer Hausarztpraxis. Daran notiert sie eine Frage an die Apotheke, ob sie zum Blutverdünner Ibuprofen nehmen darf.",
+       "en": "Gerda's medication comes from her GP practice's plan. On it she notes a question for the pharmacy, whether she may take ibuprofen with her blood thinner."
+      },
+      "belege": [
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Ihre Medikation stammt aus dem Plan ihrer Hausarztpraxis"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Daran notiert sie eine Frage an die Apotheke"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "ob sie zum Blutverdünner Ibuprofen nehmen darf"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Her medication comes from her GP practice's plan"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "On it she notes a question for the pharmacy"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "whether she may take ibuprofen with her blood thinner"
+       }
+      ]
+     },
+     {
+      "rolle": "person",
+      "titel": {
+       "de": "Frage am Konto",
+       "en": "Account question"
+      },
+      "satz": {
+       "de": "Am Girokonto notiert Gerda eine Frage an die Beispielbank. Der Eintrag zeigt, dass eine Frage offen ist.",
+       "en": "On her current account Gerda notes a question for the Beispielbank. The entry shows that a question is open."
+      },
+      "belege": [
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Am Girokonto notiert sie eine Frage an die Beispielbank"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Der Eintrag zeigt, dass eine Frage offen ist"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "On her current account she notes a question for the Beispielbank"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "The entry shows that a question is open"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": {
+     "de": "Blätter",
+     "en": "Sheets"
+    },
+    "schritte": [
+     {
+      "rolle": "person",
+      "titel": {
+       "de": "Blatt für die Apotheke",
+       "en": "Sheet for the pharmacy"
+      },
+      "satz": {
+       "de": "Die Medikation kommt nur auf das Blatt für die Apotheke, wenn Gerda sie mitgibt. Das Blatt trägt die Frage an die Apotheke, nicht die Frage an die Bank.",
+       "en": "The medication only goes on the sheet for the pharmacy if Gerda includes it. The sheet carries the question for the pharmacy, not the question for the bank."
+      },
+      "belege": [
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "die Medikation kommt nur auf das Blatt für die Apotheke, wenn Gerda sie mitgibt"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "die Frage an die Apotheke, nicht die Frage an die Bank"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "the medication only goes on the sheet for the pharmacy if Gerda includes it"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "the question for the pharmacy, not the question for the bank"
+       }
+      ]
+     },
+     {
+      "rolle": "person",
+      "titel": {
+       "de": "Blatt für die Bank",
+       "en": "Sheet for the bank"
+      },
+      "satz": {
+       "de": "Für das Gespräch bei der Bank nimmt Gerda ein Blatt mit, das ihr Girokonto und die Frage an die Bank trägt. Ihre Medikation steht nicht darauf.",
+       "en": "For the conversation at the bank Gerda takes a sheet that carries her current account and the question for the bank. Her medication is not on it."
+      },
+      "belege": [
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Für das Gespräch nimmt sie ein Blatt mit, das ihr Girokonto und die Frage an die Bank trägt"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Ihre Medikation steht nicht darauf"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "For the conversation she takes a sheet that carries her current account and the question for the bank"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Her medication is not on it"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": {
+     "de": "Antworten",
+     "en": "Answers"
+    },
+    "schritte": [
+     {
+      "rolle": "person",
+      "titel": {
+       "de": "Antwort eintragen",
+       "en": "Entering the answer"
+      },
+      "satz": {
+       "de": "Nach dem Gespräch trägt Gerda die Antwort ein, mit Quelle und Datum. Fehlt eines davon, lässt sich die Antwort nicht speichern.",
+       "en": "After the conversation Gerda enters the answer, with source and date. If either is missing, the answer cannot be saved."
+      },
+      "belege": [
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Nach dem Gespräch trägt Gerda die Antwort ein, mit Quelle und Datum"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Fehlt eines davon, lässt sich die Antwort nicht speichern"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "After the conversation Gerda enters the answer, with source and date"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "If either is missing, the answer cannot be saved"
+       }
+      ]
+     },
+     {
+      "rolle": "person",
+      "titel": {
+       "de": "Nutzen",
+       "en": "Benefits"
+      },
+      "satz": {
+       "de": "Gerda geht vorbereitet in beide Gespräche, und jedes Gegenüber bekommt ein eigenes Blatt. Die Antworten bleiben mit Quelle und Datum bei ihr.",
+       "en": "Gerda goes into both conversations prepared, and each side gets its own sheet. The answers stay with her, with source and date."
+      },
+      "belege": [
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Gerda geht vorbereitet hinein"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "jedes Gegenüber bekommt ein eigenes Blatt"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "die Antworten bleiben mit Quelle und Datum bei ihr"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "Gerda goes in prepared"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "each side gets its own sheet"
+       },
+       {
+        "pfad": "tools/demo-szenarien/fragen-am-eintrag.json",
+        "zitat": "the answers stay with her, with source and date"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "schritte": [
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "uebersicht",
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Gerdas Depot",
+    "en": "Gerda's depot"
+   },
+   "text": {
+    "de": "Gerda Mustermann hat diese Woche zwei Termine: in ihrer Apotheke und bei ihrer Bank. Sie bereitet beide in ihrem Depot vor.",
+    "en": "Gerda Mustermann has two appointments this week: at her pharmacy and at her bank. She prepares both in her depot."
+   }
+  },
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "bereich",
+   "ziel": "health",
+   "anker": "feld:health.medicationOngoing",
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Eine Frage zur Medikation",
+    "en": "A question about medication"
+   },
+   "text": {
+    "de": "Ihre Medikation stammt aus dem Plan ihrer Hausarztpraxis. Daran notiert sie eine Frage an die Apotheke: ob sie zum Blutverdünner Ibuprofen nehmen darf.",
+    "en": "Her medication comes from her GP practice's plan. On it she notes a question for the pharmacy: whether she may take ibuprofen with her blood thinner."
+   }
+  },
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "gespraechsblatt",
+   "ziel": "freigabe",
+   "adressat": "apotheke",
+   "freigabe": [
+    "health.medicationOngoing"
+   ],
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Medikation freigeben",
+    "en": "Release the medication"
+   },
+   "text": {
+    "de": "Die Medikation ist besonders geschützt. Vor dem Blatt fragt die Übersicht, was mitgeht; die Medikation kommt nur auf das Blatt für die Apotheke, wenn Gerda sie mitgibt.",
+    "en": "The medication is specially protected. Before the sheet, the overview asks what goes along; the medication only goes on the sheet for the pharmacy if Gerda includes it."
+   }
+  },
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "gespraechsblatt",
+   "adressat": "apotheke",
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Blatt für die Apotheke",
+    "en": "Sheet for the pharmacy"
+   },
+   "text": {
+    "de": "Das Blatt für die Apotheke trägt die Medikation und die Frage an die Apotheke, nicht die Frage an die Bank.",
+    "en": "The sheet for the pharmacy carries the medication and the question for the pharmacy, not the question for the bank."
+   },
+   "freigabe": [
+    "health.medicationOngoing"
+   ]
+  },
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "bereich",
+   "ziel": "finance",
+   "anker": "feld:finance.accounts",
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Eine Frage am Konto",
+    "en": "A question on the account"
+   },
+   "text": {
+    "de": "Am Girokonto notiert sie eine Frage an die Beispielbank. Der Eintrag zeigt, dass eine Frage offen ist.",
+    "en": "On her current account she notes a question for the Beispielbank. The entry shows that a question is open."
+   }
+  },
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "gespraechsblatt",
+   "adressat": "bank",
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Blatt für die Bank",
+    "en": "Sheet for the bank"
+   },
+   "text": {
+    "de": "Für das Gespräch nimmt sie ein Blatt mit, das ihr Girokonto und die Frage an die Bank trägt. Ihre Medikation steht nicht darauf.",
+    "en": "For the conversation she takes a sheet that carries her current account and the question for the bank. Her medication is not on it."
+   }
+  },
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "frage",
+   "ziel": "antworten",
+   "feld": "health.medicationOngoing",
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Die Antwort eintragen",
+    "en": "Entering the answer"
+   },
+   "text": {
+    "de": "Nach dem Gespräch trägt Gerda die Antwort ein, mit Quelle und Datum. Fehlt eines davon, lässt sich die Antwort nicht speichern.",
+    "en": "After the conversation Gerda enters the answer, with source and date. If either is missing, the answer cannot be saved."
+   }
+  },
+  {
+   "seite": "app",
+   "beispiel": "gerda",
+   "ansicht": "schluss",
+   "rolle": {
+    "art": "person",
+    "text": {
+     "de": "Sie sind jetzt: Gerda Mustermann",
+     "en": "You are now: Gerda Mustermann"
+    }
+   },
+   "titel": {
+    "de": "Nutzen",
+    "en": "Benefits"
+   },
+   "text": {
+    "de": "Zwei Gespräche, ein Muster: Gerda geht vorbereitet hinein, jedes Gegenüber bekommt ein eigenes Blatt mit den Fragen an es, und die Antworten bleiben mit Quelle und Datum bei ihr.",
+    "en": "Two conversations, one pattern: Gerda goes in prepared, each side gets its own sheet with the questions for it, and the answers stay with her, with source and date."
+   }
+  }
+ ]
+}

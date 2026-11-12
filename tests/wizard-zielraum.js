@@ -13,6 +13,13 @@
                                  ──
                                  69 Schritte, 7 Wizards, 4 Formen
 
+   Nachgemessen 07.11.2026 (C14, Assistenten-Urteil W03/W04: anamwiz gestrichen,
+   gebwiz nur noch drei Schritte zum Kind mit Ziel { sektor: people }):
+     { sektor }                  57 Schritte  pvwiz, gebwiz, pflwiz, heirwiz, umzwiz
+     { sektor, liste, instrument} 12 Schritte  kiwiz
+   { situation } und { sektor, liste, unterfeld } haben keinen echten Träger mehr;
+   sie bleiben in ZIELFORMEN, weil `wizardZielSetzen` sie weiter dispatcht.
+
    ── WARUM DIESES MODUL EXISTIERT ───────────────────────────────────────────
    Weil das Wissen „es sind vier" schon zweimal an je EINER Stelle stand und
    die andere blind blieb. `wertAmZiel` (A51) kannte alle vier; `ohneWegNachVorn`

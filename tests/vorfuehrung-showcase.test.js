@@ -64,7 +64,8 @@ test('[Ab Werk] Vorschau ohne Vorführung: Download führt weiter zum Passwort (
   assert.equal(k.V.imVorfuehrung(), false);
   const weg = await k.V.dateiAusgeben({ type: 'application/json', text: async () => '{}' }, 'x.json', 'application/json');
   assert.equal(weg, 'vorschau');
-  assert.match(modal(k), /modal-logo/, 'der Passwort-Dialog öffnet sich wie bisher');
+  // Seit dem Rückbau des Vorschau-Passwortwegs (07.11.2026) ist der Passwort-Dialog der Umschau „Depot anlegen“ mit Namen.
+  assert.match(modal(k), /id="id-vorname"[\s\S]*id="id-pw"/, 'der Anlege-Dialog öffnet sich, mit Name und Passwort');
 });
 
 test('[Ab Werk·Rot-Beweis] die Freigabe der geschützten Angaben greift nie außerhalb der Vorführung — echtes Depot und Vorschau bekommen kein Bündel', async () => {
@@ -202,8 +203,9 @@ test('[Gebacken] Sperren: Passwort setzen, Übernehmen, Depot anlegen, Modul-Ein
   const { V } = k;
   V.booteEingang();
   V.vorfuehrungSchleifeBeenden();
-  for (const [name, aufruf] of [['flowPasswortSetzen', () => V.flowPasswortSetzen()],
-    ['flowVorschauUebernehmen', () => V.flowVorschauUebernehmen()],
+  // Passwort setzen und Übernehmen laufen seit dem Rückbau des Vorschau-Passwortwegs (07.11.2026) über die Tore der Umschau in
+  // flowDepotAnlegen; geprüft werden darum das Sichern in die Datei (es ruft den Anlege-Weg ohne Warten) und das Anlegen selbst.
+  for (const [name, aufruf] of [['depotInDateiSichern', () => V.depotInDateiSichern()],
     ['flowDepotAnlegen', () => V.flowDepotAnlegen()]]) {
     k.document.getElementById('modal-inhalt').innerHTML = '';
     aufruf();

@@ -14,7 +14,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-const HELFER = /\bpdfMarke(KopfZeichnen|FussAufAllenSeiten)\(/;
+const HELFER = /\b(?:pdfMarke(?:KopfZeichnen|FussAufAllenSeiten)|pdfKopfZeichnen)\(/;   // pdfKopfZeichnen: der Rahmen der Ausgaben (Zielbild S6), liest _pdfMarke
 
 // Funktionsrümpfe des Kerns: Name → Text (top-level `function`/`async function` bis zur nächsten Zeile `}`).
 function rumpfe(quelle) {

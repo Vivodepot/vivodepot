@@ -27,6 +27,13 @@ async function depotMitFremdemModul() {
   return JSON.parse(JSON.stringify(await Q.depotSerialisieren()));
 }
 
+/* Der Text des Moduls (fussQuellcode) steht seit 03.11.2026 nicht mehr in einer festen Fußleiste, sondern auf der Seite „Über und Hinweise“:
+   dort wird gemessen, ob er wirkt — sonst wäre „nicht enthalten“ auch ohne Sperre erfüllt. */
+async function ueberSeite(page) {
+  await page.evaluate(() => document.querySelector('[data-ueber-hinweise]').click());
+  await expect(page.locator('.ueber-hinweise')).toBeVisible();
+}
+
 async function fremdeDateiOeffnen(page) {
   const umschlag = await depotMitFremdemModul();
   await oeffneApp(page);
@@ -72,6 +79,7 @@ test('[Sperre·E2E·Weg 2] ohne Wahl wirkt das Modul einer geöffneten Depot-Dat
   await expect(kaestchen).not.toBeChecked();
   await page.locator('#m-zweit').click();   // „Ohne diese Erweiterungen öffnen“
   await expect(page.locator('#erweiterung-wahl-liste')).toHaveCount(0);
+  await ueberSeite(page);
   await expect(page.locator('body')).not.toContainText('FREMD-E2E');
   await page.evaluate(() => window.__vdOeffentlich.flowEinstellungen());
   await expect(page.locator('body')).toContainText('nicht verwendet');
@@ -82,5 +90,6 @@ test('[Sperre·E2E·Weg 2·gewählt] das angekreuzte Modul wirkt nach „Auswahl
   await page.locator('input.erweiterung-wahl').check();
   await page.locator('#m-ok').click();   // „Auswahl übernehmen“
   await expect(page.locator('#erweiterung-wahl-liste')).toHaveCount(0);
+  await ueberSeite(page);
   await expect(page.locator('body')).toContainText('FREMD-E2E');
 });

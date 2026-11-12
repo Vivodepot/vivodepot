@@ -57,6 +57,7 @@ async function depotEinrichten(seite) {
   await seite.waitForTimeout(400);
   await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
   await seite.waitForTimeout(400);
+  if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'],
     ['#id-pw', PW], ['#id-pw2', PW]]) await seite.fill(sel, wert, { timeout: 5000 });
   await seite.evaluate(() => {
@@ -89,7 +90,8 @@ async function dialogSchliessen(seite) {
     await seite.evaluate(() => {
       const b = document.querySelector('#modal-inhalt #m-zweit')
         || document.querySelector('#modal-inhalt #m-abbr')
-        || document.querySelector('#modal-inhalt #m-ok');
+        || document.querySelector('#modal-inhalt #m-ok')
+        || document.querySelector('#modal-inhalt #m-x');
       if (b) b.click();
     });
     await seite.waitForTimeout(400);
@@ -203,7 +205,8 @@ test('[Landmarks·Positivkontrolle] ohne role="dialog" wird der Dialog wieder ge
     // #nfb-angebot jetzt umschließt, nicht mehr am inneren #nfb-angebot selbst.
     // Seit S2 (31.10.2026) steht nach dem Anlegen Schritt 2 mit dem Code offen: axe meldet seine Teile einzeln (Titel, Satz,
     // Code, Feld mit Beschriftung, Hinweis neben „Später einrichten“) statt des Blatt-Angebots.
-    assert.ok(funde.every((f) => /modal-titel|modal-inhalt|modal-koerper|nfb-angebot|whc-angebot|whc-code|whc-kontrolle|m-zweit-hinweis| → label$/.test(f)),
+    // Seit C02 (03.11.2026) steht vor dem Abtippen die Überschrift „Code abtippen“ (#whc-abtippen-titel); sie gehört zum Dialog.
+    assert.ok(funde.every((f) => /modal-titel|modal-inhalt|modal-koerper|nfb-angebot|whc-angebot|whc-code|whc-abtippen-titel|whc-kontrolle|m-zweit-hinweis| → label$/.test(f)),
       'gemeldet werden muss der DIALOG, nicht irgendetwas:\n  ' + funde.join('\n  '));
     const ohneTitel = SEKTOREN.filter((s) => !funde.includes(s + ' → #modal-titel'));
     assert.deepEqual(ohneTitel, [], 'je Bereich mindestens die Ueberschrift des Dialogs: ' + ohneTitel.join(', '));

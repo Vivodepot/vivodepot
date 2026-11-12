@@ -42,6 +42,7 @@ for (const sprache of ['de', 'en']) {
         await p.click('#start-module');
         expect(await p.locator('#dlg-module .dlg-kopf').innerText()).not.toMatch(DEUTSCH);
         for (const k of ['anf', 'vb', 'kv', 'ia', 'bm', 'rr', 'fm', 'bd']) {
+          await p.click('#mod-gruppen [data-mods~="' + k + '"]');   // seit Studio-Umbau Wagen 1: erst die Gruppe, dann die Kachel
           await p.click('#mod-kacheln [data-mod="' + k + '"]');
           const text = await p.locator('#' + k + '-block').evaluate((n) => { const c = n.cloneNode(true); c.querySelectorAll('#anf-treffer,#anf-gewaehlt').forEach((x) => x.remove()); return c.innerText; });
           expect(text, 'Baustein ' + k).not.toMatch(DEUTSCH);
@@ -207,7 +208,7 @@ test.describe('T-CROSS-30 Eingang · 375 px', () => {
     await p.goto(H.URLS.generator);
     await p.waitForSelector('#raum-eingang .eingang-kachel', { state: 'visible' });
     const kacheln = await kachelnMessen(p);
-    expect(kacheln.length).toBe(6);
+    expect(kacheln.length).toBe(7);
     expect(kachelBefunde(kacheln)).toEqual([]);
     // Die Kachel ohne Zusatzzeile ist niedriger als die alte Mindesthöhe: das Kompakte kommt auf dem Telefon an.
     expect(kacheln.find((k) => k.id === 'ein-anfrage').hoehe).toBeLessThan(KACHEL_HOCH);

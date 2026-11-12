@@ -75,6 +75,8 @@ aufgehoben:
   `share.vivodepot.de`, eigene Seite, der Kern lädt nie selbst hoch).
 - **Empfangen:** die Abhol-Seite (`share/empfangen.html`, Nachtrag in U2-ADR-183) löst einen fremden
   `shlink:/` auf; die Einlese-Tür des Kerns verweist auf sie.
+  Seit dem 02.11.2026 liest die Einlese-Tür den Link auch selbst ein: die Abhol-Seite holt nur das Chiffrat, der Kern
+  entschlüsselt (Nachtrag 02.11.2026 in U2-ADR-183).
 
 **Was von dieser ADR weiter gilt:** „bidirektional" im Sinn eines server-vermittelten Austauschs
 bleibt falsch. Es gibt keinen Rückkanal und keinen Vivodepot-Server, der Inhalte kennt; beide

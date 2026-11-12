@@ -7,6 +7,7 @@
    Jede Probe trägt `todo`, solange der Weg offen ist: sie ist heute rot und hält die Suite nicht auf. Wer den Weg
    behebt, nimmt im selben Commit das `todo` und den Eintrag in `OHNE_ERGEBNISOBJEKT` heraus.
 
+   A6 und A8 sind gebaut (07.11.2026); ihre Proben tragen kein todo mehr. A6 öffnet nur lesend, siehe die Proben unten.
    Eigentümer der Fixe: der Kern-Strang des Imports. A6 zuerst, weil dort ein halb gehobener Stand eingelesen wird
    und beim nächsten Speichern Daten verloren gehen können.
 
@@ -30,23 +31,27 @@ const { ladeKern } = require('./load-kern.js');
 const KERN_PFAD = path.join(__dirname, '..', 'vivodepot.html');
 const PW = 'zz-probe-offene-Wege-Passwort-4';
 const SUB_PW = 'zz-probe-offene-Wege-Sub-Passwort-4';
-const TODO_A6 = 'IMPORT-VERWIRFT-OHNE-ANZEIGE A6 (Datenverlust): offen, Eigentümer Kern-Strang des Imports';
 
 /* ── Der mutierte Kern für A6 ─────────────────────────────────────────── */
 const NORMALISIEREN_KOPF = 'function depotNormalisieren(d) {';
 const MARKE_WIRFT = " if (d && d.zzProbeMigrationWirft) throw new Error('zz-probe: die Migration wirft');";
-let _mutiert = null;
-function mutierterKernPfad() {
-  if (_mutiert) return _mutiert;
+const _mutiert = new Map();
+/* `aendern` (nur für den Rot-Beweis): nimmt den Kerntext und gibt ihn verändert zurück, bevor die Marke eingesetzt wird. */
+function mutierterKernPfad(aendern) {
+  const schluessel = aendern ? aendern.name || 'geaendert' : 'heute';
+  if (_mutiert.has(schluessel)) return _mutiert.get(schluessel);
   const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
   if (quelle.split(NORMALISIEREN_KOPF).length !== 2) throw new Error('der Kopf von depotNormalisieren steht nicht genau einmal im Kern');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'import-offene-wege-'));
   process.on('exit', () => { try { fs.rmSync(dir, { recursive: true, force: true }); } catch (_) { /* aufräumen */ } });
-  _mutiert = path.join(dir, 'migration-wirft.html');
-  fs.writeFileSync(_mutiert, quelle.replace(NORMALISIEREN_KOPF, NORMALISIEREN_KOPF + MARKE_WIRFT));
-  return _mutiert;
+  const pfad = path.join(dir, 'migration-wirft.html');
+  fs.writeFileSync(pfad, (aendern ? aendern(quelle) : quelle).replace(NORMALISIEREN_KOPF, NORMALISIEREN_KOPF + MARKE_WIRFT));
+  _mutiert.set(schluessel, pfad);
+  return pfad;
 }
-const mutierterKern = () => ladeKern({ htmlPfad: mutierterKernPfad(), backen: true }).V;
+const mutierterKern = (aendern) => ladeKern({ htmlPfad: mutierterKernPfad(aendern), backen: true }).V;
+const { ohneZurueckholen } = require('./import-a6-helfer.js');
+const NUR_LESEN = (e) => e && e.code === 'migration-fehler-nur-lesen';
 const altInhaltMitMarke = () => ({ schemaVersion: 80, zzProbeMigrationWirft: true,
   sektoren: { identitaet: { vorname: 'Hedwig' } }, menschen: [], institutionen: [] });
 
@@ -70,47 +75,103 @@ test('[Offene Wege·A6·Gegenprobe] im mutierten Kern wirft die Migration genau 
   assert.doesNotThrow(() => V.depotNormalisieren(ohne));
 });
 
-test('[Offene Wege·A6·Voll-Depot] wirft die Migration, übernimmt das Einlesen nichts und nennt einen Grund', { todo: TODO_A6 }, () => {
-  const V = mutierterKern();
+/* A6 ist gebaut (Commit 1ebfcf6d1, „fix(import): ein Wurf der Migration liest den halb gehobenen Stand nicht mehr still ein
+   (A6)“; Plan und Entscheidung vom 07.11.2026, interner Bericht). Gebaut wurde: Datei und Sub öffnen
+   den Stand vor der Migration NUR LESEND, mit dem Grund migration-fehler; „Ganzes Depot“ lehnt mit diesem Grund ab. Die
+   drei Proben halten genau das; der Rot-Beweis nimmt das Zurückholen aus _migrationVersuchen heraus
+   (tests/import-a6-helfer.js#ohneZurueckholen, wie in tests/import-a6-migrationswurf.test.js). */
+async function a6VollDepot(V) {
   const text = JSON.stringify({ _typ: 'vivodepot-klartext-export', depot: altInhaltMitMarke() });
-  const r = V.IMPORT_FORMAT_BY_ID.json.parse(text);
-  assert.ok(r && typeof r.abgewiesen === 'string' && r.abgewiesen, 'ein Grund statt eines halb gehobenen Stands: ' + JSON.stringify(r && Object.keys(r)));
-  assert.equal((r.felder || []).length, 0, 'keine Felder aus dem halb gehobenen Stand');
-});
-
-test('[Offene Wege·A6·Depot-Datei] wirft die Migration, öffnet die Datei nicht und nennt einen Grund', { todo: TODO_A6 }, async () => {
+  return grundVon(() => V.IMPORT_FORMAT_BY_ID.json.parse(text));
+}
+async function a6DepotDatei(V) {
   const A = mutierterKern();
   await A.depotAnlegen(PW);
+  const personId = A.personHinzufuegen({ name: 'Hedwig Probe', birthDate: '1940-01-01' });
   A.setData(Object.assign(A.getData(), { schemaVersion: 80, zzProbeMigrationWirft: true }));
   const umschlag = JSON.parse(JSON.stringify(await A.depotSerialisieren()));
-  const V = mutierterKern();
-  const { grund } = await grundVon(() => V.depotLaden(umschlag, PW));
-  assert.ok(grund, 'depotLaden nennt eine Kennung, statt den halb gehobenen Stand zu öffnen');
-  assert.notEqual(V.oeffnenAbweisungText({ code: grund }), V.STRINGS.entsperrPasswortFalsch, 'und die Kennung heißt nicht falsches Passwort');
-});
-
-test('[Offene Wege·A6·Sub betreten] wirft die Migration, wird das Sub nicht betreten und ein Grund genannt', { todo: TODO_A6 }, async () => {
-  const V = mutierterKern();
+  await V.depotLaden(umschlag, PW);
+  return personId;
+}
+async function a6SubBetreten(V) {
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Tochter Probe');
   const umschlag = await V.subDepotVersiegeln(altInhaltMitMarke(), SUB_PW);
   const e = V.subDepotEinhaengen(V.depotDateiAusUmschlag(umschlag), { bezeichnung: 'Hedwig', inhaberin: 'Hedwig Probe' });
   await V.subDepotVertrauenOeffnen(e.depotUUID, SUB_PW);
-  const { grund } = await grundVon(() => V.subKontextBetreten(e.depotUUID));
-  assert.ok(grund, 'subKontextBetreten nennt eine Kennung');
-  assert.equal(V.imSubKontext(), false, 'der halb gehobene Stand wird nicht betreten');
+  V.subKontextBetreten(e.depotUUID);
+}
+
+test('[Offene Wege·A6·Voll-Depot] wirft die Migration, übernimmt das Einlesen nichts und nennt den Grund migration-fehler', async () => {
+  const { grund, r } = await a6VollDepot(mutierterKern());
+  assert.equal(grund, 'migration-fehler', 'ein Grund statt eines halb gehobenen Stands: ' + JSON.stringify(r && Object.keys(r)));
+  assert.equal((r.felder || []).length, 0, 'keine Felder aus dem halb gehobenen Stand');
 });
 
-test('[Offene Wege·A4] ein Voll-Depot aus einer neueren Fassung wird mit Grund abgewiesen, keine Felder', { todo: 'IMPORT-VERWIRFT-OHNE-ANZEIGE A4: offen, Eigentümer Kern-Strang des Imports' }, () => {
+test('[Offene Wege·A6·Depot-Datei] wirft die Migration, öffnet die Datei nur lesend und nennt den Grund migration-fehler', async () => {
+  const V = mutierterKern();
+  const personId = await a6DepotDatei(V);
+  assert.equal(V.migrationFehlerErgebnis().grund, 'migration-fehler');
+  assert.equal(V.getData().zzProbeMigrationWirft, true, 'es gilt der Stand vor der Migration');
+  assert.equal(V.neuereFassungNurLesen(), true, 'nur lesend');
+  assert.throws(() => V.personAktualisieren(personId, { birthDate: '1960-01-01' }), NUR_LESEN);
+  assert.ok(V.STRINGS.migrationFehlerNurLesenText && V.STRINGS.migrationFehlerNurLesenText !== V.STRINGS.entsperrPasswortFalsch,
+    'der Hinweis hat einen eigenen Satz, nicht den für ein falsches Passwort');
+});
+
+test('[Offene Wege·A6·Sub betreten] wirft die Migration, ist das Sub nur lesend und der Grund migration-fehler genannt', async () => {
+  const V = mutierterKern();
+  await a6SubBetreten(V);
+  assert.equal(V.migrationFehlerErgebnis().grund, 'migration-fehler');
+  assert.equal(V.neuereFassungNurLesen(), true, 'im Sub liest der Kern nur');
+  assert.throws(() => V.sektorFeldSetzen('identity', 'givenName', 'Ada'), NUR_LESEN);
+});
+
+test('[Offene Wege·A6·Rot-Beweis] ohne das Zurückholen in _migrationVersuchen nennt keiner der drei Wege einen Grund', async () => {
+  const voll = await a6VollDepot(mutierterKern(ohneZurueckholen));
+  assert.notEqual(voll.grund, 'migration-fehler', '„Ganzes Depot“ liest die Datei ein');
+  const D = mutierterKern(ohneZurueckholen);
+  await a6DepotDatei(D);
+  assert.equal(D.migrationFehlerErgebnis(), null, 'die Datei öffnet ohne Ergebnis eines Wurfs');
+  assert.equal(D.neuereFassungNurLesen(), false, 'und beschreibbar');
+  const S = mutierterKern(ohneZurueckholen);
+  await a6SubBetreten(S);
+  assert.equal(S.migrationFehlerErgebnis(), null, 'das Sub ohne Ergebnis eines Wurfs');
+  assert.equal(S.neuereFassungNurLesen(), false, 'und beschreibbar');
+});
+
+test('[Offene Wege·A4] ein Voll-Depot aus einer neueren Fassung wird mit Grund abgewiesen, keine Felder', () => {
   const { V } = ladeKern();
   const text = JSON.stringify({ _typ: 'vivodepot-klartext-export',
     depot: { schemaVersion: V.SCHEMA_VERSION_AKTUELL + 1, sektoren: { identity: { givenName: 'ZZ-Probe' } }, menschen: [] } });
   const r = V.IMPORT_FORMAT_BY_ID.json.parse(text);
   assert.ok(r && typeof r.abgewiesen === 'string' && r.abgewiesen, 'ein Grund „zu neu“: ' + JSON.stringify(r && Object.keys(r)));
   assert.equal((r.felder || []).length, 0);
+  // Die Person liest den Satz „zu neu“, nicht „ungültig“: der Plan trägt den Grund, die Meldung folgt ihm.
+  const plan = V.importPlan('json', text);
+  assert.equal(plan.ungueltig, true);
+  assert.equal(V.importUngueltigNachricht(plan), V.STRINGS.importZuNeu);
+  assert.equal(V.importAnzeigeModell('voll-depot-json', plan).zuNeu, true);
 });
 
-test('[Offene Wege·A5] eine nicht übernommene FHIR-Ressource steht als verworfen im Ergebnis', { todo: 'IMPORT-VERWIRFT-OHNE-ANZEIGE A5: offen, Eigentümer Kern-Strang des Imports' }, () => {
+test('[Offene Wege·A4·Rot-Beweis] ohne das Tor liest der Einleser die Felder der neueren Fassung', () => {
+  const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
+  const TOR = "  if (typeof d.schemaVersion === 'number' && d.schemaVersion > SCHEMA_VERSION_AKTUELL) return { abgewiesen: 'depot-zu-neu' };\n";
+  assert.equal(quelle.split(TOR).length, 2, 'das Tor steht genau einmal im Kern');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'offene-wege-a4-'));
+  try {
+    const pfad = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(pfad, quelle.replace(TOR, ''));
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true });
+    const text = JSON.stringify({ _typ: 'vivodepot-klartext-export',
+      depot: { schemaVersion: V.SCHEMA_VERSION_AKTUELL + 1, sektoren: { identity: { givenName: 'ZZ-Probe' } }, menschen: [] } });
+    const r = V.IMPORT_FORMAT_BY_ID.json.parse(text);
+    assert.equal(r && r.abgewiesen, undefined, 'ohne Tor kein Grund');
+    assert.ok((r.felder || []).length > 0, 'ohne Tor werden Felder übernommen');
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('[Offene Wege·A5] eine nicht übernommene FHIR-Ressource steht als verworfen im Ergebnis', () => {
   const { V } = ladeKern();
   const bundle = { resourceType: 'Bundle', type: 'document', entry: [
     { resource: { resourceType: 'Patient', name: [{ family: 'Probe', given: ['Zora'] }] } },
@@ -121,6 +182,35 @@ test('[Offene Wege·A5] eine nicht übernommene FHIR-Ressource steht als verworf
   const verworfen = Array.isArray(r.verworfene) ? r.verworfene : [];
   assert.ok(verworfen.some((v) => v && /Device/.test(String(v.name || v.was || '')) && typeof v.grund === 'string'),
     'die Ressource Device steht mit Grund unter verworfene: ' + JSON.stringify(r.verworfene));
+  assert.ok(!verworfen.some((v) => v && v.name === 'Patient'), 'der gelesene Patient steht nicht unter verworfene');
+});
+
+test('[Offene Wege·A5·Gründe] zweiter Patient, Eintrag ohne Text und der Aufbau des Dokuments', () => {
+  const { V } = ladeKern();
+  const bundle = { resourceType: 'Bundle', type: 'document', entry: [
+    { resource: { resourceType: 'Composition', title: 'zz-probe' } },
+    { resource: { resourceType: 'Patient', name: [{ family: 'Probe', given: ['Zora'] }] } },
+    { resource: { resourceType: 'Patient', name: [{ family: 'Probe', given: ['Zweit'] }] } },
+    { resource: { resourceType: 'Condition', code: {} } },
+    { resource: { resourceType: 'Device' } }, { resource: { resourceType: 'Device' } },
+  ] };
+  const r = V.IMPORT_FORMAT_BY_ID['fhir-ips'].parse(JSON.stringify(bundle));
+  const kurz = r.verworfene.map((v) => v.name + ':' + v.grund + ':' + v.anzahl).sort();
+  assert.deepEqual(kurz, ['Condition:ohne-text:1', 'Device:ressource-nicht-gelesen:2', 'Patient:weiterer-patient:1']);
+});
+
+test('[Offene Wege·A5·Rot-Beweis] mit dem früheren Einleser stünde nichts unter verworfene', () => {
+  const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
+  const NEU = "return { angenommen: felder.length > 0, felder, verworfene: _fhirIpsVerworfene(o) }; } },";
+  assert.equal(quelle.split(NEU).length, 2, 'die Rückgabe steht genau einmal im Kern');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'offene-wege-a5-'));
+  try {
+    const pfad = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(pfad, quelle.replace(NEU, 'return { felder }; } },'));
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true });
+    const r = V.IMPORT_FORMAT_BY_ID['fhir-ips'].parse(JSON.stringify({ resourceType: 'Bundle', entry: [{ resource: { resourceType: 'Device' } }] }));
+    assert.equal(r.verworfene, undefined);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
 /* A8: der drop-Listener steht anonym in booteEingang. Die Probe nimmt seinen Text aus dem Kern und ruft ihn mit
@@ -136,12 +226,28 @@ function dropListener(quelle) {
   }
   return quelle.slice(a + "ov.addEventListener('drop', ".length, i + 1);
 }
+/* Die Helfer, die der Listener ruft, kommen wörtlich aus dem Kern (seit A8); fehlt einer, bleibt der Listener ohne sie. */
+function kernTeil(quelle, kopf) {
+  const a = quelle.indexOf(kopf);
+  if (a < 0) return '';
+  if (kopf.startsWith('const ')) return quelle.slice(a, quelle.indexOf('\n', a) + 1);
+  let tiefe = 0, i = quelle.indexOf('{', a);
+  for (; i < quelle.length; i++) {
+    if (quelle[i] === '{') tiefe++;
+    else if (quelle[i] === '}' && --tiefe === 0) break;
+  }
+  return quelle.slice(a, i + 1) + '\n';
+}
 function dropAufzeichnen(quelle, name) {
   const gerufen = [];
   const rec = (was) => (...a) => { gerufen.push(was); return a[0]; };
   const ui = { toast: rec('ui.toast'), meldung: rec('ui.meldung') };
-  const fn = new Function('renderCryptoOverlay', 'zeigeFehler', 'ui', 'vorDepotText', 'STRINGS', 'return ' + dropListener(quelle))(
-    rec('renderCryptoOverlay'), rec('zeigeFehler'), ui, (k) => k, new Proxy({}, { get: (_, k) => String(k) }));
+  const helfer = ['const DATEI_OEFFNEN_MIT_ENDUNG', 'function dateiOeffnenMitPruefen(', 'function dateiOeffnenMitUebergeben(']
+    .map((k) => kernTeil(quelle, k)).join('');
+  const fn = new Function('renderCryptoOverlay', 'zeigeFehler', 'ui', 'vorDepotText', 'STRINGS', 'importAnzeigeZeigen', 'importAnzeigeText', 'importAnzeigeModell',
+    helfer + 'return ' + dropListener(quelle))(
+    rec('renderCryptoOverlay'), rec('zeigeFehler'), ui, (k) => k, new Proxy({}, { get: (_, k) => String(k) }),
+    rec('importAnzeigeZeigen'), () => 'zz-probe-text', (art, erg) => erg);
   fn({ preventDefault() {}, dataTransfer: { files: [{ name }] } });
   return gerufen;
 }
@@ -150,12 +256,21 @@ test('[Offene Wege·A8·Gegenprobe] der drop-Listener wird aus dem Kern gelesen 
   assert.deepEqual(dropAufzeichnen(fs.readFileSync(KERN_PFAD, 'utf8'), 'zz-probe.vivodepot'), ['renderCryptoOverlay']);
 });
 
-test('[Offene Wege·A8] eine fallengelassene Datei mit anderer Endung ergibt eine Meldung', { todo: 'IMPORT-VERWIRFT-OHNE-ANZEIGE A8: offen, Eigentümer Kern-Strang des Imports' }, () => {
+test('[Offene Wege·A8] eine fallengelassene Datei mit anderer Endung ergibt eine Meldung', () => {
   const gerufen = dropAufzeichnen(fs.readFileSync(KERN_PFAD, 'utf8'), 'zz-probe-notiz.txt');
   assert.ok(gerufen.some((g) => g !== 'renderCryptoOverlay'), 'eine Meldung statt Stille: ' + JSON.stringify(gerufen));
+  assert.ok(!gerufen.includes('renderCryptoOverlay'), 'die Datei wird nicht als Depot geöffnet');
 });
 
-test('[Offene Wege·Einhängen] ein ungültiger Umschlag ergibt einen Grund als Kennung statt Freitext', { todo: 'IMPORT-VERWIRFT-OHNE-ANZEIGE sub-depot-einhaengen: offen, Eigentümer Kern-Strang des Imports' }, async () => {
+test('[Offene Wege·A8·Rot-Beweis] mit dem früheren Listener bliebe die fallengelassene Datei ohne Meldung', () => {
+  const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
+  const NEU = "          if (!f) return;\n          const zeigen = () => renderCryptoOverlay(f);\n          // A8: eine Datei mit anderer Endung wird genannt, nicht still übergangen.\n          dateiOeffnenMitUebergeben(dateiOeffnenMitPruefen(f), zeigen);\n";
+  const ALT = "          if (f && /\\.(vivodepot|json)$/i.test(f.name || '')) renderCryptoOverlay(f);\n";
+  assert.equal(quelle.split(NEU).length, 2, 'der heutige Listener steht genau einmal im Kern');
+  assert.deepEqual(dropAufzeichnen(quelle.replace(NEU, ALT), 'zz-probe-notiz.txt'), []);
+});
+
+test('[Offene Wege·Einhängen] ein ungültiger Umschlag ergibt einen Grund als Kennung statt Freitext', async () => {
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Tochter Probe');
@@ -165,6 +280,36 @@ test('[Offene Wege·Einhängen] ein ungültiger Umschlag ergibt einen Grund als 
   assert.equal((V.getData().verwalteteDepots || []).length, vorher, 'Gegenprobe: nichts eingehängt');
   assert.ok(wurf || grund, 'Gegenprobe: der Weg weist ab');
   assert.ok(grund, 'eine Kennung, nicht nur: ' + String(wurf && wurf.message));
+  assert.equal(grund, 'krypto-fassung', 'ein Umschlag einer fremden Krypto-Fassung');
+});
+
+test('[Offene Wege·Einhängen·Gründe] kein Umschlag, eine verletzte Form und ein schon verwaltetes Depot', async () => {
+  const { V } = ladeKern();
+  await V.depotAnlegen(PW);
+  V.akteurSelbstErklaeren('Tochter Probe');
+  const gut = V.depotDateiAusUmschlag(await V.subDepotVersiegeln({ sektoren: {} }, SUB_PW));
+  const kaputt = Object.assign({}, gut, { depotUUID: 'zz-probe-keine-uuid' });
+  assert.equal((await grundVon(() => V.subDepotEinhaengen({ zz: 'probe' }, { bezeichnung: 'X', inhaberin: 'X' }))).grund, 'keine-depot-datei');
+  assert.equal((await grundVon(() => V.pruefeBlackboxUmschlag(kaputt))).grund, 'umschlag-form');
+  V.subDepotEinhaengen(gut, { bezeichnung: 'X', inhaberin: 'X' });
+  assert.equal((await grundVon(() => V.subDepotEinhaengen(gut, { bezeichnung: 'Y', inhaberin: 'Y' }))).grund, 'bereits-verwaltet');
+});
+
+test('[Offene Wege·Einhängen·Rot-Beweis] ohne Kennung am Wurf bliebe nur der Text', async () => {
+  const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
+  const KENNUNG = '  e.code = code;\n  return e;\n';
+  assert.equal(quelle.split(KENNUNG).length, 2, 'die Kennung wird an genau einer Stelle gesetzt');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'offene-wege-einh-'));
+  try {
+    const pfad = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(pfad, quelle.replace(KENNUNG, '  return e;\n'));
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true });
+    await V.depotAnlegen(PW);
+    V.akteurSelbstErklaeren('Tochter Probe');
+    const { grund, wurf } = await grundVon(() => V.subDepotEinhaengen({ zz: 'probe' }, { bezeichnung: 'X', inhaberin: 'X' }));
+    assert.ok(wurf, 'der Weg weist weiter ab');
+    assert.equal(grund, null);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
 /* Autoritatives Dokument (Wort vom 04.11.2026, HOCH im selben Befund): importAutoritativDokument liefert null oder die
@@ -193,12 +338,27 @@ test('[Offene Wege·Autoritativ·Gegenprobe] die Eigenprobe wird als autoritativ
   assert.ok(V.importAutoritativDokument(HDR_TEXT()), 'der Weg geht auf');
 });
 
-test('[Offene Wege·Autoritativ] ein abgelegtes Dokument heißt angenommen, eine Abweisung nennt ihren Grund', { todo: 'IMPORT-VERWIRFT-OHNE-ANZEIGE autoritatives-dokument (HOCH): offen, Eigentümer Kern-Strang des Imports' }, async () => {
+test('[Offene Wege·Autoritativ] ein abgelegtes Dokument heißt angenommen, eine Abweisung nennt ihren Grund', async () => {
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
   const aus = falschGelesen(V.importAnzeigeModell('autoritatives-dokument', V.importAutoritativDokument(HDR_TEXT())), true)
     .concat(falschGelesen(V.importAnzeigeModell('autoritatives-dokument', V.importAutoritativDokument('{ zz-probe kein json')), false));
   assert.deepEqual(aus, []);
+  assert.equal(V.importAnzeigeModell('autoritatives-dokument', null).abgewiesen, 'nicht-erkannt');
+});
+
+test('[Offene Wege·Autoritativ·Rot-Beweis am Kern] ohne die Lesart hieße ein abgelegtes Dokument „kein Ergebnis“', async () => {
+  const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
+  const LESART = "  if (art === 'autoritatives-dokument' && (typeof ergebnis === 'string' || ergebnis === null)) {\n";
+  assert.equal(quelle.split(LESART).length, 2, 'die Lesart steht genau einmal im Kern');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'offene-wege-autoritativ-'));
+  try {
+    const pfad = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(pfad, quelle.replace(LESART, "  if (false) {\n"));
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true });
+    await V.depotAnlegen(PW);
+    assert.ok(falschGelesen(V.importAnzeigeModell('autoritatives-dokument', V.importAutoritativDokument(HDR_TEXT())), true).length > 0);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
 /* b16-migration (Wort vom 04.11.2026, HOCH im selben Befund): Plan und Anwende-Ergebnis tragen weder ok noch grund. */
@@ -214,7 +374,7 @@ test('[Offene Wege·B16·Gegenprobe] eine Beta-Datei ergibt einen gültigen Plan
   assert.ok(V.importAnwenden(plan, {}), 'das Anwenden liefert ein Ergebnis');
 });
 
-test('[Offene Wege·B16] eine übernommene Beta-Datei heißt angenommen, eine unlesbare nennt ihren Grund', { todo: 'IMPORT-VERWIRFT-OHNE-ANZEIGE b16-migration (HOCH): offen, Eigentümer Kern-Strang des Imports' }, async () => {
+test('[Offene Wege·B16] eine übernommene Beta-Datei heißt angenommen, eine unlesbare nennt ihren Grund', async () => {
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Probe');
@@ -223,4 +383,21 @@ test('[Offene Wege·B16] eine übernommene Beta-Datei heißt angenommen, eine un
     .concat(falschGelesen(V.importAnzeigeModell('b16-migration', V.importAnwenden(plan, {})), true))
     .concat(falschGelesen(V.importAnzeigeModell('b16-migration', V.importPlan('vivodepot-beta', '{ zz-probe kein json')), false));
   assert.deepEqual(aus, []);
+});
+
+test('[Offene Wege·B16·Rot-Beweis am Kern] ohne die Lesart hieße eine übernommene Beta-Datei abgewiesen', async () => {
+  const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
+  const LESART = "  } else if (art === 'b16-migration' && (typeof e.gesetzt === 'number' || (Array.isArray(e.zeilen) && typeof e.ungueltig === 'boolean'))) {\n";
+  assert.equal(quelle.split(LESART).length, 2, 'die Lesart steht genau einmal im Kern');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'offene-wege-b16-'));
+  try {
+    const pfad = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(pfad, quelle.replace(LESART, "  } else if (false) {\n"));
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true });
+    await V.depotAnlegen(PW);
+    V.akteurSelbstErklaeren('Probe');
+    const plan = V.importPlan('vivodepot-beta', BETA_TEXT);
+    assert.ok(falschGelesen(V.importAnzeigeModell('b16-migration', plan), true).length > 0);
+    assert.ok(falschGelesen(V.importAnzeigeModell('b16-migration', V.importAnwenden(plan, {})), true).length > 0);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

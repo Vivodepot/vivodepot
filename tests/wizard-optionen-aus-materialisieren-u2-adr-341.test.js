@@ -68,7 +68,8 @@ function mitVarianteKern(transformieren, lauf) {
   const original = _standardProduktBaken(rohOriginal);
   const tmp = path.join(os.tmpdir(),
     'u2-adr-336-varianten-kern-' + process.pid + '-' + Date.now() + '.html');
-  fs.writeFileSync(tmp, transformieren(original), 'utf8');
+  // Jede Variante trägt den Träger, den die Probe selbst einsetzt (s. mitTraeger, 07.11.2026).
+  fs.writeFileSync(tmp, transformieren(mitTraeger(original)), 'utf8');
   const zuvor = process.env.KERN_HTML_PATH;
   process.env.KERN_HTML_PATH = tmp;
   try {
@@ -81,6 +82,28 @@ function mitVarianteKern(transformieren, lauf) {
     assert.equal(fs.readFileSync(KERN_PFAD, 'utf8'), rohOriginal, 'das Original ist unberührt');
   }
 }
+
+/* TRÄGER (07.11.2026, Assistenten-Urteil W03): der Geburts-Assistent fragt nur noch nach dem Kind, `geburt_kind_kv` war der letzte
+   Träger von `optionenAus` und ist mit ihm gegangen. Der Mechanismus bleibt (U2-ADR-341), seine Probe auch: sie setzt den Träger
+   selbst in die gebackene Quelle der Assistenten ein, als ersten Schritt von gebwiz, genau so, wie er vorher dort stand. */
+// Die Frage kam bis C14 aus dem Textsatz (wizard:gebwiz.geburt_kind_kv.frage); ein Schritt ohne Frage ist kein Schritt
+// (erstePartieWizardSchritteDefsPruefen), darum trägt der eingesetzte Träger sie selbst.
+const TRAEGER_SCHRITT = { frage: 'Wie ist das Kind krankenversichert?', feld: { id: 'geburt_kind_kv', typ: 'auswahl', optionenAus: { situation: 'geburt', feld: 'geburt_kind_kv' } } };
+function mitTraeger(html) {
+  const startMarker = '/* AB_WERK_WIZARD_QUELLEN:BEGIN */\nconst AB_WERK_WIZARD_QUELLEN = ';
+  const i = html.indexOf(startMarker);
+  assert.ok(i >= 0, 'Anker AB_WERK_WIZARD_QUELLEN:BEGIN nicht gefunden');
+  const start = i + startMarker.length;
+  const j = html.indexOf(';\n/* AB_WERK_WIZARD_QUELLEN:END */', start);
+  assert.ok(j > start, 'Ende der AB_WERK_WIZARD_QUELLEN-Region nicht gefunden');
+  const quellen = JSON.parse(html.slice(start, j));
+  const mod = quellen.find((q) => q && q.wizards && q.wizards.gebwiz);
+  assert.ok(mod, 'Vorbedingung: die Quelle trägt gebwiz');
+  assert.ok(!JSON.stringify(quellen).includes('"optionenAus"'), 'Vorbedingung: ohne die Probe trägt keine Quelle mehr optionenAus');
+  mod.wizards.gebwiz.schritte.unshift(TRAEGER_SCHRITT);
+  return html.slice(0, start) + JSON.stringify(quellen) + html.slice(j);
+}
+function mitTraegerKern(lauf) { return mitVarianteKern((html) => html, lauf); }
 
 function geburtOptionen(V) {
   const gebwiz = V.WIZARDS.find((w) => w.id === 'gebwiz');
@@ -108,13 +131,21 @@ function ladeVonPfad(pfad) {
 }
 
 test('[U2-ADR-341] Ausgangszustand: optionenAus löst korrekt auf, Auswahl trägt drei Werte', () => {
+  mitTraegerKern(({ V }) => {
+    const feld = geburtOptionen(V);
+    assert.equal(feld.optionenAus.situation, 'geburt');
+    assert.equal(feld.optionenAus.feld, 'geburt_kind_kv');
+    assert.ok(Array.isArray(feld.optionen), 'optionen ist nach dem Boot ein echtes Array');
+    assert.equal(feld.optionen.length, 3);
+    assert.ok(feld.optionen.every((o) => typeof o.wert === 'string' && typeof o.label === 'string'));
+  });
+});
+
+test('[U2-ADR-341 · ohne Träger] die echte Quelle trägt kein optionenAus mehr: der Kern lädt, der Durchlauf findet null und wirft nicht', () => {
   const { V } = require('./load-kern.js').ladeKern();
-  const feld = geburtOptionen(V);
-  assert.equal(feld.optionenAus.situation, 'geburt');
-  assert.equal(feld.optionenAus.feld, 'geburt_kind_kv');
-  assert.ok(Array.isArray(feld.optionen), 'optionen ist nach dem Boot ein echtes Array');
-  assert.equal(feld.optionen.length, 3);
-  assert.ok(feld.optionen.every((o) => typeof o.wert === 'string' && typeof o.label === 'string'));
+  assert.equal(V._WIZARD_OPTIONEN_AUS_MATERIALISIERT.gefundenSituation, 0, 'kein Träger in der echten Quelle');
+  assert.ok(V._WIZARD_OPTIONEN_AUS_MATERIALISIERT.gefundenKatalog > 0, 'der Katalog-Zweig findet weiter seine Verweise');
+  assert.equal(V.WIZARDS.find((w) => w.id === 'gebwiz').schritte.length, 3, 'Vorbedingung: gebwiz mit drei Schritten');
 });
 
 test('[U2-ADR-341] Materialisierung meldet Ausbeute — mindestens ein Feld gefunden und materialisiert', () => {
@@ -146,10 +177,12 @@ test('[U2-ADR-341 · Rot-Beweis 1] A1b real vollzogen: Optionen byte-gleich zum 
   const baseline = JSON.stringify(geburtOptionen(alt).optionen);
   assert.equal(alt.SITUATIONEN.length, 10, 'Vorbedingung: der alte Kern trägt den vollen nativen Bestand');
 
-  const neu = ladeVonPfad(null);   // der aktuelle Arbeitsbaum — A1b real vollzogen
-  assert.equal(neu.SITUATIONEN.find((s) => s.id === 'geburt') && true, true,
-    'Vorbedingung: geburt entsteht nach A1b real aus dem Bündel (nicht mehr nativ)');
-  const jetzt = JSON.stringify(geburtOptionen(neu).optionen);
+  // Der aktuelle Arbeitsbaum, mit dem Träger, den die Probe selbst einsetzt (s. mitTraeger).
+  const jetzt = mitTraegerKern(({ V: neu }) => {
+    assert.equal(neu.SITUATIONEN.find((s) => s.id === 'geburt') && true, true,
+      'Vorbedingung: geburt entsteht nach A1b real aus dem Bündel (nicht mehr nativ)');
+    return JSON.stringify(geburtOptionen(neu).optionen);
+  });
   assert.equal(jetzt, baseline,
     'nach dem echten Umzug (nativer Block leer, Inhalt nur im Bündel) müssen die '
     + 'materialisierten Optionen byte-gleich zum Stand vor A1b sein');
@@ -192,7 +225,8 @@ test('[U2-ADR-341 · Rot-Beweis 3] der Materialisierungs-Durchlauf ausgebaut —
       // s. Kopf-Kommentar am Aufruf im Kern): das Argument prüft seither zusätzlich
       // `_WIZARD_AB_WERK_GESAET`, nicht mehr nur `_BUERGERMODUL_BUENDEL_BERICHT.wizards > 0`.
       const anker = 'const _WIZARD_OPTIONEN_AUS_MATERIALISIERT = _wizardOptionenAusMaterialisieren(\n'
-        + '  (_WIZARD_AB_WERK_GESAET && _WIZARD_AB_WERK_GESAET.length > 0) || _BUERGERMODUL_BUENDEL_BERICHT.wizards > 0);';
+        + '  (_WIZARD_AB_WERK_GESAET && _WIZARD_AB_WERK_GESAET.length > 0) || _BUERGERMODUL_BUENDEL_BERICHT.wizards > 0,\n'
+        + '  _wizardQuelleTraegtOptionenAus());';   // seit C14 (07.11.2026, Weg a) mit der Vorbedingung als zweitem Argument
       assert.equal(html.split(anker).length - 1, 1, 'Vorbedingung: der Aufruf-Anker kommt genau einmal vor');
       return html.replace(anker, '// U2-ADR-341-ROT-BEWEIS-3: Aufruf ausgebaut');
     },
@@ -206,24 +240,26 @@ test('[U2-ADR-341 · Rot-Beweis 3] der Materialisierungs-Durchlauf ausgebaut —
   );
 });
 
-test('[U2-ADR-341 · Gegenprobe] Auflage 2: findet der Durchlauf keinen einzigen Verweis, wirft er', () => {
+test('[U2-ADR-341 · Gegenprobe] Auflage 2: trägt die Quelle einen Verweis und der Durchlauf findet keinen, wirft er', () => {
   /* Der Wurf passiert bereits BEIM LADEN, innerhalb von `ladeKern()` selbst — `mitVarianteKern`
-     muss darum insgesamt als werfend erwartet werden, nicht ihr `lauf`-Rückgabewert geprüft. */
+     muss darum insgesamt als werfend erwartet werden, nicht ihr `lauf`-Rückgabewert geprüft.
+     Seit 07.11.2026 (Weg a): die Quelle trägt den Verweis (der Träger der Probe), aber der Kern liest ihn unter einem
+     anderen Namen — der verfehlte Anker, den Auflage 2 fangen soll. */
   assert.throws(() => {
     mitVarianteKern(
       (html) => {
-        // Anker nachgezogen 06.09.2026 (U2-ADR-346/A2, WIZARDS-Umzug ins Bündel): `geburt_kind_kv`
-        // lebt seither als kompaktes JSON im eingebetteten Bündel, nicht mehr als pretty-printed
-        // JS-Literal — derselbe Bruch wie beim SEKTOREN-/SITUATIONEN-Umzug (w1-betrag-ohne-zahl,
-        // w7-frist-ohne-datum, 22.08./06.09.2026).
-        const anker = '"optionenAus":{"situation":"geburt","feld":"geburt_kind_kv"}';
-        assert.equal(html.split(anker).length - 1, 1, 'Vorbedingung: der einzige optionenAus-Verweis im Kern');
-        return html.replace(anker, '"optionen":[]');
+        const anker = 'if (feld && feld.optionenAus) {';
+        assert.equal(html.split(anker).length - 1, 1, 'Vorbedingung: die Lesestelle im Durchlauf steht genau einmal im Kern');
+        return html.replace(anker, 'if (feld && feld.optionenAusUmbenannt) {');
       },
       ({ V }) => V,
     );
   }, /found zero fields with optionenAus/,
-  'der letzte optionenAus-Verweis ist entfernt — der Durchlauf muss beim Laden werfen, nicht still durchlaufen');
+  'die Quelle trägt optionenAus, der Durchlauf liest daran vorbei — er muss beim Laden werfen, nicht still durchlaufen');
+});
+
+test('[U2-ADR-341 · Gegenprobe · Weg a] trägt die Quelle keinen Verweis, wirft derselbe Durchlauf nicht', () => {
+  assert.doesNotThrow(() => require('./load-kern.js').ladeKern(), 'der echte Kern ohne Träger lädt');
 });
 
 test('[U2-ADR-346-Nachtrag] Auflage 2 neu gefasst: OHNE wizards-tragendes Bündel bleibt gefunden===0 ein getragener Boot-Zustand, kein Fund', () => {

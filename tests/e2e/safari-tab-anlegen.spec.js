@@ -31,8 +31,9 @@ test('[Safari-Tab] iOS im Tab: „Depot anlegen“ bietet zuerst das Anlegen in 
   await anlegenBisDialog(page);
   await expect(page.locator('#modal-rueck.an #safari-app-anlegen')).toBeVisible();
   await page.locator('#modal-rueck.an button', { hasText: /Im Browser anlegen/ }).click();
-  await expect(page.locator('#modal-rueck.an #id-pw')).toBeVisible();
+  await expect(page.locator('#modal-rueck.an #id-vorname')).toBeVisible();
   await page.fill('#id-vorname', 'Erika'); await page.fill('#id-nachname', 'Probe');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', PW); await page.fill('#id-pw2', PW);
   await page.click('#m-ok');
   await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen')).toBeVisible({ timeout: 15000 });
@@ -41,9 +42,10 @@ test('[Safari-Tab] iOS im Tab: „Depot anlegen“ bietet zuerst das Anlegen in 
 test('[Safari-Tab·Gegenprobe] ohne WebKit-Signal: kein App-Angebot, kein Datei-Schritt (U2-ADR-244 unverändert)', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await anlegenBisDialog(page);
-  await expect(page.locator('#modal-rueck.an #id-pw')).toBeVisible();
+  await expect(page.locator('#modal-rueck.an #id-vorname')).toBeVisible();
   await expect(page.locator('#safari-app-anlegen')).toHaveCount(0);
   await page.fill('#id-vorname', 'Erika'); await page.fill('#id-nachname', 'Probe');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', PW); await page.fill('#id-pw2', PW);
   await page.click('#m-ok');
   await page.waitForSelector('#tb-pw-hinweis', { state: 'hidden' });
@@ -77,8 +79,9 @@ for (const slug of ['privat-de', 'privat-en', 'pro-de', 'pro-en']) {
     await h.oeffneApp(page, { url: ADRESSE });
     await bytesAttrappe(page);
     await page.click('#w-anlegen');
-    await expect(page.locator('#modal-rueck.an #id-pw')).toBeVisible();
+    await expect(page.locator('#modal-rueck.an #id-vorname')).toBeVisible();
     await page.fill('#id-vorname', 'Erika'); await page.fill('#id-nachname', 'Probe');
+    if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await page.fill('#id-pw', PW); await page.fill('#id-pw2', PW);
     await page.click('#m-ok');
     await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen')).toBeVisible({ timeout: 15000 });

@@ -844,7 +844,7 @@
     try { text = new TextDecoder('utf-8', { fatal: true }).decode(d.daten); } catch (_) { return; }
     if (!C.passtZurArt(text, art, d.daten.byteLength)) return;
     auftragGenommen = true;
-    auftrag = { id: d.id, art: art, bis: d.bis, text: text, quelle: e.source, herkunft: e.origin, gezeigt: Date.now(),
+    auftrag = { id: d.id, art: art, bis: d.bis, text: text, laenge: d.daten.byteLength, quelle: e.source, herkunft: e.origin, gezeigt: Date.now(),
       ersetzen: ersetzt ? { adresse: d.adresse, etag: d.etag, ablauf: nachtrag ? d.ablauf : null } : null, kind: kindErst ? { stelle: d.stelle, ablauf: d.ablauf } : null };
     kern = { id: d.id, quelle: e.source, herkunft: e.origin, bis: d.bis };
     vorab = auftragVorab();
@@ -861,6 +861,44 @@
     if (kindErst) { $('stelle').value = d.stelle; $('stelle').readOnly = true; }
     $('stelle-bereich').hidden = art !== 'stelle' || ersetzt;
     $('auftrag').hidden = false;
+  }
+
+  /* Rückprobe der eigenen Sicherung (Nachtrag zu U2-ADR-512, Rückprobe): Nach „abgelegt“ liest die Brücke die eben gemeldete Adresse
+     und gibt dem Fenster, das den Auftrag gab, die Bytes in einer eigenen Nachricht zurück. Nur Art eigen. Gezählt wird beim Lesen:
+     Mehr als die gesendete Bytezahl wird nicht gehalten, beim ersten überzähligen Byte bricht das Lesen ab. Content-Length ist nur
+     Vorfilter. Jeder Fehler wird zur Angabe aus der festen Liste und sagt nichts über die Kopie. */
+  function zurueckLesen(adresse, laenge) {
+    return A.podFetch(adresse, { method: 'GET', cache: 'no-store', headers: { Accept: 'application/octet-stream' } }).then(function (r) {
+      if (!r || !r.ok) return { fehler: 'status' };
+      var angabe = r.headers && r.headers.get ? r.headers.get('content-length') : null;
+      if (angabe !== null && angabe !== '' && Number(angabe) > laenge) {
+        if (r.body && r.body.cancel) { try { r.body.cancel(); } catch (_) { /* das Ergebnis steht schon fest */ } }
+        return { fehler: 'groesse' };
+      }
+      if (!r.body || typeof r.body.getReader !== 'function') return { fehler: 'form' };
+      var leser = r.body.getReader(), puffer = new Uint8Array(laenge), n = 0;
+      function weiter() {
+        return leser.read().then(function (s) {
+          if (s.done) return null;
+          if (n + s.value.length > laenge) return Promise.resolve(leser.cancel()).catch(function () {}).then(function () { return { fehler: 'groesse' }; });
+          puffer.set(s.value, n); n += s.value.length;
+          return weiter();
+        });
+      }
+      return weiter().then(function (abbruch) {
+        if (abbruch) return abbruch;
+        var daten = puffer.slice(0, n), text;
+        try { text = new TextDecoder('utf-8', { fatal: true }).decode(daten); } catch (_) { return { fehler: 'form' }; }
+        if (!C.passtZurArt(text, 'eigen', n)) return { fehler: 'form' };
+        return { daten: daten.buffer };
+      });
+    }).catch(function () { return { fehler: 'netz' }; });
+  }
+  function zurueckGeben(a, adresse, an) {
+    return zurueckLesen(adresse, a.laenge).then(function (erg) {
+      if (erg.daten) a.quelle.postMessage({ typ: 'vd-pod-zurueck', fassung: 1, id: a.id, daten: erg.daten }, an, [erg.daten]);
+      else a.quelle.postMessage({ typ: 'vd-pod-zurueck', fassung: 1, id: a.id, fehler: erg.fehler }, an);
+    });
   }
 
   function auftragAusfuehren() {
@@ -882,7 +920,8 @@
         a.quelle.postMessage(mitEtag ? { typ: 'vd-pod-abgelegt', fassung: 1, id: a.id, adresse: adresse, etag: erg.etag }
           : { typ: 'vd-pod-abgelegt', fassung: 1, id: a.id, adresse: adresse }, an);
         kern = null;   // nach der Antwort beantwortet der Kern keine Bitte mehr
-        return verzeichnisZeigen();
+        var eigeneSicherung = a.art === 'eigen' && !a.ersetzen && !a.kind;
+        return (eigeneSicherung ? zurueckGeben(a, adresse, an) : Promise.resolve()).then(verzeichnisZeigen);
       })
       .catch(function (x) {
         fehler(x.message);

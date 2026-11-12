@@ -676,7 +676,7 @@
     {
       "kennung": "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_name",
       "datensatz": "semic-core-vocabularies",
-      "ziel": "http://purl.org/dc/terms/title",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
       "grad": "naeherung"
@@ -692,7 +692,7 @@
     {
       "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern/tpl_name",
       "datensatz": "semic-core-vocabularies",
-      "ziel": "http://purl.org/dc/terms/title",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
       "grad": "naeherung"
@@ -932,7 +932,7 @@
     {
       "kennung": "pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_name",
       "datensatz": "semic-core-vocabularies",
-      "ziel": "http://purl.org/dc/terms/title",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
       "grad": "naeherung"
@@ -1050,5 +1050,8 @@
       "grad": "naeherung"
     }
   ],
-  "fimNamenFreigabe": null
+  "fimNamenFreigabe": {
+    "datum": "2026-11-04",
+    "beleg": "Auskunft der FITKO (Telefonat 04.11.2026), Entscheidung der Inhaberin 08.11.2026 (U2-ADR-456, Nachtrag 08.11.2026)"
+  }
 }

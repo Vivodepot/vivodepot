@@ -50,8 +50,9 @@ async function ankerFenster(page) {
   await h.oeffneApp(page, { url: h.KERN_URL_PRIVAT_DE });
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
-  const karte = page.locator('#content details summary').first();
-  if (await karte.count()) await karte.click();
+  // Rot-Beweis: die Erwartung beschrieb die frühere Gestalt (alle Karten offen, ein Klick auf die erste Kopfzeile öffnete sie nicht, sondern
+  // schloss sie jetzt: die ersten Gruppenkarten stehen ab Werk offen, der Rest zu). Geöffnet wird, was zu ist, nie umgeschaltet.
+  await h.feldgruppenKartenOeffnen(page);
   await page.locator('#content [data-umschau-eintragen][data-umschau-feld]').first().click();
   await expect(page.locator('#modal-rueck [data-anlegen-grund]')).toBeVisible();
 }

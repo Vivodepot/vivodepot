@@ -35,8 +35,8 @@ test('[A320] im Bereich steht die Eingabe UND sie schreibt', async ({ page }) =>
   expect(await page.evaluate((s) => !!document.querySelector(s).onchange, selVon),
     'sie ist verdrahtet').toBe(true);
 
-  await page.locator(selVon).fill('2021-05-04');
-  await page.locator(selVon).dispatchEvent('change');
+  // Das Datum steht in drei Feldern; datumSetzen füllt Tag, Monat und Jahr und meldet beim Verlassen ein „change“ am versteckten Feld mit dem Bezug.
+  await datumSetzen(page, selVon, '2021-05-04');
   const nachVon = await page.evaluate(() => JSON.parse(JSON.stringify(window.__vdOeffentlich.ankerDaten().feldGueltigkeit || {})));
   expect(nachVon.mobility && nachVon.mobility.passportValidUntil, 'der Wert ist angekommen')
     .toEqual({ von: '2021-05-04' });

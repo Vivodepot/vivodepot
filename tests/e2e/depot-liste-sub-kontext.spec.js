@@ -21,6 +21,7 @@ async function subKontextPerUiBetreten(page, { vorname, pw }) {
   await page.click('#sub-neu');
   await page.waitForSelector('#id-vorname', { state: 'visible' });
   await page.fill('#id-vorname', vorname);
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', pw);
   await page.fill('#id-pw2', pw);
   await page.click('#m-ok');

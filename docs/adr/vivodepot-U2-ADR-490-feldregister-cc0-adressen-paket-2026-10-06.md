@@ -108,8 +108,10 @@ konformitaet:
       Unter den Adressen einer Stichprobe (erste Kennung, ein Unterfeld, letzte) liefert der Webspace Seite und JSON-LD.
     zustand: offen
     herkunft: U2-ADR-490 (06.10.2026)
-    frist: 2026-11-08
+    frist: 2026-11-27
     bedingung: >-
       Das Register ist mit feld/ ausgeliefert (eigenes Wort der Gegenlesung vor dem ersten Ausliefern) und
-      der Aufruf eines nicht öffentlichen Werkzeugs ist grün.
+      der Aufruf eines nicht öffentlichen Werkzeugs ist grün. Die Frist stand auf 2026-11-08 und wurde am
+      2026-11-09 auf 2026-11-27 gesetzt, weil die Auslieferung von feld/ und der Aufruf des nicht öffentlichen
+      Werkzeugs nicht belegt sind.
 ```

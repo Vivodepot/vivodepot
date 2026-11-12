@@ -101,10 +101,15 @@ test('[U2-ADR-306] "als waere nichts gewesen" — gebwiz: jeder sichtbare Schrit
   }
 });
 
-test('[U2-ADR-306·E2] alle sieben nativen Wizards: byte-identischer erster Schritt, null Verwerfungen', async () => {
+test('[U2-ADR-306·E2] alle nativen Wizards: byte-identischer erster Schritt, null Verwerfungen', async () => {
   const kSonde = await ladeKern();
-  const alleWizardIds = kSonde.V.WIZARD_IDS_EINGEBAUT;
-  assert.equal(alleWizardIds.length, 7, 'Vorbedingung: sieben native Wizards');
+  // C14 (Assistenten-Urteil W03/W04, 07.11.2026): anamwiz ist gestrichen, seine ID bleibt in
+  // WIZARD_IDS_EINGEBAUT reserviert — geprüft werden die sechs, die es gibt.
+  assert.equal(kSonde.V.WIZARD_IDS_EINGEBAUT.length, 7, 'Vorbedingung: sieben eingebaute IDs, eine davon reserviert');
+  const alleWizardIds = kSonde.V.WIZARD_IDS_EINGEBAUT.filter((id) => kSonde.V.WIZARD_BY_ID[id]);
+  assert.deepEqual(Array.from(kSonde.V.WIZARD_IDS_EINGEBAUT.filter((id) => !kSonde.V.WIZARD_BY_ID[id])), ['anamwiz'],
+    'Vorbedingung: nur anamwiz ist reserviert ohne Assistenten');
+  assert.equal(alleWizardIds.length, 6, 'Vorbedingung: sechs native Wizards');
 
   const abweichungen = [];
   for (const wizardId of alleWizardIds) {
@@ -135,7 +140,7 @@ test('[U2-ADR-306·E2·ROT-BEWEIS] die Sonde selbst findet einen echten Untersch
   const kern = await frischMitDepot('e2-rot-gekuerzt');
   const alle = bauModuleDefsAusNativ(kern.V, 'gebwiz');
   assert.ok(alle.length > 0, 'Vorbedingung: gebwiz hat wirklich Schritte, sonst ist ein Weglassen bedeutungslos');
-  const gekuerzt = alle.filter((d) => d.feldId !== 'geburt_klinik');
+  const gekuerzt = alle.filter((d) => d.feldId !== 'guidedBirthEntryChildsNameNot');
   assert.equal(gekuerzt.length, alle.length - 1, 'Vorbedingung: genau ein Schritt weniger');
   const ergebnis = kern.V.buergermodulWizardErsetzen('gebwiz', gekuerzt);
   assert.equal(ergebnis.verworfen.length, 0, 'Vorbedingung: kein Verwerfen, nur ein weggelassener Schritt');
@@ -150,47 +155,60 @@ test('[U2-ADR-306·E2·ROT-BEWEIS] die Sonde selbst findet einen echten Untersch
   assert.notEqual(htmlGekuerzt, htmlVoll, 'ein wirklich fehlender erster Schritt muss die Sammelprobe faerben — tut er das nicht, ist sie blind');
 });
 
+// C14 (Assistenten-Urteil W03/W04, 07.11.2026): kein Assistenten-Schritt trägt mehr sensibel:true oder
+// codeListe (vorher geburt_urkunde und anamwiz.chronicConditionsDiagnoses). Die Eigenschaft kommt darum
+// zuerst über denselben Ladeweg hinein; das zweite Ersetzen ohne sie ist die eigentliche Probe.
+function eigenschaftUeberLadewegSetzen(V, wizardId, feldId, schluessel, wert) {
+  const defs = bauModuleDefsAusNativ(V, wizardId).map((d) => (d.feldId === feldId
+    ? Object.assign({}, d, { feld: Object.assign({}, d.feld, { [schluessel]: wert }) }) : d));
+  assert.equal(V.buergermodulWizardErsetzen(wizardId, defs).verworfen.length, 0);
+}
+
 test('[U2-ADR-306·Identität·ROT] sensibel:true verschwindet, wenn das Modul es nicht mehr trägt — Überschreiben allein reicht nicht', async () => {
   const kern = await ladeKern();
   assert.ok(kern.V.WIZARD_BY_ID.gebwiz.schritte.length > 0, 'Vorbedingung: gebwiz hat wirklich Schritte');
-  assert.equal(kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'geburt_urkunde').feld.sensibel, true,
-    'Vorbedingung: das native Feld traegt sensibel:true, bevor ersetzt wird');
+  eigenschaftUeberLadewegSetzen(kern.V, 'gebwiz', 'guidedBirthEntryChildsNameNot', 'sensibel', true);
+  assert.equal(kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'guidedBirthEntryChildsNameNot').feld.sensibel, true,
+    'Vorbedingung: das Feld traegt sensibel:true, bevor ersetzt wird');
   const defs = bauModuleDefsAusNativ(kern.V, 'gebwiz').map((d) => {
-    if (d.feldId !== 'geburt_urkunde') return d;
+    if (d.feldId !== 'guidedBirthEntryChildsNameNot') return d;
     const feld = Object.assign({}, d.feld);
     delete feld.sensibel;
     return Object.assign({}, d, { feld });
   });
   const ergebnis = kern.V.buergermodulWizardErsetzen('gebwiz', defs);
   assert.equal(ergebnis.verworfen.length, 0);
-  const nachher = kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'geburt_urkunde').feld;
+  const nachher = kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'guidedBirthEntryChildsNameNot').feld;
   assert.equal(nachher.sensibel, undefined,
     'sensibel:true darf nicht stehen bleiben, nur weil das alte Feld-Objekt es einmal trug — die Eigenschaft muss verschwinden');
 });
 
-test('[U2-ADR-306·Identität·ROT] codeListe verschwindet, wenn das Modul es nicht mehr trägt (anamwiz.krankheiten, echtes Beispiel)', async () => {
+test('[U2-ADR-306·Identität·ROT] codeListe verschwindet, wenn das Modul es nicht mehr trägt', async () => {
   const kern = await ladeKern();
-  assert.ok(kern.V.WIZARD_BY_ID.anamwiz.schritte.length > 0, 'Vorbedingung: anamwiz hat wirklich Schritte');
-  assert.equal(kern.V.WIZARD_BY_ID.anamwiz.schritte.find((s) => s.feld.id === 'chronicConditionsDiagnoses').feld.codeListe, 'icd10',
-    'Vorbedingung: das native Feld traegt codeListe:icd10, bevor ersetzt wird');
-  const defs = bauModuleDefsAusNativ(kern.V, 'anamwiz').map((d) => {
-    if (d.feldId !== 'chronicConditionsDiagnoses') return d;
+  assert.ok(!kern.V.WIZARDS.some((w) => w.schritte.some((s) => s.feld && s.feld.codeListe)),
+    'Vorbedingung (C14): kein nativer Assistenten-Schritt trägt eine codeListe — die Eigenschaft kommt über den Ladeweg');
+  assert.ok(kern.V.WIZARD_BY_ID.pflwiz.schritte.length > 0, 'Vorbedingung: pflwiz hat wirklich Schritte');
+  eigenschaftUeberLadewegSetzen(kern.V, 'pflwiz', 'careLevel', 'codeListe', 'icd10');
+  assert.equal(kern.V.WIZARD_BY_ID.pflwiz.schritte.find((s) => s.feld.id === 'careLevel').feld.codeListe, 'icd10',
+    'Vorbedingung: das Feld traegt codeListe:icd10, bevor ersetzt wird');
+  const defs = bauModuleDefsAusNativ(kern.V, 'pflwiz').map((d) => {
+    if (d.feldId !== 'careLevel') return d;
     const feld = Object.assign({}, d.feld);
     delete feld.codeListe;
     return Object.assign({}, d, { feld });
   });
-  const ergebnis = kern.V.buergermodulWizardErsetzen('anamwiz', defs);
+  const ergebnis = kern.V.buergermodulWizardErsetzen('pflwiz', defs);
   assert.equal(ergebnis.verworfen.length, 0);
-  const nachher = kern.V.WIZARD_BY_ID.anamwiz.schritte.find((s) => s.feld.id === 'chronicConditionsDiagnoses').feld;
+  const nachher = kern.V.WIZARD_BY_ID.pflwiz.schritte.find((s) => s.feld.id === 'careLevel').feld;
   assert.equal(nachher.codeListe, undefined,
     'codeListe darf nicht stehen bleiben, nur weil das alte Feld-Objekt sie einmal trug — die Eigenschaft muss verschwinden');
 });
 
 test('[U2-ADR-306·Identität] das Feld-Objekt selbst bleibt dieselbe Referenz — kein Neubau', async () => {
   const kern = await ladeKern();
-  const vorher = kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'geburt_hebamme').feld;
+  const vorher = kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'guidedBirthEntryDateOfBirthNot').feld;
   kern.V.buergermodulWizardErsetzen('gebwiz', bauModuleDefsAusNativ(kern.V, 'gebwiz'));
-  const nachher = kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'geburt_hebamme').feld;
+  const nachher = kern.V.WIZARD_BY_ID.gebwiz.schritte.find((s) => s.feld.id === 'guidedBirthEntryDateOfBirthNot').feld;
   assert.equal(nachher, vorher, 'ein Aufrufer, der VOR dem Ersetzen eine Feld-Referenz genommen hat, darf danach nicht ins Leere zeigen');
 });
 
@@ -221,9 +239,9 @@ test('[U2-ADR-306·Sicherheit] ein Modul, das ein FREMDES natives Feld (aus eine
 
 test('[U2-ADR-306·Sicherheit] ein Schritt ohne frage wird strukturell abgelehnt — ein Schritt ohne Frage ist fuer den Assistenten kein Schritt', async () => {
   const kern = await ladeKern();
-  const defs = bauModuleDefsAusNativ(kern.V, 'gebwiz').map((d) => (d.feldId === 'geburt_klinik' ? Object.assign({}, d, { frage: '' }) : d));
+  const defs = bauModuleDefsAusNativ(kern.V, 'gebwiz').map((d) => (d.feldId === 'guidedBirthEntryChildsNameNot' ? Object.assign({}, d, { frage: '' }) : d));
   const ergebnis = kern.V.buergermodulWizardErsetzen('gebwiz', defs);
-  assert.ok(ergebnis.verworfen.some((v) => v.name === 'geburt_klinik' && v.grund === 'form'));
+  assert.ok(ergebnis.verworfen.some((v) => v.name === 'guidedBirthEntryChildsNameNot' && v.grund === 'form'));
 });
 
 test('[U2-ADR-306·Sicherheit·Gegenkontrolle] eine reservierte Wizard-ID wird ueber den SIGNIERTEN Weg weiterhin mit reserviert abgewiesen — die Erste-Partei-Zone oeffnet den Einlassweg nicht', async () => {
@@ -248,6 +266,6 @@ test('[U2-ADR-306] _erstePartieErlaubteIdsFuerWizard deckt exakt den nativen Bes
   const kern = await ladeKern();
   const ids = kern.V._erstePartieErlaubteIdsFuerWizard('gebwiz');
   assert.equal(ids.length, kern.V.WIZARD_BY_ID.gebwiz.schritte.length);
-  assert.ok(ids.includes('gebwiz.geburt_klinik'));
+  assert.ok(ids.includes('gebwiz.guidedBirthEntryChildsNameNot'));
   assert.ok(!ids.includes('heirwiz.familienstand'), 'ein anderer Wizard gehoert nicht zur Erlaubnisliste dieses Wizards');
 });

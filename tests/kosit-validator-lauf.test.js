@@ -91,10 +91,33 @@ test('[KoSIT·Lauf] die Datei des Kerns mit eingebetteten Anhängen erfüllt das
   const [fall] = await a.artefakte();
   assert.equal(fall.herkunft, 'generator');
   // KoSIT prüft hier den Rest der Datei: die Anhang-Elemente sind xs:anyType. Rundlauf und Base64-Form: tests/fim-anhang.test.js
-  assert.match(fs.readFileSync(fall.pfad, 'utf8'), /<F99000011>[A-Za-z0-9+/=]+<\/F99000011>/, 'der Pflicht-Anhang steht in der Datei');
+  // Die Form des Pflicht-Anhangs kennt nur die erfundene Leistung; im echten Lauf (VD_FIM_*) urteilt KoSIT allein.
+  if (!a.echt()) assert.match(fs.readFileSync(fall.pfad, 'utf8'), /<F99000011>[A-Za-z0-9+/=]+<\/F99000011>/, 'der Pflicht-Anhang steht in der Datei');
   const u = a.urteile(v, fall.pfad);
   assert.equal(u.gelesen, true, u.fehler.join(' | '));
   assert.equal(u.gueltig, true, u.fehler.join(' | '));
+});
+
+/* M4 (05.11.2026): der Weg der Person. Das Modul kommt als signiertes Bündel über den geprüften Einlass ins Depot (Anker und
+   Anbieter-Schlüssel erzeugt die Probe zur Laufzeit), der Kanal aus den Ausgabeformaten des Depots; kein gesetzter Beleg. */
+test('[KoSIT·Einlass] das signiert eingelassene Modul gibt einen Kanal, und seine Datei aus dem Depot erfüllt das Schema der Leistung', async (t) => {
+  const { a, v } = await umgebungOderTodo(t);
+  assert.equal(v.ok, true, 'ungemessen: ' + v.grund);
+  const fall = await a.einlassArtefakt();
+  assert.deepEqual(fall.gruende.filter((g) => 'einlass' in g), [{ einlass: true, grund: null }], 'der geprüfte Einlass nimmt das Bündel an');
+  assert.ok(fall.pfad, 'der Kanal schreibt eine Datei: ' + JSON.stringify(fall.gruende));
+  const u = a.urteile(v, fall.pfad);
+  assert.equal(u.gelesen, true, u.fehler.join(' | '));
+  assert.equal(u.gueltig, true, u.fehler.join(' | '));
+});
+
+test('[KoSIT·Einlass·Rot-Beweis] unsigniert eingelassen gibt ein Modul mit fremdem Namensraum keinen Kanal und keine Datei', async () => {
+  const a = await laden();
+  const fall = await a.einlassArtefakt({ signiert: false });
+  assert.match(String(fall.namensraum), /^urn:xoev-de:/, 'das Modul behauptet einen fremden Standard');
+  assert.deepEqual(fall.gruende.filter((g) => 'einlass' in g), [{ einlass: true, grund: null }],
+    'das Modul liegt im Depot — es fehlt allein der Kanal, nicht der Einlass');
+  assert.equal(fall.pfad, null, 'ohne Signatur kein Kanal: ' + JSON.stringify(fall.gruende));
 });
 
 test('[KoSIT·Lauf·Rot-Beweis] fehlt ein Pflichtfeld im Depot, lehnt KoSIT die Datei ab — der Kern erfindet nichts', async (t) => {
@@ -111,11 +134,12 @@ test('[KoSIT·Lauf·Rot-Beweis] ohne den Pflicht-Anhang lehnt KoSIT die Datei ab
   const { a, v } = await umgebungOderTodo(t);
   assert.equal(v.ok, true, 'ungemessen: ' + v.grund);
   const [fall] = await a.ohnePflichtAnhang();
-  assert.ok(fall, 'die erfundene Leistung hat einen Pflicht-Anhang');
+  assert.ok(fall, 'das Modul hat einen Pflicht-Anhang oder ein Pflicht-Element `leer`');
+  if (!a.echt()) assert.equal(fall.element, 'F99000011');
   const u = a.urteile(v, fall.pfad);
   assert.equal(u.gelesen, true, u.fehler.join(' | '));
   assert.equal(u.gueltig, false);
-  assert.ok(u.fehler.some((f) => /F99000011/.test(f)), u.fehler.join(' | '));
+  assert.ok(u.fehler.some((f) => f.includes(fall.element)), fall.element + ' nicht gemeldet: ' + u.fehler.join(' | '));
 });
 
 /* U2-ADR-465 Nachtrag (W6, 04.11.2026): Gleichlauf der Vorprüfung des Kerns mit KoSIT an der erfundenen Leistung. Die gültige Datei
@@ -155,4 +179,15 @@ test('[KoSIT·Vorprüfung] die Vorprüfung des Kerns läuft mit KoSIT gleich: g�
     assert.equal(u.gelesen, true, f.name + ': ' + u.fehler.join(' | '));
     assert.equal(u.gueltig, f.erwartet === null, f.name + ' — KoSIT: ' + u.fehler.join(' | '));
   }
+});
+
+test('[KoSIT·XSD-Muster] ein Muster mit `$` am Ende lehnt eine übliche Adresse ab; die Gegenprobe ohne `$` nimmt sie an (Rot-Beweis)', async (t) => {
+  const { v } = await umgebungOderTodo(t);
+  if (!v.ok) return;
+  const { messen } = await import(path.join(__dirname, '..', 'tools', 'xsd-muster-messen.mjs'));
+  const r = await messen({ werte: ['anna@example.de', 'anna@example.de$'] });
+  assert.equal(r.ok, true, 'jeder Wert hat ein Urteil');
+  const urteil = (el) => Object.fromEntries(r.ergebnisse.find((e) => e.elemente.includes(el)).werte.map((w) => [w.wert, w.gueltig]));
+  assert.deepEqual(urteil('X99000001'), { 'anna@example.de': false, 'anna@example.de$': true }, 'Muster mit wörtlichem $');
+  assert.deepEqual(urteil('X99000002'), { 'anna@example.de': true, 'anna@example.de$': false }, 'Gegenprobe ohne $');
 });

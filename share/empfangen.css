@@ -51,6 +51,7 @@
   button:hover:not(:disabled) { background: var(--salbei-mid); }
   button:disabled { background: #999; cursor: default; }
   .fehler { color: #a33; }
+  #auftrag > :first-child { margin-top: 0; }
   .sprachwahl { text-align: right; margin-bottom: 0.5rem; }
   .sprachwahl button {
     background: none; border: 1px solid #d7ddd0; color: #555; font-weight: 400;

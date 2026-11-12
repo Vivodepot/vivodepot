@@ -45,7 +45,7 @@ const { oeffneApp, depotAnlegen } = require('./helpers');
 const BUTTON_ANKER = [
   { sel: 'data-herausgeben',  n: 1 },
   { sel: 'data-einlesen',     n: 7 },   // C7/U2-ADR-118: vorsorge verlor seinen Einlese-Knopf (ICS-Import entfernt) — 8 → 7
-  { sel: 'data-wizard-start', n: 13 },
+  { sel: 'data-wizard-start', n: 12 },   // C14 (07.11.2026, Urteil W04): der Anamnese-Assistent ist gestrichen — 13 → 12
 ];
 
 /* Anker OHNE Handler-Pflicht, mit Grund — keine Auslassung, eine Entscheidung.
@@ -119,14 +119,14 @@ test('[A62·Verdrahtung] jeder gerenderte Button-Anker trägt einen Handler', as
   expect(befund, 'Verdrahtung oder Zahl hat sich geändert:\n  ' + befund.join('\n  ')
     + '\n\nDie Render-Aufnahme bleibt dabei grün. Nur diese Prüfung sieht es.').toEqual([]);
 
-  /* 21 = Herausgeben 1 · Einlesen 7 · Wizard-Start 13. Die Summe stand hier lange aufgebläht
+  /* 20 = Herausgeben 1 · Einlesen 7 · Wizard-Start 12 (bis C14, 07.11.2026: 13). Die Summe stand hier lange aufgebläht
      durch die Sensibel-Knöpfe (A64, zuletzt 256 — volle Historie in der Git-Historie dieser
      Datei, Stand vor dem 12.08.2026) — mit ihrer Erzeugungsstelle komplett aus dem Kern
      entfernt („Die Herausgabe kommt ohne Kästchen aus", Zug 5), fällt ihr Beitrag
      auf 0, nicht auf eine kleinere Zahl. Die Summe steht weiterhin hier, damit ein
      WEGFALLENDER der drei verbleibenden Anker auffällt, den keine Einzelzahl mehr abdeckt. */
-  expect(gesamt, 'insgesamt 21 verdrahtete Anker über zwölf Sektoren — sinkt die Zahl, ist das Netz '
-    + 'kleiner geworden, ohne dass jemand es beschlossen hat').toBe(21);
+  expect(gesamt, 'insgesamt 20 verdrahtete Anker über zwölf Sektoren — sinkt die Zahl, ist das Netz '
+    + 'kleiner geworden, ohne dass jemand es beschlossen hat').toBe(20);
 });
 
 test('[A62·Verdrahtung] die sechs Instrument-Regal-Karten brauchen KEINEN Handler — jede ab-Werk-logikModule-Karte trägt einen echten (Zahl ABGELEITET, U2-ADR-330/332)', async ({ page }) => {

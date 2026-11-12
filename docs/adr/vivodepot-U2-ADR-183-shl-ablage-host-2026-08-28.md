@@ -177,6 +177,36 @@ Ob die Entschlüsselung im echten Browser trägt, prüft keine Suite-Probe, sond
 Die Host-Dateien selbst (PHP) liegen weiterhin nicht in diesem Repo; für sie bleibt das „ungeprüft"
 oben stehen, prüfbar mit `node tools/shl-manifest-probe.js --host <ordner>` gegen eine Wegwerf-Kopie.
 
+## Nachtrag (02.11.2026) — Empfang im Kern: der Schlüssel bleibt im Kern, die Abhol-Seite holt nur das Chiffrat
+
+Bisher entschlüsselte die Abhol-Seite selbst; der Klartext lag als gespeicherte Datei auf dem Gerät, bevor die Bürgerin
+ihn einlas. Jetzt lässt sich der Link an der Einlese-Tür des Kerns einfügen (`flowShlEmpfangen`):
+
+- **Lesen im Kern** (`shlLinkLesen`): rein lokal. Die Adresse wird wie beim Erzeugen geprüft (SHL-ABLAGE-URL-BLOCK), der
+  Schlüssel muss genau 32 Bytes haben, ein Link mit Passcode-Flag wird abgewiesen.
+- **Abholen über die Abhol-Seite** (`shlHolen`): der Kern öffnet `share.vivodepot.de/empfangen.html` und schickt ihr nach
+  „bereit“ einen Auftrag mit `url` und `flag`, **nie den Schlüssel**, nur an deren feste Herkunft. Die Abhol-Seite zeigt den
+  Host, holt erst nach einem Klick, ohne Anmeldedaten und ohne Referrer, und gibt nur eine Antwort in JWE-Form zurück.
+  Angenommen wird sie nur aus genau dem geöffneten Fenster mit genau dieser Herkunft, mit der eigenen Kennung und
+  begrenzter Größe.
+- **Entschlüsseln im Kern** (`shlJweOeffnen`): streng nach `alg: dir`, `enc: A256GCM`, ohne `zip` und `crit`, Schlüssel 32, IV 12,
+  Tag 16 Bytes; der Schlüssel ist nicht extrahierbar und nur zum Entschlüsseln da. Er lebt nur im Vorgang und geht weder
+  ins Depot noch in einen Speicher des Browsers. Der Mappe-Eintrag vermerkt nur Host und Tag (`empfangenUeber`).
+- **Rückfall:** kommt keine Antwort, speichert die Abhol-Seite die verschlüsselte `.jwe`-Datei; der Kern öffnet sie mit dem
+  Schlüssel aus dem eingefügten Link. Nach einem Fehlschlag ist der Schlüssel verworfen; der Dialog steht wieder auf
+  „Link prüfen“ und liest ihn aus dem Feld neu.
+
+**Was sich an der Grenze oben NICHT ändert:** der Kern bleibt bei `connect-src 'none'` und macht selbst keinen Netzaufruf.
+Neu ist ein Nachrichtenweg zum geöffneten Fenster der Abhol-Seite, nach dem Muster der Pod-Brücke (Nachtrag zu U2-ADR-512).
+Die Kopplung an den Öffner ist dort wie hier hingenommen, solange die enge CSP der Abhol-Seite hält. Der bisherige Weg (auf
+der Abhol-Seite abholen, entschlüsseln, speichern, einlesen) bleibt bestehen.
+
+Gehalten wird das von `tests/shl-empfang-kern.test.js` (Lesen, strenges Öffnen mit Rot-Fällen, Auftrag ohne Schlüssel,
+Annahme nur vom Fenster der festen Herkunft, Vorschau, kein Schlüssel und keine Adresse im Depot, kein Netzaufruf, je mit
+Rot-Beweis), `tests/shl-abholseite.test.js` [Auftrag] und der Tor-Wächter des Kerns (G2: genau drei
+`postMessage` im Kern; G3: jede Empfangsstelle steht auf der Liste und prüft Fenster und Herkunft). Die neuen Krypto-Aufrufe
+stehen benannt in `tools/krypto-aufrufer-grundlinie.json`.
+
 ## Konformität
 
 ```konformitaet
@@ -187,4 +217,12 @@ pruefung:  tests/shl-abholseite.test.js#[U2-ADR-183] der KERN bleibt bei connect
 quelle:    invariante
 ```
 
-*Bindung nachgetragen 26.09.2026 (Nachtrag oben).*
+```konformitaet
+aussage:   Der Kern hält beim Empfang den Schlüssel; der Auftrag an die Abhol-Seite trägt ihn nie, und angenommen wird nur
+           aus dem geöffneten Fenster mit fester Herkunft.
+zustand:   prüfbar
+pruefung:  tests/shl-empfang-kern.test.js#[SHL-Empfang·Holen] fester Ort, nichts vor „bereit“, der Auftrag ohne Schlüssel an die feste Herkunft
+quelle:    invariante
+```
+
+*Bindung nachgetragen 26.09.2026 (Nachtrag oben).* *Zweiter Block 02.11.2026 (Nachtrag Empfang im Kern).*

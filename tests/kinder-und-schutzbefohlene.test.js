@@ -111,8 +111,13 @@ test('[Negativprobe] u2-109-Probe-1: eine geratene Art wuerde auffallen', () => 
 // Das Ergebnis-Array wird LOKAL aufgebaut, nicht per `unter.filter().map()`: `unter` stammt aus dem
 // VM-Kontext des Kerns, ein daraus abgeleitetes Array traegt dessen Prototyp, und `deepStrictEqual`
 // schlaegt fehl, obwohl beide Seiten leer sind. Dieselbe Falle wie bei U2-ADR-104/105.
+/* Abnahme v998, Fund 7 der Gestaltungsleitung: die Art steht jetzt zuerst, und die übrigen Angaben erscheinen erst nach ihrer Wahl
+   (`verborgenWenn` mit dem Wert ''). Geblieben ist der Kern dieser Probe: was eine Zeile ohne Art SCHON TRÄGT, bleibt sichtbar — der
+   Alt-Freitext verschwindet nicht hinter dem Tor. Die Zeile hier trägt in jedem Feld einen Wert. Dass ohne Art nur die Art
+   steht, hält tests/kinder-schutzbefohlene-art-zuerst.test.js. */
 function versteckteOhneArt(V) {
   const zeileOhneArt = { id: 'x' };            // KEINE `art`
+  for (const u of kinderFeld(V).unterFelder) if (u.id !== 'type') zeileOhneArt[u.id] = 'x';
   const versteckt = [];
   for (const u of kinderFeld(V).unterFelder) {
     if (!V.feldSichtbar(u, zeileOhneArt)) versteckt.push(u.id);
@@ -126,8 +131,8 @@ test('u2-109-ohne-art-ist-nichts-versteckt', () => {
   assert.ok(unter.length >= 15, 'Positivkontrolle: der Suchraum ist besetzt (' + unter.length + ' Unterfelder)');
   assert.ok(unter.some(u => u.verborgenWenn), 'Positivkontrolle: es GIBT gegatete Felder');
   assert.deepEqual(versteckteOhneArt(V), [],
-    'Fehlt die Art, MUSS alles sichtbar bleiben — sonst sieht die Bürgerin nach der Migration '
-    + 'eine fast leere Zeile und keinen Weg hinein.');
+    'Fehlt die Art, MUSS sichtbar bleiben, was die Zeile trägt — sonst verschwindet nach der Migration '
+    + 'der Alt-Freitext hinter dem Tor.');
 });
 
 test('[Negativprobe] u2-109-Probe-2: ein positives Gate wuerde Felder verstecken', () => {

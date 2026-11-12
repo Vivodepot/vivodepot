@@ -104,12 +104,15 @@ async function legeInstrumentAn(page) {
   await page.evaluate(() => window.__vdOeffentlich.oeffneSektor('identity'));         // aktiver Bereich lage-fremd
   await page.evaluate(() => window.__vdOeffentlich.oeffneLebenslage('eigene-vorsorge'));
   await page.waitForSelector('[data-lage-sektor="advanceCare"]');
-  await listenDialogOeffnen(page, 'provisionInstruments', { bereich: '[data-lage-sektor="advanceCare"]' });
-  await page.waitForSelector('#modal-inhalt [data-edit="instrument"]');
-  await page.selectOption('#modal-inhalt [data-edit="instrument"]', 'will');   // Typ wählen (löst die Gates)
-  await page.fill('#modal-inhalt [data-edit="storageLocation"]', 'Ordner Vorsorge, Fach 1');
-  await page.click('#m-ok');
-  await page.waitForFunction(() => !document.querySelector('#modal-rueck.an')).catch(() => {});   // Modal-Host geschlossen
+  // Die leere Liste nimmt ihren ersten Eintrag im Blatt selbst auf (Konvention „Hinzufügen“, Bedienmuster 12): Art wählen, unter
+  // „Alle Angaben“ den Ablageort eintragen, die Gruppe verlassen. Ein Dialog-Einstieg besteht bei leerer Liste nicht mehr (03.11.2026).
+  const inline = page.locator('[data-lage-sektor="advanceCare"] [data-liste-inline="provisionInstruments"]');
+  await inline.locator('[data-eintrag-edit="instrument"]').selectOption('will');   // Typ wählen (löst die Gates)
+  await inline.locator('[data-weitere-angaben-kopf="weitere-provisionInstruments"]').click();
+  await inline.locator('[data-eintrag-edit="storageLocation"]').fill('Ordner Vorsorge, Fach 1');
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  await page.waitForFunction(() => (((window.__vdOeffentlich.ankerDaten().sektoren.advanceCare || {}).provisionInstruments || []).length
+    + ((window.__vdOeffentlich.ankerDaten().sektoren[window.__vdOeffentlich.aktiverSektorId] || {}).provisionInstruments || []).length) > 0, null, { timeout: 5000 }).catch(() => {});
   return page.evaluate(() => ({
     heimat: ((window.__vdOeffentlich.ankerDaten().sektoren['advanceCare'] || {}).provisionInstruments || []).map((e) => e.instrument + '/' + (e.storageLocation || '')),
     aktiv: window.__vdOeffentlich.aktiverSektorId,

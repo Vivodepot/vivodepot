@@ -31,13 +31,14 @@
   /* Geschlossene Kopffelder je Form, wie der Kern sie schreibt (Krypto 15.10.): der Kopf ist lesbar, darum darf darin nichts
      stehen, was der Kern nicht selbst hineinlegt. Verfahren ebenso geschlossen: der Kern erzeugt ECDH-ES direkt (verschlüsselter
      Schlüssel leer) und PBES2-HS512+A256KW (verschlüsselter Schlüssel nicht leer), nichts anderes. Die Antwort trägt kein
-     `anbieter` mehr im Kopf (U2-ADR-520 Nr. 3): der Kopf nennt die Stelle dem Betreiber des Speichers nicht. `pad` ist die
+     `anbieter` und kein `vorgang` mehr im Kopf (U2-ADR-520 Nr. 3): der Kopf nennt dem Betreiber des Speichers weder die Stelle
+     noch ihr Aktenzeichen. `kennung` sind 16 Zufallsbytes (22 Zeichen base64url), `apv` ist genau diese Kennung. `pad` ist die
      Auffüllung auf eine Größenstufe (_jweVersiegeln im Kern) und trägt nur Punkte. */
   var KOPF = {
     shl: ['alg', 'enc', 'cty'],
     verzeichnis: ['alg', 'enc', 'typ'],
-    'ECDH-ES': ['alg', 'typ', 'cty', 'enc', 'vorgang', 'epk', 'apv', 'pad'],
-    'PBES2-HS512+A256KW': ['alg', 'typ', 'cty', 'enc', 'vorgang', 'p2s', 'p2c', 'pad']
+    'ECDH-ES': ['alg', 'typ', 'cty', 'enc', 'kennung', 'epk', 'apv', 'pad'],
+    'PBES2-HS512+A256KW': ['alg', 'typ', 'cty', 'enc', 'kennung', 'p2s', 'p2c', 'pad']
   };
   /* Größengrenze je Art, abgeleitet aus dem, was der Kern selbst höchstens erzeugt (Sec 16.10.), plus Rand:
      - link:  ein Mappe-Eintrag höchstens MAPPE_MAX_BYTES = 5 MB, als JWE in base64url etwa 6,7 MB → 8 MB.
@@ -113,6 +114,9 @@
       // ECDH-ES direkt: der Inhaltsschlüssel wird abgeleitet, der Teil bleibt leer; PBES2 mit Schlüsselverpackung: nie leer.
       if ((j.kopf.alg === 'ECDH-ES') !== j.schluesselLeer) return { fehler: 'schluesselteil-passt-nicht' };
       if (j.kopf.pad !== undefined && !(typeof j.kopf.pad === 'string' && /^\.*$/.test(j.kopf.pad))) return { fehler: 'kopf-fremdes-feld' };
+      // Nur eine zufällige Kennung, kein Freitext: weder in `kennung` noch in `apv` (U2-ADR-520 Nr. 3).
+      if (typeof j.kopf.kennung !== 'string' || !/^[A-Za-z0-9_-]{22}$/.test(j.kopf.kennung)) return { fehler: 'kopf-kennung' };
+      if (j.kopf.alg === 'ECDH-ES' && (typeof j.kopf.apv !== 'string' || !/^[A-Za-z0-9_-]+$/.test(j.kopf.apv) || b64urlText(j.kopf.apv) !== j.kopf.kennung)) return { fehler: 'kopf-kennung' };
       return nurFelder(j.kopf, KOPF[j.kopf.alg]) ? { art: 'antwort' } : { fehler: 'kopf-fremdes-feld' };
     }
     return { fehler: 'verfahren-unbekannt' };

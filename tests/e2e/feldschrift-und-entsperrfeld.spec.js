@@ -13,8 +13,8 @@
    4 · Rangfolge (UX-ABSCHNITT-KLEINER-ALS-LABEL; gemessen in v963: Abschnitt 11,52 px in Versalien, Gruppe und Label je 14,08 px, in
        Pro der Titel eines Listenfelds als Label): in jedem Bereich ist der kleinste Abschnitt größer als die größte Gruppe, die
        kleinste Gruppe größer als das größte Label; kein Abschnitt in Versalien; ein Listenfeld trägt seinen Titel mindestens halbfett;
-       das Label ist leiser als der Wert (Gewicht höchstens 500, nicht in der Farbe des Werts); Platzhalter nicht kursiv, so groß wie der
-       Wert; Inhaltsfelder mindestens 44 px hoch.
+       das Label ist leiser als der Wert (Gewicht höchstens 500, nicht in der Farbe des Werts); Platzhalter kursiv, so groß wie der
+       Wert (kursiv seit Befund PLATZHALTER-WIE-WERT, 03.11.2026: ein Beispiel darf nicht wie ein eingetragener Wert aussehen); Inhaltsfelder mindestens 44 px hoch.
    5 · Fokus (Entscheidung 29.10.2026, bestätigt 30.10.2026): ein fokussiertes Dialogfeld trägt keinen Ring und keinen Hof, nur
        seine Unterkante wird 2 px dick, in --salbei-dunkel, nachts in --salbei-nacht.
    Rot-Beweis: mit der Stilregel von v963 (Arial, Schwarz, Vollrahmen in --line, Abschnitt 0,72 rem in Versalien, Listentitel als
@@ -31,7 +31,7 @@ const ALTSTAND_CSS = '.modal input, #overlay-inhalt input { font-family: Arial, 
   + ' #overlay-inhalt input[type="password"] { border: 1px solid var(--line) !important; border-radius: 4px !important; min-height: 0 !important; height: 36px !important; background: var(--white) !important; }';
 const ALTSTAND_RANG_CSS = '.sektion-titel { font-size: 0.72rem !important; text-transform: uppercase !important; }'
   + ' .feld-zeile > .feld-label { font-size: var(--fs-sm) !important; font-weight: 550 !important; }'
-  + ' .feld-zeile input::placeholder { font-style: italic !important; font-size: 0.75rem !important; }'
+  + ' .feld-zeile input::placeholder { font-style: normal !important; font-size: 0.75rem !important; }'
   + ' .feld-zeile input { min-height: 0 !important; height: 36px !important; }'
   + ' .feldgruppen-karte-titel, .feld-zeile:has(> .feld-wert > .feld-liste-editor) > .feld-label { font-size: var(--fs-sm) !important; }'
   + ' .feld-zeile:has(> .feld-wert > .feld-liste-editor) > .feld-label { font-weight: 550 !important; }';
@@ -42,7 +42,7 @@ async function anlegeDialog(page, url) {
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
   await page.click(h.ANLEGE_WEG_KANON + ':visible');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-vorname', { state: 'visible' });
 }
 
 async function entsperren(page, url) {
@@ -164,7 +164,7 @@ function RANG() {
     labelLaut: label.filter((el) => { const c = getComputedStyle(el); const wert = el.parentElement.querySelector('input[type="text"]');
       return parseInt(c.fontWeight, 10) > 500 || (wert && getComputedStyle(wert).color === c.color); }).slice(0, 3).map((el) => el.textContent.trim()),
     platzhalter: sicht('.feld-zeile input[placeholder]').filter((el) => { const p = getComputedStyle(el, '::placeholder');
-      return p.fontStyle === 'italic' || p.fontSize !== getComputedStyle(el).fontSize; }).slice(0, 3).map((el) => el.placeholder),
+      return p.fontStyle !== 'italic' || p.fontSize !== getComputedStyle(el).fontSize; }).slice(0, 3).map((el) => el.placeholder),
     niedrig: sicht('.feld-zeile input[type="text"]').filter((el) => el.getBoundingClientRect().height < 44).slice(0, 3).map((el) => el.id || el.name),
   };
 }
@@ -177,7 +177,7 @@ function rangFehler(bereich, r) {
   for (const t of r.versalien) f.push(bereich + ': Abschnitt in Versalien „' + t + '“');
   for (const t of r.listeLeicht) f.push(bereich + ': Listentitel als Label „' + t + '“');
   for (const t of r.labelLaut) f.push(bereich + ': Label lauter als der Wert „' + t + '“');
-  for (const t of r.platzhalter) f.push(bereich + ': Platzhalter kursiv oder kleiner als der Wert „' + t + '“');
+  for (const t of r.platzhalter) f.push(bereich + ': Platzhalter nicht kursiv oder kleiner als der Wert „' + t + '“');
   for (const t of r.niedrig) f.push(bereich + ': Feld unter 44 px „' + t + '“');
   return f;
 }
@@ -288,7 +288,7 @@ test.describe('Feldschrift und Entsperrfeld', () => {
     expect(alt.fehler.some((f) => /Versalien/.test(f)), 'Versalien erkannt').toBe(true);
     expect(alt.fehler.some((f) => /Gruppe .* ≤ Label/.test(f)), 'Gruppe so groß wie Label erkannt').toBe(true);
     expect(alt.fehler.some((f) => /Label lauter/.test(f)), 'Label in 550 erkannt').toBe(true);
-    expect(alt.fehler.some((f) => /Platzhalter/.test(f)), 'kursiver Platzhalter erkannt').toBe(true);
+    expect(alt.fehler.some((f) => /Platzhalter/.test(f)), 'aufrechter, kleinerer Platzhalter erkannt').toBe(true);
     expect(alt.fehler.some((f) => /unter 44 px/.test(f)), '36-px-Feld erkannt').toBe(true);
   });
 });

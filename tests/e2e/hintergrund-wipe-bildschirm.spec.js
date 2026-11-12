@@ -152,6 +152,7 @@ test('[U2-ADR-184] dasselbe gilt im Sub-Kontext — Anker-Marken UND Sub-Marken 
   await page.click('#sub-neu');
   await page.waitForSelector('#id-vorname', { state: 'visible' });
   await page.fill('#id-vorname', MARK_SUB_VORNAME);
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', subPw);
   await page.fill('#id-pw2', subPw);
   await page.click('#m-ok');

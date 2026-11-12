@@ -140,9 +140,9 @@ test('[Weg 7·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht
   try {
     datei = await depotDatei();
     const { seite } = await seiteAmStart(browser);
-    await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });
+    await seite.evaluate(() => { const f = document.querySelector('.nav-fuss-ort'); if (f) f.remove(); });
     const protokoll = await wegGehen(seite, datei);
-    assert.ok(protokoll.every((x) => x.erreicht), 'die Fusszeile geht das Wiederfinden nichts an');
+    assert.ok(protokoll.every((x) => x.erreicht), 'der Fuß der Seitenleiste („Über und Hinweise“) geht das Wiederfinden nichts an');
   } finally {
     await browser.close();
     if (datei && fs.existsSync(datei)) fs.unlinkSync(datei);

@@ -47,6 +47,12 @@ function mitKopf(jwe, aendern) {
 
 const { jweLesbarerTeil } = require('./helfer/jwe-lesbar.js');
 const { datensatzAusJwe } = require('./helfer/antwort-datensatz.js');
+/* Der Datensatz, wie er ankommt: der Kern legt die zufällige Kennung des Kopfs als anfrage.kennung hinein (U2-ADR-520 Nr. 3). */
+const wieAngekommen = (ds, jwe) => {
+  const e = JSON.parse(JSON.stringify(ds));
+  e.anfrage = Object.assign({}, e.anfrage, { kennung: kopfVon(jwe).kennung });
+  return e;
+};
 
 test('[Antwort·JWE] Schlüsselpaar: der Kern schreibt eine JWE, die Lese-App öffnet sie zum selben Datensatz', async () => {
   const V = await depot();
@@ -60,10 +66,11 @@ test('[Antwort·JWE] Schlüsselpaar: der Kern schreibt eine JWE, die Lese-App ö
   assert.equal(k.alg, 'ECDH-ES');
   assert.equal(k.enc, 'A256GCM');
   assert.equal(k.typ, 'vivodepot-antwort+jwe');
-  assert.equal(Buffer.from(k.apv, 'base64url').toString(), VORGANG, 'der Vorgang ist in die Schlüsselableitung gebunden');
+  assert.equal(Buffer.from(k.apv, 'base64url').toString(), k.kennung, 'die Kennung ist in die Schlüsselableitung gebunden');
+  assert.equal(k.vorgang, undefined, 'das Aktenzeichen steht nicht im lesbaren Kopf');
   assert.equal(jwe.split('.')[1], '', 'ECDH-ES direkt: kein verpackter Schlüssel');
   const L = ladeLesen().V;
-  assert.deepEqual(await datensatzAusJwe(L, jwe, { privateJwk: paar.priv }), JSON.parse(JSON.stringify(ds)));
+  assert.deepEqual(await datensatzAusJwe(L, jwe, { privateJwk: paar.priv }), wieAngekommen(ds, jwe));
 });
 
 test('[Antwort·JWE] Einmalpasswort: das Studio öffnet dieselbe Antwort wie die Lese-App, ein falsches Passwort nicht', async () => {
@@ -72,7 +79,7 @@ test('[Antwort·JWE] Einmalpasswort: das Studio öffnet dieselbe Antwort wie die
   const ds = V.anfrageAntwortDatensatz(a, { sensibel: false });
   const jwe = await V.antwortVerschluesseln(ds, a, { passwort: EINMAL });
   const S = require('./load-generator.js').ladeGenerator().V;
-  assert.deepEqual(await datensatzAusJwe(S, jwe, { passwort: EINMAL }), JSON.parse(JSON.stringify(ds)));
+  assert.deepEqual(await datensatzAusJwe(S, jwe, { passwort: EINMAL }), wieAngekommen(ds, jwe));
   await assert.rejects(S.antwortJweOeffnen(jwe, { passwort: 'falsch' }), 'ein falsches Passwort öffnet nicht');
 });
 test('[Antwort·JWE] Einmalpasswort: PBES2-HS512+A256KW mit festem p2c, die Lese-App öffnet', async () => {
@@ -84,7 +91,7 @@ test('[Antwort·JWE] Einmalpasswort: PBES2-HS512+A256KW mit festem p2c, die Lese
   assert.equal(k.alg, 'PBES2-HS512+A256KW');
   assert.equal(k.p2c, 600000);
   const L = ladeLesen().V;
-  assert.deepEqual(await datensatzAusJwe(L, jwe, { passwort: EINMAL }), JSON.parse(JSON.stringify(ds)));
+  assert.deepEqual(await datensatzAusJwe(L, jwe, { passwort: EINMAL }), wieAngekommen(ds, jwe));
   await assert.rejects(L.antwortJweOeffnen(jwe, { passwort: 'falsch' }), 'ein falsches Passwort öffnet nicht');
 });
 
@@ -105,8 +112,8 @@ test('[Antwort·JWE·Rot-Beweis] ein umetikettierter Vorgang, ein geänderter Ko
   const a = anfrage({ art: 'schluesselpaar', an: 'x@probe.example', publicKeyJwk: paar.pub });
   const jwe = await V.antwortVerschluesseln(V.anfrageAntwortDatensatz(a, { sensibel: false }), a, {});
   const L = ladeLesen().V;
-  const anderer = mitKopf(jwe, (k) => { k.vorgang = 'ANDERER'; k.apv = Buffer.from('ANDERER').toString('base64url'); });
-  await assert.rejects(L.antwortJweOeffnen(anderer, { privateJwk: paar.priv }), 'Vorgang getauscht');
+  const anderer = mitKopf(jwe, (k) => { k.kennung = 'ANDERE-KENNUNG-0000000'; k.apv = Buffer.from(k.kennung).toString('base64url'); });
+  await assert.rejects(L.antwortJweOeffnen(anderer, { privateJwk: paar.priv }), 'Kennung getauscht');
   const nurKopf = mitKopf(jwe, (k) => { k.anbieter = 'fremd'; });
   await assert.rejects(L.antwortJweOeffnen(nurKopf, { privateJwk: paar.priv }), 'Kopf geändert, AAD passt nicht');
   const t = jwe.split('.');
@@ -141,7 +148,7 @@ test('[Antwort·JWE·Stufen] Klartexte verschiedener Länge landen auf einer Stu
   const paar = await empfangsPaar();
   const stufen = ladeLesen().V.ANTWORT_JWE_STUFEN;
   for (const n of [10, 300, 900, 1700, 2600, 4200]) {
-    const t = await K.antwortJweSchluessel('x'.repeat(n), paar.pub, { vorgang: 'V' });
+    const t = await K.antwortJweSchluessel('x'.repeat(n), paar.pub, { kennung: 'a4WHfFYRmMRfrMf88oNP-Q' });
     const s = stufen.find((x) => x >= t.length);
     assert.ok(s - t.length <= 1, n + ' Zeichen Klartext → ' + t.length + ', Stufe ' + s);
   }
@@ -154,7 +161,7 @@ test('[Antwort·JWE] die Lese-App erkennt eine JWE-Antwort als Datei-Text und ü
   const jwe = await V.antwortVerschluesseln(V.anfrageAntwortDatensatz(a, { sensibel: false }), a, {});
   const L = ladeLesen().V;
   const u = L.antwortJweAlsUmschlag(jwe + '\n');
-  assert.deepEqual({ verfahren: u.verfahren, vorgang: u.vorgang }, { verfahren: 'schluesselpaar', vorgang: VORGANG });
+  assert.deepEqual({ verfahren: u.verfahren, vorgang: u.vorgang }, { verfahren: 'schluesselpaar', vorgang: '' }, 'kein Aktenzeichen vor dem Öffnen');
   const teile = V.qrTeilePacken(jwe, 300);
   assert.ok(teile.length >= 2);
   const z = L.qrTeileZusammensetzen(teile.map((t) => t.rahmen).reverse());

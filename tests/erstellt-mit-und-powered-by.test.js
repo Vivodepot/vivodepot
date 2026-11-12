@@ -11,7 +11,7 @@
    (a) jede PDF-Fußquelle liest den Schlüssel (pdfFussText, Notfallkarte, Dokument-PDF, Widerruf-PDF, Deckblatt);
    (b) unter einem Partner-Branding („Berliner Sparkasse“, die Werte der Achsen-Fixture) steht die Software, nicht der Partner — DE und EN;
    (c) ein Sprachmodul-Text mit `{marke}` statt `{urheberin}` oder ohne Text wird abgewiesen;
-   (d) die App-Fußzeile trägt den Anker `data-herkunft-hinweis="app"` mit herkunftPoweredBy.
+   (d) die Seitenleiste (am Handy das Menü) und die Seite „Über und Hinweise“ tragen den Anker `data-herkunft-hinweis="app"` mit herkunftPoweredBy.
    Klassenwächter: jeder jsPDF-Erzeuger erreicht den Schlüssel, und jede Funktion, die per jsPDF einen Fuß schreibt (sie liest
    einen Fuß-Träger und zeichnet Text), liest ihn selbst oder über einen direkten Aufruf. Beides aus dem Quelltext abgeleitet,
    keine Liste von Hand.
@@ -35,7 +35,7 @@ const ERSTELLT = { de: 'Erstellt mit Vivodepot', en: 'Created with Vivodepot' };
 const LIEST = /\b_ausgabeErstelltMit\(/;
 const FUSS_QUELLEN = ['pdfFussText', 'zeichneNotfallkarte', 'zeichneDokumentPdf', 'zeichneWiderrufPdf', 'zeichneVollDepotPdf'];
 // Ein Fuß-Träger: was heute einen Dokument-Fuß liefert (Haftung C, Segmente, der Export-Fuß).
-const FUSS_TRAEGER = /\b(pdfFussText|_dokFussHaftungMitMarke|_dokFussSegmente)\(/;
+const FUSS_TRAEGER = /\b(pdfFussText|_dokFussHaftungMitMarke|_dokFussSegmente)\(|\bSTRINGS\.notfallKarteStand\b/;   // die Notfallkarte trägt statt C den Stand
 const JSPDF_SCHREIBT = /\bdoc\.text\(|\babsatz\(/;
 const MAX_TIEFE = 4;
 
@@ -87,12 +87,15 @@ function quellenVerstoesse(quelle) {
   return v;
 }
 
-// Die Diskriminante von (d): die App-Fußzeile schreibt den Hinweisort aus herkunftPoweredBy, an keiner Markenbedingung.
+// Die Diskriminante von (d): die Orte des App-Hinweises (renderSidebar, herkunftsortHTML) schreiben den Hinweisort aus herkunftPoweredBy, an keiner Markenbedingung.
 function poweredByVerstoesse(quelle) {
-  const fuss = code(rumpfe(quelle), 'renderFooter');
+  const r = rumpfe(quelle);
   const v = [];
-  if (!/'<span class="ff-powered" data-herkunft-hinweis="app">' \+ escapeHTML\(_herkunftsortAusgabe\('herkunftPoweredBy', STRINGS\.herkunftPoweredBy\)\) \+ '<\/span>'/.test(fuss)) v.push('renderFooter schreibt den Hinweisort data-herkunft-hinweis="app" nicht aus herkunftPoweredBy');
-  if (/_markeIstEingebaut[^\n]*ff-powered/.test(fuss)) v.push('der Hinweis hängt an einer Markenbedingung');
+  for (const [name, klasse] of [['renderSidebar', 'nav-hinweis-app'], ['herkunftsortHTML', 'herkunft-powered']]) {
+    const fuss = code(r, name);
+    if (!new RegExp(klasse + '" data-herkunft-hinweis="app">\' \\+ escapeHTML\\(_herkunftsortAusgabe\\(\'herkunftPoweredBy\', STRINGS\\.herkunftPoweredBy\\)\\) \\+ \'<\\/p>\'').test(fuss)) v.push(name + ' schreibt den Hinweisort data-herkunft-hinweis="app" nicht aus herkunftPoweredBy');
+    if (new RegExp('_markeIstEingebaut[^\\n]*' + klasse).test(fuss)) v.push('der Hinweis in ' + name + ' hängt an einer Markenbedingung');
+  }
   return v;
 }
 // Die Diskriminante des Klassenwächters: die Erzeuger und Fuß-Schreiber, die den Schlüssel nicht erreichen.
@@ -250,12 +253,15 @@ test('[Erstellt mit·c] ein Sprachmodul mit {marke} statt {urheberin} oder ohne 
 });
 
 test('[Powered by·d] die App-Fußzeile trägt den Hinweisort, auch unter der Partnermarke', async () => {
+  // Der Testname bleibt (Verweis aus der Proben-Deklaration); die Fußzeile ist entfallen, der Hinweis steht in der Seitenleiste und auf der Seite „Über und Hinweise“.
   assert.deepEqual(poweredByVerstoesse(KERN), []);
   const { V, document } = await partnerDepot(null);
   V.betreteApp();
-  V.renderFooter();
-  const fuss = document.getElementById('app-fuss').innerHTML;
-  assert.ok(fuss.includes('<span class="ff-powered" data-herkunft-hinweis="app">Bereitgestellt mit Vivodepot</span>'), 'Hinweisort steht unter der Partnermarke: ' + fuss.slice(-200));
+  V.renderSidebar();
+  const leiste = document.getElementById('sidebar').innerHTML;
+  const seite = V._ueberHinweiseAbschnitteHTML();
+  assert.ok(leiste.includes('<p class="nav-hinweis-app" data-herkunft-hinweis="app">Bereitgestellt mit Vivodepot</p>'), 'Hinweisort steht in der Seitenleiste unter der Partnermarke: ' + leiste.slice(-200));
+  assert.ok(seite.includes('<p class="herkunft-powered" data-herkunft-hinweis="app">Bereitgestellt mit Vivodepot</p>'), 'Hinweisort steht auf der Seite unter der Partnermarke: ' + seite.slice(0, 300));
 });
 
 test('[Erstellt mit·Klasse] jeder jsPDF-Erzeuger und jeder Fuß-Schreiber erreicht den Schlüssel', () => {
@@ -266,7 +272,7 @@ test('[Erstellt mit·Klasse] jeder jsPDF-Erzeuger und jeder Fuß-Schreiber errei
 });
 
 test('[Erstellt mit·Klasse·Rot-Beweis] ein Fuß-Schreiber ohne den Schlüssel wird gemeldet, samt seinem Erzeuger', () => {
-  const zeile = '  absatz(_ausgabeErstelltMit(), { size: 8, zeilenhoehe: 10, abstand: 2 });';
+  const zeile = "  absatz(_ausgabeErstelltMit(), 'fuss', 2);";
   assert.ok(KERN.includes(zeile), 'die Zeile steht in zeichneDokumentPdf');
   const ohne = klassenVerstoesse(KERN.replace(zeile, '')).ohne;
   assert.ok(ohne.includes('zeichneDokumentPdf'), 'Fuß-Schreiber gemeldet: ' + ohne.join(', '));

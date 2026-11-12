@@ -31,6 +31,7 @@
    beide wieder grün.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers.js');
 
 test('[U2-ADR-202 · Sichtbarkeit] die Kinder-Liste blendet den jeweils anderen Zweig live um, nicht erst nach dem Neu-Öffnen', async ({ page }) => {
@@ -39,22 +40,22 @@ test('[U2-ADR-202 · Sichtbarkeit] die Kinder-Liste blendet den jeweils anderen 
   await oeffneSektor(page, 'people');
 
   await listenDialogOeffnen(page, 'childrenAndDependants');
-  await page.waitForSelector('#modal-inhalt [data-sub-zeile="type"] select');
+  await page.waitForSelector('#modal-inhalt [data-wahl-chip="type"]');   // die Art steht seit 03.11.2026 als Wahl vorn (Abnahme v998)
 
   // Vor jeder Auswahl (art noch leer) sind laut Schema beide Zweige sichtbar — das ist der
   // korrekte Ausgangszustand, keine Behauptung dieser Probe.
-  await page.selectOption('#modal-inhalt [data-sub-zeile="type"] select', 'leiblich');
+  await page.click('#modal-inhalt [data-wahl-chip="type"][value="leiblich"]');
   await expect(page.locator('#modal-inhalt [data-sub-zeile="legalRepresentationParental"]')).toBeVisible();
   await expect(page.locator('#modal-inhalt [data-sub-zeile="basisOfRepresentation"]')).toBeHidden();
   await expect(page.locator('#modal-inhalt [data-sub-zeile="careCourt"]')).toBeHidden();
 
   // Live umschalten, OHNE das Modal zu schließen — genau der Fall, den der Guard verpasste.
-  await page.selectOption('#modal-inhalt [data-sub-zeile="type"] select', 'betreuter_erwachsener');
+  await page.click('#modal-inhalt [data-wahl-chip="type"][value="betreuter_erwachsener"]');
   await expect(page.locator('#modal-inhalt [data-sub-zeile="legalRepresentationParental"]')).toBeHidden();
   await expect(page.locator('#modal-inhalt [data-sub-zeile="basisOfRepresentation"]')).toBeVisible();
   await expect(page.locator('#modal-inhalt [data-sub-zeile="careCourt"]')).toBeVisible();
 
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
 });
 
 test('[U2-ADR-202 · Rot-Beweis] ein Wert, der bei der Speicherung unsichtbar ist, landet NICHT im Depot', async ({ page }) => {
@@ -63,13 +64,13 @@ test('[U2-ADR-202 · Rot-Beweis] ein Wert, der bei der Speicherung unsichtbar is
   await oeffneSektor(page, 'people');
 
   await listenDialogOeffnen(page, 'childrenAndDependants');
-  await page.waitForSelector('#modal-inhalt [data-sub-zeile="type"] select');
+  await page.waitForSelector('#modal-inhalt [data-wahl-chip="type"]');   // die Art steht seit 03.11.2026 als Wahl vorn (Abnahme v998)
 
   // Reihenfolge ist die Probe selbst: ERST den Vertretungs-Zweig befüllen (während er sichtbar
   // ist, art='betreuter_erwachsener'), DANN auf 'leiblich' zurückschalten (Zweig wird laut
   // Schema unsichtbar) — und erst DANACH speichern. Ohne den Fix bliebe der DOM-Wert stehen und
   // würde mitgespeichert, weil `hidden` nie gesetzt wurde.
-  await page.selectOption('#modal-inhalt [data-sub-zeile="type"] select', 'betreuter_erwachsener');
+  await page.click('#modal-inhalt [data-wahl-chip="type"][value="betreuter_erwachsener"]');
   await page.fill('#modal-inhalt [data-sub-zeile="person"] input[data-edit-override="person"]',
     'TEST-Rotbeweis Kind Fiktiv');
   await page.fill('#modal-inhalt [data-sub-zeile="careCourt"] input',
@@ -80,7 +81,7 @@ test('[U2-ADR-202 · Rot-Beweis] ein Wert, der bei der Speicherung unsichtbar is
   // KEINE Zwischen-Sichtbarkeitsprüfung hier — die trägt bereits die vorige Probe. Diese Probe
   // beweist NUR die Daten-Zusicherung, direkt an ihrer eigenen Zeile unten (Auflage: die zweite
   // Hälfte ist der eigentliche Schaden, eine Sichtbarkeits-Vorbedingung würde sie verdecken).
-  await page.selectOption('#modal-inhalt [data-sub-zeile="type"] select', 'leiblich');
+  await page.click('#modal-inhalt [data-wahl-chip="type"][value="leiblich"]');
 
   await page.click('#m-ok');
   await page.waitForSelector('#modal-rueck.an', { state: 'hidden' });

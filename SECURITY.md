@@ -302,6 +302,26 @@ die dort Fassung, Rolle und Prüfweg nennt. Nachrechnen (macOS/Linux) am öffent
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v1053 | 2026-11-11 | kern | `d3760e9e750f1d83e9d47330cc387e404bfcfc5ba90d78023423ad41808a5711` |
+| v1053 | 2026-11-11 | privat-de | `4a0c81b0c73b3b0b5ada2a1d298208dd6a70d5fc864c697f69a160d5e022dd8b` |
+| v1053 | 2026-11-11 | privat-en | `33d24a67699edac1cfb6432a557c8d4de153b3b998347e7fe644e61d89251fc1` |
+| v1053 | 2026-11-11 | pro-de | `6ae1993e515f885ea109170242c4b89f361fb456bbbd6e0695721b2938ef29af` |
+| v1053 | 2026-11-11 | pro-en | `b260ec3ee22bfa930f9036de1f3d59a2d44b9cbdc9727df97be4c0b302035cb1` |
+| v1053 | 2026-11-11 | pro-de-kanzlei | `c54ce0d9cc2ea91d119e08133993d1654a4cf73937f96d46513580a188979ea1` |
+| v1053 | 2026-11-11 | pro-en-kanzlei | `2cc68da2bbcfb1db43f77a030410f74d522e387d3adb455086e9e8c31ca49f78` |
+| v1053 | 2026-11-11 | pro-de-steuerberatung | `d498a547bce9c47025b3f4c79d8ec4516eb8b89c5c2fb1f6d5e4e1da9b0f0cf5` |
+| v1053 | 2026-11-11 | pro-en-steuerberatung | `43ee84dfecd2f763f20a4751f30dc79656c2683f8b1826fd9940fba996c08414` |
+| v1053 | 2026-11-11 | service-worker | `429a09d377c9b349bd34af2a45d9f2c6b5031530925366d137db26b42676c4c2` |
+| v1052 | 2026-11-10 | kern | `88dbbb0c53de5320845642521367584d36a27f9bc839fcb2698c4cc98d31bf8f` |
+| v1052 | 2026-11-10 | privat-de | `c1e78ebd6988be1140da73bc454ff1d92f1368fc76918f03148d82708fe1f86e` |
+| v1052 | 2026-11-10 | privat-en | `d18c118d21aa756f641e6e047c487ef7a596ebb765ffab13b811d9407e9f7337` |
+| v1052 | 2026-11-10 | pro-de | `99d480da5c13e86e32ace88803d5de6e0a2e93fecebd8c8fe72e3221f71c75b0` |
+| v1052 | 2026-11-10 | pro-en | `1b9473f105a4f481df5a55a9ace60a083dc0639b73b453bed02900702a309a48` |
+| v1052 | 2026-11-10 | pro-de-kanzlei | `1d9c331916283011171d628b728abbb086dda0de77e675f3c4fc7f41e76cd191` |
+| v1052 | 2026-11-10 | pro-en-kanzlei | `34891d7600f70c9ba7fa18df5b2858bd447bb9c5bb2971966653868d232afa28` |
+| v1052 | 2026-11-10 | pro-de-steuerberatung | `586d41346d1cdc0d886c965b828819bcea5211e7579b50926cd82acd77c85468` |
+| v1052 | 2026-11-10 | pro-en-steuerberatung | `f103dc775007560901509e41a4f5e998160b02d657c3d37c1157db0eacd8610d` |
+| v1052 | 2026-11-10 | service-worker | `5b79767a324724cdf41e3421fdbbcf4958a0c95ebd71d8dc0ec456dcdd955ebc` |
 | v1047 | 2026-11-08 | kern | `a8b24eaef41965fb37e9e410d20d1cf1a914d333feed7be2d3d9b36e0955c860` |
 | v1047 | 2026-11-08 | privat-de | `9267767b43be2631c833fc6fba7a3a4fed93d8c237e102d037767203d31f26fa` |
 | v1047 | 2026-11-08 | privat-en | `f32884758b9b82897ccb98b5a203e15138d691c6756fcf7dcbb4b9f813ab0525` |
@@ -540,8 +560,9 @@ Die Zahlen, Längen, Namen und Info-Präfixe in der Spalte „Wert“ sind aus `
 | AAD je Feld-Einheit (Version 4) | `kryptoVersion`, `iterationen`, `kdfTyp`, `depotUUID`, `adresse` | `_aadEinheitV4` | U2-ADR-149 |
 | Feld-Einheiten | je Einheit ein eigener Inhaltsschlüssel aus 32 Zufallsbyte, unter dem Depot-Schlüssel gewickelt | `_einheitSchluesselNeu` | U2-ADR-149 |
 | Feld-Adressen | HMAC-SHA-256 über den Feldnamen, auf 16 Byte gekürzt; Schlüssel per HKDF, Info `vivodepot/v4/adressen/` + Depot-UUID | `deriveAdressKeyV4`, `ZERFALL_ADRESSE_BYTES` | U2-ADR-149 |
-| Signaturschlüssel der Halterin | Ed25519-Seed per HKDF, Info `vivodepot/v4/halter-signatur/` + Depot-UUID, nirgends gespeichert | `deriveHalterSignaturV4` | U2-ADR-457 · Auflage: externer Review |
-| Signaturschlüssel je Stelle (Antwort) | Ed25519-Seed per HKDF-SHA-256 aus dem Antwort-Seed des Depots (32 Byte, Inhalt des Depots, nicht aus dem Passwort), Salt leer, Info `vivodepot/antwort-schluessel/v1` ‖ 0x00 ‖ Domäne ‖ 0x00 ‖ Länge (2 Byte) ‖ Kennung der Stelle; signiert jede Antwort, solange `ANTWORT_SIGNIEREN` an ist | `antwortSchluesselJeStelle`, `antwortSchluesselInfo` | U2-ADR-501 · Auflage: externer Review |
+| Signaturschlüssel je SD-JWT-VC-Ausgabe | Ed25519-Seed aus 32 Zufallsbyte je Datei-Ausgabe, nirgends gespeichert, nach dem Import überschrieben | `sdjwtSchluesselJeAusgabe`, `_ed25519SchluesselAusSeed` | U2-ADR-457 (Nachtrag 02.11.2026) · Auflage: externer Review |
+| Signaturschlüssel der Halterin (alt) | Ed25519-Seed per HKDF, Info `vivodepot/v4/halter-signatur/` + Depot-UUID; ohne Ausgabeweg seit dem Nachtrag 02.11.2026, Rückbau mit der nächsten Festschreibung der Krypto-Hülle | `deriveHalterSignaturV4` | U2-ADR-457 |
+| Signaturschlüssel je Stelle (Antwort) | Ed25519-Seed per HKDF-SHA-256 aus dem Antwort-Seed des Depots (32 Byte, Inhalt des Depots, nicht aus dem Passwort), Salt leer, Info `vivodepot/antwort-schluessel/v1` ‖ 0x00 ‖ Domäne ‖ 0x00 ‖ Länge (2 Byte) ‖ Kennung der Stelle, bei einer ungeprüften Kennung (`unsigniert:`) zusätzlich ‖ SHA-256 der Anfrage; signiert jede Antwort, solange `ANTWORT_SIGNIEREN` an ist und der Browser Ed25519 kann (sonst `unsigniert: 'browser'`) | `antwortSchluesselJeStelle`, `antwortSchluesselInfo` | U2-ADR-501 · Auflage: externer Review |
 | Fach-Tür (Empfängerkreise) | PBKDF2 über das Passwort der Empfängerin mit eigenem Salt, danach HKDF mit demselben Info-String wie der Depot-Schlüssel (`vivodepot/v3/depot/`) | `_fachTuerSchluessel` | U2-ADR-156 |
 | Fach-Zugang | der Fach-Schlüssel wickelt nur die freigegebenen Einheiten; für die übrigen stehen Attrappen gleicher Länge | `_zerfallAttrappe` | U2-ADR-156 |
 | Wiederherstellungs-Hülle | Code mit 27 Stellen Crockford-Base32; PBKDF2 (600.000) mit eigenem 32-Byte-Salt, das Ergebnis dient direkt als AES-GCM-Schlüssel (IV 12 Byte) und wickelt das Ergebnis der Passwort-Ableitung | `WHC_STELLEN`, `_whcFrisch`, `_whcEinwickeln` | U2-ADR-430 |

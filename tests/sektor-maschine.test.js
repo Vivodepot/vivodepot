@@ -8,7 +8,7 @@
    Verifikation (UX-Spec V/VII, U2-ADR-006/009):
      1) Jeder Feldtyp prüft (Datum lehnt Freitext ab, Zahl lehnt Buchstaben ab,
         Auswahl nur aus Optionen, Pflicht greift, maxLength/min/max greifen).
-     2) Modul-Feld im aufklappbaren mehr-Block, Kern-Feld direkt; Badge bei Eintrag.
+     2) Kern- und Modul-Feld stehen genau einmal in einer Gruppenkarte (löst den „mehr"-Block ab, v998, M07); Zähler bei Eintrag.
      3) Feld-Hint und Abschnitts-Hint rendern.
      4) Inhaltsverzeichnis ab drei Sektionen.
      5) Leer-Phrase „nicht hinterlegt" (kursiv); Pausen-Zeile pro Bereich; keine Emoji;
@@ -130,11 +130,11 @@ test('1) feldValidieren: pflicht greift für ALLE Typen', () => {
   }
 });
 
-/* ── 2) Modul-Felder im aufklappbaren mehr-Block ─────────────────────── */
+/* ── 2) Kern- und Modul-Felder in der Gruppenkarte ──────────────────── */
 
-// Der mehr-Block gilt für GEMISCHTE Sektionen (Kern + Modul). Eine Sektion ganz aus
-// Modul-Feldern rendert ihre Felder direkt (kein „mehr"-Toggle, 30.05.) — separat geprüft
-// in sektoren-spec.test.js. Diese zwei Tests nutzen daher eine gemischte Sektion.
+// Abnahme v998, M07: der „mehr"-Block ist abgelöst. Jedes Feld einer Sektion — Kern wie Modul — steht genau einmal in
+// einer Gruppenkarte (`_sektionKartenListe`); die Karte öffnet sich, sobald etwas eingetragen ist, und zählt „N von M".
+// Die Sektion ohne Kern-Felder ist in sektoren-spec.test.js geprüft.
 function mixedSektor() {
   return {
     id: 'test_mehr_sektor', label: 'Mehr-Test', format: 'GENERISCH', icon: 'star',
@@ -146,7 +146,7 @@ function mixedSektor() {
   };
 }
 
-test('2) Modul-Feld erscheint im aufklappbaren mehr-Block, Kern-Feld direkt', async () => {
+test('2) Kern- und Modul-Felder stehen genau einmal in der Gruppenkarte, ohne mehr-Block', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Inhaberin');
@@ -154,17 +154,16 @@ test('2) Modul-Feld erscheint im aufklappbaren mehr-Block, Kern-Feld direkt', as
   V.renderSektor(mixedSektor());
   const html = document.getElementById('content').innerHTML;
 
-  // Kern-Feld-Label direkt sichtbar.
-  assert.ok(html.includes('Text'), 'Kern-Feld gerendert');
-  // Modul-Felder leben im <details class="mehr-block">.
-  const detailsRegex = /<details class="mehr-block"[^>]*>[\s\S]*?Modul A[\s\S]*?Modul B[\s\S]*?<\/details>/;
-  assert.match(html, detailsRegex, 'Modul-Felder im mehr-Block');
-  assert.ok(html.includes(V.STRINGS.mehrLabel), 'mehr-Label im Summary');
-  // Ohne eingetragene Modul-Werte: NICHT offen (kein " open").
-  assert.equal(/<details class="mehr-block" open/.test(html), false, 'mehr-Block geschlossen, solange leer');
+  assert.ok(!html.includes('mehr-block'), 'kein mehr-Block');
+  assert.ok(html.includes('feldgruppen-karte'), 'die Felder stehen in einer Gruppenkarte');
+  for (const id of ['f_text', 'f_modul_a', 'f_modul_b']) {
+    assert.equal(html.split('data-feld="' + id + '"').length - 1, 1, 'Feld ' + id + ' steht genau einmal da');
+  }
+  // Ohne Eintrag: die Karte ist geschlossen (kein " open").
+  assert.equal(/<details class="feldgruppen-karte" open/.test(html), false, 'Karte geschlossen, solange nichts eingetragen ist');
 });
 
-test('2) mehr-Block öffnet bei Eintrag und zeigt Badge „X eingetragen"', async () => {
+test('2) Karte öffnet bei Eintrag und zählt „1 von 3"', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Inhaberin');
@@ -174,9 +173,9 @@ test('2) mehr-Block öffnet bei Eintrag und zeigt Badge „X eingetragen"', asyn
   V.renderSektor(mixedSektor());
   const html = document.getElementById('content').innerHTML;
 
-  assert.match(html, /<details class="mehr-block" open/, 'mehr-Block offen, weil mindestens ein Modul-Feld eingetragen');
-  assert.ok(html.includes(V.STRINGS.mehrEingetragen), 'Badge „eingetragen" sichtbar');
-  assert.ok(/1 eingetragen/.test(html), 'Anzahl 1 im Badge');
+  // Ruhezustand (Zielbild 05, tests/feldgruppen-ruhezustand.test.js): die erste Karte eines Bereichs steht ab Werk offen.
+  assert.match(html, /<details class="feldgruppen-karte"[^>]* open/, 'Karte offen: die erste Karte des Bereichs');
+  assert.match(html, /feldgruppen-karte-zahl">1 von 3</, 'Zähler „1 von 3"');
 });
 
 /* ── 3) Hints ────────────────────────────────────────────────────────── */
@@ -226,14 +225,12 @@ test('5) Leer-Phrase ist „nicht hinterlegt" (kleinschreibung)', () => {
   assert.match(html, /<span class="leer">nicht hinterlegt<\/span>/, 'Leer-Phrase im .leer-Span');
 });
 
-test('5) Pausen-Zeile als Abschluss pro Bereich', async () => {
+test('5) keine Schlusszeile unter einem Bereich (Zielbild 05: keine Fußzeile, das Etikett oben sagt „gespeichert“)', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.renderSektor(testSektor());
   const html = document.getElementById('content').innerHTML;
-  // Seit U2-ADR-474 kommt die Zeile aus dem Speichermodell (speicherSatz), je nach Modus.
-  assert.ok(html.includes('<p class="pause-erlaubnis">' + V.speicherSatz('bereichsende') + '</p>'),
-    'Pausen-Erlaubnis-Phrase mit Sie-Form');
+  assert.ok(!html.includes('class="pause-erlaubnis"'), 'keine Pausen-Zeile am Bereichsende');
 });
 
 test('5) Keine Emoji im Markup; Sie-Form (Pflicht-Marker per ARIA, nicht „Du")', async () => {
@@ -245,7 +242,6 @@ test('5) Keine Emoji im Markup; Sie-Form (Pflicht-Marker per ARIA, nicht „Du")
   // Sie-Form: das einzige Maschine-Wort ist die Pausen-/Speicher-Zusage (Finding 1 04.07. umformuliert —
   // Bezug auf die String-Konstante, nicht auf den konkreten Wortlaut, damit die Sie-Form-Prüfung
   // Umformulierungen übersteht).
-  assert.ok(html.includes(V.speicherSatz('bereichsende')), 'Pausen-/Speicher-Zusage gerendert');
   assert.ok(/\bIhre?\b/.test(V.speicherSatz('bereichsende')), 'Sie-Form (Ihr/Ihre) in der Zusage');
   // Keine Du-Form in Maschine-erzeugten Texten.
   assert.equal(/\bdu\b|\bdein(e|er|en|em)?\b|\bdir\b|\bdich\b/i.test(html), false,

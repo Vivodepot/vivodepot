@@ -2,7 +2,7 @@
 /* Feldhinweise in der Rolle Hilfe, Meldungen über der Tab-Leiste (Nachtrag zu Schritt 1 der Gestaltung, 30.10.2026)
    ───────────────────────────────────────────────────────────────────────────────────────────────
    1 · Ein Feldhinweis (.feld-hint) erbte von .feld-wert Stärke und Tinte und stand lauter als sein Label. Soll ist die Rolle
-       Hilfe: 13 px am Rechner, 14 px schmal, Stärke 400, Farbe --ink3, leiser als das Label (nicht größer, leichter).
+       Hilfe: 14 px am Rechner und schmal (Größenleiter, Stufe Hilfe), Stärke 400, Farbe --ink3, leiser als das Label (nicht größer, leichter).
    2 · Am schmalen Bildschirm lagen Meldungen (Toasts) über der Tab-Leiste. Soll: ihre Unterkante steht 8 px über der Leiste.
    Gemessen in Privat und Pro, je bei 1440 und 390 px, Erscheinungsbild ab Werk. Rot-Beweis je Teil gegen den alten Stil. */
 const { test, expect } = require('@playwright/test');
@@ -27,7 +27,7 @@ async function hinweisMessen(page) {
 function hinweisFehler(m, schmal) {
   const f = [];
   if (!m) return ['kein sichtbarer Feldhinweis'];
-  if (m.groesse !== (schmal ? 14 : 13)) f.push('Hinweis ' + m.groesse + ' px statt ' + (schmal ? 14 : 13));
+  if (m.groesse !== 14) f.push('Hinweis ' + m.groesse + ' px statt ' + 14);
   if (m.staerke !== 400) f.push('Hinweis Stärke ' + m.staerke + ' statt 400');
   if (m.farbe !== m.ink3) f.push('Hinweis in ' + m.farbe + ' statt --ink3');
   if (m.groesse > m.labelGroesse || m.staerke >= m.labelStaerke) f.push('Hinweis nicht leiser als das Label');

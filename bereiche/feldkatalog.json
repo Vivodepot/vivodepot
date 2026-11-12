@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von einem nicht öffentlichen Werkzeug aus vivodepot.html SEKTOREN und den nicht öffentlichen Bereichs-Vorlagen. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 1027,
+  "anzahl": 1050,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -1627,7 +1627,7 @@
     {
       "kennung": "emergencyPreparedness.fallbackLocation2ndStage",
       "bereich": "emergencyPreparedness",
-      "label": "Ausweichort (2. Stufe)",
+      "label": "Ausweichort",
       "template": "vivodepot-emergencyPreparedness.json"
     },
     {
@@ -2201,6 +2201,12 @@
       "template": "vivodepot-health.json"
     },
     {
+      "kennung": "housing.moveInDate",
+      "bereich": "housing",
+      "label": "Eingezogen am",
+      "template": "vivodepot-housing.json"
+    },
+    {
       "kennung": "housing.ownedOrRented",
       "bereich": "housing",
       "label": "Eigentum oder Miete?",
@@ -2223,6 +2229,24 @@
       "kennung": "housing.landlordEmail",
       "bereich": "housing",
       "label": "Vermieter — E-Mail",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.landlordIsOwner",
+      "bereich": "housing",
+      "label": "Wohnungsgeber ist auch Eigentümer der Wohnung",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.ownerName",
+      "bereich": "housing",
+      "label": "Name des Eigentümers",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.landlordConfirmationCode",
+      "bereich": "housing",
+      "label": "Zuordnungsmerkmal der Wohnungsgeberbestätigung",
       "template": "vivodepot-housing.json"
     },
     {
@@ -2253,6 +2277,114 @@
       "kennung": "housing.tenancyAgreementFixedTermUntil",
       "bereich": "housing",
       "label": "Mietvertrag — befristet bis (falls Zeitmietvertrag)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.heatingCostsInRent",
+      "bereich": "housing",
+      "label": "Heizung, in der Miete enthalten (Betrag im Monat)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.hotWaterCostsInRent",
+      "bereich": "housing",
+      "label": "Warmwasser, in der Miete enthalten (Betrag im Monat)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.garageCostsInRent",
+      "bereich": "housing",
+      "label": "Garage, in der Miete enthalten (Betrag im Monat)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.parkingSpaceCostsInRent",
+      "bereich": "housing",
+      "label": "Stellplatz, in der Miete enthalten (Betrag im Monat)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.serviceChargeFlatRate",
+      "bereich": "housing",
+      "label": "Servicepauschale, z. B. beim betreuten Wohnen (Betrag im Monat)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.householdEnergyCosts",
+      "bereich": "housing",
+      "label": "Haushaltsstrom oder Kochenergie, in der Miete enthalten (Betrag im Monat)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.costsPaidToThirdParties",
+      "bereich": "housing",
+      "label": "Nebenkosten, die Sie direkt an Dritte zahlen (Betrag im Monat)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.rentSubsidyProvider",
+      "bereich": "housing",
+      "label": "Mietzuschuss – wer zahlt ihn",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.rentSubsidyAmount",
+      "bereich": "housing",
+      "label": "Mietzuschuss – Betrag im Monat",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.rentSubsidyFrom",
+      "bereich": "housing",
+      "label": "Mietzuschuss – seit",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.rentSubsidyUntil",
+      "bereich": "housing",
+      "label": "Mietzuschuss – bis (falls befristet)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.commercialUseArea",
+      "bereich": "housing",
+      "label": "Für Gewerbe oder Beruf genutzte Fläche (m²)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.subtenants",
+      "bereich": "housing",
+      "label": "Mitbewohnerinnen, Mitbewohner, Untermieterinnen und Untermieter",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.subtenants/subtenantRelationship",
+      "bereich": "housing",
+      "label": "Wohnt hier als",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.subtenants/subtenantRoomSize",
+      "bereich": "housing",
+      "label": "Größe des Zimmers (m²)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.subtenants/mainResidence",
+      "bereich": "housing",
+      "label": "Lebensmittelpunkt in dieser Wohnung",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.subtenants/mainResidenceSince",
+      "bereich": "housing",
+      "label": "Lebensmittelpunkt hier seit",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.subtenants/subtenantServiceCharges",
+      "bereich": "housing",
+      "label": "Anteil an den Nebenkosten (Betrag im Monat)",
       "template": "vivodepot-housing.json"
     },
     {
@@ -2374,6 +2506,12 @@
       "kennung": "identity.secondLastName",
       "bereich": "identity",
       "label": "Zweiter Nachname",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.academicDegree",
+      "bereich": "identity",
+      "label": "Doktorgrad",
       "template": "vivodepot-identity.json"
     },
     {
@@ -3050,25 +3188,25 @@
     {
       "kennung": "personal.letterForTheEmergencyDoctor",
       "bereich": "personal",
-      "label": "Brief für Szenario „Notarzt“",
+      "label": "Brief für den Notarzt",
       "template": "vivodepot-personal.json"
     },
     {
       "kennung": "personal.letterForTheHospitalScenario",
       "bereich": "personal",
-      "label": "Brief für Szenario „Krankenhaus“",
+      "label": "Brief fürs Krankenhaus",
       "template": "vivodepot-personal.json"
     },
     {
       "kennung": "personal.letterForTheCareHomeAdmission",
       "bereich": "personal",
-      "label": "Brief für Szenario „Pflegeheim-Aufnahme“",
+      "label": "Brief für die Aufnahme ins Pflegeheim",
       "template": "vivodepot-personal.json"
     },
     {
       "kennung": "personal.letterForTheDeathScenario",
       "bereich": "personal",
-      "label": "Brief für Szenario „Todesfall“",
+      "label": "Brief für den Todesfall",
       "template": "vivodepot-personal.json"
     },
     {
@@ -5288,24 +5426,6 @@
       "template": "vivodepot-pro-gesellschaft-nachfolge.json"
     },
     {
-      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen",
-      "bereich": "pro-kontakte-vertretungsplan",
-      "label": "Nicht zu benachrichtigende Personen",
-      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
-    },
-    {
-      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name",
-      "bereich": "pro-kontakte-vertretungsplan",
-      "label": "Name",
-      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
-    },
-    {
-      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit",
-      "bereich": "pro-kontakte-vertretungsplan",
-      "label": "Erreichbarkeit",
-      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
-    },
-    {
       "kennung": "pro-kontakte-vertretungsplan.tpl_notify_first",
       "bereich": "pro-kontakte-vertretungsplan",
       "label": "Wer zuerst informiert wird, und durch wen",
@@ -5411,6 +5531,24 @@
       "kennung": "pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_what_is_kept_there",
       "bereich": "pro-kontakte-vertretungsplan",
       "label": "Was dort liegt",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Nicht zu benachrichtigende Personen",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Name",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Erreichbarkeit",
       "template": "vivodepot-pro-kontakte-vertretungsplan.json"
     },
     {
@@ -6100,7 +6238,7 @@
     {
       "kennung": "socialInsurance.careLevelTimeLimitedUntil",
       "bereich": "socialInsurance",
-      "label": "Pflegegrad befristet bis",
+      "label": "Pflegegrad — befristet bis",
       "template": "vivodepot-socialInsurance.json"
     },
     {

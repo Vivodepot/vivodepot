@@ -13,10 +13,55 @@
       "wizards": [
         "umzwiz"
       ],
+      "standardDokumente": [
+        {
+          "typ": "registration-certificate",
+          "name": "Testtext 1",
+          "empfRhythmusMonate": null,
+          "felder": [
+            {
+              "sektorId": "housing",
+              "feldId": "moveInDate"
+            },
+            {
+              "sektorId": "identity",
+              "feldId": "academicDegree"
+            }
+          ]
+        },
+        {
+          "typ": "landlord-confirmation",
+          "name": "Testtext 2",
+          "empfRhythmusMonate": null,
+          "felder": [
+            {
+              "sektorId": "housing",
+              "feldId": "moveInDate"
+            },
+            {
+              "sektorId": "housing",
+              "feldId": "landlordIsOwner"
+            },
+            {
+              "sektorId": "housing",
+              "feldId": "ownerName"
+            },
+            {
+              "sektorId": "housing",
+              "feldId": "landlordConfirmationCode"
+            }
+          ]
+        }
+      ],
       "sektionen": [
         {
           "id": "wohnen-haupt",
           "felder": [
+            {
+              "id": "moveInDate",
+              "typ": "datum",
+              "ebene": "modul"
+            },
             {
               "id": "ownedOrRented",
               "typ": "auswahl",
@@ -56,6 +101,42 @@
               "id": "landlordEmail",
               "typ": "text",
               "eingabeTyp": "email",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "landlordIsOwner",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                }
+              ],
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "ownerName",
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "landlordIsOwner",
+                "wert": "nein"
+              }
+            },
+            {
+              "id": "landlordConfirmationCode",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
               "sichtbarWenn": {
                 "feld": "ownedOrRented",
                 "wert": "miete"
@@ -124,6 +205,165 @@
                 "feld": "ownedOrRented",
                 "wert": "miete"
               }
+            },
+            {
+              "id": "heatingCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "hotWaterCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "garageCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "parkingSpaceCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "serviceChargeFlatRate",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "householdEnergyCosts",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "costsPaidToThirdParties",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyProvider",
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyAmount",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyFrom",
+              "typ": "datum",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyUntil",
+              "typ": "datum",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "commercialUseArea",
+              "typ": "text",
+              "eingabeTyp": "numeric",
+              "ebene": "modul"
+            },
+            {
+              "id": "subtenants",
+              "sensibel": true,
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "subtenantRelationship",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "mitbewohner"
+                    },
+                    {
+                      "wert": "untermieter"
+                    }
+                  ]
+                },
+                {
+                  "id": "subtenantRoomSize",
+                  "typ": "text",
+                  "eingabeTyp": "numeric"
+                },
+                {
+                  "id": "mainResidence",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "hier"
+                    },
+                    {
+                      "wert": "woanders"
+                    }
+                  ]
+                },
+                {
+                  "id": "mainResidenceSince",
+                  "typ": "datum"
+                },
+                {
+                  "id": "subtenantServiceCharges",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ],
+              "ebene": "modul"
             },
             {
               "id": "specialLivingSituation",

@@ -69,7 +69,7 @@ test('[W3 · Anlegen] auf dem Anfrage-Weg kein Code-Schritt und kein Notfall-Dia
   assert.ok(ohne && /pw = null;/.test(ohne[1]) && !/const p = pw|wiederherstellungAnbieten|anlegenCodeSchritt/.test(ohne[1]), 'die Fortsetzung des Anfrage-Wegs reicht das Passwort nicht weiter');
   assert.ok(f.indexOf(zweig[0]) < f.indexOf('if (webkitTabMitFrist()) _dateiNachAnlegenAnbieten(fortsetzen); else fortsetzen();'), 'der Zweig steht vor dem allgemeinen Weg');
   // S2 (31.10.2026): andere Wege gehen in Schritt 2 mit dem Code; das Passwort-Blatt steht dort, kein Dialog danach.
-  assert.match(f, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt\(p\); \};/, 'andere Wege: Schritt 2');
+  assert.match(f, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt\(p, exportErinnerungFreigeben\); \};/, 'andere Wege: Schritt 2');
 });
 test('[W3 · Anlegen · Rot-Beweis] fehlt der Zweig oder reicht er das Passwort weiter, fällt die Prüfung', () => {
   const f = rumpf('function flowDepotAnlegen(');
@@ -168,7 +168,8 @@ test('[W3 · Nachholen] ein Depot aus einer Anfrage ohne Code bekommt das Angebo
   assert.equal(V._anfrageAbsichernNachholen(), false, 'beim zweiten Öffnen nicht noch einmal');
 });
 test('[W3 · Nachholen] der Haken sitzt an beiden Wegen des Öffnens', () => {
-  assert.equal((KERN.match(/ui\.toast\(STRINGS\.geoeffnet, 'ok'\); _anfrageAbsichernNachholen\(\);/g) || []).length, 2);
+  // Der interne Eintritt nennt seit IDB-FALSCHES-PASSWORT (04.11.2026) den Stand des geöffneten Depots (idbGeoeffnetText).
+  assert.equal((KERN.match(/ui\.toast\((?:STRINGS\.geoeffnet|idbGeoeffnetText\(\)), 'ok'[^;]*\); _anfrageAbsichernNachholen\(\);/g) || []).length, 2);
 });
 test('[W3 · Nachholen] die Marken überleben Schließen und Öffnen: vor dem Zeigen bleibt das Angebot fällig, danach kommt es nicht wieder', async () => {
   const { V } = ladeKern();
@@ -269,7 +270,7 @@ test('[W3 · Code] whcCodeZeigen schreibt den Code nur in den Dialog: keine Kons
   }
   // Der Code steht genau einmal im Markup, im Dialog-Inhalt; die übrigen Vorkommen sind Vergleich und Hinweis.
   assert.equal((r.match(/_whcCodeAnzeigeHTML\(code\)/g) || []).length, 1);
-  assert.equal((rumpf('function anlegenCodeSchritt(').match(/_whcCodeAnzeigeHTML\(code\)/g) || []).length, 1);
+  assert.equal((rumpf('function anlegenCodeSchritt(').match(/_whcCodeAnzeigeHTML\(code(, true)?\)/g) || []).length, 1);
   assert.equal((rumpf('function _whcCodeAnzeigeHTML(').match(/whcCodeGruppiert\(code\)/g) || []).length, 1);
   // Das Code-Blatt (Klick auf „Blatt“) bekommt den Code nicht.
   assert.match(rumpf('function _whcCodeDialogVerdrahten('), /bl\.onclick = \(\) => _codeblattOeffnen\(\);/);

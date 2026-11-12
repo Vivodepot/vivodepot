@@ -167,16 +167,7 @@ test('[Sicherbarkeit·Unterbrochen] scheitert ein späterer Schreibvorgang, blei
   assert.equal(frisch.V.getData().sektoren.identity.city, 'Fassung-Eins', 'die erste Fassung ist vollständig lesbar');
 });
 
-test('[Sicherbarkeit·Hinweis] „Passwort setzen" aus der Vorschau sagt vor dem Feld, dass niemand das Passwort zurücksetzen kann', () => {
-  const { V, document } = ladeKern();
-  V.flowVorschauBetreten();
-  V.flowPasswortSetzen();
-  const html = document.getElementById('modal-inhalt').innerHTML;
-  const iWarn = html.indexOf('modal-warnung');
-  const iPw = html.indexOf('id="pw-neu"');
-  assert.ok(iWarn > -1, 'der Warnblock steht im Dialog');
-  assert.ok(iPw > -1, 'das Passwort-Feld steht im Dialog');
-  assert.ok(iWarn < iPw, 'Reihenfolge: Warnung vor dem Passwort-Feld');
-  // Der Testkern hat kein echtes DOM; der Wortlaut steht maskiert im HTML.
-  assert.ok(html.includes(V.escapeHTML(V.STRINGS.modalAnlegenPwWarnung)), 'der freigegebene Wortlaut steht wörtlich da');
-});
+/* [Sicherbarkeit·Hinweis] am namenlosen Passwort-Dialog entfiel mit dessen Rückbau (07.11.2026); aus der Umschau öffnet jetzt „Depot
+   anlegen“. Dass dort vor dem Feld steht, dass niemand das Passwort zurückholt, halten in tests/passwort-zwei-schritte.test.js
+   [S2·Schritt 1] und [S2·kein Zurücksetzen]. */
+

@@ -167,17 +167,20 @@ angelehnter Feldbenennung**. Die frühere Außendarstellung hat das anders behau
 diesem Repository.
 
 **Die `sd-jwt-vc-*`-Exporte und der Dialog „An EUDI-Wallet übergeben“ schreiben SD-JWT, selbst signiert** mit einem
-Ed25519-Schlüssel, den die App aus dem Passwort der Person ableitet (U2-ADR-457): formkonform nach RFC 9901 §4.1, Vertrauen
-null ohne Institutionssignatur. Die Signatur zeigt, dass die Datei seit dem Signieren unverändert ist und von demselben
-Schlüssel stammt; sie zeigt nicht, dass eine Stelle die Angaben bestätigt. Ein SD-JWT-VC-Prüfer lehnt den Aussteller in der
+Ed25519-Schlüssel, den die App für jede Ausgabe neu aus Zufall erzeugt und nicht speichert (U2-ADR-457, Nachtrag 02.11.2026):
+formkonform nach RFC 9901 §4.1, Vertrauen null ohne Institutionssignatur. Die Signatur zeigt, dass die Datei seit dem
+Signieren unverändert ist und zu dem Schlüssel in ihrem Kopf passt; sie zeigt nicht, dass eine Stelle die Angaben bestätigt.
+Seit dem Nachtrag vom 02.11.2026 trägt jede Datei-Ausgabe einen eigenen Zufallsschlüssel (32 Byte); zwei Ausgaben derselben Person lassen sich darüber nicht
+verbinden. Ein SD-JWT-VC-Prüfer lehnt den Aussteller in der
 Regel ab, weil der Schlüssel keiner Stelle zugeordnet ist (draft-ietf-oauth-sd-jwt-vc-19, §2.5 „Issuer Verification Key
 Discovery and Validation“; ein Ökosystem kann dort eigene Regeln festlegen).
 Kann der Browser kein Ed25519, entsteht eine unsignierte Selbstauskunft unter eigenem `typ` (`application/jwt`), kein SD-JWT.
-**Kein anderes Format der App trägt eine Signatur.** Die Antwort als JWE (U2-ADR-449) ist verschlüsselt und gegen Veränderung
+Signiert sind außerdem die Antworten auf Anfragen, mit einem Schlüssel je Stelle, bei einer ungeprüften Stelle je Anfrage
+(`ANTWORT_SIGNIEREN`, U2-ADR-501; siehe SECURITY.md). Die Antwort als JWE (U2-ADR-449) ist verschlüsselt und gegen Veränderung
 geschützt, belegt aber keine Herkunft. Der separate Aussteller `vivodepot-vc-issuer.html` signiert; er ist nicht die App.
 Zum Nachsehen:
 - `grep -n "kompakt: true" vivodepot.html` zeigt die drei Exporte mit `application/dc+sd-jwt`.
-- `grep -n "halterSignatur" vivodepot.html` zeigt die Ableitung des Schlüssels in der VdCrypto-Hülle.
+- `grep -n "sdjwtSchluesselJeAusgabe" vivodepot.html` zeigt den Schlüssel je Ausgabe und seinen Aufruf im Export.
 - `grep -n "alg: 'none'" vivodepot.html` zeigt nur den Rückfall mit dem eigenen `typ` `EUDIW_SELBSTAUSKUNFT_TYP`.
 - `node tools/sdjwt-selbstsignatur-messen.js` prüft gegen die Normvektoren, mit `--jose <pfad>` gegen eine unabhängige
   Bibliothek.

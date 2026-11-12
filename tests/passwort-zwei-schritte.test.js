@@ -18,7 +18,7 @@ const { ladeKern } = require('./load-kern.js');
 
 const REPO = path.join(__dirname, '..');
 const KERN = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
-const FORTSETZEN = 'const fortsetzen = () => { if (fortgesetzt) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt(p); };';
+const FORTSETZEN = 'const fortsetzen = () => { if (fortgesetzt) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt(p, exportErinnerungFreigeben); };';
 
 function schritt2(V, document) {
   let danach = 0;
@@ -35,7 +35,7 @@ test('[S2·Schritt 1] Schrittzeile über dem Titel, der Satz statt des Warnkaste
   assert.match(html, /id="id-pw-satz"[^>]*>|data-zwei-schritte id="id-pw-satz"/);
   assert.ok(html.includes(V.escapeHTML(V.STRINGS.anlegenPwSatzVorschlag)), 'Satz 1 und 2 als ein Absatz');
   assert.ok(html.indexOf('id="id-pw-warum"') > html.indexOf('id="id-pw-satz-text"'), '„Warum?“ hängt am Satz');
-  assert.ok(html.includes('id="id-pw-eigen-weg"'), '„Lieber ein eigenes Passwort wählen“ steht darunter');
+  assert.ok(html.includes('id="id-pw-eigen-weg"'), '„Lieber ein eigenes Passwort“ steht darunter');
   assert.ok(!html.includes('modal-warnung'), 'kein Warnkasten');
   assert.ok(html.includes(V.escapeHTML(V.STRINGS.anlegenPwProbeLabel)), 'die Probe nennt die Aufgabe');
 });
@@ -160,7 +160,9 @@ test('[S2·Schritt 2] der Code in sieben Gruppen, beide Blätter, „Fertig“ u
   assert.ok(html.includes('data-schritt="2">' + V.escapeHTML(V.STRINGS.anlegenSchritt2) + '</span>'), 'Schritt 2 von 2 vor dem Titel');
   assert.ok(html.includes(V.escapeHTML(V.STRINGS.whcSchrittText)));
   const code = /id="whc-code"[^>]*>([\s\S]*?)<\/p>/.exec(html)[1];
-  assert.match(code, /^([A-Z0-9]{4} ){6}[A-Z0-9]{4}$/, 'sieben Vierergruppen mit Leerzeichen: Umbruch nur zwischen Gruppen');
+  // Zielbild 02 (Umbau 05.11.2026): jede Gruppe eine Kachel; dazwischen ein Leerzeichen, umbrochen wird nur zwischen den Kacheln.
+  assert.match(code, /^(<span>[A-Z0-9]{4}<\/span> ){6}<span>[A-Z0-9]{4}<\/span>$/, 'sieben Vierergruppen als Kacheln');
+  assert.match(code.replace(/<[^>]+>/g, ''), /^([A-Z0-9]{4} ){6}[A-Z0-9]{4}$/, 'als Text: sieben Vierergruppen mit Leerzeichen');
   assert.ok(html.includes('id="whc-blatt"') && html.includes(V.escapeHTML(V.STRINGS.whcBlattLeerKnopf)), 'Leeres Code-Blatt drucken');
   assert.ok(html.includes('id="whc-pw-blatt"') && html.includes(V.escapeHTML(V.STRINGS.nfbDruckenKnopf)), 'das Passwort-Blatt steht hier, nicht in einem Dialog danach');
   assert.match(html, /<button class="btn" id="m-ok">Fertig<\/button>/);
@@ -185,6 +187,51 @@ test('[S2·Ablauf] flowDepotAnlegen setzt nach dem Passwort mit Schritt 2 fort; 
   assert.match(f, /zweiSchritte: true/);
 });
 
+/* M27 (Mängelliste Vorschau v998, Nachtrag 31.10.2026 zu U2-ADR-430): wer aus der Umschau zum echten Depot kommt, sieht nach dem
+   Passwort Schritt 2, nicht drei Dialoge (Angebot, „Ohne Wiederherstellungs-Code?“, „Passwort-Blatt zum Ausfüllen“). Seit dem
+   Rückbau des Vorschau-Passwortwegs (07.11.2026) gibt es dafür keinen eigenen Dialog mehr: jedes Tor der Umschau öffnet
+   flowDepotAnlegen (tests/umschau-tore-depot-anlegen.test.js), dessen Fortsetzung [S2·Ablauf] und [S2·Rot-Beweis] halten.
+   Diese Probe geht den ganzen Weg einmal durch: Umschau, Sichern, Name und Passwort, Schritt 2. */
+function dateiMock() {
+  const handle = { name: 'm27-test.vivodepot', createWritable: async () => ({ write: async () => {}, close: async () => {} }) };
+  return { showSaveFilePicker: async () => handle };
+}
+function nurKlassen(document, ids) {
+  const orig = document.getElementById.bind(document);
+  const el = {};
+  for (const id of ids) {
+    const set = new Set();
+    el[id] = { innerHTML: '', textContent: '', style: {}, classList: { add: (...c) => c.forEach((x) => set.add(x)), remove: (...c) => c.forEach((x) => set.delete(x)),
+      toggle: (x) => (set.has(x) ? (set.delete(x), false) : (set.add(x), true)), contains: (x) => set.has(x) },
+      setAttribute: () => {}, removeAttribute: () => {}, getAttribute: () => null, querySelector: () => null, querySelectorAll: () => [],
+      addEventListener: () => {}, appendChild: (x) => x, insertAdjacentHTML: () => {} };
+  }
+  document.getElementById = (id) => (id in el ? el[id] : orig(id));
+}
+async function umschauNachAnlegen() {
+  const { V, document } = ladeKern(dateiMock());
+  nurKlassen(document, ['overlay', 'app']);
+  V.flowVorschauBetreten();
+  await V.depotInDateiSichern();
+  const titel = document.getElementById('modal-inhalt').innerHTML;
+  document.getElementById('id-vorname').value = 'Mara';
+  document.getElementById('id-nachname').value = 'Probe';
+  document.getElementById('id-pw').value = 'm27-umschau-pw-lang';
+  document.getElementById('id-pw2').value = 'm27-umschau-pw-lang';
+  await document.getElementById('m-ok').onclick();
+  for (let i = 0; i < 40 && !document.getElementById('modal-inhalt').innerHTML.includes('data-schritt="2"'); i++) await new Promise((r) => setTimeout(r, 50));
+  return { V, titel, html: document.getElementById('modal-inhalt').innerHTML };
+}
+
+test('[S2·Vorschau-Weg] aus der Umschau führt Sichern über „Depot anlegen“ zu Schritt 2; kein Angebot, kein Ablehnen-Dialog, kein Blatt-Dialog', async () => {
+  const { V, titel, html } = await umschauNachAnlegen();
+  assert.ok(titel.includes('data-schritt="1"') && titel.includes('id="id-vorname"'), 'Sichern öffnet „Depot anlegen“, Schritt 1 von 2, mit Namen');
+  assert.equal(V.imVorschau(), false, 'Vorbedingung: das Depot ist angelegt');
+  assert.ok(html.includes('data-schritt="2"'), 'Schritt 2 steht');
+  assert.ok(html.includes('id="whc-pw-blatt"'), 'das Passwort-Blatt steht im Schritt, nicht in einem eigenen Dialog');
+  assert.ok(!html.includes('id="nfb-angebot"') && !html.includes('id="whc-tragweite"'), 'kein Blatt-Dialog, kein Ablehnen-Dialog');
+});
+
 test('[S2·kein Zurücksetzen] wo das Passwort entsteht, sagt der Satz in allen vier Textsätzen, dass niemand es für Sie zurückholt', () => {
   for (const name of ['de', 'de-pro', 'en', 'en-pro']) {
     const t = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'textsatz-' + name + '-modul.json'), 'utf8')).texte;
@@ -206,7 +253,7 @@ test('[S2·Rot-Beweis] mit der alten Fortsetzung öffnet nach dem Passwort kein 
   assert.equal(KERN.split(FORTSETZEN).length - 1, 1, 'Vorbedingung: die Fortsetzung steht genau einmal im Kern');
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'zwei-schritte-rot-'));
   const kopie = path.join(ordner, 'vivodepot.html');
-  fs.writeFileSync(kopie, KERN.replace(FORTSETZEN, () => FORTSETZEN.replace('anlegenCodeSchritt(p);', 'wiederherstellungAnbieten(p, notfallblattAnbieten);')));
+  fs.writeFileSync(kopie, KERN.replace(FORTSETZEN, () => FORTSETZEN.replace('anlegenCodeSchritt(p, exportErinnerungFreigeben);', 'wiederherstellungAnbieten(p, notfallblattAnbieten);')));
   try {
     const { V, document } = ladeKern({ htmlPfad: kopie, backen: true });
     const f = fs.readFileSync(kopie, 'utf8');
@@ -216,4 +263,65 @@ test('[S2·Rot-Beweis] mit der alten Fortsetzung öffnet nach dem Passwort kein 
   } finally {
     fs.rmSync(ordner, { recursive: true, force: true });
   }
+});
+
+/* Zielbild 01, Durchsicht der Gestaltungsleitung 05.11.2026: unter „Wörter zur Probe abtippen“ stand „Die beiden Passwörter
+   stimmen nicht überein.“ — beim Wörter-Vorschlag spricht die Meldung von den Wörtern. Sie erscheint beim Verlassen des Felds
+   (blur) und bei „Weiter“, nicht beim Tippen; beim Verlassen rollt das Fenster nicht, sonst träfe der Klick (z. B. auf „Warum?“) daneben. */
+test('[S2·Probe-Meldung] beim Wörter-Vorschlag spricht die Meldung von den Wörtern, beim eigenen Passwort vom Passwort', () => {
+  const PRODUKT = require('./produkt-html-erzeugen.js');
+  const { V } = PRODUKT.kernAus(PRODUKT.produktHtml('privat-de'));
+  const woerter = V.passwortVorschlag();
+  assert.ok(V._pwIstVorschlagForm(woerter), 'Testvoraussetzung: sechs Listenwörter');
+  const w = woerter.split('-');
+  assert.equal(V.pwProbeMeldung(woerter, w.slice(0, 3).join('-') + '-' + w[3].slice(0, 2)), V.STRINGS.pwProbeWoerterUngleich);
+  assert.equal(V.pwProbeMeldung(woerter, [w[0], 'xxxqq'].concat(w.slice(2)).join('-')), V.STRINGS.pwProbeWortWeichtAb.replace('{n}', '2'));
+  assert.equal(V.pwProbeMeldung(woerter, w.join(' ')), V.STRINGS.pwProbeNurSchreibung);
+  assert.equal(V.pwProbeMeldung('Sommer-Garten-2026', 'Sommer-Garten'), V.STRINGS.pwSetzenUngleich);
+  assert.doesNotMatch(V.STRINGS.pwProbeWoerterUngleich, /Passw/);
+});
+
+test('[S2·Probe-Meldung·Quelle] modalPwMismatch nimmt die Meldung aus pwProbeMeldung; im Fenster mit Schritten erst bei „Weiter“, sonst beim Verlassen ohne zu rollen; Tippen löscht nur', () => {
+  assert.match(KERN, /feldFehlerSetzen\(f2, pwProbeMeldung\(f1\.value, f2\.value\), \{ meldung: inl \}\);/);
+  assert.match(KERN, /if \(!\(o && o\.ohneBlur\)\) f2\.addEventListener\('blur', \(\) => modalPwMismatch\(pw1Id, pw2Id, fehlerId, false, \{ leerStill: true \}\)\);/);   // leerStill: ANLEGEN-OHNE-PASSWORTBESTAETIGUNG (Kanon)
+  assert.match(KERN, /modalPwFelderVerdrahten\('id-pw', 'id-pw2', 'id-pw2-fehler', \{ ohneBlur: zs \}\);/);
+  assert.match(KERN, /f2\.addEventListener\('input', loesen\);/);
+});
+
+test('[S2·Probe-Meldung·Rot-Beweis] die alte Fassung (fester Passwort-Satz, Rollen beim Verlassen) fiele durch', () => {
+  const alt = KERN.replace('feldFehlerSetzen(f2, pwProbeMeldung(f1.value, f2.value), { meldung: inl });', 'feldFehlerSetzen(f2, STRINGS.pwSetzenUngleich, { meldung: inl });')
+    .replace("modalPwMismatch(pw1Id, pw2Id, fehlerId, false, { leerStill: true }));", "modalPwMismatch(pw1Id, pw2Id, fehlerId, true, { leerStill: true }));")
+    .replace("modalPwFelderVerdrahten('id-pw', 'id-pw2', 'id-pw2-fehler', { ohneBlur: zs });", "modalPwFelderVerdrahten('id-pw', 'id-pw2', 'id-pw2-fehler');");
+  assert.notEqual(alt, KERN);
+  assert.doesNotMatch(alt, /feldFehlerSetzen\(f2, pwProbeMeldung\(f1\.value, f2\.value\), \{ meldung: inl \}\);/);
+  assert.doesNotMatch(alt, /f2\.addEventListener\('blur', \(\) => modalPwMismatch\(pw1Id, pw2Id, fehlerId, false, \{ leerStill: true \}\)\);/);
+  assert.doesNotMatch(alt, /modalPwFelderVerdrahten\('id-pw', 'id-pw2', 'id-pw2-fehler', \{ ohneBlur: zs \}\);/);
+});
+
+// U2-ADR-244, Nachtrag 05.11.2026: der Speicherort-Hinweis steht im Fenster mit Schritten hinter „Warum?“ (zugeklappt), nicht als
+// Dauertext; nur der Datei-Fallback bleibt offen sichtbar, weil dort ein Dateiziel folgt.
+function warumBefund(kern) {
+  let pfad;
+  if (kern) { pfad = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'vd-warum-')), 'vivodepot.html'); fs.writeFileSync(pfad, kern); }
+  const { V, document } = ladeKern(pfad ? { htmlPfad: pfad } : undefined);
+  // Der Stub hat keinen internen Speicher (dort käme der Datei-Fallback); der Dialog bekommt darum den Hinweis des Regelfalls.
+  V._depotIdentitaetUndPasswortAbfragen({ sub: false, zweiSchritte: true, warnung: true, titelHTML: 'Depot anlegen', primaerLabel: 'Weiter',
+    unterHinweis: 'Probe-Hinweis zum Speicherort' });
+  const html = document.getElementById('modal-inhalt').innerHTML;
+  const hinweis = V.escapeHTML('Probe-Hinweis zum Speicherort');
+  const mehr = /<div class="anlegen-warum-mehr" id="id-pw-warum-mehr" hidden>([\s\S]*?)<\/div>/.exec(html);
+  return { V, html, hinweis, mehr };
+}
+test('[S2·Warum] der Speicherort-Hinweis steht zugeklappt hinter „Warum?“, nicht als Dauertext', () => {
+  const { html, hinweis, mehr } = warumBefund();
+  assert.ok(mehr, 'der Aufklapper steht zugeklappt im Fenster');
+  assert.ok(mehr[1].includes(hinweis), 'der Hinweis steht im Aufklapper');
+  assert.equal(html.split(hinweis).length - 1, 1, 'der Hinweis steht genau einmal da, nicht zusätzlich als Dauertext');
+  assert.match(html, /id="id-pw-warum" aria-expanded="false" aria-controls="id-pw-warum-mehr"/);
+});
+test('[S2·Warum·Rot-Beweis] mit dem Hinweis als Dauertext fiele die Probe durch', () => {
+  const alt = KERN.replace("(opts.unterHinweis && !(zs && opts.unterHinweis !== STRINGS.anlegenDateizielHinweis) ?", '(opts.unterHinweis ?');
+  assert.notEqual(alt, KERN);
+  const { html, hinweis } = warumBefund(alt);
+  assert.equal(html.split(hinweis).length - 1, 2, 'die alte Fassung zeigt den Hinweis doppelt: im Aufklapper und als Dauertext');
 });

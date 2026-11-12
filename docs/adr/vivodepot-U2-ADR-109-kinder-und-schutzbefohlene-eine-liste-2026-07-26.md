@@ -103,6 +103,26 @@ U2-ADR-110 behoben.
 Aufenthaltsbestimmung, Behördenangelegenheiten) eine kanonische Quelle außerhalb des BGB haben. Bis
 dahin Freitext.
 
+## Nachtrag 31.10.2026: Die Art steht zuerst, „Alle Angaben“ öffnet ohne Art alles
+
+Anlass ist die Abnahme v998, Fund 7 der Gestaltungsleitung („Muster statt Satz“: Die Oberfläche zeigt, wie der Eintrag
+funktioniert, statt es in einem Hinweissatz zu erklären). Der Eintrag zeigt zuerst die Art als Wahl, die übrigen Angaben
+erscheinen danach. Der Hinweissatz der Liste entfällt ersatzlos.
+
+- **Die Art steht zuerst als Wahl.** Sie steht als erstes Feld und als Chips (Knöpfe mit `aria-pressed` in einer benannten
+  Gruppe); der Wert liegt unverändert im Feld `type`. Die Reihenfolge der Felddefinition, die Zusammenfassung, die Ausgabe
+  und der Export bleiben, wie sie waren: Nur der Eintrag am Bildschirm stellt die Wahl voran.
+- **Ohne Art bleiben nur bereits gefüllte Felder sichtbar.** Die Unterfelder tragen das Tor „verborgen solange die Art leer
+  ist“ (`verborgenWenn` mit dem Wert `''`). Was eine Zeile schon trägt, etwa der Freitext aus der Migration, bleibt sichtbar:
+  Das negative Gate dieser Entscheidung gilt weiter, nichts Eingetragenes verschwindet hinter dem Tor.
+- **„Alle Angaben“ öffnet ohne Art alle Felder.** Der Aufklapper bleibt auch dann sichtbar, wenn nur die Wahl steht. Der Aufklapper „Weitere Angaben ›“ (gemeinsamer Baustein, `weitereAngabenHTML`; Leitfaden 5.14) steht an der Stelle des früheren Dialogs
+  und zeigt ohne gewählte Art jedes Unterfeld, damit nichts unerreichbar bleibt; nach der Wahl der Art gelten wieder
+  die Bedingungen. Dasselbe gilt für „Eintrag bearbeiten“ an einem Eintrag ohne Art. Der Zweitknopf „+ Weitere Person“ öffnet
+  weiter mit der Art zuerst.
+
+Die Probe ist `tests/kinder-schutzbefohlene-art-zuerst.test.js`, mit Rot-Beweis zur früheren Fassung. Die Probe zum Alt-Freitext
+(`tests/kinder-und-schutzbefohlene.test.js`) misst jetzt, dass ein Eintrag ohne Art sichtbar lässt, was er trägt.
+
 ## Konformität
 
 ```konformitaet

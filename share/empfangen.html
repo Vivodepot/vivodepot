@@ -30,6 +30,16 @@
 
 <h1 data-t="titel">Freigabe abholen</h1>
 
+<!-- Auftragsmodus: nur sichtbar, wenn Vivodepot diese Seite geöffnet und einen Auftrag geschickt hat (empfangen.js). -->
+<div class="kasten" id="auftrag" hidden>
+  <p data-t="auftrag-text">Abholauftrag: Den Schlüssel behält die Anwendung, die diese Seite geöffnet hat. Diese Seite holt nur die verschlüsselte Datei und gibt sie zurück.</p>
+  <dl id="auftrag-liste"></dl>
+  <button id="auftrag-knopf" data-t="auftrag-knopf">Abholen und zurückgeben</button>
+  <p id="auftrag-fehler" class="fehler" role="status"></p>
+  <button id="auftrag-datei-knopf" data-t="auftrag-datei-knopf" hidden>Verschlüsselte Datei speichern (.jwe)</button>
+</div>
+
+
 <p class="hinweis" data-t="einleitung">
   Hat Ihnen jemand einen Freigabe-Link geschickt — eine Praxis, ein Labor, ein Krankenhaus —,
   dann holt diese Seite das Dokument ab und entschlüsselt es auf Ihrem Gerät. Danach speichern

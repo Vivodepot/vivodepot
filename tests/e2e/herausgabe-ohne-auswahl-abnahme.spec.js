@@ -7,6 +7,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld } = require('./helpers');
 
 const ARTIFACTS = path.join(__dirname, '.artifacts');
@@ -51,7 +52,7 @@ test('vcard-menschen: VORHER — Dialog behauptete eine Auswahl, die den Erzeuge
   const modal = page.locator('#modal-inhalt');
   await expect(modal).toContainText('In diesem Bereich ist nichts hinterlegt');
   await page.screenshot({ path: path.join(ARTIFACTS, 'herausgabe-vcard-menschen-vorher-irrefuehrend.png'), fullPage: true });
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
 });
 
 test('vcard-menschen: NACHHER — Dialog wird übersprungen, Download läuft ehrlich direkt', async ({ page }) => {
@@ -84,7 +85,7 @@ test('ics-vorsorge: VORHER — Dialog behauptete eine Auswahl (Sektor vorsorge),
   const modal = page.locator('#modal-inhalt');
   await expect(modal).toContainText('In diesem Bereich ist nichts hinterlegt');
   await page.screenshot({ path: path.join(ARTIFACTS, 'herausgabe-ics-vorsorge-vorher-irrefuehrend.png'), fullPage: true });
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
 });
 
 test('ics-vorsorge: NACHHER — Dialog wird übersprungen, Download läuft ehrlich direkt', async ({ page }) => {

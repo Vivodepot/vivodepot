@@ -57,19 +57,18 @@ const HERKUNFTSORT_KENNUNGEN = Object.freeze([
 ]);
 
 /* Die zwei benannten HINWEISORTE (U2-ADR-400 Nachtrag 18.10.2026, U2-ADR-496 Nr. 6): außer am Herkunftsort steht die Software
-   genau hier, auch unter einer Partnermarke — „powered by“ in der App-Fußzeile (Anker `data-herkunft-hinweis="app"`, Schlüssel
-   herkunftPoweredBy, oben schon Herkunftsort) und „Erstellt mit …“ im Fuß jeder Ausgabe (der Schlüssel unten). Die
+   genau hier, auch unter einer Partnermarke — „Bereitgestellt mit“ (Anker `data-herkunft-hinweis="app"` an der Seitenleiste, am Menü und auf der
+   Seite „Über und Hinweise“, Schlüssel herkunftPoweredBy, oben schon Herkunftsort) und „Erstellt mit …“ im Fuß jeder Ausgabe (der Schlüssel unten). Die
    Messung nimmt aus Fuß und PDF GENAU den aufgelösten Satz dieser Schlüssel heraus, sonst nichts: ein zweites „Vivodepot“ daneben
    bleibt rot. */
 const HINWEISORT_KENNUNGEN = Object.freeze(['strings:ausgabeErstelltMit.text']);
-const HINWEIS_APP = /<span class="ff-powered" data-herkunft-hinweis="app">([^<]*)<\/span>/g;
+const HINWEIS_APP = /<p class="[^"]*" data-herkunft-hinweis="app">([^<]*)<\/p>/g;
 
 /* Bewusst bleibende Stellen — jede mit Grund (Freigabe 3c, 16.09.2026). Eine neue Stelle
    kommt nur mit Entscheidung auf diese Liste, nie, damit die Messung grün wird. */
 const BLEIBT_BEWUSST = Object.freeze({
   'strings:shlAblageOeffnenKnopf.text': 'share.vivodepot.de ist die tatsächliche Adresse des Ablagedienstes (3c).',
   'strings:shlUrlHinweis.text': 'share.vivodepot.de ist die tatsächliche Adresse des Ablagedienstes (3c).',
-  'strings:einlesenShlLink.text': 'share.vivodepot.de ist die tatsächliche Adresse der Abhol-Seite (SHL C, 26.09.2026), derselbe Dienst wie die Ablage (3c).',
   'strings:importBetaLabel.text': 'Die alte Vivodepot-App (Beta) ist ein Eigenname der Quelle, aus der importiert wird (3c).',
   'strings:importKlartext.vivodepot-beta.text': 'Die alte Vivodepot-App (Beta) ist ein Eigenname der Quelle, aus der importiert wird (3c).',
   'strings:dokFussHaftung.text': 'Fassung C (U2-ADR-025) bleibt im Textsatz wortgleich; das Markenwort tauscht der Verbrauchsort _dokFussHaftungMitMarke — gemessen im Punkt pdf.',
@@ -216,31 +215,32 @@ async function messen(modulPfad, optionen) {
     + ausserhalb.length + '× außerhalb' + (ausserhalb.length ? ' — ' + ausserhalb.join(', ') : ''));
   befund.wortmarkeAusserhalb = ausserhalb;
 
-  // Ansichten, wie sie gerendert werden: App-Fuß und Einstellungen (ohne den Herkunftsort selbst).
+  // Ansichten, wie sie gerendert werden: die Seite „Über und Hinweise“ (vormals App-Fuß) und die Einstellungen (jeweils ohne den Herkunftsort selbst).
   const sichtbar = (html) => String(html || '').replace(/<[^>]*>/g, ' ');
+  const OHNE_HERKUNFTSORT = /<div class="herkunftsort" data-herkunftsort="1">[\s\S]*?<\/div>/;
   try {
     V.betreteApp();
-    V.renderFooter();
-    const fussRoh = document.getElementById('app-fuss').innerHTML;
+    const seiteRoh = V._ueberHinweiseAbschnitteHTML();
     // Der benannte Hinweisort der App: genau EIN Anker, sein Text ist der aufgelöste herkunftPoweredBy — nur er wird herausgenommen.
-    const hinweise = [...fussRoh.matchAll(HINWEIS_APP)];
+    const hinweise = [...seiteRoh.matchAll(HINWEIS_APP)];
     const poweredBy = V.escapeHTML(V._herkunftsortAusgabe('herkunftPoweredBy', V.STRINGS.herkunftPoweredBy));
     punkt('ansicht-fuss-powered', hinweise.length === 1 && hinweise[0][1] === poweredBy && !poweredBy.includes(modul.name),
-      'App-Fuß, Hinweisort: ' + (hinweise.length === 1 ? '„' + hinweise[0][1] + '“' : hinweise.length + ' Anker'));
-    const fuss = fussRoh.replace(HINWEIS_APP, (m, text) => (text === poweredBy ? '' : m));
-    const kontaktOk = modul.kontakt ? fuss.includes('mailto:' + modul.kontakt) : !fuss.includes('mailto:');
+      'Seite „Über und Hinweise“, Hinweisort: ' + (hinweise.length === 1 ? '„' + hinweise[0][1] + '“' : hinweise.length + ' Anker'));
+    const fuss = seiteRoh.replace(OHNE_HERKUNFTSORT, '');
+    const kontaktOk = modul.kontakt ? fuss.includes('mailto:' + modul.kontakt) || seiteRoh.includes('mailto:' + modul.kontakt) : !fuss.includes('mailto:');
     const links = fuss.match(/href="https:[^"]*"/g) || [];
     const linkOk = modul.aktualisierungen ? links.includes('href="' + modul.aktualisierungen + '"') : links.length === 0;
     punkt('ansicht-fuss-link', linkOk && !/vivodepot/i.test(links.join(' ')),
-      'Aktualisierungs-Link im Fuß: ' + (links.length ? links.join(' ') : 'keiner') + (modul.aktualisierungen ? '' : ' (Bündel ohne Adresse)'));
+      'Aktualisierungs-Link auf der Seite: ' + (links.length ? links.join(' ') : 'keiner') + (modul.aktualisierungen ? '' : ' (Bündel ohne Adresse)'));
     punkt('ansicht-fuss', !/vivodepot/i.test(sichtbar(fuss)) && kontaktOk,
-      'App-Fuß: „Vivodepot" ' + (/vivodepot/i.test(sichtbar(fuss)) ? 'STEHT DRIN' : 'nirgends')
+      'Seite „Über und Hinweise“ außerhalb des Herkunftsorts: „Vivodepot" ' + (/vivodepot/i.test(sichtbar(fuss)) ? 'STEHT DRIN' : 'nirgends')
       + '; Kontakt ' + (modul.kontakt ? (kontaktOk ? modul.kontakt : 'FEHLT') : (kontaktOk ? 'keiner (Bündel ohne Kontakt)' : 'FREMDE ADRESSE')));
+    // Der Herkunftsort steht auf der Seite „Über und Hinweise“; die Einstellungen tragen ihn nicht mehr und führen die Wortmarke nirgends.
+    punkt('ansicht-herkunftsort', seiteRoh.includes('data-herkunftsort="1"'), 'Seite „Über und Hinweise“: Herkunftsort ' + (seiteRoh.includes('data-herkunftsort="1"') ? 'steht' : 'FEHLT'));
     const einst = V.einstellungenHTML();
-    const ohneHerkunftsort = einst.replace(/<div class="herkunftsort" data-herkunftsort="1">[\s\S]*?<\/div>/, '');
-    const treffer = (sichtbar(ohneHerkunftsort).match(/[^.;:]{0,40}vivodepot[^.;:]{0,40}/gi) || []);
-    punkt('ansicht-einstellungen', treffer.length === 0 && einst.includes('data-herkunftsort="1"'),
-      'Einstellungen außerhalb des Herkunftsorts: ' + (treffer.length ? treffer.slice(0, 3).join(' | ') : '„Vivodepot" nirgends'));
+    const treffer = (sichtbar(einst).match(/[^.;:]{0,40}vivodepot[^.;:]{0,40}/gi) || []);
+    punkt('ansicht-einstellungen', treffer.length === 0 && !einst.includes('data-herkunftsort="1"'),
+      'Einstellungen: ' + (treffer.length ? treffer.slice(0, 3).join(' | ') : '„Vivodepot" nirgends'));
     // Kein eigener Aufruf: gemessen wird der Titel, den der echte Weg (Einlassen, Anlegen) gesetzt hat.
     punkt('ansicht-titel', !/vivodepot/i.test(document.title || ''), 'Fenstertitel: ' + document.title);
   } catch (e) {

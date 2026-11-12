@@ -262,6 +262,39 @@ test('[Faktenbasis·Commit] nur ein von origin/u2-kanon erreichbarer Commit wird
   assert.equal(vonKanonErreichbar(lose), false, 'ein Commit, den origin/u2-kanon nicht enthält, darf NICHT als erreichbar gelten');
 });
 
+/* 08.11.2026: Zugköpfe trugen „(Arbeitsstand, ohne Hash)“, weil HEAD vor dem Push nie vom Kanon erreichbar ist. */
+test('[Faktenbasis·Commit·Basis] ein Stand über dem Kanon stempelt seine Kanon-Basis, nach dem Landen sich selbst, ohne Kanon-Ref keinen Hash', () => {
+  const { execFileSync } = require('node:child_process');
+  const os = require('node:os');
+  const { ohneGitUmgebung } = require('../tools/lib/ohne-git-umgebung.js');
+  const { commitHash } = require('../tools/faktenbasis-erzeugen.js');
+  const basis = fs.mkdtempSync(path.join(os.tmpdir(), 'faktenbasis-basis-'));
+  try {
+    const git = (args, cwd) => execFileSync('git', args, { cwd, env: ohneGitUmgebung(), encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    const hub = path.join(basis, 'hub.git');
+    const klon = path.join(basis, 'klon');
+    git(['init', '--bare', '-q', '--initial-branch=u2-kanon', hub], basis);
+    git(['clone', '-q', hub, klon], basis);
+    const commit = (name) => {
+      fs.writeFileSync(path.join(klon, name), name);
+      git(['add', name], klon);
+      git(['-c', 'user.email=probe@example.invalid', '-c', 'user.name=Probe', '-c', 'commit.gpgsign=false', 'commit', '-q', '-m', name], klon);
+      return git(['rev-parse', '--short', 'HEAD'], klon);
+    };
+    const gelandet = commit('a.txt');
+    git(['push', '-q', 'origin', 'HEAD:u2-kanon'], klon);
+    git(['fetch', '-q', 'origin'], klon);
+    const zugkopf = commit('b.txt');
+    assert.equal(commitHash(klon), gelandet + ' (Basis Kanon)');
+    git(['push', '-q', 'origin', 'HEAD:u2-kanon'], klon);
+    git(['fetch', '-q', 'origin'], klon);
+    assert.equal(commitHash(klon), zugkopf + ' (Stand Kanon)');
+    commit('c.txt');
+    git(['update-ref', '-d', 'refs/remotes/origin/u2-kanon'], klon);
+    assert.equal(commitHash(klon), '(Arbeitsstand, ohne Hash)');
+  } finally { fs.rmSync(basis, { recursive: true, force: true }); }
+});
+
 /* Befund FAKTENBASIS-STARTET-SUITE (26.09.2026, MITTEL): erzeugeFaktenbasis() fuhr als Bibliothek gerufen — nur um eine billige
    Zahl zu lesen — selbst eine volle `node --test`-Suite, ohne Suite-Platz. Gehalten am Aufruf selbst: ein gestubbtes
    execFileSync zählt jeden `--test`-Start. Der Rot-Beweis ist derselbe Weg mit mitSuite: dann startet er, und die Zahl kommt an. */

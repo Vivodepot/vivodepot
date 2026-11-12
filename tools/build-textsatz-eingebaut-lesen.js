@@ -102,6 +102,8 @@ function kennungenAusKern() {
         const kennung = V.kennungAusSelektor(s.id, f.id);
         if (!kennung) continue;   // abgeleitete Zeilen tragen keine Kennung, wie build-feldkatalog.js
         raus[kennung + '.label'] = f.label;
+        // Die kurze Beschriftung für Ausgaben (Nachtrag U2-ADR-497, 01.11.2026) steht neben der Eingabe-Beschriftung; die Notfall-Sicht liest sie.
+        if (typeof f.ausgabeLabel === 'string' && f.ausgabeLabel) raus[kennung + '.ausgabeLabel'] = f.ausgabeLabel;
         /* Optionen und Listen-Unterfelder (Lese-App zeigt Auswahlwerte als Klartext-Label, `_optionLabelLesen`).
            Sensibilität entscheidet die Lese-App zur Laufzeit (Nutzer-Markierung), darum steht jede Option hier.
            Seit 05.10.2026 (Befund LESE-APP-UNTERFELD-OHNE-BESCHRIFTUNG) trägt jedes Unterfeld eines Listeneintrags seine
@@ -117,6 +119,8 @@ function kennungenAusKern() {
           // „Name“, nicht den Eingabehinweis „Name im Depot“.
           const beschriftung = (typeof u.ausgabeLabel === 'string' && u.ausgabeLabel) ? u.ausgabeLabel : u.label;
           if (typeof beschriftung === 'string' && beschriftung) raus[s.id + '.' + f.id + '/' + u.id + '.label'] = beschriftung;
+          // Die kurze Beschriftung auch unter ihrer eigenen Kennung, wie beim Feld: sonst kann ein Sprachmodul sie in der Lese-App nicht übersetzen.
+          if (typeof u.ausgabeLabel === 'string' && u.ausgabeLabel) raus[s.id + '.' + f.id + '/' + u.id + '.ausgabeLabel'] = u.ausgabeLabel;
           for (const o of optionen) raus[s.id + '.' + f.id + '/' + u.id + '/' + o.wert + '.label'] = o.label;
         }
       }

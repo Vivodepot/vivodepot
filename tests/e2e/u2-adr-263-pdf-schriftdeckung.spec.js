@@ -152,7 +152,7 @@ test('[U2-ADR-263·Ende-zu-Ende] chinesischer Text im Namen: Gesamt-PDF wird NIC
   await expect(page.locator('#modal-inhalt')).toContainText('文');
   // Kein „Trotzdem erstellen" — anders als die Unstimmigkeits-Warnung gibt es hier nur EINEN
   // Weg (Schließen), keinen zweiten, der doch noch generiert (s. Kommentar U2-ADR-263 im Kern).
-  await expect(page.locator('#m-abbr')).toHaveCount(0);
+  await expect(page.locator('#m-abbr')).toHaveCount(0);   // I02: ✕ (#m-x) schließt nur, startet nichts
   await expect(page.locator('#m-ok')).toHaveText('Schließen');
 
   await page.waitForTimeout(300);   // Download wäre synchron/schnell — kurze Wartezeit statt Race

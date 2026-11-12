@@ -1,7 +1,7 @@
 {
  "stand": "2026-08-19",
  "anzahl_testdateien": 542,
- "grund": "A348, Zug 4: erhoben ueber den echten Bestand, nicht ausgedacht. Diese Dateien tragen heute keine Rot-Beweis-Marke. Sie alle nachzuruesten ist ein eigener Zug — sie hier zu fordern hiesse, das Gate am ersten Tag rot zu haben. Die Liste darf nur SCHRUMPFEN: wer eine Datei nachruestet, nimmt sie heraus, sonst waechst die Ausnahmemenge still zurueck. Wer eine Zeile HINZUFUEGT, braucht dafuer einen datierten Grund an dieser Stelle. · 2026-08-19 (A349): zerfall-feld-einheiten.test.js nachgeruestet und darum herausgenommen — die Reparatur der zwei stumpfen Klasse-A-Proben traegt ihren Rot-Beweis jetzt im Dateikopf. · 2026-08-19 (A365): regel2-erledigt-beleg-pruefen.test.js ist heraus — die Datei ist mit dem internen Register aus dem Tracking genommen und existiert im oeffentlichen Baum nicht mehr. Ein Grundlinien-Eintrag, der dort ins Leere zeigt, machte den Waechter in der CI rot, ohne dass etwas fehlte. · 2026-09-20 (L4, Glied-9-Umbau): lokalisierbarkeit-reichweite.test.js nachgeruestet und darum herausgenommen — die Probe misst jetzt, dass jeder lokalisierbare Text ueber genau einen der zwei benannten Wege laeuft (Definition/Optionen/Strings oder Template/Mitschrift, neuer Kanal vorlageSchicht()), mit Rot-Beweis fuer einen wiederauferstandenen dritten Weg am Test selbst. · 2026-10-30: allowlist-verbote.test.js, font-coverage.test.js, krypto-verbote.test.js, notfall-allowlist-instrument.test.js, notfallkarte.test.js, sub-depot-farbwahl.test.js tragen inzwischen ihre Rot-Beweis-Marke und sind darum herausgenommen (Verschaerfung, der Pruefer meldete sie als nachgeruestet).",
+ "grund": "A348, Zug 4: erhoben ueber den echten Bestand, nicht ausgedacht. Diese Dateien tragen heute keine Rot-Beweis-Marke. Sie alle nachzuruesten ist ein eigener Zug — sie hier zu fordern hiesse, das Gate am ersten Tag rot zu haben. Die Liste darf nur SCHRUMPFEN: wer eine Datei nachruestet, nimmt sie heraus, sonst waechst die Ausnahmemenge still zurueck. Wer eine Zeile HINZUFUEGT, braucht dafuer einen datierten Grund an dieser Stelle. · 2026-08-19 (A349): zerfall-feld-einheiten.test.js nachgeruestet und darum herausgenommen — die Reparatur der zwei stumpfen Klasse-A-Proben traegt ihren Rot-Beweis jetzt im Dateikopf. · 2026-08-19 (A365): regel2-erledigt-beleg-pruefen.test.js ist heraus — die Datei ist mit dem internen Register aus dem Tracking genommen und existiert im oeffentlichen Baum nicht mehr. Ein Grundlinien-Eintrag, der dort ins Leere zeigt, machte den Waechter in der CI rot, ohne dass etwas fehlte. · 2026-09-20 (L4, Glied-9-Umbau): lokalisierbarkeit-reichweite.test.js nachgeruestet und darum herausgenommen — die Probe misst jetzt, dass jeder lokalisierbare Text ueber genau einen der zwei benannten Wege laeuft (Definition/Optionen/Strings oder Template/Mitschrift, neuer Kanal vorlageSchicht()), mit Rot-Beweis fuer einen wiederauferstandenen dritten Weg am Test selbst. · 2026-10-30: allowlist-verbote.test.js, font-coverage.test.js, krypto-verbote.test.js, notfall-allowlist-instrument.test.js, notfallkarte.test.js, sub-depot-farbwahl.test.js tragen inzwischen ihre Rot-Beweis-Marke und sind darum herausgenommen (Verschaerfung, der Pruefer meldete sie als nachgeruestet). · 2026-11-06: eingang-fix.test.js traegt mit der Probe des Sperrschirms ihre Rot-Beweis-Marke und ist darum herausgenommen (Verschaerfung, der Pruefer meldete sie als nachgeruestet). · 2026-11-07 (C14, Assistenten-Urteil W03/W04): wizard-anamwiz.test.js ist ersetzt durch die Probe „anamwiz gestrichen“ mit Rot-Beweis (gebackene Kopie mit anamwiz zeigt den Startknopf) und darum herausgenommen.",
  "ohne_rot_beweis": [
   "a1-rollenloses-register.test.js",
   "a11y-schalter.test.js",
@@ -57,7 +57,6 @@
   "dokument-panel.test.js",
   "dokumente.test.js",
   "e2e-cross/T-CROSS-07-krypto-block-gate.test.js",
-  "eingang-fix.test.js",
   "einhaengen.test.js",
   "einlesen-zentral-neutral.test.js",
   "einstellungen.test.js",
@@ -245,7 +244,6 @@
   "vorsorge-module-registry.test.js",
   "weitere-formate.test.js",
   "wiedereintritt-akteur.test.js",
-  "wizard-anamwiz.test.js",
   "wizard-dokument.test.js",
   "wizard-fertig-am-letzten-sichtbaren.test.js",
   "wizard-heirwiz.test.js",

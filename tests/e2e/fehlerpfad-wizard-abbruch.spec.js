@@ -24,9 +24,9 @@
    Vehikel Fall A: `gebwiz`, Schritt `gebwiz_kind_geburtsdatum` (`typ:'datum'`,
    vivodepot.html — Schritt-Liste per `WIZARD_BY_ID.gebwiz.schritte`
    gemessen, nicht geraten). Klickweg bis dorthin wörtlich aus
-   `ereignis-achse-geburt-browser-beweis.spec.js` (`gebwizStarten`+sechs
-   `#wiz-weiter`-Klicks bis `gebwiz_kind_name`, ein siebter bis zum
-   Datums-Schritt).
+   `ereignis-achse-geburt-browser-beweis.spec.js` (`gebwizStarten`, seit C14
+   (Assistenten-Urteil W03/W04, 07.11.2026) ohne Vorschritte: der Name ist
+   Schritt 0, ein `#wiz-weiter`-Klick führt zum Datums-Schritt 1).
 
    Vehikel Fall B: `pvwiz` (kürzester bekannter, bereits belegter Wizard),
    letzter SICHTBARER Schritt über `wizardSichtbareIndizes` direkt ermittelt
@@ -61,7 +61,6 @@ test('[Fehlerpfad 2/5·A] Wizard abbrechen WÄHREND eine Validierungs-Fehlermeld
   await page.waitForSelector('[data-anlass="geburt"]', { state: 'visible' });
   await page.click('[data-anlass="geburt"]');
   await expect(page.locator('.wizard-frage')).toBeVisible();
-  for (let i = 0; i < 6; i++) await page.click('#wiz-weiter');
   await expect(page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]')).toBeVisible();
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'E2E Fehlerpfad Kind');
   await page.click('#wiz-weiter');
@@ -76,7 +75,7 @@ test('[Fehlerpfad 2/5·A] Wizard abbrechen WÄHREND eine Validierungs-Fehlermeld
   expect(grundVorAbbruch, 'wizardWeiter muss am Schritt blockieren').toBe('datum');
   // Der Schritt-Index darf sich NICHT bewegt haben — geblockt heißt geblockt.
   const indexVorAbbruch = await page.evaluate(() => window.__vdOeffentlich.wizardSchrittIndex);
-  expect(indexVorAbbruch).toBe(7);
+  expect(indexVorAbbruch).toBe(1);
 
   // ── DER ÜBERGANG: abbrechen, WÄHREND der Banner steht ───────────────────
   await page.click('#wiz-abbr');

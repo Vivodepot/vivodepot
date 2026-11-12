@@ -23,6 +23,13 @@
      "blob": "fac2e24fbbbbb8640ff1bb5f339b902f3925b028",
      "shaKanon": "aeda8d888f3d444301bcedbcc1389d2d267f137beb39d6505c9faad809d61d59",
      "shaAusgeliefert": "c03ca4b0f022d018295b0708a78b097d81038c5badff4d8ca403b05f4755dc72"
+    },
+    {
+     "n": 4,
+     "adresse": "https://vivodepot.de/schemas/anfrage/4.json",
+     "blob": "551af030361f9a35f61f9d5a0bfb60854ce0c76f",
+     "shaKanon": "0a0c16d22053b922bc4c884a8483febd4f6ecebe6ea2c80697e3c27a77064a23",
+     "shaAusgeliefert": "1397536f4a80c6b052b6f729635721b140cf2124866eee1b5d5c1ebce0493902"
     }
    ]
   },
@@ -54,6 +61,20 @@
      "blob": "1af1abd914b1d6bc4905e1664b92c248880e72de",
      "shaKanon": "ba21dfcfd9b8df39a0b24cf71905b56c89877bb7cbce45c939e99072536c9c45",
      "shaAusgeliefert": "982954c3dc8ff2dcf82dc8c2edc437826d0fa1aded4faff03df9cdf025d7db32"
+    },
+    {
+     "n": 3,
+     "adresse": "https://vivodepot.de/schemas/antwort/3.json",
+     "blob": "05ad9d7350302a6c966ef5bfd153b1fe01cf506a",
+     "shaKanon": "1f4eff7b3fde186e3fb8fa22cbee30deb79782e435bdc0471d39fb5bb49ac89b",
+     "shaAusgeliefert": "9a22c5a5cb1dc263cd1c7795299a001469938d1c41d4cda637e2fcf9a2d3222c"
+    },
+    {
+     "n": 4,
+     "adresse": "https://vivodepot.de/schemas/antwort/4.json",
+     "blob": "3d97b68398d48bfb77e98c506c4437b21da8bbe0",
+     "shaKanon": "c10accadcf0bf017d5c047549d607688c513b5cb40d22457fdceced91a2d8ace",
+     "shaAusgeliefert": "d26cbf41bff80defa9feda83352d237254ee0aa625a88ccfdfdb1def7387dd14"
     }
    ]
   },
@@ -251,6 +272,13 @@
      "blob": "eb65f996f5bb0a2ef45cabf94a4e26a518a0884e",
      "shaKanon": "361ad53e137991a641f3364e62311d5cdc684e7ed4a2f5e666c3a2d51dbfb460",
      "shaAusgeliefert": "8edec7efc0e97217a149065b07f6600e542b72ced86ed5c0a3b2d7b7af1ee222"
+    },
+    {
+     "n": 8,
+     "adresse": "https://vivodepot.de/schemas/format-modul/8.json",
+     "blob": "5d2d6099aa006c41647e366b10a7f59bbe3b1950",
+     "shaKanon": "ce734226403d1f8f4f0e186d01a58af7838919d9e486e65e6d5cd3c1abc1210b",
+     "shaAusgeliefert": "6afdc01176c003b248d9fe5de0a0ddac1d6c8915676dc5fe35e1830e1faa9e0d"
     }
    ]
   },

@@ -1,0 +1,124 @@
+{
+  "zweck": "Größenleiter der ganzen Anwendung (Kern, Lese-App, Studio, Browser-Aussteller): jede Schriftgröße zeigt auf eine dieser Stufen. Gelesen von tools/lib/schriftgroessen-leiter.js.",
+  "quelle": "Zielbild der Gestaltung vom 30.10.2026: Rollentabelle „Schrift“ (Größe/Zeilenhöhe/Gewicht, Desktop und mobil unter 768 px) und die Zielbild-Tokens --t-*-gr. Hilfe und Klein von 13 auf 14 px gerundet nach der Abnahme der Gestaltungsleitung vom 05.11.2026 (Tokens Z8–Z10, Commit 7e065276d).",
+  "umbruch_px": 768,
+  "basis_px_je_rem": 16,
+  "token_praefix": "--fs-role-",
+  "anmerkung_token": "Die Namen setzen die fünf Rollen-Token fort (--fs-role-label … --fs-role-titel, U2-ADR-351). Neu sind anzeige, einleitung, text, knopf, nav, hilfe; sie gehören wie die fünf zu den reservierten Verdrahtungen.",
+  "stufen": [
+    {
+      "stufe": "anzeige",
+      "name": "Anzeige (Startseite)",
+      "token": "--fs-role-anzeige",
+      "px_1024": 32,
+      "px_390": 28,
+      "gewicht": 650,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Anzeige (Start) 32/39, mobil 28/34, 650; Token --t-anzeige-gr 32px (die Tokens überschreiben mobil nicht, die Tabelle nennt 28)"
+    },
+    {
+      "stufe": "titel",
+      "name": "Seitentitel (H1)",
+      "token": "--fs-role-titel",
+      "px_1024": 28,
+      "px_390": 26,
+      "gewicht": 650,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Titel H1 28/35, mobil 26/32, 650; Token --t-titel-gr"
+    },
+    {
+      "stufe": "abschnitt",
+      "name": "Abschnitt (H2)",
+      "token": "--fs-role-abschnitt",
+      "px_1024": 20,
+      "px_390": 20,
+      "gewicht": 600,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Abschnitt H2 20/28, 600; Token --t-abschnitt-gr (auch die Frage eines Assistenten)"
+    },
+    {
+      "stufe": "gruppe",
+      "name": "Karte, Gruppe (H3)",
+      "token": "--fs-role-gruppe",
+      "px_1024": 17,
+      "px_390": 17,
+      "gewicht": 600,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Gruppe H3 17/24, 600; Token --t-gruppe-gr"
+    },
+    {
+      "stufe": "einleitung",
+      "name": "Einleitung",
+      "token": "--fs-role-einleitung",
+      "px_1024": 17,
+      "px_390": 17,
+      "gewicht": 400,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Einleitung 17/25,5, 400; Token --t-einleitung-gr"
+    },
+    {
+      "stufe": "text",
+      "name": "Fließtext",
+      "token": "--fs-role-text",
+      "px_1024": 15,
+      "px_390": 16,
+      "gewicht": 400,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Fließtext 15/23, mobil 16/24; Entscheidung 24.09.2026 „15 und 16 Pixel“; Token --t-text-gr"
+    },
+    {
+      "stufe": "wert",
+      "name": "Feld (Eingabe, Wert)",
+      "token": "--fs-role-wert",
+      "px_1024": 15,
+      "px_390": 16,
+      "gewicht": 400,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Eingabe (Wert) 15/22, mobil 16/23,5; Token --t-wert-gr"
+    },
+    {
+      "stufe": "label",
+      "name": "Beschriftung (Label)",
+      "token": "--fs-role-label",
+      "px_1024": 14,
+      "px_390": 15,
+      "gewicht": 500,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Label 14/20, mobil 15/21, 500; Token --t-label-gr"
+    },
+    {
+      "stufe": "knopf",
+      "name": "Knopf, Chip",
+      "token": "--fs-role-knopf",
+      "px_1024": 15,
+      "px_390": 16,
+      "gewicht": 550,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Knopf 15, mobil 16, 550; Token --t-knopf-gr"
+    },
+    {
+      "stufe": "nav",
+      "name": "Navigation",
+      "token": "--fs-role-nav",
+      "px_1024": 14,
+      "px_390": 16,
+      "gewicht": 400,
+      "gewicht_aktiv": 600,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Navigation 14, mobil 16, 400, aktiv 600; Token --t-nav-gr"
+    },
+    {
+      "stufe": "hilfe",
+      "name": "Klein, Hinweis, Hilfe, Fehler",
+      "token": "--fs-role-hilfe",
+      "px_1024": 14,
+      "px_390": 14,
+      "gewicht": 400,
+      "gewicht_fehler": 500,
+      "zielbild": "Zielbild 30.10.2026, Schrift: Hilfe, Fehler 13/19, mobil 14/20; Tokens --t-hilfe-gr, --t-klein-gr 13px; 13 → 14 px nach der Abnahme der Gestaltungsleitung 05.11.2026 (Commit 7e065276d)"
+    }
+  ],
+  "erlaubte_formen": {
+    "anmerkung": "Neben var(<Token der Leiter>) gelten diese Werte als Leiter: Erben ohne eigene Größe. max(16px, var(<Token>)) hält Eingaben auf iOS bei 16 px (Safari zoomt bei Eingaben unter 16 px). 112.5% und 125%: die Schriftgrößen-Einstellung der Person am Wurzelelement (html.fs-medium, html.fs-large) skaliert die ganze Leiter, die in rem steht. 0: ein Textersatz durch ein Symbol (Schrift ausgeblendet).",
+    "werte": [
+      "inherit",
+      "1em",
+      "100%",
+      "112.5%",
+      "125%",
+      "0"
+    ],
+    "muster_max16": "^max\\(\\s*16px\\s*,\\s*var\\((--fs-role-[a-z]+)\\)\\s*\\)$"
+  },
+  "toleranz_px": 0.5
+}

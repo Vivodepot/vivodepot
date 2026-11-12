@@ -23,12 +23,8 @@ test('[D48/D49] geteilte Validierungs-Helfer existieren (eine Quelle, kein Dupli
   assert.ok(/function modalPwFelderVerdrahten\(/.test(src), 'modalPwFelderVerdrahten');
 });
 
-test('[D48] Anker-Setup-Modal nutzt die geteilte Inline-Prüfung (nicht den Modal-Fuß)', () => {
-  const { src } = ladeKern();
-  assert.ok(/id="pw-neu2"[\s\S]{0,120}?id="pw-neu2-fehler"/.test(src), 'Inline-Fehler unter Feld 2 (Anker)');
-  assert.ok(/if \(modalPwMismatch\('pw-neu', 'pw-neu2', 'pw-neu2-fehler', true\)\) return;/.test(src), 'Mismatch → modalPwMismatch');
-  assert.ok(/modalPwFelderVerdrahten\('pw-neu', 'pw-neu2', 'pw-neu2-fehler'\)/.test(src), 'blur-Verdrahtung (Anker)');
-});
+/* [D48] am namenlosen Passwort-Dialog (pw-neu/pw-neu2) entfiel mit seinem Rückbau (07.11.2026). Dieselbe geteilte Inline-Prüfung
+   im Anlege-Dialog hält [D49] unten (modalPwMismatch mit id-pw/id-pw2). */
 
 test('[D49] Sub-/Anker-Anlege-Modal: Inline-Fehler je Feld + KEIN stilles Blockieren', () => {
   const { src } = ladeKern();
@@ -40,13 +36,15 @@ test('[D49] Sub-/Anker-Anlege-Modal: Inline-Fehler je Feld + KEIN stilles Blocki
   assert.ok(/if \(!vorname\) \{ modalFeldFehlerZeigen\('id-vorname', 'id-vorname-fehler'/.test(src), 'Vorname-Pflicht inline');
   assert.ok(/if \(!sub && !nachname\) \{ modalFeldFehlerZeigen\('id-nachname', 'id-nachname-fehler'/.test(src), 'Nachname nur im Anker Pflicht');
   assert.ok(/if \(modalPwMismatch\('id-pw', 'id-pw2', 'id-pw2-fehler', true\)\) return;/.test(src), 'Mismatch inline (Sub/Anker)');
-  assert.ok(/modalPwFelderVerdrahten\('id-pw', 'id-pw2', 'id-pw2-fehler'\)/.test(src), 'blur-Verdrahtung (Sub/Anker)');
+  // Zielbild 01 (05.11.2026): im Anlege-Fenster mit Schritten (zs) meldet die Probe erst bei „Weiter“; Sub behält blur.
+  assert.ok(/modalPwFelderVerdrahten\('id-pw', 'id-pw2', 'id-pw2-fehler', \{ ohneBlur: zs \}\)/.test(src), 'blur-Verdrahtung (Sub), im Fenster mit Schritten erst bei Weiter');
 });
 
 test('[D48/D49] Feld-Markierung + scrollIntoView über bestehendes --error-Token', () => {
   const { src, html } = ladeKern();
   assert.ok(/input\.feld-fehler \{ border-color: var\(--error\)/.test(html), 'rote Feld-Ränder via --error');
   // FELD-FEHLER-NICHT-ZUGEORDNET (23.10.2026): markiert wird über den gemeinsamen Helfer, der aria-invalid und den Verweis mitsetzt.
-  assert.ok(/feldFehlerSetzen\(f2, STRINGS\.pwSetzenUngleich, \{ meldung: inl \}\);\s*feldFehlerSetzen\(f1, null, \{ meldung: inl \}\);/.test(src), 'beide PW-Felder markiert');
+  // Zielbild 01 (05.11.2026): der Satz kommt aus pwProbeMeldung (beim Wörter-Vorschlag von den Wörtern, sonst pwSetzenUngleich).
+  assert.ok(/feldFehlerSetzen\(f2, pwProbeMeldung\(f1\.value, f2\.value\), \{ meldung: inl \}\);\s*feldFehlerSetzen\(f1, null, \{ meldung: inl \}\);/.test(src), 'beide PW-Felder markiert');
   assert.ok(/scrollIntoView\(\{ block: 'center' \}\)/.test(src), 'scrollIntoView bei offener Tastatur');
 });

@@ -237,7 +237,7 @@ const AMTLICHE_VORLAGEN_PFAD = path.join(REPO, 'tools', 'amtliche-vorlagen.json'
 const PRO_SITUATIONEN_PFAD_DE = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-situationen-de.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 const PRO_SITUATIONEN_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-situationen-en.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 /* Kachel-Schnitt (02.10.2026): Pro trägt weder den Lebenslagen-Katalog (und damit die Anlass-Kacheln ohne eigene Situation, die
-   darin stehen) noch die fünf privaten Assistenten (gebwiz, anamwiz, pflwiz, heirwiz, umzwiz); pvwiz/kiwiz kommen aus dem
+   darin stehen) noch die privaten Assistenten (gebwiz, pflwiz, heirwiz, umzwiz; anamwiz seit C14, 07.11.2026, gestrichen); pvwiz/kiwiz kommen aus dem
    Dokumentmodul und bleiben. Werte, die eine ältere Pro-Datei darüber schon trägt, liegen in Bereichen und Situationen und bleiben
    über die ruhenden Bereiche und Situationen lesbar (eine nicht öffentliche Probe). */
 /* Notar in Pro RUHT (Nachtrag U2-ADR-427, Entscheidung der Geschäftsführung 07.10.2026): das Notariatsmodul (Kanzleivertretung)
@@ -273,8 +273,8 @@ const PRODUKTE = require('./wurzel-kopfzeile.js').wurzelIstOeffentlich(REPO)
    (feldregister-bauen.js, register-ausliefern.js, die echten Konfektionierer) übergibt `opts`.
 
    `opts.abWerkFixtureVerzeichnis` (18.09.2026) — dasselbe Muster ein zweites Mal angewandt, nicht
-   neu erfunden: fünf der sieben nativen Wizards (`gebwiz`, `anamwiz`, `pflwiz`, `heirwiz`,
-   `umzwiz`) kommen seit dem Schnitt über `AB_WERK_WIZARD_QUELLEN` aus
+   neu erfunden: die reinen nativen Wizards (`gebwiz`, `pflwiz`, `heirwiz`, `umzwiz`; `anamwiz`
+   seit C14, 07.11.2026, gestrichen) kommen seit dem Schnitt über `AB_WERK_WIZARD_QUELLEN` aus
    `tests/fixtures/buergermodul-wizards-ab-werk.json`, nicht mehr aus einem Kern-Rohtext-Literal
    (gemessen: kein `"gebwiz":{` mehr in vivodepot.html). Biegt NUR die beiden AB_WERK-Fixture-Pfade
    um (`buergermodul-situationen-ab-werk.json`/`buergermodul-wizards-ab-werk.json`) — der Rest von

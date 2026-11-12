@@ -145,8 +145,8 @@ test('[Weg 5·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht
   const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
-    await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });
+    await seite.evaluate(() => { const f = document.querySelector('.nav-fuss-ort'); if (f) f.remove(); });
     const protokoll = await wegGehen(seite);
-    assert.ok(protokoll.every((x) => x.erreicht), 'die Fusszeile geht die Vertrauensperson nichts an');
+    assert.ok(protokoll.every((x) => x.erreicht), 'der Fuß der Seitenleiste („Über und Hinweise“) geht die Vertrauensperson nichts an');
   } finally { await browser.close(); }
 });

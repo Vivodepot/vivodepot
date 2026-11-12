@@ -55,18 +55,22 @@ test('2) Definition rendert: Titel, erste Frage, Fortschritt „Schritt 1 von N"
   assert.equal(V.getViewState().aktiveAnsicht, 'wizard');
 });
 
+/* C14 (Assistenten-Urteil W03/W04, 07.11.2026): gebwiz fragt nur noch nach dem Kind. Seine drei Schritte tragen das
+   Schritt-Ziel { sektor: 'people' }; das Wizard-Ziel { situation: 'geburt' } bestimmt nur noch, welches Blatt „Fertig“ öffnet.
+   Den Situations-Zweig der Ziel-Generik prüft Test 7 mit einer synthetischen Definition. */
 test('3) Auto-Save pro Schritt: schreibt in dieselbe Tasche, gestempelt, kein paralleles Modell', async () => {
   const { V } = await frischMitDepot();
-  const r = V.wizardSchrittSetzen('gebwiz', 0, 'Klinikum Großhadern');
+  assert.equal(V.WIZARD_BY_ID.gebwiz.schritte[0].feld.id, 'guidedBirthEntryChildsNameNot', 'Vorbedingung: Schritt 0 ist der Name des Kindes');
+  const r = V.wizardSchrittSetzen('gebwiz', 0, 'Mia Musterfrau');
   assert.equal(r.ok, true);
   const d = V.getData();
-  // Ziel ist die Situation 'geburt' — identischer Pfad wie situationFeldSetzen.
-  assert.equal(d.situationen.geburt.geburt_klinik, 'Klinikum Großhadern');
-  assert.equal(d.sektoren.geburt, undefined, 'kein Sektor-Namespace-Übergriff');
-  // Stempel im sit-Namespace (U2-ADR-005).
-  assert.equal(d.urheberschaft['sit:geburt'].geburt_klinik.length, 1, 'ein Stempel');
+  // Schritt-Ziel ist der Bereich 'people' — identischer Pfad wie sektorFeldSetzen.
+  assert.equal(d.sektoren.people.guidedBirthEntryChildsNameNot, 'Mia Musterfrau');
+  assert.equal(d.situationen.geburt, undefined, 'kein Situations-Übergriff');
+  // Stempel im Sektor-Namespace (U2-ADR-005).
+  assert.equal(d.urheberschaft.people.guidedBirthEntryChildsNameNot.length, 1, 'ein Stempel');
   // Code-Slot angelegt (U2-ADR-006).
-  assert.equal(V.liesCode('sit:geburt', 'geburt_klinik'), null);
+  assert.equal(V.liesCode('people', 'guidedBirthEntryChildsNameNot'), null);
 });
 
 test('3b) leere optionale Eingabe schreibt NICHT (kein Stempel auf Leeres)', async () => {
@@ -74,13 +78,14 @@ test('3b) leere optionale Eingabe schreibt NICHT (kein Stempel auf Leeres)', asy
   const r = V.wizardSchrittSetzen('gebwiz', 1, '   ');
   assert.equal(r, null, 'leere optionale Eingabe → nichts geschrieben');
   const d = V.getData();
-  assert.equal(d.situationen.geburt, undefined, 'keine Daten, kein Namespace');
+  assert.equal((d.sektoren.people || {}).guidedBirthEntryDateOfBirthNot, undefined, 'kein Wert');
+  assert.equal(((d.urheberschaft || {}).people || {}).guidedBirthEntryDateOfBirthNot, undefined, 'kein Stempel');
 });
 
 test('4) Wiedereintritt: wizardHatDaten erkennt vorhandene Werte', async () => {
   const { V } = await frischMitDepot();
   assert.equal(V.wizardHatDaten('gebwiz'), false, 'frisch: keine Daten');
-  V.wizardSchrittSetzen('gebwiz', 0, 'Klinikum München');
+  V.wizardSchrittSetzen('gebwiz', 0, 'Mia Musterfrau');
   assert.equal(V.wizardHatDaten('gebwiz'), true, 'nach Schritt: Daten erkannt → bearbeiten');
 });
 
@@ -103,9 +108,9 @@ test('5b) Abbruch ist Pause: ein bereits getragener Schritt bleibt erhalten', as
   const { V } = await frischMitDepot();
   V.betreteApp();
   V.wizardLauf('gebwiz');
-  V.wizardSchrittSetzen('gebwiz', 0, 'Klinikum Nord');   // simuliert getragenen Wert
+  V.wizardSchrittSetzen('gebwiz', 0, 'Mia Musterfrau');   // simuliert getragenen Wert
   V.wizardAbbrechen();
-  assert.equal(V.getData().situationen.geburt.geburt_klinik, 'Klinikum Nord', 'Daten überleben den Abbruch');
+  assert.equal(V.getData().sektoren.people.guidedBirthEntryChildsNameNot, 'Mia Musterfrau', 'Daten überleben den Abbruch');
 });
 
 test('6) Navigation: Weiter/Zurück bewegen den Schritt-Index', async () => {

@@ -80,7 +80,8 @@ test('2) Person: Kern-Felder inkl. profilfoto (ref:mappe, U2-ADR-013 Schritt 6);
   // ebenso zum Grundfeld geworden (jetzt neben familienstand, sichtbarWenn statt ebene:'modul'). Rest:
   // notizen_start + verbleibende Welle-3-Wizard-Felder (heirwiz: steuerklasse; umzwiz: umzug_ummeldung).
   const modulIds = person.felder.filter(f => f.ebene === 'modul').map(f => f.id);
-  assert.equal(modulIds.join(','), 'furtherDetails,taxClass,taxClassEarlierEntry,reRegistrationWithTheResidents',
+  // U2-ADR-465 Nr. 35 (05.11.2026): der Doktorgrad (academicDegree) steht als Modulfeld bei der Person.
+  assert.equal(modulIds.join(','), 'academicDegree,furtherDetails,taxClass,taxClassEarlierEntry,reRegistrationWithTheResidents',
     'notizen_start + verbleibende Welle-3-Wizard-Felder als Modul (gueterstand + heirat_namenswahl(_frueher) sind jetzt Grundfelder)');
   // profilfoto ist ein ref:mappe-Feld (frisch gebaut mit der Mappe, keine Migration).
   const pf = person.felder.find(f => f.id === 'profilePhotoCoverPage');
@@ -139,7 +140,7 @@ test('3) feldInputHTML rendert das Beispiel als placeholder-Attribut', () => {
   const { V } = ladeKern();
   const f = { id: 'x', label: 'X', typ: 'text', beispiel: 'Maria' };
   const html = V.feldInputHTML(f, '');
-  assert.match(html, /placeholder="Maria"/, 'placeholder gerendert');
+  assert.match(html, /placeholder="z\. B\. Maria"/, 'placeholder gerendert, mit Vorsatz (Befund PLATZHALTER-WIE-WERT)');
   // Felder ohne beispiel zeigen keinen placeholder-Anteil
   const ohne = V.feldInputHTML({ id: 'y', label: 'Y', typ: 'text' }, '');
   assert.equal(/placeholder=/.test(ohne), false, 'ohne beispiel: kein placeholder');
@@ -226,8 +227,12 @@ test('6) Render: Einführungstext + Pausen-Zeile; ToC ab drei Sektionen (seit �
   const html = document.getElementById('content').innerHTML;
   assert.match(html, /Name, Foto, Kontakt — das Deckblatt Ihres Depots\./, 'Einführungstext');
   // Seit U2-ADR-474 kommt die Zeile aus dem Speichermodell (speicherSatz), je nach Modus.
-  assert.ok(html.includes('<p class="pause-erlaubnis">' + V.speicherSatz('bereichsende') + '</p>'), 'Pausen-Zeile');
-  assert.ok(html.includes(V.STRINGS.tocTitel), 'ToC ab drei Sektionen (person/fruehere-namen/personenstandsurkunden; Haustiere seit U2-ADR-479 eigener Bereich)');
+  assert.ok(!html.includes('class="pause-erlaubnis"'), 'keine Schlusszeile (Zielbild 05, „keine Fußzeile“)');
+  // Abnahme v998 (M07): „Frühere Namen“ ist eine Karte im Abschnitt Person (`vereint`), kein eigener Abschnitt mehr. Das Inhaltsverzeichnis
+  // zählt den aufgenommenen Abschnitt mit und springt auf den Anker der Karte (Entscheid der Gestaltung 04.11.2026: es bleibt, weil es bei
+  // 390 px der einzige Sprung zu den hinteren Abschnitten ist). Die Klassenprobe über alle Bereiche prüft jeden Link des Verzeichnisses gegen sein Ziel.
+  assert.ok(html.includes(V.STRINGS.tocTitel), 'Inhaltsverzeichnis mit Person, Frühere Namen, Personenstandsurkunden');
+  for (const ziel of ['#sek-person', '#sek-fruehere-namen', '#sek-civil-status-certificates']) assert.ok(html.includes('href="' + ziel + '"'), 'Sprung ' + ziel);
   // Alle drei Sektion-Labels und ausgewählte Feld-Labels sichtbar
   assert.ok(html.includes('Person'));
   assert.ok(html.includes('Frühere Namen'));
@@ -237,7 +242,7 @@ test('6) Render: Einführungstext + Pausen-Zeile; ToC ab drei Sektionen (seit �
   // fünf Cluster-Karten (SEKTION_STATUSKARTEN_CLUSTER). Modul-Feld notizen_start ("Weitere Angaben")
   // steckt jetzt in der Karte „Frühere Namen" statt im mehr-Block.
   const kartenBloecke = html.split('<details class="feldgruppen-karte"');
-  assert.equal(kartenBloecke.length - 1, 5, 'fünf Statuskarten für person');
+  assert.equal(kartenBloecke.length - 1, 6, 'fünf Statuskarten für person und die Karte Personenstandsurkunden (jeder Abschnitt trägt seine Felder in Karten)');
   // Der Karten-TITEL (feldgruppen-karte-titel), nicht bloß irgendein Vorkommen des Textes —
   // "Frühere Namen" steht zusätzlich als ToC-Link (nav.toc) VOR der ersten Karte und träfe sonst dort.
   const fruehereNamenKarte = kartenBloecke.find(b => b.includes('feldgruppen-karte-titel">Frühere Namen<'));

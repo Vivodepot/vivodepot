@@ -210,11 +210,49 @@ function pushtSelbst(cwd) {
   const git = (args) => { try { return require('node:child_process').execFileSync('git', ['-C', cwd, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 5000, env }).trim(); } catch (_) { return ''; } };
   return git(['symbolic-ref', '--short', '-q', 'HEAD']).startsWith('zug-') || git(['config', '--worktree', '--get', 'vd.push']) === 'u2-kanon';
 }
+/* NUR BÄUME, DIE SELBST PUSHEN (05.11.2026, Air-Freiräumen): auch ein Lauf mit e2e oder chromium im Namen geht nur aufs Air,
+   wenn sein Baum selbst pusht (die Air-Vorprüfung verlangt die Ansage). Ein öffentlicher E2E-Lauf aus einem
+   Quellbaum ohne zug-Zweig löste die Warnung aus, obwohl er nicht aufs Air kann. Der pre-push pusht immer. */
 function wirklichAuslagerbar(e, pushtSelbstFn = pushtSelbst) {
   const name = String((e && e.name) || '');
-  if (name === 'pre-push' || AUSLAGERBAR_MUSTER.test(name)) return true;
-  if (name === 'landung-vorbereiten') return pushtSelbstFn(e.cwd);
+  if (name === 'pre-push') return true;
+  if (name === 'landung-vorbereiten' || AUSLAGERBAR_MUSTER.test(name)) return pushtSelbstFn(e.cwd);
   return false;
+}
+
+/* AIR-PLATTE (05.11.2026, Air-Freiräumen). suite-platz misst nur die Platte dieses Rechners; eine Bedingung „Air-Platte
+   ≥ N GB“ ließ sich darum nie prüfen. Holt die Air-Vorprüfung das Protokoll eines Air-Laufs ab, liest es die Zeile des
+   Schritts „Platte“ (df -h im Job umgebung) und legt sie hier ab: air/platte.json { freiGB, lauf, zeit }. `--anzeigen` nennt
+   sie mit ihrem Stand. Kein zusätzlicher Abruf bei GitHub. Probe: [Platzart Air·Platte]. */
+const AIR_PLATTE_DATEI = 'platte.json';
+const DF_EINHEIT = { Ki: 1024, Mi: 1024 ** 2, Gi: 1024 ** 3, Ti: 1024 ** 4, K: 1024, M: 1024 ** 2, G: 1024 ** 3, T: 1024 ** 4 };
+/** Freier Platz in GB (10⁹ Byte) aus dem Protokoll eines Air-Laufs (df -h im Schritt „Platte“); nicht lesbar: null. */
+function airPlatteAusProtokoll(log) {
+  const zeilen = String(log || '').split('\n').filter((z) => /\bumgebung\b/.test(z) || /^\/dev\//.test(z.trim()));
+  for (const z of zeilen) {
+    const m = /\/dev\/\S+\s+\S+\s+\S+\s+([0-9.]+)(Ki|Mi|Gi|Ti|K|M|G|T)\s/.exec(z);
+    if (m) return Math.round(Number(m[1]) * DF_EINHEIT[m[2]] / 1e8) / 10;
+  }
+  return null;
+}
+function airPlatteSchreiben({ freiGB, lauf, zeit = new Date().toISOString() }, dir = verzeichnis()) {
+  if (!Number.isFinite(freiGB)) return false;
+  const ad = airVerzeichnis(dir);
+  fs.mkdirSync(ad, { recursive: true });
+  atomarErsetzen(path.join(ad, AIR_PLATTE_DATEI), JSON.stringify({ freiGB, lauf: lauf == null ? null : String(lauf), zeit }) + '\n');
+  return true;
+}
+function airPlatteLesen(dir = verzeichnis()) {
+  try {
+    const d = JSON.parse(fs.readFileSync(path.join(airVerzeichnis(dir), AIR_PLATTE_DATEI), 'utf8'));
+    return Number.isFinite(d.freiGB) ? d : null;
+  } catch (_) { return null; }
+}
+/** Die Anzeigezeile zur Air-Platte. */
+function airPlatteZeile(dir = verzeichnis()) {
+  const d = airPlatteLesen(dir);
+  return d ? 'Air-Platte: ' + d.freiGB.toFixed(1) + ' GB frei (Stand ' + d.zeit + (d.lauf ? ', Lauf ' + d.lauf : '') + ')'
+    : 'Air-Platte: ungemessen (noch kein abgeholter Air-Lauf)';
 }
 /** Die Warnzeile, wenn der Air-Platz frei ist, während hier Läufe mit wirklich auslagerbarem Anteil einen Platz halten oder warten; sonst null. */
 function airLeerlaufWarnung({ dir = verzeichnis(), env = process.env, pushtSelbstFn = pushtSelbst } = {}) {
@@ -749,9 +787,10 @@ function anzahlKlein(env = process.env, dir = null) {
    Klein-Plätze, solange kein voller Platz belegt ist und die 1-Minuten-Last unter KLEIN_DYNAMISCH_LAST liegt; sonst die feste Zahl
    aus anzahlKlein() (Vorgabe 2). Die Zahl gilt beim Nehmen eines Platzes; wer schon läuft, behält seinen Platz, wenn die Zahl
    wieder sinkt. Gezählt, geräumt und freigegeben wird darum immer über kleinPlaetzeHoechstens() Plätze, damit ein Halter auf
-   Platz 3 oder 4 sichtbar bleibt. Beide Zahlen stehen im Register der Gegenlesung (jede Anhebung braucht ein Wort).
+   Platz 3 bis 6 sichtbar bleibt. Beide Zahlen stehen im Register der Gegenlesung (jede Anhebung braucht ein Wort).
+   08.11.2026: 4 → 6 (Wort der Abstimmung auf einen Hinweis zur Auslastung); Bedingung, feste Zahl und Lastgrenze bleiben.
    Probe: [Klein·Dynamisch] in der Probe der Klein-Läufe. */
-const KLEIN_PLAETZE_DYNAMISCH = 4;
+const KLEIN_PLAETZE_DYNAMISCH = 6;
 const KLEIN_DYNAMISCH_LAST = 12;
 /** Die dynamische Zahl; VD_KLEIN_DYNAMISCH setzt sie (0 schaltet ab — Proben, die die feste Zahl prüfen). */
 function kleinDynamisch(env = process.env) {
@@ -1273,5 +1312,5 @@ module.exports = {
   kleinStartFrei, kleinWarteGrund, lastGrenzeVoll, lastGrenzeKlein, ZUSCHLAG_VOLL, ZUSCHLAG_KLEIN, ZUSCHLAG_FRIST_MS,
   platzSchrittSetzen, KOPF_NAME, KOPF_SCHRITT_BROWSER, KOPF_LAST_SCHRANKE,
   istTestlauf, testlaeufeBewerten, testlaeufe,
-  AUSLAGERBAR_NAMEN, PLAETZE_DATEI, plaetzeZentral, plaetzeSetzen, auslagerbar, wirklichAuslagerbar, pushtSelbst, airLeerlaufWarnung,
+  AUSLAGERBAR_NAMEN, PLAETZE_DATEI, plaetzeZentral, plaetzeSetzen, auslagerbar, wirklichAuslagerbar, pushtSelbst, airLeerlaufWarnung, airPlatteAusProtokoll, airPlatteSchreiben, airPlatteLesen, airPlatteZeile, AIR_PLATTE_DATEI,
 };

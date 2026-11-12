@@ -25,8 +25,7 @@
                   "wert": "nein",
                   "label": "Nein"
                 }
-              ],
-              "pflicht": true
+              ]
             },
             {
               "id": "tpl_vertretungsregelung",
@@ -252,7 +251,7 @@
               "id": "tpl_managing_director_register_details",
               "typ": "liste",
               "label": "Geschäftsführung laut Register",
-              "hint": "Die im Handelsregister eingetragenen Angaben jeder Geschäftsführerin und Stellvertreterin. Wie diese Personen erreichbar sind, steht unter „Weitere Geschäftsführer/Vorstände“.",
+              "hint": "Die im Handelsregister eingetragenen Angaben jeder Person in der Geschäftsführung und jeder Stellvertretung. Wie diese Personen erreichbar sind, steht unter „Weitere Geschäftsführer/Vorstände“.",
               "sensibel": true,
               "unterFelder": [
                 {
@@ -434,7 +433,7 @@
           ]
         }
       ],
-      "navUnterzeile": "Prokura und Verfügungen",
+      "navUnterzeile": "Wer für den Betrieb handelt",
       "cluster": "pro-vertretung-nachfolge",
       "clusterTitel": "Vertretung & Nachfolge"
     },

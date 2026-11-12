@@ -16,6 +16,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
+const { echteFachZahl } = require('./lib/echte-faecher.js');   // Attrappen-Fächer: echte Fächer zählen, nicht Einträge (04.11.2026)
 const F = require('../tools/format-pruefen.js');
 
 const REPO = path.join(__dirname, '..');
@@ -65,7 +66,7 @@ test('[Attrappe·Länge] die Attrappe trifft jedes Vorbild byte-gleich, für all
 test('[Attrappe·Länge] eine Datei mit Fach trägt nur eine Umschlaglänge, und das Prüfprogramm meldet nichts', async () => {
   const { V } = ladeKern();
   const u = await depotMitFach(V);
-  assert.equal(u.umschlagTabelle.length, 2, 'Positivkontrolle: Anker und ein Fach');
+  assert.equal(await echteFachZahl(V, u), 1, 'Positivkontrolle: Anker und ein Fach');
   assert.deepEqual(umschlagLaengen(u), [62]);
   const r = await F.dateiPruefen('VIVODEPOT' + String.fromCharCode(1) + JSON.stringify(u));
   assert.ok(!r.befunde.some((b) => b.code === 'VDF-ATTRAPPE'), 'kein VDF-ATTRAPPE');

@@ -140,9 +140,10 @@ const kern = {
     const wege = await page.locator(ANLEGE_WEG_KANON + ':visible').count();
     if (wege > 1) throw new Error('Anlege-Aufforderungen in dieser Ansicht: ' + wege + ' (erwartet: genau eine)');
     await page.click((wege === 1 ? ANLEGE_WEG_KANON : ANLEGE_WEG_ALTSTAND) + ':visible');
-    await page.waitForSelector('#id-pw', { state: 'visible' });
+    await page.waitForSelector('#id-pw', { state: 'attached' });
     await page.fill('#id-vorname', vorname);
     await page.fill('#id-nachname', nachname);
+    if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await page.fill('#id-pw', pw);
     await page.fill('#id-pw2', pw);                                  // Bestätigung (Pflicht, == pw)
     await page.click('#m-ok');

@@ -124,7 +124,7 @@ test('[Journey c·Todesfall] Angehörige öffnet die Fach-Datei, findet „Behö
     await ang.click('#m-ok');
     await ausgabeWegHerunterladen(ang);   // signierte Antwort: erst die Wahl (L1b)
     const download = await d;
-    expect(download.suggestedFilename()).toMatch(/_Antwort_SB-2026-0001\.jwe$/);   // U2-ADR-449: die Antwort ist eine JWE
+    expect(download.suggestedFilename()).toMatch(/_Antwort_\d{4}-\d{2}-\d{2}_[A-Za-z0-9_-]{6}\.jwe$/);   // U2-ADR-449: die Antwort ist eine JWE; Name ohne Aktenzeichen (U2-ADR-520 Nr. 3)
     const text = fs.readFileSync(await download.path(), 'utf8');
     await foto(ang, '06-antwort-ausgegeben');
     return text;

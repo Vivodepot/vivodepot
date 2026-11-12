@@ -66,16 +66,27 @@ test('[Zug3·DIE MESSUNG] woran jeder der sechs Wege hängt — am Bereich oder 
   /* Die Aufteilung ist die Bauarbeit: was am Bereich hängt, entfällt mit ihm von selbst; was in
      einer eingefrorenen Tabelle an `sektor: 'gesundheit'` hängt, bleibt stehen und muss beim
      Bereichssatz-Bau eigens behandelt werden. */
-  const { V } = ladeKern();
+  const { V } = ladeKern({ zusatzBindungen: ['_herausgabeFormateFuerBereich', 'flowHerausgeben'] });
+  const Z = V.__zusatz;
   const text = KERN();
   const g = V.SEKTOREN.find((s) => s.id === 'health');
 
   /* 1 · Bereichsformat — AM BEREICH. */
   assert.equal(g.format, V.SEKTOR_FORMATE.FHIR_IPS);
-  /* 2 · Export-Knopf — AM BEREICH (`s.exporte`, gelesen in der Bereichsansicht). */
+  /* 2 · Export-Knopf — AM BEREICH. Neu gemessen (09.11.2026): Seit B23 baut `_herausgabeFormateFuerBereich` die Knopfliste aus
+     `.exporte` des Bereichs-Objekts, das `_sektorAusKatalog` liefert. Der Katalog kennt auch einen Bereich außerhalb der Anzeige;
+     den Knopf sperrt dann `flowHerausgeben`, das über den Anzeige-Index SEKTOR_BY_ID einsteigt. Gemessen am Objekt: Nimmt man ihm
+     `.exporte`, ist die Liste leer. */
   assert.ok((g.exporte || []).some((e) => e.format === 'fhir-ips'));
-  assert.ok(/\(Array\.isArray\(s\.exporte\) \? s\.exporte : \[\]\)/.test(text),
-    'die Knopfliste kommt nicht mehr aus `s.exporte` — dann ist die Aussage neu zu messen');
+  const formateVon = () => Z._herausgabeFormateFuerBereich('health').map((e) => e.format);
+  const katalog = V._sektorAusKatalog('health');
+  assert.deepEqual(formateVon(), (katalog.exporte || []).map((e) => e.format), 'die Knopfliste kommt nicht mehr aus dem Bereichs-Objekt — neu messen');
+  assert.ok(formateVon().includes('fhir-ips'));
+  const exporteVorher = katalog.exporte;
+  try { katalog.exporte = []; assert.deepEqual(formateVon(), [], 'die Knopfliste hängt nicht am Bereichs-Objekt'); }
+  finally { katalog.exporte = exporteVorher; }
+  assert.deepEqual(Z._herausgabeFormateFuerBereich('zz-probe-kein-bereich'), []);
+  assert.match(Z.flowHerausgeben.toString(), /SEKTOR_BY_ID\[sektorId\]/, 'flowHerausgeben steigt nicht mehr über den Anzeige-Index ein — neu messen');
 
   /* 3–6 · die vier Literale in eingefrorenen Tabellen. */
   const literale = [

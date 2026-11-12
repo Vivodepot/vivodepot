@@ -37,6 +37,62 @@
           "freigabestatus": "in Bearbeitung — nicht fest"
         },
         {
+          "pfad": "fim/F13001540_V1.0.xdf.xml",
+          "sha256": "48c80335152ace3dcbdfecad6b5bd63763847580d145f33c3c67f6f77e8e8267",
+          "kennung": "F13001540",
+          "fassung": "1.0",
+          "freigabestatus": "in Bearbeitung"
+        },
+        {
+          "pfad": "fim/F13001522_V1.0.xdf.xml",
+          "sha256": "3e48b5374d1fbc5c4666ca8ba4172b749a00db76e2a8e884cbd70878a141b1ab",
+          "kennung": "F13001522",
+          "fassung": "1.0",
+          "freigabestatus": "in Bearbeitung"
+        },
+        {
+          "pfad": "fim/F60000229_V2.0.xdf.xml",
+          "sha256": "89ff532b883fb1f4c0accb555887224e7e6af6e069ff4bd794dce4d39f571ff7",
+          "kennung": "F60000229",
+          "fassung": "2.0",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/G60000093_V3.1.xdf.xml",
+          "sha256": "8bcd16b3db9fc7b789b6850e410d211e898375555035059a5ad40cd564419b4e",
+          "kennung": "G60000093",
+          "fassung": "3.1",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000248_V1.1.xdf.xml",
+          "sha256": "1c783ccbb9a3153ed73fe49988733f963d33ed9d59617ec9c12616cc80f07101",
+          "kennung": "F60000248",
+          "fassung": "1.1",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F13001541_V1.0.xdf.xml",
+          "sha256": "9f8ca34bd830c5f8aa712c15be0727fa610bf14185d80403da0451c64c1bb672",
+          "kennung": "F13001541",
+          "fassung": "1.0",
+          "freigabestatus": "in Bearbeitung"
+        },
+        {
+          "pfad": "fim/F13001563_V1.0.xdf.xml",
+          "sha256": "626e87d0eb64a30485af3afd80fe92e9622b92faa1fc9945b558b334b3fb1063",
+          "kennung": "F13001563",
+          "fassung": "1.0",
+          "freigabestatus": "in Bearbeitung"
+        },
+        {
+          "pfad": "fim/F13001561_V1.0.xdf.xml",
+          "sha256": "d49a9207a9076f3f6ae3002ec438f985e5c92d224d2bac06eb1384382fa9bdad",
+          "kennung": "F13001561",
+          "fassung": "1.0",
+          "freigabestatus": "in Bearbeitung"
+        },
+        {
           "pfad": "fim/F60000227_V1.1.xdf.xml",
           "sha256": "8a91b793ee5c354c3a57c5a774811141a581463e2d9922a2098842bc08f0bcd9",
           "kennung": "F60000227",

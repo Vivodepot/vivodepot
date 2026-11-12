@@ -66,17 +66,17 @@ test('[D2] „Trotzdem schließen" → Daten verworfen + Schluss-Sicht (Weg a)',
   assert.equal(t.app.classList.contains('an'), false, 'App-Sicht verlassen');
 });
 
-test('[D2] „Passwort setzen" im Schließen-Modal öffnet das Passwort-Setzungs-Modal', async () => {
+test('[D2] der Primärknopf im Schließen-Modal öffnet „Depot anlegen“ (seit dem Rückbau des Vorschau-Passwortwegs, 07.11.2026)', async () => {
   const { V, document } = ladeKern();
   instrumentiere(document, ['overlay', 'app']);
   V.flowVorschauBetreten();
   V.getData().menschen.push({ id: 'p1', vorname: 'Test' });
 
   V.flowAppSchliessen();
-  await document.getElementById('m-ok').onclick();   // → schliessen + flowPasswortSetzen
+  await document.getElementById('m-ok').onclick();   // → schliessen + flowDepotAnlegen
   const html = document.getElementById('modal-inhalt').innerHTML || '';
-  assert.ok(html.includes('id="pw-neu2"'), 'Passwort-Setzungs-Modal geöffnet (Bestätigen-Feld)');
-  assert.ok(html.includes(V.STRINGS.pwSetzenTitel), 'ADR-Begrüßung im Modal');
+  assert.ok(html.includes('id="id-vorname"') && html.includes('id="id-pw2"'), 'Anlege-Dialog geöffnet (Name und Probe-Feld)');
+  assert.ok(!html.includes('id="pw-neu"'), 'kein namenloser Passwort-Dialog');
 });
 
 test('[D2] Schließen ohne Daten (Vorschau leer) → kein Warn-Modal, direkt Schluss-Sicht', () => {

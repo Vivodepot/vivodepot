@@ -42,10 +42,16 @@ function alleKennungen(V) {
   for (const b of V.bereicheAlle()) for (const s of (b.sektionen || [])) for (const f of (s.felder || [])) k.add(b.id + '.' + f.id);
   return [...k];
 }
+/* Am Verweis auf die Partnerin verlangt die Anfrage alle Personenfelder, die eine Anfrage nennen darf. Die Telefonnummer
+   fehlt in den Klassenproben, damit `personen[].fehlend` entsteht; eine eigene Probe unten liefert sie. */
+const VERWEIS_PERSON = 'people.spouseOrCivilPartner';
+const PERSON_FELDER = ['name', 'familyName', 'givenName', 'birthDate', 'birthYear', 'birthPlace', 'street', 'houseNumber',
+  'postalCode', 'city', 'telephone', 'deceased'].map((f) => 'people.person/' + f);
 function anfrage(kennungen, format) {
   return { modulTyp: 'anfrage', anfrageVersion: 1, von: 'Probe-Stelle', zweck: 'Probe', grundlage: 'Probe', vorgang: 'AS-1',
     gestelltAm: '2026-11-03', gueltigBis: '2099-12-31',
-    felder: kennungen.map((k, i) => ({ kennung: k, zweck: 'Probe', pflicht: i % 2 === 0 })),
+    felder: kennungen.map((k, i) => Object.assign({ kennung: k, zweck: 'Probe', pflicht: i % 2 === 0 },
+      k === VERWEIS_PERSON ? { personFelder: PERSON_FELDER } : {})),
     antwort: Object.assign({ art: 'einmalpasswort', an: 'probe@beispiel.invalid' }, format ? { format } : {}) };
 }
 // Ein Ausgabe-Format-Modul, damit die Antwort eine Zieldatei trägt (W2).
@@ -59,13 +65,15 @@ function institutionsVerweis(V) {
   }
   return null;
 }
-async function depot(produkt) {
+async function depot(produkt, mitTelefon) {
   const { V } = ladeKern(produkt ? { produkt } : {});
   await V.depotAnlegen(PW);
   const d = V.getData();
   d.sektoren.identity = Object.assign({}, d.sektoren.identity, { givenName: 'Walter', familyName: 'Beispiel', birthDate: '1941-05-02' });
   d.formatModule = (Array.isArray(d.formatModule) ? d.formatModule : []).concat([MODUL]);
-  d.menschen.push({ id: 'p-1', name: 'Erika Beispiel', givenName: 'Erika', familyName: 'Beispiel' });
+  d.menschen.push(Object.assign({ id: 'p-1', name: 'Erika Beispiel', givenName: 'Erika', familyName: 'Beispiel', birthDate: '1943-03-04',
+    yearOfBirthIfTheExactDayIs: '1943', birthPlace: 'Köln', street: 'Lindenweg', houseNumber: '3', postalCode: '50667',
+    city: 'Köln' }, mitTelefon ? { tel: '0221 000000' } : {}));
   if (V.SEKTOR_BY_ID.health) {
     d.sektoren.health = Object.assign({}, d.sektoren.health, {
       allergiesMedicationFoodOther: [V.chipAusEingabe('snomedAllergen', 'Penicillin'), { text: 'Hausstaub' }] });
@@ -126,6 +134,30 @@ test('[Antwort·Schema·Klasse] jede Kennung des Kerns, Privat und Pro: die Antw
   }
 });
 
+test('[Antwort·Schema·Klasse] alle Personenfelder am Verweis, mit Telefonnummer: die Antwort validiert', async () => {
+  const pruefe = pruefer();
+  const V = await depot(undefined, true);
+  const ds = await antwort(V, [VERWEIS_PERSON]);
+  assert.ok(ds.personen && ds.personen[0] && ds.personen[0].telephone, 'Vorbedingung: die Telefonnummer geht mit');
+  assert.equal(ds.personen[0].fehlend, undefined, 'Vorbedingung: nichts fehlt');
+  assert.deepEqual(fehler(pruefe, ds), []);
+  for (const p of schluesselPfade(ds)) GESEHEN.add(p);
+});
+
+test('[Antwort·Schema·Klasse] eine Person mit bisheriger Anschriftzeile: die Antwort trägt die Zeile und validiert', async () => {
+  const pruefe = pruefer();
+  const V = await depot(undefined, true);
+  const d = V.getData();
+  const p = d.menschen.find((m) => m.id === 'p-1');
+  for (const k of ['street', 'houseNumber', 'postalCode']) delete p[k];
+  p.adresse = 'Lindenweg 3, 50667 Köln';
+  V.setData(d);
+  const ds = await antwort(V, [VERWEIS_PERSON]);
+  assert.equal(ds.personen[0].anschrift, 'Lindenweg 3, 50667 Köln', 'Vorbedingung: die Zeile geht mit');
+  assert.deepEqual(fehler(pruefe, ds), []);
+  for (const q of schluesselPfade(ds)) GESEHEN.add(q);
+});
+
 test('[Antwort·Schema·Klasse] Vertretung aus einem verwalteten Depot validiert ebenso', async () => {
   const pruefe = pruefer();
   const { V } = ladeKern();
@@ -140,6 +172,23 @@ test('[Antwort·Schema·Klasse] Vertretung aus einem verwalteten Depot validiert
   assert.ok(ds.vertretung && ds.vertretung.handelnd, 'Vorbedingung: die Antwort trägt die Vertretung');
   assert.deepEqual(fehler(pruefe, ds), []);
   for (const p of schluesselPfade(ds)) GESEHEN.add(p);
+});
+
+/* Die Kennung fügt erst antwortVerschluesseln in den Datensatz ein (U2-ADR-520 Nr. 3). Die Klassenproben oben prüfen davor; diese
+   Probe prüft, was im Chiffrat steht. */
+test('[Antwort·Schema·Kennung] der Datensatz im Chiffrat trägt anfrage.kennung und validiert gegen das Schema', async () => {
+  const pruefe = pruefer();
+  const V = await depot();
+  const a = anfrage(['identity.givenName']);
+  const passwort = 'p' + require('node:crypto').randomBytes(12).toString('hex');
+  const ds = await V.anfrageAntwortDatensatzGeprueft({ anfrage: a }, { sensibel: true });
+  const jwe = await V.antwortVerschluesseln(ds, a, { passwort });
+  const L = require('../load-lesen.js').ladeLesen().V;
+  const offen = await L.antwortJweOeffnen(jwe, { passwort });
+  const inhalt = (await L.antwortSignaturPruefen(offen.klartext, L._antwortErwartetAusKopf(offen.kopf))).datensatz;
+  assert.equal(inhalt.anfrage.kennung, offen.kopf.kennung, 'Vorbedingung: Kennung im Chiffrat gleich der im Kopf');
+  assert.deepEqual(fehler(pruefe, inhalt), []);
+  for (const p of schluesselPfade(inhalt)) GESEHEN.add(p);
 });
 
 test('[Antwort·Schema·Gleichheit] jeder Schlüssel des Schemas kommt im Kern vor, außer den benannten', () => {

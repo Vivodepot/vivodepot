@@ -91,13 +91,14 @@ test('[Eingang · 4 · Rot-Beweis] zwei Gesundheitskacheln fallen auf', () => {
   assert.ok(gesundheitsKacheln(kopie).length >= 2);
 });
 
-test('[Eingang · 5] Überschrift V2, die Frage, sechs gleich gebaute Kacheln, die erste dunkel', () => {
+test('[Eingang · 5] Überschrift V2, die Frage, sieben gleich gebaute Kacheln, die erste dunkel (seit Studio-Umbau Wagen 1: „Vorlage erstellen“, zwei „in Arbeit“)', () => {
   const e = eingangVon(HTML);
   assert.match(e, /<h1 class="eingang-titel"[^>]*>Richten Sie Vivodepot für Ihre Einrichtung ein<\/h1>/);
   assert.match(e, /<h2 class="eingang-frage"[^>]*>Was möchten Sie anbieten\?<\/h2>/);
   const k = kacheln(e);
-  assert.equal(k.length, 6);
-  assert.deepEqual(k.map((x) => x.klasse), ['kachel eingang-kachel erste', 'kachel eingang-kachel', 'kachel eingang-kachel eingang-hinweis', 'kachel eingang-kachel', 'kachel eingang-kachel', 'kachel eingang-kachel']);
+  assert.equal(k.length, 7);
+  assert.deepEqual(k.map((x) => x.klasse), ['kachel eingang-kachel erste', 'kachel eingang-kachel', 'kachel eingang-kachel', 'kachel eingang-kachel eingang-hinweis',
+    'kachel eingang-kachel eingang-hinweis eingang-folgt', 'kachel eingang-kachel eingang-hinweis eingang-folgt', 'kachel eingang-kachel']);
   for (const x of k) {
     const roh = e.slice(e.indexOf('id="' + x.id + '"'));
     assert.match(roh, /^[^]*?<span class="ek-titel" data-en="[^"]+">[^<]+<\/span>\s*<span class="ek-text" data-en="[^"]+">[^<]+<\/span>(\s*<span class="ek-hinweis"[^>]*>[^<]+<\/span>)?<\/button>/, x.id + ': Titel und Text');
@@ -105,12 +106,14 @@ test('[Eingang · 5] Überschrift V2, die Frage, sechs gleich gebaute Kacheln, d
   assert.ok(!/<p class="lead"/.test(e), 'kein Fließtext im Eingang');
 });
 
-test('[Eingang · 6] der Eingang ist der Start; die Fachebene liegt einen Klick dahinter, zurück ebenso', () => {
+test('[Eingang · 6] der Eingang ist der Start; die Fachebene (sichtbar „Expertensicht“) liegt einen Klick dahinter, zurück ebenso über den Kopf-Schalter', () => {
   assert.match(HTML, /<main id="raum-start" class="raum" hidden>/, 'die Fachebene ist beim Laden verborgen');
   assert.match(HTML, /if \(id === 'willkommen'\) \{ dlgZu\('dlg-fertig'\); raumZeigen\('eingang'\); \}/);
-  for (const [id, ziel] of [['kopf-fachebene', 'fachebene'], ['ein-anderes', 'fachebene'], ['fachebene-zurueck', 'willkommen']]) {
-    assert.ok(HTML.includes("an('" + id + "', 'click', () => zeigeSchritt('" + ziel + "'));"), id + ' → ' + ziel);
-  }
+  assert.ok(HTML.includes("an('ein-anderes', 'click', () => zeigeSchritt('fachebene'));"), 'ein-anderes → fachebene');
+  assert.ok(HTML.includes("an('kopf-fachebene', 'click', () => { if (ebeneIstEinfach()) zeigeSchritt('fachebene'); });"), 'Schalter Expertensicht → fachebene');
+  assert.ok(HTML.includes("an('kopf-einfach', 'click', () => { if (!ebeneIstEinfach()) zeigeSchritt(letzterEinfachSchritt); });"), 'Schalter Einfach → zurück');
+  assert.match(HTML, /let letzterEinfachSchritt = 'willkommen';/);
+  assert.match(HTML, /<button type="button" id="kopf-einfach" aria-pressed="true" data-en="Simple">Einfach<\/button><button type="button" id="kopf-fachebene" aria-pressed="false" data-en="Expert view">Expertensicht<\/button>/);
   assert.match(HTML, /if \(e\) e\.hidden = \(welcher !== 'eingang'\);/);
 });
 test('[Eingang · 6] „Dokumente empfangen“ ist ein wahrer Hinweis ohne Studio-Ziel (erwartet bis „Unterlagen in der Antwort“): kein Modul, kein Raum; ⓘ statt Pfeil, aria-expanded', () => {
@@ -119,7 +122,7 @@ test('[Eingang · 6] „Dokumente empfangen“ ist ein wahrer Hinweis ohne Studi
   assert.doesNotMatch(z, /modulOeffnen|zeigeSchritt/, 'keine Studio-Funktion trägt „Unterlagen empfangen“ (Anfrage = nur Angaben, Datei-Kanal = Gegenrichtung)');
   assert.match(z, /aria-expanded/);
   const e = eingangVon(HTML);
-  assert.match(e, /id="ein-empfangen" aria-expanded="false" aria-controls="ein-empfangen-hinweis"><span class="ek-glyph" aria-hidden="true"><\/span><span class="ek-pfeil ek-info" aria-hidden="true">i<\/span>/);
+  assert.match(e, /id="ein-empfangen" aria-expanded="false" aria-controls="ein-empfangen-hinweis"><span class="ek-glyph" aria-hidden="true">(<svg[^]*?<\/svg>)?<\/span><span class="ek-pfeil ek-info" aria-hidden="true">i<\/span>/);   // seit Wagen 1 je Ziel ein Symbol im Zeichen
   assert.match(e, /id="ein-empfangen-hinweis" hidden data-en="[^"]+">Dafür richten Sie nichts ein: /);
 });
 test('[Eingang · 6 · Rot-Beweis] ein Studio-Ziel an „Dokumente empfangen“ fiele auf', () => {

@@ -10,6 +10,7 @@
    der Krisenvorsorge-Bedarfsrechnung vorher und nachher, Bildbeleg."
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
 
 async function gebwizStarten(page) {
@@ -19,8 +20,8 @@ async function gebwizStarten(page) {
   await expect(page.locator('.wizard-frage')).toBeVisible();
 }
 
+// Seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) ist der Namens-Schritt der erste — keine Vorschritte.
 async function bisZumNamenSchrittDurchklicken(page) {
-  for (let i = 0; i < 6; i++) await page.click('#wiz-weiter');
   await expect(page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]')).toBeVisible();
 }
 
@@ -48,7 +49,7 @@ test('Assistent mit Kindesnamen → Kind in „Kinder und Schutzbefohlene" sicht
   await gebwizMitNamenDurchlaufen(page, 'Mia Musterfrau');
 
   await expect(page.locator('#modal-titel')).toContainText('Eigenes Depot für Ihr Kind?');
-  await page.click('#m-abbr');   // Ablehnen
+  await dialogAbbrechen(page);   // Ablehnen
   await expect(page.locator('#modal-titel')).toHaveCount(0);
 
   // Sauber weiter: der Wizard ist zu, die App bedienbar, kein hängender Zustand.
@@ -80,7 +81,7 @@ test('Assistent ein zweites Mal mit demselben Namen → keine Dublette', async (
   await oeffneApp(page);
   await depotAnlegen(page);
   await gebwizMitNamenDurchlaufen(page, 'Mia Musterfrau');
-  await page.click('#m-abbr');   // ersten Vorschlag ablehnen, nicht Gegenstand dieser Probe
+  await dialogAbbrechen(page);   // ersten Vorschlag ablehnen, nicht Gegenstand dieser Probe
 
   await gebwizMitNamenDurchlaufen(page, 'Mia Musterfrau');   // zweiter Lauf, exakt derselbe Name
 

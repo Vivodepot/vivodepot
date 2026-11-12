@@ -126,7 +126,8 @@ const NUR_CHIFFRAT = [
 // als neues Dokument der Person. Quelle ist allein das Original (byte-gleich als Binary daran, Einträge unverändert); kein
 // Depot-Feld, kein Geheimnis, kein Schlüssel, keine neue Feld-Grenze. Eine Weitergabe: der Weg läuft durch `mitVereinbarung`.
 // Probe: tests/eu-lab-dokument-der-person.test.js [EU-Lab·Person] „Quelle ist nur das Original“.
-const ERLAUBTE_KLARTEXT_ANZAHL = 22;
+// 22 → 23 am 10.11.2026: `migrationFehlerBeschreibungSpeichern` — die Fehlerbeschreibung nach einem Migrationswurf. Sie trägt Fassung, Build, Schemanummern, Weg, Fehlerklasse und Funktionsnamen aus dem Stapel; kein Depot-Feld, kein Geheimnis, kein Schlüssel. Probe: die E2E-Strecke zum Hinweis nach dem Migrationswurf.
+const ERLAUBTE_KLARTEXT_ANZAHL = 23;
 
 test('[Klausel] Bindung an ' + ADR + ' über das Fundament', () => {
   bindungPruefen(ADR, HERKUNFT, PRUEFUNGEN, __filename);

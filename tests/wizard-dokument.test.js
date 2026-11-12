@@ -31,7 +31,8 @@ const DOKUMENT_WIZARDS = [
   { id: 'pvwiz', typ: 'living-will' },
   { id: 'kiwiz', typ: 'ki-verfuegung' },
 ];
-const NICHT_DOKUMENT_WIZARDS = ['gebwiz', 'anamwiz', 'pflwiz', 'heirwiz', 'umzwiz'];
+// anamwiz seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) gestrichen.
+const NICHT_DOKUMENT_WIZARDS = ['gebwiz', 'pflwiz', 'heirwiz', 'umzwiz'];
 
 // Legt eine Instrument-Zeile des Typs an (der Ort, an dem `datum` seit U2-ADR-096 lebt).
 function instrumentZeile(V, typ, datum) {

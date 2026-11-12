@@ -37,7 +37,8 @@ test('[SEKTOREN-leer] der Kern bootet mit quelltextlich leerem SEKTOREN — die 
   mitLeeremSektoren(({ ladeKern }) => {
     const { V } = ladeKern();
     assert.equal(V.SEKTOREN.length, 0, 'Vorbedingung: SEKTOREN ist wirklich leer');
-    assert.equal(V.WIZARDS.length, 7, 'alle sieben Assistenten werden weiterhin gebaut — die Auswertung bricht nicht ab');
+    // C14 (Assistenten-Urteil W03/W04, 07.11.2026): anamwiz ist gestrichen — sechs statt sieben.
+    assert.equal(V.WIZARDS.length, 6, 'alle sechs Assistenten werden weiterhin gebaut — die Auswertung bricht nicht ab');
   });
 });
 

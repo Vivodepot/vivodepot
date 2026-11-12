@@ -1,44 +1,55 @@
 'use strict';
-/* umschau-knopftext-eindeutig.test.js — die Feld-Schaltfläche der Umschau nennt ihr Feld im sichtbaren Text (Befund
+/* umschau-knopftext-eindeutig.test.js — die Feld-Schaltfläche der Umschau nennt ihr Feld im zugänglichen Namen (Befund
    UMSCHAU-KNOPFTEXT-NICHT-EINDEUTIG, 08.10.2026; WCAG 2.4.6, 2.5.3). Vorher trugen alle denselben Text „nicht hinterlegt Eintragen“,
    der Feldname stand nur im aria-label; wer per Sprache steuert, sagt, was er sieht, und traf fünf gleiche Knöpfe.
-   Diese Probe hält den Wortlaut: kein aria-label an der Schaltfläche (der sichtbare Text ist der zugängliche Name), der Hinweis
-   setzt die Feldbeschriftung ein, und beide Sprachmodule tragen den Platzhalter. Die Laufzeit hält
-   tests/e2e/umschau-eintragen-fuehrt-zum-einrichten.spec.js („Umschau·Knopftext“). */
+   Seit der Abnahme v998 (Mängel M01–M03 der Gestaltungsleitung) steht sichtbar nur „Eintragen“ — „Wer übernimmt die Hauptpflege?
+   eintragen“ war kein Satz —, die Beschriftung steht als Vorlesetext davor. Geprüft wird darum am gerenderten Knopf JEDES Felds
+   jedes Bereichs, DE und EN: kein aria-label, der zugängliche Name enthält die Beschriftung und das sichtbare Wort (2.5.3).
+   Die Laufzeit hält tests/e2e/umschau-eintragen-fuehrt-zum-einrichten.spec.js („Umschau·Knopftext“). */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const { ladeKern } = require('./load-kern.js');
 
-const REPO = path.join(__dirname, '..');
-const KERN = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
-const DE = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'textsatz-de-modul.json'), 'utf8')).texte;
-const EN = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'textsatz-en-modul.json'), 'utf8')).texte;
-const KENNUNG = 'strings:umschauFeldEintragenFuer.text';
+const ent = (t) => t.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+const text = (h) => ent(h.replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
+const ohneVorlesen = (h) => h.replace(/<span class="sr-only">[\s\S]*?<\/span>/g, ' ');
 
-function knopfQuelle(kern) {
-  const a = kern.indexOf('class="feld-umschau-eintragen"');
-  if (a < 0) return '';
-  return kern.slice(a, kern.indexOf('</button>', a));
-}
-function funde(kern, de, en) {
-  const q = knopfQuelle(kern); const aus = [];
-  if (!q) aus.push('Schaltfläche nicht gefunden');
-  if (/aria-label/.test(q)) aus.push('aria-label an der Schaltfläche');
-  if (!/STRINGS\.umschauFeldEintragenFuer\.replace\('\{feld\}', feld\.label\)/.test(q)) aus.push('Hinweis nennt das Feld nicht');
-  for (const [name, t] of [['de', de], ['en', en]]) if (!String(t[KENNUNG] || '').includes('{feld}')) aus.push(name + ': Text ohne {feld}');
+/* Rein: die Funde eines gerenderten Knopfs (innerHTML + öffnendes Tag) zu seiner Beschriftung. */
+function knopfFunde(tag, innen, label) {
+  const aus = [];
+  if (/aria-label=/.test(tag)) aus.push('aria-label an der Schaltfläche');
+  const name = text(innen.replace(/<span[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/span>/g, '')).toLowerCase();
+  const sichtbar = text(ohneVorlesen(innen)).toLowerCase();
+  if (!name.includes(String(label).replace(/\s+/g, ' ').trim().toLowerCase())) aus.push('Name nennt die Beschriftung nicht');
+  if (sichtbar && !name.includes(sichtbar)) aus.push('sichtbares Wort fehlt im Namen');
   return aus;
 }
 
-test('[Umschau·Knopftext] die Schaltfläche nennt ihr Feld im sichtbaren Text, ohne abweichendes aria-label', () => {
-  assert.deepEqual(funde(KERN, DE, EN), []);
-});
+function alleKnoepfe(produkt) {
+  const { V } = ladeKern({ produkt });
+  V.vorschauDepotErzeugen();
+  const aus = [];
+  for (const s of V.bereicheAlle()) for (const sek of (s.sektionen || [])) for (const f of (sek.felder || [])) {
+    const html = V.feldZeileHTML(f, undefined, s.id, false);
+    const m = /(<button type="button" class="feld-umschau-eintragen[^"]*"[^>]*>)([\s\S]*?)<\/button>/.exec(html);
+    if (m) aus.push({ wo: s.id + '.' + f.id, tag: m[1], innen: m[2], label: f.label });
+  }
+  return aus;
+}
 
-test('[Umschau·Knopftext·Rot-Beweis] der frühere Wortlaut fällt auf', () => {
-  const alt = KERN.replace(/'" data-umschau-feld="' \+ escapeHTML\(feld\.id\) \+ '">'/, `'" data-umschau-feld="' + escapeHTML(feld.id) + '" aria-label="' + escapeAttr(feld.label) + '">'`)
-    .replace("STRINGS.umschauFeldEintragenFuer.replace('{feld}', feld.label)", 'STRINGS.umschauFeldEintragen');
-  const f = funde(alt, DE, EN);
-  assert.ok(f.includes('aria-label an der Schaltfläche'));
-  assert.ok(f.includes('Hinweis nennt das Feld nicht'));
-  assert.ok(funde(KERN, Object.assign({}, DE, { [KENNUNG]: 'Eintragen' }), EN).includes('de: Text ohne {feld}'));
+for (const produkt of ['privat-de', 'privat-en']) {
+  test('[Umschau·Knopftext] ' + produkt + ': jeder Feld-Knopf nennt im zugänglichen Namen seine Beschriftung und das sichtbare Wort, ohne aria-label', () => {
+    const k = alleKnoepfe(produkt);
+    assert.ok(k.length > 40, 'Voraussetzung: die Umschau rendert Feld-Knöpfe (' + k.length + ')');
+    const funde = k.flatMap((x) => knopfFunde(x.tag, x.innen, x.label).map((f) => x.wo + ': ' + f));
+    assert.deepEqual(funde, []);
+  });
+}
+
+test('[Umschau·Knopftext·Rot-Beweis] ein Knopf ohne Beschriftung im Namen, mit aria-label oder mit einem Wort außerhalb des Namens fällt auf', () => {
+  const tag = '<button type="button" class="feld-umschau-eintragen">';
+  assert.deepEqual(knopfFunde(tag, '<span class="sr-only">Vorname </span><span class="feld-umschau-eintragen-hinweis">Eintragen</span>', 'Vorname'), []);
+  assert.ok(knopfFunde(tag, '<span class="feld-umschau-eintragen-hinweis">Eintragen</span>', 'Vorname').includes('Name nennt die Beschriftung nicht'));
+  assert.ok(knopfFunde('<button type="button" class="feld-umschau-eintragen" aria-label="Vorname">', 'Eintragen', 'Vorname').includes('aria-label an der Schaltfläche'));
+  assert.ok(knopfFunde(tag, '<span class="sr-only">Vorname </span><span aria-hidden="true">Eintragen</span>', 'Vorname').includes('sichtbares Wort fehlt im Namen'));
 });

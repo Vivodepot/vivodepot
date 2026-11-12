@@ -22,7 +22,9 @@ test('[W-Scroll-Erhalt] die Grundlinie kennt genau 15 Navigations-Funktionen', (
   // ebenso — die Eintragen-Übersicht ist ein neuer Bildschirm, sie beginnt oben.
   // 16 → 15 am 30.10.2026 (Befund UX-DOKUMENT-ABLEGEN): `oeffneBestandsAuswahl` entfällt, „Was hier
   // hineingehört“ ist ein Dialog über „Meine Dokumente“, kein eigener Bildschirm mehr.
-  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 15);
+  // 15 → 16 am 02.11.2026 (Seite „Über und Hinweise“): `oeffneUeberHinweise` öffnet die neue Seite oben
+  // wie die übrigen Navigationen.
+  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 16);
 });
 
 test('[W-Scroll-Erhalt] echter Kern: kein neuer renderContent(true)-Aufruf gegen die Grundlinie', () => {

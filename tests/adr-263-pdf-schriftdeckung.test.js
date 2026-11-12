@@ -165,7 +165,7 @@ test('[U2-ADR-263·Fund 23.09.2026·Rot-Beweis] Blutgruppen-Optionslabels mit ty
   // ("health.bloodType/A-.label"), kein verschachteltes Objekt.
   const negativeLabelsDe = ['0-', 'A-', 'B-', 'AB-'].map((k2) => textsatzDe.texte['health.bloodType/' + k2 + '.label']);
   const negativeLabelsEn = ['0-', 'A-', 'B-', 'AB-'].map((k2) => textsatzEn.texte['health.bloodType/' + k2 + '.label']);
-  assert.deepEqual(negativeLabelsDe, ['0 −', 'A −', 'B −', 'AB −'], 'Testaufbau: DE-Labels wie beim Fund gemessen — sonst prüft dieser Test nichts mehr');
+  assert.deepEqual(negativeLabelsDe, ['0−', 'A−', 'B−', 'AB−'], 'Testaufbau: DE-Labels wie beim Fund gemessen — sonst prüft dieser Test nichts mehr');
   assert.deepEqual(negativeLabelsEn, ['O−', 'A−', 'B−', 'AB−'], 'Testaufbau: EN-Labels wie beim Fund gemessen — sonst prüft dieser Test nichts mehr');
   for (const label of [...negativeLabelsDe, ...negativeLabelsEn]) {
     const funde = pdfZeichenOhneDeckung(label);

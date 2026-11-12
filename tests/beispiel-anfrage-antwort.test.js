@@ -65,10 +65,15 @@ test('[Beispiel] Schlüsselpaar: der Kern verschlüsselt, das Beispiel öffnet z
   const { ds, jwe } = await depotMitAntwort(anfrage);
   const r = await oeffnen.antwortOeffnen(jwe, { privateJwk: weg.privat });
   assert.equal(r.kopf.alg, 'ECDH-ES');
-  assert.equal(r.kopf.vorgang, anfrage.vorgang);
-  assert.deepEqual(r.datensatz, JSON.parse(JSON.stringify(ds)));
-  // Rot: ein umetikettierter Vorgang (apv/AAD) darf nicht öffnen.
-  const falsch = mitKopf(jwe, (k) => { k.vorgang = 'ANDERER-VORGANG'; });
+  // Der Kopf trägt kein Aktenzeichen, nur die zufällige Kennung; das Aktenzeichen steht im Datensatz (U2-ADR-520 Nr. 3).
+  assert.equal(r.kopf.vorgang, undefined);
+  assert.match(r.kopf.kennung, /^[A-Za-z0-9_-]{22}$/);
+  assert.equal(r.datensatz.anfrage.kennung, r.kopf.kennung);
+  assert.equal(r.datensatz.anfrage.vorgang, anfrage.vorgang);
+  const erwartet = JSON.parse(JSON.stringify(ds)); erwartet.anfrage = Object.assign({}, erwartet.anfrage, { kennung: r.kopf.kennung });
+  assert.deepEqual(r.datensatz, erwartet);
+  // Rot: eine umetikettierte Kennung (apv/AAD) darf nicht öffnen.
+  const falsch = mitKopf(jwe, (k) => { k.kennung = 'ANDERE-KENNUNG-0000000'; });
   await assert.rejects(oeffnen.antwortOeffnen(falsch, { privateJwk: weg.privat }));
   // Rot: ein fremder Schlüssel öffnet nicht.
   const fremd = await bauen.rueckweg('schluesselpaar');
@@ -81,7 +86,8 @@ test('[Beispiel] Einmalpasswort: der Kern verschlüsselt, das Beispiel öffnet; 
   const { ds, jwe } = await depotMitAntwort(anfrage, { passwort: weg.passwort });
   const r = await oeffnen.antwortOeffnen(jwe, { passwort: weg.passwort });
   assert.equal(r.kopf.alg, oeffnen.PBES2);
-  assert.deepEqual(r.datensatz, JSON.parse(JSON.stringify(ds)));
+  const erwartet = JSON.parse(JSON.stringify(ds)); erwartet.anfrage = Object.assign({}, erwartet.anfrage, { kennung: r.kopf.kennung });
+  assert.deepEqual(r.datensatz, erwartet);
   await assert.rejects(oeffnen.antwortOeffnen(mitKopf(jwe, (k) => { k.p2c = 10000000; }), { passwort: weg.passwort }), /p2c/);
   await assert.rejects(oeffnen.antwortOeffnen(jwe, { passwort: 'falsch-falsch-falsch' }));
 });

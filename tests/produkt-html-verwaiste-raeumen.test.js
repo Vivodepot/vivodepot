@@ -83,3 +83,35 @@ test('[Verwaist·Gegenprobe] lebt die PID, bleibt der Ordner — die Prüfung de
 test('[Verwaist] fehlt der Wurzelordner, endet das Räumen still', () => {
   assert.deepEqual(P.verwaisteRaeumen({ tmp: path.join(os.tmpdir(), 'vd-gibt-es-nicht-' + process.pid) }), []);
 });
+
+/* Klasse: jede Stelle im Repo, die einen Ordner produkt-html-* anlegt, trägt die PID im Namen. Sonst räumt sie nach SIGKILL
+   niemand, denn Ordner ohne PID fasst das Räumen nicht an. Gelesen werden tools/, tests/ und scripts/. */
+function stellenOhnePid(dateien) {
+  const raus = [];
+  for (const [datei, text] of dateien) {
+    text.split('\n').forEach((z, i) => {
+      if (/mkdtemp(?:Sync)?\(/.test(z) && /['"]produkt-html-/.test(z) && !/'-p' \+ process\.pid \+ '-'/.test(z)) raus.push(datei + ':' + (i + 1));
+    });
+  }
+  return raus;
+}
+test('[Verwaist·Klasse] jeder Ordner produkt-html-* im Repo trägt die PID des Prozesses', () => {
+  const wurzelRepo = path.join(__dirname, '..');
+  const dateien = [];
+  for (const d of ['tools', 'tests', 'scripts']) {
+    let namen = [];
+    try { namen = fs.readdirSync(path.join(wurzelRepo, d), { withFileTypes: true }); } catch (_) { continue; }
+    // Diese Datei selbst nicht: ihr Rot-Beweis trägt absichtlich eine Stelle ohne PID.
+    for (const e of namen) {
+      const voll = path.join(wurzelRepo, d, e.name);
+      if (e.isFile() && e.name.endsWith('.js') && voll !== __filename) dateien.push([d + '/' + e.name, fs.readFileSync(voll, 'utf8')]);
+    }
+  }
+  assert.ok(dateien.some(([d]) => d === 'tests/produkt-html-erzeugen.js'), 'Nicht-leer-Wache: der Helfer ist unter den gelesenen Dateien');
+  assert.deepEqual(stellenOhnePid(dateien), []);
+});
+test('[Verwaist·Klasse·Rot-Beweis] eine Stelle ohne PID fällt auf, eine mit PID nicht', () => {
+  const ohne = "const z = fs.mkdtempSync(path.join(os.tmpdir(), 'produkt-html-' + slug + '-'));";
+  const mit = "const z = fs.mkdtempSync(path.join(os.tmpdir(), 'produkt-html-' + slug + '-p' + process.pid + '-'));";
+  assert.deepEqual(stellenOhnePid([['x.js', ohne], ['y.js', mit]]), ['x.js:1']);
+});

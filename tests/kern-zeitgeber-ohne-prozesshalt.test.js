@@ -72,7 +72,7 @@ test('[Kern·Zeitgeber·Toast] ein Prozess, der eine Meldung zeigt, endet ohne W
   try {
     const kopie = path.join(dir, 'kern.html');
     const quelle = fs.readFileSync(KERN, 'utf8');
-    const ohneHelfer = quelle.replace('_ohneProzessHalt(setTimeout(() => el.remove(), aktion ? 8000 : 3200))', 'setTimeout(() => el.remove(), aktion ? 8000 : 3200)');
+    const ohneHelfer = quelle.replace('_ohneProzessHalt(setTimeout(() => el.remove(), dauer))', 'setTimeout(() => el.remove(), dauer)');
     assert.notEqual(ohneHelfer, quelle, 'die Stelle der Meldungsleiste steht im Kern');
     fs.writeFileSync(kopie, ohneHelfer);
     const mit = nachDerMeldung(kopie);

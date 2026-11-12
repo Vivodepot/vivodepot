@@ -69,6 +69,7 @@ async function seiteMitDepot(browser, pw, breite = 390) {
   await seite.waitForTimeout(300);
   await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await seite.waitForTimeout(300);
+  if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'], ['#id-pw', pw], ['#id-pw2', pw]]) {
     await seite.fill(sel, wert);
   }

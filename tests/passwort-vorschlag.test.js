@@ -86,7 +86,8 @@ function ohneVorschlag(quelle) {
 
 test('[PW-Vorschlag·Wächter] jedes Feld für ein neues Passwort bietet den Vorschlag an und ist verdrahtet', () => {
   const felder = neuFelder(KERN);
-  assert.ok(felder.length >= 8, 'Ausbeute: die Felder werden gefunden (' + felder.join(', ') + ')');
+  // Ausbeute 8 → 7 (07.11.2026): das Feld pw-neu entfiel mit dem namenlosen Passwort-Dialog (Rückbau des Vorschau-Passwortwegs).
+  assert.ok(felder.length >= 7, 'Ausbeute: die Felder werden gefunden (' + felder.join(', ') + ')');
   assert.deepEqual(ohneVorschlag(KERN), []);
   const rot = KERN + '\n\'<input id="neues-feld" type="password" autocomplete="new-password">\'\n';
   const rotFunde = ohneVorschlag(rot);
@@ -226,8 +227,12 @@ test('[PW-Vorschlag·vorbelegt] der Vorschlag lebt nur im Feld und in der Anzeig
   assert.equal(verboten.test(text), false, 'die Vorschlags-Funktionen greifen auf nichts außerhalb von Feld und Anzeige zu');
   assert.ok(verboten.test(text.replace('anzeige.hidden = false;', 'anzeige.hidden = false; localStorage.setItem("v", letzter);')),
     'Rot-Beweis: ein Speichern fällt auf');
-  // Die Bestätigung kommt in den Funktionen gar nicht vor: nichts kopiert den Vorschlag dorthin.
-  assert.equal(/'2'|pw2|\+ '2'/.test(funktionsText(KERN, 'pwVorschlagVerdrahten')), false);
+  // Nichts kopiert den Vorschlag in die Bestätigung. Seit C03 (04.11.2026) liest der Baustein das zweite Feld (`<feld>2`), um es
+  // „Wörter zur Probe abtippen“ zu nennen und die Wörter zu markieren; schreiben darf er seinen Wert nie.
+  const schreibtProbe = (t) => /\bprobe\.value\s*=(?!=)/.test(t);
+  assert.equal(schreibtProbe(funktionsText(KERN, 'pwVorschlagVerdrahten')), false);
+  assert.ok(schreibtProbe(funktionsText(KERN, 'pwVorschlagVerdrahten').replace('feld.value = letzter;', 'feld.value = letzter; if (probe) probe.value = letzter;')),
+    'Rot-Beweis: ein Kopieren in die Bestätigung fällt auf');
 });
 
 test('[PW-Vorschlag·vorbelegt] beide Übergabe-Wege an Empfänger (Datei und QR) und das Fach tragen den vorbelegten Baustein', () => {

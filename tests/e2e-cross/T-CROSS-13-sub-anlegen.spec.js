@@ -34,9 +34,10 @@ async function ankerAnlegen(page) {
   await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
   await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   // Setup-first (vivodepot.html:12636): flowDepotAnlegen → Vorname + Nachname (Pflicht) + Passwort.
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-pw', { state: 'attached' });
   await page.fill('#id-vorname', 'Anker');
   await page.fill('#id-nachname', 'Test');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'anker-passwort-123');
   await page.fill('#id-pw2', 'anker-passwort-123');
   await page.click('#m-ok');
@@ -63,6 +64,7 @@ test('D49 — Sub anlegen: Vorname „Sophie" OHNE Nachname, gleiche PW → ange
   await ankerAnlegen(page);
   await subModalOeffnen(page);
   await page.fill('#id-vorname', 'Sophie');               // KEIN Nachname (optional im Sub)
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'sub-passwort-123');
   await page.fill('#id-pw2', 'sub-passwort-123');
   await page.click('#m-ok');
@@ -77,6 +79,7 @@ test('D49 — Sub anlegen: ungleiche PW → Inline-Mismatch unter Feld 2, keine 
   await ankerAnlegen(page);
   await subModalOeffnen(page);
   await page.fill('#id-vorname', 'Sophie');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'sub-passwort-123');
   await page.fill('#id-pw2', 'sub-passwort-anders');
   await page.click('#m-ok');
@@ -92,6 +95,7 @@ test('D49 — Sub anlegen: fehlender Vorname → Feld-Markierung + Meldung, KEIN
   await ankerAnlegen(page);
   await subModalOeffnen(page);
   // Vorname leer; Passwörter befüllt
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'sub-passwort-123');
   await page.fill('#id-pw2', 'sub-passwort-123');
   await page.click('#m-ok');

@@ -97,6 +97,11 @@
               "typ": "text"
             },
             {
+              "id": "academicDegree",
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
               "id": "displayFamilyNameFirst",
               "typ": "checkbox"
             },
@@ -554,7 +559,11 @@
                   "typ": "ref",
                   "entitaet": "person",
                   "mitGeburt": true,
-                  "verweisZweck": "familiaer"
+                  "verweisZweck": "familiaer",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": ""
+                  }
                 },
                 {
                   "id": "type",
@@ -582,19 +591,30 @@
                 },
                 {
                   "id": "typeAdditionalDetail",
-                  "typ": "text"
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": ""
+                  }
                 },
                 {
                   "id": "note",
                   "typ": "textarea",
-                  "beispiel": ""
+                  "beispiel": "",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": ""
+                  }
                 },
                 {
                   "id": "legalRepresentationParental",
                   "typ": "auswahl",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   },
                   "optionen": [
                     {
@@ -616,7 +636,10 @@
                   "typ": "text",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -631,7 +654,10 @@
                   ],
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -639,7 +665,10 @@
                   "typ": "auswahl",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   },
                   "optionen": [
                     {
@@ -655,7 +684,10 @@
                   "typ": "datum",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -664,7 +696,10 @@
                   "typ": "text",
                   "verborgenWenn": {
                     "feld": "type",
-                    "wert": "betreuter_erwachsener"
+                    "wert": [
+                      "betreuter_erwachsener",
+                      ""
+                    ]
                   }
                 },
                 {
@@ -678,7 +713,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   },
                   "optionen": [
@@ -704,7 +740,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 },
@@ -719,7 +756,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 },
@@ -734,7 +772,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 },
@@ -751,7 +790,8 @@
                       "adoptiert",
                       "pflege",
                       "stief",
-                      "muendel"
+                      "muendel",
+                      ""
                     ]
                   }
                 }
@@ -1576,7 +1616,6 @@
         }
       ],
       "wizards": [
-        "anamwiz",
         "pflwiz"
       ],
       "standardDokumente": [
@@ -4585,10 +4624,55 @@
       "wizards": [
         "umzwiz"
       ],
+      "standardDokumente": [
+        {
+          "typ": "registration-certificate",
+          "name": "Testtext 119",
+          "empfRhythmusMonate": null,
+          "felder": [
+            {
+              "sektorId": "housing",
+              "feldId": "moveInDate"
+            },
+            {
+              "sektorId": "identity",
+              "feldId": "academicDegree"
+            }
+          ]
+        },
+        {
+          "typ": "landlord-confirmation",
+          "name": "Testtext 120",
+          "empfRhythmusMonate": null,
+          "felder": [
+            {
+              "sektorId": "housing",
+              "feldId": "moveInDate"
+            },
+            {
+              "sektorId": "housing",
+              "feldId": "landlordIsOwner"
+            },
+            {
+              "sektorId": "housing",
+              "feldId": "ownerName"
+            },
+            {
+              "sektorId": "housing",
+              "feldId": "landlordConfirmationCode"
+            }
+          ]
+        }
+      ],
       "sektionen": [
         {
           "id": "wohnen-haupt",
           "felder": [
+            {
+              "id": "moveInDate",
+              "typ": "datum",
+              "ebene": "modul"
+            },
             {
               "id": "ownedOrRented",
               "typ": "auswahl",
@@ -4628,6 +4712,42 @@
               "id": "landlordEmail",
               "typ": "text",
               "eingabeTyp": "email",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "landlordIsOwner",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                }
+              ],
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "ownerName",
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "landlordIsOwner",
+                "wert": "nein"
+              }
+            },
+            {
+              "id": "landlordConfirmationCode",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
               "sichtbarWenn": {
                 "feld": "ownedOrRented",
                 "wert": "miete"
@@ -4696,6 +4816,165 @@
                 "feld": "ownedOrRented",
                 "wert": "miete"
               }
+            },
+            {
+              "id": "heatingCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "hotWaterCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "garageCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "parkingSpaceCostsInRent",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "serviceChargeFlatRate",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "householdEnergyCosts",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "costsPaidToThirdParties",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyProvider",
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyAmount",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyFrom",
+              "typ": "datum",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "rentSubsidyUntil",
+              "typ": "datum",
+              "ebene": "modul",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "commercialUseArea",
+              "typ": "text",
+              "eingabeTyp": "numeric",
+              "ebene": "modul"
+            },
+            {
+              "id": "subtenants",
+              "sensibel": true,
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "subtenantRelationship",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "mitbewohner"
+                    },
+                    {
+                      "wert": "untermieter"
+                    }
+                  ]
+                },
+                {
+                  "id": "subtenantRoomSize",
+                  "typ": "text",
+                  "eingabeTyp": "numeric"
+                },
+                {
+                  "id": "mainResidence",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "hier"
+                    },
+                    {
+                      "wert": "woanders"
+                    }
+                  ]
+                },
+                {
+                  "id": "mainResidenceSince",
+                  "typ": "datum"
+                },
+                {
+                  "id": "subtenantServiceCharges",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ],
+              "ebene": "modul"
             },
             {
               "id": "specialLivingSituation",
@@ -5058,9 +5337,9 @@
       "standardDokumente": [
         {
           "typ": "vivodepot",
-          "name": "Testtext 119",
+          "name": "Testtext 121",
           "empfRhythmusMonate": 12,
-          "hinweis": "Testtext 120"
+          "hinweis": "Testtext 122"
         }
       ],
       "sektionen": [
@@ -5116,14 +5395,14 @@
               "sensibel": true,
               "typ": "text",
               "vorschlaege": [
-                "Testtext 121",
-                "Testtext 122",
                 "Testtext 123",
                 "Testtext 124",
                 "Testtext 125",
                 "Testtext 126",
                 "Testtext 127",
-                "Testtext 128"
+                "Testtext 128",
+                "Testtext 129",
+                "Testtext 130"
               ]
             },
             {

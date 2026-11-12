@@ -36,10 +36,13 @@ test('[Feld-Fehler·Dialog] Passwort-Bestätigung ungleich: das Feld ist markier
   await page.waitForSelector('#app.an', { state: 'attached' });
   await page.waitForSelector(ANLEGE_WEG + ':visible', { state: 'attached', timeout: 60_000 });
   await page.locator(ANLEGE_WEG + ':visible').first().click();
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-pw', { state: 'attached' });
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'e2e-passwort-123');
   await page.fill('#id-pw2', 'e2e-passwort-anders');
-  await page.locator('#id-pw2').blur();
+  // Zielbild 01 (05.11.2026): im Anlege-Fenster mit Schritten meldet die Probe erst bei „Weiter“, nicht beim Verlassen des Felds.
+  await page.fill('#id-vorname', 'Maria'); await page.fill('#id-nachname', 'Mustermann');
+  await page.click('#m-ok');
   const pw2 = page.locator('#id-pw2');
   const meldung = await erwarteZugeordnet(page, pw2);
   await expect(meldung).toHaveId('id-pw2-fehler');
@@ -116,7 +119,7 @@ test('[Feld-Fehler·Wizard] ungültiges Datum im Assistenten: die Eingabe ist ma
   await page.waitForSelector('[data-anlass="geburt"]', { state: 'visible' });
   await page.click('[data-anlass="geburt"]');
   await expect(page.locator('.wizard-frage')).toBeVisible();
-  for (let i = 0; i < 6; i++) await page.click('#wiz-weiter');
+  // Seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) ist der Name Schritt 0 — keine Vorschritte mehr.
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'E2E Kind');
   await page.click('#wiz-weiter');
   const sel = '#content [data-edit="guidedBirthEntryDateOfBirthNot"]';

@@ -115,8 +115,11 @@ test('[Einmalpasswort · Hinweis] „Trotzdem verschlüsseln“ schreibt die Ant
   assert.equal(K.gefangen.length, 0, 'vor der Wahl geht nichts hinaus');
   hinweis.onPrimaer(() => {});
   assert.equal(await warteAufDatei(K), 1, 'die Antwort geht hinaus');
-  assert.match(K.gefangen[0].name, /_Antwort_EP-2026-1017\.jwe$/);
   const jwe = (await K.gefangen[0].blob.text()).trim();
+  // Datum und Kurzkennung aus dem Kopf, kein Aktenzeichen (U2-ADR-520 Nr. 3).
+  const kennung = JSON.parse(Buffer.from(jwe.split('.')[0], 'base64url').toString('utf8')).kennung;
+  assert.equal(K.gefangen[0].name.endsWith('_Antwort_' + K.V.heuteLokal() + '_' + kennung.slice(0, 6) + '.jwe'), true, K.gefangen[0].name);
+  assert.ok(!K.gefangen[0].name.includes('EP-2026-1017'), 'kein Aktenzeichen im Dateinamen');
   assert.equal(jwe.split('.').length, 5, 'JWE Compact: fünf Teile');
   const kopf = JSON.parse(Buffer.from(jwe.split('.')[0], 'base64url').toString('utf8'));
   assert.equal(kopf.alg, 'PBES2-HS512+A256KW', 'das Verfahren ist unverändert');

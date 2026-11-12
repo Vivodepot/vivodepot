@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-V8wq2ZxTAb8hsNzEBf6xIQGEiRC7MnT48qMI1NXxCNg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-Opik63Drk6g42oQGX7bc0iPeKoxi9gGQG1bANlo5oPQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -188,6 +188,9 @@
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <!-- NAVICON:END -->
 <style>
+  /* Größenleiter (tools/groessenleiter.json, Zielbild 30.10.2026, Schrift): jede Schriftgröße der Anwendung zeigt auf eine dieser Stufen; rem, damit die Schriftgrößen-Einstellung der Person die ganze Leiter skaliert; unter 768 px gelten die Telefon-Größen. */
+  :root { --fs-role-anzeige: 2rem; --fs-role-titel: 1.75rem; --fs-role-abschnitt: 1.25rem; --fs-role-gruppe: 1.0625rem; --fs-role-einleitung: 1.0625rem; --fs-role-text: 0.9375rem; --fs-role-wert: 0.9375rem; --fs-role-label: 0.875rem; --fs-role-knopf: 0.9375rem; --fs-role-nav: 0.875rem; --fs-role-hilfe: 0.875rem; }
+  @media (max-width: 767px) { :root { --fs-role-anzeige: 1.75rem; --fs-role-titel: 1.625rem; --fs-role-text: 1rem; --fs-role-wert: 1rem; --fs-role-label: 0.9375rem; --fs-role-knopf: 1rem; --fs-role-nav: 1rem; } }
   :root {
     /* Marken-Angleichung (12.09.2026): der Erzeuger trug eine FREMDE
        Palette (Blau/Rot/Blaugrau) unter der eigenen Adresse von Vivodepot — ein Werkzeug, das wie
@@ -220,18 +223,18 @@
   * { box-sizing: border-box; }
   body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
   header.app { background: var(--akzent-dunkel); color: var(--auf-akzent); padding: 16px 24px; }
-  header.app h1 { margin: 0; font-size: 20px; }
-  header.app p { margin: 4px 0 0; font-size: 13px; opacity: .9; }
+  header.app h1 { margin: 0; font-size: var(--fs-role-abschnitt); }
+  header.app p { margin: 4px 0 0; font-size: var(--fs-role-hilfe); opacity: .9; }
   main { min-width: 0; }
   p.lead { color: var(--grau); }
-  label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; }
+  label { display: block; font-size: var(--fs-role-hilfe); font-weight: 600; margin: 12px 0 4px; }
   input[type=text], input[type=email], input[type=tel], select, textarea {
     width: 100%; padding: 8px 10px; border: 1px solid var(--rand); border-radius: 8px; font: inherit; background: var(--auf-akzent); color: var(--text);
   }
   textarea { resize: vertical; min-height: 84px; }
   .feld-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
   .feld-grid .voll { grid-column: 1 / -1; }
-  .hint { font-size: 12px; color: var(--grau); margin: 4px 0 0; }
+  .hint { font-size: var(--fs-role-hilfe); color: var(--grau); margin: 4px 0 0; }
   .hint.rot { color: var(--gefahr); font-weight: 600; }
   /* Folge-Zeile (Auftrag „Die Folge-Zeilen im Erzeuger", 20.08.2026): sie warnt nicht, sie
      sagt, was ohne das Häkchen gilt. Darum abgesetzt, aber nicht rot. */
@@ -241,15 +244,15 @@
   button[disabled] { opacity: .5; cursor: not-allowed; }
   button.sekundaer { background: var(--auf-akzent); color: var(--akzent); }
   button.sekundaer:hover { background: var(--akzent-flaeche); }
-  button.mini { padding: 4px 9px; font-size: 12px; background: var(--auf-akzent); color: var(--akzent); border-color: var(--rand); }
+  button.mini { padding: 4px 9px; font-size: var(--fs-role-hilfe); background: var(--auf-akzent); color: var(--akzent); border-color: var(--rand); }
   button.mini.gefahr { color: var(--gefahr); border-color: var(--fehler-rand-zart); }
-  button.chip { padding: 3px 8px; font-size: 12px; margin: 2px; background: var(--akzent-flaeche); color: var(--akzent-dunkel); border-color: var(--akzent-flaeche-rand); }
+  button.chip { padding: 3px 8px; font-size: var(--fs-role-hilfe); margin: 2px; background: var(--akzent-flaeche); color: var(--akzent-dunkel); border-color: var(--akzent-flaeche-rand); }
   .knopf-reihe { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-  .meldung { border-radius: 8px; padding: 12px 14px; margin: 14px 0; font-size: 14px; border: 1px solid; }
+  .meldung { border-radius: 8px; padding: 12px 14px; margin: 14px 0; font-size: var(--fs-role-hilfe); border: 1px solid; }
   .meldung.fehler, #sd-fehler, #ed-fehler { background: var(--fehler-bg); border-color: var(--fehler-rand); color: var(--fehler); }
   .meldung.ok { background: var(--ok-bg); border-color: var(--ok-rand); color: var(--ok); }
   .meldung.warn, #pr-warnungen { background: var(--warn-bg); border-color: var(--warn-rand); color: var(--warn); }
-  #pr-blocker { background: var(--fehler-bg); border: 1px solid var(--fehler-rand); color: var(--fehler); border-radius: 8px; padding: 12px 14px; margin: 14px 0; font-size: 14px; }
+  #pr-blocker { background: var(--fehler-bg); border: 1px solid var(--fehler-rand); color: var(--fehler); border-radius: 8px; padding: 12px 14px; margin: 14px 0; font-size: var(--fs-role-hilfe); }
   #pr-blocker.ok { background: var(--ok-bg); border-color: var(--ok-rand); color: var(--ok); }
   .meldung ul, #pr-blocker ul, #pr-warnungen ul, #sd-fehler ul { margin: 8px 0 0; padding-left: 20px; }
   .karte-innen { border: 1px solid var(--rand); border-radius: 10px; padding: 14px 16px; margin: 12px 0; background: var(--karte-innen); }
@@ -257,30 +260,30 @@
   .feld-zeile { display: flex; justify-content: space-between; align-items: center; gap: 12px; border: 1px solid var(--rand); border-radius: 8px; padding: 8px 12px; margin: 6px 0; background: var(--auf-akzent); }
   .feld-haupt { display: flex; flex-direction: column; min-width: 0; }
   .feld-name { font-weight: 600; }
-  .feld-meta { font-size: 12px; color: var(--grau); }
+  .feld-meta { font-size: var(--fs-role-hilfe); color: var(--grau); }
   .feld-aktionen { display: flex; gap: 6px; flex-shrink: 0; }
-  .gruppe-kopf { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--grau); margin: 14px 0 4px; }
+  .gruppe-kopf { font-size: var(--fs-role-hilfe); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--grau); margin: 14px 0 4px; }
   .leer-hinweis { color: var(--grau); font-style: italic; }
   .cw-zeile { display: grid; grid-template-columns: 1fr 1.4fr 1fr auto; gap: 8px; margin: 6px 0; }
   .cw-zeile input { padding: 6px 8px; }
-  .mini-label { font-size: 12px; color: var(--grau); }
+  .mini-label { font-size: var(--fs-role-hilfe); color: var(--grau); }
   .check-zeile { display: flex; align-items: flex-start; gap: 8px; margin: 8px 0; }
   .check-zeile input { margin-top: 3px; }
   .check-zeile label { margin: 0; font-weight: 600; }
   .check-zeile .hint { margin: 2px 0 0; }
   details.glossar summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
   dl.glossar dt { font-weight: 700; margin-top: 10px; }
-  dl.glossar dd { margin: 2px 0 0; color: var(--grau); font-size: 14px; }
+  dl.glossar dd { margin: 2px 0 0; color: var(--grau); font-size: var(--fs-role-hilfe); }
   /* Ein Anfrage-Link ist ein langes Zeichen ohne Trennstelle: ohne Umbruch wurde die Seite auf dem iPad über 14 000 px breit. */
-  code.sub-id { display: inline-block; background: var(--akzent-flaeche); padding: 6px 10px; border-radius: 6px; font-size: 15px; margin: 6px 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-all; }
+  code.sub-id { display: inline-block; background: var(--akzent-flaeche); padding: 6px 10px; border-radius: 6px; font-size: var(--fs-role-text); margin: 6px 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-all; }
   .bsp-reihe { display: flex; gap: 10px; flex-wrap: wrap; }
   .bsp-karte { border: 1px solid var(--rand); border-radius: 10px; padding: 12px; flex: 1 1 200px; background: var(--auf-akzent); }
-  .bsp-karte h4 { margin: 0 0 6px; font-size: 14px; }
-  .bsp-karte p { margin: 0 0 10px; font-size: 13px; color: var(--grau); }
-  .anzahl-badge { font-size: 13px; color: var(--grau); }
+  .bsp-karte h4 { margin: 0 0 6px; font-size: var(--fs-role-hilfe); }
+  .bsp-karte p { margin: 0 0 10px; font-size: var(--fs-role-hilfe); color: var(--grau); }
+  .anzahl-badge { font-size: var(--fs-role-hilfe); color: var(--grau); }
   .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
   .vis-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  footer.app { max-width: 980px; margin: 0 auto; padding: 14px 24px 30px; color: var(--grau); font-size: 12px; }
+  footer.app { max-width: 980px; margin: 0 auto; padding: 14px 24px 30px; color: var(--grau); font-size: var(--fs-role-hilfe); }
   /* ═══ Arbeitsfläche (Umbau nach UX-Konzept, GEN1): drei Räume statt fünf Schritte.
      Gestaltung nach der Bürger-App: warmes Papier, Salbei-Grün, runde Karten, viel Luft.
      Alle Farben aus den Tokens oben, keine neue Palette. ═══ */
@@ -292,35 +295,35 @@
   button.mini.gefahr { color: var(--gefahr); }
   .kachel-haupt .kachel-text { color: var(--text); }
   html { scroll-behavior: smooth; }
-  body { font-size: 15px; }
+  body { font-size: var(--fs-role-text); }
   .skip-link { position: absolute; left: -999px; top: 0; background: var(--karte); color: var(--text); padding: 8px 12px; z-index: 100; border-radius: 0 0 8px 0; }
   .skip-link:focus { left: 0; }
   :focus-visible { outline: 3px solid var(--akzent-dunkel); outline-offset: 2px; }
   header.app { padding: 0; position: sticky; top: 0; z-index: 20; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
-  header.app > .app-untertitel { max-width: 1320px; margin: -6px auto 0; padding: 0 24px 8px 62px; font-size: 12.5px; opacity: .88; }
+  header.app > .app-untertitel { max-width: 1320px; margin: -6px auto 0; padding: 0 24px 8px 62px; font-size: var(--fs-role-hilfe); opacity: .88; }
   .app-innen { max-width: 1320px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .marke { background: none; border: 0; color: var(--auf-akzent); display: flex; align-items: center; gap: 10px; padding: 4px 6px; border-radius: 8px; }
   .marke:hover { background: rgba(255,255,255,.12); }
   /* Logo und Wortmarke wie in der App (vivodepot.html: .logo-mark, .logo-wort, dieselben Markenfarben). */
   .logo-mark { width: 34px; height: 34px; border-radius: 50%; background: #f6f5f1; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
   .logo-mark svg { width: 26px; height: 26px; display: block; }
-  .logo-wort { font-weight: 700; letter-spacing: .10em; font-size: 17px; white-space: nowrap; }
+  .logo-wort { font-weight: 700; letter-spacing: .10em; font-size: var(--fs-role-gruppe); white-space: nowrap; }
   .lw-vivo { color: #edefea; }
   .lw-depot { color: #d5e3d9; }
   .app-links { display: flex; align-items: center; gap: 8px; }
-  .kopf-knopf { background: rgba(255,255,255,.14); color: var(--auf-akzent); border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; font-size: 14px; text-decoration: none; }
+  .kopf-knopf { background: rgba(255,255,255,.14); color: var(--auf-akzent); border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; font-size: var(--fs-role-hilfe); text-decoration: none; }
   .kopf-knopf:hover { background: rgba(255,255,255,.26); }
   .sprach-schalter { display: inline-flex; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; overflow: hidden; }
-  .sprach-schalter button { background: transparent; border: 0; border-radius: 0; color: var(--auf-akzent); padding: 6px 12px; font-size: 13px; font-weight: 600; }
+  .sprach-schalter button { background: transparent; border: 0; border-radius: 0; color: var(--auf-akzent); padding: 6px 12px; font-size: var(--fs-role-hilfe); font-weight: 600; }
   .sprach-schalter button[aria-pressed="true"] { background: var(--auf-akzent); color: var(--akzent-dunkel); }
   .raum { max-width: 1320px; margin: 0 auto; padding: 28px 24px 8px; }
   #raum-start { max-width: 1040px; }
   .held { padding: 18px 0 8px; }
-  .held h1 { font-size: 34px; line-height: 1.18; margin: 4px 0 12px; max-width: 24ch; color: var(--akzent-dunkel); letter-spacing: -.01em; }
-  .ueberschrift-klein { margin: 0; text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 700; color: var(--grau); }
-  .lead { font-size: 17px; color: var(--grau); max-width: 60ch; margin: 0; }
+  .held h1 { font-size: var(--fs-role-anzeige); line-height: 1.18; margin: 4px 0 12px; max-width: 24ch; color: var(--akzent-dunkel); letter-spacing: -.01em; }
+  .ueberschrift-klein { margin: 0; text-transform: uppercase; letter-spacing: .08em; font-size: var(--fs-role-hilfe); font-weight: 700; color: var(--grau); }
+  .lead { font-size: var(--fs-role-gruppe); color: var(--grau); max-width: 60ch; margin: 0; }
   .lead-klein { color: var(--grau); margin: 4px 0 12px; max-width: 70ch; }
-  .abschnitt-titel { font-size: 18px; margin: 30px 0 12px; }
+  .abschnitt-titel { font-size: var(--fs-role-gruppe); margin: 30px 0 12px; }
   .kacheln { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
   .kachel { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; background: var(--karte); color: var(--text); border: 1px solid var(--rand); border-radius: 16px; padding: 18px; cursor: pointer; box-shadow: 0 1px 2px rgba(28,42,30,.05); transition: border-color .15s, box-shadow .15s, transform .15s; }
   .kachel:hover { background: var(--karte); border-color: var(--akzent); box-shadow: 0 6px 18px rgba(28,42,30,.10); transform: translateY(-1px); }
@@ -328,12 +331,12 @@
   .kachel-haupt:hover { background: var(--akzent-flaeche); }
   .kachel-icon { width: 44px; height: 44px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: var(--akzent-flaeche); color: var(--akzent-dunkel); }
   .kachel-haupt .kachel-icon { background: var(--akzent); color: var(--auf-akzent); }
-  .kachel-titel { font-weight: 700; font-size: 16px; }
-  .kachel-text { color: var(--grau); font-size: 13.5px; line-height: 1.4; }
+  .kachel-titel { font-weight: 700; font-size: var(--fs-role-text); }
+  .kachel-text { color: var(--grau); font-size: var(--fs-role-hilfe); line-height: 1.4; }
   .kachel-datei { cursor: pointer; }
   .weg-liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
   .weg-liste li { display: flex; gap: 12px; align-items: flex-start; background: var(--karte); border: 1px solid var(--rand); border-radius: 14px; padding: 16px; }
-  .weg-liste p { margin: 4px 0 0; color: var(--grau); font-size: 14px; }
+  .weg-liste p { margin: 4px 0 0; color: var(--grau); font-size: var(--fs-role-hilfe); }
   .weg-nr { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--akzent); color: var(--auf-akzent); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
   .mehr { padding-bottom: 24px; }
 
@@ -343,26 +346,26 @@
   .haupt-knopf { background: var(--akzent-dunkel); border-color: var(--akzent-dunkel); font-weight: 600; padding: 10px 18px; }
   .haupt-knopf:hover { background: var(--akzent-dunkel); filter: brightness(.88); }
   .knopf-link { display: inline-block; text-decoration: none; border-radius: 8px; color: var(--auf-akzent); }
-  .status-chip { font-size: 13px; border-radius: 999px; padding: 5px 12px; background: var(--akzent-flaeche); color: var(--akzent-dunkel); border: 1px solid var(--akzent-flaeche-rand); }
+  .status-chip { font-size: var(--fs-role-hilfe); border-radius: 999px; padding: 5px 12px; background: var(--akzent-flaeche); color: var(--akzent-dunkel); border: 1px solid var(--akzent-flaeche-rand); }
   .status-chip.offen { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-rand); }
   .ansicht-schalter { display: inline-flex; border: 1px solid var(--rand); border-radius: 999px; overflow: hidden; background: var(--karte); }
   .ansicht-schalter button { background: transparent; color: var(--grau); border: 0; border-radius: 0; padding: 7px 16px; }
   .ansicht-schalter button[aria-pressed="true"] { background: var(--akzent-dunkel); color: var(--auf-akzent); }
   .weg-band ol { list-style: none; display: flex; gap: 6px; padding: 0; margin: 12px 0 14px; flex-wrap: wrap; align-items: center; }
-  .weg-band li { display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--grau); }
+  .weg-band li { display: flex; align-items: center; gap: 6px; font-size: var(--fs-role-hilfe); color: var(--grau); }
   .weg-band li + li::before { content: ""; width: 22px; height: 1px; background: var(--rand); margin-right: 6px; }
   .weg-band button { background: transparent; color: inherit; border: 0; padding: 2px 4px; display: flex; align-items: center; gap: 6px; }
   .weg-band button:hover { background: var(--nav-hover); color: var(--text); }
-  .wb-punkt { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--nav-nr-flaeche); color: var(--akzent-dunkel); align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .wb-punkt { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--nav-nr-flaeche); color: var(--akzent-dunkel); align-items: center; justify-content: center; font-size: var(--fs-role-hilfe); font-weight: 700; }
   .weg-band .ist-aktiv .wb-punkt { background: var(--akzent); color: var(--auf-akzent); }
   .weg-band .ist-fertig .wb-punkt { background: var(--ok); color: var(--auf-akzent); }
   .weg-band .ist-fertig { color: var(--ok); }
 
   .bau-gitter { display: grid; grid-template-columns: 290px minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
   .palette, .eigenschaften { background: var(--karte); border: 1px solid var(--rand); border-radius: 14px; padding: 14px; position: sticky; top: 64px; max-height: calc(100vh - 80px); overflow: auto; }
-  .palette h2, .eigenschaften h2 { font-size: 16px; margin: 0 0 6px; }
+  .palette h2, .eigenschaften h2 { font-size: var(--fs-role-text); margin: 0 0 6px; }
   .palette-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-  .link-klein { font-size: 13px; color: var(--akzent-dunkel); }
+  .link-klein { font-size: var(--fs-role-hilfe); color: var(--akzent-dunkel); }
   .link-knopf { background: none; border: 0; padding: 0; color: var(--akzent-dunkel); text-decoration: underline; font-size: inherit; cursor: pointer; }
   .link-knopf[disabled] { opacity: .5; cursor: default; }
   .sk-pruefen { margin-top: 22px; }
@@ -371,7 +374,7 @@
      spätere grau. Kein Rot. Werte in der Schreibweise der Nachbarregeln (die Abstands-Tokens gibt es im Studio nicht). */
   .es-liste { list-style: none; margin: 12px 0; padding: 0; }
   .es.fertig .fs-nr { font-size: 0; }
-  .es.fertig .fs-nr::after { content: "✓"; font-size: 14px; }
+  .es.fertig .fs-nr::after { content: "✓"; font-size: var(--fs-role-hilfe); }
   .es.es-spaeter .fs-kopf { color: var(--ink2); background: transparent; }
   .es.es-spaeter .fs-nr { background: transparent; color: var(--ink2); border: 1px solid var(--rand); }
   .es .fs-kopf:disabled { cursor: default; opacity: 1; }
@@ -380,29 +383,29 @@
   .es-mehr > summary { cursor: pointer; font-weight: 600; text-decoration: underline; padding: 6px 0; }
   .es-mehr .fs-vorhanden, .es-mehr .fs-sammlung, .es-mehr .fs-pruefen, .es-mehr .vorab { margin: 6px 0 6px 12px; }
   .es-bedingungen { margin-top: 10px; }
-  .sperr-hinweis { margin: 12px 0 0; font-size: .9em; color: var(--ink2); }
+  .sperr-hinweis { margin: 12px 0 0; font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .sk-pruef-erfolg, .sk-pruef-fehlschlag { border-radius: 12px; padding: 12px; margin: 10px 0; }
   .sk-pruef-erfolg { background: var(--ok-bg); }
   .sk-pruef-fehlschlag { background: var(--fehler-bg); }
-  .neben-text { display: block; color: var(--grau); font-size: .9em; font-weight: 400; }
+  .neben-text { display: block; color: var(--grau); font-size: var(--fs-role-hilfe); font-weight: 400; }
   .probier-satz { display: none; margin-top: 14px; }
   .raum-bau.probieren .probier-satz { display: block; }
   .link-knopf:hover { background: none; color: var(--text); }
   input[type=search] { width: 100%; padding: 8px 10px; border: 1px solid var(--rand); border-radius: 8px; font: inherit; background: var(--auf-akzent); color: var(--text); }
   .pal-gruppe { margin-top: 8px; border-top: 1px solid var(--rand); }
-  .pal-gruppe > summary { cursor: pointer; padding: 9px 2px; font-weight: 600; font-size: 14px; list-style: none; display: flex; justify-content: space-between; }
+  .pal-gruppe > summary { cursor: pointer; padding: 9px 2px; font-weight: 600; font-size: var(--fs-role-hilfe); list-style: none; display: flex; justify-content: space-between; }
   .pal-gruppe > summary::-webkit-details-marker { display: none; }
   .pal-gruppe > summary .zahl { color: var(--grau); font-weight: 400; }
-  .pal-eintrag { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px; margin: 2px 0; border: 1px solid transparent; border-radius: 8px; cursor: grab; font-size: 14px; }
+  .pal-eintrag { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px; margin: 2px 0; border: 1px solid transparent; border-radius: 8px; cursor: grab; font-size: var(--fs-role-hilfe); }
   .pal-eintrag:hover { background: var(--nav-hover); border-color: var(--akzent-flaeche-rand); }
-  .pal-eintrag .pal-plus { flex: none; width: 26px; height: 26px; padding: 0; border-radius: 50%; line-height: 1; font-size: 16px; }
-  .pal-eintrag small { display: block; color: var(--grau); font-size: 11.5px; }
+  .pal-eintrag .pal-plus { flex: none; width: 26px; height: 26px; padding: 0; border-radius: 50%; line-height: 1; font-size: var(--fs-role-text); }
+  .pal-eintrag small { display: block; color: var(--grau); font-size: var(--fs-role-hilfe); }
   .vk.markiert { outline: 3px solid var(--salbei-dunkel, #4F6539); outline-offset: 3px; }
-  .pal-kennungen { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--grau); margin: 0 0 6px; }
+  .pal-kennungen { display: flex; align-items: center; gap: 6px; font-size: var(--fs-role-hilfe); color: var(--grau); margin: 0 0 6px; }
   .pal-kennungen input { width: auto; margin: 0; }
   @media (pointer: coarse) { .pal-kennungen { min-height: 44px; } }
   .pal-frei { margin-top: 10px; border-top: 1px solid var(--rand); padding-top: 4px; }
-  .pal-frei summary { cursor: pointer; font-weight: 600; padding: 8px 2px; font-size: 14px; }
+  .pal-frei summary { cursor: pointer; font-weight: 600; padding: 8px 2px; font-size: var(--fs-role-hilfe); }
   .pal-fehlt { margin-top: 12px; }
 
   .vorschau-spalte { min-width: 0; }
@@ -414,21 +417,21 @@
   .vorschau.hat-felder { background: var(--karte); border-style: solid; border-width: 1px; }
   .vorschau.ziel { border-color: var(--akzent); background: var(--akzent-flaeche-zart); }
   .vorschau-leer { text-align: center; color: var(--grau); padding: 64px 20px; }
-  .vorschau-leer strong { display: block; color: var(--text); font-size: 17px; margin-bottom: 6px; }
-  .vb-kopf { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--akzent-dunkel); margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--akzent-flaeche-rand); }
+  .vorschau-leer strong { display: block; color: var(--text); font-size: var(--fs-role-gruppe); margin-bottom: 6px; }
+  .vb-kopf { font-size: var(--fs-role-hilfe); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--akzent-dunkel); margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--akzent-flaeche-rand); }
   .vb-kopf:first-child { margin-top: 0; }
-  .vb-sektion { font-size: 12.5px; font-weight: 600; color: var(--grau); margin: 14px 0 6px; }
+  .vb-sektion { font-size: var(--fs-role-hilfe); font-weight: 600; color: var(--grau); margin: 14px 0 6px; }
   .vk { position: relative; border: 1px solid var(--rand); border-radius: 12px; padding: 12px 14px 12px 36px; margin: 8px 0; background: var(--papier, #fdfbf7); cursor: pointer; }
   .vk:hover { border-color: var(--akzent); }
   .vk.gewaehlt { border-color: var(--akzent-dunkel); box-shadow: 0 0 0 3px var(--akzent-flaeche-rand); }
   .vk.zieht { opacity: .4; }
   .vk.drop-vor::before, .vk.drop-nach::after { content: ""; position: absolute; left: 0; right: 0; height: 3px; background: var(--akzent-dunkel); border-radius: 2px; }
   .vk.drop-vor::before { top: -6px; } .vk.drop-nach::after { bottom: -6px; }
-  .vk-griff { position: absolute; left: 10px; top: 14px; color: var(--grau); cursor: grab; font-size: 16px; line-height: 1; user-select: none; }
-  .vk-name { font-weight: 600; font-size: 14.5px; }
+  .vk-griff { position: absolute; left: 10px; top: 14px; color: var(--grau); cursor: grab; font-size: var(--fs-role-text); line-height: 1; user-select: none; }
+  .vk-name { font-weight: 600; font-size: var(--fs-role-text); }
   .vk-stern { color: var(--fehler); margin-left: 3px; }
   .pr-beheben { margin-left: 8px; font-weight: 600; }
-  .vk-hilfe { color: var(--grau); font-size: 12.5px; margin: 2px 0 6px; }
+  .vk-hilfe { color: var(--grau); font-size: var(--fs-role-hilfe); margin: 2px 0 6px; }
   .vk-steuer { margin-top: 6px; }
   .vk-steuer input, .vk-steuer select, .vk-steuer textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--rand); border-radius: 8px; font: inherit; background: var(--auf-akzent); color: var(--text); }
   .vk-steuer textarea { min-height: 56px; }
@@ -436,7 +439,7 @@
   .vk-steuer .vk-optionen label { margin: 0; font-weight: 400; display: flex; gap: 6px; align-items: center; }
   .vk-steuer .vk-optionen input { width: auto; }
   .vk-steuer .vk-eintrag { border: 1px solid var(--rand); border-radius: 10px; padding: 8px 10px; margin: 0 0 8px; display: grid; gap: 6px; }
-  .vk-steuer .vk-unterfeld-name { display: block; font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .vk-steuer .vk-unterfeld-name { display: block; font-size: var(--fs-role-hilfe); font-weight: 600; margin-bottom: 2px; }
   .vk-aktionen { position: absolute; right: 8px; top: 6px; display: none; gap: 4px; }
   .vk:hover .vk-aktionen, .vk.gewaehlt .vk-aktionen, .vk:focus-within .vk-aktionen { display: flex; }
   .raum-bau:not(.probieren) .vk-steuer { pointer-events: none; opacity: .85; }
@@ -452,17 +455,17 @@
   dialog.dlg-gross { width: min(860px, calc(100vw - 24px)); }
   dialog.dlg::backdrop { background: rgba(28,42,30,.45); }
   .dlg-kopf { display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--rand); position: sticky; top: 0; background: var(--karte); z-index: 2; border-radius: 18px 18px 0 0; }
-  .dlg-kopf h2 { margin: 0; font-size: 19px; }
-  .dlg-zu { background: transparent; color: var(--grau); border: 0; font-size: 26px; line-height: 1; padding: 2px 10px; }
+  .dlg-kopf h2 { margin: 0; font-size: var(--fs-role-gruppe); }
+  .dlg-zu { background: transparent; color: var(--grau); border: 0; font-size: var(--fs-role-titel); line-height: 1; padding: 2px 10px; }
   .dlg-zu:hover { background: var(--nav-hover); color: var(--text); }
   .dlg-rumpf { padding: 18px 22px 24px; overflow: auto; max-height: calc(100vh - 110px); }
   .fs { border: 1px solid var(--rand); border-radius: 14px; margin: 12px 0; overflow: hidden; }
-  .fs-kopf { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; background: var(--karte-innen); color: var(--text); border: 0; border-radius: 0; padding: 14px 16px; font-size: 16px; font-weight: 600; }
+  .fs-kopf { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; background: var(--karte-innen); color: var(--text); border: 0; border-radius: 0; padding: 14px 16px; font-size: var(--fs-role-text); font-weight: 600; }
   .fs-kopf:hover { background: var(--nav-hover); }
-  .fs-nr { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--akzent); color: var(--auf-akzent); display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
+  .fs-nr { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--akzent); color: var(--auf-akzent); display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-role-hilfe); }
   .fs.fertig .fs-nr { background: var(--ok); }
   .fs-titel { flex: 1; }
-  .fs-stand { font-size: 13px; font-weight: 400; color: var(--ok); }
+  .fs-stand { font-size: var(--fs-role-hilfe); font-weight: 400; color: var(--ok); }
   .fs-rumpf { padding: 4px 18px 18px; }
   .absenden { border: 2px solid var(--akzent); border-radius: 14px; padding: 14px 18px; background: var(--akzent-flaeche-zart); margin-top: 16px; }
   .absenden h3 { margin-top: 4px; }
@@ -489,44 +492,44 @@
   .blatt-meta summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
   .bk-blatt { border: 1px solid var(--rand); border-radius: 14px; padding: 12px 14px; margin: 0 0 14px; background: var(--papier, #fdfbf7); }
   .bk-blatt.gewaehlt { border-color: var(--akzent-dunkel); box-shadow: 0 0 0 3px var(--akzent-flaeche-rand); }
-  .bk-kopf { display: flex; align-items: center; gap: 10px; background: transparent; color: var(--text); border: 0; padding: 4px 0; font-size: 17px; font-weight: 700; width: 100%; text-align: left; }
+  .bk-kopf { display: flex; align-items: center; gap: 10px; background: transparent; color: var(--text); border: 0; padding: 4px 0; font-size: var(--fs-role-gruppe); font-weight: 700; width: 100%; text-align: left; }
   .bk-kopf:hover { background: transparent; filter: none; }
-  .bk-icon { flex: none; width: 34px; height: 34px; border-radius: 10px; background: var(--akzent-flaeche); color: var(--akzent-dunkel); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
+  .bk-icon { flex: none; width: 34px; height: 34px; border-radius: 10px; background: var(--akzent-flaeche); color: var(--akzent-dunkel); display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-role-hilfe); }
   .bk-einf { color: var(--grau); margin: 2px 0 8px; }
   .bk-block { border: 1px dashed var(--rand); border-radius: 10px; padding: 8px 10px; margin: 8px 0; background: var(--karte); }
   .bk-block.gewaehlt { border-style: solid; border-color: var(--akzent); }
   .bk-block.drop-ziel { border-color: var(--akzent-dunkel); background: var(--akzent-flaeche-zart); }
-  .bk-block-kopf { background: transparent; color: var(--akzent-dunkel); border: 0; padding: 2px 0; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+  .bk-block-kopf { background: transparent; color: var(--akzent-dunkel); border: 0; padding: 2px 0; font-weight: 700; font-size: var(--fs-role-hilfe); text-transform: uppercase; letter-spacing: .04em; }
   .bk-block-kopf:hover { background: transparent; filter: none; }
   .bk-leer { color: var(--grau); font-style: italic; margin: 6px 0; }
   .bk-eintrag { display: flex; align-items: center; gap: 10px; padding: 7px 8px; border-bottom: 1px solid var(--akzent-flaeche); }
   .bk-eintrag.unbekannt { background: var(--warn-bg); }
   .bk-e-name { flex: 1; font-weight: 500; }
-  .bk-e-quelle { color: var(--grau); font-size: 12px; }
+  .bk-e-quelle { color: var(--grau); font-size: var(--fs-role-hilfe); }
   .bk-aktionen { position: static; display: flex; gap: 4px; }
   .bk-fuss { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-  .recht-entwurf { background: var(--warn-bg); border: 1px solid var(--warn-rand); border-radius: 8px; padding: 10px 12px; color: var(--warn); font-weight: 600; font-size: 13.5px; }
+  .recht-entwurf { background: var(--warn-bg); border: 1px solid var(--warn-rand); border-radius: 8px; padding: 10px 12px; color: var(--warn); font-weight: 600; font-size: var(--fs-role-hilfe); }
   .recht-zitat { margin: 12px 0; padding: 4px 16px; border-left: 4px solid var(--akzent); background: var(--akzent-flaeche-zart); border-radius: 0 8px 8px 0; }
   .recht-zitat p { margin: 8px 0; }
-  .recht-zitat footer { color: var(--grau); font-size: 12.5px; margin-bottom: 8px; }
-  .recht-text h4 { margin: 16px 0 4px; font-size: 14.5px; }
+  .recht-zitat footer { color: var(--grau); font-size: var(--fs-role-hilfe); margin-bottom: 8px; }
+  .recht-text h4 { margin: 16px 0 4px; font-size: var(--fs-role-text); }
   .recht-text .platzhalter { background: var(--warn-bg); border: 1px solid var(--warn-rand); border-radius: 8px; padding: 10px 12px; color: var(--warn); }
   footer.app { max-width: 1320px; padding: 24px 24px 32px; border-top: 1px solid var(--rand); margin-top: 28px; }
   .fuss-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 8px; }
-  .fuss-links .link-knopf { font-size: 13px; color: var(--grau); }
+  .fuss-links .link-knopf { font-size: var(--fs-role-hilfe); color: var(--grau); }
   @media (max-width: 1100px) {
     .bau-gitter { grid-template-columns: minmax(0, 1fr) 300px; }
     .palette { grid-column: 1 / -1; position: static; max-height: 300px; }
   }
   @media (max-width: 760px) {
     .app-innen { padding: 8px 12px; } .raum { padding: 16px 12px 4px; }
-    .held h1 { font-size: 26px; }
+    .held h1 { font-size: var(--fs-role-titel); }
     .bau-gitter { grid-template-columns: 1fr; }
     .eigenschaften { position: static; max-height: none; }
     .feld-grid { grid-template-columns: 1fr; } .cw-zeile { grid-template-columns: 1fr 1fr; }
     .app-innen { flex-wrap: wrap; gap: 6px; }
     .app-links { gap: 4px; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
-    .kopf-knopf { padding: 5px 10px; font-size: 13px; white-space: nowrap; }
+    .kopf-knopf { padding: 5px 10px; font-size: var(--fs-role-hilfe); white-space: nowrap; }
     header.app > .app-untertitel { padding-left: 14px; }
     .bau-links, .bau-rechts { width: 100%; }
     .bau-rechts .haupt-knopf { flex: 1; }
@@ -623,7 +626,7 @@ header.app .sprach-schalter button[aria-pressed="true"] { background: var(--salb
 /* Platzhalter lesbar (Abnahme S1, Kontrast ≥ 4,5:1): nicht das Hellgrau des Browsers, sondern --ink2 auf der hinterlegten Fläche. */
 ::placeholder { color: var(--ink2); opacity: 1; }
 /* Kopf: „VIVODEPOT Studio“ in einer Zeile (S1). */
-header.app .logo-studio { font-weight: 500; letter-spacing: .02em; font-size: 16px; color: var(--ink2); margin-left: 8px; }
+header.app .logo-studio { font-weight: 500; letter-spacing: .02em; font-size: var(--fs-role-text); color: var(--ink2); margin-left: 8px; }
 /* Eingang (S1, A+ mit Glas): drei weiche Farbflächen hinter den Kacheln, damit das Glas sichtbar wird; Farben aus den Tokens. */
 #raum-eingang { position: relative; max-width: 1280px; padding: 34px 64px 60px; }
 .eingang-flaechen { position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
@@ -632,114 +635,126 @@ header.app .logo-studio { font-weight: 500; letter-spacing: .02em; font-size: 16
 .ef-2 { width: 380px; height: 380px; right: -80px; top: 90px; opacity: .8; background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--gold) 28%, var(--white)), color-mix(in srgb, var(--gold) 38%, var(--white)) 55%, transparent 72%); }
 .ef-3 { width: 340px; height: 340px; right: 260px; bottom: 0; opacity: .7; background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--info) 20%, var(--white)), color-mix(in srgb, var(--info) 30%, var(--white)) 55%, transparent 72%); }
 #raum-eingang > :not(.eingang-flaechen) { position: relative; z-index: 1; }
-.eingang-aug { font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--salbei-dunkel); font-weight: 700; margin: 0 0 14px; }
-.eingang-titel { font-size: clamp(32px, 6.2vw, 54px); line-height: 1.05; letter-spacing: -.03em; font-weight: 700; color: var(--ink); max-width: 1000px; margin: 0; text-wrap: balance; }
-.eingang-frage { font-size: clamp(22px, 3.6vw, 34px); letter-spacing: -.02em; font-weight: 700; margin: 28px 0 16px; color: var(--salbei-dunkel); }
+.eingang-aug { font-size: var(--fs-role-hilfe); letter-spacing: .16em; text-transform: uppercase; color: var(--salbei-dunkel); font-weight: 700; margin: 0 0 14px; }
+.eingang-titel { font-size: var(--fs-role-anzeige); line-height: 1.05; letter-spacing: -.03em; font-weight: 700; color: var(--ink); max-width: 1000px; margin: 0; text-wrap: balance; }
+.eingang-frage { font-size: var(--fs-role-titel); letter-spacing: -.02em; font-weight: 700; margin: 28px 0 16px; color: var(--salbei-dunkel); }
 /* Kompakt (09.10.2026, Variante A der Vorschau: Karten 136 statt 196 px, Raster 3 × 2, Zeichen neben dem Titel). */
 .eingang-raster { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .eingang-kachel { position: relative; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; text-align: left; border: 0; border-radius: 20px; padding: 18px 48px 18px 66px; min-height: 0; color: var(--ink);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 22px 44px -26px color-mix(in srgb, var(--salbei-dunkel) 60%, transparent); }
 .eingang-kachel:hover { transform: translateY(-1px); filter: none; }   /* nicht das Abdunkeln der Knöpfe: eine Glaskachel bleibt hell */
-.eingang-kachel .ek-titel { display: block; font-size: 18px; letter-spacing: -.01em; margin: 0 0 4px; font-weight: 700; }
-.eingang-kachel .ek-text { display: block; font-size: 14.5px; line-height: 1.45; font-weight: 400; color: var(--ink); max-width: 32ch; }
-.eingang-kachel .ek-pfeil { position: absolute; right: 18px; top: 16px; font-size: 19px; color: var(--salbei-dunkel); font-weight: 600; }
-.eingang-kachel .ek-hinweis { display: block; margin-top: 10px; font-size: 14.5px; line-height: 1.45; color: var(--ink); font-weight: 400; max-width: 32ch; }
+.eingang-kachel .ek-titel { display: block; font-size: var(--fs-role-gruppe); letter-spacing: -.01em; margin: 0 0 4px; font-weight: 700; }
+.eingang-kachel .ek-text { display: block; font-size: var(--fs-role-text); line-height: 1.45; font-weight: 400; color: var(--ink); max-width: 32ch; }
+.eingang-kachel .ek-pfeil { position: absolute; right: 18px; top: 16px; font-size: var(--fs-role-gruppe); color: var(--salbei-dunkel); font-weight: 600; }
+.eingang-kachel .ek-hinweis { display: block; margin-top: 10px; font-size: var(--fs-role-text); line-height: 1.45; color: var(--ink); font-weight: 400; max-width: 32ch; }
 .eingang-kachel .ek-hinweis[hidden] { display: none; }
-.eingang-kachel .ek-info { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; background: var(--salbei-light); color: var(--salbei-dunkel); }
-.eingang-kachel .ek-glyph { position: absolute; left: 20px; top: 19px; width: 28px; height: 28px; border-radius: 9px; background: rgba(255,255,255,.7); box-shadow: inset 0 0 0 8px var(--salbei-mid); }
+.eingang-kachel .ek-info { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: var(--fs-role-hilfe); font-weight: 700; background: var(--salbei-light); color: var(--salbei-dunkel); }
+/* Studio-Umbau Wagen 1 (09.11.2026): Kacheln, deren Assistent noch fehlt, stehen ausgegraut mit dem Chip „in Arbeit“ und ohne Ziel
+   (Muster statt Erklärsatz); „Etwas anderes“ als Ausgang zur Expertensicht über die ganze Breite. */
+.eingang-kachel.eingang-folgt, .eingang-kachel.eingang-folgt:hover { cursor: default; transform: none; background: rgba(255,255,255,.38); box-shadow: none; }
+.eingang-kachel.eingang-folgt .ek-titel, .eingang-kachel.eingang-folgt .ek-text { color: var(--ink2); }
+.eingang-kachel.eingang-folgt .ek-glyph { opacity: .45; }
+.eingang-kachel.eingang-folgt { padding-right: 104px; }
+.eingang-kachel .ek-folgt { top: 14px; font-size: var(--fs-role-hilfe); font-weight: 700; letter-spacing: .02em; padding: 4px 10px; border-radius: 99px; background: var(--knopf-leise); color: var(--ink2); }
+.eingang-raster > #ein-anderes { grid-column: 1 / -1; }
+.eingang-kachel .ek-fach { top: 14px; font-size: var(--fs-role-hilfe); font-weight: 600; padding: 4px 12px; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--salbei-mid); color: var(--salbei-dunkel); }
+.ebenen-schalter button { white-space: nowrap; }
+.as-chip.as-chip-fach { background: transparent; box-shadow: inset 0 0 0 1.5px var(--salbei-mid); color: var(--salbei-dunkel); font-weight: 600; font-size: var(--fs-role-hilfe); padding: 8px 15px; }
+.as-chip.as-chip-fach:hover { background: var(--salbei-light); }
+.mod-gruppen { margin: 14px 0 4px; }
+.eingang-kachel .ek-glyph { position: absolute; left: 20px; top: 19px; width: 28px; height: 28px; border-radius: 9px; background: var(--salbei-light); color: var(--salbei-dunkel); display: grid; place-items: center; }
 .eingang-kachel.erste, .eingang-kachel.erste:hover { background: color-mix(in srgb, var(--salbei-dunkel) 94%, transparent); color: var(--white); }
 .eingang-kachel.erste .ek-text, .eingang-kachel.erste .ek-pfeil { color: var(--white); }
-.eingang-kachel.erste .ek-glyph { background: var(--white); box-shadow: inset 0 0 0 8px color-mix(in srgb, var(--salbei-mid) 70%, var(--white)); }
+.eingang-kachel.erste .ek-glyph { background: var(--white); color: var(--salbei-dunkel); }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) { .eingang-kachel.erste { background: var(--salbei-dunkel); } }
-.herkunft-satz { display: flex; gap: 10px; align-items: flex-start; margin: 30px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ink); max-width: 560px; }
-.herkunft-i { flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--salbei-light); color: var(--salbei-dunkel); display: grid; place-items: center; font-weight: 700; font-size: 12px; }
-.fachebene-zurueck { margin: 0 0 8px; }
+.herkunft-satz { display: flex; gap: 10px; align-items: flex-start; margin: 30px 0 0; font-size: var(--fs-role-hilfe); line-height: 1.5; color: var(--ink); max-width: 560px; }
+.herkunft-i { flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--salbei-light); color: var(--salbei-dunkel); display: grid; place-items: center; font-weight: 700; font-size: var(--fs-role-hilfe); }
 /* Assistent (S2, A+ mit Glas, Mockup Schritt 1): links die Schritte, rechts die Karte „So sieht die Person es“. Die Karte zeigt nur, was die
    App heute zeigt: „von <Einrichtung> · Geprüft“ (Textsatz anfrageGeprueftBadge); „Herkunft geprüft“ und „Erstellt mit Vivodepot“ erst, wenn
    die App sie trägt (Quellenprüfung 08.10.2026). */
 #raum-assistent { max-width: 1280px; padding: 30px 64px 60px; }
 .as-zwei { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 60px; align-items: start; }
 .as-zwei > * { min-width: 0; }
-.as-schritte { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 26px; font-size: 14px; color: var(--ink2); }
+.as-schritte { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 26px; font-size: var(--fs-role-hilfe); color: var(--ink2); }
 .as-schritte li { display: flex; align-items: center; gap: 9px; padding: 8px 16px 8px 8px; border-radius: 99px; background: var(--knopf-leise); }
 .as-schritte li.an { background: var(--salbei-dunkel); color: var(--white); font-weight: 700; }
 .as-schritte li.spaeter { opacity: .55; }
-.as-schritte i { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.75); color: var(--salbei-dunkel); display: grid; place-items: center; font-style: normal; font-size: 12.5px; font-weight: 700; }
-.as-titel { font-size: clamp(28px, 4.4vw, 46px); line-height: 1.08; letter-spacing: -.03em; font-weight: 700; color: var(--ink); margin: 0 0 8px; }
-.as-lead { font-size: 18px; line-height: 1.55; color: var(--ink2); margin: 10px 0 26px; max-width: 560px; }
+.as-schritte i { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.75); color: var(--salbei-dunkel); display: grid; place-items: center; font-style: normal; font-size: var(--fs-role-hilfe); font-weight: 700; }
+.as-titel { font-size: var(--fs-role-anzeige); line-height: 1.08; letter-spacing: -.03em; font-weight: 700; color: var(--ink); margin: 0 0 8px; }
+.as-lead { font-size: var(--fs-role-gruppe); line-height: 1.55; color: var(--ink2); margin: 10px 0 26px; max-width: 560px; }
 .as-feld { display: block; margin: 0 0 22px; }
-.as-feld > span, label.as-feld > span { display: block; font-size: 14.5px; font-weight: 700; margin-bottom: 9px; color: var(--ink); }
+.as-feld > span, label.as-feld > span { display: block; font-size: var(--fs-role-text); font-weight: 700; margin-bottom: 9px; color: var(--ink); }
 label.as-feld { margin: 0; }
-.as-eingabe { width: 100%; border: 0; border-radius: 16px; padding: 15px 18px; font: inherit; font-size: 18px; background: var(--feld-flaeche); color: var(--ink); margin-bottom: 22px; }
+.as-eingabe { width: 100%; border: 0; border-radius: 16px; padding: 15px 18px; font: inherit; font-size: var(--fs-role-gruppe); background: var(--feld-flaeche); color: var(--ink); margin-bottom: 22px; }
 .as-chips { display: flex; flex-wrap: wrap; gap: 9px; }
-.as-chip { border: 0; border-radius: 99px; padding: 10px 17px; font-size: 15px; background: var(--knopf-leise); color: var(--ink); font-weight: 500; }
+.as-chip { border: 0; border-radius: 99px; padding: 10px 17px; font-size: var(--fs-role-text); background: var(--knopf-leise); color: var(--ink); font-weight: 500; }
 .as-chip:hover { background: var(--salbei-light); filter: none; }
 .as-chip[aria-pressed="true"] { background: var(--salbei-dunkel); color: var(--white); font-weight: 700; }
 .as-knoepfe { display: flex; gap: 22px; align-items: center; margin-top: 26px; flex-wrap: wrap; }
-.as-knopf { border: 0; border-radius: 99px; padding: 16px 28px; font-weight: 700; font-size: 16.5px; background: var(--salbei-dunkel); color: var(--white);
+.as-knopf { border: 0; border-radius: 99px; padding: 16px 28px; font-weight: 700; font-size: var(--fs-role-gruppe); background: var(--salbei-dunkel); color: var(--white);
   box-shadow: 0 14px 26px -14px color-mix(in srgb, var(--salbei-dunkel) 80%, transparent); }
-.as-knopf.klein { padding: 10px 18px; font-size: 15px; }
+.as-knopf.klein { padding: 10px 18px; font-size: var(--fs-role-text); }
 .as-felder { list-style: none; padding: 0; margin: 0 0 22px; display: grid; gap: 8px; }
 .as-frage { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; background: rgba(255,255,255,.62); border-radius: 14px; padding: 10px 12px 10px 16px; }
 .as-frage-name { font-weight: 600; }
-.as-frage-art { grid-column: 1; font-size: 13.5px; color: var(--ink); }
+.as-frage-art { grid-column: 1; font-size: var(--fs-role-hilfe); color: var(--ink); }
 .as-frage-knoepfe { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: 4px; }
-.as-mini { border: 0; border-radius: 10px; width: 34px; height: 34px; padding: 0; background: var(--knopf-leise); color: var(--salbei-dunkel); font-size: 16px; }
+.as-mini { border: 0; border-radius: 10px; width: 34px; height: 34px; padding: 0; background: var(--knopf-leise); color: var(--salbei-dunkel); font-size: var(--fs-role-text); }
 .as-mini[disabled] { opacity: .35; }
 .as-mini:hover:not([disabled]), .as-knopf:hover { filter: none; }
 .as-mini:hover:not([disabled]) { background: var(--salbei-light); }
-.as-frage-pflicht { grid-column: 1; display: inline-flex; align-items: center; gap: 8px; margin: 4px 0 0; font-size: 13.5px; font-weight: 500; color: var(--ink); cursor: pointer; justify-self: start; }
+.as-frage-pflicht { grid-column: 1; display: inline-flex; align-items: center; gap: 8px; margin: 4px 0 0; font-size: var(--fs-role-hilfe); font-weight: 500; color: var(--ink); cursor: pointer; justify-self: start; }
 .as-frage-pflicht input { width: 18px; height: 18px; margin: 0; accent-color: var(--salbei-dunkel); }
 .as-knopf:hover { background: color-mix(in srgb, var(--salbei-dunkel) 88%, var(--ink)); }
 .as-neu { background: rgba(255,255,255,.62); border-radius: 18px; padding: 16px 18px 6px; margin: 0 0 18px; }
-.as-fach { margin-top: 18px; font-size: 14px; }
+.as-fach { margin-top: 18px; font-size: var(--fs-role-hilfe); }
 .as-rechts { position: sticky; top: 84px; border-radius: 34px; padding: 26px 26px 22px; }
-.as-kleinaug { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--salbei-dunkel); font-weight: 700; margin: 0 0 16px; }
+.as-kleinaug { font-size: var(--fs-role-hilfe); letter-spacing: .14em; text-transform: uppercase; color: var(--salbei-dunkel); font-weight: 700; margin: 0 0 16px; }
 .as-telefon { border-radius: 24px; padding: 20px; box-shadow: 0 24px 44px -26px color-mix(in srgb, var(--ink) 55%, transparent); }
 .as-kopf { display: flex; gap: 14px; align-items: center; padding-bottom: 14px; }
-.as-kopf small { display: block; color: var(--ink2); font-size: 12px; }
-.as-kopf b { font-size: 17px; }
+.as-kopf small { display: block; color: var(--ink2); font-size: var(--fs-role-hilfe); }
+.as-kopf b { font-size: var(--fs-role-gruppe); }
 .as-logo { width: 42px; height: 42px; flex: none; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--salbei-mid), var(--salbei-dunkel)); }
-.as-siegel { margin-left: auto; background: var(--salbei-light); color: var(--salbei-dunkel); border-radius: 99px; padding: 6px 12px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-.as-zeile { background: color-mix(in srgb, var(--salbei-light) 70%, transparent); border-radius: 13px; padding: 12px 16px; margin-top: 8px; font-size: 14px; color: var(--ink); display: flex; justify-content: space-between; gap: 12px; }
+.as-siegel { margin-left: auto; background: var(--salbei-light); color: var(--salbei-dunkel); border-radius: 99px; padding: 6px 12px; font-size: var(--fs-role-hilfe); font-weight: 700; white-space: nowrap; }
+.as-zeile { background: color-mix(in srgb, var(--salbei-light) 70%, transparent); border-radius: 13px; padding: 12px 16px; margin-top: 8px; font-size: var(--fs-role-hilfe); color: var(--ink); display: flex; justify-content: space-between; gap: 12px; }
 .as-zeile-auswahl { flex-wrap: wrap; }
 .as-optionen { display: flex; flex-wrap: wrap; gap: 6px; flex-basis: 100%; }
-.as-optionen span { background: rgba(255,255,255,.85); border-radius: 99px; padding: 4px 10px; font-size: 12.5px; color: var(--ink); }
+.as-optionen span { background: rgba(255,255,255,.85); border-radius: 99px; padding: 4px 10px; font-size: var(--fs-role-hilfe); color: var(--ink); }
 .as-zeile i { width: 90px; height: 8px; border-radius: 9px; background: color-mix(in srgb, var(--ink) 15%, transparent); align-self: center; flex: none; }
-.as-fuss { margin-top: 14px; text-align: center; font-size: 12px; color: var(--ink2); }
+.as-fuss { margin-top: 14px; text-align: center; font-size: var(--fs-role-hilfe); color: var(--ink2); }
 @media (max-width: 980px) { .as-zwei { grid-template-columns: minmax(0, 1fr); gap: 28px; } .as-rechts { position: static; } }
 /* Assistent Anfrage (W1, 09.10.2026): dieselben Flächen wie der Aufnahmebogen; die Vorschau trägt die Wörter der App (data-ts). */
 #raum-anfrage { max-width: 1280px; padding: 30px 64px 60px; }
-.as-hilfe { font-size: 14px; line-height: 1.5; color: var(--ink2); margin: -12px 0 22px; max-width: 560px; }
-.as-meldung { background: var(--fehler-bg); color: var(--fehler); border-radius: 14px; padding: 10px 16px; font-size: 14.5px; }
+.as-hilfe { font-size: var(--fs-role-hilfe); line-height: 1.5; color: var(--ink2); margin: -12px 0 22px; max-width: 560px; }
+.as-meldung { background: var(--fehler-bg); color: var(--fehler); border-radius: 14px; padding: 10px 16px; font-size: var(--fs-role-text); }
 .as-meldung ul { margin: 0; padding-left: 18px; }
-.as-eingabe.klein { font-size: 15px; padding: 10px 14px; margin: 8px 0 4px; grid-column: 1 / -1; }
+.as-eingabe.klein { font-size: var(--fs-role-text); padding: 10px 14px; margin: 8px 0 4px; grid-column: 1 / -1; }
 .as-eingabe[aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--fehler-rand); }
 .aa-angabe { grid-template-columns: 1fr auto; }
-.aa-pflicht { grid-column: 1 / -1; font-size: 13.5px; color: var(--ink); display: flex; gap: 8px; align-items: center; }
-.aa-vorschau { font-size: 14px; color: var(--ink); }
-.aa-v-titel { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink2); margin: 0 0 10px; font-weight: 700; }
+.aa-pflicht { grid-column: 1 / -1; font-size: var(--fs-role-hilfe); color: var(--ink); display: flex; gap: 8px; align-items: center; }
+.aa-vorschau { font-size: var(--fs-role-hilfe); color: var(--ink); }
+.aa-v-titel { font-size: var(--fs-role-hilfe); letter-spacing: .12em; text-transform: uppercase; color: var(--ink2); margin: 0 0 10px; font-weight: 700; }
 .aa-v-zeile { margin: 6px 0; line-height: 1.45; }
-.aa-v-meta { font-size: 12.5px; color: var(--ink2); margin: 10px 0; }
+.aa-v-meta { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 10px 0; }
 .aa-v-abschnitt { font-weight: 700; margin: 16px 0 4px; }
 .aa-v-angabe { flex-direction: column; align-items: flex-start; gap: 2px; }
-.aa-v-angabe em { font-style: normal; font-size: 12px; color: var(--ink2); }
-.aa-v-wozu { font-size: 12.5px; color: var(--ink2); }
+.aa-v-angabe em { font-style: normal; font-size: var(--fs-role-hilfe); color: var(--ink2); }
+.aa-v-wozu { font-size: var(--fs-role-hilfe); color: var(--ink2); }
 .aa-v-cta { margin: 16px 0 0; text-align: right; }
-.aa-ergebnis h3 { font-size: 17px; margin: 26px 0 6px; }
-.aa-erg-titel { font-size: 26px; margin: 22px 0 0; }
-.aa-passwort { display: inline-block; font-size: 24px; letter-spacing: .08em; background: var(--feld-flaeche); border-radius: 14px; padding: 12px 18px; }
-.aa-brief { font-size: 14.5px; line-height: 1.5; white-space: pre-wrap; }
+.aa-ergebnis h3 { font-size: var(--fs-role-gruppe); margin: 26px 0 6px; }
+.aa-erg-titel { font-size: var(--fs-role-titel); margin: 22px 0 0; }
+.aa-passwort { display: inline-block; font-size: var(--fs-role-titel); letter-spacing: .08em; background: var(--feld-flaeche); border-radius: 14px; padding: 12px 18px; }
+.aa-brief { font-size: var(--fs-role-text); line-height: 1.5; white-space: pre-wrap; }
 #raum-antworten { max-width: 960px; padding: 30px 64px 60px; }
 @media (max-width: 760px) { #raum-antworten { padding: 18px 16px 40px; } }
 .eingang-antworten { margin: 22px 0 0; }
 .aa-antwort { background: rgba(255,255,255,.62); border-radius: 22px; padding: 18px 22px; margin-top: 18px; }
-.aa-antwort-titel { font-size: 20px; margin: 0 0 4px; }
-.aa-herkunft { font-size: 13.5px; color: var(--ink2); margin: 0 0 10px; }
+.aa-antwort-titel { font-size: var(--fs-role-abschnitt); margin: 0 0 4px; }
+.aa-herkunft { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0 0 10px; }
 .aa-antwort-felder { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 6px 16px; margin: 0; }
 .aa-antwort-felder dt { font-weight: 600; } .aa-antwort-felder dd { margin: 0; overflow-wrap: anywhere; }
 @media (max-width: 760px) { #raum-anfrage { padding: 18px 16px 40px; } }
-@media (max-width: 760px) { #raum-assistent { padding: 18px 16px 40px; } .as-schritte li { padding: 6px 12px 6px 6px; font-size: 13px; } }
+@media (max-width: 760px) { #raum-assistent { padding: 18px 16px 40px; } .as-schritte li { padding: 6px 12px 6px 6px; font-size: var(--fs-role-hilfe); } }
 .kachel.kachel-datei { margin: 0; font-weight: 400; }   /* ein <label>: ohne das erbt es Fettschrift und Abstand der Formular-Labels */
 @media (max-width: 980px) { .eingang-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 760px) {
@@ -1449,7 +1464,9 @@ label.as-feld { margin: 0; }
       <span class="logo-wort"><span class="lw-vivo" data-en="VIVO">VIVO</span><span class="lw-depot" data-en="DEPOT">DEPOT</span></span><span class="logo-studio" data-en="Studio">Studio</span>
     </button>
     <nav class="app-links" aria-label="Werkzeuge" data-en-aria="Tools">
-      <button type="button" class="kopf-knopf" id="kopf-fachebene" data-en="Expert view">Fachebene</button>
+      <div class="sprach-schalter ebenen-schalter" role="group" aria-label="Ebene" data-en-aria="Level">
+        <button type="button" id="kopf-einfach" aria-pressed="true" data-en="Simple">Einfach</button><button type="button" id="kopf-fachebene" aria-pressed="false" data-en="Expert view">Expertensicht</button>
+      </div>
       <button type="button" class="kopf-knopf" id="kopf-hilfe" data-en="Help">Hilfe</button>
       <a class="kopf-knopf" id="kopf-register" href="#" data-marke-href="register" target="_blank" rel="noopener noreferrer"><span data-en="Register">Register</span> ↗</a>
       <a class="kopf-knopf" id="kopf-website" href="#" data-marke-href="website" target="_blank" rel="noopener noreferrer"><span data-en="vivodepot.de">vivodepot.de</span> ↗</a>
@@ -1464,31 +1481,36 @@ label.as-feld { margin: 0; }
 
 <!-- ═══ EINGANG (Neugestaltung A+ mit Glas, S1, 08.10.2026) ═══
      Die erste Ebene fragt nach dem Ziel, nicht nach dem Werkzeug; das heutige Studio steht unverändert als Fachebene dahinter
-     (Kopf „Fachebene“ und Kachel „Etwas anderes“, zurück über „Zur Auswahl“). Texte: Bauvorlage A+ mit Glas, Abschnitt
-     Kachel-Texte; Überschrift V2 (Entscheidung 08.10.2026). -->
+     (sichtbar „Expertensicht“, Entscheidung 09.11.2026; erreichbar über den Kopf-Schalter „Einfach | Expertensicht“ und die
+     Kachel „Etwas anderes“). Texte: Bauvorlage A+ mit Glas, Abschnitt Kachel-Texte; Überschrift V2 (Entscheidung 08.10.2026).
+     Jede Kachel endet im Einstieg (Probe tests/studio-einstieg-endet-im-einstieg.test.js): „Daten bereitstellen“ und „Eigenes
+     Erscheinungsbild“ stehen als Kacheln „in Arbeit“ ohne Ziel, bis ihre Assistenten stehen (Studio-Umbau Wagen 2/3). -->
 <main id="raum-eingang" class="raum">
   <div class="eingang-flaechen" aria-hidden="true"><span class="ef ef-1"></span><span class="ef ef-2"></span><span class="ef ef-3"></span></div>
   <p class="eingang-aug" data-en="For organisations of every kind">Für Einrichtungen jeder Art</p>
   <h1 class="eingang-titel" data-en="Set up Vivodepot for your organisation">Richten Sie Vivodepot für Ihre Einrichtung ein</h1>
   <h2 class="eingang-frage" id="eingang-frage" data-en="What would you like to offer?">Was möchten Sie anbieten?</h2>
   <div class="eingang-raster" role="list" aria-labelledby="eingang-frage">
-    <button type="button" role="listitem" class="kachel eingang-kachel erste" id="ein-anfrage"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
+    <button type="button" role="listitem" class="kachel eingang-kachel erste" id="ein-anfrage"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H10l-4 4v-4H4z"/><path d="M8 9.5h8M8 12.5h5"/></svg></span><span class="ek-pfeil" aria-hidden="true">→</span>
       <span class="ek-titel" data-en="Request to people">Anfrage an Personen</span>
       <span class="ek-text" data-en="You say which details you need. The person decides what to give you.">Sie sagen, welche Angaben Sie brauchen. Die Person entscheidet, was sie Ihnen gibt.</span></button>
-    <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-aufnahme"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
+    <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-aufnahme"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9z"/><path d="M15 5.5h3V21H6V5.5h3"/><path d="M9 12h6M9 16h4"/></svg></span><span class="ek-pfeil" aria-hidden="true">→</span>
       <span class="ek-titel" data-en="Intake form">Aufnahmebogen</span>
       <span class="ek-text" data-en="People fill in your form in Vivodepot and give it to you as a file.">Personen füllen Ihren Bogen in Vivodepot aus und geben ihn Ihnen als Datei.</span></button>
-    <button type="button" role="listitem" class="kachel eingang-kachel eingang-hinweis" id="ein-empfangen" aria-expanded="false" aria-controls="ein-empfangen-hinweis"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil ek-info" aria-hidden="true">i</span>
+    <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-vorlage"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M12.5 11v6M9.5 14h6"/></svg></span><span class="ek-pfeil" aria-hidden="true">→</span>
+      <span class="ek-titel" data-en="Create a template">Vorlage erstellen</span>
+      <span class="ek-text" data-en="Choose the questions and their order. Vivodepot turns them into a template for your organisation.">Sie wählen die Fragen und ihre Reihenfolge. Vivodepot macht daraus eine Vorlage für Ihre Einrichtung.</span></button>
+    <button type="button" role="listitem" class="kachel eingang-kachel eingang-hinweis" id="ein-empfangen" aria-expanded="false" aria-controls="ein-empfangen-hinweis"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v9m0 0-4-4m4 4 4-4"/><path d="M4 15v5h16v-5"/></svg></span><span class="ek-pfeil ek-info" aria-hidden="true">i</span>
       <span class="ek-titel" data-en="Receive documents">Dokumente empfangen</span>
       <span class="ek-text" data-en="People give you documents as a file, for example the original from their depot.">Personen geben Ihnen Unterlagen als Datei, etwa das Original aus ihrem Depot.</span>
       <span class="ek-hinweis" id="ein-empfangen-hinweis" hidden data-en="There is nothing to set up: you open the file with your own software.">Dafür richten Sie nichts ein: Sie öffnen die Datei mit Ihrem eigenen Programm.</span></button>
-    <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-bereitstellen"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
+    <button type="button" role="listitem" class="kachel eingang-kachel eingang-hinweis eingang-folgt" id="ein-bereitstellen" aria-disabled="true"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0-4 4m4-4 4 4"/><path d="M5 20h14"/></svg></span><span class="ek-pfeil ek-folgt" data-en="in progress">in Arbeit</span>
       <span class="ek-titel" data-en="Provide data">Daten bereitstellen</span>
       <span class="ek-text" data-en="You issue documents as files in open formats. The person keeps them in their depot.">Sie geben Unterlagen als Datei in offenen Formaten heraus. Die Person legt sie in ihrem Depot ab.</span></button>
-    <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-erscheinung"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
+    <button type="button" role="listitem" class="kachel eingang-kachel eingang-hinweis eingang-folgt" id="ein-erscheinung" aria-disabled="true"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-2 0-1.3-1-1.6-1-2.6 0-.9.7-1.4 1.6-1.4H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><path d="M7.5 11.5h.01M10 7.5h.01M15 7.5h.01"/></svg></span><span class="ek-pfeil ek-folgt" data-en="in progress">in Arbeit</span>
       <span class="ek-titel" data-en="Your own look">Eigenes Erscheinungsbild</span>
       <span class="ek-text" data-en="Logo, colours and name for Vivodepot. Applied only once it is signed and confirmed by Vivodepot.">Logo, Farben und Name für Vivodepot. Wird erst angewendet, wenn es signiert und von Vivodepot bestätigt ist.</span></button>
-    <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-anderes"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
+    <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-anderes"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></span><span class="ek-pfeil ek-fach" data-en="Expert view ↗">Expertensicht ↗</span>
       <span class="ek-titel" data-en="Something else">Etwas anderes</span>
       <span class="ek-text" data-en="For IT specialists: building blocks, formats and checking tools.">Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.</span></button>
   </div>
@@ -1568,7 +1590,7 @@ label.as-feld { margin: 0; }
         </div>
         <div class="as-knoepfe"><button type="button" class="as-knopf" id="as-weiter-2" data-en="Next: submit →">Weiter: Einreichen →</button>
           <button type="button" class="link-knopf" id="as-zurueck-2" data-en="Back">Zurück</button></div>
-        <p class="as-fach"><button type="button" class="link-knopf" id="as-fachebene" data-en="Continue in the expert view">In der Fachebene weiterbauen</button></p>
+        <p class="as-fach"><button type="button" class="as-chip as-chip-fach" id="as-fachebene" data-en="Expert view ↗">Expertensicht ↗</button></p>
       </div>
     </section>
     <aside class="as-rechts" aria-label="Vorschau" data-en-aria="Preview">
@@ -1662,7 +1684,7 @@ label.as-feld { margin: 0; }
         <p class="as-meldung" id="aa-meldung-4" role="alert" hidden></p>
         <div class="as-knoepfe"><button type="button" class="as-knopf" id="aa-weiter-4" data-en="Next →">Weiter →</button>
           <button type="button" class="link-knopf" id="aa-zurueck-4" data-en="Back">Zurück</button></div>
-        <p class="as-fach"><button type="button" class="link-knopf" id="aa-fachebene" data-en="For advanced users: with your own key pair (expert view)">Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)</button></p>
+        <p class="as-fach"><button type="button" class="as-chip as-chip-fach" id="aa-fachebene" aria-label="Expertensicht: mit eigenem Schlüsselpaar" data-en-aria="Expert view: with your own key pair" data-en="Expert view ↗">Expertensicht ↗</button></p>
       </div>
 
       <div id="aa-schritt-5" hidden>
@@ -1709,9 +1731,8 @@ label.as-feld { margin: 0; }
   </div>
 </main>
 
-<!-- ═══ RAUM 1 · START = FACHEBENE (bis 08.10.2026 die Startseite; unverändert, nur „Zur Auswahl“ davor) ═══ -->
+<!-- ═══ RAUM 1 · START = FACHEBENE, sichtbar „Expertensicht“ (bis 08.10.2026 die Startseite; zurück über den Kopf-Schalter „Einfach“) ═══ -->
 <main id="raum-start" class="raum" hidden>
-  <p class="fachebene-zurueck"><button type="button" class="link-knopf" id="fachebene-zurueck" data-en="← Back to the choice">← Zur Auswahl</button></p>
   <section class="held">
     <p class="ueberschrift-klein" data-en="For institutions">Für Institutionen</p>
     <h1 data-en="Build your template. See right away how it looks in Vivodepot.">Bauen Sie Ihre Vorlage. Sehen Sie sofort, wie sie in Vivodepot aussieht.</h1>
@@ -2187,11 +2208,11 @@ label.as-feld { margin: 0; }
     <button type="button" class="dlg-zu" data-zu="dlg-module" aria-label="Schließen" data-en-aria="Close">×</button>
   </div>
   <div class="dlg-rumpf">
-    <p class="lead-klein" data-en="These are signed data bundles, not form templates. They use the same details and key as a template; if you have not entered them yet, the finish window asks for them.">Das sind signierte Datenbündel, keine Formular-Vorlagen. Sie nutzen dieselben Angaben und denselben Schlüssel wie eine Vorlage; haben Sie diese noch nicht eingegeben, fragt das Fenster „Fertigstellen“ danach.</p>
     <div class="karte-innen mod-stand">
       <span id="mod-stand"></span>
       <button type="button" class="sekundaer mini" id="mod-angaben" data-en="Enter details and key">Angaben und Schlüssel eingeben</button>
     </div>
+    <div class="as-chips mod-gruppen" id="mod-gruppen" role="group" aria-label="Gruppen" data-en-aria="Groups"></div>
     <div class="mod-kacheln" id="mod-kacheln"></div>
     <div id="mod-bloecke">
 <details class="schritt-kasten" id="anf-block" style="margin-top:1.5rem">
@@ -8353,10 +8374,10 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.ownAdditionalSituation","advanceCare","Eigene Beschreibung der Anwendungssituation","Your own description of the situation"],
   ["advanceCare.lifeSustainingMeasures","advanceCare","Lebenserhaltende Maßnahmen","Life-sustaining measures"],
   ["advanceCare.painAndSymptomTreatment","advanceCare","Schmerz- und Symptombehandlung","Pain and symptom management"],
-  ["advanceCare.acceptsLifeShorteningFromPain","advanceCare","Lebensverkürzung durch Schmerzbehandlung in Kauf nehmen","Acceptance of a shortened life"],
+  ["advanceCare.acceptsLifeShorteningFromPain","advanceCare","Lebensverkürzung durch Schmerzbehandlung in Kauf nehmen","Accept a shorter life as a result of pain treatment"],
   ["advanceCare.artificialNutritionAndHydration","advanceCare","Künstliche Ernährung und Flüssigkeitszufuhr","Artificial nutrition and hydration"],
-  ["advanceCare.resuscitationInDescribedSituations","advanceCare","Wiederbelebung in den oben beschriebenen Situationen","Resuscitation (situations described above)"],
-  ["advanceCare.emergencyDoctorNotified","advanceCare","Hinweis an den Notarzt","Emergency physician notice"],
+  ["advanceCare.resuscitationInDescribedSituations","advanceCare","Wiederbelebung in den oben beschriebenen Situationen","Resuscitation in the situations described above"],
+  ["advanceCare.emergencyDoctorNotified","advanceCare","Hinweis an den Notarzt","Note for the emergency doctor"],
   ["advanceCare.resuscitationInAllCases","advanceCare","Wiederbelebung (alle Fälle)","Resuscitation (all cases)"],
   ["advanceCare.artificialVentilation","advanceCare","Künstliche Beatmung","Artificial ventilation"],
   ["advanceCare.dialysis","advanceCare","Dialyse","Dialysis"],
@@ -8367,9 +8388,9 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.supportFromChurchOrCommunity","advanceCare","Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft","Support from a representative of the following church or religious or philosophical community"],
   ["advanceCare.hospiceSupport","advanceCare","Hospizlicher Beistand","Hospice support"],
   ["advanceCare.confidentialityWaiverFor","advanceCare","Entbindung von der Schweigepflicht gegenüber folgenden Personen","Release from the duty of confidentiality toward the following people"],
-  ["advanceCare.whoseViewMattersIfUnregulated","advanceCare","Wessen Meinung zählt, wenn etwas nicht geregelt ist","Particular weight (situations not covered)"],
+  ["advanceCare.whoseViewMattersIfUnregulated","advanceCare","Wessen Meinung zählt, wenn etwas nicht geregelt ist","Whose view counts if something is not covered"],
   ["advanceCare.whoseViewMattersOtherPersonName","advanceCare","Andere Person (Name)","Other person (name)"],
-  ["advanceCare.whoseViewMattersIfDeviatingWill","advanceCare","Wessen Meinung zählt, wenn Ihr Wille abzuweichen scheint","Particular weight (differing expression of will)"],
+  ["advanceCare.whoseViewMattersIfDeviatingWill","advanceCare","Wessen Meinung zählt, wenn Ihr Wille abzuweichen scheint","Whose view counts if your wishes seem to differ"],
   ["advanceCare.whoseViewMattersIfDeviatingOther","advanceCare","Andere Person (Name)","Other person (name)"],
   ["advanceCare.personalValuesOrFurtherDocuments","advanceCare","Wertvorstellungen / sonstige Unterlagen","Values / other documents"],
   ["advanceCare.organDonationDecision","advanceCare","Organspende","Organ donation"],
@@ -8378,7 +8399,7 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.informationOrCounsellingReceived","advanceCare","Informiert bei/durch","Informed at/by"],
   ["advanceCare.counsellingBy","advanceCare","Beraten lassen durch","Advised by"],
   ["advanceCare.validityDuration","advanceCare","Gültigkeit","Validity"],
-  ["advanceCare.validityDurationDeadline","advanceCare","Dauer der Befristung","Time limit"],
+  ["advanceCare.validityDurationDeadline","advanceCare","Dauer der Befristung","How long the time limit lasts"],
   ["people.person","people","Menschen, die mir wichtig sind","People who matter to me"],
   ["people.person/name","people","Name im Depot","Name in the depot"],
   ["people.person/familyName","people","Familienname","Family name"],
@@ -8408,7 +8429,7 @@ const FELDKATALOG = Object.freeze([
   ["administration.ongoingAdministrativeCases/start","administration","Datum (Antrag/Beginn)","Date (application/start)"],
   ["administration.ongoingAdministrativeCases/deadline","administration","Gültig bis / Frist","Valid until / deadline"],
   ["administration.ongoingAdministrativeCases/amount","administration","Betrag","Amount"],
-  ["administration.ongoingAdministrativeCases/direction","administration","Zahlen Sie, oder bekommen Sie Geld?","Direction"],
+  ["administration.ongoingAdministrativeCases/direction","administration","Zahlen Sie, oder bekommen Sie Geld?","Do you pay, or do you receive money?"],
   ["administration.ongoingAdministrativeCases/currency","administration","Währung","Currency"],
   ["administration.ongoingAdministrativeCases/frequency","administration","Häufigkeit","Frequency"],
   ["administration.ongoingAdministrativeCases/contactPerson","administration","Referenz / Kontaktperson","Reference / contact person"],
@@ -8440,9 +8461,9 @@ const FELDKATALOG = Object.freeze([
   ["administration.seedPhraseStorageLocation","administration","Seed-Phrase — Ablageort","Seed phrase — storage location"],
   ["administration.hardwareWallet","administration","Hardware-Wallet","Hardware wallet"],
   ["administration.olderInheritedCryptoAccess","administration","Ältere/geerbte Krypto-Zugänge","Older/inherited crypto access"],
-  ["advanceCare.provisionInstruments","advanceCare","Vorsorgedokumente","Provision instruments"],
-  ["advanceCare.provisionInstruments/instrument","advanceCare","Art des Dokuments","Instrument"],
-  ["advanceCare.provisionInstruments/form","advanceCare","Form, etwa notariell oder handschriftlich","Form"],
+  ["advanceCare.provisionInstruments","advanceCare","Vorsorgedokumente","Advance care documents"],
+  ["advanceCare.provisionInstruments/instrument","advanceCare","Art des Dokuments","Type of document"],
+  ["advanceCare.provisionInstruments/form","advanceCare","Form, etwa notariell oder handschriftlich","Form, for example notarised or handwritten"],
   ["advanceCare.provisionInstruments/certifyingBody","advanceCare","Beurkundende / beglaubigende Stelle","Notarizing / certifying body"],
   ["advanceCare.provisionInstruments/storageLocation","advanceCare","Ablageort","Storage location"],
   ["advanceCare.provisionInstruments/storageStreet","advanceCare","Ablageort: Straße","Storage location: street"],
@@ -8454,7 +8475,7 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.provisionInstruments/timeLimitedUntilIfAgreed","advanceCare","Befristet gültig bis (falls vereinbart)","Time-limited until (if agreed)"],
   ["advanceCare.provisionInstruments/typeOfPowerOfAttorney","advanceCare","Art der Vollmacht","Type of power of attorney"],
   ["advanceCare.provisionInstruments/note","advanceCare","Hinweis","Note"],
-  ["advanceCare.provisionInstruments/morePreciseDescription","advanceCare","Genauere Beschreibung","More precise description"],
+  ["advanceCare.provisionInstruments/morePreciseDescription","advanceCare","Genauere Beschreibung","More detailed description"],
   ["advanceCare.provisionInstruments/authorizedPersons","advanceCare","Bevollmächtigte Person(en)","Authorized person(s)"],
   ["advanceCare.provisionInstruments/howDoThePeopleRepresentYou","advanceCare","Wie vertreten die Personen?","How do the people represent you?"],
   ["advanceCare.provisionInstruments/healthCareGeneralDecision","advanceCare","Gesundheitssorge — allgemein entscheiden","Health care — general decision-making"],
@@ -8496,7 +8517,7 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.provisionInstruments/postMortemDataDonationExcluded","advanceCare","Ausgeschlossen","Excluded"],
   ["advanceCare.provisionInstruments/postMortemDataDonationTrustee","advanceCare","Vertrauensperson, die entscheidet","Trusted person who decides"],
   ["advanceCare.provisionInstruments/postMortemDataHolders","advanceCare","Wo Ihre Gesundheitsdaten liegen","Where your health data are held"],
-  ["advanceCare.provisionInstruments/statutorySuccessionOr","advanceCare","Gesetzliche Erbfolge oder eigene Regelung?","Statutory succession or a different wish?"],
+  ["advanceCare.provisionInstruments/statutorySuccessionOr","advanceCare","Gesetzliche Erbfolge oder eigene Regelung?","Statutory succession or your own arrangement?"],
   ["advanceCare.provisionInstruments/personsNamedInTheWill","advanceCare","Bedachte Person(en)","Beneficiaries"],
   ["advanceCare.provisionInstruments/aboutTheWill","advanceCare","Zum Testament","About the will"],
   ["advanceCare.provisionInstruments/personalNotesOnThis","advanceCare","Persönliche Notizen dazu","Personal notes on this"],
@@ -8508,17 +8529,17 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.provisionInstruments/proposedPerson2","advanceCare","Vorgeschlagene Person","Proposed person"],
   ["advanceCare.provisionInstruments/alternatePerson2","advanceCare","Ersatzperson","Alternate person"],
   ["advanceCare.provisionInstruments/wishesForUpbringingCare","advanceCare","Wünsche zur Erziehung & Betreuung","Wishes for upbringing & care"],
-  ["advanceCare.provisionInstruments/basicDecision","advanceCare","Erlauben Sie eine KI-Nachbildung Ihrer Person?","Basic decision"],
-  ["advanceCare.provisionInstruments/purpose","advanceCare","Wofür die Nachbildung genutzt werden darf","Purpose"],
-  ["advanceCare.provisionInstruments/authorizedParties","advanceCare","Wer die Nachbildung nutzen darf","Authorized parties"],
+  ["advanceCare.provisionInstruments/basicDecision","advanceCare","Erlauben Sie eine KI-Nachbildung Ihrer Person?","Do you allow an AI recreation of yourself?"],
+  ["advanceCare.provisionInstruments/purpose","advanceCare","Wofür die Nachbildung genutzt werden darf","What the recreation may be used for"],
+  ["advanceCare.provisionInstruments/authorizedParties","advanceCare","Wer die Nachbildung nutzen darf","Who may use the recreation"],
   ["advanceCare.provisionInstruments/namedIndividuals","advanceCare","Namentlich benannte Personen","Named individuals"],
-  ["advanceCare.provisionInstruments/scope","advanceCare","Wo darf die Nachbildung erscheinen?","Scope"],
-  ["advanceCare.provisionInstruments/permittedDataTypes","advanceCare","Welche Angaben verwendet werden dürfen","Permitted data types"],
+  ["advanceCare.provisionInstruments/scope","advanceCare","Wo darf die Nachbildung erscheinen?","Where may the recreation appear?"],
+  ["advanceCare.provisionInstruments/permittedDataTypes","advanceCare","Welche Angaben verwendet werden dürfen","Which details may be used"],
   ["advanceCare.provisionInstruments/timeLimit","advanceCare","Befristung","Time limit"],
   ["advanceCare.provisionInstruments/numberOfYears","advanceCare","Anzahl Jahre","Number of years"],
   ["advanceCare.provisionInstruments/date","advanceCare","Zeitpunkt","Date"],
-  ["advanceCare.provisionInstruments/behaviouralLimit","advanceCare","Was darf die Nachbildung sagen?","Behavioural limit"],
-  ["advanceCare.provisionInstruments/digitalEstateAdministration","advanceCare","Wer Ihr digitales Erbe verwaltet","Digital estate administration"],
+  ["advanceCare.provisionInstruments/behaviouralLimit","advanceCare","Was darf die Nachbildung sagen?","What may the recreation say?"],
+  ["advanceCare.provisionInstruments/digitalEstateAdministration","advanceCare","Wer Ihr digitales Erbe verwaltet","Who manages your digital estate"],
   ["advanceCare.provisionInstruments/digitalEstateAdministration2","advanceCare","Digitale Nachlassverwaltung — Person","Digital estate administration — person"],
   ["advanceCare.provisionInstruments/whoWasAppointedAsCourt","advanceCare","Wer wurde als Betreuer/in bestellt?","Who was appointed as court-appointed representative?"],
   ["advanceCare.provisionInstruments/areasOfResponsibility","advanceCare","Aufgabenbereiche","Areas of responsibility"],
@@ -8615,7 +8636,7 @@ const FELDKATALOG = Object.freeze([
   ["emergencyPreparedness.hygieneSuppliesStorageLocation","emergencyPreparedness","Hygiene-Vorrat — Ablageort","Hygiene supplies — storage location"],
   ["emergencyPreparedness.meetingPointFamily","emergencyPreparedness","Sammelplatz (Familie/Nachbarschaft)","Meeting point (family/neighbourhood)"],
   ["emergencyPreparedness.escapeRouteFromTheHome","emergencyPreparedness","Fluchtweg aus der Wohnung","Escape route from the home"],
-  ["emergencyPreparedness.fallbackLocation2ndStage","emergencyPreparedness","Ausweichort (2. Stufe)","Fallback location (2nd stage)"],
+  ["emergencyPreparedness.fallbackLocation2ndStage","emergencyPreparedness","Ausweichort","Fallback location"],
   ["emergencyPreparedness.neighbourForEmergencies","emergencyPreparedness","Nachbar für den Notfall","Neighbour for emergencies"],
   ["emergencyPreparedness.specialSituation","emergencyPreparedness","Besondere Situation","Special situation"],
   ["emergencyPreparedness.noteForEmergencyResponders","emergencyPreparedness","Hinweis für Rettungskräfte","Note for emergency responders"],
@@ -8710,15 +8731,37 @@ const FELDKATALOG = Object.freeze([
   ["health.researchDecisions/storedUntil","health","Gespeichert bis","Stored until"],
   ["health.researchDecisions/withdrawalRoute","health","Widerrufsweg","How to withdraw"],
   ["health.researchDecisions/status","health","Stand","Status"],
+  ["housing.moveInDate","housing","Eingezogen am","Moved in on"],
   ["housing.ownedOrRented","housing","Eigentum oder Miete?","Owned or rented?"],
   ["housing.landlordPropertyManagement","housing","Vermieter / Hausverwaltung","Landlord / property management"],
   ["housing.landlordPhone","housing","Vermieter — Telefon","Landlord — phone"],
   ["housing.landlordEmail","housing","Vermieter — E-Mail","Landlord — email"],
+  ["housing.landlordIsOwner","housing","Wohnungsgeber ist auch Eigentümer der Wohnung","The landlord also owns the home"],
+  ["housing.ownerName","housing","Name des Eigentümers","Name of the owner"],
+  ["housing.landlordConfirmationCode","housing","Zuordnungsmerkmal der Wohnungsgeberbestätigung","Reference code of the landlord’s confirmation"],
   ["housing.monthlyRentServiceCharges","housing","Monatliche Miete / HV-Kosten","Monthly rent / service charges"],
   ["housing.currency","housing","Währung","Currency"],
   ["housing.rentalDepositBankAmount","housing","Mietkaution — Bank & Betrag","Rental deposit — bank & amount"],
   ["housing.tenancyAgreementStorage","housing","Mietvertrag — Ablageort","Tenancy agreement — storage location"],
   ["housing.tenancyAgreementFixedTermUntil","housing","Mietvertrag — befristet bis (falls Zeitmietvertrag)","Tenancy agreement — fixed term until (if fixed-term)"],
+  ["housing.heatingCostsInRent","housing","Heizung, in der Miete enthalten (Betrag im Monat)","Heating, included in the rent (monthly amount)"],
+  ["housing.hotWaterCostsInRent","housing","Warmwasser, in der Miete enthalten (Betrag im Monat)","Hot water, included in the rent (monthly amount)"],
+  ["housing.garageCostsInRent","housing","Garage, in der Miete enthalten (Betrag im Monat)","Garage, included in the rent (monthly amount)"],
+  ["housing.parkingSpaceCostsInRent","housing","Stellplatz, in der Miete enthalten (Betrag im Monat)","Parking space, included in the rent (monthly amount)"],
+  ["housing.serviceChargeFlatRate","housing","Servicepauschale, z. B. beim betreuten Wohnen (Betrag im Monat)","Service charge, e.g. in assisted living (monthly amount)"],
+  ["housing.householdEnergyCosts","housing","Haushaltsstrom oder Kochenergie, in der Miete enthalten (Betrag im Monat)","Household electricity or cooking energy, included in the rent (monthly amount)"],
+  ["housing.costsPaidToThirdParties","housing","Nebenkosten, die Sie direkt an Dritte zahlen (Betrag im Monat)","Service charges you pay directly to third parties (monthly amount)"],
+  ["housing.rentSubsidyProvider","housing","Mietzuschuss – wer zahlt ihn","Rent subsidy — who pays it"],
+  ["housing.rentSubsidyAmount","housing","Mietzuschuss – Betrag im Monat","Rent subsidy — monthly amount"],
+  ["housing.rentSubsidyFrom","housing","Mietzuschuss – seit","Rent subsidy — since"],
+  ["housing.rentSubsidyUntil","housing","Mietzuschuss – bis (falls befristet)","Rent subsidy — until (if limited)"],
+  ["housing.commercialUseArea","housing","Für Gewerbe oder Beruf genutzte Fläche (m²)","Area used for business or work (m²)"],
+  ["housing.subtenants","housing","Mitbewohnerinnen, Mitbewohner, Untermieterinnen und Untermieter","Flatmates and subtenants"],
+  ["housing.subtenants/subtenantRelationship","housing","Wohnt hier als","Lives here as"],
+  ["housing.subtenants/subtenantRoomSize","housing","Größe des Zimmers (m²)","Room size (m²)"],
+  ["housing.subtenants/mainResidence","housing","Lebensmittelpunkt in dieser Wohnung","Main residence in this home"],
+  ["housing.subtenants/mainResidenceSince","housing","Lebensmittelpunkt hier seit","Main residence here since"],
+  ["housing.subtenants/subtenantServiceCharges","housing","Anteil an den Nebenkosten (Betrag im Monat)","Share of service charges (monthly amount)"],
   ["housing.specialLivingSituation","housing","Besondere Wohnsituation","Special living situation"],
   ["housing.tenancyTerminationHandover","housing","Mietverhältnis — Kündigung & Übergabe","Tenancy — termination & handover"],
   ["housing.noticeDate","housing","Kündigungstermin","Notice date"],
@@ -8739,6 +8782,7 @@ const FELDKATALOG = Object.freeze([
   ["identity.givenName","identity","Vorname","First name"],
   ["identity.familyName","identity","Nachname","Last name"],
   ["identity.secondLastName","identity","Zweiter Nachname","Second last name"],
+  ["identity.academicDegree","identity","Doktorgrad","Doctoral degree"],
   ["identity.displayFamilyNameFirst","identity","Familienname zuerst anzeigen","Display family name first"],
   ["identity.birthDate","identity","Geburtsdatum","Date of birth"],
   ["identity.yearOfBirthIfTheExactDayIs","identity","Geburtsjahr (falls der Tag unbekannt ist)","Year of birth (if the exact day is unknown)"],
@@ -8788,7 +8832,7 @@ const FELDKATALOG = Object.freeze([
   ["identity.familyRegisterBookStorage","identity","Familienstammbuch — Ablageort","Family register book (Familienstammbuch) — where kept"],
   ["mobility.vehicles","mobility","Fahrzeuge","Vehicles"],
   ["mobility.vehicles/registrationPlate","mobility","Marke / Modell / Kennzeichen","Make / model / registration plate"],
-  ["mobility.vehicles/vehicleRegistrationDocument","mobility","Fahrzeugschein (Zulassungsbescheinigung Teil I) — Ablageort","Vehicle registration document — storage location"],
+  ["mobility.vehicles/vehicleRegistrationDocument","mobility","Fahrzeugschein (Zulassungsbescheinigung Teil I) — Ablageort","Vehicle registration certificate (Part I) — where it is kept"],
   ["mobility.vehicles/leaseAgreementStorageLocation","mobility","Leasingvertrag — Ablageort","Lease agreement — storage location"],
   ["mobility.carInsurance","mobility","KFZ-Versicherung","Car insurance"],
   ["mobility.policyNumber","mobility","Versicherungsschein-Nummer","Policy number"],
@@ -8850,10 +8894,10 @@ const FELDKATALOG = Object.freeze([
   ["personal.religiousAffiliation","personal","Religionszugehörigkeit / Konfession","Religious affiliation / denomination"],
   ["personal.chaplainPastoralCarer","personal","Seelsorgerin / Seelsorger","Chaplain / pastoral carer"],
   ["personal.ritualsPrayersSpiritualWishes","personal","Rituale, Gebete, spirituelle Wünsche","Rituals, prayers, spiritual wishes"],
-  ["personal.letterForTheEmergencyDoctor","personal","Brief für Szenario „Notarzt“","Letter for the “emergency doctor” scenario"],
-  ["personal.letterForTheHospitalScenario","personal","Brief für Szenario „Krankenhaus“","Letter for the “hospital” scenario"],
-  ["personal.letterForTheCareHomeAdmission","personal","Brief für Szenario „Pflegeheim-Aufnahme“","Letter for the “care home admission” scenario"],
-  ["personal.letterForTheDeathScenario","personal","Brief für Szenario „Todesfall“","Letter for the “death” scenario"],
+  ["personal.letterForTheEmergencyDoctor","personal","Brief für den Notarzt","Letter for the emergency doctor"],
+  ["personal.letterForTheHospitalScenario","personal","Brief fürs Krankenhaus","Letter for the hospital"],
+  ["personal.letterForTheCareHomeAdmission","personal","Brief für die Aufnahme ins Pflegeheim","Letter for care home admission"],
+  ["personal.letterForTheDeathScenario","personal","Brief für den Todesfall","Letter in case of death"],
   ["personal.handwrittenLettersStorage","personal","Handgeschriebene Briefe — Ablageort","Handwritten letters — storage location"],
   ["personal.personalLettersWordsToPeople","personal","Persönliche Briefe / Worte an Personen","Personal letters / words to people"],
   ["personal.personalLettersWordsToPeople/toWhom","personal","An wen?","To whom?"],
@@ -9223,9 +9267,6 @@ const FELDKATALOG = Object.freeze([
   ["pro-gesellschaft-nachfolge.tpl_shareholder_meeting/tpl_form_and_notice","pro-gesellschaft-nachfolge","Form und Frist","Form and notice"],
   ["pro-gesellschaft-nachfolge.tpl_shareholder_meeting/tpl_reachable_via","pro-gesellschaft-nachfolge","Wie erreichbar","How to reach"],
   ["pro-gesellschaft-nachfolge.notiz","pro-gesellschaft-nachfolge","Notiz","Note"],
-  ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen","pro-kontakte-vertretungsplan","Nicht zu benachrichtigende Personen","People who must not be notified"],
-  ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name","pro-kontakte-vertretungsplan","Name","Name"],
-  ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit","pro-kontakte-vertretungsplan","Erreichbarkeit","Contact details"],
   ["pro-kontakte-vertretungsplan.tpl_notify_first","pro-kontakte-vertretungsplan","Wer zuerst informiert wird, und durch wen","Who is informed first, and by whom"],
   ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_name","pro-kontakte-vertretungsplan","Name","Name"],
   ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_role","pro-kontakte-vertretungsplan","Rolle","Role"],
@@ -9244,6 +9285,9 @@ const FELDKATALOG = Object.freeze([
   ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_name","pro-kontakte-vertretungsplan","Name","Name"],
   ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_contact","pro-kontakte-vertretungsplan","Erreichbarkeit","How to reach"],
   ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_what_is_kept_there","pro-kontakte-vertretungsplan","Was dort liegt","What they hold"],
+  ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen","pro-kontakte-vertretungsplan","Nicht zu benachrichtigende Personen","People who must not be notified"],
+  ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name","pro-kontakte-vertretungsplan","Name","Name"],
+  ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit","pro-kontakte-vertretungsplan","Erreichbarkeit","Contact details"],
   ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe","pro-kontakte-vertretungsplan","Wer übernimmt welche Aufgabe","Who takes over which task"],
   ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_aufgabe","pro-kontakte-vertretungsplan","Aufgabe","Task"],
   ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_person","pro-kontakte-vertretungsplan","Person","Person"],
@@ -9358,7 +9402,7 @@ const FELDKATALOG = Object.freeze([
   ["socialInsurance.careLevel","socialInsurance","Pflegegrad","Care level"],
   ["socialInsurance.careLevelSinceYear","socialInsurance","Pflegegrad seit (Jahr)","Care level since (year)"],
   ["socialInsurance.noticeDated","socialInsurance","Bescheid vom","Notice dated"],
-  ["socialInsurance.careLevelTimeLimitedUntil","socialInsurance","Pflegegrad befristet bis","Care level — time-limited until"],
+  ["socialInsurance.careLevelTimeLimitedUntil","socialInsurance","Pflegegrad — befristet bis","Care level — time-limited until"],
   ["socialInsurance.longTermCareAllowanceTypeOf","socialInsurance","Pflegegeld — Leistungsart","Long-term care allowance — type of benefit"],
   ["socialInsurance.longTermCareAllowanceAmount","socialInsurance","Pflegegeld — Betrag","Long-term care allowance — amount"],
   ["socialInsurance.longTermCareAllowanceEarlier","socialInsurance","Pflegegeld — frühere Angabe","Long-term care allowance — earlier entry"],
@@ -11320,7 +11364,9 @@ const ANFRAGE_SCHEMA = {
         "properties": {
           "kennung": { "type": "string", "minLength": 3, "description": "Feldkennung in der Form aus Auftrag 2: bereich.feld bzw. bereich.feld[eintrag].unterfeld." },
           "zweck": { "type": "string", "minLength": 3, "description": "Wozu DIESE Angabe. Ein Sammelzweck beantwortet die Frage nicht." },
-          "pflicht": { "type": "boolean", "description": "Nötig (Standard) oder freigestellt." }
+          "pflicht": { "type": "boolean", "description": "Nötig (Standard) oder freigestellt." },
+          "personFelder": { "type": "array", "minItems": 1, "description": "Nur an einem Feld, das auf eine Person verweist: welche Felder dieser Person die Antwort tragen soll, je als Kennung des Feldregisters. Die Person sieht jedes als eigene Zeile vor dem Senden und kann es abwählen. Ein anderes Feld verwirft die Zeile.",
+            "items": { "enum": ["people.person/name", "people.person/familyName", "people.person/givenName", "people.person/birthDate", "people.person/birthYear", "people.person/birthPlace", "people.person/street", "people.person/houseNumber", "people.person/postalCode", "people.person/city", "people.person/telephone", "people.person/deceased"] } }
         }
       }
     },
@@ -11450,7 +11496,7 @@ function pruefeAnfrage(state, optionen) {
      Schlüssel mitbringt, ist unbeantwortbar — und das merkt erst die Bürgerin. */
   if (anfrage.antwort.art === 'schluesselpaar' && !anfrage.antwort.publicKeyJwk && !(optionen && optionen.empfangFolgt)) {
     blocker.push('Für das Schlüsselpaar-Verfahren fehlt das Empfangs-Schlüsselpaar. '
-      + 'Es entsteht beim Erzeugen der Anfrage in der Fachebene.');
+      + 'Es entsteht beim Erzeugen der Anfrage in der Expertensicht.');
   }
   for (const f of anfrage.felder) {
     if (!anfrageFeldkatalogKennt(f.kennung, state)) {
@@ -14986,8 +15032,21 @@ function raumZeigen(welcher) {
     try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } catch (_) { window.scrollTo(0, 0); }
   }
 }
+/* Die zwei Ebenen des Kopf-Schalters: „Einfach“ sind der Eingang, die Assistenten und die eingegangenen Antworten; was aus einem
+   Assistenten heraus in „Fertigstellen“ geöffnet ist, zählt noch dazu. Alles andere ist die Expertensicht (die Fachebene). */
+const EINFACH_SCHRITTE = ['willkommen', 'assistent', 'anfrage', 'antworten'];
+let letzterEinfachSchritt = 'willkommen';
+function ebeneIstEinfach() {
+  return EINFACH_SCHRITTE.indexOf(aktiverSchritt) >= 0 || (fertigAusAssistent && ['stammdaten', 'schluessel', 'pruefung'].indexOf(aktiverSchritt) >= 0);
+}
+function ebenenSchalterSetzen() {
+  const einfach = ebeneIstEinfach(), e = $('kopf-einfach'), x = $('kopf-fachebene');
+  if (e) e.setAttribute('aria-pressed', String(einfach));
+  if (x) x.setAttribute('aria-pressed', String(!einfach));
+}
 function zeigeSchritt(id) {
   aktiverSchritt = id;
+  if (EINFACH_SCHRITTE.indexOf(id) >= 0) letzterEinfachSchritt = id;
   if (id === 'willkommen' || id === 'fachebene' || id === 'template' || id === 'blatt') fertigAusAssistent = false;
   if (id === 'blatt') { blattModusSetzen(true); dlgZu('dlg-fertig'); raumZeigen('bau'); blattIconsBefuellen(); rendereFelder(); blattEigenschaftenFuellen(); wegAktualisieren(); return; }
   if ((id === 'willkommen' || id === 'fachebene' || id === 'template') && STATE.art === 'blatt') blattModusSetzen(false);
@@ -15033,6 +15092,7 @@ function wegAktualisieren() {
   markiere('wb-absenden', !!STATE.letzteSubmission);
   fsStandAktualisieren();
   modulStandAktualisieren();
+  ebenenSchalterSetzen();
 }
 
 /* ── Feldkatalog-Palette ───────────────────────────────────────────────── */
@@ -15484,16 +15544,40 @@ const MODUL_KACHELN = [
   ['lm', 'Auszug', 'Extract', 'Angaben aus einem Bereich als eigenen Auszug zusammenstellen.', 'Compile details from an area into an extract of its own.'],
   ['ts', 'Sprachmodul', 'Language module', 'Ein fertiges Sprachmodul prüfen und ausgeben.', 'Check and issue a finished language module.'],
 ];
+/* Die Expertensicht gruppiert (Studio-Umbau Wagen 1, 09.11.2026): drei Gruppen-Chips, jeder zeigt nur seine Bausteine. Jeder Baustein
+   steht in genau einer Gruppe (Probe tests/studio-expertensicht-gruppen.test.js). */
+const MODUL_GRUPPEN = [
+  ['bausteine', 'Bausteine', 'Building blocks', ['bm', 'ia', 'wm', 'lm', 'bd']],
+  ['formate', 'Formate & Sprache', 'Formats & language', ['fm', 'ts', 'rr']],
+  ['register', 'Register & Antworten', 'Register & replies', ['kv', 'vb', 'anf']],
+];
+let modulGruppe = MODUL_GRUPPEN[0][0];
+function modulGruppeVon(k) { const g = MODUL_GRUPPEN.find((x) => x[3].indexOf(k) >= 0); return g ? g[0] : null; }
+function modulGruppeWaehlen(g) {
+  modulGruppe = g;
+  MODUL_KACHELN.forEach((m) => { if (modulGruppeVon(m[0]) !== g) { const b = $(m[0] + '-block'); if (b) { b.classList.remove('zeigen'); b.removeAttribute('open'); } } });
+  modulKachelnRendern();
+}
 function modulKachelnRendern() {
+  const gruppen = $('mod-gruppen');
+  if (gruppen) {
+    leeren(gruppen);
+    MODUL_GRUPPEN.forEach((g) => {
+      gruppen.appendChild(el('button', { type: 'button', class: 'as-chip', 'data-gruppe': g[0], 'data-mods': g[3].join(' '), 'aria-pressed': String(g[0] === modulGruppe),
+        onclick: () => modulGruppeWaehlen(g[0]), text: L(g[1], g[2]) }));
+    });
+  }
   const host = $('mod-kacheln'); if (!host) return;
   leeren(host);
   MODUL_KACHELN.forEach((m) => {
+    if (gruppen && modulGruppeVon(m[0]) !== modulGruppe) return;
     host.appendChild(el('button', { type: 'button', class: 'kachel', 'data-mod': m[0], onclick: () => modulZeigen(m[0]) }, [
       el('span', { class: 'kachel-titel', text: L(m[1], m[2]) }), el('span', { class: 'kachel-text', text: L(m[3], m[4]) }),
     ]));
   });
 }
 function modulZeigen(k) {
+  if (modulGruppeVon(k) && modulGruppeVon(k) !== modulGruppe) { modulGruppe = modulGruppeVon(k); modulKachelnRendern(); }
   MODUL_KACHELN.forEach((m) => {
     const b = $(m[0] + '-block'); if (!b) return;
     if (m[0] === k) { b.classList.add('zeigen'); b.setAttribute('open', ''); } else { b.classList.remove('zeigen'); b.removeAttribute('open'); }
@@ -16510,15 +16594,15 @@ function assistentBinden(an) {
    Ein fremdes System kann sie mit jeder JOSE-Bibliothek öffnen; gemessen am 29.09.2026 in beide Richtungen gegen `jose`.
    Zwei Verfahren, dieselben wie bisher:
      · Schlüsselpaar: `alg` ECDH-ES direkt (RFC 7518 §4.6) auf P-256. Die Bürgerin erzeugt ein FLÜCHTIGES Paar; nur dessen
-       öffentlicher Teil reist als `epk`. Die Vorgangskennung geht als `apv` in die Concat KDF: ein umetikettierter Vorgang
+       öffentlicher Teil reist als `epk`. Die Kennung der Antwort geht als `apv` in die Concat KDF: eine umetikettierte Kennung
        ergibt einen anderen Schlüssel und damit einen GCM-Fehlschlag. Die Kurve bleibt P-256 (U2-ADR-153: X25519 fehlt auf
        älteren Rechnern am Tresen).
      · Einmalpasswort: `alg` PBES2-HS512+A256KW (RFC 7518 §4.8) mit `p2c` fest ANTWORT_JWE_P2C. Der Empfänger nimmt NUR genau
        diesen Wert an — ein manipulierter Kopf mit riesigem `p2c` legte sonst die Empfängerseite lahm. Die Festlegung ist
        eigene Vorsicht: RFC 7518 nennt keine Obergrenze, RFC 8725 erwähnt `p2c` nicht.
-   `enc` ist immer A256GCM. Der geschützte Kopf ist die AAD (RFC 7516 §5.1 Schritt 14): Vorgang und Anbieter darin sind
-   gebunden. Der Kopf ist LESBAR — wer das Handy filmt, sieht Vorgang und Füll-Länge, nicht den Inhalt; der Vorgang steht
-   ohnehin auf dem Zettel.
+   `enc` ist immer A256GCM. Der geschützte Kopf ist die AAD (RFC 7516 §5.1 Schritt 14): die Kennung darin ist gebunden. Der
+   Kopf ist LESBAR und trägt darum nur Verfahrensangaben und eine zufällige Kennung, kein Aktenzeichen (U2-ADR-520 Nr. 3).
+   Ältere Kerne schrieben `vorgang` (das Aktenzeichen) in Kopf und `apv`; die Lese-App öffnet beide Formen.
    AUFFÜLLEN: Die Gesamtlänge liegt auf einer Stufe (ANTWORT_JWE_STUFEN) oder ein Zeichen darunter — base64url erreicht eine
    Kopflänge ≡ 1 mod 4 nie. Gefüllt wird über den privaten Kopfparameter `pad` (RFC 7516 §4.3); der Klartext bleibt unberührt.
    KEINE KOMPRESSION in dieser Fassung: der Klartext trägt heute Text aus der Anfrage (Zweck, Grundlage), und Kompression
@@ -16776,7 +16860,11 @@ async function antwortSignaturPruefen(jws, erwartet, opts) {
   /* `e.vorgang` kommt aus der Anfrage, die die Schlüsseldatei trägt (seit V3b: ein Schlüssel dient genau einer Anfrage). GRENZE
      (U2-ADR-501) nur noch ohne eine solche Anfrage (Einmalpasswort, ältere Schlüsseldatei): dann aus dem geschützten JWE-Kopf. Der
      gehört zur selben Nachricht und fängt eine Hülle, die zu einer anderen Anfrage gehört, nicht eine bewußt umetikettierte. */
-  if (a.vorgang !== String(e.vorgang || '')) throw _antwortSignaturFehler('antwortSignaturFremderVorgang', 'vorgang');
+  /* Neue Form (U2-ADR-520 Nr. 3): der Kopf trägt statt des Aktenzeichens eine zufällige `kennung`, die auch als `anfrage.kennung` in
+     der Nutzlast steht. Ohne gebundene Anfrage wird dann die Kennung verglichen; mit gebundener Anfrage weiter der Vorgang. */
+  if (e.kennung !== undefined) {
+    if (typeof a.kennung !== 'string' || !a.kennung || a.kennung !== String(e.kennung)) throw _antwortSignaturFehler('antwortSignaturFremderVorgang', 'kennung');
+  } else if (a.vorgang !== String(e.vorgang || '')) throw _antwortSignaturFehler('antwortSignaturFremderVorgang', 'vorgang');
   if (n.anfrageAbdruck !== undefined && typeof n.anfrageAbdruck !== 'string') throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'abdruck');
   const datensatz = {};
   for (const k of Object.keys(n)) if (!ANTWORT_JWS_ANSPRUECHE.includes(k)) datensatz[k] = n[k];
@@ -16789,6 +16877,12 @@ async function antwortSignaturPruefen(jws, erwartet, opts) {
       signiertAm: new Date(n.iat * 1000).toISOString() },
   };
 }
+/* Was ohne gebundene Anfrage verglichen wird, aus dem geschützten JWE-Kopf derselben Nachricht (GRENZE U2-ADR-501): in der neuen
+   Form die zufällige `kennung`, in der Form älterer Kerne der `vorgang`. Nie `anbieter`. */
+function _antwortErwartetAusKopf(kopf) {
+  const k = kopf || {};
+  return (typeof k.kennung === 'string' && k.kennung) ? { anbieterId: '', kennung: k.kennung } : { anbieterId: '', vorgang: String(k.vorgang || '') };
+}
 /* ══ ENDE ANTWORT-SIGNATUR-BLOCK ══ */
 /* ══ Eingegangene Antworten (W4, 09.10.2026) ══════════════════════════════════════════════════════════════════════════
    Die Stelle öffnet hier, was Personen auf ihre Anfrage geschickt haben. Geöffnet wird mit antwortJweOeffnen (oben, zeichengleich
@@ -16799,7 +16893,7 @@ async function antwortSignaturPruefen(jws, erwartet, opts) {
 const ANTWORT_FEHLER_TEXT = Object.freeze({
   'jwe-keine-antwort': ['Das ist keine Vivodepot-Antwort.', 'This is not a Vivodepot reply.'],
   'jwe-passwort': ['Bitte geben Sie das Passwort der Anfrage ein.', 'Please enter the password of the request.'],
-  'jwe-schluesselpaar': ['Diese Antwort ist für ein Schlüsselpaar verschlossen. Öffnen Sie sie in der Fachebene.', 'This reply is locked for a key pair. Open it in the expert view.'],
+  'jwe-schluesselpaar': ['Diese Antwort ist für ein Schlüsselpaar verschlossen. Öffnen Sie sie in der Expertensicht.', 'This reply is locked for a key pair. Open it in the expert view.'],
   'jwe-zip-nicht-unterstuetzt': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
   'jwe-p2c': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
   'jwe-alg': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
@@ -16889,7 +16983,7 @@ async function antwortenOeffnen() {
         const geoeffnet = await antwortJweOeffnen(text, schluessel || { passwort });
         // Eine signierte Antwort (cty JWT) wird geprüft, bevor etwas gezeigt wird; `aud` nur gegen eine gebundene Kennung.
         if (antwortJweTraegtJws(geoeffnet.kopf)) {
-          const erwartet = bindung ? { anbieterId: bindung.anbieterId, vorgang: bindung.vorgang } : { anbieterId: '', vorgang: String(geoeffnet.kopf.vorgang || '') };
+          const erwartet = bindung ? { anbieterId: bindung.anbieterId, vorgang: bindung.vorgang } : _antwortErwartetAusKopf(geoeffnet.kopf);
           const erg = await antwortSignaturPruefen(geoeffnet.klartext, erwartet);
           box.appendChild(antwortKarte(datei.name, antwortStudioModell(erg.datensatz), erg.signatur));
         } else {
@@ -17377,10 +17471,14 @@ function anfrageFelderInFachebene() {
 function gen1Binden() {
   const an = (id, ev, fn) => { const n = $(id); if (n && n.addEventListener) n.addEventListener(ev, fn); };
   an('marke-start', 'click', () => zeigeSchritt('willkommen'));
-  // Eingang (S1, 08.10.2026): jede Kachel führt zu ihrem Ziel; bis die Assistenten stehen (S2, S5), in die Fachebene an die passende Stelle.
-  an('kopf-fachebene', 'click', () => zeigeSchritt('fachebene'));
-  an('fachebene-zurueck', 'click', () => zeigeSchritt('willkommen'));
+  // Kopf-Schalter „Einfach | Expertensicht“ (Studio-Umbau Wagen 1, 09.11.2026): „Einfach“ führt zurück in den Eingang oder den Assistenten,
+  // in dem man zuletzt war (was dort steht, bleibt); „Expertensicht“ in die Fachebene. Die aktive Seite tut nichts.
+  an('kopf-einfach', 'click', () => { if (!ebeneIstEinfach()) zeigeSchritt(letzterEinfachSchritt); });
+  an('kopf-fachebene', 'click', () => { if (ebeneIstEinfach()) zeigeSchritt('fachebene'); });
+  // Eingang (S1, 08.10.2026): jede Kachel endet im Einstieg (tests/studio-einstieg-endet-im-einstieg.test.js); nur „Etwas anderes“ führt
+  // in die Expertensicht. „Vorlage erstellen“ benutzt den Assistenten Aufnahmebogen mit.
   an('ein-aufnahme', 'click', () => { assistentNeu(); zeigeSchritt('assistent'); });
+  an('ein-vorlage', 'click', () => { assistentNeu(); zeigeSchritt('assistent'); });
   assistentBinden(an);
   // W1 (09.10.2026): die Anfrage ist der Hauptweg (Entscheidung 5 vom 08.10.2026) und hat ihren Assistenten.
   an('ein-anfrage', 'click', () => { anfrageAssistentNeu(); zeigeSchritt('anfrage'); });
@@ -17393,8 +17491,7 @@ function gen1Binden() {
   // (ⓘ statt Pfeil, der Klick klappt einen Satz auf). Danach bekommt sie wieder ein Ziel.
   an('ein-empfangen', 'click', () => { const k = $('ein-empfangen'), h = $('ein-empfangen-hinweis'); if (!k || !h) return;
     const auf = k.getAttribute('aria-expanded') !== 'true'; k.setAttribute('aria-expanded', String(auf)); h.hidden = !auf; });
-  an('ein-bereitstellen', 'click', () => { zeigeSchritt('fachebene'); modulOeffnen('fm'); });
-  an('ein-erscheinung', 'click', () => { zeigeSchritt('fachebene'); modulOeffnen('bd'); });
+  // „Daten bereitstellen“ und „Eigenes Erscheinungsbild“: Kacheln „in Arbeit“ ohne Ziel, bis ihre Assistenten stehen (Wagen 2/3).
   an('ein-anderes', 'click', () => zeigeSchritt('fachebene'));
   an('kopf-hilfe', 'click', () => dlgAuf('dlg-hilfe'));
   an('sp-de', 'click', () => spracheWaehlen('de')); an('sp-en', 'click', () => spracheWaehlen('en'));

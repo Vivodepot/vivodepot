@@ -35,7 +35,8 @@ test('[Lese-App] ohne Branding-Modul bleibt der native Name „Vivodepot" (Rot-B
   assert.equal(V._markeName(), 'Vivodepot', 'ohne offenes Depot gilt der native Rückfall');
   V.setData({ sektoren: {}, menschen: [] }); // Depot ohne brandingModule
   assert.equal(V._markeName(), 'Vivodepot', 'ein Depot ohne Branding-Modul zeigt weiterhin Vivodepot');
-  assert.ok(V.topbarHTML('x', false).includes(V.escapeHTML('Vivodepot · Lesen')),
+  // Seit dem 03.11.2026 steht vor dem Punkt ein geschütztes Leerzeichen (der Punkt bleibt beim Umbruch hinter der Marke).
+  assert.ok(V.topbarHTML('x', false).includes(V.escapeHTML('Vivodepot\u00a0· Lesen')),
     'die Topbar trägt weiterhin den nativen Namen, unverändert wie vor diesem Zug');
 });
 
@@ -43,7 +44,7 @@ test('[Lese-App] ein weißgelabeltes Depot zeigt die Partnermarke — im Tab-Tit
   const { V, document } = ladeLesen();
   V.setData({ sektoren: {}, menschen: [], brandingModule: [MUSTER_BRANDING] });
   assert.equal(V._markeName(), 'Muster AG', 'derselbe Lesepfad wie der Kern: letztes Element von brandingModule gewinnt');
-  assert.ok(V.topbarHTML('x', false).includes(V.escapeHTML('Muster AG · Lesen')),
+  assert.ok(V.topbarHTML('x', false).includes(V.escapeHTML('Muster AG\u00a0· Lesen')),
     'die Topbar muss die Partnermarke zeigen, nicht „Vivodepot"');
   assert.ok(!V.topbarHTML('x', false).includes('Vivodepot'),
     'das native Literal darf nicht mehr auftauchen, sobald ein Branding-Modul andockt ist');

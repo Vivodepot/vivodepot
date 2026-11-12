@@ -160,9 +160,11 @@ describe('U2-ADR-097 §3: kein Wiederherstellungsweg (G13)', () => {
      Funktion ist ein Fund wie jeder neue Bezeichner. */
   const GEBUNDENE_BEZEICHNER = Object.freeze({
     masterBits: { funktionen: { whcHuelleWickeln: 3, _whcEinwickeln: 3 } },
-    wiederherstellungAnbieten: { funktionen: { wiederherstellungAnbieten: 1, flowPasswortSetzen: 1, flowEigenesDepotAusSubWunsch: 1 } },
+    wiederherstellungAnbieten: { funktionen: { wiederherstellungAnbieten: 1, flowEigenesDepotAusSubWunsch: 1 } },
     // U2-ADR-430 Nachtrag 31.10.2026 (S2): im Anlege-Weg bietet Schritt 2 des Dialogs den Code an, nicht mehr das vorgeschaltete
-    // Angebot. Gebunden wie zuvor wiederherstellungAnbieten: genau ein Aufruf, und der steht in flowDepotAnlegen.
+    // Angebot. Gebunden wie zuvor wiederherstellungAnbieten: genau ein Aufruf je Erstellungs-Eintritt. Seit dem Rückbau des
+    // Vorschau-Passwortwegs (07.11.2026, gegengelesen) gibt es nur noch diesen einen Erstellungs-Eintritt: jedes Tor der Umschau
+    // (Ausgabe, Sichern, Schließen) führt in flowDepotAnlegen. Der Sub-Depot-Weg bleibt beim Angebot.
     anlegenCodeSchritt: { funktionen: { anlegenCodeSchritt: 1, flowDepotAnlegen: 1 } },
   });
 
@@ -201,9 +203,12 @@ describe('U2-ADR-097 §3: kein Wiederherstellungsweg (G13)', () => {
   test('[G13-Anlege-Weg·Rot-Beweis] ein zweiter Aufruf von anlegenCodeSchritt außerhalb von flowDepotAnlegen fällt, ebenso ein fehlender', () => {
     const gepflanzt = eigenerCodeRoh + '\nfunction _irgendwo() { anlegenCodeSchritt("x"); }\n';
     assert.ok(gebundeneFunde(gepflanzt).some((f) => f.startsWith('anlegenCodeSchritt: 1 Vorkommen außerhalb')), gebundeneFunde(gepflanzt).join(' | '));
-    const ohne = eigenerCodeRoh.replace(/anlegenCodeSchritt\(p\)/, 'void p');
+    const ohne = eigenerCodeRoh.replace(/anlegenCodeSchritt\(p, exportErinnerungFreigeben\)/, 'void p');
     assert.notEqual(ohne, eigenerCodeRoh, 'Pflanzstelle im Kern nicht gefunden — die Probe ist veraltet.');
     assert.ok(gebundeneFunde(ohne).includes('anlegenCodeSchritt in flowDepotAnlegen: 0 statt 1'), gebundeneFunde(ohne).join(' | '));
+    // Ein zurückgekehrter zweiter Erstellungs-Eintritt mit eigenem Schritt 2 fällt als Vorkommen außerhalb.
+    const zweiterEintritt = eigenerCodeRoh + '\nfunction flowPasswortSetzen(pw, nachErfolg) { anlegenCodeSchritt(pw, nachErfolg); }\n';
+    assert.ok(gebundeneFunde(zweiterEintritt).includes('anlegenCodeSchritt: 1 Vorkommen außerhalb der gebundenen Funktionen'), gebundeneFunde(zweiterEintritt).join(' | '));
   });
 
   test('[G13-Gebunden·Rot-Beweis] ein `masterBits` in einer anderen Funktion fällt', () => {

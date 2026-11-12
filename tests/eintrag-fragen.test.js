@@ -143,7 +143,7 @@ test('[Fragen] beantwortete Fragen stehen nicht auf dem Blatt, nur offene', asyn
 
 test('[Fragen·Schema] Stufe 95 legt das leere Register an und ändert keinen Wert', async () => {
   const { V } = await frischesDepot();
-  assert.equal(V.SCHEMA_VERSION_AKTUELL, 95);
+  assert.ok(V.SCHEMA_VERSION_AKTUELL >= 95);
   const { STUFEN } = require('./fixtures/migrations-stufen.js');
   assert.ok(STUFEN.some((st) => st.nach === 95), 'die Stufe 95 steht in den Stufen-Fixtures');
 });

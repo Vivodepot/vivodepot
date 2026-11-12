@@ -18,7 +18,6 @@
   "tools/ausgehenden-stand-messen.js",
   "tools/baeume-aufraeumen-erheben.js",
   "tools/dokument-vor-umzug-fixture-ziehen.js",
-  "tools/faktenbasis-erzeugen.js",
   "tools/standzahl-frei-pruefen.js"
  ],
  "repoOhneEnv_stand": "2026-09-19",

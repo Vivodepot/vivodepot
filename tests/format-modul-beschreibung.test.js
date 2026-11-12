@@ -165,10 +165,16 @@ test('[Glied 7] die Form drückt sd-jwt-vc-identitaet VERLUSTFREI aus — Feld f
     richtung: 'import', sektor: 'identity', label: 'Nachbau als Beschreibung',
     leser: 'json', quelle: 'claims', quelleWurzelFallback: true,
     erkennen: [{ pfad: 'vct', gleich: 'urn:vivodepot:identitaet' }],
-    // U2-ADR-482: die Staatsangehörigkeit (die Zeile mit `ausRohwert`) ist ein Rechtsraum-Codefeld — `codeliste: true`, sonst
+    // U2-ADR-482: die Staatsangehörigkeit ist ein Rechtsraum-Codefeld — `codeliste: true`, sonst
     // läse der Nachbau den Code als Freitext. Die übrigen Listen-Zeilen bleiben `alsListe`.
-    zuordnung: V.VC_IDENTITAET_MAPPING.map(m => (
-      m.ausRohwert ? { feld: m.feld, ziel: m.ziel, codeliste: true }
+    // Befund PID-BIRTHPLACE-STRUKTUR (05.11.2026): `place_of_birth` ist eine Struktur nach dem PID-Rulebook; die Beschreibung
+    // liest keine Struktur in ein Textfeld, darum fehlt die Zeile im Nachbau. Das Dokument trägt die alte Form `birthplace`,
+    // die als Text gelesen wird. Ebenso die Kontaktdaten (Befund PID-KONTAKT-CLAIMNAMEN): das Dokument trägt die alten Namen
+    // `mobile_phone_number`/`email_address`, die der Kanal weiter als Text liest; die übrigen `ausRohwert`-Zeilen außer der
+    // Staatsangehörigkeit sind solche Rückwege alter Namen.
+    zuordnung: V.VC_IDENTITAET_MAPPING.filter(m => m.ziel !== 'place_of_birth').map(m => (
+      m.feld === 'nationality' ? { feld: m.feld, ziel: m.ziel, codeliste: true }
+        : m.ausRohwert ? { feld: m.feld, ziel: m.ziel }
         : m.rueck ? { feld: m.feld, ziel: m.ziel, alsListe: true } : { feld: m.feld, ziel: m.ziel }
     )).concat([
       { feld: 'streetAddress', ziel: 'address.street_address' },

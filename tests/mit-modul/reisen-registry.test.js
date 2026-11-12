@@ -129,23 +129,24 @@ test('[Reisen·Probe 1·Negativkontrolle] unveränderter Text bleibt grün gegen
 
 /* ── 2 · Entfernter Rückweg macht rot ───────────────────────────────────── */
 
-test('[Reisen·Probe 2] ein global unterdrückter Abbrechen-Knopf lässt „Rückweg vorhanden" auf false kippen',
+test('[Reisen·Probe 2] ein global unterdrückter Schließen-Knopf (✕) lässt „Rückweg vorhanden" auf false kippen',
   { timeout: 60000 }, async () => {
     const original = await bisDialogOeffnen('file://' + HTML_PFAD);
     assert.equal(original.rueckwegVorhanden, true, 'ABBRUCH: der Original-Dialog hat schon keinen erkannten Rückweg — Probe misst nichts.');
-    assert.ok(original.aktionen.includes('Abbrechen'), 'ABBRUCH: „Abbrechen" fehlt schon im Original — Anker geprüft?');
+    // Seit I02 (04.11.2026) schließt ein Blatt mit Eingabe über das ✕ links oben (aria-label „Schließen“), nicht mehr über „Abbrechen“.
+    assert.ok(original.aktionen.includes('Schließen'), 'ABBRUCH: „Schließen" (✕) fehlt schon im Original — Anker geprüft?');
 
     // ui.modal()'s generische Render-Zeile — trifft JEDEN Dialog der App, nicht nur den
     // Anlege-Dialog. Genau deshalb ein ehrlicher Test für „der Rückweg verschwindet":
     // keine Attrappe an einer Stelle, sondern der echte, geteilte Mechanismus.
     // 16.09.2026: ui.modal maskiert die Beschriftung selbst — der Anker trägt darum escapeHTML(String(…)).
-    const von = "(ohneAbbrechen ? '' : '<button class=\"btn btn-sek\" id=\"m-abbr\">' + escapeHTML(String(STRINGS.btnAbbrechen)) + '</button>') +";
-    const zu = "('') +";
+    const von = '<div class="modal-kopf"><button type="button" class="modal-x" id="m-x"></button></div>';   // die Vorlage #modal-teile (I02)
+    const zu = '<div class="modal-kopf"></div>';
     const mutiert = await mitMutierterKopie(von, zu, bisDialogOeffnen);
 
     assert.equal(mutiert.rueckwegVorhanden, false,
-      'ROT ERWARTET: ohne „Abbrechen"-Knopf darf die Erfassung keinen Rückweg mehr melden.');
-    assert.ok(!mutiert.aktionen.includes('Abbrechen'), '„Abbrechen" darf nach der Mutation nicht mehr unter den Aktionen stehen.');
+      'ROT ERWARTET: ohne Schließen-Knopf darf die Erfassung keinen Rückweg mehr melden.');
+    assert.ok(!mutiert.aktionen.includes('Schließen'), '„Schließen" darf nach der Mutation nicht mehr unter den Aktionen stehen.');
 
     const diff = vergleicheProtokolle({ schritte: [original] }, { schritte: [mutiert] });
     assert.equal(diff.gleich, false, 'ROT ERWARTET: der Grundlinien-Diff muss den verschwundenen Rückweg als Unterschied melden.');
@@ -153,10 +154,10 @@ test('[Reisen·Probe 2] ein global unterdrückter Abbrechen-Knopf lässt „Rüc
       'der Unterschied muss „rueckwegVorhanden" oder „aktionen" nennen:\n  ' + diff.unterschiede.join('\n  '));
   });
 
-test('[Reisen·Probe 2·Negativkontrolle] mit vorhandenem Abbrechen-Knopf bleibt „Rückweg vorhanden" true',
+test('[Reisen·Probe 2·Negativkontrolle] mit vorhandenem Schließen-Knopf bleibt „Rückweg vorhanden" true',
   { timeout: 60000 }, async () => {
     const schritt = await bisDialogOeffnen('file://' + HTML_PFAD);
-    assert.equal(schritt.rueckwegVorhanden, true, 'GRÜN ERWARTET: der unveränderte Dialog trägt „Abbrechen" — Rückweg muss erkannt werden.');
+    assert.equal(schritt.rueckwegVorhanden, true, 'GRÜN ERWARTET: der unveränderte Dialog trägt das ✕ „Schließen" — Rückweg muss erkannt werden.');
   });
 
 /* ── 3 · Selektor-nur-Erfassung wäre gegen Probe 1 blind (Beleg für §2) ──── */
@@ -187,7 +188,7 @@ test('[Reisen·Beleg §2] eine Erfassung, die nur Selektor-Existenz prüft, sieh
         await seite.goto(htmlUrl);
         await seite.click('#w-anfangen', { timeout: 5000 });
         await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
-        await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
+        await seite.waitForSelector('#id-pw', { state: 'attached', timeout: 5000 });
         return await seite.evaluate(nurSelektor);
       } finally { await browser.close(); }
     };
@@ -534,7 +535,7 @@ function reiseNotfallkartePdfProbe() {
         id: 'S2', titel: 'Anlege-Dialog öffnen', veraendernd: false,
         aktion: async (seite) => {
           await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
-          await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
+          await seite.waitForSelector('#id-pw', { state: 'attached', timeout: 5000 });
         },
       },
       {
@@ -542,6 +543,7 @@ function reiseNotfallkartePdfProbe() {
         aktion: async (seite) => {
           await seite.fill('#id-vorname', 'Petra', { timeout: 5000 });
           await seite.fill('#id-nachname', 'Probe', { timeout: 5000 });
+          if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
           await seite.fill('#id-pw', PW, { timeout: 5000 });
           await seite.fill('#id-pw2', PW, { timeout: 5000 });
           await seite.click('#m-ok', { timeout: 5000 });
@@ -638,15 +640,15 @@ test('[Reisen·Probe 5] geänderter Kartentext in flowNotfallkartePdf ändert de
   { timeout: 60000 }, async () => {
     const schritt = await notfallkartePdfSchritt('file://' + HTML_PFAD);
     assert.equal(schritt.dateiExport.dateiname, 'Vivodepot_Notfallkarte.pdf');
-    assert.ok(schritt.dateiExport.textZeilen.some((z) => z.includes('wichtige Informationen')),
-      'ABBRUCH: der erwartete Kartentitel steht nicht im Original-Protokoll — Anker geprüft?\n  ' +
+    assert.ok(schritt.dateiExport.textZeilen.some((z) => z.includes('Rettungsdienst und Klinik')),
+      'ABBRUCH: die erwartete Unterzeile im Band der Karte steht nicht im Original-Protokoll — Anker geprüft?\n  ' +
       JSON.stringify(schritt.dateiExport.textZeilen));
     assert.ok(schritt.dateiExport.textZeilen.some((z) => z.includes('<FLUECHTIG>')),
       'das heutige Erstelldatum muss maskiert sein, nicht im Klartext im Protokoll stehen:\n  ' +
       JSON.stringify(schritt.dateiExport.textZeilen));
 
-    const von = 'Notfall — wichtige Informationen';
-    const zu = 'Notfall — akute Informationen';
+    const von = 'Wichtige Angaben für Rettungsdienst und Klinik';
+    const zu = 'Wichtige Angaben für Notarzt und Klinik';
     const mutiert = await mitMutierterKopie(von, zu, notfallkartePdfSchritt);
 
     const diff = vergleicheProtokolle({ schritte: [schritt] }, { schritte: [mutiert] });

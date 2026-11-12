@@ -346,13 +346,13 @@ const RUNDE2 = [
   ['Ihr Aktenzeichen (freiwillig)', 'Your file reference (optional)'],
   ['In welchem Land gilt das Recht, nach dem Sie fragen? (freiwillig; leer lassen, wenn Sie es nicht wissen)', 'In which country does the law apply that you are asking under? (optional; leave empty if you do not know)'],
   ['An welche E-Mail-Adresse soll die Person ihre Antwort schicken?', 'To which e-mail address should the person send the reply?'],
-  ['Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)', 'For advanced users: with your own key pair (expert view)'],
+  ['Expertensicht: mit eigenem Schlüsselpaar', 'Expert view: with your own key pair'],   // seit Studio-Umbau Wagen 1 (09.11.2026) Chip „Expertensicht ↗“
   ['Alle Felder ansehen (Register)', 'See all fields (register)'],
   ['Technische Namen (Kennungen) zeigen', 'Show technical names (identifiers)'],
   ['Die Dateien liegen danach auf Ihrem Gerät im Ordner „Downloads“.', 'After saving, the files are in your device’s “Downloads” folder.'],
 ];
 const RUNDE2_ALT = ['Für Integratoren:', 'For integrators:', 'Ihr Zeichen für diesen Vorgang', 'Nach welchem Recht fragen Sie?', 'Wohin schickt die Person die Datei?',
-  'Stattdessen mit eigenem Schlüsselpaar', 'Register ansehen', '>Kennungen zeigen<'];
+  'Stattdessen mit eigenem Schlüsselpaar', 'Register ansehen', '>Kennungen zeigen<', 'Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)'];
 const runde2Befunde = (h) => RUNDE2.flat().filter((t) => !h.includes(t)).concat(RUNDE2_ALT.filter((t) => h.includes(t)));
 test('[Vorführpfad · Wörter] die Laien-Wörter stehen deutsch und englisch, die alten sind fort', () => {
   assert.deepEqual(runde2Befunde(HTML), []);

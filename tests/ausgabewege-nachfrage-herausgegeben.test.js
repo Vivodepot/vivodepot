@@ -32,7 +32,7 @@ test('[Herausgegeben] die gemeinsame Stelle fragt nach einer geglückten Ausgabe
   assert.ok(offen(document), 'Nachfrage offen');
   assert.match(inhalt(document), /id="up-empfaenger" class="eingabe" type="text" autocomplete="off" value="Frau Berger">/);
   assert.match(inhalt(document), /id="up-umfang" class="eingabe" type="text" autocomplete="off" value="Vertretung">/);
-  assert.match(inhalt(document), /id="up-zweck" class="eingabe" type="text" autocomplete="off">/, 'der Zweck kommt von der Person');
+  assert.match(inhalt(document), /id="up-zweck" class="eingabe" type="text" autocomplete="off" value="Vorsorge regeln">/, 'der Zweck ist je Weg vorbelegt und änderbar (B23-Z2)');
   document.getElementById('up-empfaenger').value = 'Herr Berger';   // änderbar
   document.getElementById('up-umfang').value = 'Vertretung';
   document.getElementById('up-zweck').value = 'Urlaubsvertretung';

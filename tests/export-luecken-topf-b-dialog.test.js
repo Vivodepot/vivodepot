@@ -72,14 +72,16 @@ test('EDCI-Bildung — ein Topf-B-Feld fehlt in „Geht mit", ein Topf-A-Feld ge
   assert.ok(html.includes('data-feld="universitySubject"'), 'studium_fach geht normal mit');
 });
 
-test('SD-JWT-VC-Finanzen — ein Topf-B-Feld fehlt in „Geht mit", das ungeprüfte Feld (steuer_software) geht mit', async () => {
+test('SD-JWT-VC-Finanzen — Felder ohne Ziel (auch die Steuersoftware) fehlen in „Geht mit", ein Feld mit echtem Ziel geht mit', async () => {
   const { V, document } = await frischMitDepot();
   V.sektorFeldSetzen('finance', 'ongoingLoansDebts', 'Baudarlehen DKB');
   V.sektorFeldSetzen('finance', 'taxSoftware', 'WISO Steuer');
+  V.sektorFeldSetzen('finance', 'privatePensionProvision', 'Riester-Vertrag');
   V.flowFormatExport('sd-jwt-vc-finanzen');
   const html = document.getElementById('modal-inhalt').innerHTML;
   assert.ok(!html.includes('data-feld="ongoingLoansDebts"'), 'schulden steht NICHT in der Geht-mit-Liste');
-  assert.ok(html.includes('data-feld="taxSoftware"'), 'ungeprüft ist NICHT Topf B — geht normal mit');
+  assert.ok(!html.includes('data-feld="taxSoftware"'), 'die Steuersoftware hat kein Ziel in VC_FINANZEN_MAPPING — steht NICHT in der Geht-mit-Liste');
+  assert.ok(html.includes('data-feld="privatePensionProvision"'), 'ein Feld mit echtem Ziel geht normal mit');
 });
 
 test('[Zusicherung] ein Topf-B-Feld kommt nie im Export an', async () => {

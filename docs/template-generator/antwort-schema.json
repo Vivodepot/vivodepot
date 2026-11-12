@@ -140,6 +140,7 @@
         "zweck": { "type": "string" },
         "grundlage": { "type": "string" },
         "vorgang": { "type": "string" },
+        "kennung": { "type": "string", "description": "Zufällige Kennung der Antwort, gleich dem Feld kennung im Kopf. Antworten älterer Fassungen tragen sie nicht." },
         "gueltigBis": { "type": "string" }
       }
     },
@@ -193,14 +194,25 @@
     },
     "personen": {
       "type": "array",
-      "description": "Je Verweis auf eine Person in `roh` ein Eintrag mit `ref` und ihren Namensteilen. Mehr nicht: die Antwort zeigt von einer Person nur den Namen; Geburtsdatum, Geburtsort und Anschrift gehen mit einem Verweis nie hinaus.",
+      "description": "Je Verweis auf eine Person in `roh` ein Eintrag mit `ref` und ihren Namensteilen. Weitere Felder der Person stehen nur darin, wenn die Anfrage sie am Verweisfeld mit `personFelder` verlangt hat und die Person sie vor dem Senden nicht abgewählt hat; was die Person nicht führt, nennt `fehlend`.",
       "items": {
         "type": "object", "additionalProperties": false, "required": ["ref"],
         "properties": {
           "ref": { "type": "string" },
           "name": { "type": "string" },
           "familyName": { "type": "string" },
-          "givenName": { "type": "string" }
+          "givenName": { "type": "string" },
+          "birthDate": { "type": "string" },
+          "birthYear": { "type": "string" },
+          "birthPlace": { "type": "string" },
+          "street": { "type": "string" },
+          "houseNumber": { "type": "string" },
+          "postalCode": { "type": "string" },
+          "city": { "type": "string" },
+          "anschrift": { "type": "string", "description": "Die bisherige Anschrift der Person als eine Zeile. Nur, wenn alle vier Teile verlangt waren und die Person sie noch nicht in Teilen führt; die Teile stehen dann weder als Wert noch als fehlend da." },
+          "telephone": { "type": "string" },
+          "deceased": { "type": "boolean" },
+          "fehlend": { "type": "array", "items": { "type": "string", "pattern": "^people\\.person/[A-Za-z]+$" } }
         }
       }
     },

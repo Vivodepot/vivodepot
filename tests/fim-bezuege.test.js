@@ -42,11 +42,18 @@ test('[FIM·Region·Rot-Beweis] eine geänderte Tabellenzeile ergibt eine andere
 
 test('[FIM·Name] ohne belegte Freigabe steht in der Region kein Name — auch wenn die Tabelle einen trüge', () => {
   const t = kopie(TABELLE);
+  t.fimNamenFreigabe = null;
   t.zeilen.find((z) => z.datensatz === 'fim-baukasten').name = 'erfundener Name';
   assert.ok(R.zeilenAusTabelle(t, LOCK).zeilen.every((z) => z.name === null));
   assert.ok(R.zeilenAusTabelle(TABELLE, LOCK).zeilen.every((z) => z.name === null), 'die echte Tabelle trägt keinen Namen');
   t.fimNamenFreigabe = { datum: '2026-10-14', beleg: 'erfunden für die Probe' };
   assert.ok(R.zeilenAusTabelle(t, LOCK).zeilen.some((z) => z.name === 'erfundener Name'), 'Rot-Beweis: mit Freigabe käme der Name durch');
+});
+
+test('[FIM·Freigabe] fimNamenFreigabe trägt Datum und Beleg (Nachtrag 08.11.2026)', () => {
+  const f = TABELLE.fimNamenFreigabe;
+  assert.ok(f && /^\d{4}-\d{2}-\d{2}$/.test(f.datum) && typeof f.beleg === 'string' && f.beleg.length > 20, 'Datum und Beleg stehen da');
+  assert.match(f.beleg, /FITKO/);
 });
 
 /* [FIM·Anzeige] entfällt seit 07.10.2026: der Bezug steht nicht mehr unter dem Feld (Entscheidung „keine technischen Markierungen in der

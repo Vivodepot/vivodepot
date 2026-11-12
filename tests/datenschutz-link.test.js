@@ -2,7 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    Die Datenschutzerklärung ist aus der App erreichbar (26.09.2026, v805)
    ────────────────────────────────────────────────────────────────────────
-   Einstellungen → Rechtliches trägt unter dem Impressum einen Link auf die
+   Die Seite „Über und Hinweise“ (bis 1.11.2026: Einstellungen → Rechtliches) trägt unter dem Impressum einen Link auf die
    Datenschutzerklärung der Webseite, je Sprache ein Ziel (DATENSCHUTZ_LINK;
    die Webseite wählt die Sprache über ?lang). Fehlt einer Sprache die eigene
    Seite, zeigt sie auf die deutsche und muss das im Linktext sagen.
@@ -37,7 +37,7 @@ for (const [produkt, sprache] of [['privat-de', 'de'], ['privat-en', 'en']]) {
     const { V } = kernAus(produktHtml(produkt));
     assert.equal(V.textsatzSpracheAktiv(), sprache, 'Vorbedingung: das Produkt spricht ' + sprache);
     assert.match(V.DATENSCHUTZ_LINK[sprache], /^https:\/\/vivodepot\.de\//);
-    assert.deepEqual(linkBefund(V.einstellungenHTML(), V.DATENSCHUTZ_LINK[sprache], V.escapeHTML(V.STRINGS.herkunftDatenschutzLink)), []);
+    assert.deepEqual(linkBefund(V._ueberHinweiseAbschnitteHTML(), V.DATENSCHUTZ_LINK[sprache], V.escapeHTML(V.STRINGS.herkunftDatenschutzLink)), []);
   });
 }
 
@@ -49,7 +49,7 @@ test('[Datenschutz-Link] zeigt EN auf die deutsche Seite, sagt der englische Lin
 
 test('[Datenschutz-Link·Rot-Beweis] fehlt die Zeile, oder fehlt der Hinweis auf die deutsche Seite, fällt die Probe', () => {
   const { V } = kernAus(produktHtml('privat-de'));
-  const html = V.einstellungenHTML();
+  const html = V._ueberHinweiseAbschnitteHTML();
   const ohne = html.replace(/<p class="einst-zeile"><a class="herkunft-datenschutz-link"[^]*?<\/p>/, '');
   assert.notEqual(ohne, html, 'Vorbedingung: die Zeile steht da');
   assert.deepEqual(linkBefund(ohne, V.DATENSCHUTZ_LINK.de, V.escapeHTML(V.STRINGS.herkunftDatenschutzLink)), ['kein Datenschutz-Link im Abschnitt Rechtliches']);

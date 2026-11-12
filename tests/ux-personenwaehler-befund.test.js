@@ -127,7 +127,9 @@ test('[Personenwähler] die Inline-Anlage im Eintrags-Dialog nutzt dieselbe Mask
   const block = funktionsBlock('function _refSubPickerVerdrahten(feld)', '\nfunction _refMehrfachVerdrahten(');
   const personTeil = block.slice(block.indexOf('Ab hier nur noch Personen'));
   assert.match(personTeil, /inline\.innerHTML = _personNeuMaskeHTML\(fid, '', mitGeburt\);/);
-  assert.match(personTeil, /personPatchAusInlineNeuanlage\(name, gd && gd\.value, gj && gj\.value, telInp && telInp\.value\)/);
+  // Das Geburtsdatum steht in drei Feldern; ein unvollständiges oder unmögliches Datum fällt weg, ein volles geht aus dem ISO-Feld in den Patch.
+  assert.match(personTeil, /const gdWert = \(gd && gd\.value && _datumEingabePlausibel\(gd, gd\.value\)\) \? gd\.value : '';/);
+  assert.match(personTeil, /personPatchAusInlineNeuanlage\(name, gdWert, gj && gj\.value, telInp && telInp\.value\)/);
 });
 
 test('[Personenwähler] „Personen, die etwas sehen dürfen“ wählt aus „Meine Menschen“', async () => {

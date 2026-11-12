@@ -45,7 +45,7 @@ test('[U2-ADR-465] Felder aus zwei Bereichen und ein fester Wert, in der Folge d
   assert.ok(kanal, 'das Modul ergibt einen Ausgabe-Kanal');
   const xml = kanal.baue({ sensibel: true });
   assert.equal(xml, '<?xml version="1.0" encoding="UTF-8"?>\n<antrag><G99000002><F99000003>Bö &amp; Co</F99000003><F99000009>true</F99000009>'
-    + '<F99000004>Ann</F99000004></G99000002><G99000005><F99000006>A +</F99000006></G99000005></antrag>');   // A + : die Optionsbeschriftung, wie sie der Textweg liest
+    + '<F99000004>Ann</F99000004></G99000002><G99000005><F99000006>A+</F99000006></G99000005></antrag>');   // A+ : die Optionsbeschriftung, wie sie der Textweg liest
 });
 
 test('[U2-ADR-465] der eine Filter bleibt: ein sensibles Feld aus dem zweiten Bereich fehlt ohne Zustimmung', async () => {

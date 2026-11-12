@@ -323,6 +323,8 @@ const EXPORT_HOOK = `
   PERSON_REGISTER_KENNUNG: (typeof PERSON_REGISTER_KENNUNG !== 'undefined' ? PERSON_REGISTER_KENNUNG : undefined),
   PERSON_REGISTER_UNTERFELDER: (typeof PERSON_REGISTER_UNTERFELDER !== 'undefined' ? PERSON_REGISTER_UNTERFELDER : undefined),
   _kindDateiKarteHTML: (typeof _kindDateiKarteHTML === 'function' ? _kindDateiKarteHTML : undefined),   // KIND-POD-OHNE-ABLAUF, Nachtrag (07.11.2026)
+  ANFRAGE_PERSON_FELDER: (typeof ANFRAGE_PERSON_FELDER !== 'undefined' ? ANFRAGE_PERSON_FELDER : undefined),   // Lücke 4, A3
+  anfragePersonZeilen: (typeof anfragePersonZeilen === 'function' ? anfragePersonZeilen : undefined),
   listenVorschlaegeAbWerk: (typeof listenVorschlaegeAbWerk !== 'undefined' ? listenVorschlaegeAbWerk : undefined),   // Pro E14 (25.10.2026)
   listenVorschlaegeUebernehmen: (typeof listenVorschlaegeUebernehmen !== 'undefined' ? listenVorschlaegeUebernehmen : undefined),
   listenVorschlaegeHTML: (typeof listenVorschlaegeHTML !== 'undefined' ? listenVorschlaegeHTML : undefined),
@@ -347,13 +349,24 @@ const EXPORT_HOOK = `
   _datumDreifeldHTML: (typeof _datumDreifeldHTML !== 'undefined' ? _datumDreifeldHTML : undefined),   // Zielbild S4 (31.10.2026); ältere Fassungen laden ohne sie
   _datumDreifeldZusammensetzen: (typeof _datumDreifeldZusammensetzen !== 'undefined' ? _datumDreifeldZusammensetzen : undefined),
   _feldSichtbareTeile: (typeof _feldSichtbareTeile !== 'undefined' ? _feldSichtbareTeile : undefined),
+  _datumDreifeldWertSetzen: (typeof _datumDreifeldWertSetzen !== 'undefined' ? _datumDreifeldWertSetzen : undefined),
+  _abschnittTitelDoppelt: (typeof _abschnittTitelDoppelt !== 'undefined' ? _abschnittTitelDoppelt : undefined),
   renderErledigen: (typeof renderErledigen !== 'undefined' ? renderErledigen : undefined),
+  oeffneErledigen: (typeof oeffneErledigen !== 'undefined' ? oeffneErledigen : undefined),
   _anlassKachelnHTML: (typeof _anlassKachelnHTML !== 'undefined' ? _anlassKachelnHTML : undefined),
   _standardVorlageSprache: (typeof _standardVorlageSprache !== 'undefined' ? _standardVorlageSprache : undefined),
   vollimportNichtUebernommenNamen: (typeof vollimportNichtUebernommenNamen !== 'undefined' ? vollimportNichtUebernommenNamen : undefined),
   personPatchAusInlineNeuanlage: (typeof personPatchAusInlineNeuanlage !== 'undefined' ? personPatchAusInlineNeuanlage : undefined),
   PERSONEN_SCHLUESSEL_ALT_ZU_NEU_88: (typeof PERSONEN_SCHLUESSEL_ALT_ZU_NEU_88 !== 'undefined' ? PERSONEN_SCHLUESSEL_ALT_ZU_NEU_88 : undefined),
   neuereFassungNurLesen: (typeof neuereFassungNurLesen !== 'undefined' ? neuereFassungNurLesen : undefined),
+  // IMPORT A6 (07.11.2026): typeof, weil ältere Kerne (opts.htmlPfad) sie nicht tragen.
+  migrationFehlerErgebnis: (typeof migrationFehlerErgebnis === 'function' ? migrationFehlerErgebnis : undefined),
+  _migrationVersuchen: (typeof _migrationVersuchen === 'function' ? _migrationVersuchen : undefined),
+  migrationFehlerBeschreibungText: (typeof migrationFehlerBeschreibungText === 'function' ? migrationFehlerBeschreibungText : undefined),   // A6: die Fehlerbeschreibung nach einem Migrationswurf (ältere Kerne kennen sie nicht)
+  migrationFehlerBeschreibungDateiname: (typeof migrationFehlerBeschreibungDateiname === 'function' ? migrationFehlerBeschreibungDateiname : undefined),
+  migrationFehlerBeschreibungSpeichern: (typeof migrationFehlerBeschreibungSpeichern === 'function' ? migrationFehlerBeschreibungSpeichern : undefined),
+  dateiOeffnenMitPruefen: (typeof dateiOeffnenMitPruefen === 'function' ? dateiOeffnenMitPruefen : undefined),
+  dateiOeffnenMitUebergeben: (typeof dateiOeffnenMitUebergeben === 'function' ? dateiOeffnenMitUebergeben : undefined),
   // Zerfall in Feld-Einheiten (18.08.2026) — Zug 1 gebaut und belegt, die Stufe wartet.
   CRYPTO_VERSION_ZERFALL, ZERFALL_ADRESSE_BYTES, ZERFALL_FACH_KENNUNG,
   _zerfallEinheiten, _zerfallZusammensetzen, depotSerialisierenV4, depotSerialisierenV3, _zerfallLesen,
@@ -370,7 +383,12 @@ const EXPORT_HOOK = `
   // Option je Zeile (18.10.2026): typeof, weil ältere Kerne (opts.htmlPfad) den fünften Parameter nicht kennen.
   feldInputHTML: (typeof feldInputHTML === 'function' ? feldInputHTML : undefined),
   optionSichtbar: (typeof optionSichtbar === 'function' ? optionSichtbar : undefined),
+  // S1 (17.10.2026): die Sicherung zur Probe öffnen. typeof, weil ältere Kerne (opts.htmlPfad) sie nicht tragen.
+  sicherungPruefen: (typeof sicherungPruefen === 'function' ? sicherungPruefen : undefined),
+  sicherungPruefenErgebnisText: (typeof sicherungPruefenErgebnisText === 'function' ? sicherungPruefenErgebnisText : undefined),
+  sicherungDateiZuGross: (typeof sicherungDateiZuGross === 'function' ? sicherungDateiZuGross : undefined),
   oeffnenAbweisungText: (typeof oeffnenAbweisungText === 'function' ? oeffnenAbweisungText : undefined),   // Klassenwächter: jede Abweisung beim Öffnen nennt ihren echten Grund (seit v929; ältere Kerne kennen sie nicht)
+  idbGeoeffnetText: (typeof idbGeoeffnetText === 'function' ? idbGeoeffnetText : undefined),   // IDB-FALSCHES-PASSWORT (ältere Kerne kennen sie nicht)
   subDepotVersiegeln, subDepotEntsiegeln, subDepotAnlegen, flowKindSubDepotAnlegen,
   subDepotVertrauenOeffnen, subDepotVertrauenSchliessen,
   subDepotBlackboxExportieren, depotDateiAusUmschlag: (typeof depotDateiAusUmschlag !== 'undefined' ? depotDateiAusUmschlag : undefined),   // S8 (v970); ältere Schnappschüsse kennen sie nicht
@@ -417,6 +435,7 @@ const EXPORT_HOOK = `
   formatAnhaengeAufloesen: (typeof formatAnhaengeAufloesen !== 'undefined' ? formatAnhaengeAufloesen : undefined),
   formatAnhangKandidaten: (typeof formatAnhangKandidaten !== 'undefined' ? formatAnhangKandidaten : undefined),
   _formatAnhangWahl: (typeof _formatAnhangWahl !== 'undefined' ? _formatAnhangWahl : undefined),
+  _formatAnhangRolleText: (typeof _formatAnhangRolleText !== 'undefined' ? _formatAnhangRolleText : undefined),
   bedingungAbschnittHTML: (typeof bedingungAbschnittHTML !== 'undefined' ? bedingungAbschnittHTML : undefined),
   flowErbscheinXmlSichern: (typeof flowErbscheinXmlSichern !== 'undefined' ? flowErbscheinXmlSichern : undefined),
   empfaengerDateiHerausgeben: (typeof empfaengerDateiHerausgeben !== 'undefined' ? empfaengerDateiHerausgeben : undefined),
@@ -498,6 +517,8 @@ const EXPORT_HOOK = `
   // entfernt mit dem Feldzeilen-Knopf („Herausgabe ohne Kästchen", 12.08.2026, Zug 5)
   feldSensibelMarkiert, feldIstSensibel, sensibelFeldSetzen, unterfeldIstSensibel, feldSensibelUeberschreibung,
   // Export-Durchgang: Transparenz-Übersicht + Pro-Bereich-Export (PDF / maschinenlesbar / QR)
+  // Topf B je Format (Befund ACADEMICDEGREE-OHNE-CLAIM, Klasse); typeof für ältere Kerne
+  EXPORT_TOPF_B_FELDER: (typeof EXPORT_TOPF_B_FELDER === 'object' ? EXPORT_TOPF_B_FELDER : undefined),
   exportUebersichtModell, exportUnstimmigeFelder, flowExportUebersicht, flowHerausgeben, flowHerausgebenZentral, exportAuswahlEphemerAnwenden,
   // Befund 2 („Die Ausgabewege, an denen die Prüfung vorbeiläuft", 12.08.2026)
   _unstimmigeFelderAusPaaren, _unstimmigWarnenMitFundenDannFortfahren, _situationUnstimmigePaare,
@@ -553,6 +574,7 @@ const EXPORT_HOOK = `
   // Der Umschlag v1 (Schreiber, Öffner, AAD) ist seit 05.10.2026 aus dem Kern entfernt; nur die Lese-App öffnet ihn noch.
   antwortJweSchluessel: (typeof antwortJweSchluessel === 'function' ? antwortJweSchluessel : undefined), antwortJwePasswort: (typeof antwortJwePasswort === 'function' ? antwortJwePasswort : undefined), antwortJweKopf: (typeof antwortJweKopf === 'function' ? antwortJweKopf : undefined),
   antwortVerschluesseln,
+  _antwortDateinameKennung: (typeof _antwortDateinameKennung === 'function' ? _antwortDateinameKennung : undefined),   // Dateiname der Antwort (04.11.2026)
   qrTeileZusammensetzen, anfrageAusTeilen, anfrageAusEingabe,
   _anfrageAntwortAusgeben, _anfrageAntwortSchreiben,
   // Mindestlänge des Einmalpassworts (17.10.2026) — ältere Kerne kennen sie nicht
@@ -637,6 +659,7 @@ const EXPORT_HOOK = `
   gespraechsblattHTML: (typeof gespraechsblattHTML !== 'undefined' ? gespraechsblattHTML : undefined),
   flowFragenDialog: (typeof flowFragenDialog !== 'undefined' ? flowFragenDialog : undefined),
   flowGespraechsblatt: (typeof flowGespraechsblatt !== 'undefined' ? flowGespraechsblatt : undefined),
+  renderBlattOverlay: (typeof renderBlattOverlay !== 'undefined' ? renderBlattOverlay : undefined),
   frageZeileHTML: (typeof frageZeileHTML !== 'undefined' ? frageZeileHTML : undefined),
   _fragenDialogHTML: (typeof _fragenDialogHTML !== 'undefined' ? _fragenDialogHTML : undefined),
   institutionReferenzStellen, flowInstitutionBearbeiten,   // A210 (Auftragskette 14.08.2026, Glied 9)
@@ -668,6 +691,7 @@ const EXPORT_HOOK = `
   antwortLinkTeile: (typeof antwortLinkTeile !== 'undefined' ? antwortLinkTeile : undefined),
   _ausgabeWegWaehlen: (typeof _ausgabeWegWaehlen !== 'undefined' ? _ausgabeWegWaehlen : undefined),
   _shlDialogZeigen: (typeof _shlDialogZeigen !== 'undefined' ? _shlDialogZeigen : undefined),
+  _shlGueltigZeile: (typeof _shlGueltigZeile !== 'undefined' ? _shlGueltigZeile : undefined),
   // Im Pod ablegen (Nachtrag zu U2-ADR-512, Stufe 2; tests/pod-ablegen-kern.test.js): typeof-abgesichert wie oben
   podAblegen: (typeof podAblegen !== 'undefined' ? podAblegen : undefined),
   podAdressePruefen: (typeof podAdressePruefen !== 'undefined' ? podAdressePruefen : undefined),
@@ -690,6 +714,17 @@ const EXPORT_HOOK = `
   // Befund SHL-ABLAGE-URL-UNGEPRUEFT (07.10.2026): Prüfung der Ablage-Adresse und Bestätigung des Hosts
   shlAblageUrlPruefen: (typeof shlAblageUrlPruefen !== 'undefined' ? shlAblageUrlPruefen : undefined),
   shlEinmaligZusage: (typeof shlEinmaligZusage !== 'undefined' ? shlEinmaligZusage : undefined),   // SHL-EINMALIG-OHNE-TRAEGER
+  // SHL-Empfang im Kern (L6, Nachtrag zu U2-ADR-183; tests/shl-empfang-kern.test.js)
+  shlLinkLesen: (typeof shlLinkLesen !== 'undefined' ? shlLinkLesen : undefined),
+  shlJweOeffnen: (typeof shlJweOeffnen !== 'undefined' ? shlJweOeffnen : undefined),
+  shlHolen: (typeof shlHolen !== 'undefined' ? shlHolen : undefined),
+  shlKlartextAlsVorschlag: (typeof shlKlartextAlsVorschlag !== 'undefined' ? shlKlartextAlsVorschlag : undefined),
+  shlEmpfangen: (typeof shlEmpfangen !== 'undefined' ? shlEmpfangen : undefined),
+  shlVorschlagAblegen: (typeof shlVorschlagAblegen !== 'undefined' ? shlVorschlagAblegen : undefined),
+  flowShlEmpfangen: (typeof flowShlEmpfangen !== 'undefined' ? flowShlEmpfangen : undefined),
+  SHL_ABHOL_URL: (typeof SHL_ABHOL_URL !== 'undefined' ? SHL_ABHOL_URL : undefined),
+  SHL_ABHOL_HERKUNFT: (typeof SHL_ABHOL_HERKUNFT !== 'undefined' ? SHL_ABHOL_HERKUNFT : undefined),
+  SHL_EMPFANG_HOECHSTENS: (typeof SHL_EMPFANG_HOECHSTENS !== 'undefined' ? SHL_EMPFANG_HOECHSTENS : undefined),
   _shlHostBestaetigungZeigen: (typeof _shlHostBestaetigungZeigen !== 'undefined' ? _shlHostBestaetigungZeigen : undefined),
   // Die zwei Freigabewege (Nachtrag U2-ADR-047): exportiert, damit die Proben den Manifest-Weg
   // gegen die Tabelle halten koennen und nicht gegen eine im Test nachgebaute Kopie.
@@ -718,6 +753,7 @@ const EXPORT_HOOK = `
   depotMasterHkdfKey: (typeof depotMasterHkdfKey === 'function' ? depotMasterHkdfKey : undefined),   // U2-ADR-002 (23.09.2026, S1)
   _mappeInhaltAlsQuelle: (typeof _mappeInhaltAlsQuelle === 'function' ? _mappeInhaltAlsQuelle : undefined),
   MAPPE_MAX_KANTE, MAPPE_JPEG_QUALITAET, bildSkalierungsMasse, dataUrlGroesse,
+  importPlanAbweisungText: (typeof importPlanAbweisungText !== 'undefined' ? importPlanAbweisungText : undefined),
   MAPPE_MAX_BYTES, dataUrlZuBlob, mappeDateiAufnehmen, flowMappeOriginalHerunterladen, flowMappeEigenesHerunterladen,
   // „Speichergrenzen" (12.08.2026): Gesamt-Depot-Warnschwelle/harte Grenze.
   MAPPE_GESAMT_WARNSCHWELLE_BYTES, MAPPE_GESAMT_HARTE_GRENZE_BYTES,
@@ -741,6 +777,14 @@ const EXPORT_HOOK = `
   feldWertText, situationModell, situationPdfMeta, flowSituationPdf, pdfFussText,
   vollDepotModell, vollDepotPdfMeta, zeichneVollDepotPdf, flowVollDepotPdf,
   zeichneSituationPdf,
+  // Zielbild S6 (31.10.2026): Fuß auf drei Zeilen, geschützte Telefonnummern, Pflichtzeilen der Notfallkarte.
+  pdfFussZeilen: (typeof pdfFussZeilen === 'function' ? pdfFussZeilen : undefined),
+  pdfTelefonGeschuetzt: (typeof pdfTelefonGeschuetzt === 'function' ? pdfTelefonGeschuetzt : undefined),
+  pdfWertEinheitGeschuetzt: (typeof pdfWertEinheitGeschuetzt === 'function' ? pdfWertEinheitGeschuetzt : undefined),
+  pdfWertZeilen: (typeof pdfWertZeilen === 'function' ? pdfWertZeilen : undefined),
+  notfallZeileBeschriftung: (typeof notfallZeileBeschriftung === 'function' ? notfallZeileBeschriftung : undefined),
+  notfallZeilenGeordnet: (typeof notfallZeilenGeordnet === 'function' ? notfallZeilenGeordnet : undefined),
+  _notfallKartePflichtZeilen: (typeof _notfallKartePflichtZeilen === 'function' ? _notfallKartePflichtZeilen : undefined),
   // Eingebettete Datenfassung im PDF — reine Textbaustein-Helfer hier (node:test, schnell);
   // der Anhang selbst braucht echtes jsPDF, s. tests/e2e/pdf-datenfassung-anhang.spec.js.
   _pdfUtf8AlsBinaerstring: (typeof _pdfUtf8AlsBinaerstring !== 'undefined' ? _pdfUtf8AlsBinaerstring : undefined),
@@ -800,6 +844,8 @@ const EXPORT_HOOK = `
   // angenommen: im Gate real getroffen.
   _wizardOptionenAusMaterialisieren:
     (typeof _wizardOptionenAusMaterialisieren !== 'undefined') ? _wizardOptionenAusMaterialisieren : undefined,
+  _WIZARD_OPTIONEN_AUS_MATERIALISIERT:
+    (typeof _WIZARD_OPTIONEN_AUS_MATERIALISIERT !== 'undefined') ? _WIZARD_OPTIONEN_AUS_MATERIALISIERT : undefined,
   wizardZielLesen, wizardZielSetzen, wizardSchrittZiel, wizardTascheLesen,
   wizardFortschritt, wizardHatDaten, wizardSichtbareIndizes, wizardSchrittVerborgen, wizardSchrittTor: (typeof wizardSchrittTor === "function" ? wizardSchrittTor : undefined),
   wizardZielBereichNamen, _wizZieleSatz,   // Finding 13 (Zielbereiche vor Schritt 1)
@@ -910,6 +956,8 @@ const EXPORT_HOOK = `
   // Format-Import (Import-Welle 1) — Spiegelbild der Export-Schicht
   IMPORT_FORMATE, IMPORT_FORMAT_BY_ID, importFormateFuerSektor, _sdJwtVctErkenner,
   VC_IDENTITAET_MAPPING, XOEV_VERWALTUNG_MAPPING, EDCI_BILDUNG_MAPPING,
+  // PID-BIRTHPLACE-STRUKTUR (05.11.2026): Rückweg des Geburtsorts; typeof für ältere Kerne
+  geburtsortAusPid: (typeof geburtsortAusPid === 'function' ? geburtsortAusPid : undefined),
   importPlan, planOhneUebernahme, importAnwenden, flowEinlesen, flowEinlesenZentral, flowImportDatei, flowImportVorschau,
   importVerwaisteEintraege, importZeileBereinigt,
   renderSubDepotKonzept, oeffneSubKonzept, subKonzeptGrafikSVG, _depotSymbolSVG, _linkSymbolSVG,
@@ -1063,6 +1111,9 @@ const EXPORT_HOOK = `
   // Notfall-Dreiklang (Teil 4) — U2-ADR-078: passwortloser Stufe-1-Cache entfernt
   // (notfallCacheBauen/notfallCacheAusUmschlag/flowNotfallAusDatei/notfallStufe1 sind weg).
   renderNotfall,
+  // Nummer zum Antippen der Notfall-Sicht (08.11.2026); typeof-abgesichert für ältere Kerne.
+  notfallTelHref: (typeof notfallTelHref === 'function' ? notfallTelHref : undefined),
+  notfallPersonHTML: (typeof notfallPersonHTML === 'function' ? notfallPersonHTML : undefined),
   notfallKartenMeta, zeichneNotfallkarte, flowNotfallkartePdf,
   // Aktive Inhalte in einer Ausgabe (16.10.2026, AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT); typeof-abgesichert für ältere Kerne.
   ausgabeInhaltPruefen: (typeof ausgabeInhaltPruefen === 'function' ? ausgabeInhaltPruefen : undefined),
@@ -1089,6 +1140,11 @@ const EXPORT_HOOK = `
   SEKTION_STATUSKARTEN_CLUSTER: (typeof SEKTION_STATUSKARTEN_CLUSTER !== 'undefined' ? SEKTION_STATUSKARTEN_CLUSTER : undefined),
   feldgruppenKarteHTML: (typeof feldgruppenKarteHTML !== 'undefined' ? feldgruppenKarteHTML : undefined),
   feldgruppenStatusText: (typeof feldgruppenStatusText !== 'undefined' ? feldgruppenStatusText : undefined),
+  // Bereichsgerüst v2: der gemeinsame Renderer (typeof, weil ältere Kerne ihn nicht tragen)
+  BEREICH_GERUEST: (typeof BEREICH_GERUEST !== 'undefined' ? BEREICH_GERUEST : undefined),
+  bereichGeruestFuer: (typeof bereichGeruestFuer !== 'undefined' ? bereichGeruestFuer : undefined),
+  bereichGeruestHTML: (typeof bereichGeruestHTML !== 'undefined' ? bereichGeruestHTML : undefined),
+  geruestDeklarationPruefen: (typeof geruestDeklarationPruefen !== 'undefined' ? geruestDeklarationPruefen : undefined),
   // A363 (19.08.2026) — der Paritäts-Wächter prüft den Grund seiner eigenen Freistellung
   AUSDRUECKLICH_KEINE_FELDER,
   // A358 (19.08.2026) — der Meldeweg für katalogfremde Felder (U2-ADR-150, Kern-Seite)
@@ -1181,6 +1237,8 @@ const EXPORT_HOOK = `
   _persistGewaehrtWert: () => _persistGewaehrt,
   _iosHinweisGezeigt: () => _iosInstallHinweisGezeigt,
   serviceWorkerRegistrieren, _swRegistrierenErlaubt,
+  _ohneNetz: (typeof _ohneNetz === 'function' ? _ohneNetz : undefined),   // Teil C Nr. 28 (07.11.2026)
+  _anwendungAlsDateiNetzSetzen: (typeof _anwendungAlsDateiNetzSetzen === 'function' ? _anwendungAlsDateiNetzSetzen : undefined),
   // D43 Etappe 5 — Konflikt-Auflösung
   standKonfliktModell, konfliktWaehleGeraet, konfliktWaehleDatei, _konfliktZeitLesbar,
   speicherKonfliktModell, zielStandDatei, zielStandIntern, flowSpeicherKonfliktDialog,
@@ -1293,6 +1351,8 @@ const EXPORT_HOOK = `
   _ortHinweisFuerUmschlag,   // F5 Zug 1 (21.08.2026): der Torwaechter des Ort-Hinweises
   _empfaengerFaecherFuerSchreibweg, _zerfallAttrappe, _zerfallEintragLesen,
   _zerfallLaengenPruefen: (typeof _zerfallLaengenPruefen === 'function' ? _zerfallLaengenPruefen : undefined),
+  _fachSchluesselAusRoh: (typeof _fachSchluesselAusRoh === 'function' ? _fachSchluesselAusRoh : undefined),   // echte Fächer zählen (tests/lib/echte-faecher.js, 04.11.2026)
+  ZERFALL_FACH_STUFE: (typeof ZERFALL_FACH_STUFE === 'number' ? ZERFALL_FACH_STUFE : undefined),   // Attrappen-Fächer (04.11.2026)
   flowEmpfaengerkreisBearbeiten, flowEmpfaengerkreisDatei, flowEmpfaengerkreisEntfernen,
   flowEmpfaengerkreisFach, flowEmpfaengerkreisFachEntfernen,
   // QR-Übergabe (b16-Wiedereinbau, Krisenvorsorge-Auftrag 24.08.2026, Zug 3c) — typeof-
@@ -1338,8 +1398,8 @@ const EXPORT_HOOK = `
   // (kernVonCommit u. ä.) kennen den Namen noch nicht, ein nackter Verweis würfe ReferenceError.
   _eingangsFehlerAnzeigen: (typeof _eingangsFehlerAnzeigen !== 'undefined' ? _eingangsFehlerAnzeigen : undefined),
   // Vorschau-/Umsehen-Modus (passwortloser Erstbesuch)
-  imVorschau, vorschauDepotErzeugen, vorschauHatDaten, vorschauDatenUebernehmen,
-  flowVorschauBetreten, flowVorschauUebernehmen, vorschauBannerHTML, vorschauVerwerfenUndZuhause,
+  imVorschau, _modalMitEingabe: (typeof _modalMitEingabe !== 'undefined' ? _modalMitEingabe : undefined), pausenZeileHTML: (typeof pausenZeileHTML !== 'undefined' ? pausenZeileHTML : undefined), vorschauDepotErzeugen, vorschauHatDaten, vorschauDatenUebernehmen,
+  flowVorschauBetreten, vorschauBannerHTML, vorschauVerwerfenUndZuhause,
   // Vorführung (AB_WERK_SHOWCASE, 15.09.2026) — typeof-gesichert, damit KERN_HTML_PATH auf einen älteren Kern lädt.
   AB_WERK_SHOWCASE: (typeof AB_WERK_SHOWCASE !== 'undefined' ? AB_WERK_SHOWCASE : undefined),
   VORFUEHRUNG_ANSICHTEN: (typeof VORFUEHRUNG_ANSICHTEN !== 'undefined' ? VORFUEHRUNG_ANSICHTEN : undefined),
@@ -1373,7 +1433,7 @@ const EXPORT_HOOK = `
   _pwHinweisStellen: (typeof _pwHinweisStellen === 'function' ? _pwHinweisStellen : undefined),
   anlegenDialogTitel, anlegenPrimaerLabel,
   // Strang 2 / Commit E — Passwort-Setzungs-Modal + geteilter verlustfreier Abschluss
-  flowPasswortSetzen, _depotAusPasswortFinalisieren, flowDepotAnlegen,
+  _depotAusPasswortFinalisieren, flowDepotAnlegen,
   // Sicherheit Block B (Krypto-Gutachten-Befund 1.7) — Passphrase-Stärke + harte Grund-Schranke
   passwortStaerke, pwGrundFehler, pwStaerkeAnzeigeVerdrahten, PW_BLOCKLISTE,
   // Passwortregeln offline nach BSI (18.10.2026) — der Umlaut-Hinweis der Stärkeanzeige
@@ -1384,6 +1444,9 @@ const EXPORT_HOOK = `
   _pwZufallsIndex: (typeof _pwZufallsIndex === 'function' ? _pwZufallsIndex : undefined),
   _pwIstVorschlagForm: (typeof _pwIstVorschlagForm === 'function' ? _pwIstVorschlagForm : undefined),
   pwProbeVergleich: (typeof pwProbeVergleich === 'function' ? pwProbeVergleich : undefined),
+  modalPwMismatch: (typeof modalPwMismatch === 'function' ? modalPwMismatch : undefined),
+  flowSubDepotAnlegen: (typeof flowSubDepotAnlegen === 'function' ? flowSubDepotAnlegen : undefined),
+  pwProbeMeldung: (typeof pwProbeMeldung === 'function' ? pwProbeMeldung : undefined),
   whcProbeStelle: (typeof whcProbeStelle === 'function' ? whcProbeStelle : undefined),
   pwVorschlagHTML: (typeof pwVorschlagHTML === 'function' ? pwVorschlagHTML : undefined),
   // D38 — bewusste Eigen-Depot-Einrichtung aus dem Sub-Wunsch (mit Namensfeldern)
@@ -1413,7 +1476,7 @@ const EXPORT_HOOK = `
   _gehaltenerUmschlagHalter: () => (typeof _gehaltenerUmschlag !== 'undefined' ? _gehaltenerUmschlag : undefined),
   _wipeStelleHalter: () => (typeof _wipeStelle !== 'undefined' ? _wipeStelle : undefined),
   _wipeErklaerungZeigenHalter: () => (typeof _wipeErklaerungZeigen !== 'undefined' ? _wipeErklaerungZeigen : undefined),
-  oeffneAnlassAuswahl, renderAnlassAuswahl, schliesseAnlassAuswahl, flowDepotListe,
+  flowDepotListe,
   // U2-ADR-089 Block 2 — abgeleitete Instrument-Zeile
   INSTRUMENT_ZEILE_PRAEFIX, instrumentZeileModell, instrumentZeileQuellFelder,
   _instrumentTypLabel, _instrumentGateFeldId, crossRefFeldUndRoh, akutZeileHTML,
@@ -1433,7 +1496,16 @@ const EXPORT_HOOK = `
   _logikModulKennungenUmschreiben: (typeof _logikModulKennungenUmschreiben !== 'undefined' ? _logikModulKennungenUmschreiben : undefined),
   // Doppel-Knopf-Regression (21.07.2026): die Dialoge selbst prüfbar machen
   ui, _dateiNameErfragen, flowSubDepotNachAnker, flowSubDepotAushaengen,
-  renderFooter, BUILD_VERSION, SCHALEN_STAND,   // F2: _swCacheStandFuellen entfallen (Werkstatt-Labels weg)
+  BUILD_VERSION, SCHALEN_STAND,   // F2: _swCacheStandFuellen entfallen (Werkstatt-Labels weg)
+  // Seite „Über und Hinweise" (1.11.2026), die an die Stelle der App-Fußzeile tritt. typeof-abgesichert: ein historischer Kern (KERN_HTML_PATH) kennt sie nicht.
+  staleBandAktualisieren: (typeof staleBandAktualisieren !== 'undefined' ? staleBandAktualisieren : undefined),
+  renderUeberHinweise: (typeof renderUeberHinweise !== 'undefined' ? renderUeberHinweise : undefined),
+  oeffneUeberHinweise: (typeof oeffneUeberHinweise !== 'undefined' ? oeffneUeberHinweise : undefined),
+  _ueberHinweiseAbschnitteHTML: (typeof _ueberHinweiseAbschnitteHTML !== 'undefined' ? _ueberHinweiseAbschnitteHTML : undefined),
+  _ueberStandardsHTML: (typeof _ueberStandardsHTML !== 'undefined' ? _ueberStandardsHTML : undefined),
+  herkunftsortHTML: (typeof herkunftsortHTML !== 'undefined' ? herkunftsortHTML : undefined),
+  ueberHinweiseVorDepotZeileHTML: (typeof ueberHinweiseVorDepotZeileHTML !== 'undefined' ? ueberHinweiseVorDepotZeileHTML : undefined),
+  ueberHinweiseVorDepotZeigen: (typeof ueberHinweiseVorDepotZeigen !== 'undefined' ? ueberHinweiseVorDepotZeigen : undefined),
   // A70 (31.07.2026) — proaktive Stale-Cache-Warnung: Kern-Vergleich, die Prüfung und der DOM-anhängende Aufruf
   _staleCacheGeneration, _staleCacheWarnungPruefen, _staleCacheWarnungAnzeigen,
   // Datums-Helfer + Versions-Hinweis (Teil 3) — geteilt von der Dokument-Ebene (1b: Erinnerungs-Modell abgelöst)
@@ -2140,6 +2212,8 @@ const EXPORT_HOOK = `
   HERAUSGEBEN_ANLAESSE_SICHTBAR: (typeof HERAUSGEBEN_ANLAESSE_SICHTBAR !== 'undefined' ? HERAUSGEBEN_ANLAESSE_SICHTBAR : undefined),
   // FELD-HINWEIS-NICHT-VERKNUEPFT / FELD-FEHLER-NICHT-ZUGEORDNET (23.10.2026) — typeof-gesichert für ältere Kerne (htmlPfad).
   feldHinweisHTML: (typeof feldHinweisHTML !== 'undefined' ? feldHinweisHTML : undefined),
+  FELDGRUPPE_OFFEN_AB_WERK: (typeof FELDGRUPPE_OFFEN_AB_WERK !== 'undefined' ? FELDGRUPPE_OFFEN_AB_WERK : undefined),
+  _kartenZustand: (typeof _kartenZustand !== 'undefined' ? _kartenZustand : undefined),
   feldHinweisTeilen: (typeof feldHinweisTeilen !== 'undefined' ? feldHinweisTeilen : undefined),
   feldFehlerSetzen: (typeof feldFehlerSetzen !== 'undefined' ? feldFehlerSetzen : undefined),
   feldFehlerLoesen: (typeof feldFehlerLoesen !== 'undefined' ? feldFehlerLoesen : undefined),

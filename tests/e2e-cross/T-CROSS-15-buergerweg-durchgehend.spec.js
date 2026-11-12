@@ -176,6 +176,7 @@ test.describe('T-CROSS-15 Der durchgehende Weg der Bürgerin', () => {
     await a.click('#sub-neu');
     await a.waitForSelector('#id-vorname', { state: 'visible' });
     await a.fill('#id-vorname', FIX.subInhaberin);
+    if (await a.isVisible('#id-pw-eigen-weg')) await a.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
     await a.fill('#id-pw', FIX.subPasswort);
     await a.fill('#id-pw2', FIX.subPasswort);
     await a.click('#m-ok');

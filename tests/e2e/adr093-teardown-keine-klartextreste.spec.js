@@ -28,6 +28,7 @@
    liesse sich die erste erfüllen, indem man pauschal alles löscht.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld } = require('./helpers');
 
 // Ein Wert, der in keiner Beschriftung, keinem Beispiel und keinem Hinweis vorkommt —
@@ -106,7 +107,7 @@ test('eine gefüllte VORSCHAU wird nicht still verworfen — die Grenze, die der
   await expect(page.locator('#modal-inhalt')).toContainText(/Vorschau|gespeichert/i);
 
   // Abbrechen → die Eingabe ist noch da. Das ist die eigentliche Zusicherung.
-  await page.click('#m-abbr');
+  await dialogAbbrechen(page);
   const nochDa = await page.evaluate((m) => !!(window.__vdOeffentlich.ankerDaten() && JSON.stringify(window.__vdOeffentlich.ankerDaten()).includes(m)), MARKER);
   expect(nochDa, 'nach dem Abbrechen bleibt die ungesicherte Vorschau-Eingabe erhalten').toBe(true);
 });

@@ -5,9 +5,9 @@
    Bedingungen, je mit ihrer Probe:
    (i)  Der Schalter wirkt nur bei gültiger Signatur, nie aus einem unsignierten Modul: ein Modul mit dem Feld, das nicht durch
         die Signaturprüfung kam (rohes Bündel, Depot-Datei mit behaupteten Marken, unsignierter Einlass, Fassung 1), lässt den
-        Hinweis in der App-Fußzeile stehen.
-   (ii) Ein gültig signiertes Modul mit Schalter blendet NUR die App-Zeile `<span class="ff-powered" data-herkunft-hinweis="app">`
-        aus. Jede PDF-Fußquelle trägt „Erstellt mit Vivodepot“ (`ausgabeErstelltMit`) weiter. Rot-Beweis: ein
+        Hinweis „Bereitgestellt mit …“ stehen, in der Seitenleiste (am Handy das Menü) und auf der Seite „Über und Hinweise“.
+   (ii) Ein gültig signiertes Modul mit Schalter blendet NUR die App-Zeilen (Anker `data-herkunft-hinweis="app"`: Seitenleiste, Menü,
+        Seite „Über und Hinweise“) aus. Jede PDF-Fußquelle trägt „Erstellt mit Vivodepot“ (`ausgabeErstelltMit`) weiter. Rot-Beweis: ein
         Schalter, der auch den PDF-Satz entfernte, macht die Probe rot — am Quelltext und an einem so veränderten Kern.
    Signiert wird mit dem Test-Anker, den die übrigen Vor-Depot-Proben nutzen (tests/vor-depot-konfiguration-branding-css.test.js);
    kein neues Schlüsselmaterial. Auf Zeichenebene, weil die Test-DOM eine Attrappe ist (innerHTML parst nicht).
@@ -28,7 +28,7 @@ const SENTINEL_PRIVATE_JWK = Object.freeze({
 });
 const SENTINEL_PUBLIC_JWK = Object.freeze({ kty: 'OKP', crv: 'Ed25519', alg: 'Ed25519', x: SENTINEL_PRIVATE_JWK.x });
 const OPTS = Object.freeze({ ankerJwk: SENTINEL_PUBLIC_JWK, jetzt: '2026-08-28T09:00:00Z' });
-const HINWEIS = '<span class="ff-powered" data-herkunft-hinweis="app">';
+const HINWEIS = 'data-herkunft-hinweis="app"';
 const ERSTELLT = 'Erstellt mit Vivodepot';
 const MODUL = Object.freeze({ modulTyp: 'branding', moduleVersion: 2, herkunft: 'schalter-probe', name: 'Musterverein Beispielstadt', poweredByAus: true });
 
@@ -43,22 +43,24 @@ async function signiertesBuendel(V, modul) {
   };
   return { providerCredentialJws: await V._signJWS(cert, key, {}), modulSignaturJws: await V._signJWS(modul, key, {}) };
 }
-async function appFuss(ladeOpts, vorDepot, nachAnlegen) {
+async function appFuss(ladeOpts, vorDepot, nachAnlegen) {   // die Orte des Hinweises: Seitenleiste (= Menü) und Seite „Über und Hinweise“
   const { V, document } = ladeKern(ladeOpts);
   await V.vorDepotKonfigurationAnwenden(await vorDepot(V), rootAttrappe(), OPTS);
   await V.depotAnlegen('schalter-probe-pw-2026!');
   V.akteurSelbstErklaeren('Elisabeth Beispiel');
   if (nachAnlegen) nachAnlegen(V);
   V.betreteApp();
-  V.renderFooter();
-  return { V, fuss: document.getElementById('app-fuss').innerHTML };
+  V.renderSidebar();
+  const leiste = document.getElementById('sidebar').innerHTML;
+  const seite = V._ueberHinweiseAbschnitteHTML();
+  return { V, leiste, seite, fuss: leiste + '\n' + seite };
 }
 
 /* ── (i) unsigniert: der Hinweis bleibt ── */
 test('[Schalter·i] ein unsigniertes Modul mit Schalter lässt den Hinweis stehen — rohes Bündel, Depot-Datei, Einlass, Fassung 1', async () => {
   // Rohes Modul statt Bündel: modulEinlassenGeprueft weist es ab, nichts kommt in die Vor-Depot-Liste.
   const roh = await appFuss(undefined, () => [MODUL]);
-  assert.ok(roh.fuss.includes(HINWEIS), 'rohes Bündel: Hinweis fehlt — ' + roh.fuss.slice(-200));
+  assert.ok(roh.leiste.includes(HINWEIS) && roh.seite.includes(HINWEIS), 'rohes Bündel: Hinweis fehlt — ' + roh.fuss.slice(-200));
   // Depot-Datei: ein Modul, das die Marken des geprüften Zweigs selbst behauptet, liest der Schalter nie.
   const datei = await appFuss(undefined, () => [], (V) => {
     const d = V.getData();
@@ -66,14 +68,14 @@ test('[Schalter·i] ein unsigniertes Modul mit Schalter lässt den Hinweis stehe
     V.setData(d);
   });
   assert.equal(datei.V._markeName(), MODUL.name, 'Positivkontrolle: die Marke der Datei gilt in der Anzeige');
-  assert.ok(datei.fuss.includes(HINWEIS), 'Depot-Datei: Hinweis fehlt');
+  assert.ok(datei.leiste.includes(HINWEIS) && datei.seite.includes(HINWEIS), 'Depot-Datei: Hinweis fehlt');
   // Unsignierter Einlass: das Register ist nurGeprueft.
   const { V } = ladeKern();
   assert.equal(V.modulEinlassen(JSON.stringify(MODUL), V.leeresDepot()).grund, 'nur-signiert-erlaubt');
   // Signiert, aber Fassung 1: der Schalter gilt erst ab Fassung 2 und wird benannt verworfen.
   const v1 = await appFuss(undefined, (W) => signiertesBuendel(W, Object.assign({}, MODUL, { moduleVersion: 1 })).then((b) => [b]));
   assert.equal(v1.V._markeName(), MODUL.name, 'Positivkontrolle: das signierte Fassung-1-Modul kam durch');
-  assert.ok(v1.fuss.includes(HINWEIS), 'Fassung 1: Hinweis fehlt');
+  assert.ok(v1.leiste.includes(HINWEIS) && v1.seite.includes(HINWEIS), 'Fassung 1: Hinweis fehlt');
 });
 
 /* ── (ii) signiert: nur die App-Zeile fehlt, jede Ausgabe trägt den Satz ── */
@@ -114,7 +116,7 @@ function fussQuellenTexte(V) {
 function ausgabeVerstoesse(aus) {
   return Object.entries(aus).filter(([, texte]) => !texte.join('\n').includes(ERSTELLT)).map(([n]) => n + ' trägt den Satz nicht');
 }
-// Am Quelltext: wer den Schalter liest. Erlaubt ist allein renderFooter; der Ausgabeweg (_ausgabeErstelltMit und der Herkunftsort-
+// Am Quelltext: wer den Schalter liest. Erlaubt sind allein die zwei Orte des Hinweises, renderSidebar und herkunftsortHTML; der Ausgabeweg (_ausgabeErstelltMit und der Herkunftsort-
 // Weg, aus dem er liest) und jede Fußquelle lesen ihn nie.
 function rumpf(text, name) { const a = text.indexOf('\nfunction ' + name + '('); return a < 0 ? '' : text.slice(a, text.indexOf('\n}\n', a) + 2); }
 function leserVerstoesse(text) {
@@ -124,7 +126,7 @@ function leserVerstoesse(text) {
     const f = [...vorher.matchAll(/\nfunction\s+([A-Za-z_$][\w$]*)\s*\(/g)].pop();
     return f ? f[1] : '(oben)';
   });
-  for (const f of funde) if (f !== 'renderFooter') v.push(f + ' liest den Schalter');
+  for (const f of funde) if (f !== 'renderSidebar' && f !== 'herkunftsortHTML') v.push(f + ' liest den Schalter');
   for (const n of ['_ausgabeErstelltMit', '_herkunftsortAusgabe', 'pdfFussText', 'zeichneNotfallkarte', 'zeichneDokumentPdf', 'zeichneWiderrufPdf', 'zeichneVollDepotPdf']) {
     if (/poweredByAus|_herkunftHinweisAppAus/.test(rumpf(text, n))) v.push(n + ' kennt den Schalter');
   }
@@ -134,9 +136,8 @@ function leserVerstoesse(text) {
 test('[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit Vivodepot“ weiter', async () => {
   const { V, fuss } = await appFuss(undefined, (W) => signiertesBuendel(W, MODUL).then((b) => [b]));
   assert.equal(V._markeName(), MODUL.name, 'Positivkontrolle: das signierte Modul gilt');
-  assert.ok(!fuss.includes('ff-powered') && !fuss.includes('data-herkunft-hinweis'), 'die App-Zeile ist weg: ' + fuss.slice(-200));
-  assert.ok(!/ff-trenner">·<\/span> $/.test(fuss), 'kein Trenner bleibt am Ende stehen');
-  assert.ok(fuss.includes('ff-haftung') && fuss.includes('ff-quellcode'), 'Positivkontrolle: die übrige Fußzeile steht');
+  assert.ok(!fuss.includes('herkunft-powered') && !fuss.includes('nav-hinweis-app') && !fuss.includes('data-herkunft-hinweis'), 'die App-Zeilen sind weg: ' + fuss.slice(-200));
+  assert.ok(fuss.includes('data-ueber-hinweise') && fuss.includes('ueber-quellcode'), 'Positivkontrolle: Eintrag der Seitenleiste und übrige Seite stehen');
   const aus = fussQuellenTexte(V);
   for (const [n, texte] of Object.entries(aus)) assert.ok(texte.length > 0, n + ': Positivkontrolle — der Zeichenweg schrieb Text');
   assert.deepEqual(ausgabeVerstoesse(aus), []);
@@ -174,7 +175,7 @@ test('[Schalter·Rot-Beweis] ein Schalter, der auch ohne Signatur wirkte, ließe
       d.brandingModule = [Object.assign({}, MODUL, { ungeprueft: false, anbieterIdGeprueft: true })];
       V.setData(d);
     });
-    assert.ok(!r.fuss.includes(HINWEIS), 'der gelockerte Schalter wirkt aus der Datei — genau das hält (i) fest');
+    assert.ok(!r.leiste.includes(HINWEIS) && !r.seite.includes(HINWEIS), 'der gelockerte Schalter wirkt aus der Datei — genau das hält (i) fest');
   } finally { fs.rmSync(ordner, { recursive: true, force: true }); }
 });
 

@@ -35,7 +35,10 @@ test('[Bug 1] Wizard-Abbrechen kehrt in den Ausgangsbereich zurück — nicht au
 test('[Bug 1] Abbrechen aus einem anderen Ausgangsbereich landet dort — nicht immer identitaet', async () => {
   const { V } = await editierbareSitzung();
   V.oeffneSektor('health');
-  V.wizardLauf('anamwiz');
+  // C14 (Assistenten-Urteil W03/W04, 07.11.2026): anamwiz ist gestrichen; health trägt pflwiz.
+  // Ohne die Vorbedingung bliebe die Probe grün, auch wenn gar kein Assistent startete.
+  V.wizardLauf('pflwiz');
+  assert.equal(V.getViewState().aktiveAnsicht, 'wizard', 'Vorbedingung: Wizard läuft');
   V.wizardAbbrechen();
   assert.equal(V.getViewState().aktiverSektorId, 'health', 'Ausgangsbereich health erhalten');
 });

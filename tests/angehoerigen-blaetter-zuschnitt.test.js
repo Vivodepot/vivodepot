@@ -26,6 +26,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
+const { echteFachZahl } = require('./lib/echte-faecher.js');   // Attrappen-Fächer: echte Fächer zählen, nicht Einträge (04.11.2026)
 
 const PW = 'anker-pw-12345';
 const FACH_PW = 'fach-passwort-der-anja-1';
@@ -103,13 +104,20 @@ test('[Zug 1] Blocktext nennt die Sub-Depot-Grenze VOR dem zweiten Weg, wörtlic
 test('[Zug 1·Positivkontrolle] eine Sub-Depot-Blackbox-Datei trägt keine fremden Fächer — der zweite Weg bricht wie vom Text behauptet', async () => {
   const { V } = ladeKern();
   await V.depotAnlegen('anker-pw-zug1');
+  V.akteurSelbstErklaeren('A');
+  await V.empfaengerkreisSetzen({ name: 'Tante Renate', bausteine: [] });
+  await V.empfaengerkreisFachEinrichten(V.empfaengerkreiseListe()[0], 'fach-pw-zug1');
   const eintrag = await V.subDepotAnlegen(
     { bezeichnung: 'Depot Vater', inhaberin: 'Vater', verwaltungsTyp: 'verwaltet' },
     'sub-pw-zug1'
   );
   const datei = V.subDepotBlackboxExportieren(eintrag.depotUUID);
-  const tabelle = (datei.umschlag && datei.umschlag.umschlagTabelle) || [];
-  assert.ok(tabelle.length <= 1,
+  /* Bis 04.11.2026 las die Probe `datei.umschlag.umschlagTabelle` — das Feld gibt es nicht, die Probe maß eine leere Liste.
+     Jetzt die Tabelle der Datei selbst, gezählt nach echten Fächern (Attrappen-Fächer seit U2-ADR-520 Nr. 3): kein Eintrag geht
+     unter dem K eines Fachs auf, auch nicht unter dem K des Fachs, das der Anker trägt. */
+  assert.ok(Array.isArray(datei.umschlagTabelle) && datei.umschlagTabelle.length >= 1, 'Vorbedingung: die Tabelle der Datei');
+  assert.ok(V.getData().empfaengerkreise[0].fachKeyRoh, 'Vorbedingung: der Anker trägt ein Fach');
+  assert.equal(await echteFachZahl(V, datei), 0,
     'ROT ERWARTET, wenn falsch: trüge die Blackbox-Datei doch ein zweites Fach, wäre der korrigierte '
     + 'Text selbst falsch — genau das muss dieser Test fangen, nicht nur behaupten.');
 });
@@ -122,8 +130,8 @@ test('[Zug 1·Entschärfungs-Kontrolle] eine Anker-Datei MIT Fach urteilt tatsä
   await V.empfaengerkreisSetzen({ name: 'Tante Renate', bausteine: [] });
   await V.empfaengerkreisFachEinrichten(V.empfaengerkreiseListe()[0], 'fach-pw-zug1b');
   const u = await V.depotSerialisieren();
-  assert.equal(u.umschlagTabelle.length, 2,
-    'BELEG: eine Anker-Datei MIT eingerichtetem Fach trägt zwei Einträge — die vorige Prüfung misst '
+  assert.equal(await echteFachZahl(V, u), 1,
+    'BELEG: eine Anker-Datei MIT eingerichtetem Fach trägt ein echtes Fach — die vorige Prüfung misst '
     + 'also wirklich die Abwesenheit, nicht ein Werkzeug, das immer dasselbe sagt.');
 });
 

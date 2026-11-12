@@ -1,12 +1,12 @@
 // @ts-check
 /* glas-flaechen.spec.js — Glas auf der ganzen Fläche (U2-ADR-473 W5a, 06.10.2026)
    Klasse „eine spezifischere Regel schlägt das Glas“: an 7aeff3596 war die Kopfleiste trotz Glas-Regel deckend, weil eine Regel mit mehr
-   Spezifität ihre Fläche setzte. Gemessen wird darum im Browser, was WIRKT: Kopf, Leiste, Fußzeile, Dialog und Abdunklung haben eine Fläche
+   Spezifität ihre Fläche setzte. Gemessen wird darum im Browser, was WIRKT: Kopf, Leiste, Dialog und Abdunklung haben eine Fläche
    mit Deckkraft < 1 und einen backdrop-filter — tags und nachts. Mit „Transparenz reduzieren“ und im Hochkontrast sind sie deckend. */
 const { test, expect } = require('@playwright/test');
 const h = require('./helpers.js');
 
-const FLAECHEN = ['.topbar', '#sidebar', '#app-fuss', '#modal-rueck', '#modal-rueck .modal'];
+const FLAECHEN = ['.topbar', '#sidebar', '#modal-rueck', '#modal-rueck .modal'];
 
 async function wirkt(page) {
   return page.evaluate((sel) => Object.fromEntries(sel.map((s) => {
@@ -23,7 +23,7 @@ async function mitDialog(page) {
   await page.waitForSelector('#modal-rueck .modal', { state: 'visible' });
 }
 
-test('[Glas] Kopf, Leiste, Fußzeile, Dialog und Abdunklung sind Glas, tags und nachts', async ({ page }) => {
+test('[Glas] Kopf, Leiste, Dialog und Abdunklung sind Glas, tags und nachts', async ({ page }) => {
   await h.oeffneApp(page);
   await h.depotAnlegen(page, { name: 'Elisabeth Muster', pw: 'e2e-passwort-123' });
   await mitDialog(page);
@@ -45,7 +45,7 @@ test('[Glas·Rückfall] mit „Transparenz reduzieren“ und im Hochkontrast sin
   const cdp = await context.newCDPSession(page);
   await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-transparency', value: 'reduce' }] });
   let w = await wirkt(page);
-  for (const s of ['.topbar', '#sidebar', '#app-fuss']) expect(w[s].blur, 'reduziert ' + s).toBe(false);
+  for (const s of ['.topbar', '#sidebar']) expect(w[s].blur, 'reduziert ' + s).toBe(false);
   await cdp.send('Emulation.setEmulatedMedia', { features: [] });
   await page.click('#tb-kontrast'); await page.waitForTimeout(300);
   w = await wirkt(page);

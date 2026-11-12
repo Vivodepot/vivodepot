@@ -19,8 +19,8 @@
    "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln"
   },
   "decrypt": {
-   "anzahl": 1,
-   "grund": "Bestand vor dem Bau · 05.10.2026: 1 → 0 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-520: Verzeichnis der Außenablagen im Kern verschlüsseln (HKDF aus dem Antwort-Seed, AES-GCM-JWE alg dir): podVerzeichnisEntschluesseln"
+   "anzahl": 2,
+   "grund": "Bestand vor dem Bau · 05.10.2026: 1 → 0 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-520: Verzeichnis der Außenablagen im Kern verschlüsseln (HKDF aus dem Antwort-Seed, AES-GCM-JWE alg dir): podVerzeichnisEntschluesseln · Nachtrag U2-ADR-183, L6 (02.11.2026): +1 — shlJweOeffnen, der SHL-Empfang im Kern (alg dir / enc A256GCM streng, kein zip, Schlüssel 32 / IV 12 / Tag 16, extractable false, nur decrypt; Schlüssel nur im Vorgang); Bedingungen der Krypto-Durchsicht zum RbB Weg A; Wort einzeln; neu aufgesetzt 07.11.2026 neben U2-ADR-520"
   },
   "encrypt": {
    "anzahl": 5,
@@ -31,12 +31,12 @@
    "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 1 → 2 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF über den Seed; Wort der Gegenlesung 16.10. · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln · U2-ADR-520: Verzeichnis der Außenablagen im Kern verschlüsseln (HKDF aus dem Antwort-Seed, AES-GCM-JWE alg dir): _verzeichnisSchluessel"
   },
   "importKeyRaw": {
-   "anzahl": 12,
-   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 9 → 7 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 7 → 9 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF-Basis und der öffentliche Ed25519-Prüfschlüssel der Selbstprobe; Wort der Gegenlesung 16.10. · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln · U2-ADR-520: Verzeichnis der Außenablagen im Kern verschlüsseln (HKDF aus dem Antwort-Seed, AES-GCM-JWE alg dir): _verzeichnisSchluessel (HKDF-Basis) und podVerzeichnisEntschluesseln (AES-GCM)"
+   "anzahl": 13,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 9 → 7 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 7 → 9 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF-Basis und der öffentliche Ed25519-Prüfschlüssel der Selbstprobe; Wort der Gegenlesung 16.10. · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln · U2-ADR-520: Verzeichnis der Außenablagen im Kern verschlüsseln (HKDF aus dem Antwort-Seed, AES-GCM-JWE alg dir): _verzeichnisSchluessel (HKDF-Basis) und podVerzeichnisEntschluesseln (AES-GCM) · Nachtrag U2-ADR-183, L6 (02.11.2026): +1 — shlJweOeffnen, der SHL-Empfang im Kern (alg dir / enc A256GCM streng, kein zip, Schlüssel 32 / IV 12 / Tag 16, extractable false, nur decrypt; Schlüssel nur im Vorgang); Bedingungen der Krypto-Durchsicht zum RbB Weg A; Wort einzeln; neu aufgesetzt 07.11.2026 neben U2-ADR-520"
   },
   "halterOeffentlichAusSeed": {
-   "anzahl": 1,
-   "grund": " · U2-ADR-457 Nachtrag v865: _halterSignaturHolen reicht die eingebettete noble-ed25519 (fa14496) in deriveHalterSignaturV4; genau eine Stelle, Bedingung der Krypto-Gegenlesung"
+   "anzahl": 2,
+   "grund": " · U2-ADR-457 Nachtrag v865: _halterSignaturHolen reicht die eingebettete noble-ed25519 (fa14496) in deriveHalterSignaturV4; genau eine Stelle, Bedingung der Krypto-Gegenlesung · Befund KRYPTO-AUFRUFER-BLIND (02.11.2026): das Muster zählt jetzt Aufruf und Übergabe; 1 → 2 = ein direkter Aufruf in _ed25519SchluesselAusSeed (Antwortschlüssel je Stelle, U2-ADR-501 V4, und Schlüssel je Datei-Ausgabe, U2-ADR-457 Nachtrag) und die Übergabe in _halterSignaturHolen bis zum Rückbau der alten Kette; Stellen gebunden in tests/krypto-aufrufer-noble-seed.test.js; Wort der Koordinationsrolle"
   },
   "verify": {
    "anzahl": 3,

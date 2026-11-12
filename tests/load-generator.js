@@ -130,7 +130,7 @@ const EXPORT_HOOK = `
   // Kennungs-Umbau (15.09.2026): alte Beschriftungen führen auf heutige Bereichs-IDs
   normBereich, bereichLabel, BEREICH_ALT_LABEL,
   // GEN1 (19.09.2026) — die Arbeitsfläche: Zweisprachigkeit, Rechtstexte, Modul-Kacheln
-  L, meldungL, MELDUNG_EN, BEREICH_LABEL_EN, RECHTSTEXTE, RECHT_REIHENFOLGE, MODUL_KACHELN, katalogLabel,
+  L, meldungL, MELDUNG_EN, BEREICH_LABEL_EN, RECHTSTEXTE, RECHT_REIHENFOLGE, MODUL_KACHELN, MODUL_GRUPPEN, katalogLabel,
   spracheFuerProbeSetzen: (s) => { LANG = s; },
   // GEN1 (19.09.2026) — der Schlüssel-Tresor und der Zustand, gegen den seine Zusicherungen gemessen werden
   SCHLUESSEL_TRESOR, SCHLUESSEL_LIMIT_MS, SCHLUESSEL_KLICK_FRIST_MS, SCHLUESSEL_PASSWORT_MINDESTLAENGE,
@@ -222,7 +222,7 @@ const EXPORT_HOOK = `
   // W2 (09.10.2026) — Einmalpasswort und Brief
   EINMALPASSWORT_ZEICHEN, einmalpasswortErzeugen, anfrageBriefText, anfragePasswortZettel,
   // W4 (09.10.2026) — eingegangene Antworten öffnen
-  antwortJweOeffnen, ANTWORT_JWE_MAX_ZEICHEN, antwortStudioModell, antwortFehlerText, antwortenOeffnen, antwortSignaturPruefen, antwortJweTraegtJws, antwortSignaturZeile, stellenKennung, _jwkThumbprint,
+  antwortJweOeffnen, ANTWORT_JWE_MAX_ZEICHEN, antwortStudioModell, antwortFehlerText, antwortenOeffnen, antwortSignaturPruefen, _antwortErwartetAusKopf, antwortJweTraegtJws, antwortSignaturZeile, stellenKennung, _jwkThumbprint,
   // Befund STUDIO-EMPFEHLUNG-OHNE-WEG (10.10.2026) — jede Meldung der Prüfung hat ein Ziel, Schritt 3 einen Knopf „Beheben“
   MELDUNG_ZIEL, meldungZiel, meldungBeheben, pruefZeile, STAMMDATEN_FEHLER_FELD,
   // Anordnung nach Bereichen (15.10.2026)

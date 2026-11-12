@@ -1,7 +1,8 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════════
    U2-ADR-260 Posten 1 (04.09.2026, Auftrag) — die Transparenz-Zusage in
-   der Fußzeile verlinkt kein Ziel mehr, das es nicht gibt
+   der Fußzeile verlinkt kein Ziel mehr, das es nicht gibt. Seit 1.11.2026 steht
+   sie auf der Seite „Über und Hinweise“ (Abschnitt Quellcode); die Fußzeile ist entfallen.
    ────────────────────────────────────────────────────────────────────────────
    DER BEFUND, selbst nachgemessen (04.09.2026, `gh repo view vivodepot/vivodepot`):
    das verlinkte Repository ist PRIVAT und LEER — angelegt am 30.05.2026,
@@ -40,11 +41,12 @@ const HOSTER = /href\s*=\s*"[^"]*(github|gitlab|codeberg|sourcehut|bitbucket)[^"
    an der Form `wort.tld/…`, nicht an einem bestimmten Hostnamen. */
 const ADRESSFORM = /[\w-]+\.[a-z]{2,}\/[\w./-]/i;
 
-async function fussHtml() {
+async function fussHtml() {   // der Ort der Zusage: die Seite „Über und Hinweise“
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.betreteApp();
-  return { V, html: document.getElementById('app-fuss').innerHTML };
+  V.oeffneUeberHinweise();
+  return { V, html: document.getElementById('content').innerHTML };
 }
 
 test('[U2-ADR-260·Fuß] die Transparenz-Zusage steht weiterhin im Fuß', async () => {

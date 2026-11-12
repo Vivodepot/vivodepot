@@ -63,6 +63,7 @@ async function wegGehen(seite) {
   await schritt('das Formular ausfuellen',
     async () => {
       await seite.fill('#id-vorname', 'Heinrich');
+      if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
       await seite.fill('#id-pw', SUB_PW);
       await seite.fill('#id-pw2', SUB_PW);
       await seite.evaluate(() => {
@@ -135,8 +136,8 @@ test('[Weg 6·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht
   const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
-    await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });
+    await seite.evaluate(() => { const f = document.querySelector('.nav-fuss-ort'); if (f) f.remove(); });
     const protokoll = await wegGehen(seite);
-    assert.ok(protokoll.every((x) => x.erreicht), 'die Fusszeile geht das Abgeben nichts an');
+    assert.ok(protokoll.every((x) => x.erreicht), 'der Fuß der Seitenleiste („Über und Hinweise“) geht das Abgeben nichts an');
   } finally { await browser.close(); }
 });

@@ -13,33 +13,25 @@
       "art": "anzeige",
       "grund": "Boot eines Ersatzbereichs, der im Index steht (Pro-Bereiche), keine Bürger-Bereiche."
     },
-    "_camt053Listen": {
-      "art": "fund",
-      "grund": "Einlese-Weg (Etappe 2g, Weglassen): verweigert den Import in einen ruhenden Bereich — hängt an der offenen Produktfrage Weckung beim Schreiben."
-    },
     "_codeListeLabelLesen": {
       "art": "fund",
       "grund": "Beschriftung eines Code-Listen-Werts — Datenfrage."
-    },
-    "_elsterFelder": {
-      "art": "fund",
-      "grund": "Einlese-Weg (Etappe 2g): wie _camt053Listen."
     },
     "_faltContainer": {
       "art": "fund",
       "grund": "Umzug gefalteter Container prüft den Anzeige-Index — Datenfrage, nicht näher geklärt."
     },
-    "_fhirIpsFelder": {
-      "art": "fund",
-      "grund": "Einlese-Weg (Etappe 2g): wie _camt053Listen."
+    "_fhirIpsBereichMitFeld": {
+      "art": "anzeige",
+      "grund": "FHIR-IPS-Einleser (Import-Anzeige, 07.11.2026): sucht nur, welcher Bereich das Zielfeld im Template führt; liest die Struktur der Bereiche, keine Daten."
     },
     "_lageBlattSpeichern": {
       "art": "fund",
       "grund": "Speichert ein Lage-Blatt nur in gezeigte Bereiche — hängt an der Weckungsfrage."
     },
     "_liesSektorWertText": {
-      "art": "fund",
-      "grund": "Wert-Text eines Feldes — Datenfrage."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Wert-Text eines gezeigten Bereichs."
     },
     "_nachtragEditorHTML": {
       "art": "anzeige",
@@ -54,8 +46,8 @@
       "grund": "Assistenten-Schritte fragen, ob advanceCare gezeigt wird — Datenfrage oder Produktentscheidung, nicht geklärt."
     },
     "_referenzStellen": {
-      "art": "fund",
-      "grund": "Sucht Verweise auf eine Person nur in gezeigten Bereichen — ruhende Bereiche fehlen beim Zählen."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Verweise liegen nur in gezeigten Bereichen."
     },
     "_sektorAusKatalog": {
       "art": "anzeige",
@@ -70,12 +62,8 @@
       "grund": "Zieht die Statuskarte des aktiven, also gezeigten Bereichs nach."
     },
     "_unstimmigeFelderAusPaaren": {
-      "art": "fund",
-      "grund": "Prüft Unstimmigkeiten nur in gezeigten Bereichen — Datenfrage."
-    },
-    "_vcardIdentitaetFelder": {
-      "art": "fund",
-      "grund": "Einlese-Weg (Etappe 2g): wie _camt053Listen."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Die Ansage betrifft gezeigte Bereiche."
     },
     "_wizardZielAufloesbar": {
       "art": "fund",
@@ -101,10 +89,6 @@
       "art": "anzeige",
       "grund": "Bündel-Aufbau beim Booten: ersetzt einen Bereich im Index."
     },
-    "crossRefFeldUndRoh": {
-      "art": "fund",
-      "grund": "Kreuzverweis Feld und Rohwert (Befund S3 der Schranke 2)."
-    },
     "depotNormalisieren": {
       "art": "fund",
       "grund": "Beschriftung beim Normalisieren — Datenfrage."
@@ -114,12 +98,12 @@
       "grund": "Rendert das Dokumenten-Panel eines gezeigten Bereichs."
     },
     "exportUebersichtModell": {
-      "art": "fund",
-      "grund": "Ausgabe-Übersicht — Datenfrage."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Die Übersicht nennt gezeigte Bereiche."
     },
     "exportUnstimmigeFelder": {
-      "art": "fund",
-      "grund": "Ausgabe: unstimmige Felder — Datenfrage."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Die Ansage betrifft gezeigte Bereiche."
     },
     "flowBereichPdf": {
       "art": "anzeige",
@@ -134,16 +118,12 @@
       "grund": "Oberflächen-Ablauf Herausgeben eines gezeigten Bereichs."
     },
     "institutionReferenzStellen": {
-      "art": "fund",
-      "grund": "Wie _referenzStellen, für Institutionen."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Wie _referenzStellen."
     },
     "katalogFremdeFelder": {
-      "art": "fund",
-      "grund": "Fremde Felder im Katalog — Datenfrage."
-    },
-    "kennungPruefen": {
-      "art": "fund",
-      "grund": "Prüft, ob eine Kennung existiert — Datenfrage (dieselbe Klasse wie K2)."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Angedockte Felder mit Wert liegen in gezeigten Bereichen."
     },
     "lageBerichteteBereiche": {
       "art": "anzeige",
@@ -214,8 +194,8 @@
       "grund": "Beschriftung des Ziels im Assistenten (Oberfläche)."
     },
     "zusammenstellenTreffer": {
-      "art": "fund",
-      "grund": "Treffer beim Zusammenstellen zum Herausgeben — Datenfrage."
+      "art": "anzeige",
+      "grund": "Seit der Weckung beim Schreiben (09.11.2026) trägt ein ruhender Bereich keine Werte; wer Werte hat, steht im Index. Das Angebot nennt gezeigte Bereiche."
     },
     "_wizardZielImProdukt": {
       "art": "anzeige",

@@ -75,7 +75,15 @@ test('[Klasse-A] Datei trägt KEINEN Sub-Schlüssel und KEIN Passwort', () => {
     const alsText = JSON.stringify(datei);
     assert.equal(alsText.includes(SUB_PW), false, 'Sub-Passwort nicht in der Datei');
     assert.equal(alsText.includes(ANKER_PW), false, 'Anker-Passwort nicht in der Datei');
-    assert.equal(alsText.toLowerCase().includes('schluessel'), false, 'kein Schlüssel-Feld in der Datei');
+    /* Seit 04.11.2026 trägt jede Datei Attrappen-Fächer (U2-ADR-520 Nr. 3) mit dem Feld `fachSchluessel` — Zufall in der Form eines
+       verschlossenen Fach-Schlüssels. Gehalten wird: kein anderes Feld nennt einen Schlüssel, und jeder `fachSchluessel` ist ein
+       Chiffrat aus iv und ct, nie ein Schlüssel im Klartext. */
+    const namen = new Set();
+    const fs = [];
+    (function lauf(x) { if (x && typeof x === 'object') for (const [k, v] of Object.entries(x)) { if (/schluessel/i.test(k)) { namen.add(k); if (k === 'fachSchluessel') fs.push(v); } lauf(v); } })(datei);
+    assert.deepEqual([...namen].filter((k) => k !== 'fachSchluessel'), [], 'kein Schlüssel-Feld in der Datei');
+    for (const v of fs) assert.deepEqual(Object.keys(v).sort(), ['ct', 'iv'], 'fachSchluessel ist ein Chiffrat');
+    assert.equal(alsText.replace(/"fachSchluessel"/g, '').toLowerCase().includes('schluessel'), false, 'auch kein Wert nennt einen Schlüssel');
     assert.equal(alsText.includes('subKey'), false, 'kein subKey in der Datei');
   });
 });

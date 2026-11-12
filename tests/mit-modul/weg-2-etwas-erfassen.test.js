@@ -66,6 +66,7 @@ async function eingerichtet(seite) {
   await seite.waitForTimeout(300);
   await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await seite.waitForTimeout(300);
+  if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'], ['#id-pw', PW], ['#id-pw2', PW]]) {
     await seite.fill(sel, wert);
   }
@@ -189,8 +190,8 @@ test('[Weg 2·Negativkontrolle] das Entfernen eines unbeteiligten Elements brich
   try {
     const { seite } = await seiteOeffnen(browser);
     assert.ok(await eingerichtet(seite));
-    await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });
+    await seite.evaluate(() => { const f = document.querySelector('.nav-fuss-ort'); if (f) f.remove(); });
     const protokoll = await wegGehen(seite);
-    assert.ok(protokoll.every((p) => p.erreicht), 'die Fusszeile geht das Erfassen nichts an');
+    assert.ok(protokoll.every((p) => p.erreicht), 'der Fuß der Seitenleiste („Über und Hinweise“) geht das Erfassen nichts an');
   } finally { await browser.close(); }
 });

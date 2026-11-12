@@ -149,15 +149,25 @@ test('7) Round-Trip vCard Meine Menschen: Einträge feldweise identisch', async 
 // Reimport. Ein Kalender ist ein Abkömmling des Depots, keine Quelle. Der ICS-Export-Nachweis steht
 // in weitere-formate.test.js (Test 9/9b, aus den Prüfterminen).
 
+// Befund PID-BIRTHPLACE-STRUKTUR (05.11.2026): der Geburtsort geht nicht mehr hinaus (das PID-Rulebook kennt nur die Struktur
+// `place_of_birth`, aus Freitext wird nicht geraten) und fehlt darum im Round-Trip; s. 9b.
 test('9) Round-Trip SD-JWT-VC Identität: Claims + Adresse + Nationalität identisch', async () => {
-  const ids = ['givenName', 'familyName', 'birthDate', 'birthName', 'birthPlace', 'nationality', 'streetAddress', 'postcodeCity'];
+  const ids = ['givenName', 'familyName', 'birthDate', 'birthName', 'nationality', 'streetAddress', 'postcodeCity'];
   const werte = { givenName: 'Maria', familyName: 'Mustermann', birthDate: '1980-05-15', birthName: 'Müller',
-    birthPlace: 'Augsburg', streetAddress: 'Lindenweg 4', postcodeCity: '80331 München',
+    streetAddress: 'Lindenweg 4', postcodeCity: '80331 München',
     // U2-ADR-482: Codes der DESTATIS-Liste; hinaus als ISO-Codes (DE, TR), zurück über genau einen geltenden Listeneintrag.
     nationality: [{ liste: 'destatis-staatsangehoerigkeit', code: '000' }, { liste: 'destatis-staatsangehoerigkeit', code: '163' }] };
   // nationalitaet ist seit Zug 3 (Sensibel-Architektur, 09.08.2026) schema-sensibel — Opt-in.
   const { b } = await roundTrip((V) => { for (const id of ids) V.sektorFeldSetzen('identity', id, werte[id]); }, 'sd-jwt-vc-identitaet', { sensibel: true });
   assert.deepEqual(felder(b.V, 'identity', ids), werte);
+});
+
+test('9b) der Geburtsort fehlt im SD-JWT-VC-Identität-Export — weder `birthplace` noch geratenes `place_of_birth`', async () => {
+  const { V } = await frischMitDepot();
+  V.sektorFeldSetzen('identity', 'birthPlace', 'Augsburg');
+  const claims = V.sdJwtVcIdentitaet({ sensibel: true }).claims;
+  assert.equal(claims.birthplace, undefined);
+  assert.equal(claims.place_of_birth, undefined);
 });
 
 test('10) Round-Trip SD-JWT-VC Finanzen: inkl. sensibler Claims (mit Zustimmung) identisch', async () => {

@@ -1,0 +1,106 @@
+{
+ "zweck": "Erfassung von knopf-ueberlauf.html bei 1024 px, aufgenommen mit dem Browser-Werkzeug der Leiter im Modus --fixtures-browser (Chromium, 11.11.2026), Feld roh, Eintrag datei knopf-ueberlauf.html, breite 1024.",
+ "breite": 1024,
+ "erfassung": {
+  "elemente": [
+   {
+    "tag": "p",
+    "klasse": "",
+    "id": "",
+    "role": "",
+    "fs": 15,
+    "fw": 400,
+    "text": "Fließtext auf der Leiter.",
+    "knopf": false
+   },
+   {
+    "tag": "button",
+    "klasse": "eng",
+    "id": "",
+    "role": "",
+    "fs": 15,
+    "fw": 550,
+    "text": "Sicherungskopie herunterladen",
+    "knopf": true,
+    "zeilen": 1,
+    "ueberlauf": true,
+    "box": {
+     "l": 16,
+     "t": 82,
+     "r": 106,
+     "b": 119
+    }
+   },
+   {
+    "tag": "button",
+    "klasse": "bricht",
+    "id": "",
+    "role": "",
+    "fs": 15,
+    "fw": 550,
+    "text": "Neue Person anlegen",
+    "knopf": true,
+    "zeilen": 3,
+    "ueberlauf": false,
+    "box": {
+     "l": 110.171875,
+     "t": 48,
+     "r": 200.171875,
+     "b": 119
+    }
+   },
+   {
+    "tag": "button",
+    "klasse": "",
+    "id": "",
+    "role": "",
+    "fs": 15,
+    "fw": 550,
+    "text": "Zurück",
+    "knopf": true,
+    "zeilen": 1,
+    "ueberlauf": false,
+    "box": {
+     "l": 16,
+     "t": 119,
+     "r": 136,
+     "b": 156
+    },
+    "schneidet": [
+     "Weiter"
+    ]
+   },
+   {
+    "tag": "button",
+    "klasse": "",
+    "id": "",
+    "role": "",
+    "fs": 15,
+    "fw": 550,
+    "text": "Weiter",
+    "knopf": true,
+    "zeilen": 1,
+    "ueberlauf": false,
+    "box": {
+     "l": 96,
+     "t": 119,
+     "r": 216,
+     "b": 156
+    }
+   },
+   {
+    "tag": "p",
+    "klasse": "klein",
+    "id": "",
+    "role": "",
+    "fs": 13,
+    "fw": 400,
+    "text": "Ein Hinweis in 13 px.",
+    "knopf": false
+   }
+  ],
+  "seitenUeberlauf": true,
+  "scrollWidth": 1516,
+  "clientWidth": 1024
+ }
+}

@@ -18,6 +18,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { webcrypto } = require('node:crypto');
 const { ladeKern } = require('./load-kern.js');
+const { echteFachZahl } = require('./lib/echte-faecher.js');   // Attrappen-Fächer: echte Fächer zählen, nicht Einträge (04.11.2026)
 
 const PW_ALT = 'altes-passwort-12345';     // ASCII → NFC===roh → genau eine Ableitung je Schritt
 const PW_NEU = 'neues-passwort-67890';
@@ -185,7 +186,7 @@ test('[Klasse-A][ADR-095] der zweite Zugang überlebt den Wechsel und bleibt mit
 
   await V.passwortWechselDurchfuehren(PW_ALT, PW_NEU);
   const u = umschlagAusDatei(geschrieben[geschrieben.length - 1]);
-  assert.equal(u.umschlagTabelle.length, 2, 'Anker + Fach sind in der neuen Datei');
+  assert.equal(await echteFachZahl(V, u), 1, 'Anker + Fach sind in der neuen Datei');
 
   const frisch = ladeKern().V;
   const inhalt = await frisch.depotLaden(u, FACH_PW);

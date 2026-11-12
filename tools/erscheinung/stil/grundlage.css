@@ -99,9 +99,11 @@
      Fläche (--salbei-light), derselbe unveränderte Text (--salbei-dunkel), 2,16:1 im
      Nachtmodus. Gefunden vom Selektor-Wächter, nicht von der Aufmerksamkeit. */
   html.dark-mode .refm-vorschlaege li:hover { color: var(--salbei-nacht); }
-  html.dark-mode .btn-sek { color: var(--salbei-nacht); border-color: var(--salbei-nacht); }
+  html.dark-mode :is(.btn-sek, .btn[data-doku-neu-add]) { color: var(--salbei-nacht); border-color: var(--salbei-nacht); }
   /* Das Standard-Schild trägt Text UND Rahmen in --salbei-dunkel — beide mit. */
   html.dark-mode .doku-std-badge { color: var(--salbei-nacht); border-color: var(--salbei-nacht); }
+  html.dark-mode .geruest-zwischentitel, html.dark-mode .geruest-info { color: var(--salbei-nacht); }
+  html.dark-mode .ueber-abschnitt h2 { color: var(--salbei-nacht); }
   /* Der Foto-Platzhalter trägt einen LITERALEN Wert (#765c30), den kein Theme
      anfasst — genau deshalb war er in allen drei Themes gleich und sah nach einer
      eigenen Ursache aus (der gestrichene Posten Nr. 5 der Fixliste). Im Nachtmodus
@@ -138,6 +140,8 @@
   html.high-contrast .leer-platzhalter, html.high-contrast .deckblatt-name, html.high-contrast .wizard-frage,
   html.dark-mode .narrativ, html.dark-mode .logo, html.dark-mode .sektor-intro,
   html.dark-mode .leer-platzhalter, html.dark-mode .deckblatt-name, html.dark-mode .wizard-frage { font-weight: var(--fw-regular); }
+  /* Der Name des geöffneten Depots im Kopf steht in Nacht so stark wie in Hell (GL 05.11.2026). */
+  html.dark-mode .tb-sub-hinweis { font-weight: var(--fw-regular); }
   /* Feld-Werte (Inter) als Hervorhebung ueber dem nun 500-schweren Body/Labels halten -> 600. */
   html.high-contrast .feld-wert, html.dark-mode .feld-wert { font-weight: var(--fw-semibold); }
   * { box-sizing: border-box; }
@@ -151,7 +155,7 @@
     font-family: var(--vd-branding-schriftart, var(--font-inter));
     color: var(--ink);
     background: var(--cream);
-    font-size: var(--fs-base);
+    font-size: var(--fs-role-text);
     line-height: 1.55;
   }
   /* IOS-BUTTON-BLAU (23.09.2026): ohne gesetzte Farbe nimmt iOS-Safari für <button> das System-Blau — und jedes SVG darin mit
@@ -191,8 +195,8 @@
        oberster Eintrag nie abgeschnitten; kurze Karte sitzt ruhig oben mit Abstand. Den
        Rest (scrollTop==0 beim (Re-)Render) garantiert overlayNachObenScrollen(). */
   }
-  .logo { font-family: var(--font-narrativ); font-size: var(--fs-logo); color: var(--salbei-dunkel); margin: 0; }
-  .logo-sub { color: var(--ink3); font-size: var(--fs-base); margin: var(--space-2) 0 var(--space-6) 0; }
+  .logo { font-family: var(--font-narrativ); font-size: var(--fs-role-anzeige); color: var(--salbei-dunkel); margin: 0; }
+  .logo-sub { color: var(--ink3); font-size: var(--fs-role-text); margin: var(--space-2) 0 var(--space-6) 0; }
   /* ── Aufgeräumter Einstiegs-/Willkommensbereich (eine ruhige vertikale Ordnung) ──
      Ein Typrhythmus: Titel moderat (nicht wuchtig), Fließtext eine Größe, ein
      Spacing-Schritt (--space-5) zwischen den Blöcken. Knöpfe einheitlich (gleiche
@@ -206,12 +210,12 @@
      eröffnen. Klein und zurückhaltend (btn-dezent), aber mit sichtbarem Icon, kein reiner Text. */
   .vor-depot-sprache { display: inline-flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-3); }
   .datei-waehler { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
-  .datei-waehler-name { font-size: var(--fs-sm); color: var(--ink2); }
-  .welcome-sub { color: var(--ink3); font-size: var(--fs-base); margin: var(--space-1) 0 0; line-height: 1.5; }
+  .datei-waehler-name { font-size: var(--fs-role-hilfe); color: var(--ink2); }
+  .welcome-sub { color: var(--ink3); font-size: var(--fs-role-text); margin: var(--space-1) 0 0; line-height: 1.5; }
   /* Hinweis im Fluss (kein Toast): steht zwischen Kopf und Knöpfen, bricht um, überlagert nichts (Browserlauf 13.10.2026, 390 px). */
-  .welcome-hinweis { margin: var(--space-3) 0 0; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); font-size: var(--fs-sm); line-height: 1.5; overflow-wrap: anywhere; }
+  .welcome-hinweis { margin: var(--space-3) 0 0; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); font-size: var(--fs-role-hilfe); line-height: 1.5; overflow-wrap: anywhere; }
   /* Dezenter Web-App-Hinweis am Fuß der Willkommens-Karte. */
-  .webapp-hinweis { display: flex; align-items: flex-start; gap: var(--space-2); color: var(--ink3); font-size: var(--fs-sm); margin: var(--space-5) 0 0; line-height: 1.5; }
+  .webapp-hinweis { display: flex; align-items: flex-start; gap: var(--space-2); color: var(--ink3); font-size: var(--fs-role-hilfe); margin: var(--space-5) 0 0; line-height: 1.5; }
   .webapp-hinweis svg { flex: 0 0 auto; color: var(--ink3); margin-top: 3px; }
   .webapp-install { display: flex; justify-content: center; margin: var(--space-5) 0 0; }
   .webapp-install-knopf { width: auto; }
@@ -219,7 +223,7 @@
      abgesetzter Kasten zwischen Haupt-Eintritten und den dezenten Links — Ton Empfehlung, nicht
      Handlungsschritt, darum ein eigener Titel statt eines beiläufigen Fuß-Hinweises. */
   .install-empfehlung { padding: var(--space-4); margin: var(--space-5) 0 0; }
-  .install-empfehlung-titel { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--ink2); margin: 0 0 var(--space-2); }
+  .install-empfehlung-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--ink2); margin: 0 0 var(--space-2); }
   .install-empfehlung .webapp-hinweis, .install-empfehlung .webapp-install { margin-top: 0; }
   /* axe-core (WCAG 1.4.3 AA) fand real 4.32:1 — `.webapp-hinweis` ist mit `--ink3` auf Weiß
      gezeichnet (Einstellungen/ursprünglicher Fuß-Platz), hier steht sie auf `--flaeche-hinweis`
@@ -231,9 +235,9 @@
   .welcome-primaer, .welcome-sekundaer { display: flex; gap: var(--space-3); }
   /* Alle Welcome-Knöpfe gleiche Höhe/Optik, zentrierter Inhalt, voll breit im Track. */
   .welcome-primaer .btn, .welcome-sekundaer .btn {
-    flex: 1 1 0; min-width: 0; justify-content: center; min-height: 48px; font-size: var(--fs-base);
+    flex: 1 1 0; min-width: 0; justify-content: center; min-height: 48px; font-size: var(--fs-role-text);
   }
-  .welcome-sek-hint { font-size: var(--fs-sm); color: var(--ink3); margin: 0; }
+  .welcome-sek-hint { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: 0; }
   /* Notfall klar abgesetzt unten (eigener Block mit Trennlinie), dezenter Stil. */
   
   
@@ -242,15 +246,15 @@
   
   
   /* Lage-B crypto-overlay: Passwort-Aufforderung + Formularfelder im Overlay-Container. */
-  .crypto-auff { color: var(--ink); font-size: var(--fs-base); margin: 0 0 var(--space-4); line-height: 1.5; }
+  .crypto-auff { color: var(--ink); font-size: var(--fs-role-text); margin: 0 0 var(--space-4); line-height: 1.5; }
   /* D2 — Schluss-Sicht (Strang 2 / Commit C): ruhiger Endzustand nach „Trotzdem schließen". */
-  .schluss-text { text-align: center; color: var(--ink2); font-size: var(--fs-base); line-height: 1.6; margin: var(--space-5) 0; }
-  .crypto-datei-name { display: flex; align-items: center; gap: var(--space-2); color: var(--ink2); font-size: var(--fs-sm); margin: 0 0 var(--space-3); }
-  #overlay-inhalt label { display: block; font-size: var(--fs-sm); color: var(--ink2); margin: var(--space-3) 0 var(--space-1); }
+  .schluss-text { text-align: center; color: var(--ink2); font-size: var(--fs-role-text); line-height: 1.6; margin: var(--space-5) 0; }
+  .crypto-datei-name { display: flex; align-items: center; gap: var(--space-2); color: var(--ink2); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-3); }
+  #overlay-inhalt label { display: block; font-size: var(--fs-role-hilfe); color: var(--ink2); margin: var(--space-3) 0 var(--space-1); }
   #overlay-inhalt input[type="password"], #overlay-inhalt input[type="file"], #overlay-inhalt input[type="text"] {
     width: 100%; box-sizing: border-box; padding: var(--space-2) var(--space-3);
     border: var(--feld-rahmen-dialog); border-radius: var(--radius-feld); min-height: 44px;
-    font-size: var(--fs-base); background: var(--feld-flaeche); color: var(--ink);
+    font-size: var(--fs-role-text); background: var(--feld-flaeche); color: var(--ink);
   }
   /* Befund UX-ENTSPERRFELD-KONTRAST (UX-Review v963, 30.10.2026): hier stand ein Vollrahmen in --line (1,41:1 gegen die Fläche,
      WCAG 1.4.11 verlangt 3:1), Radius --radius-sm und keine Mindesthöhe (36 px). Jetzt dieselben Feld-Tokens wie im Dialog;
@@ -294,22 +298,22 @@
   }
   .suche-vorschlaege li[data-idx] + li[data-idx] { border-top: 1px solid var(--line-feiner); }
   .suche-vorschlaege li.suche-aktiv, .suche-vorschlaege li[data-idx]:hover { background: var(--salbei-light); }
-  .suche-treffer-label { color: var(--ink); font-size: var(--fs-base); }
+  .suche-treffer-label { color: var(--ink); font-size: var(--fs-role-text); }
   .suche-treffer-quelle {
-    flex: 0 0 auto; font-size: var(--fs-xs); color: var(--ink3); text-transform: var(--label-schreibung);
+    flex: 0 0 auto; font-size: var(--fs-role-hilfe); color: var(--ink3); text-transform: var(--label-schreibung);
     letter-spacing: var(--ls-label-quelle); background: var(--salbei-light); border-radius: var(--radius-sm);
     padding: 1px 6px;
   }
-  .suche-leer { padding: var(--space-3); color: var(--ink2); font-size: var(--fs-sm); }
+  .suche-leer { padding: var(--space-3); color: var(--ink2); font-size: var(--fs-role-hilfe); }
   html.dark-mode .suche-vorschlaege { background: var(--ink); }
   html.dark-mode .suche-treffer-quelle { background: var(--schleier-quelle-nacht); }
   /* Mobil: Knöpfe voll breit gestapelt (eine Spalte). */
   @media (max-width: 560px) {
     .welcome-primaer, .welcome-sekundaer { flex-direction: column; }
   }
-  .frage { font-size: var(--fs-xl); color: var(--salbei-dunkel); font-family: var(--font-narrativ); font-weight: var(--fw-semibold); letter-spacing: var(--ls-titel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }
+  .frage { font-size: var(--fs-role-abschnitt); color: var(--salbei-dunkel); font-family: var(--font-narrativ); font-weight: var(--fw-semibold); letter-spacing: var(--ls-titel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }
 
-  .klasse-titel { font-size: var(--fs-sm); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klasse); color: var(--gold); margin: var(--space-5) 0 var(--space-2) 0; font-weight: var(--fw-semibold); }
+  .klasse-titel { font-size: var(--fs-role-hilfe); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klasse); color: var(--gold); margin: var(--space-5) 0 var(--space-2) 0; font-weight: var(--fw-semibold); }
   /* Auf „Was möchten Sie erledigen?“ im App-Rahmen stehen die Rubriken in Tinte; Gold bleibt im Logo (Gestaltungsleitung 31.10.2026). */
   .erledigen .klasse-titel { color: var(--ink2, var(--ink)); }
   /* min(220px, 100%) statt fester 220px: ein Track wird NIE breiter als der Container.
@@ -321,7 +325,7 @@
     display: flex; align-items: center; gap: var(--space-3);
     text-align: left; background: var(--white); border: 1px solid var(--line);
     border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
-    color: var(--ink); font-size: var(--fs-base); transition: border-color .15s, box-shadow .15s;
+    color: var(--ink); font-size: var(--fs-role-text); transition: border-color .15s, box-shadow .15s;
     /* min-width:0 hebt das flex-Default min-width:auto auf — sonst hält ein langes
        Label (z. B. „Krankenhaus-Aufenthalt") den Button auf seiner Inhaltsbreite und
        drückt den 1fr-Track über die Kartenbreite hinaus. Label darf umbrechen. */
@@ -339,20 +343,20 @@
   .lage-grid { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
   .lage-eintrag-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .lage-name { font-weight: var(--fw-semibold); }
-  .lage-unterlagen { font-size: var(--fs-sm); color: var(--ink2); overflow-wrap: anywhere; }
+  .lage-unterlagen { font-size: var(--fs-role-hilfe); color: var(--ink2); overflow-wrap: anywhere; }
   /* K2 (K1/K2/K6, 09.08.2026) — eigene Zeile im Stapel (.lage-eintrag-text ist
      flex-column), kein margin-left wie .autoritativ-marker (der sitzt inline neben
      Fließtext, hier gibt es keine horizontale Nachbarschaft). */
-  .lage-erfasst-marker { font-size: var(--fs-xs); color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
+  .lage-erfasst-marker { font-size: var(--fs-role-hilfe); color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
 
   .btn {
     background: var(--salbei-dunkel); color: var(--auf-akzent); border: none;
     border-radius: var(--radius-knopf); padding: var(--space-3) var(--space-5);
-    font-size: var(--fs-base); display: inline-flex; align-items: center; gap: var(--space-2);
+    font-size: var(--fs-role-text); display: inline-flex; align-items: center; gap: var(--space-2);
   }
   .btn:hover { background: var(--btn-hover); }   /* Kontrast-Klasse: war --salbei-mid, heller als die Ruhefläche, Schrift 3,15:1 */
-  .btn-sek { background: transparent; color: var(--salbei-dunkel); border: 1px solid var(--salbei-dunkel); }
-  .btn-sek:hover { background: var(--salbei-light); }
+  :is(.btn-sek, .btn[data-doku-neu-add]) { background: transparent; color: var(--salbei-dunkel); border: 1px solid var(--salbei-dunkel); }
+  :is(.btn-sek, .btn[data-doku-neu-add]):hover { background: var(--salbei-light); }
   /* Frischer-Blick-Fund 27./28.08.2026, Produktentscheidung: eine IRREVERSIBLE zweitAktion
      (ui.modal, s. Kommentar dort) markiert sich über die Text-Farbe — Apple-Konvention, kein
      Rahmen. NUR Text, Rand/Hintergrund bleiben .btn-sek — Modal-Knöpfe liegen außerhalb von
@@ -364,8 +368,8 @@
      spezifischere Regel oben gewinnt. Ziel-Größe ≥ 44px bleibt (ältere Zielgruppe). */
   .btn-vertretung { background: transparent; color: var(--vm-akzent-stark); border: 2px solid var(--vm-linie); }
   .btn-vertretung:hover { background: color-mix(in srgb, var(--vm-linie) 14%, transparent); }
-  .btn-klein { padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); min-height: 44px; }
-  .btn-dezent { background: none; border: none; color: var(--ink2); font-size: var(--fs-sm);
+  .btn-klein { padding: var(--space-2) var(--space-4); font-size: var(--fs-role-hilfe); min-height: 44px; }
+  .btn-dezent { background: none; border: none; color: var(--ink2); font-size: var(--fs-role-hilfe);
     text-decoration: underline; padding: var(--space-2) 0; min-height: 44px; }
   .btn-dezent:hover { color: var(--vm-chrome); }
   .verwaltete-sicht .btn-sek { color: var(--vm-chrome); border-color: var(--vm-chrome); }
@@ -397,7 +401,7 @@
     padding: var(--space-3) var(--space-4) var(--space-3) calc(var(--space-4) - var(--akzent-rand));
   }
   .sd-kopf .sd-kopf-name { margin: 0; color: var(--ink);
-    font-size: var(--fs-base); font-weight: var(--fw-bold); letter-spacing: var(--ls-depot-name); text-transform: none;
+    font-size: var(--fs-role-text); font-weight: var(--fw-bold); letter-spacing: var(--ls-depot-name); text-transform: none;
     overflow-wrap: anywhere; }
   .sd-kopf .sd-kopf-name .leer { color: inherit; opacity: 0.85; }
   /* D47 (2026-06-10) — ZURÜCKGENOMMEN, U2-ADR-236 (03.09.2026): der Primär-Button war absichtlich
@@ -412,7 +416,7 @@
   html.dark-mode .btn-dezent { color: var(--dezent-nacht); }
 
   /* ── App-Hülle ────────────────────────────────────────────────── */
-  #app { display: none; grid-template-columns: 268px 1fr; grid-template-rows: 56px 1fr auto; height: 100vh; }
+  #app { display: none; grid-template-columns: 268px 1fr; grid-template-rows: 56px 1fr; height: 100vh; }
   #app.an { display: grid; }
   .topbar {
     /* U2-ADR-297 (05.09.2026): Fall 2 — ein Produkt mit Vor-Depot-Konfiguration füllt die
@@ -438,7 +442,7 @@
   .logo-mark { width: 38px; height: 38px; border-radius: 50%; background: var(--cream);
     display: inline-flex; align-items: center; justify-content: center; flex: none; }
   .logo-mark svg { width: 28px; height: 28px; display: block; }
-  .logo-wort { font-weight: var(--fw-bold); letter-spacing: var(--ls-wortmarke); font-size: var(--fs-lg); }
+  .logo-wort { font-weight: var(--fw-bold); letter-spacing: var(--ls-wortmarke); font-size: var(--fs-role-gruppe); }
   .lw-vivo { color: var(--wortmarke-vivo); }
   /* WCAG-Kontrast-Fix (15.07.2026): #a7c3b0 auf --salbei-dunkel (#4F6539) lag bei 3.4:1
      (Pflicht 4.5:1). Aufgehellt, Farbfamilie/Bedeutung unverändert — nur die Helligkeit. */
@@ -448,7 +452,7 @@
   .welcome-brand { display: flex; align-items: center; gap: var(--space-3); margin: 0 0 var(--space-3); }
   /* Logo/Markenzug moderat & konsistent (nicht wuchtig). */
   .welcome-logo-mark { width: 52px; height: 52px; flex: none; }
-  .welcome-wort { font-family: var(--font-inter); font-weight: var(--fw-medium); letter-spacing: var(--ls-willkommen); font-size: var(--fs-xl); }   /* UX-Konzept §12 (25.08.2026, Produktentscheidung bestätigt): gesperrtes Inter 500 statt Serif 700 — "wirkt gestalteter als Inter 700 ohne Laufweite", löst den Konflikt mit der Schrift-Rollen-Probe (Auftrag 04.08.2026) auf. */
+  .welcome-wort { font-family: var(--font-inter); font-weight: var(--fw-medium); letter-spacing: var(--ls-willkommen); font-size: var(--fs-role-abschnitt); }   /* UX-Konzept §12 (25.08.2026, Produktentscheidung bestätigt): gesperrtes Inter 500 statt Serif 700 — "wirkt gestalteter als Inter 700 ohne Laufweite", löst den Konflikt mit der Schrift-Rollen-Probe (Auftrag 04.08.2026) auf. */
   .lw-vivo-d { color: var(--salbei-dunkel); }
   .lw-depot-d { color: var(--gold); }
   /* Depot-Kontext-Pille (Struktur-Spec §2.3): Bürgersprache „Mein Depot", Klick öffnet die Liste.
@@ -459,7 +463,7 @@
   .depot-pille { display: inline-flex; align-items: center; gap: var(--space-2);
     background: color-mix(in srgb, var(--auf-akzent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--auf-akzent) 25%, transparent);
     border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3);
-    font-size: var(--fs-sm); color: var(--auf-akzent); cursor: pointer; }
+    font-size: var(--fs-role-hilfe); color: var(--auf-akzent); cursor: pointer; white-space: nowrap; }
   /* Hier stand `min-height: 24px` bis zum 15.08.2026 (A247, Glied 1). Der Wert war TOT: die
      A47-Sammelregel weiter unten (`.a11y-btn, .btn-mini, … .depot-pille, … { min-width: 44px;
      min-height: 44px }`) hat dieselbe Spezifität und steht später, gewinnt also. Gemessen statt
@@ -473,7 +477,7 @@
   .depot-pille:hover { background: color-mix(in srgb, var(--auf-akzent) 20%, transparent); }
   /* Fokus-Ring: globale Regel greift (.topbar setzt --fokus auf var(--vm-chrome-text)). */
   .dp-punkt { width: 0.7em; height: 0.7em; border-radius: 50%; background: var(--akzent); border: 1px solid var(--punkt-rand); }
-  .dp-chevron { opacity: 0.7; font-size: var(--fs-chevron); }
+  .dp-chevron { opacity: 0.7; font-size: var(--fs-role-hilfe); }
   /* Zug 5 (Auftrag „Speicherweg ohne Datei-Picker", 09.08.2026) — Positionierungs-Anker für das
      Depot-Menü; sonst unsichtbar im Layout (inline-flex, kein eigener Rand/Hintergrund). */
   .depot-pille-wrap { position: relative; display: inline-flex; align-items: center; }
@@ -489,7 +493,7 @@
   .depot-menue-eintrag {
     min-height: 44px; display: flex; align-items: center; gap: var(--space-2);
     padding: var(--space-2) var(--space-3); border: none; background: none; cursor: pointer;
-    color: var(--ink); font-size: var(--fs-base); text-align: left; width: 100%;
+    color: var(--ink); font-size: var(--fs-role-text); text-align: left; width: 100%;
   }
   .depot-menue-eintrag + .depot-menue-eintrag { border-top: 1px solid var(--line-feiner); }
   
@@ -499,18 +503,18 @@
   /* Palettentausch Zug 2 — Hinweis auf das eingehängte Depot, NEBEN der (unveränderten)
      Depot-Pille. Fest an var(--auf-akzent) (Kopfzeile bleibt Salbei), nur der Punkt selbst
      trägt den echten Sub-Depot-Akzent (var(--akzent), wie .dp-punkt/.modus-punkt). */
-  .tb-sub-hinweis { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-sm); color: var(--auf-akzent); }
+  .tb-sub-hinweis { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--auf-akzent); white-space: nowrap; }
   .tb-sub-hinweis[hidden] { display: none; }
   .tb-sub-punkt { width: 0.7em; height: 0.7em; border-radius: 50%; background: var(--akzent); border: 1px solid var(--punkt-rand); flex: none; }
   .depot-liste-eintrag { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-md); }
   .depot-liste-eintrag.aktiv { border-color: var(--akzent); background: var(--salbei-light); }
-  .dp-aktiv-tag { margin-left: auto; font-size: var(--fs-xs); color: var(--ink2); }
+  .dp-aktiv-tag { margin-left: auto; font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .topbar .spacer { flex: 1; }
   .modus-badge {
     display: inline-flex; align-items: center; gap: var(--space-2);
     /* B3: Schleier koppelt an var(--auf-akzent), nicht --vm-chrome-text (s. .depot-pille, Zug 2). */
     background: color-mix(in srgb, var(--auf-akzent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--auf-akzent) 25%, transparent);
-    border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); font-size: var(--fs-sm);
+    border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); font-size: var(--fs-role-hilfe);
   }
   .modus-punkt { width: 0.7em; height: 0.7em; border-radius: 50%; background: var(--akzent); border: 1px solid var(--punkt-rand); }
   .topbar .btn { background: color-mix(in srgb, var(--auf-akzent) 14%, transparent); }   /* Zug 2: s. .depot-pille */
@@ -530,7 +534,7 @@
   .sidebar { background: var(--papier-bereich); color: var(--ink); padding: var(--space-4) 0; overflow-y: auto; border-right: 1px solid var(--line); border-left: var(--akzent-rand) solid var(--akzent-papier); }
   /* Gesamtbild-UX-Konzept, Abschnitt A (27.08.2026): Gewicht 500 + Sperrung 0.09em (statt 0.07em)
      ergänzt — Ebene 0 (Rubrik) muss sich von Ebene 1 (Cluster, jetzt fett) klar absetzen. */
-  .sidebar .gruppe-titel { font-size: var(--fs-xs); font-weight: var(--fw-medium); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-nav); color: var(--ink3); padding: 6px var(--space-5) 4px; }   /* --ink3 auf --papier-bereich: 4,75:1 hell / 6,42:1 Nacht / 15,13:1 Hochkontrast */
+  .sidebar .gruppe-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-nav); color: var(--ink3); padding: 6px var(--space-5) 4px; }   /* --ink3 auf --papier-bereich: 4,75:1 hell / 6,42:1 Nacht / 15,13:1 Hochkontrast */
   /* U2-ADR-171 (25.08.2026) — Themen-Cluster INNERHALB „Eintragen", kollabierbar. Zuerst
      dieselbe Typografie wie .gruppe-titel gebaut (kein neues UI-Vokabular), jetzt als <summary>
      mit eigenem ▾-Marker statt des nativen (der native Marker sieht in iOS-Safari doppelt aus,
@@ -545,12 +549,12 @@
      600) und die volle --ink-Farbe (statt --ink2), nicht über Größe. */
   .sidebar .nav-gruppe > summary {
     list-style: none; cursor: pointer; display: flex; align-items: center; width: 100%;
-    font-size: var(--fs-sm); font-weight: var(--fw-bold); text-transform: none; color: var(--ink);
+    font-size: var(--fs-role-hilfe); font-weight: var(--fw-bold); text-transform: none; color: var(--ink);
     padding: 6px var(--space-5) 4px; min-height: 24px;
   }
   .sidebar .nav-gruppe > summary::-webkit-details-marker { display: none; }
-  .sidebar .nav-gruppe > summary::after { content: '▾'; margin-left: auto; transition: transform 0.15s ease; }
-  .sidebar .nav-gruppe[open] > summary::after { transform: rotate(180deg); }
+  /* Die Gruppen der Seitenleiste tragen kein Dreieck mehr (Zielbild S4, Abnahme v979 Nr. 11). Auf- und Zuklappen bleibt das native
+     <details>/<summary>: Tastatur (Enter, Leertaste) und Screenreader (Zustand „eingeklappt“/„ausgeklappt“) unverändert. */
   /* Nutzer-Rückmeldung v1.0-rc.501 (12.09.2026): „Weitere Bereiche" (angedockte Templates) trägt
      jetzt dieselbe Klapp-Struktur wie die dreizehn echten Bereiche, dazu ein eigenes Icon in der
      Summary als Nicht-nativ-Kennzeichnung — kein neuer Text, nur ein zusätzliches Zeichen davor. */
@@ -560,7 +564,7 @@
   /* Navigation A (05.10.2026): „Austausch und Überblick“ ist kein Bereich — eine Linie trennt ihn von den Clustern darüber,
      derselbe Strich wie über „Depot verlassen“. */
   .sidebar .nav-gruppe-austausch { border-top: 1px solid var(--line); margin-top: var(--space-2); padding-top: var(--space-1); }
-  .sidebar .nav-item-klein { font-size: var(--fs-xs); color: var(--ink3); padding: 6px var(--space-5); border-top: 1px solid var(--line); margin-top: var(--space-2); }
+  .sidebar .nav-item-klein { font-size: var(--fs-role-hilfe); color: var(--ink3); padding: 6px var(--space-5); border-top: 1px solid var(--line); margin-top: var(--space-2); }
   /* U2-ADR-174 — Karten-Baustein (UX-Designsprache Karten-Baustein vom 25.08.2026):
      dieselbe Rand+Schatten+Rundung-Kombination wie .modal (Zeile 1424) und das bestehende .karte
      (Zeile 388), kein neuer Token. Eigener Name wegen Kollision mit .karte (Willkommens-Overlay). */
@@ -575,8 +579,8 @@
   .bereich-karte .bereich-karte-icon { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 32px;
     width: 32px; height: 32px; border-radius: var(--radius-md); background: var(--salbei-light); }
   .bereich-karte .bereich-karte-icon svg { display: block; }
-  .bereich-karte .bereich-karte-titel { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--ink); min-width: 0; }
-  .bereich-karte .bereich-karte-sub { font-size: var(--fs-xs); color: var(--ink3); margin-top: 2px; }
+  .bereich-karte .bereich-karte-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--ink); min-width: 0; }
+  .bereich-karte .bereich-karte-sub { font-size: var(--fs-role-hilfe); color: var(--ink3); margin-top: 2px; }
   /* U2-ADR-174 Teilprojekt 2 — Raster für renderEintragenKartenraster() (Task 2 des Umsetzungsplans). */
   .karten-raster { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); margin-bottom: var(--space-6); }
   /* Statuskarten (Klick-Dummy-validiert, 26.08.2026) — gleiche Karten-Grammatik wie .bereich-karte
@@ -623,23 +627,43 @@
   .feldgruppen-karte > summary::-webkit-details-marker, .situation-block > summary::-webkit-details-marker, .anfragen-ort > summary::-webkit-details-marker { display: none; }
   .feldgruppen-karte > summary::after, .situation-block > summary::after, .anfragen-ort > summary::after { content: '▾'; color: var(--ink3); transition: transform 0.15s ease; grid-column: 3; }
   .feldgruppen-karte[open] > summary::after, .situation-block[open] > summary::after, .anfragen-ort[open] > summary::after { transform: rotate(180deg); }
+  /* Die eingeklappte Gruppenkarte sagt, dass sie aufgeht und was in ihr steckt (Abnahme v998, Fund 11): der Pfeil am Rand in Textfarbe statt
+     blass, darunter eine Zeile aus den ersten Beschriftungen und rechts die Zahl der gefüllten von allen sichtbaren Feldern („0 von 5“).
+     Die ganze Kopfzeile ist der Knopf (summary, aria-expanded); offen stehen die Felder da, und die zweite Zeile entfällt.
+     Titel und Pille bleiben in den Spalten 1 und 2 der ersten Zeile, die zweite Zeile liegt über Spalte 1 und 2, der Pfeil in Spalte 3 daneben. */
+  .feldgruppen-karte > summary::after { color: var(--ink2); }
+  .feldgruppen-karte-titel { grid-column: 1; grid-row: 1; }
+  .feldgruppen-karte-status { grid-column: 2; grid-row: 1; }
+  .feldgruppen-karte-zeile { grid-column: 1 / span 2; grid-row: 2; display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); min-width: 0; }
+  .feldgruppen-karte-inhalt { flex: 1 1 auto; min-width: 0; overflow-wrap: break-word; color: var(--ink2); font-size: var(--fs-role-label); }
+  .feldgruppen-karte-zahl { flex: none; white-space: nowrap; color: var(--ink2); font-size: var(--fs-role-label); font-weight: var(--fw-medium); }
+  .feldgruppen-karte > summary:has(> .feldgruppen-karte-zeile)::after { grid-row: 1 / span 2; align-self: center; }
+  .feldgruppen-karte[open] > summary > .feldgruppen-karte-zeile { display: none; }
   /* Ein langes Wort im Gruppentitel („Unterhaltsverpflichtungen“) trennt, statt die Inhaltsspalte zu verbreitern: in der Gruppen-Rolle
      (17 px) schob es die Ansicht bei 320 px seitlich über den Rand und die Tab-Leiste aus dem Bild (Probe: die Cross-Reise zur
      A2-Lesbarkeit, 320 px alle Ansichten). */
-  .feldgruppen-karte-titel { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); color: var(--ink); min-width: 0; hyphens: auto; overflow-wrap: break-word; }
-  .feldgruppen-karte-status { font-size: var(--fs-xs); color: var(--ink3); }
+  .feldgruppen-karte-titel { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); color: var(--ink); min-width: 0; hyphens: manual; overflow-wrap: break-word; }
+  /* Kartentitel trennen nicht mitten im Wort (Gestaltungsleitung zu v999, Runde 1, Punkt c): ohne hyphens:auto; nur ein Wort, das breiter ist als die
+     Zeile, bricht noch (overflow-wrap, Schutz für 320 px). Am Handy geht die Pille unter den Titel, dann hat der Titel die ganze Breite. */
+  @media (max-width: 760px) {
+    .feldgruppen-karte-titel { grid-column: 1 / span 2; }
+    .feldgruppen-karte-status { grid-column: 1; grid-row: 2; justify-self: start; }
+    .feldgruppen-karte-zeile { grid-row: 3; }
+    .feldgruppen-karte > summary::after, .feldgruppen-karte > summary:has(> .feldgruppen-karte-zeile)::after { grid-row: 1 / -1; align-self: center; }
+  }
+  .feldgruppen-karte-status { font-size: var(--fs-role-hilfe); color: var(--ink3); }
   .feldgruppen-karte-koerper { padding: 0 var(--space-4) var(--space-4); border-top: 1px solid var(--line); padding-top: var(--space-3); }
   /* Korrektur (25.08.2026, abends, Design-Sprache-Nachtrag) — dieselbe Hierarchie-Stufe wie
      .sidebar .nav-gruppe > summary (Zeile ~704): --fs-sm/Gewicht 600/--ink2 statt --fs-xs/
      Großbuchstaben/--ink3, sonst ununterscheidbar von der EINTRAGEN-Rubrik-Ebene. */
-  .gruppe-titel-karten { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--ink2); margin: var(--space-4) 0 var(--space-2); }
+  .gruppe-titel-karten { font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--ink2); margin: var(--space-4) 0 var(--space-2); }
   /* Gesamtbild-UX-Konzept, Abschnitt A, Ebene 2 (27.08.2026): --fs-sm statt --fs-base, --ink2
      statt --ink, linker Einzug (calc(--space-5 + --space-3)) — sichtbar UNTER seinem Cluster
      (Ebene 1) eingerückt, statt bündig mit ihm. */
   .nav-item {
     display: flex; align-items: center; gap: var(--space-3); width: 100%;
     background: transparent; border: none; color: var(--ink2);
-    padding: 6px var(--space-5) 6px calc(var(--space-5) + var(--space-3)); font-size: var(--fs-sm); text-align: left;
+    padding: 6px var(--space-5) 6px calc(var(--space-5) + var(--space-3)); font-size: var(--fs-role-hilfe); text-align: left;
     border-left: var(--akzent-rand) solid transparent;
     /* Groessen-Umsetzung (05.08.2026): Fassung B (Padding-Rechnung 44,8px) verworfen --
        gemessen waren 42-95px, das Minimum reisst 44 auch dort, weil die Hoehe emergent
@@ -675,7 +699,7 @@
      `.nav-item` hieß gleichrangig — bei dreizehn Unterzeilen liest sich das als zweiter
      Eintrag, nicht als Erläuterung. `--fs-xs` betrifft auch die drei bestehenden
      Unterzeilen der Gruppe NACHSEHEN — beabsichtigt, s. Vorlage Abschnitt 3. */
-  .nav-item-sub { font-size: var(--fs-xs); opacity: 0.86; }
+  .nav-item-sub { font-size: var(--fs-role-hilfe); opacity: 0.86; }
 
   /* ── Bruch C — Vollmacht-Modus: Sub-Depot-Akzent als RAND, nicht als Fläche ───────
      Nachtrag 27.08.2026 (Produktentscheidung, aus einem Live-Screenshot: "da ist drinnen alles grün
@@ -766,11 +790,11 @@
   #app.modus-vollmacht.vm-akzent .anlass .ico { color: var(--akzent); }
   /* ── Sub-Depot-Farbauswahl (Anlege-Dialog) — 6 Farb-Kreise, ≥44px, „Aa"-Vorschau ── */
   .farbwahl { border: 0; padding: 0; margin: var(--space-3) 0 0; min-width: 0; }
-  .farbwahl > legend { font-size: var(--fs-sm); color: var(--ink2); padding: 0; margin-bottom: var(--space-2); }
+  .farbwahl > legend { font-size: var(--fs-role-hilfe); color: var(--ink2); padding: 0; margin-bottom: var(--space-2); }
   .farbwahl-reihe { display: flex; flex-wrap: wrap; gap: var(--space-2); }
   .farb-kreis { width: 44px; height: 44px; min-width: 44px; min-height: 44px; border-radius: 50%;
     border: 2px solid var(--line); cursor: pointer; padding: 0; display: inline-flex;
-    align-items: center; justify-content: center; font-weight: var(--fw-bold); font-size: var(--fs-sm); line-height: 1; }
+    align-items: center; justify-content: center; font-weight: var(--fw-bold); font-size: var(--fs-role-hilfe); line-height: 1; }
   /* Fokus-Ring: globale Regel greift (Standard --fokus: var(--ink), Offset 2px). */
   .farb-kreis[aria-checked="true"] { border-color: var(--ink); box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--ink); }
   /* Nacht × Vollmacht: heller Schiefer für den Umriss-Knopf (sonst zu dunkel). */
@@ -780,38 +804,24 @@
   /* Warmes Papier NUR in der Eingabe-/Bearbeitungs-Sicht (aktiveAnsicht==='sektor', kein Sub-Kontext) —
      view-gebunden via JS-Toggle. Nacht/Hochkontrast: --papier-bereich zieht auf --cream zurück (Modi intakt). */
   #content.sicht-bereich { background: var(--papier-bereich); }
-  /* App-Fußzeile (Bruch A) — dezente Zeile über die volle Breite, in JEDEM Modus gleich.
-     UX-Konzept §8 (25.08.2026, Produktentscheidung bestätigt): Papierton statt Salbei-Grund, wie die
-     Sidebar (s. o.) — "wird Teil desselben Objekts statt Einfassung darum herum". Der
-     frühere #app.modus-vollmacht-Override entfällt darum ersatzlos, kein Moduswechsel
-     mehr nötig. --fuss-schrift zieht jetzt auf --ink2 (Definition in:root). */
-  /* U2-ADR-236 (03.09.2026): die frühere neutrale Trennlinie (var(--line), 1px) wird der
-     Kontext-Akzent (var(--akzent-papier), 3px — dieselbe Stärke wie der Sidebar-Streifen) —
-     "Fußzeile in den Farben des Sub-Depots" (Produktentscheidung, ausdrücklich benannt). Fläche/Textfarbe
-     (--fuss-schrift) bleiben unverändert Papierton/§7-§8-konform, nur die Randlinie färbt mit. */
-  .app-fuss { grid-column: 1 / 3; background: var(--papier-bereich); color: var(--fuss-schrift);
-    border-top: 3px solid var(--akzent-papier); font-size: var(--fs-xs);
-    display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4);
-    padding: var(--space-2) var(--space-5); }
-  .app-fuss .ff-trenner { color: var(--ink3); }
-  /* A70 (31.07.2026) — proaktive Stale-Cache-Warnung. Kein eigener Warn-Ton/keine Modal (Auftrag):
-     Icon + Fettung genügen zur Abhebung, keine neue Akzentfarbe im Fuß. */
-  
-  
-  /* Trefferfläche wie in Nr. 6 (B12, 28.07.2026): die drei Fusszeilen-Links
-     rendern 18,6 px — Kontakt-Adresse, Codeberg, „Aktualisierungen". Sie liegen
-     ausserhalb `#content` und waren darum nie im Erhebungsraum von Nr. 6.
-     Die Frage war, ob die Fusszeile mitzählt. GEMESSEN, nicht abgewogen: die drei
-     rendern `display: block`, jeder auf eigener Zeile. Die Inline-Ausnahme von
-     WCAG 2.5.8 gilt für Ziele, deren Grösse durch die Zeilenhöhe umgebenden
-     Textes bedingt ist — hier ist keiner. Es ist derselbe Fall wie die elf
-     Sprungmarken, nur eine Etage tiefer, und er bekommt denselben Fix. */
-  .app-fuss a { color: var(--fuss-schrift); text-decoration: none;
-    display: inline-flex; align-items: center; min-height: 24px; }
-  .app-fuss a:hover { text-decoration: underline; }
-  /* WCAG-Kontrast-Fix (15.07.2026): rgba(212,222,215,0.8) auf --salbei-dunkel lag bei 3.63:1.
-     F2-Nachbesserung (30.07.): die Build-Nr ist in die Versionsnummer gefaltet (kein eigenes
-     `.ff-build` mehr) — die Version erbt den Fuß-Kontrast wie die übrige Zeile. */
+  /* Seite „Über und Hinweise" (1.11.2026): die frühere App-Fußzeile ist entfallen, ihr Inhalt steht auf
+     einer eigenen Seite; erreichbar über den Eintrag am Fuß der Sidebar. Die Randlinie in den Farben des Sub-Depots (U2-ADR-236) zieht mit. */
+  .nav-fuss-ort { margin-top: var(--space-5); padding: var(--space-2) 0 0; border-top: 3px solid var(--akzent-papier); }
+  .nav-hinweis-app { margin: var(--space-1) var(--space-4) var(--space-2); font-size: var(--fs-role-hilfe); color: var(--fuss-schrift); }
+  .stale-band { display: flex; justify-content: center; padding: var(--space-2) var(--space-4); background: var(--flaeche-warnung); color: var(--ink);
+    font-size: var(--fs-role-hilfe); border-top: 1px solid var(--banner-linie); box-shadow: var(--schatten-banner-unten); }
+  .stale-band[hidden] { display: none; }
+  .ueber-abschnitt { margin: var(--space-6) 0 0; }
+  .ueber-abschnitt h2 { font-size: var(--fs-role-titel); margin: 0 0 var(--space-2); color: var(--salbei-dunkel); }
+  /* Links und Link-Knöpfe der Seite einheitlich im Salbei-Ton der Überschriften, unterstrichen (Seite und Dialog vor dem Depot tragen beide .ueber-abschnitt);
+     Nacht: derselbe Ton in der aufgehellten Fassung. */
+  .ueber-abschnitt a, .ueber-abschnitt .btn-dezent, .ueber-abschnitt .btn-dezent:hover { color: var(--salbei-dunkel); text-decoration: underline; }
+  html.dark-mode .ueber-abschnitt a, html.dark-mode .ueber-abschnitt .btn-dezent, html.dark-mode .ueber-abschnitt .btn-dezent:hover { color: var(--salbei-nacht); }
+  /* Die Links der Seite stehen allein in ihrer Zeile, nicht im Satz: Trefferfläche mindestens 24 px (WCAG 2.5.8, Fixliste Nr. 6, B12), wie in der Fußzeile davor. */
+  .ueber-abschnitt a { display: inline-flex; align-items: center; min-height: 24px; }
+  .ueber-liste { margin: 0; padding-left: var(--space-5); }
+  .ueber-liste li { margin: 0 0 var(--space-2); overflow-wrap: anywhere; }
+  .welcome-haftung { margin: var(--space-3) 0 0; font-size: var(--fs-role-hilfe); color: var(--ink2); text-align: center; overflow-wrap: anywhere; }
   /* Nachtrag 08.08.2026 (Einwand): die drei Banner darunter lagen bislang UNABHÄNGIG
      voneinander auf position:fixed;bottom:0 — stehen zwei gleichzeitig an, überdecken sie sich
      exakt (jeder ist eine volle Breite auf derselben Kante). Dieser Stapel-Container ist jetzt
@@ -822,7 +832,7 @@
   /* 1F/b1: Ablauf-Vorwarn-Banner — nur in den letzten Tagen vor Cert-Ablauf sichtbar, dismissbar. */
   .basis-ablauf-banner { display: flex; align-items: center; justify-content: center;
     gap: var(--space-3); flex-wrap: wrap; background: var(--flaeche-warnung); color: var(--ink);
-    padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); font-weight: var(--fw-semibold);
+    padding: var(--space-2) var(--space-4); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold);
     border-top: 1px solid var(--banner-linie); box-shadow: var(--schatten-banner-unten); }
   .basis-ablauf-banner[hidden] { display: none; }
   /* Konsolidierungs-Fall 3 (UX-Design-Konzept, 25.08.2026): `.bab-x` und `.wb-x` (unten bei
@@ -848,7 +858,7 @@
      umschalten). Gleiche Bühne wie der Ablauf-Banner, eigene Farbfamilie (neutral, kein Alarm). */
   .sw-update-banner { display: flex; align-items: center; justify-content: center;
     gap: var(--space-3); flex-wrap: wrap; background: var(--ink); color: var(--white);
-    padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); font-weight: var(--fw-semibold);
+    padding: var(--space-2) var(--space-4); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold);
     box-shadow: var(--schatten-banner-unten-stark); }
   .sw-update-banner[hidden] { display: none; }
   .sw-update-banner .swb-x { background: var(--banner-x-hell-flaeche); color: var(--white); border: 1px solid var(--banner-x-hell-rand);
@@ -862,7 +872,7 @@
      wirklich nicht offen, nicht bloß eine verfügbare Neuerung. */
   .wiedereinstieg-banner { display: flex; align-items: center; justify-content: center;
     gap: var(--space-3); flex-wrap: wrap; background: var(--warning); color: var(--ink);
-    padding: var(--space-2) var(--space-4); font-size: var(--fs-sm); font-weight: var(--fw-semibold);
+    padding: var(--space-2) var(--space-4); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold);
     box-shadow: var(--schatten-banner-unten-stark); }
   .wiedereinstieg-banner[hidden] { display: none; }
   /* Vollmacht-Banner (Durchbau T1) — Dauer-Hinweis im Sub-Kontext, EIN kräftiger Seitenstreifen
@@ -876,7 +886,7 @@
     flex-wrap: wrap; background: var(--cream); color: var(--ink);
     border-left: var(--akzent-rand-modus) solid var(--vm-linie);
     padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); margin: 0 0 var(--space-5);
-    font-size: var(--fs-sm); }
+    font-size: var(--fs-role-hilfe); }
   .vm-banner-text { font-weight: var(--fw-semibold); }
   /* Umriss-Knopf wie .vorschau-banner .btn — transparent, Rand+Text in der AA-sicheren
      Content-Akzentfarbe (--vm-akzent-stark, dieselbe wie Überschriften/Umriss-Knopf im Content). */
@@ -896,7 +906,7 @@
     flex-wrap: wrap; background: var(--salbei-light); color: var(--salbei-dunkel);
     border: 1px solid var(--line); border-left: var(--akzent-rand) solid var(--salbei-mid);
     padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); margin: 0 0 var(--space-4);
-    font-size: var(--fs-xs); }
+    font-size: var(--fs-role-hilfe); }
   .vorschau-banner-text { font-weight: var(--fw-semibold); display: inline-flex; align-items: center; gap: var(--space-2); }
   .vorschau-banner-text svg { vertical-align: middle; flex: 0 0 auto; }
   /* EIN dezenter Sicher-Knopf: Umriss (btn-sek-artig), grüner Rahmen/Text auf hellgrünem
@@ -904,38 +914,38 @@
      Vollbreit), aber Trefferfläche ≥44px und Label gut lesbar (--fs-sm). */
   .vorschau-banner .btn { background: transparent; color: var(--salbei-dunkel); border: 1px solid var(--salbei-mid);
     flex: 0 0 auto; min-height: 44px; padding: var(--space-2) var(--space-4);
-    font-size: var(--fs-sm); white-space: nowrap; }
+    font-size: var(--fs-role-hilfe); white-space: nowrap; }
   .vorschau-banner .btn:hover { background: var(--white); }
   .vorschau-banner .btn svg { vertical-align: middle; }
   /* ── Dokumenten-Mappe — Übersicht (U2-ADR-013, FINDEN) ── */
-  .mappe-groesse { color: var(--ink2); font-size: var(--fs-sm); margin: 0 0 var(--space-4); }
+  .mappe-groesse { color: var(--ink2); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-4); }
   /* U2-ADR-024: dezente Fuß-Notiz unter der Mappe (oben abgesetzt, gedämpft) statt prominente Zahl. */
-  .mappe-groesse-fuss { color: var(--ink2); font-size: var(--fs-xs); margin: var(--space-5) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); opacity: 0.85; }
+  .mappe-groesse-fuss { color: var(--ink2); font-size: var(--fs-role-hilfe); margin: var(--space-5) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); opacity: 0.85; }
   .mappe-liste { display: flex; flex-direction: column; gap: var(--space-2); }
   .mappe-eintrag { display: flex; align-items: flex-start; gap: var(--space-3);
     background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md);
     padding: var(--space-3) var(--space-4); }
   .mappe-eintrag > .ico { color: var(--gold); flex: 0 0 auto; margin-top: 2px; }
   .mappe-eintrag-titel { font-weight: var(--fw-semibold); color: var(--ink); }
-  .mappe-eintrag-meta { color: var(--ink3); font-size: var(--fs-xs); margin-top: 2px; }
+  .mappe-eintrag-meta { color: var(--ink3); font-size: var(--fs-role-hilfe); margin-top: 2px; }
   /* Vorschau + Suche (Schritt 5) */
   .mappe-eintrag { cursor: pointer; }
   .mappe-eintrag:hover { border-color: var(--gold); box-shadow: var(--shadow-soft); }
   .mappe-liste-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line); flex: 0 0 auto; }
-  .mappe-suche { width: 100%; padding: var(--space-3); border: var(--feld-rahmen-dialog); border-radius: var(--radius-feld); font-size: var(--fs-base); margin: 0 0 var(--space-3); }
+  .mappe-suche { width: 100%; padding: var(--space-3); border: var(--feld-rahmen-dialog); border-radius: var(--radius-feld); font-size: var(--fs-role-text); margin: 0 0 var(--space-3); }
   .mappe-vorschau-bild { display: block; max-width: 100%; max-height: 70vh; margin: 0 auto; border-radius: var(--radius-md); }
   /* xShare Yellow Button am Knopf der Funktion (U2-ADR-400 Nachtrag 16.09.2026) — eigene Kachel mit Hintergrund, darum ohne Farbanpassung in hell/dunkel lesbar. */
   .yb-zeichen { height: 40px; width: auto; flex: none; vertical-align: middle; border-radius: var(--radius-logo); }
   .mappe-vorschau-pdf { width: 100%; height: 70vh; border: 1px solid var(--line); border-radius: var(--radius-md); }
   /* FHIR-Narrative-Renderer (U2-ADR-076): die vom Aussteller gelieferte, sanitisierte menschenlesbare
      Fassung eines importierten eu-lab/eu-hdr/ips-Dokuments. Nur Struktur-Styling, kein Fremd-CSS. */
-  .mappe-narrativ { max-height: 68vh; overflow-y: auto; font-size: var(--fs-sm); line-height: 1.5; color: var(--ink); }
-  .mappe-narrativ h3 { font-size: var(--fs-md); color: var(--salbei-dunkel); margin: 0 0 var(--space-2); }
-  .mappe-narrativ h4 { font-size: var(--fs-sm); color: var(--salbei-dunkel); margin: var(--space-3) 0 var(--space-1); }
+  .mappe-narrativ { max-height: 68vh; overflow-y: auto; font-size: var(--fs-role-hilfe); line-height: 1.5; color: var(--ink); }
+  .mappe-narrativ h3 { font-size: var(--fs-role-text); color: var(--salbei-dunkel); margin: 0 0 var(--space-2); }
+  .mappe-narrativ h4 { font-size: var(--fs-role-hilfe); color: var(--salbei-dunkel); margin: var(--space-3) 0 var(--space-1); }
   .fhir-narrativ-sektion { margin: 0 0 var(--space-3); }
   .mappe-narrativ p { margin: 0 0 var(--space-2); }
   .mappe-narrativ ul, .mappe-narrativ ol { margin: 0 0 var(--space-2) var(--space-4); }
-  .mappe-narrativ table { border-collapse: collapse; width: 100%; margin: var(--space-1) 0 var(--space-3); font-size: var(--fs-xs); }
+  .mappe-narrativ table { border-collapse: collapse; width: 100%; margin: var(--space-1) 0 var(--space-3); font-size: var(--fs-role-hilfe); }
   .mappe-narrativ th, .mappe-narrativ td { border: 1px solid var(--line); padding: 4px 8px; text-align: left; vertical-align: top; }
   .mappe-narrativ th { background: var(--salbei-light); font-weight: var(--fw-semibold); }
   .mappe-narrativ caption { text-align: left; font-weight: var(--fw-semibold); color: var(--ink2); padding: 2px 0; }
@@ -944,15 +954,17 @@
   .mappe-vorschau { display: block; max-width: 100%; max-height: 220px; border-radius: var(--radius-md); border: 1px solid var(--line); margin: 0 0 var(--space-4); object-fit: contain; }
   .mappe-bereich-wahl { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-4); }
   .mappe-bereich-opt { background: var(--white); color: var(--ink2); border: 1px solid var(--line);
-    border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); font-size: var(--fs-sm); min-height: 32px; }
+    border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); font-size: var(--fs-role-hilfe); min-height: 32px; }
   .mappe-bereich-opt.aktiv { background: var(--salbei-dunkel); color: var(--auf-akzent); border-color: var(--salbei-dunkel); }
-  .mappe-sensibel-zeile { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-sm); color: var(--ink2); margin-bottom: var(--space-2); }
+  .mappe-sensibel-zeile { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--ink2); margin-bottom: var(--space-2); }
   .mappe-sensibel-zeile input { width: auto; margin: 0; }
   /* ref:mappe-Lese-Anzeige (Schritt 4) */
   .mappe-ref { display: inline-flex; align-items: center; gap: var(--space-2); }
   .mappe-ref-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line); }
   .mappe-ref > .ico { color: var(--gold); }
-  .content-narrow { max-width: 760px; }
+  /* Inhaltsspalte nach Zielbild S4 (.inhalt 920 px mit 48 px Rand je Seite = 824 px Karte; Mangel M12 der Vorschau v998).
+     Felder bleiben in ihrer Formularspalte (--spalte-formular), schmaler als die Karte, wie im Zielbild. */
+  .content-narrow { max-width: 824px; }
   /* U2-ADR-296 (05.09.2026): "Rand, nicht Fläche" (U2-ADR-236) — ein Sektor aus einem fremden
      Marken-Modul trägt einen Rand, keine Füllung ("nie eine Flächenfüllung, nie ein Kasten").
      Fallback transparent: ohne Branding-Modul sieht kein Depot anders aus als heute. */
@@ -989,12 +1001,12 @@
      sichtbaren UI, nur als ARIA-Label/Tooltip erreichbar. */
   .bereich-format { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   /* UX-Spec VII: Inhaltsverzeichnis ab drei Sektionen — dezent über dem Bereich. */
-  .toc { font-size: var(--fs-sm); color: var(--ink2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin: 0 0 var(--space-4); }
-  .toc-titel { color: var(--ink3); font-size: var(--fs-xs); margin-bottom: var(--space-2); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klein); }
+  .toc { font-size: var(--fs-role-hilfe); color: var(--ink2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin: 0 0 var(--space-4); }
+  .toc-titel { color: var(--ink3); font-size: var(--fs-role-hilfe); margin-bottom: var(--space-2); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klein); }
   /* Bild C — Regal (Karten-Überblick pro Sektor) + Cross-Sektor-Verweis-Karten (Weg β, U2-Auftrag 11.07.). */
   .regal { margin: 0 0 var(--space-4); }
   .regal-verweise { margin-top: var(--space-3); }
-  .regal-titel { color: var(--ink3); font-size: var(--fs-xs); margin-bottom: var(--space-2); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klein); }
+  .regal-titel { color: var(--ink3); font-size: var(--fs-role-hilfe); margin-bottom: var(--space-2); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klein); }
   /* Nutzer-Rückmeldung v1.0-rc.501 (12.09.2026), Freigabe „ja, machen": „eine Sprache,
      zwei Gewichte" — aus dem Plattenfeld (Gitter aus gleichrangigen Karten, konkurrierte mit dem
      schwereren Abschnittskasten darunter um dieselbe Aufmerksamkeit) wird EINE Karte mit Zeilen
@@ -1011,27 +1023,31 @@
      ignoriert flex den Inhalt bei der Breitenrechnung und der Status würde doch weichen). */
   .regal-karte-titel { font-weight: var(--fw-semibold); color: var(--salbei-dunkel); overflow-wrap: break-word; hyphens: auto; flex: 1 1 auto; min-width: 0; display: flex; align-items: baseline; gap: var(--space-2); }
   .regal-karte-titel .ico { flex: 0 0 auto; opacity: 0.7; align-self: center; }
-  .regal-karte-meta { display: flex; gap: var(--space-2); font-size: var(--fs-sm); color: var(--ink3); flex: 0 0 auto; white-space: nowrap; }
+  .regal-karte-meta { display: flex; gap: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--ink3); flex: 0 0 auto; white-space: nowrap; }
   .regal-karte-verweis { cursor: pointer; background: var(--salbei-light); }
   .regal-karte-verweis:hover { background: color-mix(in srgb, var(--salbei-light) 70%, var(--salbei-mid)); }
   .regal-verweis-hin { color: var(--salbei-dunkel); }
   .verweis-rueckweg { margin: 0 0 var(--space-4); }
   /* Schmale Sprungliste für Nicht-Instrument-Sektionen unter dem Regal (nutzt die .toc-liste-Optik). */
-  .regal-sprungliste { margin: calc(-1 * var(--space-2)) 0 var(--space-4); font-size: var(--fs-sm); }
+  .regal-sprungliste { margin: calc(-1 * var(--space-2)) 0 var(--space-4); font-size: var(--fs-role-hilfe); }
   .toc-liste { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
   /* Trefferfläche wie bei <select> (Fixliste Nr. 6): die Sprungmarken rendern
      18 px hoch. `inline-flex` + `min-height` hebt die Höhe auf 24 px, ohne den
      Umbruch der Liste zu ändern — die Regel gilt für beide Listen, weil die
      Regal-Sprungliste dieselbe Optik nutzt. */
-  .toc-liste a { color: var(--ink2); text-decoration: none; border-bottom: 1px dotted var(--ink3);
-    display: inline-flex; align-items: center; min-height: 24px; }
+  /* Sprungmarken als Pillen (Zielbild S4, Abnahme v979 Nr. 8): dieselbe Gestalt wie .chip (Pillenform, Fläche --salbei-light, Linie, --fs-sm),
+     Trefferfläche mindestens 36 px hoch. */
+  .toc-liste { gap: var(--space-2); }
+  .toc-liste a { color: var(--ink); text-decoration: none; background: var(--salbei-light); border: 1px solid var(--line); border-radius: var(--radius-pill);
+    padding: var(--space-1) var(--space-3); font-size: var(--fs-role-hilfe);
+    display: inline-flex; align-items: center; min-height: 36px; }
+  .toc-liste a:hover { background: color-mix(in srgb, var(--salbei-light) 70%, var(--salbei-mid)); }
   /* U2-ADR-009: aufklappbarer „mehr"-Block für Modul-Felder; eingebaut und template-gestellt nutzen dasselbe Render-Ziel. */
   .mehr-block { margin-top: var(--space-3); }
-  .mehr-block > summary { cursor: pointer; color: var(--ink2); font-size: var(--fs-sm); padding: var(--space-2) 0; list-style: none; }
+  .mehr-block > summary { cursor: pointer; color: var(--ink2); font-size: var(--fs-role-hilfe); padding: var(--space-2) 0; list-style: none; }
   .mehr-block > summary::-webkit-details-marker { display: none; }
   .mehr-block > summary::before { content: "▸ "; color: var(--ink3); }
   .mehr-block[open] > summary::before { content: "▾ "; }
-  .mehr-badge { color: var(--ink3); font-size: var(--fs-xs); margin-left: var(--space-2); }
   /* Feld- und Sektions-Hints — dezent unter Feld bzw. über Abschnitt. */
   /* B4: Erklärtext-Stimme analog .sektor-intro (Style Guide v4 Misch-Lösung): Georgia/kursiv/--ink3,
      klar von den Inter-Feld-Labels unterscheidbar. Größe bleibt klein (--fs-xs). */
@@ -1040,7 +1056,7 @@
      .feld-zeile vs. Modal-.feld-zeile-sub tragen unterschiedliches Padding, dazu eine optionale
      Urheberschafts-Zeile nach dem Hint) — dadurch sprang der Abstand sichtbar zwischen Feldern.
      Der Hint traegt seinen Abstand jetzt selbst, unabhaengig vom Kontext drumherum. */
-  .feld-hint { grid-column: 1 / -1; color: var(--ink); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-xs); margin: var(--space-1) 0 var(--space-2); }
+  .feld-hint { grid-column: 1 / -1; color: var(--ink); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-role-hilfe); margin: var(--space-1) 0 var(--space-2); }
   /* Pro E4: die Vorschrift hinter dem Feld steht dicht unter dem Hinweis, als Fundstelle, nicht als zweiter Hinweis. */
   .feld-hint.feld-vorschrift { margin-top: 0; }
   /* Hinweis mit Aufklapper (zu U2-ADR-518): der erste Satz steht als .feld-hint, der Rest hinter einem leisen Verweis wie „Alle Angaben“;
@@ -1055,15 +1071,15 @@
   @media (pointer: coarse) { .feld-hint-mehr > summary { min-height: 44px; } }
   /* Urheberschaft-Zeile (U2-ADR-005) — sehr klein und zurückhaltend; der Stempel
      ist eine Fußnote am Feld, nicht der Inhalt. (Volle Sicht später im Export/Druck.) */
-  .feld-urheber { color: var(--ink3); font-size: var(--fs-urheber); opacity: 0.8; margin-top: 2px; line-height: 1.3; }
+  .feld-urheber { color: var(--ink3); font-size: var(--fs-role-hilfe); opacity: 0.8; margin-top: 2px; line-height: 1.3; }
   /* „Ausdrücklich keine" (12.08.2026) — dezente Zeile, gleiche Familie wie .feld-urheber,
      aber mit eigenem Knopf (.btn-mini, bereits 44px-Trefferfläche-konform, K4/F2 09/10.08.). */
-  .ausdruecklich-keine-zeile { grid-column: -2 / -1; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--fs-sm); color: var(--ink2); }
+  .ausdruecklich-keine-zeile { grid-column: -2 / -1; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--ink2); }
   /* M1 Zug 2 (18.08.2026): die Gültigkeits-Eingabe an einer Feldzeile. Dieselbe zurückgenommene
      Höhe wie die Zeile darüber — sie ist ein Zusatz zum Feld, nicht ein zweites Feld. Die
      Eingaben sind vollwertige Trefferflächen (die 44px kommen von `.eingabe`), nur die
      Beschriftung ist klein. */
-  .gueltigkeit-zeile { margin-top: var(--space-2); font-size: var(--fs-sm); color: var(--ink2); }
+  .gueltigkeit-zeile { margin-top: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .gueltigkeit-zeile.ist-offen { display: flex; align-items: flex-end; flex-wrap: wrap; gap: var(--space-2); }
   .gueltigkeit-feld { display: inline-flex; flex-direction: column; gap: var(--space-1); }
   .gueltigkeit-feld > span { color: var(--ink2); }   /* UX-Konzept 25.08.: --ink3 fiel gegen die neue --salbei-light-Füllung von .sektion--eingabe auf 4,33:1 (Kampagne Ebene 4@390, 24 Funde) — --ink2 (6,16:1) matcht die Nachbarzeile .ist-gesetzt. */
@@ -1072,18 +1088,22 @@
      sitzt IM `.feld-wert`, direkt neben dem Feld selbst, kein eigener Absatz mehr. */
   .feld-wert--gueltigkeit-verschmolzen { display: flex; align-items: flex-end; flex-wrap: wrap; gap: var(--space-2); }
   .feld-wert--gueltigkeit-verschmolzen .gueltigkeit-zeile.ist-offen { margin-top: 0; }
+  /* Befund GILT-AB-VOR-BIS (03.11.2026): „<Feld> — gilt ab“ ist eine eigene Zeile vor dem Feld; ihre Dreifelder stehen in der Schrift
+     des Felds (die Breiten rechnen in ch), sonst wären sie schmaler als die von „gültig bis“. Probe: tests/gueltigkeit-gilt-ab-zeile.test.js */
+  .feld-zeile--gilt-ab .gueltigkeit-zeile { margin-top: 0; font-size: inherit; }
   /* Fall 2: bleibt eine eigene Zeile NACH dem Feld, aber der Zeile des Feldes zugeordnet — sie steht in der Spalte des Werts, auf
      derselben linken Kante wie die Eingabe darüber (Befund FELD-GILT-BIS-NICHT-BUENDIG, 16.10.2026: sie stand zuvor 12 px eingerückt in der
      Spalte der Beschriftung, links neben allen anderen Feldern). `-2 / -1` ist die letzte Spalte, auch in der einspaltigen Zeile am Handy. */
   .gueltigkeit-zeile--eingebettet { grid-column: -2 / -1; margin-left: 0; padding-left: 0; border-left: 0; }
-  .sektion-hint { color: var(--ink2); font-size: var(--fs-sm); font-style: italic; margin: 0 0 var(--space-3); }
+  /* Einleitungen und Hinweise stehen aufrecht (Zielbild S4, Abnahme v979 Nr. 9); auch die Handschrift-Anleitung im Notfallblatt (.nfb-hand) steht aufrecht, als Leiste. */
+  .sektion-hint { color: var(--ink2); font-size: var(--fs-role-hilfe); font-style: normal; margin: 0 0 var(--space-3); }
   /* Pflichtfeld-Markierung: dezenter Stern; Pflicht ist die Ausnahme, kein Block-Symbol. */
   .feld-pflicht-marker { color: var(--ink3); margin-left: var(--space-1); }
   /* UX-Spec VII: Pausen-Erlaubnis als Abschluss-Zeile pro Bereich. */
-  .pause-erlaubnis { color: var(--ink2); font-style: italic; margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px dotted var(--line); }
+  .pause-erlaubnis { color: var(--ink2); font-style: normal; margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px dotted var(--line); }
   /* Zug 4 (Auftrag „Depot ist Datei", 08.08.2026, S5): Datei-Info in der Depot-Liste. */
-  .depot-datei-info { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dotted var(--line); font-size: var(--fs-sm); line-height: 1.5; }
-  .depot-datei-hinweis { color: var(--ink2); font-style: italic; }
+  .depot-datei-info { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px dotted var(--line); font-size: var(--fs-role-hilfe); line-height: 1.5; }
+  .depot-datei-hinweis { color: var(--ink2); font-style: normal; }
   /* Bereich-Aktionsleiste — Bearbeiten/Fertig direkt oben, leicht zu finden. */
   .bereich-aktionen { display: flex; justify-content: flex-end; gap: var(--space-3); margin: 0 0 var(--space-4); }
   /* „Fertig"-Aktionsleiste (Bearbeiten-Modus, ganz unten): ruhiger Umriss-Knopf, inhaltsbreit
@@ -1113,10 +1133,14 @@
      Auswahl und Datum nannte. Jetzt jedes Feld, samt Farbe; Regeln mit eigener Schrift (Code-Felder) gewinnen weiter über ihre
      Spezifität. Probe: die Browser-Probe zu Feldschrift und Entsperrfeld. */
   input, select, textarea { font-family: inherit; color: var(--ink); }
-  /* Platzhalter wie die Eingabe, nicht kursiv, in --ink3 (Zielbild 30.10.2026, Abschnitt 3 „Schrift“). */
-  input::placeholder, textarea::placeholder { color: var(--ink3); font-style: normal; font-size: inherit; opacity: 1; }
+  /* Befund PLATZHALTER-WIE-WERT (03.11.2026): kursiv, und jeder Beispielwert beginnt mit „z. B. “. Dazu die helle Mischfarbe aus Abnahme v998:
+     in --ink3 sah ein leeres Feld mit Beispiel („Lindenweg 4“) ausgefüllt aus. Zwei Drittel Wertfarbe auf der Feldfläche hält WCAG 1.4.3
+     (hell ≥ 4,8:1); nachts reicht gut die Hälfte (≥ 4,9:1). Proben: tests/platzhalter-beispiel-vorsatz.test.js, tests/platzhalter-leer-sichtbar.test.js. */
+  input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--ink) 65%, var(--feld-flaeche)); font-style: italic; font-size: inherit; opacity: 1; }
+  html.dark-mode input::placeholder, html.dark-mode textarea::placeholder { color: color-mix(in srgb, var(--ink) 55%, var(--feld-flaeche)); }
   /* Sektor-Einführungstext — die erste Stimme pro Bereich. Serife (Erzählung), dezent. */
-  .sektor-intro { color: var(--ink); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-sm); margin: 0 0 var(--space-4); white-space: pre-line; }
+  /* Untertitel unter dem Seitentitel: 17 px in text-2 (--ink2), nicht kursiv (Zielbild S4, Abnahme v979 Nr. 7; Zielbild Schrift, Rolle Einleitung). */
+  .sektor-intro { color: var(--ink2); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-role-einleitung); line-height: 1.5; margin: 0 0 var(--space-4); white-space: pre-line; }
   /* Deckblatt (Foto + Name) oben im Identitäts-Bereich. */
   .deckblatt { display: flex; align-items: center; gap: var(--space-4); margin: var(--space-2) 0 var(--space-5); }
   /* Gesamtbild-UX-Konzept, Abschnitt B.2 (27.08.2026): EIN Rahmen für beide Zustände (Leer/
@@ -1133,9 +1157,9 @@
   
   .deckblatt-bild { width: 100%; height: 100%; object-fit: cover; display: block; }
   .deckblatt-platzhalter { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
-    color: var(--ink3); font-size: var(--fs-platzhalter); }
+    color: var(--ink3); font-size: var(--fs-role-hilfe); }
   .deckblatt-platzhalter svg { width: 22px; height: 22px; }
-  .deckblatt-name { font-family: var(--font-narrativ); font-size: var(--fs-xl); color: var(--salbei-dunkel); }
+  .deckblatt-name { font-family: var(--font-narrativ); font-size: var(--fs-role-abschnitt); color: var(--salbei-dunkel); }
   /* Fläche→Rand (27.08.2026): keine Sub-Akzent-Übersteuerung mehr — Deckblatt bleibt Markenfarbe
      wie im Ankerdepot, auch im Vollmacht-Modus. */
   /* Listen-Editor (U2-ADR-010 Render-Schicht) — kleine Aktions-Knöpfe pro Eintrag, Hinzufügen am Ende. */
@@ -1163,7 +1187,7 @@
   .liste-eintrag-wert { color: var(--ink); font-weight: var(--fw-regular); overflow-wrap: break-word; }
   html.high-contrast .liste-eintrag-label, html.high-contrast .liste-eintrag-wert,
   html.dark-mode .liste-eintrag-label, html.dark-mode .liste-eintrag-wert { font-weight: var(--fw-regular); }
-  .btn-mini { font-size: var(--fs-xs); padding: var(--space-1) var(--space-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm, 4px); color: var(--ink2); cursor: pointer; }
+  .btn-mini { font-size: var(--fs-role-hilfe); padding: var(--space-1) var(--space-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm, 4px); color: var(--ink2); cursor: pointer; }
   .btn-mini:hover { background: var(--flaeche-hover); }
   /* Gerätetest v76 (F3): ein Knopf, der nichts tut, darf nicht bedienbar aussehen. Betrifft die
      ↑/↓-Ränder (erste/letzte Zeile); `.btn-mini` hatte bisher gar keinen Aus-Zustand.
@@ -1210,8 +1234,18 @@
   .liste-eintrag-form .feld-zeile-sub { grid-template-columns: 1fr; gap: var(--space-1); padding: var(--space-1) 0; border-top: none; }
   /* Hinzufügen (07.10.2026): der erste Eintrag einer leeren Liste steht als Eingaben im Bereich; „Alle Angaben“ ist ein leiser Verweis. */
   .liste-inline { display: flex; flex-direction: column; gap: var(--space-1); }
-  .liste-alle-angaben { align-self: flex-start; background: none; border: 0; padding: 2px 0; min-height: 24px; color: var(--link); font: inherit;
-    font-size: var(--fs-sm); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  /* „Weitere Angaben ›“ (Bedienmuster 12, 31.10.2026): ein Aufklapper im Fluss, die Felder erscheinen darunter, kein Dialog. Der Kopf ist ein Knopf
+     (aria-expanded, aria-controls), in Salbei-dunkel wie jede leise Handlung der Anwendung, nie unterstrichen. Der Pfeil › steht rechts (ein gedrehter
+     Winkel aus zwei Rändern, denn das Zeichen › gehört nicht zu den erlaubten Zeichen eines stil-Teils) und dreht beim Öffnen nach unten
+     (aria-expanded). Gebaut von weitereAngabenHTML, verdrahtet von weitereAngabenVerdrahten; die Liste Kinder und Schutzbefohlene ist die erste Nutzung. */
+  .weitere-angaben { align-self: stretch; }
+  .weitere-angaben-kopf { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: 0; padding: 2px 0; min-height: 24px;
+    color: var(--salbei-dunkel); font: inherit; font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); text-align: left; text-decoration: none; cursor: pointer; }
+  .weitere-angaben-kopf::before { content: ''; display: inline-block; order: 2; width: 0.4em; height: 0.4em; margin: 0 var(--space-1) 0 var(--space-2); border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor; transform: rotate(45deg); transition: transform 0.15s ease; }
+  .weitere-angaben-kopf[aria-expanded="true"]::before { transform: rotate(135deg); }
+  html.dark-mode .weitere-angaben-kopf { color: var(--salbei-nacht); }
+  .weitere-angaben-inhalt { padding-top: var(--space-2); }
   /* U2-ADR-064: conditional Unterfeld-Zeile ausgeblendet (schlägt das grid-display der .feld-zeile). */
   
   /* Ref-Picker — Dropdown plus Override-Freitext nebeneinander. */
@@ -1221,7 +1255,7 @@
      Option, nicht nach dem Container). flex-basis+min-width:0 an beiden Kindern: sie teilen
      sich den Platz gleichmäßig und brechen sauber um, bevor eines das andere verdrängt. */
   .feld-ref-picker { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
-  .feld-ref-picker select, .feld-ref-picker input { font-size: var(--fs-sm); padding: var(--space-1); flex: 1 1 160px; min-width: 0; }
+  .feld-ref-picker select, .feld-ref-picker input { font-size: var(--fs-role-hilfe); padding: var(--space-1); flex: 1 1 160px; min-width: 0; }
   .feld-ref-picker select { text-overflow: ellipsis; }
   /* B2-Fix (25.07.2026, iPhone-Befund): das native WebKit-<select> ehrt min-width:0 NICHT und zieht
      die min-content-Breite seiner längsten Option (gemessen 601px bei einem realen Namen, Container
@@ -1242,9 +1276,9 @@
   .inline-neu { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-top: var(--space-2); padding: var(--space-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); grid-column: 1 / -1; }
   /* Beschriftung über dem Feld (Gestaltungsleitung 31.10.2026): eine ruhige Karte statt Hinweisfläche mit Goldrand. */
   /* Beschriftung über dem Feld, jedes Feld auf voller Breite der Maske (Gestaltungsleitung 31.10.2026). */
-  .inline-neu label { display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--fs-sm); flex: 1 1 100%; }
+  .inline-neu label { display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--fs-role-hilfe); flex: 1 1 100%; }
   .inline-neu label input, .inline-neu label input[data-neu-name] { flex: 0 0 auto; width: 100%; min-width: 0; box-sizing: border-box; }
-  .inline-neu input { font-size: var(--fs-sm); padding: var(--space-1); }
+  .inline-neu input { font-size: var(--fs-role-hilfe); padding: var(--space-1); }
   /* Anhang im Listeneintrag (Gestaltungsleitung 31.10.2026): die kleine Ablage hat einen Salbei-Rand, `hidden` blendet sie aus
      (sonst gewinnt display:flex), und die Vertraulich-Zeile steht für sich, das Kästchen neben dem Text. */
   .inline-neu[hidden] { display: none; }
@@ -1295,6 +1329,11 @@
   .feld-zeile--mehrzeilig { align-items: start; }   /* Finding 9: Label oben am mehrzeiligen Textfeld, nicht vertikal zentriert */
   .feld-zeile--mehrzeilig .feld-label { padding-top: var(--space-1); }   /* optische Grundlinie zur ersten Textzeile */
   .feld-zeile:first-of-type { border-top: none; }
+  /* Beschriftung, die der Titel darüber schon sagt (Zielbild S4, Abnahme v979 Nr. 14): optisch weg, für Screenreader im Markup; der Wert nimmt die Zeile. */
+  .feld-zeile[data-label-doppelt] > .feld-label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .feld-zeile[data-label-doppelt] > :not(.feld-label) { grid-column: 1 / -1; }
+  /* Abschnittsüberschrift, die ihre einzige Gruppe schon trägt (Nr. 14): optisch weg, für Screenreader und Sprungmarken im Markup. */
+  .sektion-titel[data-titel-doppelt] { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   .feld-label { color: var(--ink2); font-size: var(--fs-role-label); }
   /* Ein Listenfeld (Personen, Konten …) ist eine Gruppe, kein Einzelwert: sein Titel steht in der Gruppen-Rolle, nicht in der
      Label-Gestalt (UX-ABSCHNITT-KLEINER-ALS-LABEL, in Pro z. B. „Nicht zu benachrichtigende Personen“). */
@@ -1323,25 +1362,25 @@
   .feld-hervorgehoben { box-shadow: inset 0 0 0 var(--fokus-breite) var(--fokus);
     border-radius: var(--radius-1); transition: box-shadow .3s ease; }
   @media (prefers-reduced-motion: reduce) { .feld-hervorgehoben { transition: none; } }
-  .leer { color: var(--ink3); font-style: italic; font-size: var(--fs-xs); }
+  .leer { color: var(--ink3); font-style: normal; font-size: var(--fs-role-hilfe); }
   /* Leichtere Leerfelder (der Befund): unausgefüllte Zeilen in der Lese-Sicht ruhiger —
      weniger Höhe, fast unsichtbare Trennlinie, gedämpftes, kleineres Label. So treten leere
      Bereiche zurück; ausgefüllte Felder bleiben unverändert kräftig. Gilt mobil wie Desktop. */
   .feld-zeile--leer { padding: var(--space-1) 0; border-top-color: var(--feld-leer-linie); }
-  .feld-zeile--leer .feld-label { font-size: var(--fs-xs); color: var(--ink3); }
+  .feld-zeile--leer .feld-label { font-size: var(--fs-role-hilfe); color: var(--ink3); }
   /* Typografie-Hierarchie NUR in der Eingabe-/Bearbeitungs-Sicht (.sektion--eingabe) — ENG gehalten,
      weil .feld-wert/.feld-zeile--leer auch in Cross-Sektor/Situation/Wizard/Notfall gerendert werden.
      Gefüllter Wert: Gewicht 500 (Hierarchie-Mittel) + sehr dunkles Grün #1f3d28 (11,6:1 auf Papier, AA ✓,
      dunkler als Titel --salbei-dunkel). Leer-Label angehoben auf --fs-sm/--ink2 (7,8:1 ✓, „welches Feld ist offen").
      „nicht hinterlegt" (.leer) bleibt --ink3/12px/kursiv (4,55–4,80:1 ✓) — zartester AA-sicherer Ton. */
-  .sektion--eingabe .feld-wert { font-weight: var(--fw-medium); font-size: var(--fs-base); color: var(--ink); }
+  .sektion--eingabe .feld-wert { font-weight: var(--fw-medium); font-size: var(--fs-role-text); color: var(--ink); }
   /* Vorgeschlagene Schritte einer Liste (29.10.2026): der Kasten steht im Wertbereich, ist aber noch kein Wert —
      er erbte das Gewicht des gefüllten Werts (550, dunkel/Hochkontrast 600) und stand fett. Normales Gewicht; eingetragene Werte bleiben
      hervorgehoben. Listenfelder laufen unter ihrer Beschriftung über die volle Breite, sonst bliebe die 200px-Spalte unter der
      Beschriftung über die ganze Höhe der Liste leer. Probe: tests/feld-liste-vorschlag-css.test.js. */
   .sektion--eingabe .feld-wert .liste-vorschlaege { font-weight: var(--fw-regular); }
   .sektion--eingabe .feld-zeile:has(> .feld-wert > .feld-liste-editor) { grid-template-columns: 1fr; }
-  .sektion--eingabe .feld-zeile--leer .feld-label { font-size: var(--fs-sm); color: var(--ink2); }
+  .sektion--eingabe .feld-zeile--leer .feld-label { font-size: var(--fs-role-hilfe); color: var(--ink2); }
   /* K4 Zug 3 (10.08.2026): `select` fehlte hier — es bekam bislang NUR die Mindesthöhe
      (Zeile ~1600) und blieb sonst rohe Systemdarstellung (kein Rand/Radius/Innenabstand),
      während das Nachbar-Feld `input` längst diese Box trägt. Jetzt dieselbe Box, dazu ein
@@ -1381,7 +1420,7 @@
     background: var(--salbei-light); border: none; border-left: var(--akzent-rand) solid var(--gold); border-radius: var(--radius-sm);
   }
   .hinweis-box {
-    padding: var(--space-2) var(--space-3); font-size: var(--fs-sm); color: var(--ink2); margin: var(--space-4) 0;
+    padding: var(--space-2) var(--space-3); font-size: var(--fs-role-hilfe); color: var(--ink2); margin: var(--space-4) 0;
   }
   /* Design-Sprache-Nachtrag (25.08.2026, abends) — NUR die Vorschau-Variante (Beispiel-Ansicht,
      data-bereich-leer="vorschau") bekommt die Karten-Grammatik (Rand+Schatten+Rundung wie
@@ -1400,10 +1439,10 @@
   .vorschlag-bereiche { margin: var(--space-2) 0 var(--space-3); color: var(--ink2); }
   /* D37 — Namenlos-Hinweis (nicht-blockierend, wegklickbar). NUR bestehende Tokens (wie .hinweis-box),
      keine neue Farbe, kein Token geändert. */
-  .d37-namensbanner { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-4); margin: 0 0 var(--space-4); font-size: var(--fs-sm); color: var(--ink); }
+  .d37-namensbanner { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-4); margin: 0 0 var(--space-4); font-size: var(--fs-role-hilfe); color: var(--ink); }
   .d37-namensbanner .d37-text { flex: 1 1 auto; }
-  .d37-namensbanner .d37-cta { flex: 0 0 auto; background: transparent; border: none; color: var(--ink); font-weight: var(--fw-semibold); text-decoration: underline; cursor: pointer; font-size: var(--fs-sm); padding: 0 var(--space-1); min-height: 44px; }
-  .d37-namensbanner .d37-weg { flex: 0 0 auto; background: transparent; border: none; color: var(--ink2); cursor: pointer; font-size: var(--fs-base); line-height: 1; min-width: 44px; min-height: 44px; }
+  .d37-namensbanner .d37-cta { flex: 0 0 auto; background: transparent; border: none; color: var(--ink); font-weight: var(--fw-semibold); text-decoration: underline; cursor: pointer; font-size: var(--fs-role-hilfe); padding: 0 var(--space-1); min-height: 44px; }
+  .d37-namensbanner .d37-weg { flex: 0 0 auto; background: transparent; border: none; color: var(--ink2); cursor: pointer; font-size: var(--fs-role-text); line-height: 1; min-width: 44px; min-height: 44px; }
   /* M3 (M3/M4, 09.08.2026) — anklickbare Fundstellen-Liste (Lösch-Hinweis UND
      persistente Anzeige beim Bearbeiten einer Person, s. _referenzStellenListeHTML). */
   .referenz-stellen-liste { margin: var(--space-2) 0 0; padding-left: 1.2em; }
@@ -1423,7 +1462,7 @@
   /* Fehlermeldung im Dialog (z. B. Anlegen schlug fehl) — statt eines toten, offenen
      Modals. Roter Akzentrand, gut lesbar, im Design-System. `hidden` blendet sie aus. */
   .modal-fehler { background: var(--fehler-flaeche); border: 1px solid var(--error); border-left: var(--akzent-rand-warnung) solid var(--error);
-    border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--fs-sm);
+    border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--fs-role-hilfe);
     color: var(--ink); margin: 0 0 var(--space-3); line-height: 1.5; }
   .modal-fehler[hidden] { display: none; }
   /* Beschäftigt-Zustand des Anlegen-Knopfs: ausgegraut + kleiner, drehender Ring,
@@ -1449,16 +1488,16 @@
 
   /* Situationsblätter (U2-ADR-012) — Karte mit Blöcken; sektor-gezogen + eigen gleich gerendert.
      Quelle-Tag dezent, Click-Through auf sektor-gezogene Zeilen, sensibel-Marker am Bildschirm. */
-  .quelle-tag { color: var(--ink3); font-size: var(--fs-xs); font-style: italic; }
+  .quelle-tag { color: var(--ink3); font-size: var(--fs-role-hilfe); font-style: italic; }
   .feld-zeile.klick-durch { cursor: pointer; }
   .feld-zeile.klick-durch:hover .feld-label { color: var(--akzent); text-decoration: underline; }
   /* (27.08.2026): inline hinter einem langen, zeilenumbrechenden Wert las sich
      der Hinweis wie dessen Fortsetzung ("…Stadium 3 im Bereich öffnen ›"). display:block statt
      eines Trennzeichens — trennt unabhängig von jeder künftigen Wertlänge, statt bei jeder neu
      zu kollidieren. */
-  .feld-zeile.klick-durch .klick-hinweis { display: block; color: var(--ink3); font-size: var(--fs-xs); opacity: 0; transition: opacity .15s; }
+  .feld-zeile.klick-durch .klick-hinweis { display: block; color: var(--ink3); font-size: var(--fs-role-hilfe); opacity: 0; transition: opacity .15s; }
   .feld-zeile.klick-durch:hover .klick-hinweis { opacity: 0.7; }
-  .autoritativ-marker { color: var(--salbei-dunkel); font-size: var(--fs-xs); font-weight: var(--fw-semibold); margin-left: var(--space-2); }
+  .autoritativ-marker { color: var(--salbei-dunkel); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); margin-left: var(--space-2); }
   /* Nutzer-gewählte Sensibilität (Schema 21): kleines Schloss pro Feld + dezenter Marker. */
   .sensibel-schloss { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle;
     margin-left: var(--space-2); padding: 2px; border: 0; background: transparent; cursor: pointer;
@@ -1466,23 +1505,23 @@
   .sensibel-schloss svg { width: 15px; height: 15px; display: block; }
   .sensibel-schloss:hover { color: var(--akzent); background: var(--schleier-dunkel-hover); }
   .sensibel-schloss.an { color: var(--gold); }
-  .sensibel-tag { color: var(--gold); font-size: var(--fs-xs); font-style: italic; margin-left: var(--space-2); }
-  .situationen-leer-hint { color: var(--situationen-leer-schrift); font-size: var(--fs-xs); font-style: italic; padding: var(--space-2) var(--space-5) var(--space-3); }
+  .sensibel-tag { color: var(--gold); font-size: var(--fs-role-hilfe); font-style: italic; margin-left: var(--space-2); }
+  .situationen-leer-hint { color: var(--situationen-leer-schrift); font-size: var(--fs-role-hilfe); font-style: normal; padding: var(--space-2) var(--space-5) var(--space-3); }
   /* „Das wird exportiert"-Übersicht + Herausgeben-Chooser */
   .export-uebersicht-block { margin-bottom: var(--space-3); }
-  .export-uebersicht-block h4 { margin: var(--space-3) 0 var(--space-1); font-size: var(--fs-sm); color: var(--ink2); }
-  .export-uebersicht-liste { margin: 0 0 var(--space-2); padding-left: var(--space-4); color: var(--ink2); font-size: var(--fs-sm); }
+  .export-uebersicht-block h4 { margin: var(--space-3) 0 var(--space-1); font-size: var(--fs-role-hilfe); color: var(--ink2); }
+  .export-uebersicht-liste { margin: 0 0 var(--space-2); padding-left: var(--space-4); color: var(--ink2); font-size: var(--fs-role-hilfe); }
   .export-uebersicht-liste li { margin: 1px 0; }
   .export-uebersicht-liste.zurueck li { color: var(--gold); }
-  .export-uebersicht-zeile { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--fs-sm); color: var(--ink2); margin-top: var(--space-2); }
+  .export-uebersicht-zeile { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--ink2); margin-top: var(--space-2); }
   .export-uebersicht-zeile input { width: auto; margin: 0; }
   /* Per-Feld-Ausschluss in der Export-Übersicht (Schloss-Bedienung gewandert):
      je Feld eine Zeile mit Häkchen „nicht herausgeben". Touch-Ziel ≥44px, Label ≥16px. */
-  .export-ausschluss-hinweis { color: var(--ink2); font-size: var(--fs-sm); margin: 0 0 var(--space-2); font-weight: var(--fw-semibold); }
+  .export-ausschluss-hinweis { color: var(--ink2); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-2); font-weight: var(--fw-semibold); }
   .export-ausschluss-liste { display: flex; flex-direction: column; margin: 0 0 var(--space-3); }
   .export-ausschluss-zeile { display: flex; align-items: center; gap: var(--space-3);
     min-height: 44px; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);
-    cursor: pointer; color: var(--ink); font-size: var(--fs-auswahl-zeile); line-height: 1.4; }
+    cursor: pointer; color: var(--ink); font-size: var(--fs-role-text); line-height: 1.4; }
   .export-ausschluss-zeile:hover { background: var(--salbei-light); }
   .export-ausschluss-zeile input.export-ausschluss { width: 20px; height: 20px; min-width: 20px; flex: 0 0 auto;
     margin: 0; accent-color: var(--salbei-mid); cursor: pointer; }
@@ -1497,40 +1536,54 @@
      NEBEN dem Feldnamen für schema-sensible Kandidaten — --salbei-dunkel, volle Deckkraft
      (5,92:1 auf Cream). Dunkelmodus-Override steht in der zentralen html.dark-mode-Liste
      (s. dort), NICHT hier, damit künftige Prüfungen einen einzigen Ort kennen. */
-  .export-schema-badge { color: var(--salbei-dunkel); font-size: var(--fs-xs); font-style: italic; margin-left: var(--space-2); }
+  .export-schema-badge { color: var(--salbei-dunkel); font-size: var(--fs-role-hilfe); font-style: italic; margin-left: var(--space-2); }
   /* „Die Herausgabe kommt ohne Kästchen aus" (12.08.2026) — Normalweg: eine reine
      Leseliste (kein Bedienelement je Zeile), die „Nicht mitgeschickt"-Box mit Namen + Grund,
      der dezente Zweitweg-Link. Rückhalte-Weg: Zählzeile + eine Zeile je Angabe mit Zustand als
      SATZ (nicht als Symbol) und einem Knopf, der die Handlung benennt. */
   .export-geht-liste { list-style: none; margin: 0 0 var(--space-3); padding: 0; }
-  .export-geht-liste li { padding: var(--space-1) 0; border-bottom: 1px solid var(--line); font-size: var(--fs-base); }
+  .export-geht-liste li { padding: var(--space-1) 0; border-bottom: 1px solid var(--line); font-size: var(--fs-role-text); }
   .export-geht-liste li:last-child { border-bottom: none; }
   .export-nicht-box { background: var(--flaeche-hinweis); border-left: var(--akzent-rand) solid var(--gold); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    padding: var(--space-2) var(--space-3); margin: 0 0 var(--space-3); font-size: var(--fs-sm); color: var(--ink2); }
+    padding: var(--space-2) var(--space-3); margin: 0 0 var(--space-3); font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .export-nicht-box b { display: block; margin-bottom: 2px; }
   .export-nicht-box p { margin: 0 0 var(--space-1); }
   .export-nicht-box p:last-child { margin-bottom: 0; }
   .export-zurueckhalten-link-zeile { margin: 0; }
-  .export-zaehlzeile { color: var(--ink2); font-size: var(--fs-sm); margin: 0 0 var(--space-3); }
+  .export-zaehlzeile { color: var(--ink2); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-3); }
   .export-rueckhalte-liste { display: flex; flex-direction: column; }
   .export-zz { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
     padding: var(--space-2) 0; border-bottom: 1px solid var(--line); }
   .export-zz:last-child { border-bottom: none; }
-  .export-zz-lab { font-size: var(--fs-base); min-width: 0; overflow-wrap: anywhere; }
-  .export-zz-zustand { display: block; font-size: var(--fs-xs); color: var(--gold); font-weight: var(--fw-semibold); margin-top: 1px; }
+  .export-zz-lab { font-size: var(--fs-role-text); min-width: 0; overflow-wrap: anywhere; }
+  .export-zz-zustand { display: block; font-size: var(--fs-role-hilfe); color: var(--gold); font-weight: var(--fw-semibold); margin-top: 1px; }
   .export-zz-gehalten .export-zz-lab { color: var(--ink3); }
   .export-zz-format-fest .export-zz-lab { color: var(--ink3); }
   .export-zz-format-fest .export-zz-zustand { color: var(--ink3); font-weight: var(--fw-regular); font-style: italic; }
+  /* 03.11.2026 (Befund B13, Rundgang Pro): in „Selbst zusammenstellen“ standen Beschriftung, Eingabe und „Aufnehmen“ in einer
+     Reihe; am Handy brachen Wörter mitten im Wort, ein Treffer war rund 110 px hoch. Die Treffer-Zeile bricht um: die Beschriftung
+     nimmt die ganze Breite, darunter Eingabe und Knopf. Am breiten Bildschirm bleibt alles in einer Reihe. Probe:
+     tests/zusammenstellen-treffer-schmal.test.js. */
+  #zus-treffer .export-zz { flex-wrap: wrap; }
+  #zus-treffer .export-zz-lab { flex: 1 1 16rem; overflow-wrap: break-word; }
+  #zus-treffer .zus-fuellen { flex: 1 1 12rem; min-width: 0; }
   /* Trefferflächen 44px auch am Zeigegerät (Auftrags-Posten 13, wie `_refmZeileHTML`) — die
      Zeilen-Knöpfe tragen `.btn-mini`, das seit Zug 4 „Startseite und Oberfläche" (12.08.2026)
      unconditional 44px führt (kein `@media (pointer:coarse)`-Gate mehr). */
   .export-zz-btn { white-space: nowrap; flex: 0 0 auto; }
   .export-zz-btn-zurueck { border-color: var(--gold); color: var(--export-zurueck-schrift); background: var(--flaeche-hinweis); }
+  /* Felder einer verwiesenen Person auf ausdrückliche Anfrage: je Person ein Zwischentitel „Name · Feld“, darunter je Feld
+     eine Zeile; was die Person nicht führt, trägt den Chip „fehlt“ und keine Wahl. */
+  .export-zusatz-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--ink2); padding: var(--space-3) 0 var(--space-1); border-bottom: 1px solid var(--line); }
+  .export-geht-liste li.export-zusatz-titel { font-size: var(--fs-role-hilfe); padding-top: var(--space-3); }
+  .export-zz-fehlt .export-zz-lab, .export-zusatz-fehlt { color: var(--ink3); }
+  .export-chip-fehlt { display: inline-block; margin-left: var(--space-2); padding: 0 var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    font-size: var(--fs-role-hilfe); color: var(--ink3); background: none; }
   .herausgeben-chooser { display: flex; flex-direction: column; gap: var(--space-2); }
-  .herausgeben-chooser .btn { justify-content: flex-start; text-align: left; font-size: var(--fs-sm); }   /* U2-ADR-046 ② — Chooser-Knöpfe kleiner (waren --fs-base, wirkten zu groß) */
+  .herausgeben-chooser .btn { justify-content: flex-start; text-align: left; font-size: var(--fs-role-hilfe); }   /* U2-ADR-046 ② — Chooser-Knöpfe kleiner (waren --fs-base, wirkten zu groß) */
   .qr-teile { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
   .qr-teil { text-align: center; }
-  .qr-teil-nr { font-size: var(--fs-xs); color: var(--ink2); margin-top: var(--space-1); }
+  .qr-teil-nr { font-size: var(--fs-role-hilfe); color: var(--ink2); margin-top: var(--space-1); }
 
   /* Notfall-Sicht — die EINE Notfall-Darstellung (4.5) */
   
@@ -1565,30 +1618,44 @@
   .modal { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-soft); max-width: 460px; width: 100%; padding: var(--space-5) var(--space-4); max-height: calc(100vh - 2 * var(--space-5)); max-height: calc(100dvh - 2 * var(--space-5)); display: flex; flex-direction: column; }
   .modal-koerper { overflow-y: auto; -webkit-overflow-scrolling: touch; flex: 1 1 auto; min-height: 0; }
   .modal h3 { margin: 0 0 var(--space-3) 0; color: var(--salbei-dunkel); display: flex; align-items: center; gap: var(--space-2); flex: 0 0 auto; }
+  /* I02 (Muster 03): der Kopf trägt links oben das Schließen-Kreuz, daneben den Titel. Das Kreuz ist eine ruhige Fläche mit 44 px Zielgröße, kein Rahmen. */
+  .modal-kopf { display: flex; align-items: flex-start; gap: var(--space-2); flex: 0 0 auto; }
+  .modal-kopf h3 { flex: 1 1 auto; min-width: 0; padding-top: var(--space-2); }
+  .modal-x { position: relative; flex: 0 0 auto; width: 44px; height: 44px; margin: calc(-1 * var(--space-2)) 0 0 calc(-1 * var(--space-2)); padding: 0; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink2); cursor: pointer; }
+  .modal-x::before, .modal-x::after { content: ""; position: absolute; left: 50%; top: 50%; width: 18px; height: 2px; border-radius: var(--radius-pill); background: currentColor; }
+  .modal-x::before { transform: translate(-50%, -50%) rotate(45deg); }
+  .modal-x::after { transform: translate(-50%, -50%) rotate(-45deg); }
+  .modal-x[hidden], .modal-verwerfen[hidden] { display: none; }
+  .modal-x:hover { background: color-mix(in srgb, var(--ink2) 10%, transparent); }
+  .modal-aktionen[hidden] { display: none; }
+  /* I02: die Rückfrage „Ihre Eingaben verwerfen?“ steht unten an der Stelle der Knöpfe (Muster 15: „Weiter bearbeiten · Verwerfen“). */
+  .modal-verwerfen { flex: 0 0 auto; margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+  .modal-verwerfen p { margin: 0; font-weight: var(--fw-semibold); }
+  .modal-verwerfen .modal-aktionen { margin-top: var(--space-3); padding-top: 0; }
   /* Vivodepot-Bildmarke im Dialog-Titel (z. B. Speichern/Anlegen) — Branding-Konsistenz,
      auf Desktop wie auf Mobile sichtbar. */
   .modal-logo { width: 32px; height: 32px; border-radius: 50%; background: var(--cream); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
   .modal-logo svg { width: 24px; height: 24px; display: block; }
-  .modal label { display: block; font-size: var(--fs-sm); color: var(--ink2); margin-bottom: var(--space-2); }
+  .modal label { display: block; font-size: var(--fs-role-hilfe); color: var(--ink2); margin-bottom: var(--space-2); }
   /* A104 Teil 1, Klasse C (05.08.2026) — WCAG 2.5.5 AAA Touch-Ziel im Modal-Kontext: jeder
      Select in jedem Modal wächst auf 44px. Gemessen (u. a. #sub-grundlage, Sub-Depot-Anlage):
      396×24, exakt auf der 2.5.8-AA-Pflichtgrenze ohne Puffer, wie die zwölf Sektorfeld-Selects
      (Teil 2 dieses Auftrags) — hier aber ohne Layout-Spannung, weil ein Modal ohnehin ein
      eigenständiger, seltener aufgerufener Dialog ist, keine dichte Feldliste. */
   .modal select { min-height: 44px; }
-  .modal input { width: 100%; padding: var(--space-3); border: var(--feld-rahmen-dialog); border-radius: var(--radius-feld); font-size: var(--fs-base); margin-bottom: var(--space-4); }
+  .modal input { width: 100%; padding: var(--space-3); border: var(--feld-rahmen-dialog); border-radius: var(--radius-feld); font-size: var(--fs-role-text); margin-bottom: var(--space-4); }
   /* D48: Feld-Markierung bei Passwort-Mismatch — bestehendes Error-Token, keine neue Farbe. */
   .modal input.feld-fehler { border-color: var(--error); box-shadow: 0 0 0 2px color-mix(in srgb, var(--error) 28%, transparent); }
   /* D48: Inline-Mismatch-Meldung direkt unter dem zweiten Passwort-Feld (knapper, ohne den
      fetten Block-Look der modal-fehler-Box, damit sie eng am Feld sitzt). */
-  .modal .feld-inline-fehler { color: var(--error); font-size: var(--fs-sm); font-weight: var(--fw-semibold); margin: calc(-1 * var(--space-3)) 0 var(--space-4); }
+  .modal .feld-inline-fehler { color: var(--error); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); margin: calc(-1 * var(--space-3)) 0 var(--space-4); }
   /* Passphrase-Stärke (Befund 1.7): ruhige, hinweisende Rückmeldung — keine neuen Marken-Farben,
      nur die vorhandenen Funktions-Tokens (--line neutral, --warning Bernstein, --success Grün). */
-  .pw-staerke { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-sm); color: var(--ink2); margin: calc(-1 * var(--space-3)) 0 var(--space-4); }
+  .pw-staerke { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--ink2); margin: calc(-1 * var(--space-3)) 0 var(--space-4); }
   .pw-staerke[hidden] { display: none; }
   .pw-vorschlag { margin: calc(-1 * var(--space-2)) 0 var(--space-4); }
   .pw-vorschlag-anzeige[hidden], .pw-eigen-hinweis[hidden] { display: none; }
-  .pw-vorschlag-woerter { font-size: var(--fs-lg); font-weight: var(--fw-semibold); letter-spacing: var(--ls-abschnitt); margin: var(--space-3) 0 var(--space-2); }
+  .pw-vorschlag-woerter { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); letter-spacing: var(--ls-abschnitt); margin: var(--space-3) 0 var(--space-2); }
   .pw-vorschlag-woerter span { white-space: nowrap; }
   .pw-vorschlag-woerter .pw-wort-ok { color: var(--salbei-dunkel); text-decoration: underline; }
   html.dark-mode .pw-vorschlag-woerter .pw-wort-ok { color: var(--salbei-nacht); }
@@ -1599,8 +1666,8 @@
   /* Kopf des Anlegen-Fensters (Gestaltungsleitung 01.11.2026): Zeichen und Titel in einer Zeile, „Schritt 1 von 2“ klein darunter. Die Schrittzeile
      steht im Quelltext vorn (Lesereihenfolge), die Reihenfolge im Bild kommt über order. */
   .modal h3:has(> .modal-schritt) { flex-wrap: wrap; }
-  .modal-schritt { display: block; font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--ink3); margin: 0; order: 1; flex-basis: 100%; }
-  .pw-satz { font-size: var(--fs-base); line-height: 1.5; color: var(--ink); margin: 0 0 var(--space-5); }
+  .modal-schritt { display: block; font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink3); margin: 0; order: 1; flex-basis: 100%; }
+  .pw-satz { font-size: var(--fs-role-text); line-height: 1.5; color: var(--ink); margin: 0 0 var(--space-5); }
   .pw-eigen-weg { margin: calc(-1 * var(--space-4)) 0 var(--space-5); }
   .pw-eigen-weg[hidden] { display: none; }
   .btn-text { background: none; border: none; padding: 0; font: inherit; font-weight: var(--fw-medium); color: var(--salbei-dunkel); text-decoration: none; cursor: pointer; }
@@ -1641,10 +1708,46 @@
   .wegkarte-zeile:hover:not(:disabled) { background: var(--line-feiner); }
   .wegkarte-zeile:disabled { cursor: not-allowed; opacity: .55; }
   .wegkarte-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  .wegkarte-name { font-size: var(--fs-base); font-weight: var(--fw-semibold); }
-  .wegkarte-wert { font-size: var(--fs-sm); color: var(--ink3); }
+  .wegkarte-name { font-size: var(--fs-role-text); font-weight: var(--fw-semibold); }
+  .wegkarte-wert { font-size: var(--fs-role-hilfe); color: var(--ink3); }
   /* Nachts bleibt die Karte dunkel wie jede andere; die umgekehrte helle Karte ließ den grauen Satz darunter auf 2,3:1 fallen. */
   html.dark-mode .wegkarte-zeile > svg { color: var(--salbei-nacht); }
+  /* Kurze Erklärung auf Abruf (Bedienmuster 26, 31.10.2026): Info-Zeichen hinter der Beschriftung, darunter ein Blatt mit Titel, kurzem Text und „Verstanden“.
+     Das „i“ ist gezeichnet, nicht geschrieben (der stil-Teil trägt keinen Text): Kreis aus ::before, Punkt und Strich aus ::after; der Kreis
+     trägt die helle Salbei-Fläche des Musters. Das Blatt steht im Fluss unter der Beschriftung (ui.modal hat nur einen Host, ein zweiter Dialog
+     darüber geht nicht). Gebaut von infoBeschriftungHTML, verdrahtet von infoblattVerdrahten bzw. infoblaetterVerdrahten. */
+  .feld-mit-info { display: flex; align-items: center; gap: var(--space-2); }
+  .info-knopf {
+    position: relative; flex: 0 0 auto; width: 44px; height: 44px; margin: -10px 0; padding: 0; border: none; background: none; cursor: pointer;
+    color: var(--salbei-dunkel);
+  }
+  .info-knopf::before {
+    content: ""; position: absolute; left: 12px; top: 12px; width: 20px; height: 20px; box-sizing: border-box;
+    border: 2px solid currentColor; border-radius: 50%; background: var(--salbei-light);
+  }
+  .info-knopf::after {
+    content: ""; position: absolute; left: 21px; top: 16px; width: 2px; height: 11px; box-sizing: border-box;
+    border-top: 2px solid currentColor; border-bottom: 7px solid currentColor;
+  }
+  .info-knopf[aria-expanded="true"] { color: var(--ink); }
+  html.dark-mode .info-knopf { color: var(--salbei-nacht); }
+  html.dark-mode .info-knopf[aria-expanded="true"] { color: var(--white); }
+  /* Im Kopf (C16, Bedienmuster 27): das Info-Zeichen neben dem Speicherstatus steht auf der Fläche der Kopfzeile, in deren Schrift, ohne helle Füllung. */
+  .tb-save-info { color: var(--auf-akzent); }
+  .tb-save-info::before { background: none; }
+  .infoblatt {
+    margin: var(--space-2) 0 var(--space-3); padding: var(--space-3) var(--space-4); background: var(--white);
+    border: 1px solid var(--line-feiner); border-radius: var(--radius-sm); box-shadow: var(--schatten-aufklapp);
+    font-size: var(--fs-role-hilfe); line-height: 1.5;
+  }
+  .infoblatt p { margin: 0 0 var(--space-2); }
+  /* Nur der Titel ist fett (GL v999 Runde 1, Punkt a): das Blatt steht unter einer Beschriftung und erbte deren Gewicht. */
+  .infoblatt { font-weight: var(--fw-regular); color: var(--ink); text-align: left; }
+  /* Das Blatt am Info-Zeichen im Kopf (Punkt b): am Auslöser, unter der Statuspille, über dem Inhalt; kein Dialog, kein Weichzeichner. */
+    .infoblatt.tb-save-blatt { position: absolute; top: calc(100% + var(--space-2)); left: var(--space-4); z-index: 60; width: min(22rem, calc(100vw - 2 * var(--space-4))); margin: 0; white-space: normal; }
+  .infoblatt .infoblatt-titel { font-weight: var(--fw-semibold); font-size: var(--fs-role-text); }
+  .infoblatt .btn { margin-top: var(--space-1); }
+  html.dark-mode .infoblatt { background: var(--ink); color: var(--white); }
   /* Einstellungen-Dialog (Bruch B) */
   .einst-abschnitt { padding: var(--space-3) 0; border-top: 1px solid var(--line); }
   .einst-abschnitt:first-child { border-top: none; }
@@ -1652,7 +1755,7 @@
      Gold ist im UI ausschließlich Echtheitsmerkmal, nie Deko-Farbe für Abschnittsüberschriften
      (Style-Guide: „Gold lebt ausschließlich im Logo-Artwork"/„Im UI nicht als Fläche verwenden") —
      Überschriften-Rolle ist --salbei-dunkel („Chrome, zugleich Überschriften-Text"). */
-  .einst-abschnitt h4 { margin: 0 0 var(--space-2); font-size: var(--fs-sm); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label); color: var(--salbei-dunkel); }
+  .einst-abschnitt h4 { margin: 0 0 var(--space-2); font-size: var(--fs-role-hilfe); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label); color: var(--salbei-dunkel); }
   /* D.4 (Rest-Sichten, 26.08.2026) — die meisten Abschnitte wandern hinter <details>; Barrierefreiheit
      bleibt bewusst das einzige schlichte <section> (Abnahme: sie bleibt offen). EIGENE, schlichte
      Hülle statt der Karten-Familie (.feldgruppen-karte/.situation-block/.anfragen-ort, Zeile ~751) —
@@ -1660,10 +1763,10 @@
      Listentrennung (border-top) wie .einst-abschnitt schon immer war. .einst-abschnitt-titel trägt
      dieselbe Text-Rolle wie das <h4> daneben (geteilte Regel oben), nur ohne dessen Abstand nach
      unten — er sitzt in einer einzeiligen <summary>, nicht über gestapeltem Inhalt. */
-  .einst-abschnitt-titel { font-size: var(--fs-sm); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label); color: var(--salbei-dunkel); }
+  .einst-abschnitt-titel { font-size: var(--fs-role-hilfe); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label); color: var(--salbei-dunkel); }
   /* Befund B2 (02.10.2026, U2-ADR-473): Status und Hinweis sind Inhalt (Version, Passwort-Hinweis), kein dezenter
      Marker — G7 § 2.2 erlaubt --fs-xs nur für Marker. Bis hier 12 px. */
-  .einst-abschnitt-status { color: var(--ink3); font-size: var(--fs-sm); }
+  .einst-abschnitt-status { color: var(--ink3); font-size: var(--fs-role-hilfe); }
   /* Befund B1 (02.10.2026, U2-ADR-473): dieselbe Akkordeon-Zeile wie die Karten (U2-ADR-174) — Titel,
      Status, Pfeil in festen Spalten. Bis hier Flex mit space-between: der `::after`-Pfeil war das dritte
      Flex-Element, und der Status schwebte je nach Titelbreite 57 bis 147 px vor dem Rand. Der Pfeil steht
@@ -1674,35 +1777,39 @@
   .einst-abschnitt > summary::after { content: '▾'; color: var(--ink3); transition: transform 0.15s ease; grid-column: 3; }
   .einst-abschnitt[open] > summary::after { transform: rotate(180deg); }
   .einst-zeile { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: var(--space-2) 0; flex-wrap: wrap; }
-  .einst-label { color: var(--ink2); font-size: var(--fs-sm); }
-  .einst-hint { color: var(--ink3); font-size: var(--fs-sm); margin: 0 0 var(--space-2); }
-  .einst-anbieter { color: var(--ink); font-size: var(--fs-sm); margin: 0 0 var(--space-1); }
+  .einst-label { color: var(--ink2); font-size: var(--fs-role-hilfe); }
+  .einst-hint { color: var(--ink3); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-2); }
+  .einst-anbieter { color: var(--ink); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-1); }
   /* Einheitliche Werte-Rolle (Version/Stand/Hash/Lizenz gleich behandelt, keiner größer als die
      anderen — vorher waren Version/Stand/Lizenz unstyled und liefen auf Ambient-Größe, während
      nur Hash explizit klein war; der Lizenz-Wert wirkte dadurch wie eine Überschrift). */
-  .einst-wert { font-size: var(--fs-sm); color: var(--ink); }
+  .einst-wert { font-size: var(--fs-role-hilfe); color: var(--ink); }
   .einst-hash { font-family: ui-monospace, Menlo, Consolas, monospace; color: var(--ink2); word-break: break-all; }
   /* U2-ADR-430: der Wiederherstellungs-Code zum Abschreiben — groß, gleichbreit, Gruppen nicht getrennt umbrochen. */
-  .whc-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: var(--fs-code); font-weight: var(--fw-semibold); letter-spacing: var(--ls-code);
+  .whc-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); letter-spacing: var(--ls-code);
     text-align: center; padding: var(--space-3) var(--space-2); border: 2px solid var(--ink2); border-radius: var(--radius-md); word-spacing: 0.2em; }
+  /* GL C02 (03.11.2026): Druckknöpfe als Zeile unter dem Code, Überschrift vor dem Abtippen. */
+  .whc-druck-zeile { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 0; }
+  /* GL 03.11.2026: derselbe Abstand nach oben wie über „Später einrichten“; .modal h3 setzt sonst oben 0. */
+  .modal h3.whc-abtippen-titel { font-size: var(--fs-role-text); font-weight: var(--fw-semibold); margin: var(--space-6) 0 var(--space-1); }
   /* Empfängerkreise (U2-ADR-156) — eine Liste von Menschen mit Häkchen daneben. Bewusst
      ruhig gehalten: keine Karten-Optik, keine Farbcodes je Baustein. Es ist eine
      Rechteverwaltung, und sie darf nicht wie eine aussehen. */
   .kreis-zeile { padding: var(--space-3) 0; border-top: 1px dashed var(--line); }
   .kreis-zeile:first-of-type { border-top: none; }
-  .kreis-kopf { font-size: var(--fs-sm); color: var(--ink); margin-bottom: var(--space-1); }
+  .kreis-kopf { font-size: var(--fs-role-hilfe); color: var(--ink); margin-bottom: var(--space-1); }
   .kreis-knoepfe { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
   .kreis-baustein { margin: var(--space-2) 0; }
   /* Die ganze Zeile ist die Trefferfläche, nicht nur das Kästchen — 44px Mindesthöhe wie
      überall (Trefferflächen-Regel, 10.08.2026). */
-  .kreis-baustein-zeile { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; font-size: var(--fs-sm); color: var(--ink); cursor: pointer; }
+  .kreis-baustein-zeile { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; font-size: var(--fs-role-hilfe); color: var(--ink); cursor: pointer; }
   .kreis-baustein-hint { margin: 0 0 0 calc(var(--space-3) + var(--space-3)); }
   /* Vorschlag eines Moduls an einem angedockten Feld (U2-ADR-157). Ruhig und eingerückt: es
      ist ein Angebot, keine Aufforderung — und es steht unter dem Feld, zu dem es gehört. */
   .blatt-vorschlag { margin: 0 0 var(--space-3) var(--space-3); border-left: 2px solid var(--line); padding-left: var(--space-3); }
   .blatt-vorschlag-hinweis { margin-bottom: var(--space-2); }
   .einst-knopfreihe { display: inline-flex; gap: 0; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; }
-  .einst-opt { background: var(--white); color: var(--ink2); border: none; border-left: 1px solid var(--line); padding: var(--space-2) var(--space-3); font-size: var(--fs-sm); min-height: 36px; }
+  .einst-opt { background: var(--white); color: var(--ink2); border: none; border-left: 1px solid var(--line); padding: var(--space-2) var(--space-3); font-size: var(--fs-role-hilfe); min-height: 36px; }
   .einst-opt:first-child { border-left: none; }
   .einst-opt.aktiv { background: var(--salbei-dunkel); color: var(--auf-akzent); }
   /* Fund (Screenshot-Review, 27.08.2026): der frühere `.einst-toggle`-Rechteck-Knopf mit
@@ -1735,7 +1842,7 @@
   /* D44: fester moderater Radius (12px) statt Pillen-Radius (--radius-pill = 999px) — sonst wird
      der Toast bei MEHRZEILIGEM Text oval/rund. Mit 12px bleibt er auch mehrzeilig ein sauberes
      Rechteck mit weichen Ecken. Reine Form, keine Farb-/Markenänderung. */
-  .toast { background: var(--ink); color: var(--white); padding: var(--space-3) var(--space-5); border-radius: var(--radius-toast); box-shadow: var(--shadow-medium); font-size: var(--fs-sm); }
+  .toast { background: var(--ink); color: var(--white); padding: var(--space-3) var(--space-5); border-radius: var(--radius-toast); box-shadow: var(--shadow-medium); font-size: var(--fs-role-hilfe); }
   /* (27.08.2026): Klick schließt jetzt (s. ui.toast) —:not(.toast-tipp), weil ein
      Toast MIT Knopf (aktion) schon eine eigene Handlung trägt; die Fläche bleibt dort bewusst
      ohne Klick-Zusage, sonst konkurriert ein Flächen-Klick mit dem Knopf. */
@@ -1753,20 +1860,22 @@
   
   /* D3 — Erst-Eintrag-Toast (Strang 2 / Commit D): Tipp-Toast mit CTA-Knopf (bestehende Token). */
   .toast.toast-tipp { display: flex; align-items: center; gap: var(--space-3); }
-  .toast-tipp-text { font-size: var(--fs-sm); }
+  .toast-tipp-text { font-size: var(--fs-role-hilfe); }
   .toast-tipp-btn { flex: 0 0 auto; background: var(--flaeche-hinweis); color: var(--ink); border: none;
-    border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); font-size: var(--fs-sm);
+    border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); font-size: var(--fs-role-hilfe);
     font-weight: var(--fw-semibold); cursor: pointer; }
   /* D1 — Topbar-Hinweis (Strang 2 / Commit B). Fläche/Akzent referenzieren BESTEHENDE Token
      (--flaeche-hinweis, --modus-angehoerigen) — keine neue Farbe, kein Token-Wert geändert
      (K4 Zug 2, 10.08.2026: --gold-soft → --flaeche-hinweis, Wert bleibt --salbei-light). flex:0 1
      auto + ellipsis: drückt die Topbar-Knöpfe nie aus dem Bild. Mobil: nur Icon + CTA. */
   .tb-pw-hinweis { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; flex: 0 1 auto;
-    overflow: hidden; white-space: nowrap; cursor: pointer; font-size: var(--fs-sm); color: var(--ink2);
+    overflow: hidden; white-space: nowrap; cursor: pointer; font-size: var(--fs-role-hilfe); color: var(--ink2);
     background: var(--flaeche-hinweis); border: 1px solid var(--modus-angehoerigen); border-radius: var(--radius-sm);
     padding: var(--space-1) var(--space-3); }
   .tb-pw-hinweis .ico { flex: 0 0 auto; color: var(--modus-angehoerigen); display: inline-flex; }
-  .tb-pw-hinweis .tb-pw-text { overflow: hidden; text-overflow: ellipsis; }
+  /* Der Hinweis wird nicht mit „…“ gekappt: er bricht in zwei kleine Zeilen um und bleibt ganz lesbar. */
+  .tb-pw-hinweis .tb-pw-text { overflow: hidden; white-space: normal; font-size: var(--fs-role-hilfe); line-height: 1.2; min-width: 0; }
+  .tb-pw-hinweis .tb-pw-cta { white-space: nowrap; }
   .tb-pw-hinweis .tb-pw-cta { flex: 0 0 auto; color: var(--modus-angehoerigen); font-weight: var(--fw-semibold); }
   .tb-pw-hinweis .tb-pw-cta-kurz { display: none; flex: 0 0 auto; color: var(--modus-angehoerigen); font-weight: var(--fw-semibold); }
   .tb-pw-hinweis[hidden] { display: none; }
@@ -1810,7 +1919,7 @@
      `pointer: coarse` (A47). */
   .tb-save-knopf { flex: 0 0 auto; display: inline-flex; align-items: center; gap: var(--space-1);
     font-weight: var(--fw-semibold); color: var(--ink); background: transparent; min-height: 24px;
-    border: none; cursor: pointer; font-size: var(--fs-sm); padding: 0 0 0 var(--space-1); }
+    border: none; cursor: pointer; font-size: var(--fs-role-hilfe); padding: 0 0 0 var(--space-1); }
   .tb-save-knopf .tb-save-knopf-text { text-decoration: underline; }
   .tb-save-knopf svg { flex: 0 0 auto; }
   
@@ -1824,7 +1933,7 @@
     border-radius: var(--radius-sm);
     border: 1px solid var(--chrome-feld-rand);
     background: var(--chrome-feld-flaeche); color: var(--auf-akzent);
-    font-size: var(--fs-base); font-weight: var(--fw-semibold); line-height: 1;
+    font-size: var(--fs-role-text); font-weight: var(--fw-semibold); line-height: 1;
   }
   .a11y-btn:hover { background: var(--chrome-feld-hover); }
   /* Fokus-Ring: globale Regel greift (.a11y-btn steht nur innerhalb .topbar). */
@@ -1888,18 +1997,18 @@
   /* Vorlesen pro Sicht — dezenter Knopf in der Aktionsleiste, gleiche Größe wie die anderen. */
   .vorlese-knopf[aria-pressed="true"] { background: var(--salbei-dunkel); color: var(--auf-akzent); border-color: var(--salbei-dunkel); }
   /* Diktier-Hinweis (Tastatur-Mikrofon) — unaufdringliche, bürgernahe Zeile im Bearbeiten-Modus. */
-  .diktier-hinweis { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-2) 0 var(--space-3) 0; padding: var(--space-2) var(--space-3); font-size: var(--fs-sm); color: var(--ink2); background: var(--diktier-hinweis-flaeche); border-radius: var(--radius-sm); }
+  .diktier-hinweis { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-2) 0 var(--space-3) 0; padding: var(--space-2) var(--space-3); font-size: var(--fs-role-hilfe); color: var(--ink2); background: var(--diktier-hinweis-flaeche); border-radius: var(--radius-sm); }
   .diktier-hinweis svg { width: 16px; height: 16px; flex: 0 0 auto; opacity: 0.8; }
   /* ── Wizard-Maschine (Teil 2) — geführte Eingabe, design-system v1 ── */
   .wizard-sicht { max-width: 640px; }
   .wizard-fortschritt { display: flex; align-items: center; gap: var(--space-3); margin: var(--space-2) 0 var(--space-4) 0; }
-  .wizard-fortschritt-text { font-size: var(--fs-sm); color: var(--akzent); font-weight: var(--fw-medium); flex: 0 0 auto; }
+  .wizard-fortschritt-text { font-size: var(--fs-role-hilfe); color: var(--akzent); font-weight: var(--fw-medium); flex: 0 0 auto; }
   .wizard-balken { flex: 1 1 auto; height: 6px; background: var(--salbei-light); border-radius: var(--radius-pill); overflow: hidden; }
   .wizard-balken-fuell { display: block; height: 100%; background: var(--salbei-mid); border-radius: var(--radius-pill); transition: width .25s ease; }
   .wizard-schritt { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-5); box-shadow: var(--shadow-soft); }
-  .wizard-frage { font-family: var(--font-inter); font-weight: var(--fw-medium); letter-spacing: var(--ls-frage); font-size: var(--fs-base); color: var(--salbei-dunkel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }   /* Findings 6/10/11 → Nacharbeit 05.07.: von --fs-xl über --fs-lg auf Kern-Größe --fs-base (man will flacher). UX-Konzept §9 (25.08.2026, Produktentscheidung bestätigt): gesperrtes Inter statt Serif, gleiche Begründung wie §12 zur Wortmarke — löst den Konflikt mit der Schrift-Rollen-Probe (Auftrag 04.08.2026) auf, dieser Test wurde entsprechend nachgezogen. */
+  .wizard-frage { font-family: var(--font-inter); font-weight: var(--fw-medium); letter-spacing: var(--ls-frage); font-size: var(--fs-role-text); color: var(--salbei-dunkel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }   /* Findings 6/10/11 → Nacharbeit 05.07.: von --fs-xl über --fs-lg auf Kern-Größe --fs-base (man will flacher). UX-Konzept §9 (25.08.2026, Produktentscheidung bestätigt): gesperrtes Inter statt Serif, gleiche Begründung wie §12 zur Wortmarke — löst den Konflikt mit der Schrift-Rollen-Probe (Auftrag 04.08.2026) auf, dieser Test wurde entsprechend nachgezogen. */
   .wizard-hilfe { margin: 0 0 var(--space-3) 0; }
-  .wizard-baustein { margin: 0 0 var(--space-3) 0; font-size: var(--fs-sm); font-weight: var(--fw-regular); color: var(--ink3); }
+  .wizard-baustein { margin: 0 0 var(--space-3) 0; font-size: var(--fs-role-hilfe); font-weight: var(--fw-regular); color: var(--ink3); }
   /* Gerätetest v76 (F1): Das Eingabefeld begann auf jedem Schritt woanders — am Telefon tippt
      man dann auf die Stelle des vorigen Schritts. Gemessen über alle 69 Wizard-Schritte aller
      7 Wizards, in der echten App-Hülle (#app.an mit Topbar/Sidebar), 390px/Standardschrift:
@@ -1923,7 +2032,7 @@
   .wizard-kopf { min-height: 9.25rem; }
   html.fs-large .wizard-kopf { min-height: 11.75rem; }
   /* Finding 13: Zielbereiche vor Schritt 1 — dezente, sachliche Zeile (kein Alarm). */
-  .wizard-ziele { font-size: var(--fs-sm); color: var(--ink2); margin: 0 0 var(--space-4); }
+  .wizard-ziele { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0 0 var(--space-4); }
   /* UX-Design-Konzept §9 (25.08.2026): die Spec nannte nur Auswahl-Felder ("Auswahl-Felder
      tragen sichtbar Browser-Standardoptik … Auswahl-Felder erhalten dieselbe Rand-Behandlung
      wie Text-Eingaben") — der Befund selbst trifft aber den GANZEN `.wizard-eingabe`-Satz:
@@ -1933,7 +2042,7 @@
      (WCAG 1.4.11, mit eigener Kontrast-Probe). */
   .wizard-eingabe input, .wizard-eingabe textarea, .wizard-eingabe select { width: 100%;
     border: var(--feld-rahmen); border-radius: var(--radius-feld); background-color: var(--feld-flaeche); color: var(--ink); }
-  .feld-fehler { color: var(--feld-fehler-schrift); font-size: var(--fs-sm); margin: var(--space-2) 0 0 0; font-weight: var(--fw-semibold); }
+  .feld-fehler { color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); margin: var(--space-2) 0 0 0; font-weight: var(--fw-semibold); }
   .wizard-aktionen { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); flex-wrap: wrap; }
   /* „Zurück/Weiter"-Reihe darf umbrechen und schrumpfen, statt rechts aus dem Schritt zu laufen
      (auch bei Browser-Zoom oder sehr schmalem Fenster) — kein seitliches Abschneiden. */
@@ -1949,7 +2058,7 @@
      Dezente Trennlinie nach oben, eigene Überschrift — die Systematik bleibt sichtbar, ohne
      den Erstnutzer beim Reinkommen mit Aktions-Knöpfen zu empfangen. */
   .zusatz-aktionen { margin: var(--space-6) 0 0; padding-top: var(--space-4); border-top: 1px solid var(--line); }
-  .zusatz-titel { font-family: var(--font-inter); color: var(--ink2); font-size: var(--fs-md); font-weight: var(--fw-semibold); margin: 0 0 var(--space-3); }
+  .zusatz-titel { font-family: var(--font-inter); color: var(--ink2); font-size: var(--fs-role-text); font-weight: var(--fw-semibold); margin: 0 0 var(--space-3); }
   .zusatz-aktionen .wizard-start:last-child,
   .zusatz-aktionen .bereich-aktionen:last-child,
   .bereich-assistenten .wizard-start:last-child,
@@ -1974,7 +2083,7 @@
   .zusatz-aktionen .wizard-gruppe > summary,
   .bereich-assistenten .wizard-gruppe > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: var(--space-2);
     width: 100%; padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-md);
-    background: var(--white); color: var(--ink2); font-weight: var(--fw-semibold); font-size: var(--fs-base); }
+    background: var(--white); color: var(--ink2); font-weight: var(--fw-semibold); font-size: var(--fs-role-text); }
   .zusatz-aktionen .wizard-gruppe > summary::-webkit-details-marker,
   .bereich-assistenten .wizard-gruppe > summary::-webkit-details-marker { display: none; }
   .zusatz-aktionen .wizard-gruppe > summary::after,
@@ -1991,7 +2100,7 @@
   /* Notfall-Cache (Teil 4.1) — Stand-Zeile dezent unter dem Hinweis. */
   
   /* Code-Listen (Paket 3) — Code dezent neben dem Anzeige-Namen; Autocomplete-Feld voll breit. */
-  .feld-code { font-size: var(--fs-feld-code); color: var(--ink3); opacity: 0.85; white-space: nowrap; }
+  .feld-code { font-size: var(--fs-role-hilfe); color: var(--ink3); opacity: 0.85; white-space: nowrap; }
   /* Der amtliche TITEL ist ein Satz, kein Code (Befund DEMO-ITALIEN-NOTIZ-NICHT-SICHTBAR, 16.10.2026): ungebrochen schob
      „Essentielle Hypertonie, nicht näher bezeichnet: …“ den Bereich auf dem Handy über den Rand, #app wurde seitlich scrollbar. */
   .feld-code.code-amtlich { white-space: normal; overflow-wrap: anywhere; }
@@ -2002,10 +2111,10 @@
   .chip-feld { display: block; }
   .chip-liste { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-2); }
   .chip-liste:empty { display: none; }
-  .chip { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-sm);
+  .chip { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-role-hilfe);
     padding: var(--space-1) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-pill);
     background: var(--salbei-light); }
-  .chip-weg { background: none; border: none; color: var(--ink3); cursor: pointer; font-size: var(--fs-base);
+  .chip-weg { background: none; border: none; color: var(--ink3); cursor: pointer; font-size: var(--fs-role-text);
     line-height: 1; padding: 0; min-width: 24px; min-height: 24px; }
   .chip-eingabe-zeile { display: flex; gap: var(--space-2); align-items: center; }
   .chip-eingabe { flex: 1 1 auto; min-width: 0; }
@@ -2116,18 +2225,25 @@
     html:not(.high-contrast) select option {
       min-height: 36px;
       padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm);
-      font-size: var(--fs-base); line-height: 1.4; font-weight: var(--fw-regular);
+      font-size: var(--fs-role-text); line-height: 1.4; font-weight: var(--fw-regular);
       background: transparent; color: var(--ink); cursor: pointer;
     }
     html:not(.high-contrast) select option:hover { background: var(--flaeche-hover); color: var(--ink); }
     html:not(.high-contrast) select option:checked { background: var(--salbei-light); color: var(--ink); font-weight: var(--fw-semibold); }
+    /* M21 (03.11.2026): „Auswahl entfernen“ steht unter einer Trennlinie in zurückhaltender Schrift, damit niemand es für eine Antwort hält. */
+    html:not(.high-contrast) select hr { border: 0; border-top: 1px solid var(--line); margin: var(--space-1) 0; }
+    html:not(.high-contrast) select option[data-auswahl-entfernen] { color: var(--ink2); font-size: var(--fs-role-hilfe); }
+    /* Der Platzhalter „Bitte wählen“ steht im geschlossenen Feld hell: Normalgewicht, Platzhalterfarbe (GL v999 Runde 1, Punkt e; M21). Drei Viertel
+       Wertfarbe statt zwei Dritteln: auf der Feldfläche der Einstellungen hielt der Mischwert WCAG 1.4.3 nicht (4,09:1, Browser-Spec zum Ebenen-Kontrast). */
+    html:not(.high-contrast) select:has(> option[value=""]:checked) { font-weight: var(--fw-regular); color: color-mix(in srgb, var(--ink) 75%, var(--feld-flaeche)); }
+    html:not(.high-contrast) select:has(> option[value=""]:checked)::picker(select) { color: var(--ink); }
     html:not(.high-contrast) select option::checkmark { color: var(--salbei-dunkel); }
     html.dark-mode:not(.high-contrast) select option:checked { background: color-mix(in srgb, var(--salbei-nacht) 24%, var(--feld-flaeche)); color: var(--salbei-nacht); }
     html.dark-mode:not(.high-contrast) select option::checkmark { color: var(--salbei-nacht); }
   }
   /* Dateiwahl: der Knopf ist eine Pille wie die Sekundärknöpfe (Linie, salbei), nicht der graue Systemknopf. */
   input[type="file"]::file-selector-button {
-    font: inherit; font-size: var(--fs-sm); font-weight: var(--fw-semibold); cursor: pointer;
+    font: inherit; font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); cursor: pointer;
     padding: var(--space-1) var(--space-4); margin-right: var(--space-3);
     border: 1px solid var(--salbei-dunkel); border-radius: var(--radius-pill);
     background: transparent; color: var(--salbei-dunkel);
@@ -2150,7 +2266,7 @@
     min-height: 32px; padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-pill); border: 1px solid var(--line);
     background: var(--white); color: var(--ink);
-    font: inherit; font-size: var(--fs-sm); font-weight: var(--fw-regular); cursor: pointer;
+    font: inherit; font-size: var(--fs-role-hilfe); font-weight: var(--fw-regular); cursor: pointer;
   }
   .feld-mehrfach-pill:hover { background: var(--flaeche-hover); }
   .feld-mehrfach-pill.aktiv { background: var(--salbei-light); border-color: var(--salbei-mid); color: var(--ink); font-weight: var(--fw-semibold); }
@@ -2162,7 +2278,7 @@
   .refm-zeile { display: grid; grid-template-columns: 1fr auto; gap: var(--space-2); align-items: center; }
   .refm-zeile + .refm-zeile { border-top: 1px solid var(--line); padding-top: var(--space-2); }
   .refm-combo { grid-column: 1; position: relative; min-width: 0; }  /* trägt das eine Feld + die Vorschlagsliste */
-  .refm-combo .refm-name { width: 100%; font-size: var(--fs-sm); padding: var(--space-2); }
+  .refm-combo .refm-name { width: 100%; font-size: var(--fs-role-hilfe); padding: var(--space-2); }
   /* Chip-Input (Zusatz 2, 09.07.): bestätigter Name (ref gesetzt bzw. unveränderter Bestands-Name) — ruhiger
      Salbei-Akzent links als „gesetzt"-Quittung, ohne den Text zu überlagern. */
   .refm-combo .refm-name.refm-name--gesetzt { border-left: var(--akzent-rand) solid var(--salbei-mid); background: var(--salbei-light); }
@@ -2191,7 +2307,7 @@
     border-radius: var(--radius-md); box-shadow: var(--schatten-vorschlaege); max-height: 15rem; overflow-y: auto; }
   .refm-vorschlaege[hidden] { display: none; }
   .refm-vorschlaege li { min-height: 44px; display: flex; align-items: center; padding: var(--space-2);
-    cursor: pointer; color: var(--ink); font-size: var(--fs-sm);
+    cursor: pointer; color: var(--ink); font-size: var(--fs-role-hilfe);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* Ellipsis nur greift, wenn die Max-Breite anschlägt */
   .refm-vorschlaege li small { font-weight: normal; color: var(--ink2); }   /* Telefon unter dem Namen: nur der Name fett */
   .refm-vorschlaege li + li { border-top: 1px solid var(--line-feiner); }   /* Optionen sichtbar voneinander abgesetzt */
@@ -2225,31 +2341,35 @@
   .pv-dok-toolbar { position: sticky; top: 0; z-index: 2; background: var(--dok-leiste);
     border-bottom: 1px solid var(--line); padding: var(--space-3) var(--space-4);
     display: flex; gap: var(--space-3); align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
-  .pv-dok-hinweis { margin: 0; max-width: 60ch; font-size: var(--fs-sm, 0.9rem); line-height: 1.45; }
+  .pv-dok-hinweis { margin: 0; max-width: 60ch; font-size: var(--fs-role-hilfe); line-height: 1.45; }
   .pv-dok-knoepfe { display: flex; gap: var(--space-2); flex: 0 0 auto; }
   .pv-dok-blatt { max-width: 21cm; margin: var(--space-5) auto; padding: 2cm 2.2cm; background: var(--dok-papier);
     color: var(--dok-schrift); box-shadow: var(--dok-schatten); border-radius: var(--dok-radius); }
-  .pv-dok { color: var(--dok-schrift); font-size: var(--dok-fs-text); line-height: 1.55; }
-  .pv-dok h1 { font-size: var(--dok-fs-h1); margin: 0 0 1.2rem; text-align: center; }
+  .pv-dok { color: var(--dok-schrift); font-size: var(--fs-role-text); line-height: 1.55; }
+  /* Zielbild S6 (31.10.2026): Titel links mit der Linie der Marke darunter, Überschriften ohne Unterstrich, keine Versalien und
+     kein Kursiv; der Wortlaut der Blätter bleibt, nur der Rahmen ist neu. */
+  .pv-dok h1 { font-size: var(--fs-role-titel); font-weight: var(--fw-semibold); margin: 0 0 1.2rem; padding-bottom: 0.5rem; text-align: left;
+    border-bottom: 1px solid var(--salbei-dunkel); }
   .pv-dok-abschnitt { margin: 0 0 1.4rem; }
-  .pv-dok-abschnitt h2 { font-size: var(--dok-fs-h2); margin: 0 0 0.5rem; padding-bottom: 0.2rem;
-    border-bottom: 1px solid var(--dok-linie); }
+  .pv-dok-abschnitt h2 { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); margin: 0 0 0.5rem; }
   .pv-dok-abschnitt p { margin: 0 0 0.6rem; }
   .pv-dok .pv-line { margin-top: 1rem; white-space: pre; }
   .pv-dok-arzt { color: var(--dok-schrift-zart); }
   .pv-dok-fuss { margin-top: 2rem; padding-top: 0.6rem; border-top: 1px solid var(--dok-linie);
-    font-size: var(--dok-fs-fuss); color: var(--dok-schrift-gedaempft); text-align: center; }
+    font-size: var(--fs-role-hilfe); color: var(--dok-schrift-gedaempft); text-align: left; }
   /* Notfall-Blatt (U2-ADR-095, Beschluss B) — teilt Overlay-, Blatt- und Druck-Mechanik
      mit dem PV-Dokument. Eigene Regeln nur für die handschriftlichen Leerzeilen. Es gibt
      bewusst KEIN Eingabefeld: das Blatt wird auf Papier ausgefüllt, nie in der App. */
   
-  .nfb-hand { margin: 0 0 1.6rem; font-style: italic; color: var(--dok-schrift-hand); text-align: center; }
+  .nfb-hand { margin: 0 0 1.6rem; padding: 0.6rem 0.8rem; color: var(--dok-schrift); background: var(--dok-leiste);
+    border-left: 2px solid var(--salbei-dunkel); }
   .nfb-feld { margin-bottom: 1.1rem; }
   /* Die Überschrift eines Leerfelds trägt KEINE Trennlinie: sonst stehen zwei Linien
      untereinander und die zum Schreiben ist nicht mehr die offensichtliche. */
   .nfb-feld h2 { border-bottom: none; padding-bottom: 0; }
-  .nfb-beispiel { margin: 0 0 0.3rem; font-size: var(--dok-fs-beispiel); color: var(--dok-schrift-gedaempft); }
-  .nfb-linie { margin: 0; border-bottom: 1px solid var(--dok-schrift); height: 1.9rem; }
+  .nfb-beispiel { margin: 0 0 0.3rem; font-size: var(--fs-role-hilfe); color: var(--dok-schrift-gedaempft); }
+  /* Platz für Handschrift: mindestens 36 pt (3rem) hoch (Zielbild S6, Regel 10). */
+  .nfb-linie { margin: 0; border-bottom: 1px solid var(--dok-schrift-gedaempft); height: 3rem; }
 
   /* Hilfe-Kapitel (20.09.2026, Auftrag „Hilfe in der Datei") — dieselbe Overlay-/Druck-
      Mechanik wie PV-Dokument/Notfallblatt: EIN Overlay, `window.print()` + diese eine Regel
@@ -2263,7 +2383,7 @@
     color: var(--dok-schrift); box-shadow: var(--dok-schatten); border-radius: var(--dok-radius); }
   .hilfe-themen-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
   .hilfe-thema-knopf { text-align: left; width: 100%; }
-  .hilfe-einleitung { font-size: var(--dok-fs-einleitung); color: var(--dok-schrift-zart); }
+  .hilfe-einleitung { font-size: var(--fs-role-einleitung); color: var(--dok-schrift-zart); }
   .hilfe-abschnitt { margin: 0 0 1.2rem; line-height: 1.55; }
 
   @media print {
@@ -2327,7 +2447,7 @@
        per flex-wrap in eine zweite Zeile rutscht, wächst die Topbar sauber mit, statt die
        Pille in den Inhalt zu klippen. Einzeilig bleibt die Höhe faktisch unverändert (~48px,
        getragen von der 44px-Marke). */
-    #app.an { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; height: auto; min-height: 100vh; }
+    #app.an { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: auto; min-height: 100vh; }
     /* Bottom-Tab-Leiste (U2-ADR-174 Teilprojekt 2, Task 3): vier Hauptaktionen fest am unteren
        Rand, nur mobil. #app.an bekommt Zusatzraum unten, damit der Inhalt nicht unter der
        fixierten Leiste verschwindet. */
@@ -2335,7 +2455,7 @@
       background: var(--papier-bereich); border-top: 1px solid var(--line);
       padding: var(--space-2) var(--space-1); padding-bottom: max(var(--space-2), env(safe-area-inset-bottom)); }
     .bt-tab { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 2px;
-      background: none; border: none; color: var(--ink3); font-size: var(--fs-xs); padding: var(--space-1); }
+      background: none; border: none; color: var(--ink3); font-size: var(--fs-role-hilfe); padding: var(--space-1); }
     .bt-tab.aktiv { color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
     /* Code-Review 25.08.2026 (Fund 1): der reservierte Content-Abstand stand als blanke „64px" da,
        ohne Herleitung — und traf nicht einmal die tatsächliche Balkenhöhe ohne Inset (per Playwright
@@ -2349,7 +2469,7 @@
        .bottom-tabs selbst für sein eigenes padding-bottom nutzt (max(var(--space-2),
        env(safe-area-inset-bottom))) — dadurch trifft der reservierte Abstand die reale Balkenhöhe
        exakt, egal ob Inset 0 ist (Android, ältere iPhones) oder ~34px (Home-Indicator). */
-    #app.an { padding-bottom: calc(70px + max(var(--space-2), env(safe-area-inset-bottom))); }
+    #app.an { padding-bottom: calc(74px + max(var(--space-2), env(safe-area-inset-bottom))); }
     /* Code-Review 25.08.2026 (Fund 2): .banner-stapel (Zeile ~883, z-index:200, fixed bottom:0)
        lag GENAU auf derselben Kante wie .bottom-tabs (z-index:150, ebenfalls fixed bottom:0) —
        beide sind volle Breite an derselben Position, ein sichtbares Banner deckte die
@@ -2364,15 +2484,14 @@
        .banner-stapel — #basis-ablauf-banner, #sw-update-banner, #wiedereinstieg-banner — sind
        ohnehin dismissbar mit eigenem ×-Knopf und default hidden; die Navigation wäre also nie
        DAUERHAFT verdeckt gewesen, aber auch kurzzeitig nicht akzeptabel für eine Haupt-Navigation.) */
-    .banner-stapel { bottom: calc(70px + max(var(--space-2), env(safe-area-inset-bottom))); }
+    .banner-stapel { bottom: calc(74px + max(var(--space-2), env(safe-area-inset-bottom))); }
     /* Meldungen (Toasts) stehen über der Tab-Leiste, 8 px darüber (Zielbild Schritt 1, Nachtrag 30.10.2026): derselbe Ausdruck
        für die reale Balkenhöhe wie #app.an und .banner-stapel, plus var(--space-2). Nur in der App; bei offenem Dialog bleiben
        sie oben (Regel am #toast-host weiter oben). */
-    body:has(#app.an):not(:has(#modal-rueck.an)) #toast-host { bottom: calc(70px + max(var(--space-2), env(safe-area-inset-bottom)) + var(--space-2)); }
-    .content { padding: var(--space-4) var(--space-4); overflow: visible; }
+    body:has(#app.an):not(:has(#modal-rueck.an)) #toast-host { bottom: calc(74px + max(var(--space-2), env(safe-area-inset-bottom)) + var(--space-2)); }
+    .content { padding: var(--space-4); overflow: visible; }   /* 390 px: links und rechts gleich 16 px (Zielbild S4, Abnahme v979 Nr. 12) */
     .content-narrow, .wizard-sicht { max-width: 100%; }
     .topbar { position: sticky; top: 0; z-index: 95; }
-    .app-fuss { margin-top: var(--space-5); }
 
     /* ── Aktions-/Export-Knöpfe dürfen umbrechen statt waagerecht überzulaufen
        (Politur 2): min-width:0 lässt lange Beschriftungen schrumpfen/umbrechen. ── */
@@ -2402,7 +2521,7 @@
        gegenüber dem Mittagsstand:
        - Status-Pille hat VORRANG: flex-shrink:0 → bleibt voll, schrumpft erst ganz zuletzt (tb-eng-2).
        - Aktions-Pille schrumpft ZUERST: bei Enge kollabiert sie (tb-eng-1) auf das Warndreieck-
-         Icon allein — weiterhin tappbar, gleiche Funktion (flowPasswortSetzen). Ellipse als Roh-
+         Icon allein — weiterhin tappbar, gleiche Funktion (flowDepotAnlegen). Ellipse als Roh-
          Schnitt-Schutz.
        - Engerer Gap schafft Platz. JS (topbarPlatzAnpassen): erst tb-eng-1 (Aktion→Icon), dann —
          nur wenn es immer noch nicht reicht (320 + langer Name) — tb-eng-2 (Status→Fragment).
@@ -2430,8 +2549,13 @@
        längeren Namen lief die Topbar im Sub-Modus weit über (98px bei 320px, gemessen), auch
        nach der Reparatur des unbenannten Falls. Derselbe Griff wie bei der Aktions-Pille: der
        Farbpunkt bleibt (Tap-Ziel-Größe unverändert, kein Button), nur der Namenstext weicht —
-       aria-label am Container trägt den vollen Text weiterhin vor. */
-    .topbar.tb-eng-1 #tb-sub-name { display: none; }
+       aria-label am Container trägt den vollen Text weiterhin vor.
+       Fund 6 (GL 05.11.2026): bei 390 px fehlte so der Name ganz, im Kopf standen zwei gleiche Tonpunkte ohne Wort. Der Name bleibt
+       jetzt einzeilig stehen, nur „Geöffnet:“ entfällt, ein langer Name endet auf „…“. Probe: Browser-Spec zur Kopfzeile */
+    .topbar.tb-eng-1 .tb-sub-hinweis { flex-shrink: 1; min-width: 0; }
+    .topbar.tb-eng-1 .tb-sub-praefix { display: none; }
+    .topbar.tb-eng-1 #tb-sub-name { min-width: 0; max-width: 9em; overflow: hidden; text-overflow: ellipsis; }
+    .topbar.tb-eng-nur-punkt #tb-sub-name { display: none; }   /* nur ein Rest wie „So…“: nur der Tonpunkt (GL 05.11.2026) */
     /* Stufe 2 (zuletzt, nur sehr eng): Status-Pille gibt nach → Fragment via Ellipse, aber mit
        Lesbarkeits-FLOOR (kalibriert am LÄNGSTEN Namen „Depot unter Vollmacht", nicht „Mein Depot"):
        der Name fällt NIE auf „0 D…", sondern zeigt mind. „Depot u…". */
@@ -2453,7 +2577,9 @@
        der Status-Fragment-Griff daneben, nicht früher: die einzige verbleibende Sub-Anzeige in
        der Topbar, erst wenn wirklich nichts mehr reicht. Der Sub-Kontext bleibt über die
        Depot-Pille (Klick → Menü) und die Sidebar erreichbar, nicht nur hier. */
-    .topbar.tb-eng-2 .tb-sub-hinweis { display: none; }
+    .topbar.tb-eng-2 .tb-sub-hinweis { min-width: 0; gap: 0; }   /* der Tonpunkt bleibt auch hier; nur der Name weicht (Menü-Knopf schrumpft nicht) */
+    .topbar.tb-eng-2 .tb-menue { padding-left: var(--space-2); padding-right: var(--space-2); gap: var(--space-1); }
+    .topbar.tb-eng-2 .tb-menue-wort { display: none; }   /* 320 px: das Symbol bleibt, das Wort entfällt (T-CROSS-11: Kopfleiste 32 px zu breit); ab 390 px steht „Menü“ (Zielbild 04) */
     /* In den Vollbild-Modi (Angehörigen) gibt es keine Sidebar → kein Hamburger. */
     /* Dekor verschlanken — NUR optisch, Trefferflächen bleiben ≥44px:
        Logo-Kreis 38→30px, Wortzug eine Spur kleiner, Pille kompakter. Die Marke
@@ -2461,7 +2587,7 @@
     .logo-mark { width: 30px; height: 30px; }
     .logo-mark svg { width: 22px; height: 22px; }
     .topbar .marke { min-height: 44px; padding: var(--space-1) var(--space-2); }
-    .logo-wort { font-size: var(--fs-base); letter-spacing: var(--ls-wortmarke-schmal); }
+    .logo-wort { font-size: var(--fs-role-text); letter-spacing: var(--ls-wortmarke-schmal); }
     .depot-pille { padding: var(--space-1) var(--space-2); }
     /* Knöpfe optisch schlanker (Höhe wird unten per min-height:44px als Trefferfläche
        gewahrt — visuell kleiner, fingerfreundlich gleich). */
@@ -2567,7 +2693,7 @@
     /* Drei Knöpfe passen in einem Dialog nicht in eine Zeile (L1b „Link senden“, Vorschau vom 19.10.2026: „Herunterladen“
        war bei 390 px abgeschnitten). Die Knopfleiste bricht um; der Hauptknopf bleibt rechts. */
     .modal-aktionen { flex-wrap: wrap; }
-    .content { padding: var(--space-4) var(--space-3); }
+    .content { padding: var(--space-4); }
     /* Wortmarke weicht auf sehr schmalen Screens — die Bildmarke bleibt als Home-Klick. */
     .topbar .logo-wort { display: none; }
     /* „Die Topbar läuft auf kleinen Telefonen über" (13.08.2026): #tb-marke selbst
@@ -2585,8 +2711,8 @@
     .topbar { gap: 2px; padding: 0 1px; }
     /* Speichern-Knopf wird Symbol-only (Label würde die Zeile sprengen). */
     #tb-depot-name { max-width: 32vw; }
-    .frage { font-size: var(--fs-xl); }
-    .logo { font-size: var(--fs-2xl); }
+    .frage { font-size: var(--fs-role-abschnitt); }
+    .logo { font-size: var(--fs-role-abschnitt); }
     /* Wizard-Navigation: Zurück/Weiter werden fingerbreit (volle Zeilenbreite). */
     .wizard-aktionen { flex-direction: column-reverse; align-items: stretch; }
     .wizard-aktionen .btn,
@@ -2619,7 +2745,7 @@
   /* FIM-Bezugszeile (U2-ADR-456, 30.09.2026): trägt die Familie .feld-urheber, steht aber an JEDEM Feld mit Bezug — nicht nur
      bei fremden Stempeln — und fiel mit opacity 0.7 auf --salbei-light unter 4.5:1 (axe, Sicht sektor:administration).
      Volle Deckkraft und --ink2 wie .gueltigkeit-zeile (6,16:1). */
-  .feld-bezug { opacity: 1; color: var(--nachweis-schrift); font-size: var(--fs-nachweis); }
+  .feld-bezug { opacity: 1; color: var(--nachweis-schrift); font-size: var(--fs-role-hilfe); }
   /* Mehr Weißraum zwischen Sektionen und um die Zusatz-Aktionen. */
   .sektion { margin-bottom: var(--space-5); }
   .zusatz-aktionen { margin-top: var(--space-7, 2.5rem); }
@@ -2631,12 +2757,12 @@
      Inputs ≥16px (kein iOS-Zoom über 1rem=16px), Touch-Ziele ≥44px, AA-Kontrast. */
   .doku-panel { border: 1px solid var(--line); border-radius: var(--radius-md);
     padding: 0 var(--space-4); margin: 0 0 var(--space-4); background: var(--white); }
-  .doku-panel > summary { cursor: pointer; padding: var(--space-3) 0; font-size: var(--fs-base);
+  .doku-panel > summary { cursor: pointer; padding: var(--space-3) 0; font-size: var(--fs-role-text);
     color: var(--ink); display: flex; align-items: center; gap: var(--space-2); min-height: 44px; }
   .doku-panel > summary svg { width: 16px; height: 16px; opacity: 0.75; }
-  .doku-panel-hinweis { color: var(--ink3); font-size: var(--fs-sm); margin: 0 0 var(--space-3); line-height: 1.5; }
+  .doku-panel-hinweis { color: var(--ink3); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-3); line-height: 1.5; }
   .doku-gruppe { margin: 0 0 var(--space-4); }
-  .doku-gruppe-titel { font-size: var(--fs-sm); color: var(--ink2); font-weight: var(--fw-semibold); margin: 0 0 var(--space-1); }
+  .doku-gruppe-titel { font-size: var(--fs-role-hilfe); color: var(--ink2); font-weight: var(--fw-semibold); margin: 0 0 var(--space-1); }
   /* 1E: amtlicher Wortlaut — read-only Block, aufklappbar, mit Quell-/Lizenz-Fuß. */
   .doku-wortlaut { border: 1px solid var(--line); border-radius: var(--radius-md); margin: var(--space-2) 0; padding: 0 var(--space-3); }
   /* A104 Teil 1, Klasse E (05.08.2026) — WCAG 2.5.5 AAA Touch-Ziel, wie das gleichrangige
@@ -2646,12 +2772,12 @@
      Fundstellen (amtlicher Wortlaut, Vorsorge-Sektor). */
   .doku-wortlaut > summary { cursor: pointer; padding: var(--space-2) 0; font-weight: var(--fw-semibold); color: var(--ink);
     display: flex; align-items: center; min-height: 44px; }
-  .wortlaut-block { white-space: pre-wrap; font-size: var(--fs-sm); line-height: 1.5; color: var(--ink2); border: 1px solid var(--line); border-radius: var(--radius-block); padding: var(--space-3); max-height: 360px; overflow-y: auto; margin: 0 0 var(--space-2); }
-  .wortlaut-quelle { font-size: var(--fs-xs); color: var(--ink3); margin: 0 0 var(--space-2); }
+  .wortlaut-block { white-space: pre-wrap; font-size: var(--fs-role-hilfe); line-height: 1.5; color: var(--ink2); border: 1px solid var(--line); border-radius: var(--radius-block); padding: var(--space-3); max-height: 360px; overflow-y: auto; margin: 0 0 var(--space-2); }
+  .wortlaut-quelle { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: 0 0 var(--space-2); }
   .wortlaut-quelle a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-  .doku-gruppe-hinweis { font-size: var(--fs-xs); color: var(--ink3); margin: 0 0 var(--space-2); line-height: 1.45; }
+  .doku-gruppe-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: 0 0 var(--space-2); line-height: 1.45; }
   .doku-feld { margin: 0 0 var(--space-3); }
-  .doku-label { display: block; font-size: var(--fs-sm); color: var(--ink2); margin: 0 0 var(--space-1); }
+  .doku-label { display: block; font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0 0 var(--space-1); }
   /* Screenshot-Review Fund 3 (26.08.2026) — derselbe Fehlkreis wie Fund 1 (s. Kommentar am
      globalen `textarea, select, input[type="date"] { font-family: inherit; }`-Reset weiter
      oben), aber die dort bewusst schmale Lücke (nur select/date/textarea) ließ genau EINEN
@@ -2665,11 +2791,11 @@
      Screenshots, keine Ursache — Geschwister-Anzahl ändert am computed style nachweislich
      nichts). Fix hier statt am globalen Reset: `.doku-input` deckt sowohl `input[type="text"]`
      als auch `input[type="date"]` ab, eine Erweiterung dort träfe also unnötig weit. */
-  .doku-input, .doku-select { width: 100%; box-sizing: border-box; font-size: var(--fs-base);
+  .doku-input, .doku-select { width: 100%; box-sizing: border-box; font-size: var(--fs-role-text);
     font-family: inherit;
     min-height: 44px; padding: var(--space-2) var(--space-3); border: var(--feld-rahmen-dialog);
     border-radius: var(--radius-feld); background: var(--feld-flaeche); color: var(--ink); }
-  .doku-mini { font-size: var(--fs-xs); color: var(--ink3); margin: var(--space-1) 0 0; line-height: 1.45; }
+  .doku-mini { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: var(--space-1) 0 0; line-height: 1.45; }
   /* Konsolidierungsfall 4 (UX-Design-Konzept §15.3, Nachtrag 27.08.2026): `.doku-std-zeile` und
      `.doku-erkannt-aus-zeile` (unten bei .doku-erkannt-aus) lösten dieselbe Aufgabe (Name +
      „Übernehmen"/"Doch anlegen"-Knopf, dieselbe Trennzeilen-Optik) mit zwei fast identischen,
@@ -2685,12 +2811,12 @@
     padding: var(--space-2) 0; border-top: 1px solid var(--line); }
   .doku-vorschlag-zeile:first-of-type { border-top: none; }
   .doku-std-text { flex: 1 1 14rem; min-width: 12rem; }
-  .doku-std-name { font-size: var(--fs-base); color: var(--ink); }
-  .doku-std-badge { font-size: var(--fs-xs); color: var(--salbei-dunkel); border: 1px solid var(--salbei-dunkel);
+  .doku-std-name { font-size: var(--fs-role-text); color: var(--ink); }
+  .doku-std-badge { font-size: var(--fs-role-hilfe); color: var(--salbei-dunkel); border: 1px solid var(--salbei-dunkel);
     border-radius: var(--radius-sm); padding: 0 var(--space-1); margin-left: var(--space-2); opacity: 0.8; }
-  .doku-std-hinweis { font-size: var(--fs-xs); color: var(--ink3); margin: var(--space-1) 0 0; line-height: 1.45; }
+  .doku-std-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: var(--space-1) 0 0; line-height: 1.45; }
   /* Knöpfe: Touch-Ziel ≥44px. */
-  .doku-knopf { min-height: 44px; font-size: var(--fs-sm); padding: var(--space-2) var(--space-3);
+  .doku-knopf { min-height: 44px; font-size: var(--fs-role-hilfe); padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm); cursor: pointer; }
   /* Gemeinsames „Mehr (optional)" — ein eingeklapptes <details> für Rhythmus + Feld-Verknüpfung
      (Neuanlage-Formular, Abschnitt B — unverändert). Zustands-Symbol (▸/▾) nachgezogen
@@ -2699,12 +2825,12 @@
      haben, warum ein zweiter Klick zum Einklappen nicht auffiel. */
   .doku-mehr { margin: 0 0 var(--space-3); }
   .doku-mehr > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center;
-    font-size: var(--fs-sm); color: var(--ink2); }
+    font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .doku-mehr > summary::-webkit-details-marker { display: none; }
   .doku-mehr > summary::before { content: "▸ "; color: var(--ink3); }
   .doku-mehr[open] > summary::before { content: "▾ "; }
   .doku-felder-block { margin: var(--space-3) 0 0; }
-  .doku-felder-titel { font-size: var(--fs-sm); color: var(--ink2); margin: 0 0 var(--space-1); }
+  .doku-felder-titel { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0 0 var(--space-1); }
   /* Liste angelegter Dokumente: eine Karte je Dokument (UX-Befund 14.09.2026 — vorher zwei
      Klapp-Ebenen: immer offene Name/Datum-Felder + ein separates „Mehr" für den Rest. Jetzt
      EIN <details>: eine kompakte, immer sichtbare Kopfzeile (Ampel-Punkt, Name, Gültig-ab,
@@ -2719,44 +2845,44 @@
   .doku-eintrag-kopf-haupt { display: flex; align-items: center; gap: var(--space-2); }
   .doku-eintrag-kopf-haupt::before { content: "▸"; color: var(--ink3); flex: none; }
   .doku-eintrag[open] > summary .doku-eintrag-kopf-haupt::before { content: "▾"; }
-  .doku-eintrag-name { font-size: var(--fs-base); color: var(--ink); font-weight: var(--fw-semibold); }
-  .doku-eintrag-datum { font-size: var(--fs-sm); color: var(--ink2); }
+  .doku-eintrag-name { font-size: var(--fs-role-text); color: var(--ink); font-weight: var(--fw-semibold); }
+  .doku-eintrag-datum { font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .doku-eintrag-datum:empty { display: none; }
   .doku-eintrag-datum:not(:empty)::before { content: "· "; color: var(--ink3); }
-  .doku-eintrag-unterzeile { display: block; font-size: var(--fs-sm); color: var(--ink2);
+  .doku-eintrag-unterzeile { display: block; font-size: var(--fs-role-hilfe); color: var(--ink2);
     padding-left: calc(1ch + var(--space-2)); }
   .doku-eintrag-koerper { padding: 0 0 var(--space-3); }
   .doku-eintrag-aktionen { display: flex; gap: var(--space-2); flex-wrap: wrap; margin: var(--space-2) 0 0; }
   .doku-felder { margin: var(--space-2) 0 0; }
   .doku-felder > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center;
-    font-size: var(--fs-sm); color: var(--ink2); }
-  .doku-felder-hinweis { font-size: var(--fs-xs); color: var(--ink3); margin: 0 0 var(--space-2); line-height: 1.45; }
+    font-size: var(--fs-role-hilfe); color: var(--ink2); }
+  .doku-felder-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: 0 0 var(--space-2); line-height: 1.45; }
   .doku-feld-check { display: flex; align-items: center; gap: var(--space-2); min-height: 44px;
-    font-size: var(--fs-base); color: var(--ink); cursor: pointer; }
+    font-size: var(--fs-role-text); color: var(--ink); cursor: pointer; }
   .doku-feld-check input { width: 20px; height: 20px; flex: none; }
-  .doku-felder-weitere { font-size: var(--fs-xs); color: var(--ink3); margin: var(--space-1) 0 0; }
-  .doku-leer { color: var(--ink3); font-size: var(--fs-sm); margin: 0 0 var(--space-3); font-style: italic; }
+  .doku-felder-weitere { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: var(--space-1) 0 0; }
+  .doku-leer { color: var(--ink3); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-3); font-style: normal; }
   /* Erkennungs-Hinweis (U2-ADR-014): ruhige Grün-auf-Weiß-Karte, KEIN Alarm-Rot. Nutzen-nah:
      erkanntes Bestands-Dokument anbieten. Knöpfe ≥44px, Eingabe-Schrift ≥16px, AA-Kontrast. */
   .doku-erkannt-gruppe { margin: 0 0 var(--space-4); }
   .doku-erkannt-karte { border: 1px solid var(--salbei-dunkel); border-left-width: var(--akzent-rand);
     background: var(--salbei-light); border-radius: var(--radius-sm);
     padding: var(--space-3); margin: 0 0 var(--space-3); }
-  .doku-erkannt-text { color: var(--ink); font-size: var(--fs-base); margin: 0 0 var(--space-3); line-height: 1.5; }
+  .doku-erkannt-text { color: var(--ink); font-size: var(--fs-role-text); margin: 0 0 var(--space-3); line-height: 1.5; }
   .doku-erkannt-aktionen { display: flex; gap: var(--space-2); flex-wrap: wrap; }
   /* Ausgeblendete (abgelehnte) Vorschläge: dezente Filter-Zeile, kein „Dokument". */
   .doku-erkannt-aus { margin: var(--space-2) 0 0; }
-  .doku-erkannt-aus-titel { font-size: var(--fs-xs); color: var(--ink3); margin: 0 0 var(--space-1); }
-  .doku-erkannt-aus-name { flex: 1 1 12rem; min-width: 10rem; font-size: var(--fs-sm); color: var(--ink2); }
+  .doku-erkannt-aus-titel { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: 0 0 var(--space-1); }
+  .doku-erkannt-aus-name { flex: 1 1 12rem; min-width: 10rem; font-size: var(--fs-role-hilfe); color: var(--ink2); }
 
   /* Ampel-Übersicht (grün/gelb/rot) in der In-App-Sicht „Prüftermine". Ruhig, nicht alarmierend —
      die Punktfarben sind gedämpft (b16-Tonalität: Salbei-Grün / Sand-Gold / gedämpftes Rot). */
   .ampel-sektion { max-width: 48ch; margin: 0 0 var(--space-5); }
-  .ampel-titel { font-family: var(--font-inter); font-size: var(--fs-lg); color: var(--salbei-dunkel);
+  .ampel-titel { font-family: var(--font-inter); font-size: var(--fs-role-gruppe); color: var(--salbei-dunkel);
     margin: 0 0 var(--space-1); }
-  .ampel-hinweis { color: var(--ink3); font-size: var(--fs-sm); margin: 0 0 var(--space-3); line-height: 1.5; }
-  .ampel-summe { font-size: var(--fs-sm); color: var(--ink2); margin: 0 0 var(--space-3); }
-  .ampel-leer { color: var(--ink2); font-size: var(--fs-base); line-height: 1.6;
+  .ampel-hinweis { color: var(--ink3); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-3); line-height: 1.5; }
+  .ampel-summe { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0 0 var(--space-3); }
+  .ampel-leer { color: var(--ink2); font-size: var(--fs-role-text); line-height: 1.6;
     background: var(--einfuehrung-flaeche); border-radius: var(--radius-sm);
     padding: var(--space-3) var(--space-4); margin: 0; }
   .ampel-liste { display: flex; flex-direction: column; }
@@ -2772,8 +2898,8 @@
   html.high-contrast .dot-amber { background: var(--ampel-gelb-hc); }
   html.high-contrast .dot-red   { background: var(--ampel-rot-hc); }
   .ampel-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
-  .ampel-label { font-size: var(--fs-base); color: var(--ink); }
-  .ampel-meta { font-size: var(--fs-sm); color: var(--ink2); }
+  .ampel-label { font-size: var(--fs-role-text); color: var(--ink); }
+  .ampel-meta { font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .ampel-aktionen { display: flex; gap: var(--space-2); flex-wrap: wrap; }
   @media (max-width: 560px) {
     /* Mobil: Aktionen unter den Text, volle Tap-Breite, Punkt + Label bleiben in einer Zeile. */
@@ -2785,7 +2911,7 @@
   .prueftermine-ohne { max-width: 48ch; margin: 0 0 var(--space-5); }
   .ampel-zeile.ohne-termin .ampel-meta { color: var(--ink3); }
   /* Ruhiger Einführungstext im Leer-Zustand (kein Dokument vorhanden) */
-  .prueftermine-einfuehrung { color: var(--ink2); font-size: var(--fs-base); line-height: 1.6;
+  .prueftermine-einfuehrung { color: var(--ink2); font-size: var(--fs-role-text); line-height: 1.6;
     background: var(--einfuehrung-flaeche); border-radius: var(--radius-sm);
     padding: var(--space-3) var(--space-4); margin: 0; }
 
@@ -2796,19 +2922,19 @@
      ist die bewusst leisere Fassung, keine neue Farbe. */
   .einst-version-hinweis { display: flex; align-items: flex-start; gap: var(--space-2);
     background: var(--flaeche-hinweis); border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-3); color: var(--ink2); font-size: var(--fs-sm);
+    padding: var(--space-2) var(--space-3); color: var(--ink2); font-size: var(--fs-role-hilfe);
     line-height: 1.5; margin: var(--space-2) 0 var(--space-3); }
   .einst-version-hinweis svg { width: 16px; height: 16px; flex: 0 0 auto; opacity: 0.8; margin-top: 2px; }
   .einst-update-anleitung { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--line); }
-  .einst-update-titel { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--ink2); margin: 0 0 var(--space-2); }
-  .einst-update-schritte { margin: 0; padding-left: 1.25rem; color: var(--ink2); font-size: var(--fs-sm); line-height: 1.6; }
+  .einst-update-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--ink2); margin: 0 0 var(--space-2); }
+  .einst-update-schritte { margin: 0; padding-left: 1.25rem; color: var(--ink2); font-size: var(--fs-role-hilfe); line-height: 1.6; }
   .einst-update-schritte li { margin: 0 0 var(--space-1); }
-  .einst-schnellstart-schritte { margin: var(--space-2) 0 0; padding-left: 1.25rem; color: var(--ink2); font-size: var(--fs-sm); line-height: 1.6; }
+  .einst-schnellstart-schritte { margin: var(--space-2) 0 0; padding-left: 1.25rem; color: var(--ink2); font-size: var(--fs-role-hilfe); line-height: 1.6; }
   .einst-schnellstart-schritte li { margin: 0 0 var(--space-2); }
   /* Vorführung (AB_WERK_SHOWCASE, 15.09.2026) — Streifen, Schleifen-Karte, Leerlauf-Hinweis. Nur
      sichtbar, wenn der Block gebacken ist: die Elemente entstehen erst in vorfuehrungStarten(). */
   #vorfuehrung-streifen { position: fixed; top: 0; left: 0; right: 0; z-index: 400; pointer-events: none;
-    background: var(--salbei-dunkel); color: var(--vorfuehrung-auf-farbe); text-align: center; font-size: var(--fs-xs);
+    background: var(--salbei-dunkel); color: var(--vorfuehrung-auf-farbe); text-align: center; font-size: var(--fs-role-hilfe);
     font-weight: var(--fw-semibold); letter-spacing: var(--ls-vorfuehrung-streifen); padding: 4px var(--space-3); line-height: 1.4; }
   html.vorfuehrung body { padding-top: var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)); }
   /* Der Einrichten-Hinweis führt zum Passwort — in der Vorführung gesperrt, also nicht angeboten. */
@@ -2827,7 +2953,7 @@
   #vorfuehrung-schleife .vorfuehrung-karte { max-width: none; border-radius: 0; border-width: 1px 0 0 6px;
     box-shadow: var(--vorfuehrung-schatten-schleife); }
   .vorfuehrung-karte--schluss { text-align: left; }
-  .vorfuehrung-karte-titel { font-weight: var(--fw-bold); font-size: var(--fs-2xl); line-height: 1.25; margin: 0 0 var(--space-2); }
+  .vorfuehrung-karte-titel { font-weight: var(--fw-bold); font-size: var(--fs-role-abschnitt); line-height: 1.25; margin: 0 0 var(--space-2); }
   html.vorfuehrung-band #app { height: calc(100vh - var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)) - var(--vorfuehrung-band, 0px) - var(--vorfuehrung-unten, 0px)); }
   /* Auch ein Dialog, den eine Station zeigt, endet über dem Band — Rücken und Dialog, samt seiner Höchsthöhe. */
   html.vorfuehrung-band #modal-rueck { top: var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)); bottom: calc(var(--vorfuehrung-band, 0px) + var(--vorfuehrung-unten, 0px)); }
@@ -2836,31 +2962,31 @@
     html.vorfuehrung-band #app.an { height: calc(100vh - var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)) - var(--vorfuehrung-band, 0px) - var(--vorfuehrung-unten, 0px));
       min-height: 0; overflow-y: auto; }
   }
-  .vorfuehrung-karte-text { font-size: var(--fs-md, 1rem); line-height: 1.5; margin: 0 0 var(--space-3); }
-  .vorfuehrung-karte-tippen { font-size: var(--fs-xs); color: var(--ink2); margin: 0; }
+  .vorfuehrung-karte-text { font-size: var(--fs-role-text); line-height: 1.5; margin: 0 0 var(--space-3); }
+  .vorfuehrung-karte-tippen { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0; }
   /* Notiz (30.09.2026, Abnahme der Demo „Patientin“): der Erklärtext ist ein angehefteter Zettel am Element, von dem er spricht —
      im Seitenfluss direkt dahinter, darum verdeckt er nichts, auch schmal nicht. Gelb mit Schatten und Nadel, damit er nie als Teil
      des Produkts gelesen wird. Die Farben sind fest (auch im dunklen Modus bleibt Papier Papier); Kontrast Text/Grund über 12:1. */
   .vorfuehrung-notiz { position: absolute; z-index: 5; display: block; width: max-content; max-width: min(17rem, 60vw); margin: 0;
-    padding: 9px 12px 8px; background: var(--notiz-papier); color: var(--notiz-tinte); border-radius: var(--notiz-radius); font-size: var(--notiz-fs); line-height: 1.4;
+    padding: 9px 12px 8px; background: var(--notiz-papier); color: var(--notiz-tinte); border-radius: var(--notiz-radius); font-size: var(--fs-role-hilfe); line-height: 1.4;
     box-shadow: var(--notiz-schatten); transform: rotate(1.5deg); }
   .vorfuehrung-notiz::before { content: ''; position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px;
     border-radius: 50%; background: var(--error); box-shadow: var(--notiz-nadel-schatten); }
   .vorfuehrung-notiz-text { margin: 0; }
   /* Höchstens drei Zeilen; der Rest hinter „mehr“ (aufklappen, nicht verlieren). */
   .vorfuehrung-notiz:not(.offen) .vorfuehrung-notiz-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .vorfuehrung-notiz-mehr { margin: 2px 0 0; padding: 0; border: 0; background: none; font: inherit; font-size: var(--notiz-fs-mehr); font-weight: var(--fw-bold);
+  .vorfuehrung-notiz-mehr { margin: 2px 0 0; padding: 0; border: 0; background: none; font: inherit; font-size: var(--fs-role-hilfe); font-weight: var(--fw-bold);
     color: var(--notiz-leise); text-decoration: underline; cursor: pointer; }
-  @media (max-width: 600px) { .vorfuehrung-notiz { max-width: 62vw; font-size: var(--notiz-fs-schmal); padding: 7px 10px 6px; } }
-  .vorfuehrung-auszug { max-height: 50vh; overflow: auto; font-size: var(--vorfuehrung-fs-auszug); background: var(--flaeche-neutral);
+  @media (max-width: 600px) { .vorfuehrung-notiz { max-width: 62vw; font-size: var(--fs-role-hilfe); padding: 7px 10px 6px; } }
+  .vorfuehrung-auszug { max-height: 50vh; overflow: auto; font-size: var(--fs-role-hilfe); background: var(--flaeche-neutral);
     padding: var(--space-3); border-radius: var(--radius-sm); white-space: pre-wrap; word-break: break-word; }
   /* Das Urteil des Validators über der Datei (01.10.2026): eine Zeile, abgesetzt wie ein Vermerk, nicht wie Inhalt. */
-  .vorfuehrung-pruefung { font-size: var(--vorfuehrung-fs-pruefung); margin: var(--space-2) 0; padding-left: var(--space-3); border-left: var(--akzent-rand) solid var(--salbei-mid); }
+  .vorfuehrung-pruefung { font-size: var(--fs-role-hilfe); margin: var(--space-2) 0; padding-left: var(--space-3); border-left: var(--akzent-rand) solid var(--salbei-mid); }
   /* Demo mit Handsteuerung (26.09.2026, U2-ADR-413-Nachtrag): die Karte hört nicht auf jede Berührung, sie trägt die Leiste
      Zurück · Weiter · Selbst ausprobieren. Die Fläche darüber lässt die Ansicht bedienbar. */
   html.vorfuehrung-hand #vorfuehrung-schleife { pointer-events: none; cursor: default; }
   html.vorfuehrung-hand #vorfuehrung-schleife .vorfuehrung-karte { pointer-events: auto; }
-  .vorfuehrung-schritt { font-size: var(--fs-xs); color: var(--ink2); margin: 0 0 var(--space-1); }
+  .vorfuehrung-schritt { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0 0 var(--space-1); }
   .vorfuehrung-leiste { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-top: var(--space-2); }
   .vorfuehrung-leiste .btn { min-height: 44px; }
   /* Anfrage: die Angabe und darunter, leiser, wozu sie gefragt ist — sichtbar getrennt, in jeder Ansicht, nicht nur in der Demo. */
@@ -2870,8 +2996,8 @@
   /* Auf dem Handy nimmt die Karte weniger Höhe: kleinerer Titel, knapper Rand, eine Zeile Knöpfe. */
   @media (max-width: 520px) {
     html.vorfuehrung-hand #vorfuehrung-schleife .vorfuehrung-karte { padding: var(--space-2) var(--space-3); }
-    html.vorfuehrung-hand .vorfuehrung-karte-titel { font-size: var(--fs-lg, 1.15rem); margin-bottom: var(--space-1); }
-    html.vorfuehrung-hand .vorfuehrung-karte-text { font-size: var(--vorfuehrung-fs-karte-hand); margin-bottom: var(--space-2); }
+    html.vorfuehrung-hand .vorfuehrung-karte-titel { font-size: var(--fs-role-gruppe); margin-bottom: var(--space-1); }
+    html.vorfuehrung-hand .vorfuehrung-karte-text { font-size: var(--fs-role-text); margin-bottom: var(--space-2); }
     .vorfuehrung-leiste { flex-wrap: nowrap; gap: 6px; }
     .vorfuehrung-leiste .btn { padding-left: 12px; padding-right: 12px; white-space: nowrap; }
   }
@@ -2884,19 +3010,19 @@
     box-shadow: var(--vorfuehrung-schatten-spalte); max-height: calc(100vh - 26px); overflow-y: auto; padding: var(--space-3) var(--space-4); }
   .vorfuehrung-spalte--empfaenger { --vorfuehrung-farbe: var(--salbei-dunkel); }
   .vorfuehrung-spalte--vollmacht { --vorfuehrung-farbe: var(--modus-vollmacht); }
-  .vorfuehrung-situation-titel { margin: 0 0 4px; font-size: var(--fs-xs); font-weight: var(--fw-bold); letter-spacing: var(--ls-label-klasse); text-transform: var(--label-schreibung); color: var(--ink2); }
+  .vorfuehrung-situation-titel { margin: 0 0 4px; font-size: var(--fs-role-hilfe); font-weight: var(--fw-bold); letter-spacing: var(--ls-label-klasse); text-transform: var(--label-schreibung); color: var(--ink2); }
   .vorfuehrung-situation { margin: 0 0 var(--space-3); line-height: 1.5; white-space: pre-line; }
   .vorfuehrung-rolle-text { margin: 0 0 var(--space-3); padding: 10px 14px; border-radius: var(--radius-sm); background: var(--vorfuehrung-farbe);
-    color: var(--vorfuehrung-auf-farbe); font-weight: var(--fw-bold); font-size: var(--vorfuehrung-fs-rolle); line-height: 1.3; }
+    color: var(--vorfuehrung-auf-farbe); font-weight: var(--fw-bold); font-size: var(--fs-role-gruppe); line-height: 1.3; }
   .vorfuehrung-spalte .vorfuehrung-schritt { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); }
   .vorfuehrung-ueberblick { background: none; border: 0; padding: 0; font: inherit; color: var(--ink2); text-decoration: underline; cursor: pointer; }
   .vorfuehrung-schritte { list-style: none; margin: 0; padding: 0; }
   .vorfuehrung-schritte li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); color: var(--ink2); }
   .vorfuehrung-schritte li.aktiv { color: var(--ink); }
   .vorfuehrung-schritt-nr { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px;
-    border-radius: 50%; border: 1.5px solid var(--line); font-size: var(--vorfuehrung-fs-schritt); }
+    border-radius: 50%; border: 1.5px solid var(--line); font-size: var(--fs-role-hilfe); }
   .vorfuehrung-schritte li.aktiv .vorfuehrung-schritt-nr { background: var(--vorfuehrung-farbe); border-color: var(--vorfuehrung-farbe); color: var(--vorfuehrung-auf-farbe); font-weight: var(--fw-bold); }
-  .vorfuehrung-spalte .vorfuehrung-karte-titel { font-size: var(--fs-lg, 1.15rem); margin: 0 0 4px; }
+  .vorfuehrung-spalte .vorfuehrung-karte-titel { font-size: var(--fs-role-gruppe); margin: 0 0 4px; }
   .vorfuehrung-spalte .vorfuehrung-karte-text { margin: 0; white-space: pre-line; }
   .vorfuehrung-spalte--vollmacht .vorfuehrung-leiste .btn:not(.btn-sek) { background: var(--modus-vollmacht); border-color: var(--modus-vollmacht); }
   .vorfuehrung-spalte--vollmacht .vorfuehrung-leiste .btn-sek { color: var(--modus-vollmacht); border-color: var(--modus-vollmacht); }
@@ -2906,7 +3032,7 @@
   .vorfuehrung-wechsel-karte { max-width: 30rem; width: 100%; border: 1px solid var(--line); border-left: var(--akzent-rand-stark) solid var(--vorfuehrung-farbe);
     border-radius: var(--radius-sm); padding: var(--space-5); background: var(--white); box-shadow: var(--vorfuehrung-schatten-wechsel); }
   
-  .vorfuehrung-wechsel-satz { font-size: var(--fs-xl, 1.25rem); font-weight: var(--fw-bold); margin: 0 0 var(--space-3); white-space: pre-line; }
+  .vorfuehrung-wechsel-satz { font-size: var(--fs-role-abschnitt); font-weight: var(--fw-bold); margin: 0 0 var(--space-3); white-space: pre-line; }
   .vorfuehrung-wechsel.vorfuehrung-spalte--vollmacht .btn { background: var(--modus-vollmacht); border-color: var(--modus-vollmacht); }
   @media (max-width: 1099px) {
     .vorfuehrung-spalte:not(.offen) .vorfuehrung-situation-titel, .vorfuehrung-spalte:not(.offen) .vorfuehrung-situation,
@@ -2914,7 +3040,7 @@
     .vorfuehrung-spalte:not(.offen) .vorfuehrung-schritte li.aktiv { border-bottom: 0; padding-bottom: 0; }
     .vorfuehrung-spalte.erster:not(.offen) .vorfuehrung-situation { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
       overflow: hidden; margin-bottom: var(--space-2); }
-    .vorfuehrung-spalte .vorfuehrung-rolle-text { font-size: var(--vorfuehrung-fs-spalte); padding: 6px 10px; margin-bottom: var(--space-2); }
+    .vorfuehrung-spalte .vorfuehrung-rolle-text { font-size: var(--fs-role-text); padding: 6px 10px; margin-bottom: var(--space-2); }
   }
   @media (min-width: 1100px) {
     html.vorfuehrung-hand body { padding-left: 404px; }
@@ -2925,9 +3051,9 @@
     .vorfuehrung-spalte .vorfuehrung-schritte { flex: 1; }
     /* Die Knöpfe bleiben am unteren Rand der Spalte sichtbar, auch wenn die Spalte auf einem niedrigen Bildschirm scrollt. */
     .vorfuehrung-spalte .vorfuehrung-leiste { position: sticky; bottom: 0; background: var(--white); padding: 10px 0 2px; margin-top: 6px; }
-    .vorfuehrung-spalte .vorfuehrung-situation { font-size: var(--vorfuehrung-fs-spalte); }
+    .vorfuehrung-spalte .vorfuehrung-situation { font-size: var(--fs-role-text); }
     .vorfuehrung-spalte .vorfuehrung-schritte li { padding: 5px 0; }
-    .vorfuehrung-spalte .vorfuehrung-karte-text { font-size: var(--vorfuehrung-fs-spalte); line-height: 1.45; }
+    .vorfuehrung-spalte .vorfuehrung-karte-text { font-size: var(--fs-role-text); line-height: 1.45; }
     .vorfuehrung-ueberblick { display: none; }
     #vorfuehrung-wechsel { top: 26px; left: 404px; }
   }
@@ -2971,21 +3097,236 @@
   .feld-umschau-eintragen:hover { border-style: solid; border-color: var(--salbei-dunkel); }
   /* Der Hinweis nennt das Feld („Geburtsdatum eintragen“, 08.10.2026) und darf darum umbrechen; fest breit schob er auf dem Telefon die Seite
      seitwärts (gemessen bei 375 px: bis 469 px Inhalt in 327 px Knopf). */
-  .feld-umschau-eintragen-hinweis { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; text-align: right; color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
+  /* Der Hinweis ordnet sich der Feldbeschriftung unter: nicht größer als sie und nicht fetter (Abnahme v998, „Name & Geburt“). */
+  .feld-umschau-eintragen-hinweis { flex: 0 1 auto; min-width: 0; overflow-wrap: break-word; text-align: right; color: var(--salbei-dunkel); font-size: var(--fs-role-label); font-weight: var(--fw-regular); }
+  /* Ein Ja/Nein-Feld steht als Kästchen wie im Depot (24 px, WCAG 2.5.8), ohne Feldrahmen; der Knopf bleibt so hoch wie ein Feld. */
+  .feld-umschau-eintragen--kaestchen { width: auto; justify-content: flex-start; border: 0; background: transparent; padding: 0; }
+  .feld-umschau-kaestchen { flex: none; width: 24px; height: 24px; border: 2px solid var(--ink2); border-radius: var(--radius-sm); background: var(--feld-flaeche); }
+  .feld-umschau-kaestchen--an { background: var(--salbei-dunkel); border-color: var(--salbei-dunkel); }
   html.dark-mode .feld-umschau-eintragen-hinweis { color: var(--salbei-nacht); }
+  /* Eine kleine Auswahl (ja · nein · teilweise) steht als Wahl wie im Depot, ohne Feldrahmen; die gewählte gefüllt. Auf dem Telefon
+     brechen die Möglichkeiten als Ganzes um, nie im Wort (M05). */
+  .feld-umschau-eintragen:has(> .feld-umschau-wahl) { width: auto; max-width: 100%; justify-content: flex-start; border: 0; background: transparent; padding: 0; }
+  .feld-umschau-wahl { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .feld-umschau-option { display: inline-flex; align-items: center; min-height: 32px; padding: var(--space-1) var(--space-3); border: 1px solid var(--line);
+    border-radius: var(--radius-pill); background: var(--feld-flaeche); color: var(--ink); font-size: var(--fs-role-label); white-space: nowrap; max-width: 100%; }
+  /* Eine Möglichkeit, die allein breiter ist als die Zeile (englisch bei 390 px), bricht in sich um statt seitlich überzulaufen. */
+  .feld-umschau-wahl, .feld-umschau-eintragen:has(> .feld-umschau-wahl) { min-width: 0; }
+  .feld-umschau-option { white-space: normal; text-align: start; }
+  .feld-umschau-eintragen:hover .feld-umschau-option { border-color: var(--salbei-dunkel); }
+  .feld-umschau-option--an { background: var(--salbei-dunkel); border-color: var(--salbei-dunkel); color: var(--white); }
   /* Anlegen-Fenster (Befund der Produktverantwortung 01.11.2026): der Grund steht in Grundschrift, nicht fett; beim Anker stehen Vor- und
      Nachname als Gruppe unter „Ihr Name“, die Überschrift wie eine Beschriftung im Dialog, darunter die Zeile, wozu der Name dient. Die zwei
      Felder stehen nebeneinander, damit „Passwort bestätigen“ beim Öffnen über der Knopfleiste steht. */
   .anlegen-grund { margin: 0 0 var(--space-3); color: var(--ink); font-weight: var(--fw-regular); }
   .anlegen-name { border: 0; padding: 0; margin: 0; min-width: 0; }
-  .anlegen-name > legend { font-size: var(--fs-sm); color: var(--ink2); padding: 0; margin-bottom: var(--space-1); }
+  .anlegen-name > legend { font-size: var(--fs-role-hilfe); color: var(--ink2); padding: 0; margin-bottom: var(--space-1); }
   .anlegen-name-felder { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-3); }
   .welcome-umsehen { margin: var(--space-3) 0 0; text-align: center; }
   /* Datum in drei Feldern (Zielbild S4, Abnahme v979 Nr. 5): Tag und Monat je 5.5ch, Jahr 8ch, die Beschriftung jedes Teils
      klein darüber. Der Kalender des Browsers entfällt; der gespeicherte Wert bleibt ISO (_datumDreifeldHTML). */
   .datum-dreifeld { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-end; }
   .datum-teil { display: flex; flex-direction: column; gap: 4px; margin: 0; }
-  .datum-teil-name { color: var(--ink3, var(--ink)); font-size: var(--fs-sm); line-height: 1.4; font-weight: var(--fw-regular); }
+  .datum-teil-name { color: var(--ink3, var(--ink)); font-size: var(--fs-role-hilfe); line-height: 1.4; font-weight: var(--fw-regular); }
   .datum-teil > input[data-datum-teil] { width: 100%; min-width: 0; min-height: var(--feld-hoehe); text-align: left; font-variant-numeric: tabular-nums; }
   .datum-teil--t, .datum-teil--m { width: 5.5ch; min-width: 5.5ch; }
   .datum-teil--j { width: 8ch; min-width: 8ch; }
+  /* Bereichsgerüst v2 (Renderer: bereichGeruestHTML): Gruppen als Flächen statt Linien, nur Tokens. Zwischentitel gliedern innerhalb
+     einer Gruppe, der Zähler zählt nur sichtbare Felder, Info-Zeichen klappt den Erklärtext am Feld auf, „Weitere Angaben“ und die Einträge
+     einer Liste klappen auf. Gruppe B hält Menschen als Zeilen, D Dokumente als Karten im Raster, E abgeleitete Fristzeilen. */
+  .geruest { display: block; }
+  .geruest-gruppe { display: block; margin-bottom: var(--space-3); border-radius: var(--radius-lg); background: var(--flaeche-neutral); overflow: hidden; }
+  .geruest-gruppe-kopf { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-3);
+    min-height: var(--ziel); padding: var(--space-3) var(--space-4); }
+  .geruest-gruppe-kopf::-webkit-details-marker { display: none; }
+  .geruest-gruppe-kopf::after { content: '▾'; color: var(--ink3); transition: transform 0.15s ease; }
+  .geruest-gruppe[open] > .geruest-gruppe-kopf::after { transform: rotate(180deg); }
+  .geruest-gruppe-titel { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); color: var(--ink); min-width: 0; hyphens: auto; overflow-wrap: break-word; }
+  .geruest-zaehler { font-size: var(--fs-role-hilfe); font-weight: var(--fw-regular); color: var(--ink3); font-variant-numeric: tabular-nums; }
+  .geruest-gruppe-koerper { padding: 0 var(--space-4) var(--space-4); }
+  .geruest-abschnitt + .geruest-abschnitt { margin-top: var(--space-4); }
+  .geruest-zwischentitel { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-4) 0 var(--space-2); padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm); background: var(--flaeche-hinweis); color: var(--salbei-dunkel); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); }
+  .geruest-abschnitt:first-child > .geruest-zwischentitel:first-child { margin-top: 0; }
+  .geruest-info { display: inline-flex; align-items: center; justify-content: center; min-width: var(--ziel); min-height: var(--ziel); padding: 0; margin: 0; background: transparent;
+    color: var(--salbei-dunkel); cursor: pointer; border-radius: var(--radius-pill); }
+  .geruest-info:hover { background: var(--flaeche-hover); }
+  .geruest-info-text { margin: var(--space-1) 0 var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--flaeche-hinweis);
+    color: var(--ink2); font-size: var(--fs-role-hilfe); line-height: 1.45; }
+  .geruest-info-text[hidden] { display: none; }
+  .geruest-weitere { margin-top: var(--space-3); border-radius: var(--radius-md); background: var(--flaeche-hover); }
+  .geruest-weitere > summary { cursor: pointer; list-style: none; padding: var(--space-2) var(--space-3); min-height: var(--ziel); display: flex; align-items: center; gap: var(--space-2);
+    color: var(--ink2); font-size: var(--fs-role-hilfe); }
+  .geruest-weitere > summary::-webkit-details-marker { display: none; }
+  .geruest-weitere > summary::after { content: '▸'; margin-left: auto; color: var(--ink3); transition: transform 0.15s ease; }
+  .geruest-weitere[open] > summary::after { transform: rotate(90deg); }
+  .geruest-weitere > :not(summary) { margin-left: var(--space-3); margin-right: var(--space-3); }
+  .geruest-weitere-zahl { color: var(--ink3); font-size: var(--fs-role-hilfe); }
+  .geruest-keine { margin-top: var(--space-2); }
+  .geruest-chip { display: inline-flex; align-items: center; min-height: var(--ziel); padding: 0 var(--space-4); border-radius: var(--radius-pill); background: var(--flaeche-hover);
+    color: var(--ink2); font-size: var(--fs-role-hilfe); cursor: pointer; }
+  .geruest-chip--an { background: var(--salbei-dunkel); color: var(--auf-akzent); }
+  .geruest-chip:disabled { cursor: default; }
+  .geruest-eintrag-punkt { list-style: none; margin: 0 0 var(--space-2); padding: 0; }
+  .geruest-eintrag { border-radius: var(--radius-md); background: var(--flaeche-hover); }
+  .geruest-eintrag > summary { cursor: pointer; list-style: none; display: flex; flex-direction: column; gap: var(--space-1); min-height: var(--ziel); padding: var(--space-2) var(--space-3); }
+  .geruest-eintrag > summary::-webkit-details-marker { display: none; }
+  .geruest-eintrag-titel { font-weight: var(--fw-semibold); color: var(--ink); }
+  .geruest-eintrag-person { font-size: var(--fs-role-hilfe); color: var(--ink3); }
+  .geruest-eintrag-koerper { padding: 0 var(--space-3) var(--space-3); }
+  .geruest-eintrag-zeile { display: flex; flex-direction: column; gap: 2px; padding: var(--space-1) 0; }
+  .geruest-eintrag-label { font-size: var(--fs-role-hilfe); color: var(--ink3); }
+  .geruest-eintrag-aktionen { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
+  .geruest-dokumente { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); gap: var(--space-3); }
+  .geruest-dokument { padding: var(--space-3); border-radius: var(--radius-md); background: var(--white); }
+  .geruest-fristen { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+  .geruest-frist-zeile { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: var(--ziel); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
+    background: var(--white); color: var(--ink); font-size: var(--fs-role-text); text-align: left; cursor: pointer; }
+  .geruest-frist-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .geruest-frist-datum { color: var(--ink3); font-size: var(--fs-role-hilfe); font-variant-numeric: tabular-nums; }
+  /* Im Dialog gilt `.modal label` (Block, Abstand darunter) und `.modal input` (Abstand darunter) auch für die Teile des Datums: sie bleiben nebeneinander, der Abstand steht unter der Gruppe. */
+  .modal .datum-teil { display: flex; margin: 0; font-size: inherit; color: inherit; }
+  .modal .datum-teil > input[data-datum-teil] { margin-bottom: 0; }
+  .modal .datum-dreifeld { margin-bottom: var(--space-4); }
+
+  /* Rollen-Tokens der Zielbilder 01 bis 04: Fenster, Blatt am Telefon, ruhige Fläche, Kachel, Kachelschatten, Einleitung,
+     Nummer im Wörter-Raster. */
+  :root { --radius-fenster: 24px; --radius-blatt: 20px; --radius-flaeche: 16px; --radius-kachel: 12px;
+    --schatten-kachel: 0 1px 2px rgba(22,37,23,.06), 0 4px 14px rgba(22,37,23,.05);
+    --schatten-kachel-hover: 0 2px 4px rgba(22,37,23,.08), 0 8px 22px rgba(22,37,23,.08);
+    --fs-einleitung: calc(var(--fs-base) * 1.0625); --fs-wort-nummer: 0.75rem; }
+  /* Größenleiter (tools/groessenleiter.json, Zielbild 30.10.2026, Schrift): jede Schriftgröße der Anwendung zeigt auf eine dieser Stufen; rem, damit die Schriftgrößen-Einstellung der Person die ganze Leiter skaliert; unter 768 px gelten die Telefon-Größen. */
+  :root { --fs-role-anzeige: 2rem; --fs-role-titel: 1.75rem; --fs-role-abschnitt: 1.25rem; --fs-role-gruppe: 1.0625rem; --fs-role-einleitung: 1.0625rem; --fs-role-text: 0.9375rem; --fs-role-wert: 0.9375rem; --fs-role-label: 0.875rem; --fs-role-knopf: 0.9375rem; --fs-role-nav: 0.875rem; --fs-role-hilfe: 0.875rem; }
+  @media (max-width: 767px) { :root { --fs-role-anzeige: 1.75rem; --fs-role-titel: 1.625rem; --fs-role-text: 1rem; --fs-role-wert: 1rem; --fs-role-label: 0.9375rem; --fs-role-knopf: 1rem; --fs-role-nav: 1rem; } }
+
+  /* ── Zielbild 01/02 (30.10.2026): „Depot anlegen“ als Fenster mit Schritten ──────────────────────────────────────────────
+     Kopf: Titel links, Schritt-Leiste rechts (zwei Balken, gezeichnet). Schritt 1: die sechs Wörter als nummeriertes Raster auf
+     ruhiger Fläche, die Probe direkt darunter, die Empfehlung als leise Zeile. Fuß: Nebenweg als Textknopf links, „Abbrechen“ und der
+     Hauptknopf rechts. Am Telefon ein Blatt von unten, der Hauptknopf über dem Nebenweg. Schritt 2: der Code in Kacheln. */
+  #modal-rueck .modal:has([data-zwei-schritte]) { max-width: 560px; padding: var(--space-6) 36px 28px; border-radius: var(--radius-fenster); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-kopf { align-items: center; margin-bottom: var(--space-5); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-kopf h3 { margin: 0; padding-top: 0; color: var(--ink); font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); line-height: 1.4; flex-wrap: wrap-reverse; gap: var(--space-2) var(--space-4); }
+  #modal-rueck .modal:has(#whc-angebot) .modal-x { display: none; }
+  @media (min-width: 768px) { #modal-rueck .modal.modal-mit-abbrechen:has([data-zwei-schritte]) .modal-x { display: none; } }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-schritt { order: 1; flex: 0 0 auto; flex-basis: auto; margin-left: auto; display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink3); white-space: nowrap; }
+  .modal-schritt::before { content: ""; width: 28px; height: 6px; margin-right: 36px; border-radius: var(--radius-balken); background: var(--salbei-dunkel); box-shadow: 36px 0 0 var(--line); flex: 0 0 auto; }
+  .modal-schritt[data-schritt="2"]::before { box-shadow: 36px 0 0 var(--salbei-dunkel); }
+  html.dark-mode .modal-schritt::before { background: var(--salbei-nacht); }
+  html.dark-mode .modal-schritt[data-schritt="2"]::before { box-shadow: 36px 0 0 var(--salbei-nacht); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-name > legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  #modal-rueck .modal:has([data-zwei-schritte]) label { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink2); margin-bottom: 6px; }
+  #modal-rueck .modal:has([data-zwei-schritte]) input { min-height: 44px; margin-bottom: 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .feld-inline-fehler { margin: var(--space-1) 0 0; }
+  .anlegen-woerter-titel { font-size: var(--fs-role-einleitung); font-weight: var(--fw-semibold); color: var(--ink); margin: var(--space-6) 0 6px; }
+  .anlegen-woerter-titel[hidden], .anlegen-pw-eigen[hidden] { display: none; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .pw-satz { font-size: var(--fs-role-text); line-height: 1.55; margin: 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag { margin: 0; }
+  .pw-woerter-raster { list-style: none; margin: var(--space-4) 0 0; padding: 18px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; background: var(--salbei-light); border-radius: var(--radius-flaeche); counter-reset: wort; letter-spacing: normal; font-size: inherit; }
+  .pw-woerter-raster li { counter-increment: wort; display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; background: var(--white); border-radius: var(--radius-kachel); padding: var(--space-3) 14px; font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); line-height: 1.2; color: var(--ink); overflow-wrap: anywhere; }
+  .pw-woerter-raster li::before { display: inline-block; content: counter(wort); font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink3); min-width: 1ch; }
+  /* Alle sechs Wörter sehen gleich aus, auch während der Probe (kein Unterstrich, der wie ein Link wirkt). */
+  .pw-woerter-raster li.pw-wort-ok { color: inherit; text-decoration: none; }
+  .anlegen-warum-mehr { margin: var(--space-2) 0 0; padding: var(--space-3) var(--space-4); background: var(--flaeche-hinweis); border-radius: var(--radius-kachel); }
+  .anlegen-warum-mehr[hidden] { display: none; }
+  .anlegen-warum-mehr .anlegen-unterhinweis { margin: 0 0 var(--space-1); }
+  .anlegen-warum-mehr .btn-text { min-height: 44px; padding: 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag-aktionen { margin: 6px 0 0; gap: 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag-aktionen .btn-text { min-height: 44px; padding: 0 var(--space-3); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-pw-eigen { margin-top: var(--space-5); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-pw-eigen .pw-staerke { margin: var(--space-1) 0 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) #id-pw2-label { margin-top: var(--space-5); }
+  .anlegen-empfehlung { font-size: var(--fs-role-hilfe); line-height: 1.46; color: var(--ink3); margin: var(--space-5) 0 0; }
+  .anlegen-empfehlung strong { color: var(--ink2); font-weight: var(--fw-semibold); }
+  .anlegen-unterhinweis { font-size: var(--fs-role-hilfe); line-height: 1.46; color: var(--ink3); margin: var(--space-2) 0 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen { align-items: center; margin-top: var(--space-6); padding-top: 0; flex-wrap: nowrap; }
+  .modal-nebenweg { display: flex; align-items: center; margin-right: auto; }
+  .modal-nebenweg .btn-text { min-height: 44px; padding: 0 var(--space-3); white-space: nowrap; }
+  .modal-nebenweg .btn-text[hidden] { display: none; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen .btn { min-height: 44px; padding: 0 22px; border-radius: var(--radius-pill); flex: 0 0 auto; white-space: nowrap; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen #m-abbr { border: 0; background: var(--flaeche-hover); color: var(--ink); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-zweit-text { align-items: center; gap: 0 var(--space-3); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-zweit-text .btn-text { min-height: 44px; padding: 0 var(--space-3); }
+  #modal-rueck .modal:has([data-zwei-schritte]) #m-zweit-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink3); }
+  /* Schritt 2: der Code in Kacheln auf ruhiger Fläche, die Druckknöpfe mittig darunter, „Code abtippen“ als Beschriftung des Felds. */
+  .whc-code.whc-code-kacheln { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: var(--space-4) 0 0; padding: 22px 18px; background: var(--salbei-light); border: 0; border-radius: var(--radius-flaeche); font-size: var(--fs-role-abschnitt); letter-spacing: var(--ls-code); text-align: center; color: var(--ink); }
+  .whc-code-kacheln span { background: var(--white); border-radius: var(--radius-kachel); padding: var(--space-2) var(--space-3); white-space: nowrap; }
+  #modal-rueck .modal:has(#whc-angebot) .whc-druck-zeile { justify-content: center; gap: var(--space-3); margin-top: var(--space-3); }
+  #modal-rueck .modal:has(#whc-angebot) .whc-druck-zeile .btn { min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--radius-pill); background: var(--flaeche-hover); color: var(--ink); font-size: var(--fs-role-text); font-weight: var(--fw-medium); }
+  #modal-rueck .modal:has(#whc-angebot) h3.whc-abtippen-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink2); margin: 28px 0 6px; }
+  #modal-rueck .modal:has(#whc-angebot) label[for="whc-kontrolle"] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
+  #modal-rueck .modal:has(#whc-angebot) #whc-kontrolle-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: var(--space-1) 0 0; }
+  /* Ein Abschreibfehler steht als Satz unter dem Feld, die Unterkante wird rot; kein Kasten, und der leise Hinweis weicht ihm. */
+  #modal-rueck .modal:has(#whc-angebot) #whc-fehler { margin: var(--space-1) 0 0; padding: 0; border: 0; background: none; color: var(--error); font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); }
+  html.dark-mode #modal-rueck .modal:has(#whc-angebot) #whc-fehler { color: var(--feld-fehler-schrift); }
+  #modal-rueck .modal:has(#whc-angebot) #whc-kontrolle-hinweis:has(~ #whc-fehler:not([hidden])) { display: none; }
+  #modal-rueck .modal:has(#whc-angebot) #whc-kontrolle:has(~ #whc-fehler:not([hidden])) { border-bottom: 2px solid var(--error); }
+  @media (max-width: 767px) {
+    #modal-rueck:has([data-zwei-schritte]) { padding: var(--space-6) 0 0; align-items: flex-end; }
+    #modal-rueck .modal:has([data-zwei-schritte]) { max-width: none; width: 100%; padding: var(--space-5) var(--space-4) 20px; border-radius: var(--radius-blatt) var(--radius-blatt) 0 0; max-height: calc(100dvh - var(--space-6)); }
+    #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-name-felder { grid-template-columns: 1fr; gap: var(--space-4); }
+    #modal-rueck .modal:has([data-zwei-schritte]) input { min-height: 48px; }
+    .pw-woerter-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-3); }
+    .pw-woerter-raster li { font-size: var(--fs-role-gruppe); }
+    #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen { flex-direction: column; align-items: stretch; gap: var(--space-3); }
+    #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen #m-ok { order: 1; width: 100%; min-height: 48px; justify-content: center; }
+    #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen #m-abbr { display: none; }
+    #modal-rueck .modal:has([data-zwei-schritte]) .modal-nebenweg, #modal-rueck .modal:has([data-zwei-schritte]) .modal-zweit-text { order: 2; margin: 0; justify-content: center; text-align: center; flex-direction: column; }
+  }
+
+  /* Zielbild 04 (Startseite „Was möchten Sie erledigen?“ im App-Rahmen): der fehlende Code als Leiste mit Knopf, Rubriken in Tinte
+     20 px, Kacheln als Fläche ohne Rand und ohne Icon mit einer Zeile Untertitel, „Einfach so“ als ruhige Kachel in Salbei-hell. */
+  .erledigen .sektor-intro { font-size: var(--fs-role-einleitung); color: var(--ink2); }
+  .erledigen-whc { display: flex; align-items: center; gap: var(--space-4); margin: var(--space-6) 0 0; padding: var(--space-4) 18px; background: var(--salbei-light); border-radius: var(--radius-flaeche); color: var(--ink); }
+  .erledigen-whc p { margin: 0; flex: 1 1 auto; min-width: 0; font-size: var(--fs-role-text); line-height: 1.5; }
+  .erledigen-whc .btn { flex: 0 0 auto; min-height: 44px; padding: 0 22px; border: 0; border-radius: var(--radius-pill); background: var(--flaeche-hover); color: var(--ink); font-weight: var(--fw-semibold); white-space: nowrap; }
+  .erledigen .klasse-titel { font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); text-transform: none; letter-spacing: normal; color: var(--ink); margin: 40px 0 var(--space-4); line-height: 1.3; }
+  .erledigen .anlass-grid { grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: var(--space-3); }
+  .anlass.anlass-seite { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: var(--space-1); border: 0; border-radius: var(--radius-kachel); padding: var(--space-4) 18px; background: var(--white); box-shadow: var(--schatten-kachel); }
+  .anlass.anlass-seite strong { font-size: var(--fs-role-text); font-weight: var(--fw-semibold); color: var(--ink); line-height: 1.35; }
+  .anlass.anlass-seite .anlass-unter { font-size: var(--fs-role-hilfe); color: var(--ink3); line-height: 1.45; }
+  .anlass.anlass-seite:hover { border: 0; box-shadow: var(--schatten-kachel-hover); }
+  .anlass.anlass-seite.anlass-ruhig { background: var(--salbei-light); box-shadow: none; }
+  html.dark-mode .anlass.anlass-seite { box-shadow: none; }
+  html.dark-mode .anlass.anlass-seite.anlass-ruhig, html.dark-mode .erledigen-whc { background: var(--flaeche-hinweis); }
+  @media (max-width: 767px) {
+    .erledigen-whc { flex-direction: column; align-items: flex-start; }
+    .erledigen .anlass-grid { grid-template-columns: 1fr; }
+  }
+  /* Zielbild 04 (Telefon): der Menü-Knopf trägt neben dem Zeichen das Wort „Menü“. */
+  .tb-menue { gap: 6px; flex: none; }   /* das Wort „Menü“ wird nie angeschnitten oder überlappt: die Pille daneben gibt nach, nicht der Knopf */
+  .tb-menue-wort { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); white-space: nowrap; }
+
+  /* Zielbild 04/05: der Fuß der Seitenleiste („Über und Hinweise“, „Bereitgestellt mit …“, „Depot verlassen“) steht in derselben
+     Größe und mit demselben Einzug wie die Einträge darüber — eine Regel für den ganzen Fuß. */
+  .sidebar .nav-item-klein { font-size: var(--fs-role-hilfe); color: var(--ink2); padding: 6px var(--space-5) 6px calc(var(--space-5) + var(--space-3)); margin-top: 0; }
+  .sidebar .nav-hinweis-app { font-size: var(--fs-role-hilfe); margin: 0; padding: 6px var(--space-5) 6px calc(var(--space-5) + var(--space-3) + var(--akzent-rand)); }
+
+  /* Zielbild 03 (Entsperren): die Karte trägt Marke und Sprache in einer Zeile, die Überschrift, ein Feld, „Öffnen“ als Pille und
+     zwei leise Wege nebeneinander; der Haftungshinweis steht leise unter der Karte. Ein Fehler steht als Satz unter dem Feld, die
+     Unterkante wird rot. Die äußere Overlay-Karte tritt zurück, damit der Hinweis außerhalb der Karte stehen kann. */
+  #overlay:has(.entsperren-karte) { padding-top: clamp(var(--space-5), 18vh, 200px); }
+  #overlay > #overlay-inhalt.karte:has(> .entsperren-karte) { background: none; border: 0; box-shadow: none; padding: 0; max-width: 520px; }
+  .entsperren-karte { padding: 44px; border-radius: var(--radius-fenster); }
+  .entsperren-kopf { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: 0 0 var(--space-6); }
+  #overlay #overlay-inhalt .entsperren-kopf .welcome-brand { margin: 0; gap: 14px; }
+  #overlay .entsperren-kopf .welcome-logo-mark { width: 28px; height: 28px; }
+  #overlay .entsperren-kopf .welcome-wort { font-size: var(--fs-role-text); font-weight: var(--fw-semibold); letter-spacing: var(--ls-wortmarke); }
+  #overlay #overlay-inhalt .entsperren-kopf .vor-depot-sprache { position: static; margin: 0; font-weight: var(--fw-semibold); color: var(--salbei-dunkel); text-decoration: none; }
+  #overlay .entsperren-kopf .vor-depot-sprache svg { display: none; }
+  .entsperren-titel { font-size: var(--fs-role-titel); line-height: 1.2; font-weight: var(--fw-bold); color: var(--ink); margin: 0 0 6px; letter-spacing: var(--ls-titel); }
+  .entsperren-karte .crypto-auff { font-size: var(--fs-role-einleitung); color: var(--ink2); margin: 0 0 var(--space-5); }
+  .entsperren-karte label[for="co-pw"] { font-weight: var(--fw-medium); }
+  #overlay #overlay-inhalt .entsperren-karte #co-pw { min-height: 44px; margin-bottom: 0; }
+  #overlay #overlay-inhalt .entsperren-karte #co-pw:has(+ #crypto-fehler:not([hidden])) { border-bottom: 2px solid var(--error); }
+  #overlay .entsperren-karte #crypto-fehler { margin: 6px 0 0; padding: 0; border: 0; background: none; color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); line-height: 1.45; }
+  #overlay #overlay-inhalt .entsperren-karte .welcome-aktionen { margin-top: var(--space-5); }
+  #overlay #overlay-inhalt .entsperren-karte #w-oeffnen { width: 100%; min-height: 52px; justify-content: center; border-radius: var(--radius-pill); font-size: var(--fs-role-text); font-weight: var(--fw-semibold); }
+  .entsperren-wege { font-size: var(--fs-role-hilfe); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2) var(--space-4); margin: var(--space-4) 0 0; }
+  #overlay .entsperren-wege .btn-dezent { min-height: 44px; padding: 0 4px; font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--salbei-dunkel); text-decoration: none; }
+  #overlay #overlay-inhalt.karte:has(> .entsperren-karte) > .welcome-haftung { margin: var(--space-5) var(--space-4) 0; font-size: var(--fs-role-hilfe); color: var(--ink3); }
+  html.dark-mode #overlay #overlay-inhalt .entsperren-kopf .vor-depot-sprache, html.dark-mode #overlay .entsperren-wege .btn-dezent { color: var(--salbei-nacht); }
+  @media (max-width: 767px) {
+    #overlay:has(.entsperren-karte) { padding-top: var(--space-5); }
+    .entsperren-karte { padding: 36px 20px 28px; }
+    .entsperren-wege { flex-direction: column; align-items: flex-start; gap: 0; }
+  }

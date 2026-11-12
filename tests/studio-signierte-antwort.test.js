@@ -9,7 +9,9 @@
      · die Blöcke sind in Studio und Lese-App zeichengleich (Rot-Beweis: eine geänderte Kopie fällt auf);
      · eine gültige signierte Antwort öffnet über den echten Weg „Antworten öffnen“, die Karte zeigt denselben Inhalt wie ohne
        Signatur und die Zeile „Unverändert seit dem Signieren · Schlüssel … · Signiert für …“;
-     · ein gekipptes Byte und eine Antwort für einen anderen Vorgang werden abgewiesen, mit einem Satz ohne Code;
+     · ein gekipptes Byte und eine Antwort für eine andere Anfrage werden abgewiesen, mit einem Satz ohne Code;
+     · der Kopf hat die Form des heutigen Kerns: eine zufällige `kennung`, kein Aktenzeichen (U2-ADR-520 Nr. 3); die Form älterer
+       Kerne (`vorgang` im Kopf) öffnet weiter, als eigener Fall;
      · eine Antwort ohne Signatur öffnet wie bisher, mit dem Satz, dass ihre Fassung noch keine Antworten signiert.
    Rot-Beweis: ein Studio ohne die Signaturprüfung öffnet die signierte Antwort nicht (der JWS ist kein JSON). */
 const { test } = require('node:test');
@@ -25,14 +27,17 @@ const STUDIO = fs.readFileSync(path.join(WURZEL, 'vivodepot-studio.html'), 'utf8
 const LESEN = fs.readFileSync(path.join(WURZEL, 'vivodepot-lesen.html'), 'utf8');
 const PW = 'probe-einmal-studio';
 const VORGANG = 'AUF-2026-1015';
+const KENNUNG = Buffer.from('kennung-je-antw.').toString('base64url');   // 16 Bytes, base64url, wie der Kern sie je Antwort zieht
 const STELLE = 'heim/sonnenhof';
 const b64u = (buf) => Buffer.from(buf).toString('base64url');
 const json = (o) => JSON.parse(JSON.stringify(o));
 
-function datensatz(vorgang) {
+function datensatz(kennung, alt) {
+  const anfrage = { von: 'Pflegeheim Sonnenhof', anbieterId: STELLE, zweck: 'Aufnahme', grundlage: 'Heimvertrag', vorgang: VORGANG, gueltigBis: '2099-12-31' };
+  if (!alt) anfrage.kennung = kennung || KENNUNG;
   return {
     erstelltAm: '2026-10-15T09:00:00.000Z',
-    anfrage: { von: 'Pflegeheim Sonnenhof', anbieterId: STELLE, zweck: 'Aufnahme', grundlage: 'Heimvertrag', vorgang: vorgang || VORGANG, gueltigBis: '2099-12-31' },
+    anfrage,
     felder: [{ kennung: 'identity.givenName', label: 'Vorname', wert: 'Hedwig', zweck: 'Anrede' }],
     fehlend: [], unbekannt: [], vollstaendig: true, absender: { name: 'Hedwig Brandt', rolle: 'selbst' },
   };
@@ -46,7 +51,8 @@ function signiere(nutzlast) {
   return eingabe + '.' + b64u(nodeCrypto.sign(null, Buffer.from(eingabe), privateKey));
 }
 const audVon = (id) => 'signiert:anbieter:' + String(Buffer.byteLength(id)).padStart(4, '0') + ':' + id;
-const signiert = (vorgang) => signiere(Object.assign(datensatz(vorgang), { iat: 1760518800, aud: audVon(STELLE) }));
+const signiert = (kennung, alt) => signiere(Object.assign(datensatz(kennung, alt), { iat: 1760518800, aud: audVon(STELLE) }));
+const ALTER_KOPF = { kennung: undefined, vorgang: VORGANG };   // Kopf älterer Kerne: das Aktenzeichen lesbar, keine Kennung
 
 /* PBES2-HS512+A256KW wie U2-ADR-449 (Salz = alg ‖ 0x00 ‖ p2s, p2c fest), A256GCM, AAD = der Kopf. */
 async function einmalJwe(klartext, kopfExtra) {
@@ -56,8 +62,8 @@ async function einmalJwe(klartext, kopfExtra) {
   const kw = await webcrypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-512' }, basis, { name: 'AES-KW', length: 256 }, false, ['wrapKey']);
   const cek = await webcrypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt']);
   const ek = new Uint8Array(await webcrypto.subtle.wrapKey('raw', cek, kw, { name: 'AES-KW' }));
-  const kopf = Object.assign({ alg: 'PBES2-HS512+A256KW', typ: 'vivodepot-antwort+jwe', cty: 'json', enc: 'A256GCM', vorgang: VORGANG, p2s: b64u(p2s), p2c: 600000 }, kopfExtra || {});
-  const k = b64u(JSON.stringify(kopf));
+  const kopf = Object.assign({ alg: 'PBES2-HS512+A256KW', typ: 'vivodepot-antwort+jwe', cty: 'json', enc: 'A256GCM', kennung: KENNUNG, p2s: b64u(p2s), p2c: 600000 }, kopfExtra || {});
+  const k = b64u(JSON.stringify(kopf));   // undefined fällt in JSON.stringify weg: ALTER_KOPF ergibt einen Kopf ohne kennung
   const iv = webcrypto.getRandomValues(new Uint8Array(12));
   const ct = new Uint8Array(await webcrypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: Buffer.from(k), tagLength: 128 }, cek, Buffer.from(klartext)));
   return [k, b64u(ek), b64u(iv), b64u(ct.subarray(0, ct.length - 16)), b64u(ct.subarray(ct.length - 16))].join('.');
@@ -117,15 +123,33 @@ test('[Studio·Signatur] eine signierte Antwort öffnet über „Antworten öffn
   for (const t of [zeile, V.antwortSignaturZeile(null)]) assert.doesNotMatch(t, /geprüft|verifiziert|\becht\b/i);
 });
 
-test('[Studio·Signatur·Abweisung] ein gekipptes Byte und ein fremder Vorgang: keine Karte mit Inhalt, ein Satz ohne Code', async () => {
+test('[Studio·Signatur·Form] der Kopf der Probe hat die Form des heutigen Kerns: Kennung, kein Aktenzeichen', async () => {
+  const kopf = JSON.parse(Buffer.from((await einmalJwe(signiert(), { cty: 'JWT' })).split('.')[0], 'base64url').toString());
+  assert.equal(kopf.kennung, KENNUNG);
+  assert.equal(kopf.vorgang, undefined);
+  assert.doesNotMatch(JSON.stringify(kopf), new RegExp(VORGANG));
+});
+
+test('[Studio·Signatur·ältere Kerne] eine Antwort mit dem Aktenzeichen im Kopf öffnet weiter, signiert und unsigniert', async () => {
+  const { karten } = await oeffneImStudio([
+    await einmalJwe(signiert(undefined, true), Object.assign({ cty: 'JWT' }, ALTER_KOPF)),
+    await einmalJwe(JSON.stringify(datensatz(undefined, true)), ALTER_KOPF),
+  ]);
+  assert.equal(karten.length, 2, 'beide Dateien öffnen');
+  assert.equal(karten[0].sig.stelle, STELLE);
+  assert.equal(karten[1].sig, null);
+});
+
+test('[Studio·Signatur·Abweisung] ein gekipptes Byte und eine fremde Anfrage: keine Karte mit Inhalt, ein Satz ohne Code', async () => {
   const t = signiert().split('.');
   const p = Buffer.from(t[1], 'base64url'); p[p.indexOf(Buffer.from('Hedwig'))] ^= 0x01; t[1] = b64u(p);
   const { V } = ladeGenerator();
-  for (const [jws, schluessel] of [[t.join('.'), 'antwortSignaturUngueltig'], [signiert('AUF-ANDERS'), 'antwortSignaturFremderVorgang']]) {
+  const fremd = Buffer.from('andere-anfrage-.').toString('base64url');
+  for (const [jws, schluessel] of [[t.join('.'), 'antwortSignaturUngueltig'], [signiert(fremd), 'antwortSignaturFremderVorgang']]) {
     const { karten } = await oeffneImStudio([await einmalJwe(jws, { cty: 'JWT' })]);
     assert.equal(karten.length, 0, schluessel + ': keine Karte');
     let fehler = null;
-    try { await V.antwortSignaturPruefen(jws, { anbieterId: '', vorgang: VORGANG }); } catch (e) { fehler = e; }
+    try { await V.antwortSignaturPruefen(jws, { anbieterId: '', kennung: KENNUNG }); } catch (e) { fehler = e; }
     assert.equal(fehler && fehler.antwortTextSchluessel, schluessel);
     const satz = V.antwortFehlerText(fehler);
     assert.match(satz, /Die Antwort wird nicht angezeigt\.$/);

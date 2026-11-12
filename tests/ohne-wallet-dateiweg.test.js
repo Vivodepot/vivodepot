@@ -44,3 +44,23 @@ test('[Ohne Wallet·Datei·Rot-Beweis] die Formprüfung fällt bei der rohen JSO
   assert.doesNotMatch(JSON.stringify(def.baue({})), SD_JWT, 'ohne den Datei-Erzeuger keine kompakte Form');
   assert.match(await V.formatExportInhalt(def, {}), SD_JWT, 'Gegenprobe: mit ihm schon');
 });
+
+// B23-Z2 (03.11.2026): derselbe Zweck ohne Wallet. Die Positivliste in tests/ohne-wallet-gleichwertig.test.js nennt
+// HERAUSGABE_ZWECK_WEGE nur, um den Wallet-Wegen einen Zweck-Vorschlag zu geben; der Datei-Weg (flowFormatExport) trägt ihn auch.
+test('[Ohne Wallet·Datei·Zweck] der Download je Wallet-Profil belegt im Vermerk denselben Zweck vor wie die Wallet-Übergabe', async () => {
+  const k = ladeKern({ zusatzBindungen: ['herausgabeZweckVorschlag'] });
+  await k.V.depotAnlegen('Ohne-Wallet-Probe-2026!');
+  k.V.akteurSelbstErklaeren('Anna Probe');
+  k.V.betreteApp();
+  k.V.sektorFeldSetzen('identity', 'givenName', 'Erika');
+  k.V.sektorFeldSetzen('identity', 'familyName', 'Beispiel');
+  const wallet = k.V.__zusatz.herausgabeZweckVorschlag('eudiw');
+  assert.ok(wallet && wallet.trim(), 'Vorbedingung: die Wallet-Übergabe hat einen Zweck-Vorschlag');
+  for (const id of ['sd-jwt-vc-identitaet']) {   // das Profil mit Daten; dass alle Profile denselben Vorschlag tragen, hält tests/herausgabe-zweck-vorbelegung.test.js
+    k.document.getElementById('modal-inhalt').innerHTML = '';
+    k.V.flowFormatExport(id, {});   // mit Optionen: ohne Übersicht direkt zur Datei (wie nach der Übersicht)
+    for (let i = 0; i < 200 && !/id="up-zweck"/.test(String(k.document.getElementById('modal-inhalt').innerHTML || '')); i++) await new Promise((r) => setTimeout(r, 10));
+    const feld = (String(k.document.getElementById('modal-inhalt').innerHTML || '').match(/id="up-zweck"[^>]*>/) || [''])[0];
+    assert.ok(feld.includes('value="' + wallet + '"'), id + ': der Datei-Weg belegt nicht denselben Zweck vor wie die Wallet-Übergabe: ' + (feld || 'keine Nachfrage; Modal: ' + String(k.document.getElementById('modal-inhalt').innerHTML || '').slice(0, 300)));
+  }
+});

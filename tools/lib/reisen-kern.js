@@ -119,7 +119,9 @@ function erfasseZustandBrowser() {
   const aktionsKnoten = [...wurzel.querySelectorAll('button, a[href], [role="button"]')].filter(sichtbar);
   const aktionen = [];
   for (const e of aktionsKnoten) {
-    const beschriftung = text(e) || (e.getAttribute('aria-label') || '').trim();
+    // Wie der zugängliche Name: ein aria-label geht dem Inhalt vor. Das ✕ eines Dialogs (I02) trägt als Inhalt nur das Zeichen
+    // und heißt „Schließen“.
+    const beschriftung = (e.getAttribute('aria-label') || '').trim() || text(e);
     if (!beschriftung) continue;
     const deaktiviert = !!e.disabled || e.getAttribute('aria-disabled') === 'true';
     aktionen.push(deaktiviert ? beschriftung + ' (deaktiviert)' : beschriftung);

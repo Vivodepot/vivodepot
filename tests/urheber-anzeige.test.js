@@ -57,7 +57,7 @@ test('urheberschaftZeileHTML: unter Vollmacht wird immer gezeigt (Bevollmächtig
   assert.ok(html.includes(V.STRINGS.urheberUnterVollmacht), 'mit Vollmacht-Vermerk');
 });
 
-test('CSS: .feld-urheber ist klein (deutlich unter fs-xs) und zurückhaltend', () => {
+test('CSS: .feld-urheber steht auf der kleinsten Stufe der Größenleiter (Hilfe) und zurückhaltend', () => {
   const html = abWerkWortlaut(ladeKern().html);
-  assert.ok(/\.feld-urheber\s*\{[^}]*font-size:\s*0\.6\d?rem/.test(html), 'sehr kleine Schrift (≈0.65rem)');
+  assert.ok(/\.feld-urheber\s*\{[^}]*font-size:\s*var\(--fs-role-hilfe\)/.test(html), 'kleinste Stufe der Leiter (Hilfe)');
 });

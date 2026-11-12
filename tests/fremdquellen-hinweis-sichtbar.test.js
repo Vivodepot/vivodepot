@@ -40,8 +40,9 @@ function befunde(html) {
 }
 
 test('[Fremdquellen·sichtbar] Einstellungen → Anbieter zeigt LOINC und SNOMED wörtlich, englisch, am Herkunftsort', () => {
+  // Seit 1.11.2026 steht der Herkunftsort mit den Fremdquellen auf der Seite „Über und Hinweise“ (Abschnitte Herausgeberin und Lizenz), nicht mehr in den Einstellungen.
   const { V } = ladeKern();
-  const html = V.einstellungenHTML();
+  const html = V._ueberHinweiseAbschnitteHTML();
   assert.deepEqual(befunde(html), []);
   const herkunft = html.slice(html.indexOf('data-herkunftsort="1"'));
   assert.ok(herkunft.indexOf('data-fremdquelle="loinc"') > 0 && herkunft.indexOf('data-fremdquelle="snomedAllergen"') > 0, 'im Herkunftsort, nicht anderswo');
@@ -49,7 +50,7 @@ test('[Fremdquellen·sichtbar] Einstellungen → Anbieter zeigt LOINC und SNOMED
 
 test('[Fremdquellen·sichtbar·Rot-Beweis] ein geänderter Wortlaut, eine fehlende Zeile und ein Hinweis nur als Konstante fallen auf', () => {
   const { V } = ladeKern();
-  const html = V.einstellungenHTML();
+  const html = V._ueberHinweiseAbschnitteHTML();
   assert.ok(befunde(html.replace('Regenstrief Institute, Inc. and', 'Regenstrief Institute and')).includes('loinc: Wortlaut weicht ab'));
   assert.ok(befunde(html.replace(/<p class="[^"]*herkunft-fremdquelle[^"]*" lang="en" data-fremdquelle="snomedAllergen">[^<]*<\/p>/, '')).includes('snomedAllergen: nicht sichtbar'));
   assert.deepEqual(befunde('<script>const LIZENZ_WORTLAUT = { loinc: ' + JSON.stringify(WORTLAUT.loinc) + ' };</script>'), ['loinc: nicht sichtbar', 'snomedAllergen: nicht sichtbar']);

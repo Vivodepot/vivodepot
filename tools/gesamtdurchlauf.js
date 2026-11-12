@@ -73,12 +73,13 @@ async function main() {
       await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 3000 }).catch(() => {});
       await seite.waitForTimeout(400);
       const pwDa = await seite.evaluate(() => {
-        const e = document.querySelector('#id-pw');
+        const e = document.querySelector('#id-vorname');   // Zielbild 01: das Fenster öffnet mit dem Namen, das Passwort folgt
         return !!e && e.getBoundingClientRect().width > 0;
       });
       if (!pwDa) { add('funktional', `${breite}px: das Einrichten-Formular oeffnet nicht`); await seite.close(); continue; }
       await seite.fill('#id-vorname', 'Marlies', { timeout: 3000 });
       await seite.fill('#id-nachname', 'Beispiel', { timeout: 3000 });
+      if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
       await seite.fill('#id-pw', 'Durchlauf-2026!', { timeout: 3000 });
       await seite.fill('#id-pw2', 'Durchlauf-2026!', { timeout: 3000 });
       await seite.evaluate(() => {

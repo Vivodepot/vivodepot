@@ -26,6 +26,8 @@
         die Sicherung per postMessage; die Person bestätigt, die Adresse kommt zurück; abgeholt, ohne Anmeldung nicht lesbar;
         ein Freigabe-Link daneben ist lesbar und nach der Rücknahme nicht mehr. Kern und Brücke liefert eine Route des
         Browser-Kontexts aus den Dateien des Repos aus; der Kern selbst stellt keine Anfrage.
+    11. Rückprobe der eigenen Sicherung: Erfolg erst, wenn die Kopie von diesem Server byte-gleich zurückkommt; bei abweichenden
+        Bytes der neutrale Satz (Rot-Beweis: ohne den Vergleich hieße dieselbe Antwort Erfolg).
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen } = require('../e2e/helpers.js');
@@ -181,7 +183,8 @@ function shlJwe(klartext) {
 function antwortJwe(klartext) {
   const { publicKey } = crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' });
   const { kty, crv, x, y } = publicKey.export({ format: 'jwk' });
-  const kopf = b64u(JSON.stringify({ alg: 'ECDH-ES', enc: 'A256GCM', cty: 'application/json', epk: { kty, crv, x, y } }));
+  const kennung = b64u(crypto.randomBytes(16));   // wie der Kern: 16 Zufallsbytes, apv ist genau diese Kennung (U2-ADR-520 Nr. 3)
+  const kopf = b64u(JSON.stringify({ alg: 'ECDH-ES', enc: 'A256GCM', cty: 'application/json', kennung, epk: { kty, crv, x, y }, apv: b64u(kennung) }));
   const iv = crypto.randomBytes(12);
   const c = crypto.createCipheriv('aes-256-gcm', crypto.randomBytes(32), iv); c.setAAD(Buffer.from(kopf));
   const ct = Buffer.concat([c.update(klartext), c.final()]);
@@ -408,6 +411,84 @@ test('[Pod·Stufe2] aus dem Kern: abgelegt nach Bestätigung, Adresse zurück, a
   await bruecke.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), adresse);
   expect(kernAnfragen.filter((u) => !u.startsWith(KERN_HERKUNFT + '/') && !/^(data|blob):/.test(u)), 'der Kern stellt keine Anfrage').toEqual([]);
   await ctx.close();
+});
+
+/* Rückprobe der eigenen Sicherung am Solid-Server (Nachtrag zu U2-ADR-512, Befund POD-SICHERUNG-NIE-ZURUECKGELESEN). Gemessen ist dieser eine Server. */
+const POD_KOPIE = /\/person\/vivodepot\/d\/[A-Za-z0-9_-]{22}$/;
+const ERFOLG = 'Im Pod abgelegt bei localhost';
+const NEUTRAL = 'Die Probe, ob sie sich öffnen lässt, kam nicht zustande';
+const VERGLEICH = "return a.length === b.length && a.every((x, i) => x === b[i]) ? 'ok' : 'offen';";
+/* Ein Byte Weißraum anders: Die Hülle geht weiter auf, nur der Vergleich der Bytes kann es sehen. */
+function byteGekippt(puffer) {
+  const i = puffer.indexOf('\n  "') + 1;
+  expect(i, 'die Hülle ist eingerückt').toBeGreaterThan(0);
+  const anders = Buffer.from(puffer);
+  anders[i] = 0x09;
+  return anders;
+}
+async function rueckprobeFahren(browser, { abweichen = false, ohneVergleich = false } = {}) {
+  const ctx = await stufe2Kontext(browser);
+  const fuerAufraeumen = [];
+  if (abweichen) {
+    await ctx.route((u) => u.origin === new URL(POD).origin && POD_KOPIE.test(u.pathname), async (r) => {
+      if (r.request().method() !== 'GET') return r.fallback();
+      const a = await r.fetch();
+      return r.fulfill({ response: a, body: byteGekippt(await a.body()) });
+    });
+  }
+  if (ohneVergleich) {
+    const { GEBACKENE_PRODUKT_PFADE } = require('../e2e/global-setup.js');
+    const roh = fs.readFileSync(GEBACKENE_PRODUKT_PFADE['privat-de'], 'utf8');
+    expect(roh.split(VERGLEICH).length, 'der Vergleich steht genau einmal').toBe(2);
+    // Über die Datei: fs.writeFileSync trägt die passenden CSP-Hashes ein (tools/lib/csp-beim-schreiben.js).
+    const kopie = path.join(tmp, 'kern-ohne-vergleich.html');
+    fs.writeFileSync(kopie, roh.replace(VERGLEICH, "return 'ok';"));
+    const koerper = fs.readFileSync(kopie);
+    await ctx.route(KERN_HERKUNFT + '/', (r) => r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: koerper }));
+  }
+  const kern = await ctx.newPage();
+  await oeffneApp(kern, { url: KERN_HERKUNFT + '/' });
+  await depotAnlegen(kern);
+  await kern.click('#tb-einstellungen');
+  await einstellungenAbschnittOeffnen(kern, '#einst-pod-sicherung');
+  const [bruecke] = await Promise.all([ctx.waitForEvent('page'), kern.click('#einst-pod-sicherung')]);
+  await bruecke.waitForLoadState();
+  const gelesen = [];
+  bruecke.on('response', (r) => { if (r.request().method() === 'GET' && POD_KOPIE.test(new URL(r.url()).pathname)) gelesen.push(r.status()); });
+  await anmelden(bruecke, KONTEN[0], { br: BRUECKE_STUFE2 });
+  await expect(bruecke.locator('#auftrag')).toBeVisible({ timeout: 20000 });
+  await bruecke.waitForTimeout(1000);   // Klicksperre der Brücke nach dem Erscheinen des Auftrags
+  await bruecke.click('#auftrag-ja');
+  await expect(bruecke.locator('#ergebnis')).toHaveText(POD_KOPIE, { timeout: 15000 });
+  const adresse = (await bruecke.locator('#ergebnis').textContent()).trim();
+  fuerAufraeumen.push(() => bruecke.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), adresse));
+  const toast = (text) => kern.locator('.toast').filter({ hasText: text });
+  return { ctx, gelesen, toast, aufraeumen: async () => { for (const f of fuerAufraeumen) await f(); await ctx.close(); } };
+}
+
+test('[Pod·Rückprobe] die Kopie kommt vom Solid-Server byte-gleich zurück, Erfolg erst nach dem Lesen', async ({ browser }) => {
+  test.setTimeout(180000);
+  const f = await rueckprobeFahren(browser);
+  await expect(f.toast(ERFOLG)).toBeVisible({ timeout: 30000 });
+  expect(f.gelesen, 'die Brücke hat die eben abgelegte Kopie gelesen').toEqual([200]);
+  await expect(f.toast(NEUTRAL)).toHaveCount(0);
+  await f.aufraeumen();
+});
+
+test('[Pod·Rückprobe] weichen die Antwort-Bytes ab, kommt kein Erfolg, sondern der neutrale Satz', async ({ browser }) => {
+  test.setTimeout(180000);
+  const f = await rueckprobeFahren(browser, { abweichen: true });
+  await expect(f.toast(NEUTRAL)).toBeVisible({ timeout: 30000 });
+  expect(f.gelesen).toEqual([200]);
+  await expect(f.toast(ERFOLG)).toHaveCount(0);
+  await f.aufraeumen();
+});
+
+test('[Pod·Rückprobe·Rot-Beweis] ohne den Vergleich der Bytes hieße dieselbe Antwort Erfolg', async ({ browser }) => {
+  test.setTimeout(180000);
+  const f = await rueckprobeFahren(browser, { abweichen: true, ohneVergleich: true });
+  await expect(f.toast(ERFOLG), 'ROT ohne Vergleich: ein geändertes Byte gälte als Erfolg').toBeVisible({ timeout: 30000 });
+  await f.aufraeumen();
 });
 
 test('[Pod·Rücknahme] Zurücknehmen und Ablauf löschen die Ressource im Pod', async () => {

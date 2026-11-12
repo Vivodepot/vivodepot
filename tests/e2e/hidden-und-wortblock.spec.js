@@ -19,7 +19,7 @@ async function anlegeDialogOeffnen(page, url) {
   await page.click('#w-anfangen');
   await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
   await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-vorname', { state: 'visible' });
 }
 
 // Jedes Element mit hidden, dessen berechnete Anzeigeart nicht none ist — mit Kennung, damit die rote Meldung die Stelle nennt.
@@ -34,6 +34,7 @@ for (const [name, url] of PRODUKTE) {
     await anlegeDialogOeffnen(page, url);
     expect(await sichtbareHidden(page), 'Anlege-Dialog, Zustand A (Vorschlag)').toEqual([]);
     await expect(page.locator('#id-pw-vorschlag-knopf')).toBeHidden();
+    await page.click('#id-pw-eigen-weg');   // Zielbild 01: das Passwort-Feld steht erst beim eigenen Passwort da
     await page.fill('#id-pw', 'sommer2026!');
     await expect(page.locator('#id-pw-vorschlag-knopf')).toBeVisible();
     expect(await sichtbareHidden(page), 'Anlege-Dialog, Zustand B (eigenes Passwort)').toEqual([]);
@@ -47,25 +48,25 @@ for (const [name, url] of PRODUKTE) {
     await expect(page.locator('#id-pw-vorschlag-woerter')).toBeVisible();
     const m = await page.evaluate(() => {
       const woerter = document.getElementById('id-pw-vorschlag-woerter');
-      const feld = document.getElementById('id-pw');
+      const feld = document.getElementById('id-pw2');   // Zielbild 01: die Probe steht direkt unter den Wörtern
       // „Ohne Scrollen“: jeden Scrollbereich über den Wörtern an den Anfang setzen, dann messen.
       for (let el = woerter.parentElement; el; el = el.parentElement) el.scrollTop = 0;
       window.scrollTo(0, 0);
       const w = woerter.getBoundingClientRect();
       const fuss = woerter.closest('.modal').querySelector('.modal-aktionen').getBoundingClientRect();
-      // Bindestrich am Zeilenende, nie am Anfang (GL 01.11.2026): jeder Bindestrich steht auf der Zeile des Worts davor.
-      const bindestrichAmAnfang = [...woerter.childNodes].filter((n) => n.nodeType === 3 && n.textContent === '-').filter((n) => {
-        const r = document.createRange(); r.selectNodeContents(n);
-        return Math.abs(r.getBoundingClientRect().top - n.previousSibling.getBoundingClientRect().top) > 1;
-      }).length;
+      // Zielbild 01: sechs Kacheln im Raster, zwei Spalten bei 390 px; kein Wort bricht in seiner Kachel um.
+      const li = [...woerter.querySelectorAll('li')];
+      const spalten = new Set(li.map((e) => Math.round(e.getBoundingClientRect().left))).size;
+      const umbrochen = li.filter((e) => { const r = document.createRange(); r.selectNodeContents(e); return r.getClientRects().length > 1; }).length;
       return { wOben: w.top, wUnten: w.bottom, fussOben: fuss.top, fenster: window.innerHeight, feldOben: feld.getBoundingClientRect().top,
-        bindestriche: woerter.textContent.split('-').length - 1, bindestrichAmAnfang };
+        kacheln: li.length, spalten, umbrochen };
     });
     expect(m.wOben, 'Wörter beginnen im Fenster').toBeGreaterThanOrEqual(0);
     expect(m.wUnten, 'Wörter enden über der Knopfleiste').toBeLessThanOrEqual(m.fussOben);
     expect(m.wUnten, 'Wörter enden im Fenster').toBeLessThanOrEqual(m.fenster);
-    expect(m.wUnten, 'Wortblock steht über dem Passwortfeld').toBeLessThanOrEqual(m.feldOben);
-    expect(m.bindestriche, 'fünf Bindestriche zwischen sechs Wörtern').toBe(5);
-    expect(m.bindestrichAmAnfang, 'kein Bindestrich am Zeilenanfang').toBe(0);
+    expect(m.wUnten, 'Wortblock steht über der Probe').toBeLessThanOrEqual(m.feldOben);
+    expect(m.kacheln, 'sechs Wörter als sechs Kacheln').toBe(6);
+    expect(m.spalten, 'zwei Spalten bei 390 px').toBe(2);
+    expect(m.umbrochen, 'kein Wort bricht in seiner Kachel um').toBe(0);
   });
 }

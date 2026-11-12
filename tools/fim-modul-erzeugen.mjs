@@ -12,15 +12,16 @@
      · die Zuordnung des Moduls folgt der Elementfolge des XSD; ein Pfad, den das XSD nicht kennt, ist ein Fehler.
      · `fest` und die Zielwerte in `werte` müssen in der Aufzählung des Elements stehen, wenn es eine hat.
      · ein Pflichtelement ohne Zuordnung wird als Lücke BENANNT (Pfad), nicht gefüllt.
-     · Elemente vom Typ xs:anyType sind Anhänge. Sie werden nur über eine ROLLE zugeordnet (`anhang`: bescheid,
-       vollmacht-nachweis, lichtbild — die Liste des Kerns, FORMAT_ANHANG_ROLLEN), nie über ein Feld; `pflicht` übernimmt
+     · Elemente vom Typ xs:anyType sind Anhänge. Sie werden nur über eine ROLLE zugeordnet (`anhang`: eine
+       Rolle aus der Liste des Kerns, FORMAT_ANHANG_ROLLEN), nie über ein Feld; `pflicht` übernimmt
        das Werkzeug aus dem XSD (U2-ADR-465 Nachtrag). Bleibt ein Pflicht-Anhang ohne Zuordnung, verlangt das Werkzeug
        einen `hinweis` in der Zuordnung — sonst erzeugt es nichts. Der Wortlaut kommt aus der Zuordnung, nicht aus dem
        Werkzeug.
      · `vertreter` (ein Feld der bevollmächtigten Person) nur zusammen mit der Rolle vollmacht-nachweis.
      · `abgeleitet` (ja/nein aus einem Feld nach einer Regel des Kerns) und `antrag` (eine Frage beim Erzeugen) stehen allein
        und gehen unverändert ins Modul; die Codes einer Auswahl müssen in der Aufzählung des Elements stehen. Regel, Typ und
-       Feld prüft der Kern beim Andocken (U2-ADR-465 Nachtrag, 04.11.2026).
+       Feld prüft der Kern beim Andocken (U2-ADR-465 Nachtrag, 04.11.2026). Nachtrag 05.11.2026: die Codes an ja/nein
+       (`werte: { ja, nein }`) ebenso; `leer` nur an einem Pflicht-Element vom Typ xs:anyType.
      · `pruefung` (U2-ADR-465 Nachtrag W6, 04.11.2026): je Element des XSD in Dokumentfolge Anzahl, Datentyp und Facetten
        (Länge, Bereich, Aufzählung, Muster) und der Name aus xs:documentation — die Regeln der Vorprüfung im Kern
        (formatVorpruefung). Ein Basistyp, den die Vorprüfung nicht kennt, ist ein Fehler, nicht still übergangen.
@@ -53,7 +54,7 @@ export const FIXTURE_JSON = Object.freeze({
 
 /* Die Rollen und Personenfelder des Kerns (FORMAT_ANHANG_ROLLEN, FORMAT_VERTRETER_FELDER) — Gleichlauf hält
    eine nicht öffentliche Probe. */
-export const ANHANG_ROLLEN = Object.freeze(['bescheid', 'vollmacht-nachweis', 'lichtbild']);
+export const ANHANG_ROLLEN = Object.freeze(['bescheid', 'vollmacht-nachweis', 'lichtbild', 'betreuungsurkunde', 'aufenthaltstitel-nachweis', 'mietnachweis', 'nachweis-kinderbetreuung', 'nachweis']);
 export const VERTRETER_FELDER = Object.freeze(['familyName', 'givenName', 'street', 'houseNumber', 'postalCode', 'city']);
 
 /* `abgeleitet` oder `antrag` allein am Pfad: der Eintrag fürs Modul, oder null mit Fehler. */
@@ -61,7 +62,10 @@ function antragsEintrag(e, b, ziel, fehler) {
   const art = e.abgeleitet ? 'abgeleitet' : 'antrag';
   if (Object.keys(e).some((k) => k !== art)) { fehler.push(b.pfad + ': `' + art + '` steht allein'); return null; }
   const werte = (art === 'antrag' && e.antrag && e.antrag.werte) || null;
-  if (werte && b.enum.length) for (const c of Object.keys(werte)) if (!b.enum.includes(c)) fehler.push(b.pfad + ': Code ' + c + ' nicht in der Aufzählung');
+  // An der Auswahl sind die Schlüssel die Codes; an ja/nein (`werte: { ja, nein }`, auch an `abgeleitet`) die Werte.
+  const janein = (art === 'abgeleitet') || (e.antrag && e.antrag.typ === 'janein');
+  const codes = janein ? Object.values((e[art] && e[art].werte) || {}) : Object.keys(werte || {});
+  if (b.enum.length) for (const c of codes) if (!b.enum.includes(String(c))) fehler.push(b.pfad + ': Code ' + c + ' nicht in der Aufzählung');
   return { [art]: e[art], ziel };
 }
 
@@ -154,7 +158,7 @@ export function modulErzeugen(xsdText, zuordnung) {
   const fehler = [];
   const pruefung = pruefungAusSchema(wurzel, fehler);
   for (const p of Object.keys(z)) if (!jePfad.has(p)) fehler.push('Pfad nicht im Schema: ' + p);
-  const offen = liste.filter((b) => b.anhang && b.pflicht && !(z[b.pfad] && z[b.pfad].anhang)).map((b) => b.pfad);
+  const offen = liste.filter((b) => b.anhang && b.pflicht && !(z[b.pfad] && (z[b.pfad].anhang || z[b.pfad].leer))).map((b) => b.pfad);
   if (offen.length && !(typeof zuordnung.hinweis === 'string' && zuordnung.hinweis.trim()))
     fehler.push('das Schema hat Pflicht-Anhänge ohne Zuordnung (' + offen.length + '): ohne `hinweis` in der Zuordnung kein Modul');
   const rollen = Object.values(z).filter((e) => e && e.anhang).map((e) => e.anhang);
@@ -167,6 +171,13 @@ export function modulErzeugen(xsdText, zuordnung) {
     const e = z[b.pfad];
     if (b.anhang) {
       if (!e) { if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'anhang' }); continue; }
+      /* U2-ADR-465 Nachtrag (05.11.2026): `leer` nur an einem Pflicht-Element vom Typ xs:anyType (die Unterschrift); die Person
+         sieht beim Erzeugen, dass es leer bleibt und bei der Stelle ausgefüllt wird. */
+      if (e.leer) {
+        if (!b.pflicht || Object.keys(e).some((k) => k !== 'leer')) { fehler.push(b.pfad + ': `leer` allein und nur an einem Pflicht-Element vom Typ xs:anyType'); continue; }
+        eintraege.push({ leer: e.leer, ziel: b.pfad });
+        continue;
+      }
       if (!e.anhang || Object.keys(e).some((k) => k !== 'anhang')) { fehler.push('Anhang nur über eine Rolle (`anhang`) zuordenbar: ' + b.pfad); continue; }
       if (!ANHANG_ROLLEN.includes(e.anhang)) { fehler.push(b.pfad + ': unbekannte Anhang-Rolle ' + e.anhang); continue; }
       eintraege.push(b.pflicht ? { anhang: e.anhang, ziel: b.pfad, pflicht: true } : { anhang: e.anhang, ziel: b.pfad });
@@ -174,6 +185,7 @@ export function modulErzeugen(xsdText, zuordnung) {
     }
     if (!e) { if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'ohne-zuordnung' }); continue; }
     if (e.anhang) { fehler.push(b.pfad + ': `anhang` nur an einem Element vom Typ xs:anyType'); continue; }
+    if (e.leer) { fehler.push(b.pfad + ': `leer` nur an einem Pflicht-Element vom Typ xs:anyType'); continue; }
     if (e.vertreter) {
       if (Object.keys(e).some((k) => k !== 'vertreter') || !VERTRETER_FELDER.includes(e.vertreter)) fehler.push(b.pfad + ': `vertreter` allein, mit einem Feld aus ' + VERTRETER_FELDER.join(', '));
       else eintraege.push({ vertreter: e.vertreter, ziel: b.pfad });

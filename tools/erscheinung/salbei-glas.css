@@ -214,8 +214,8 @@
   --auf-warnung: #1c2a1e;
   /* Knopf bei Hover/aktiv: dunkler als der Ruhezustand (vorher --salbei-mid, heller: Schrift 3,15:1 auf Hell) */
   --btn-hover: #3e4f2d;
-  /* Fließtext-Verweis, je Ebene */
-  --link: #2e5f8c;
+  /* Fließtext-Verweis, je Ebene: im Salbei-Grün der Überschriften (Gestaltungsleitung, Abnahme v1020 a), 6,3:1 auf Weiß */
+  --link: var(--salbei-dunkel);
   /* Hover im Aufklappmenü der Kopfzeile: das Menü ist in der Nacht hell, also auch seine Hover-Fläche */
   --menue-hover: #eef2e8;
   /* Papier bleibt Papier: Tinte für Blätter, die in der Nacht hell bleiben (Hilfe, Notfallblatt, Dokumente) */
@@ -331,7 +331,7 @@
 }
 
 html.high-contrast {
-  --link: #14407a;
+  --link: #4a5f3a;   /* Hochkontrast: das Grün der Ebene, 7,0:1 auf Weiß */
   --ink: #000000; --ink2: #161616; --ink3: #262626;
   --line: #000000; --cream: #ffffff; --white: #ffffff; --papier-bereich: var(--cream);
   /* Strang 3 Commit D — Salbei-Familie HC (hue-gleich zu Hell, deutlich kontrastreicher,
@@ -349,7 +349,7 @@ html.high-contrast {
 html.dark-mode {
   --vollmacht-pause: #9fb0b0; --menue-hover: #dfe8d6;
   --notfall-flaeche: #2b1a17; --notfall-schrift: #ff9d8f; --fehler-flaeche: #3a1d1a; --feld-fehler-schrift: #ff9a7a;
-  --link: #9fb6d4; --btn-sek-hover: #26301f;
+  --link: #8eab77; --btn-sek-hover: #26301f;
   --cream: #151719; --white: #1e2023; --papier-bereich: var(--cream);
   --ink: #e9ede7; --ink2: #b9c3b9; --ink3: #98a498;   /* 4,66:1 auf der Karte mit Eintragen-Fläche (Weiß 10 %), vorher 4,43 */
   /* Strang 3 Commit D — Salbei-Nacht-Tönung (hue-gleich, dunkle Füllfläche). NEU, zur Freigabe. */

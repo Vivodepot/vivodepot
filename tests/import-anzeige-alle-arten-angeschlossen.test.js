@@ -18,7 +18,7 @@ const aufruf = (art) => "importAnzeigeModell('" + art + "'";
 const artenOhneAnschluss = (arten, quelle) => arten.filter((art) => !quelle.includes(aufruf(art)));
 
 test('[Import-Anzeige·offen] jede Importart der Liste ist an die Oberfläche angeschlossen',
-  { todo: 'Befund IMPORT-VERWIRFT-OHNE-ANZEIGE (HOCH): angeschlossen sind modul, vorlage, anfrage und vor-depot-konfiguration; die übrigen Arten fehlen' },
+  { todo: 'Befund IMPORT-VERWIRFT-OHNE-ANZEIGE (HOCH): es fehlen sub-depot-einhaengen (Eigentümer Design) und sub-depot-selbst (Nur-lesend-Hinweis statt Modell)' },
   () => {
     const { V } = ladeKern();
     assert.deepEqual(artenOhneAnschluss(V.IMPORT_ANZEIGE_ARTEN, KERN), [], 'für diese Arten bildet keine Stelle der Oberfläche das Modell');
@@ -26,6 +26,14 @@ test('[Import-Anzeige·offen] jede Importart der Liste ist an die Oberfläche an
 
 test('[Import-Anzeige·angeschlossen] die vier mit v929 angeschlossenen Arten sind es', () => {
   assert.deepEqual(artenOhneAnschluss(['modul', 'vorlage', 'anfrage', 'vor-depot-konfiguration'], KERN), []);
+});
+
+/* Anschluss 04.11.2026: alle Arten außer dem Einhängen eines verwalteten Depots (das schließt Design an) und dem Betreten eines
+   Sub-Depots: dessen einziger Abweisungsgrund, die gescheiterte Migration, zeigt den Nur-lesend-Hinweis (tests/import-a6-migrationswurf.test.js). Der gleiche Satz je
+   Art steht in tests/import-anzeige-satz-unveraendert.test.js. */
+test('[Import-Anzeige·angeschlossen·bis auf das Einhängen] jede Art außer sub-depot-einhaengen und sub-depot-selbst ist angeschlossen', () => {
+  const { V } = ladeKern();
+  assert.deepEqual(artenOhneAnschluss(V.IMPORT_ANZEIGE_ARTEN, KERN), ['sub-depot-einhaengen', 'sub-depot-selbst']);
 });
 
 test('[Import-Anzeige·Rot-Beweis] eine Art, deren Anschluss entfällt, wird benannt; sind alle angeschlossen, bleibt die Liste leer', () => {

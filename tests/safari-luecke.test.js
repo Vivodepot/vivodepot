@@ -92,7 +92,7 @@ test('[Safari-Lücke·Hülle] im Anlege-Fluss genau eine Aufrufstelle der Wieder
   const fluss = /function flowDepotAnlegen\(nach, grund\) \{[\s\S]*?\n\}\n/.exec(KERN)[0];
   // Seit S2 (31.10.2026) ist die Aufrufstelle Schritt 2 des Anlegens (anlegenCodeSchritt), nicht mehr das vorgeschaltete Angebot.
   assert.equal((fluss.match(/\b(anlegenCodeSchritt|wiederherstellungAnbieten)\(/g) || []).length, 1, 'eine Aufrufstelle (U2-ADR-430, kein-master-key G13)');
-  assert.match(fluss, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt\(p\); \};/, 'höchstens einmal, und die Fortsetzung hält das Passwort danach nicht mehr');
+  assert.match(fluss, /const fortsetzen = \(\) => \{ if \(fortgesetzt\) return; fortgesetzt = true; const p = pw; pw = null; anlegenCodeSchritt\(p, exportErinnerungFreigeben\); \};/, 'höchstens einmal, und die Fortsetzung hält das Passwort danach nicht mehr');
   assert.match(fluss, /let pw = pwFuerCode; pwFuerCode = null;/, 'pwFuerCode wird beim Übernehmen geleert');
 });
 

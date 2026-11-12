@@ -70,6 +70,10 @@ function zeilen(kern, lesen) {
   const infoHalter = eins(kern, /^const HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX = '([^']+)';/m, 'HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX')[1];
   const infoAntwort = eins(kern, /^const ANTWORT_SCHLUESSEL_INFO_PRAEFIX = '([^']+)';/m, 'ANTWORT_SCHLUESSEL_INFO_PRAEFIX')[1];
   const infoVerzeichnis = eins(kern, /^const HKDF_INFO_AUSSENABLAGE_VERZEICHNIS_V1 = '([^']+)';/m, 'HKDF_INFO_AUSSENABLAGE_VERZEICHNIS_V1')[1];
+  // Nachtrag U2-ADR-457 (02.11.2026): der SD-JWT-Export nimmt einen Schlüssel je Ausgabe aus Zufall.
+  const jeAusgabeBytes = zahl(rumpf(kern, 'sdjwtSchluesselJeAusgabe'), /crypto\.getRandomValues\(new Uint8Array\((\d+)\)\)/, 'sdjwtSchluesselJeAusgabe Zufall');
+  eins(rumpf(kern, 'eudiwSdJwtVcSerialisieren'), /opt\.signatur\(\) : sdjwtSchluesselJeAusgabe\(\)\)/, 'eudiwSdJwtVcSerialisieren je Ausgabe');
+  eins(rumpf(kern, 'antwortSignieren'), /const zusatz = aud\.startsWith\('unsigniert:'\) \? abdruckBytes : undefined;/, 'antwortSignieren Abdruck je Anfrage');
   const depotKey = rumpf(kern, 'deriveDepotKeyV2');
   eins(depotKey, /info: enc\.encode\(HKDF_INFO_DEPOT_V2_PREFIX \+ depotUUID\)/, 'deriveDepotKeyV2 Info');
   eins(depotKey, /\{ name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS \},\s*false,/, 'deriveDepotKeyV2 nicht extrahierbar');
@@ -124,9 +128,11 @@ function zeilen(kern, lesen) {
       c('_einheitSchluesselNeu'), 'U2-ADR-149'],
     ['Feld-Adressen', 'HMAC-' + hkdfHash + ' über den Feldnamen, auf ' + adresseBytes + ' Byte gekürzt; Schlüssel per HKDF, Info ' + c(infoAdresse) + ' + Depot-UUID',
       c('deriveAdressKeyV4') + ', ' + c('ZERFALL_ADRESSE_BYTES'), 'U2-ADR-149'],
-    ['Signaturschlüssel der Halterin', 'Ed25519-Seed per HKDF, Info ' + c(infoHalter) + ' + Depot-UUID, nirgends gespeichert',
-      c('deriveHalterSignaturV4'), 'U2-ADR-457 · Auflage: externer Review'],
-    ['Signaturschlüssel je Stelle (Antwort)', 'Ed25519-Seed per HKDF-SHA-256 aus dem Antwort-Seed des Depots (32 Byte, Inhalt des Depots, nicht aus dem Passwort), Salt leer, Info ' + c(infoAntwort) + ' ‖ 0x00 ‖ Domäne ‖ 0x00 ‖ Länge (2 Byte) ‖ Kennung der Stelle; signiert jede Antwort, solange ' + c('ANTWORT_SIGNIEREN') + ' an ist',
+    ['Signaturschlüssel je SD-JWT-VC-Ausgabe', 'Ed25519-Seed aus ' + jeAusgabeBytes + ' Zufallsbyte je Datei-Ausgabe, nirgends gespeichert, nach dem Import überschrieben',
+      c('sdjwtSchluesselJeAusgabe') + ', ' + c('_ed25519SchluesselAusSeed'), 'U2-ADR-457 (Nachtrag 02.11.2026) · Auflage: externer Review'],
+    ['Signaturschlüssel der Halterin (alt)', 'Ed25519-Seed per HKDF, Info ' + c(infoHalter) + ' + Depot-UUID; ohne Ausgabeweg seit dem Nachtrag 02.11.2026, Rückbau mit der nächsten Festschreibung der Krypto-Hülle',
+      c('deriveHalterSignaturV4'), 'U2-ADR-457'],
+    ['Signaturschlüssel je Stelle (Antwort)', 'Ed25519-Seed per HKDF-SHA-256 aus dem Antwort-Seed des Depots (32 Byte, Inhalt des Depots, nicht aus dem Passwort), Salt leer, Info ' + c(infoAntwort) + ' ‖ 0x00 ‖ Domäne ‖ 0x00 ‖ Länge (2 Byte) ‖ Kennung der Stelle, bei einer ungeprüften Kennung (`unsigniert:`) zusätzlich ‖ SHA-256 der Anfrage; signiert jede Antwort, solange ' + c('ANTWORT_SIGNIEREN') + ' an ist und der Browser Ed25519 kann (sonst ' + c('unsigniert: \'browser\'') + ')',
       c('antwortSchluesselJeStelle') + ', ' + c('antwortSchluesselInfo'), 'U2-ADR-501 · Auflage: externer Review'],
     ['Fach-Tür (Empfängerkreise)', 'PBKDF2 über das Passwort der Empfängerin mit eigenem Salt, danach HKDF mit demselben Info-String wie der Depot-Schlüssel (' + c(infoDepot) + ')',
       c('_fachTuerSchluessel'), 'U2-ADR-156'],

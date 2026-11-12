@@ -85,7 +85,7 @@ test('B2) Bereich mit EINEM Wizard (sozialversicherung) bleibt direkter Knopf �
   V.oeffneSektor('socialInsurance');
   const html = inhalt(document);
   assert.ok(html.includes('data-wizard-start="pflwiz"'), 'pflwiz-Startknopf direkt sichtbar');
-  assert.ok(!html.includes('wizard-gruppe'), 'kein Aufklappen für einen einzelnen Wizard');
+  assert.ok(!/<div class="bereich-assistenten"><details class="wizard-gruppe">/.test(html), 'kein Aufklappen für einen einzelnen Wizard');
 });
 
 test('B3) Bereich OHNE Wizard (mobilitaet) zeigt weder Startknopf noch Aufklapp-Zeile', async () => {
@@ -93,7 +93,7 @@ test('B3) Bereich OHNE Wizard (mobilitaet) zeigt weder Startknopf noch Aufklapp-
   V.oeffneSektor('mobility');
   const html = inhalt(document);
   assert.ok(!html.includes('data-wizard-start'), 'kein Startknopf');
-  assert.ok(!html.includes('wizard-gruppe'), 'keine Aufklapp-Zeile');
+  assert.ok(!html.includes('bereich-assistenten'), 'keine Aufklapp-Zeile der Assistenten');
 });
 
 /* ── C — Bereich-Einlese-Tür nur bei echtem Sektor-Format ────────────────── */

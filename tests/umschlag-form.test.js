@@ -50,8 +50,15 @@ function pruefeEinheitenForm(u) {
     assert.equal(b64len(u.einheiten[a].iv), 12, 'jede Einheit hat einen eigenen 12-B-IV');
     assert.ok(typeof u.einheiten[a].ct === 'string' && u.einheiten[a].ct.length > 0, 'jede Einheit hat ein Chiffrat');
   }
-  assert.ok(Array.isArray(u.umschlagTabelle) && u.umschlagTabelle.length === 1,
-    'genau ein Eintrag — die Tabelle ist die Fähigkeit, nicht ihr erster Inhalt');
+  /* Seit 04.11.2026 (Attrappen-Fächer, U2-ADR-520 Nr. 3): der Anker an Platz 0 und drei Fach-Einträge, die ohne Kreis Attrappen
+     sind — jede Datei zeigt so ein Vielfaches von vier, gleich wie viele Kreise ein Fach haben. */
+  assert.ok(Array.isArray(u.umschlagTabelle) && u.umschlagTabelle.length === 4,
+    'vier Einträge — die Tabelle ist die Fähigkeit, nicht ihr erster Inhalt');
+  assert.deepEqual(u.umschlagTabelle.map((x) => x.kennung), ['Fach 1', 'Fach 2', 'Fach 3', 'Fach 4'], 'neutrale Kennungen ohne Lücke');
+  for (const f of u.umschlagTabelle.slice(1)) {
+    assert.equal(Object.keys(f).sort().join(','), 'fachSchluessel,geheim,kdf,kennung,umschlaege', 'Fach-Eintrag in der Form eines echten Fachs');
+    assert.equal(Object.keys(f.umschlaege).sort().join(','), adressen.slice().sort().join(','), 'auch die Attrappe hat zu jeder Einheit einen Umschlag');
+  }
   const e = u.umschlagTabelle[0];
   assert.equal(Object.keys(e).sort().join(','), 'geheim,kdf,kennung,umschlaege',
     'Eintrag nach Form 3: neutrale Kennung + kdf + Umschläge im Klartext, alles Übrige im `geheim`-Teil');

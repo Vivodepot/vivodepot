@@ -107,6 +107,7 @@ async function main() {
   await seite.waitForTimeout(400);
   await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 3000 }).catch(() => {});
   await seite.waitForTimeout(400);
+  if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'], ['#id-pw', PW], ['#id-pw2', PW]]) {
     await seite.fill(sel, wert, { timeout: 3000 }).catch(() => {});
   }

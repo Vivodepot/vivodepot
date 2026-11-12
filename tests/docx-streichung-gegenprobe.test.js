@@ -158,7 +158,10 @@ test('[Zug3.1·DIE GEGENPROBE] PDF, Datensatz und QR tragen unverändert — kei
     + 'der Vergleich ist wertlos');
   assert.equal(neu.wortlautDocx, undefined, 'der heutige Kern trägt den Word-Wortlaut noch');
 
-  assert.deepEqual(neu.pdf, alt.pdf, 'das PDF trägt nach der Streichung andere Zeilen');
+  /* Seit 01.11.2026 steht die Blutgruppe ohne Leerzeichen („A+“ statt „A +“), in allen acht Labels — eine Schreibweise, unabhängig
+     von der Streichung. Am Vergleichsstand nachgetragen (PDF und QR), damit die Probe weiter nur den Feldverlust durch die Streichung misst. */
+  const altPdf = alt.pdf.map((z) => z.replace(/^(health·Blutgruppe=(?:0|A|B|AB)) ([+−-])$/, '$1$2')).sort();
+  assert.deepEqual(neu.pdf, altPdf, 'das PDF trägt nach der Streichung andere Zeilen');
   /* Klärung 17.09.2026 — unrelated zur Streichung: `_zurueckgehalten` ist ein NEUER
      Top-Level-Umschlag-Schlüssel, seit vollExportJSON() alle sieben Ab-Werk-Mitschrift-Fächer
      vollständig zählt statt drei davon zu übersehen (Migrationsbeleg-Klärung, U2-ADR-506) — ein
@@ -168,5 +171,6 @@ test('[Zug3.1·DIE GEGENPROBE] PDF, Datensatz und QR tragen unverändert — kei
      Streichung) und nicht an einem unabhängigen, späteren Umschlag-Zuwachs bricht. */
   const altDatensatzMitZuwachs = alt.datensatz.concat('_zurueckgehalten').sort();
   assert.deepEqual(neu.datensatz, altDatensatzMitZuwachs, 'der Datensatz trägt andere Schlüssel');
-  assert.deepEqual(neu.qr, alt.qr, 'der QR-Notfallkern trägt andere Zeilen');
+  const altQr = alt.qr.map((z) => z.replace(/^(Blutgruppe=(?:0|A|B|AB)) ([+−-])$/, '$1$2')).sort();
+  assert.deepEqual(neu.qr, altQr, 'der QR-Notfallkern trägt andere Zeilen');
 });

@@ -93,8 +93,9 @@ test('[PDF-Reichweite] zeichneVollDepotPdf zeichnet mit den angedockten Marken-F
   const sekundaerRgb = hexZuRgbTupel(MUSTER_BRANDING.farbeSekundaer);
   assert.ok(doc._textFarben().some((f) => f.join(',') === sekundaerRgb.join(',')),
     'die Sekundärfarbe (Wortzug/Linie, vormals GOLD) muss unter den gesetzten Textfarben sein');
-  assert.ok(doc._textFarben().some((f) => f.join(',') === primaerRgb.join(',')),
-    'die Primärfarbe (Titel/Bereichsüberschriften, vormals SALBEI) muss unter den gesetzten Textfarben sein');
+  // Zielbild S6 (31.10.2026): Text steht in Tinte, die Primärfarbe trägt die Kopflinie und die Kastenränder.
+  assert.ok(doc._drawFarben().some((f) => f.join(',') === primaerRgb.join(',')),
+    'die Primärfarbe (Kopflinie, vormals SALBEI im Titel) muss unter den gesetzten Linienfarben sein');
   // Nativer Rückfall darf NICHT mehr auftauchen, sobald ein Branding-Modul andockt ist.
   assert.ok(!doc._textFarben().some((f) => f.join(',') === '138,109,58'), 'die native GOLD-Konstante darf nicht mehr gezeichnet werden');
 });

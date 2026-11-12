@@ -1,10 +1,11 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════════
-   White Label — Kontakt im App-Fuß (Entscheidung 16.09.2026, U2-ADR-400 §5)
+   White Label — Kontakt im App-Fuß (Entscheidung 16.09.2026, U2-ADR-400 §5); seit 1.11.2026 auf der Seite
+   „Über und Hinweise“, die an die Stelle des Fußes getreten ist („fuss“ in diesem Test heißt: die Seite ohne den Herkunftsort)
    ────────────────────────────────────────────────────────────────────────────
    Das Markenbündel trägt die Partner-Kontaktadresse (`kontakt`). Bei White Label steht sie im
    App-Fuß; fehlt sie, steht im Fuß KEINE Adresse — nie die von Vivodepot. Vivodepots Adresse
-   bleibt am Herkunftsort (Einstellungen → Recht). Ohne White Label ändert sich nichts.
+   bleibt am Herkunftsort (jetzt auf der Seite „Über und Hinweise“). Ohne White Label ändert sich nichts.
    Deutsch und englisch.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
@@ -39,8 +40,11 @@ async function fussUndHerkunft(branding, sprache) {
     V.setData(d);
   }
   V.betreteApp();
-  V.renderFooter();
-  return { V, fuss: document.getElementById('app-fuss').innerHTML, herkunft: V.einstellungenHTML() };
+  V.oeffneUeberHinweise();
+  const seite = document.getElementById('content').innerHTML;
+  const herkunftsort = V.herkunftsortHTML();
+  // `fuss`: die Seite ohne den Herkunftsort (der Name der Software darf dort stehen); `herkunft`: Herkunftsort und Einstellungen.
+  return { V, seite, fuss: seite.replace(herkunftsort, ''), herkunft: herkunftsort + V.einstellungenHTML() };
 }
 
 function kontaktPrueferVerstoesse(V) {
@@ -56,14 +60,14 @@ function kontaktPrueferVerstoesse(V) {
 
 /* erwartet: die Adresse, die im Fuß stehen muss, oder null für „keine Adresse". */
 function kontaktFussVerstoesse(ergebnis, erwartet, sprache) {
-  const { V, fuss, herkunft } = ergebnis;
+  const { V, seite, fuss, herkunft } = ergebnis;
   const v = [];
   /* Der benannte Hinweisort „powered by“ (U2-ADR-400 Nachtrag 18.10.2026) steht auch unter einer Partnermarke im Fuß: genau dieser
      eine Anker ist ausgenommen, er muss dastehen und darf den Partner nicht nennen. Jedes weitere „Vivodepot“ im Fuß bleibt ein Verstoß. */
-  const hinweis = fuss.match(/<span class="ff-powered" data-herkunft-hinweis="app">([^<]*)<\/span>/);
-  if (!hinweis) v.push('Hinweisort „powered by“ fehlt im Fuß');
+  const hinweis = seite.match(/<p class="herkunft-powered" data-herkunft-hinweis="app">([^<]*)<\/p>/);
+  if (!hinweis) v.push('Hinweisort „powered by“ fehlt auf der Seite');
   else if (hinweis[1].includes(PARTNER.name)) v.push('Hinweisort nennt den Partner: ' + hinweis[1]);
-  const sichtbar = (hinweis ? fuss.replace(hinweis[0], ' ') : fuss).replace(/<[^>]*>/g, ' ');
+  const sichtbar = fuss.replace(/<[^>]*>/g, ' ');
   if (erwartet && !fuss.includes('mailto:' + erwartet)) v.push('Adresse ' + erwartet + ' fehlt im Fuß: ' + sichtbar);
   if (!erwartet && fuss.includes('mailto:')) v.push('Adresse im Fuß: ' + sichtbar);
   if (/vivodepot/i.test(sichtbar)) v.push('Vivodepot steht sichtbar im Fuß außerhalb des Hinweisorts: ' + sichtbar);
@@ -99,13 +103,13 @@ test('[Kontakt·Fuß·en] White Label ohne Kontakt: keine Adresse im Fuß', asyn
 });
 
 test('[Kontakt·Fuß·de] ohne White Label: Vivodepots Adresse im Fuß wie bisher (Gegenprobe)', async () => {
-  const { V, fuss } = await fussUndHerkunft(null, 'de');
-  assert.ok(fuss.includes('mailto:' + V.STRINGS.fussKontakt), fuss);
+  const { V, seite } = await fussUndHerkunft(null, 'de');
+  assert.ok(seite.includes('mailto:' + V.STRINGS.fussKontakt), seite);
 });
 
 test('[Kontakt·Fuß·en] ohne White Label: Vivodepots Adresse im Fuß wie bisher (Gegenprobe)', async () => {
-  const { V, fuss } = await fussUndHerkunft(null, 'en');
-  assert.ok(fuss.includes('mailto:' + V.STRINGS.fussKontakt), fuss);
+  const { V, seite } = await fussUndHerkunft(null, 'en');
+  assert.ok(seite.includes('mailto:' + V.STRINGS.fussKontakt), seite);
 });
 
 /* erwartet: die Adresse, auf die Fuß-Link und Einstellungs-Knopf zeigen müssen, oder null für

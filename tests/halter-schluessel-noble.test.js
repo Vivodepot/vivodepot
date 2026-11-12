@@ -229,10 +229,13 @@ test('[Halter·x] x ist der Rohschlüssel in base64url: RFC 8037 A.1, gleich dem
   }
 });
 
-test('[Halter·Aufrufer] genau eine Stelle im Kern reicht die Bibliothek in die Ableitung', () => {
+// Befund KRYPTO-AUFRUFER-BLIND (02.11.2026): bis dahin zählte diese Probe nur die Übergabe als Wert und sah den direkten Aufruf
+// nicht. Die Stellen mit Funktion bindet tests/krypto-aufrufer-noble-seed.test.js.
+test('[Halter·Aufrufer] eine Übergabe und ein direkter Aufruf reichen die Bibliothek in die Ableitung', () => {
   const kern = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
   const ohneKommentar = kern.split('\n').filter((z) => !/^\s*(\/\/|\*)/.test(z)).join('\n');
   assert.equal((ohneKommentar.match(/_ed25519OeffentlichAusSeed\b(?!\()/g) || []).length, 1, 'eine Übergabe');
+  assert.equal((ohneKommentar.match(/(?<!function\s+)\b_ed25519OeffentlichAusSeed\(/g) || []).length, 1, 'ein direkter Aufruf');
   assert.equal((ohneKommentar.match(/\bglobalThis\.vdNobleEd25519\b/g) || []).length, 1, 'gelesen an einer Stelle');
   assert.equal((ohneKommentar.match(/'vdNobleEd25519'/g) || []).length, 1, 'gesetzt an einer Stelle, im Block');
   assert.ok(!/importKey\('pkcs8', pk8, \{ name: 'Ed25519' \}, true/.test(kern), 'kein extrahierbarer Import des Seeds');

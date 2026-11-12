@@ -42,7 +42,7 @@ async function depot(V) {
 
 /* ══ Zug 0 · was gemessen war, bleibt messbar ═════════════════════════════ */
 
-test('[Ziele·Zug 0] alle bestehenden Ziele sind flach — 193 über sieben Tabellen', () => {
+test('[Ziele·Zug 0] alle bestehenden Ziele sind flach — 196 über sieben Tabellen', () => {
   /* Der Prüfstein für die Rückwärtskompatibilität: solange kein bestehendes Ziel einen Punkt
      trägt, kann der neue Weg an ihnen nichts ändern. Wächst die Zahl oder taucht ein Punkt auf,
      ist das ein Befund und gehört angesehen. */
@@ -59,7 +59,9 @@ test('[Ziele·Zug 0] alle bestehenden Ziele sind flach — 193 über sieben Tabe
   // VC_IDENTITAET_MAPPING u.a., PLUS 13 in B16_FELD_MAPPING selbst, s. Kommentare dort).
   // U2-ADR-467 (02.10.2026, angesehen): 191 -> 193 — XMELD_IDENTITAET_MAPPING liest Straße, Hausnummer, PLZ und Ort getrennt
   // (strasse/hausnummer/plz/ort) statt zweier Zeilen (strasse/plz_ort); alle Ziele bleiben flach.
-  assert.equal(ziele, 193, 'die Zahl der Ziele hat sich verändert — ansehen, nicht nachziehen');
+  // Befunde PID-BIRTHPLACE-STRUKTUR und PID-KONTAKT-CLAIMNAMEN (05.11.2026, angesehen): 193 -> 196 — VC_IDENTITAET_MAPPING
+  // liest place_of_birth (neu) und behält birthplace, mobile_phone_number, email_address als Rückweg alter Dateien; alle flach.
+  assert.equal(ziele, 196, 'die Zahl der Ziele hat sich verändert — ansehen, nicht nachziehen');
   assert.equal(mitPunkt, 0, 'ein eingebautes Mapping trägt jetzt einen Pfad — dann ist die '
     + 'Rückwärtskompatibilitäts-Aussage neu zu messen');
 });

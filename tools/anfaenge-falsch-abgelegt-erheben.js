@@ -68,6 +68,11 @@ const ENTSCHEIDUNG = {
   'housing.noticeDate': [KEIN_FALL, 'Marke `frist` — s. pflegegrad_bescheid_vom'],
   'housing.moveOutDate': [KEIN_FALL, 'Marke `frist` — s. pflegegrad_bescheid_vom'],
   'housing.handoverDateNewHome': [KEIN_FALL, 'Marke `frist` — s. pflegegrad_bescheid_vom'],
+  // U2-ADR-465 Nr. 34 und Nr. 35 (Mietangaben und Anmeldung an der Hauptwohnung, 08.11.2026)
+  'housing.moveInDate': [KEIN_FALL, 'eingezogen am — ein Ereignis, das einmal stattfand; die Meldung rechnet ab dem Tag, das Feld selbst begrenzt nichts'],
+  'housing.rentSubsidyFrom': [ANFANG, 'Mietzuschuss seit — ab da gilt der Zuschuss'],
+  'housing.rentSubsidyUntil': [ENDE, 'Mietzuschuss bis — ein Ende'],
+  'housing.subtenants/mainResidenceSince': [ANFANG, 'Lebensmittelpunkt hier seit — ab da gilt die Wohnung als Hauptwohnung der Person'],
 
   /* ── Richtung 2 · Datumsfeld OHNE Marke ──────────────────────────────────── */
   // Schnitt Glied 3: `ausweis_ausgestellt`/`aufenthaltstitel_ausgestellt` sind ebenfalls zu

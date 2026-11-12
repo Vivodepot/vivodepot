@@ -210,6 +210,15 @@ unverändert.
 
 Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Ablauf], [S2·Schritt 2]).
 
+## Nachtrag 05.11.2026 — Schritt 2 im Fenster mit Schritt-Leiste
+
+Schritt 2 hat den Titel „Wiederherstellungs-Code“, die Schritt-Leiste steht rechts daneben. Der Code steht in sieben
+Gruppen als Kacheln in fester Schriftbreite; der Text bleibt „XXXX XXXX …“. Schritt 2 hat kein „Zurück“ zu Schritt 1 und
+kein Vorlesen. Ein Abschreibfehler steht als Satz unter dem Feld und rollt am Telefon in die Sicht. Ziffer 2 und die
+Nachträge vom 27.09. und 31.10.2026 gelten unverändert.
+
+Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Schritt 2]).
+
 ## Konformität
 
 Jede Zusicherung steht mit ihrer Probe oder mit dem, was fehlt. Der Bau ist nicht begonnen; die

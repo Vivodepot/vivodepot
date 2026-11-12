@@ -4,9 +4,9 @@
    ────────────────────────────────────────────────────────────────────────
    pvwiz ist die zweite Sektor-Ziel-Definition (Bereich 8) — Volltext-Bausteine
    (BMJ-orientiert) als Schritt-Auswahl, schreibt in dieselben Felder wie die
-   manuelle Eingabe. Geburt (gebwiz) ist das Situations-Ziel-Muster: reine
-   Registry-Definition, KEIN neuer Maschinen-Code — sie füllt das bereits
-   existierende Situationsblatt 'geburt'.
+   manuelle Eingabe. Geburt (gebwiz) ist reine Registry-Definition, KEIN neuer
+   Maschinen-Code; seit C14 (07.11.2026) fragt sie nur nach dem Kind (Bereich
+   people) und endet auf dem bestehenden Situationsblatt 'geburt'.
    ════════════════════════════════════════════════════════════════════════ */
 const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
@@ -260,13 +260,15 @@ test('7) gebwiz ist reine Definition: Situations-Ziel auf das existierende Blatt
   assert.ok(V.SITUATION_BY_ID.geburt, 'das Situationsblatt geburt existiert bereits');
 });
 
-test('8) gebwiz füllt das Situationsblatt (situationen-Namespace), nicht einen Sektor', async () => {
+/* C14 (Assistenten-Urteil W03/W04, 07.11.2026): gebwiz fragt nur noch nach dem Kind. Die Schritte schreiben über ihr
+   Schritt-Ziel in den Bereich „Meine Menschen“; das Situationsblatt „geburt“ bleibt Ziel des Abschlusses (Test 9). */
+test('8) gebwiz schreibt die Angaben zum Kind in den Bereich people, nicht ins Situationsblatt', async () => {
   const { V } = await frischMitDepot();
-  V.wizardSchrittSetzen('gebwiz', 0, 'Klinikum München');
+  V.wizardSchrittSetzen('gebwiz', 0, 'Mia Musterfrau');
   const d = V.getData();
-  assert.equal(d.situationen.geburt.geburt_klinik, 'Klinikum München');
-  assert.equal(d.sektoren.geburt, undefined, 'kein Sektor-Übergriff');
-  assert.equal(d.urheberschaft['sit:geburt'].geburt_klinik.length, 1, 'Stempel im sit-Namespace');
+  assert.equal(d.sektoren.people.guidedBirthEntryChildsNameNot, 'Mia Musterfrau');
+  assert.equal(d.situationen.geburt, undefined, 'kein Situations-Übergriff');
+  assert.equal(d.urheberschaft.people.guidedBirthEntryChildsNameNot.length, 1, 'Stempel im Sektor-Namespace');
 });
 
 test('9) Anlass „Geburt" startet gebwiz; Abschluss öffnet das gefüllte Blatt', async () => {

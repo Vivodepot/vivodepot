@@ -30,7 +30,7 @@ async function proDepotOhneGesundheit() {
   d.sektoren.identity = Object.assign({}, d.sektoren.identity, { givenName: 'Erika' });
   V.setData(d);
   V.zusammenstellungZuruecksetzen();
-  assert.equal(V.kennungPruefen(VERSICHERTENNUMMER).ok, false, 'Vorbedingung: das Depot führt den Bereich Gesundheit nicht');
+  assert.ok(!V.bereicheAlle().map((s) => s.id).includes('health'), 'Vorbedingung: der Bereich Gesundheit ruht');
   return { V, document };
 }
 function anfrageAnnehmen(V, kennungen) {

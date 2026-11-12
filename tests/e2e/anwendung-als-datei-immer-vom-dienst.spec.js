@@ -110,9 +110,10 @@ async function bisZumEintrag(page, port) {
   // Der sichtbare Weg zum Anlegen: der Hinweis oben ODER die Karte im Inhalt (eine Anlege-Aufforderung je Ansicht).
   await page.waitForSelector(h.ANLEGE_WEG_KANON + ':visible', { state: 'attached' });
   await page.click(h.ANLEGE_WEG_KANON + ':visible');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-pw', { state: 'attached' });
   await page.fill('#id-vorname', 'Marlies');
   await page.fill('#id-nachname', 'Sonnenschein');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', 'anwendung-als-datei-2026');
   await page.fill('#id-pw2', 'anwendung-als-datei-2026');
   await page.click('#m-ok');
@@ -191,6 +192,35 @@ test('installiert und vom Service Worker bedient: jeder Abruf liefert die Fassun
     await context.setOffline(false);
     expect(ohneNetz, 'ohne Netz entsteht keine Datei: nicht die gespeicherte Schale unter dem Namen des Dienstes').toBeNull();
     expect(zustand.dateiAbrufe, 'ohne Netz wurde der Dienst nicht erreicht').toBe(4);
+  } finally { srv.close(); }
+});
+
+/* Ohne Netz (Teil C Nr. 28, 07.11.2026): der Eintrag zeigt den Zustand als Muster. Statt des Links steht ein deaktivierter
+   Knopf mit dem Zeichen „ohne Verbindung“, es entsteht keine Datei; kommt die Verbindung zurück, steht wieder der Link, und
+   sein Abruf trägt die Fassung des Dienstes. */
+test('ohne Netz: deaktivierter Knopf statt Link, keine Datei; wieder verbunden: der Link liefert die Fassung des Dienstes', async ({ page, context }) => {
+  test.setTimeout(120_000);
+  const { srv, zustand } = await starteDienst();
+  try {
+    await bisZumEintrag(page, srv.address().port);
+    await expect(page.locator('#einst-anwendung-als-datei-aus')).toBeHidden();
+    await context.setOffline(true);
+    await expect(page.locator('#einst-anwendung-als-datei')).toBeHidden();
+    const knopf = page.locator('#einst-anwendung-als-datei-aus');
+    await expect(knopf).toBeVisible();
+    await expect(knopf).toBeDisabled();
+    expect(await knopf.innerHTML(), 'Zeichen „ohne Verbindung“').toContain('m2 2 20 20');
+    const download = await Promise.all([
+      page.waitForEvent('download', { timeout: 3_000 }).catch(() => null),
+      knopf.click({ force: true, timeout: 3_000 }).catch(() => null),
+    ]).then(([d]) => d);
+    expect(download, 'ohne Netz entsteht keine Datei').toBeNull();
+    expect(zustand.dateiAbrufe).toBe(0);
+    await context.setOffline(false);
+    await expect(page.locator('#einst-anwendung-als-datei')).toBeVisible();
+    await expect(knopf).toBeHidden();
+    const erste = await eintragWaehlen(page);
+    expect(erste.standInDatei, 'wieder verbunden: die Fassung des Dienstes').toBe(ERSTER_STAND);
   } finally { srv.close(); }
 });
 

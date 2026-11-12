@@ -60,13 +60,40 @@ Weg zum Nachsehen: `grep -n "method: 'PUT'\|method: 'POST'" pod/*.js`.
      mit dem Kern; bis dahin endet der Zugriff über das `bis` im Grant und die gelöschte Ressource (entschieden 04.11.2026).
    - Neben dem Chiffrat einer Depot-Datei (eigene Sicherung, Ausschnitt für eine Stelle) nur: `pbkdf2`, `depotSalt` und
      `kryptoVersion`, die Parameter der Ableitung, ohne Angaben über die Person; ohne sie lässt sich nichts öffnen. Dazu
-     `depotUUID`, eine zufällige Kennung und Teil der AAD des Wiederherstellungs-Codes. `iv`, `ct`, `einheiten`,
-     `umschlagTabelle` und `wiederherstellung` sind selbst Chiffrat. Der Ort-Hinweis für Angehörige (`angehoerigenOrt`) und die
+     `depotUUID`, eine zufällige Kennung und Teil der AAD des Wiederherstellungs-Codes. In `iv`, `ct`, `einheiten`,
+     `umschlagTabelle` und `wiederherstellung` sind die Werte Chiffrat, der Aufbau ist lesbar: die Zahl der Teile
+     (`einheiten`, unter pseudonymen Adressen, die über Speicherungen gleich bleiben) und die Größenstufe jedes Teils (auf
+     1 KiB aufgefüllt); je Eintrag in `umschlagTabelle` Salz und Iterationen der Ableitung und für jeden Teil einen Umschlag, wo
+     das Fach den Teil nicht öffnet eine gleich lange Attrappe; schließlich, ob ein Wiederherstellungs-Code besteht. Das Öffnen
+     braucht diesen Aufbau vor dem Passwort; er nennt keinen Namen und keinen Inhalt.
+     **Verdeckt seit 04.11.2026 (Attrappen-Fächer):** Die Zahl der Fach-Einträge ist ein Vielfaches von vier, Lücken in den
+     Nummern füllt je eine Attrappe. Eine Attrappe trägt jedes Feld eines echten Fachs in derselben Länge (`kennung` „Fach n“,
+     `kdf` mit `salt`, `iterationen` und `tuerSalt`, `fachSchluessel`, `umschlaege`, `geheim`), aus Zufall und bei jedem Speichern
+     neu. Damit zeigt die Datei weder, wie viele Kreise ein Fach haben, noch, ob ein Kreis entfernt wurde. Der Kern schreibt
+     keine Datei, deren Fach-Einträge sich in Feldern oder Längen unterscheiden. Neue Fächer bekommen einen zufälligen `tuerSalt`;
+     ein Fach ohne festgehaltenen Salt schreibt den Depot-Salt, den der Leser ohnehin nähme. Der Lesepfad ist unverändert
+     (zeichengleich mit v1038): Für eine Attrappe leitet er eine Tür ab, die nicht passt, und geht weiter wie bei einem fremden
+     Fach, auch in älteren Lesern. Preis: beim Öffnen mit dem Passwort eines Empfängers oder einem falschen eine Ableitung je
+     Attrappe (gemessen mit `tools/huelle-lesbar-messen.js --messen`); die Inhaberin öffnet über Platz 0 ohne Mehrzeit.
+     **Bleibt lesbar:** Der eigene Eintrag an Platz 0 hat kein `fachSchluessel` und kein `tuerSalt`. Ihn zu verdecken brächte
+     nichts, solange Platz und Nummer ihn nennen, und der Lesepfad der Lese-App nimmt `tabelle[0]`. Fächer, die vor dem
+     04.11.2026 eingerichtet wurden, tragen weiter `tuerSalt` gleich `depotSalt` und sind daran von Attrappen zu unterscheiden,
+     bis sie neu eingerichtet werden: Neu verschließen braucht das Passwort des Empfängers. Die Größenstufen unter gleich
+     bleibenden Adressen und die Zahl der Teile sind ein eigener Posten. Ob ein Wiederherstellungs-Code besteht, bleibt lesbar,
+     bis über die Bedienung entschieden ist. Der Ort-Hinweis für Angehörige (`angehoerigenOrt`) und die
      Zeitpunkte des eigenen Stands (`stand_marke`, `gespeichert_am`) bleiben in der Datei auf dem eigenen Gerät. Der Kern
      schreibt die Hülle aus einer Positivliste (`AUSSENABLAGE_HUELLE_FELDER`), `pod/chiffrat-pruefen.js` prüft dieselbe Liste.
-   - Im Kopf einer JWE nur die Angaben zum Verfahren und `typ`/`cty`; bei der Antwort dazu `vorgang`, eine zufällige Kennung der
-     Anfrage, die in `apv` an die Schlüsselvereinbarung gebunden ist und die die Stelle vor dem Entschlüsseln braucht. Die
-     Kennung der Stelle steht nicht im Kopf. In der signierten Antwort steht sie als `aud` im Chiffrat.
+   - Im Kopf einer JWE nur die Angaben zum Verfahren und `typ`/`cty`; bei der Antwort dazu `kennung`, 16 Zufallsbytes je
+     Antwort, die in `apv` an die Schlüsselvereinbarung gebunden sind und als `anfrage.kennung` im Chiffrat stehen (bei der
+     signierten Antwort damit auch in der Signatur). Das Aktenzeichen der Stelle (`vorgang`, Freitext) steht in der JWE nur im
+     Chiffrat und nicht im Dateinamen: die heruntergeladene Antwort heißt
+     `<Marke>_Antwort_<JJJJ-MM-TT>_<die ersten sechs Zeichen der Kennung>.jwe` (bis Fassung v1050 stand das Aktenzeichen im Namen).
+     Bei „Link senden“ ist das lesbare Label der Zweck der Anfrage, damit der Empfänger den Link zuordnen kann; ohne Zweck bleibt
+     es leer, das Aktenzeichen steht dort nie. Bis Fassung v1050 stand das Aktenzeichen als `vorgang` lesbar im Kopf und in `apv` (Befund VORGANG-IM-KOPF). Die Lese-App liest beide
+     Formen. Die Kennung der Stelle steht nicht im Kopf. In der signierten Antwort steht sie als `aud` im Chiffrat. Der SHL-JWE
+     trägt `cty` mit genau einem Wert, `application/fhir+json`: SMART Health Links beschreibt `cty` als Teil des Verfahrens; bei
+     einer Freigabe über ein Manifest führt dieses `contentType` ohnehin lesbar, auf dem Standardweg (`U`, ohne Manifest) verrät
+     der feste Wert nur, dass es ein SHL ist (Befund SHL-CTY-LESBAR, entschieden).
    - Container ohne Körper, Adressen, Größen und Zeitpunkte: Sie entstehen beim Speichern selbst.
 
    Mehr Klartext gibt es nicht.
@@ -79,6 +106,11 @@ Weg zum Nachsehen: `grep -n "method: 'PUT'\|method: 'POST'" pod/*.js`.
 
 Damit ist Nr. 3 des Nachtrags vom 29.10.2026 („Unverschlüsselt“) ersetzt. Dort war eine Verschlüsselung verworfen, weil die
 Brücke dafür einen Schlüssel bräuchte. Hier bekommt sie keinen: Der Schlüssel bleibt im Kern.
+
+**Nachtrag 09.11.2026 (Antwort-Schema).** Der Datensatz im Chiffrat trägt seit dieser Nr. 3 das Feld `anfrage.kennung`. Das Schema
+`docs/template-generator/antwort-schema.json` kennt es ab Fassung antwort/4. Die Fassungen antwort/1 bis antwort/3 bleiben unverändert
+(U2-ADR-488). Ein Datensatz mit `anfrage.kennung` besteht darum nur Fassung 4 und jünger. Nachsehen: `docs/schema-fassungen.json`,
+`node tools/schema-fassungen.js`.
 
 ## Grenzen
 
@@ -220,4 +252,35 @@ konformitaet:
       - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis·Rot-Beweis] ohne die Namens- und Ordnergrenze zeigte die Brücke Kinder aus der gefälschten Liste"
       - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis] Container-Antwort nach einer Weiterleitung: die Brücke zeigt nichts daraus"
       - tests/pod-bruecke-verzeichnis-pod.test.js "[Pod·Verzeichnis·Rot-Beweis] ohne die Weiterleitungs-Prüfung übernähme die Brücke die umgeleitete Liste"
+  - aussage: >-
+      Im lesbaren Kopf einer Antwort-JWE steht kein Wert aus der Anfrage, nur eine zufällige Kennung; die Lese-App liest auch die
+      Form älterer Kerne. Der SHL-JWE trägt cty mit genau einem Wert.
+    zustand: erfuellt
+    herkunft: U2-ADR-520 Nr. 3, Befunde VORGANG-IM-KOPF und SHL-CTY-LESBAR (04.11.2026)
+    pruefung:
+      - tests/antwort-kopf-ohne-freitext.test.js "[Antwort·Kopf·Rot-Beweis] mit dem alten Kopf stünde das Aktenzeichen lesbar im Kopf und in apv; die Tür der Brücke weist ihn ab"
+      - tests/antwort-kopf-ohne-freitext.test.js "[Antwort·Kopf·alte Form] die Lese-App öffnet weiter eine Antwort älterer Kerne (vorgang in Kopf und apv) und prüft sie gegen den Vorgang"
+      - tests/antwort-kopf-ohne-freitext.test.js "[SHL·Kopf] der SHL-JWE trägt genau alg, enc und cty application/fhir+json, für Text und für Bytes"
+  - aussage: >-
+      Der Name der heruntergeladenen Antwort trägt Datum und Kurzkennung, kein Aktenzeichen und keinen Zweck; das Label von
+      „Link senden“ ist der Zweck, nie das Aktenzeichen.
+    zustand: erfuellt
+    herkunft: U2-ADR-520 Nr. 3 (04.11.2026)
+    pruefung:
+      - tests/antwort-dateiname.test.js "[Antwort·Dateiname] der Name trägt Datum und Kurzkennung aus dem Kopf, kein Aktenzeichen und keinen Zweck"
+      - tests/antwort-dateiname.test.js "[Antwort·Link] das Label von „Link senden“ ist der Zweck, nie das Aktenzeichen"
+      - tests/antwort-dateiname.test.js "[Antwort·Dateiname·Rot-Beweis] mit dem alten Ausdruck stünde das Aktenzeichen im Namen und im Label"
+  - aussage: >-
+      Ohne Passwort zeigt die Tabelle der Fach-Einträge keine Lücke, ein Vielfaches von vier Einträgen in einer Feldform und
+      keinen neuen Tür-Salt gleich dem Depot-Salt; Inhaberin und Empfänger öffnen wie vorher, der Lesepfad ist der von v1038.
+    zustand: erfuellt
+    herkunft: U2-ADR-520 Nr. 3, Posten HUELLE-AUFBAU-VERDECKEN (04.11.2026)
+    pruefung:
+      - tests/huelle-aufbau-verdecken.test.js "[Hülle·Fächer] ohne Passwort: keine Lücke, vier gleich gebaute Fach-Einträge, kein Tür-Salt gleich dem Depot-Salt"
+      - tests/huelle-aufbau-verdecken.test.js "[Hülle·Öffnen] Inhaberin und Empfänger öffnen wie vorher, ein falsches Passwort meldet dasselbe"
+      - tests/huelle-aufbau-verdecken.test.js "[Hülle·ältere Leser] der Lesepfad in Kern und Lese-App ist zeichengleich mit v1038; er öffnet die Datei mit Attrappen"
+      - tests/huelle-aufbau-verdecken.test.js "[Hülle·Rot-Beweis] ohne Attrappen fehlt Fach 3 sichtbar und die Fachzahl verrät die Kreise"
+      - tests/huelle-aufbau-verdecken.test.js "[Hülle·Rot-Beweis] mit dem Depot-Salt als Tür-Salt wären echte Fächer von den Attrappen zu unterscheiden"
+      - tests/huelle-aufbau-verdecken.test.js "[Hülle·Schutz] ein Fach-Eintrag mit anderer Feldform wird nicht geschrieben"
+      - tests/mit-modul/antwort-schema.test.js "[Antwort·Schema·Kennung] der Datensatz im Chiffrat trägt anfrage.kennung und validiert gegen das Schema"
 ```

@@ -41,6 +41,9 @@
        sind in die Oberfläche verdrahtet. Dazu seit 04.11.2026 `interner-stand` und
        `wiederherstellungs-code`: ihr Weg wirft, aber der Wurf trägt den Grund als
        Kennung (`e.code`, `e.whc`); die Zeile liest sie aus dem Wurf des Kerns.
+       Seit 07.11.2026 `depot-datei` und `sub-depot-selbst` (A6): ein Wurf der Migration ergibt
+       `migrationFehlerErgebnis()`; die Zeile öffnet die Datei bzw. betritt das Sub über den Kern.
+       Seit 07.11.2026 `datei-oeffnen-mit` (A8): `dateiOeffnenMitPruefen` gibt das Ergebnis mit Grund.
      · `OHNE_ERGEBNISOBJEKT` — Wege, die heute gar kein Ergebnis mit Grund
        zurückgeben (Wurf mit Freitext, reine Feldliste, leerer `catch`). Für sie
        gibt es KEINE erfundene Deckung; die Liste nennt Fundstelle und Lücke.
@@ -77,6 +80,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
 const { createIdbMock } = require('./idb-mock.js');
+const A6 = require('./import-a6-helfer.js');
 
 const PW = 'zz-probe-Anzeige-Modell-Passwort-7';
 
@@ -149,6 +153,17 @@ async function wurfMitKennung(fn, feld) {
     return typeof k === 'string' && k ? { ok: false, grund: k, verworfene: [] } : null;
   }
   return null;
+}
+/* Node hat keinen FileReader; die Datei-Aufnahme der Mappe liest damit eine Data-URL. Nur für die Dauer des Aufrufs. */
+async function mitDateiLeser(fn) {
+  const vorher = globalThis.FileReader;
+  globalThis.FileReader = class {
+    readAsDataURL(blob) {
+      blob.arrayBuffer().then((b) => { this.result = 'data:' + (blob.type || '') + ';base64,' + Buffer.from(b).toString('base64'); this.onload(); },
+        (e) => { this.error = e; this.onerror(); });
+    }
+  };
+  try { return await fn(); } finally { if (vorher === undefined) delete globalThis.FileReader; else globalThis.FileReader = vorher; }
 }
 const HOSTED = Object.freeze({ protocol: 'https:', href: 'https://vivodepot.example/app' });
 async function internerStandOeffnen(cipherBlob, kernOpts) {
@@ -280,6 +295,29 @@ const FAELLE = [
     ergebnis: () => internerStandOeffnen('{ zz-probe kein Umschlag'),
     erwartet: { angenommen: false, verworfen: [], abgewiesen: 'datei-defekt', zuNeu: false } },
 
+  /* ── depot-datei und sub-depot-selbst · ECHT (depotLaden, subKontextBetreten; A6: migrationFehlerErgebnis) ── */
+  { art: 'depot-datei', form: 'echt', name: 'abgewiesen: die Migration warf, der Stand davor gilt nur lesend',
+    ergebnis: () => A6.ankerOeffnen().then(({ V }) => V.migrationFehlerErgebnis()),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'migration-fehler', zuNeu: false } },
+  { art: 'sub-depot-selbst', form: 'echt', name: 'abgewiesen: die Migration des Subs warf, der Stand davor gilt nur lesend',
+    ergebnis: () => A6.subBetreten().then(({ V }) => V.migrationFehlerErgebnis()),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'migration-fehler', zuNeu: false } },
+
+  /* ── datei-oeffnen-mit · ECHT (dateiOeffnenMitPruefen, A8: Ziehen und „Öffnen mit“) ── */
+  { art: 'datei-oeffnen-mit', form: 'echt', name: 'abgewiesen: eine Datei mit anderer Endung wird genannt',
+    ergebnis: (V) => V.dateiOeffnenMitPruefen({ name: 'zz-probe-foto.jpg' }),
+    erwartet: { angenommen: false, verworfen: [{ was: 'zz-probe-foto.jpg', grund: 'endung-unbekannt' }], abgewiesen: 'endung-unbekannt', zuNeu: false } },
+  { art: 'datei-oeffnen-mit', form: 'echt', name: 'abgewiesen: eine Datei, die sich nicht lesen ließ, wird genannt',
+    ergebnis: (V) => V.dateiOeffnenMitPruefen({ name: 'zz-probe.vivodepot' }, new Error('zz-probe nicht lesbar')),
+    erwartet: { angenommen: false, verworfen: [{ was: 'zz-probe.vivodepot', grund: 'datei-nicht-lesbar' }], abgewiesen: 'datei-nicht-lesbar', zuNeu: false } },
+  { art: 'datei-oeffnen-mit', form: 'echt', name: 'angenommen: eine .vivodepot-Datei',
+    ergebnis: (V) => V.dateiOeffnenMitPruefen({ name: 'zz-probe.vivodepot' }),
+    erwartet: { angenommen: true, verworfen: [], abgewiesen: null, zuNeu: false } },
+
+  { art: 'depot-datei', form: 'echt', name: 'abgewiesen: Datei einer anderen Krypto-Fassung',
+    ergebnis: (V) => wurfMitKennung(() => V.depotLaden({ kryptoVersion: 2, depotUUID: 'zz-probe', pbkdf2: { salt: 'AA' }, depotSalt: 'BB', iv: 'CC', ct: 'DD' }, PW), 'code'),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'krypto-fassung', zuNeu: false } },
+
   /* ── wiederherstellungs-code · ECHT (depotMitCodeLaden, Wurf mit Kennung e.whc) ── */
   { art: 'wiederherstellungs-code', form: 'echt', name: 'abgewiesen: die Datei trägt keine Hülle',
     ergebnis: (V) => codeOeffnen(V, (W, d, c) => { delete d[W.WHC_FELD]; return { umschlag: d, eingabe: c }; }),
@@ -290,6 +328,52 @@ const FAELLE = [
   { art: 'wiederherstellungs-code', form: 'echt', name: 'abgewiesen: ein anderer gültiger Code',
     ergebnis: (V) => codeOeffnen(V, (W, d) => ({ umschlag: d, eingabe: W.whcCodeGruppiert(W.whcCodeErzeugen()) })),
     erwartet: { angenommen: false, verworfen: [], abgewiesen: 'passt-nicht', zuNeu: false } },
+
+  /* ── voll-depot-json · ECHT (importPlan('json') über _vollDepotParsen). A4: ein Depot aus einer neueren Fassung wird mit
+     `depot-zu-neu` abgewiesen, ohne Felder. Damit fällt auch, was die neuere Fassung an Bereichen und Feldern mitbrachte, nicht
+     still weg: sie wird gar nicht gelesen. Ein Depot derselben Fassung kennt nur Bereiche, die _vollDepotFelder kennt. ── */
+  { art: 'voll-depot-json', form: 'echt', name: 'abgewiesen: Depot aus einer neueren Fassung',
+    ergebnis: (V) => V.importPlan('json', JSON.stringify({ _typ: 'vivodepot-klartext-export',
+      depot: { schemaVersion: V.SCHEMA_VERSION_AKTUELL + 1, sektoren: { identity: { givenName: 'ZZ-Probe' } }, menschen: [] } })),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'depot-zu-neu', zuNeu: true } },
+
+  /* ── bereichs-format · ECHT (FHIR-IPS-Einleser, A5): was nicht übernommen wird, steht mit Grund im Ergebnis. ── */
+  { art: 'bereichs-format', form: 'echt', name: 'angenommen, eine Ressource nicht gelesen',
+    ergebnis: (V) => V.IMPORT_FORMAT_BY_ID['fhir-ips'].parse(JSON.stringify({ resourceType: 'Bundle', type: 'document', entry: [
+      { resource: { resourceType: 'Patient', name: [{ family: 'Probe', given: ['Zora'] }] } }, { resource: { resourceType: 'Device' } }] })),
+    erwartet: { angenommen: true, verworfen: [{ was: 'Device', grund: 'ressource-nicht-gelesen' }], abgewiesen: null, zuNeu: false } },
+
+  /* ── sub-depot-einhaengen · ECHT (subDepotEinhaengen, Wurf mit Kennung e.code). ── */
+  { art: 'sub-depot-einhaengen', form: 'echt', name: 'abgewiesen: keine Depot-Datei',
+    ergebnis: async (V) => { await V.depotAnlegen(PW); V.akteurSelbstErklaeren('ZZ Probe');
+      return wurfMitKennung(() => V.subDepotEinhaengen({ zz: 'probe' }, { bezeichnung: 'X', inhaberin: 'X' }), 'code'); },
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'keine-depot-datei', zuNeu: false } },
+
+  /* ── autoritatives-dokument · ECHT (importAutoritativDokument: Kennung des Mappe-Eintrags oder null). ── */
+  { art: 'autoritatives-dokument', form: 'echt', rueckgabe: 'kennung-oder-null', name: 'angenommen: die Eigenprobe wird abgelegt',
+    ergebnis: async (V) => { await V.depotAnlegen(PW);
+      return V.importAutoritativDokument(fs.readFileSync(path.join(__dirname, 'fixtures', 'eigenprobe-eu-hdr.json'), 'utf8')); },
+    erwartet: { angenommen: true, verworfen: [], abgewiesen: null, zuNeu: false } },
+  { art: 'autoritatives-dokument', form: 'echt', rueckgabe: 'kennung-oder-null', name: 'abgewiesen: kein erkanntes Original',
+    ergebnis: async (V) => { await V.depotAnlegen(PW); return V.importAutoritativDokument('{ zz-probe kein json'); },
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'nicht-erkannt', zuNeu: false } },
+
+  /* ── b16-migration · ECHT (importPlan('vivodepot-beta'), importAnwenden) ── */
+  { art: 'b16-migration', form: 'echt', rueckgabe: 'plan-oder-anwenden', name: 'angenommen: das Anwenden übernimmt eine Beta-Datei',
+    ergebnis: async (V) => { await V.depotAnlegen(PW); V.akteurSelbstErklaeren('Probe');
+      return V.importAnwenden(V.importPlan('vivodepot-beta', JSON.stringify({ __fokus__: 1, bundid_email: 'zz-probe@example.org', typeOfFuneral: 'Erdbestattung' })), {}); },
+    erwartet: { angenommen: true, verworfen: [], abgewiesen: null, zuNeu: false } },
+  { art: 'b16-migration', form: 'echt', rueckgabe: 'plan-oder-anwenden', name: 'abgewiesen: eine unlesbare Beta-Datei',
+    ergebnis: async (V) => { await V.depotAnlegen(PW); return V.importPlan('vivodepot-beta', '{ zz-probe kein json'); },
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'datei-defekt', zuNeu: false } },
+
+  /* ── mappe-datei · ECHT (mappeDateiAufnehmen: der Eintrag, oder ein Wurf mit Kennung e.code). ── */
+  { art: 'mappe-datei', form: 'echt', name: 'angenommen: ein PDF wird aufgenommen',
+    ergebnis: (V) => mitDateiLeser(() => V.mappeDateiAufnehmen(new Blob(['%PDF-1.4 zz-probe'], { type: 'application/pdf' }))),
+    erwartet: { angenommen: true, verworfen: [], abgewiesen: null, zuNeu: false } },
+  { art: 'mappe-datei', form: 'echt', name: 'abgewiesen: die Datei ist zu groß für die Mappe',
+    ergebnis: (V) => mitDateiLeser(() => wurfMitKennung(() => V.mappeDateiAufnehmen(new Blob([new Uint8Array(V.MAPPE_MAX_BYTES + 1)], { type: 'application/pdf' })), 'code')),
+    erwartet: { angenommen: false, verworfen: [], abgewiesen: 'datei-zu-gross', zuNeu: false } },
 
   /* ── kdl · ECHT (kdlEinlesen) ─────────────────────────────────────── */
   { art: 'kdl', form: 'echt', name: 'abgewiesen: CodeSystem ohne Fassung',
@@ -352,32 +436,20 @@ const FAELLE = [
    BEHOBEN UND HERAUSGENOMMEN (04.11.2026): A7 an depot-datei und interner-stand — der Wurf trägt seine Kennung
    (krypto-fassung, datei-defekt), und oeffnenAbweisungText nennt den Grund statt eines falschen Passworts; der
    Wiederherstellungs-Code wirft mit e.whc. interner-stand und wiederherstellungs-code haben dafür echte Zeilen;
-   depot-datei bleibt wegen A6 hier, sein A7 hält tests/oeffnen-abweisung-nennt-grund.test.js. */
+   depot-datei bleibt wegen A6 hier, sein A7 hält tests/oeffnen-abweisung-nennt-grund.test.js.
+   BEHOBEN UND HERAUSGENOMMEN (07.11.2026): A6 an voll-depot-json, depot-datei und sub-depot-selbst — ein Wurf der Migration
+   holt den Stand davor zurück und gibt ein Ergebnis mit Grund (migration-fehler); Datei und Sub sind dann nur lesend,
+   „Ganzes Depot“ weist ab (tests/import-a6-migrationswurf.test.js). depot-datei und sub-depot-selbst haben dafür echte
+   Zeilen; voll-depot-json bleibt wegen A4 hier.
+   BEHOBEN UND HERAUSGENOMMEN (07.11.2026): A8 an datei-oeffnen-mit — Ziehen und „Öffnen mit“ prüfen die Datei mit
+   dateiOeffnenMitPruefen; eine andere Endung oder eine unlesbare Datei ergibt ein Ergebnis mit Grund, und die Anzeige nennt
+   sie (tests/e2e/import-a8-oeffnen-mit.spec.js). datei-oeffnen-mit hat dafür echte Zeilen. */
 const OHNE_ERGEBNISOBJEKT = Object.freeze([
-  { art: 'voll-depot-json', teil: 'A4', fundstelle: '_vollDepotParsen, _vollDepotFelder',
-    fehlt: 'kein Tor für eine neuere schemaVersion; nicht gelesene Bereiche, Felder und Schlüssel werden nicht gezählt' },
-  { art: 'voll-depot-json', teil: 'A6', fundstelle: '_vollDepotParsen (Aufruf von depotNormalisieren)',
-    fehlt: 'ein Wurf der Migration endet in console.error, der halb gehobene Stand wird eingelesen' },
-  { art: 'bereichs-format', teil: 'A5', fundstelle: '_fhirIpsFelder',
-    fehlt: 'Rückgabe ist eine reine Feldliste; nicht gelesene Ressourcen werden nicht gezählt' },
-  { art: 'depot-datei', teil: 'A6', fundstelle: 'depotLaden (Aufruf von depotNormalisieren)',
-    fehlt: 'ein Wurf der Migration endet in console.error, das Laden läuft weiter' },
-  { art: 'datei-oeffnen-mit', teil: 'A8', fundstelle: 'drop-Listener des Öffnen-Schirms und launchQueue-Verbraucher (beide rufen renderCryptoOverlay)',
-    fehlt: 'eine Datei mit anderer Endung wird ohne Rückgabe und ohne Meldung übergangen; der catch ist leer' },
-  { art: 'sub-depot-einhaengen', teil: null, fundstelle: 'subDepotEinhaengen, pruefeBlackboxUmschlag',
-    fehlt: 'Wurf mit Freitext statt Ergebnisobjekt' },
-  { art: 'sub-depot-selbst', teil: 'A6', fundstelle: 'subKontextBetreten (Aufruf von depotNormalisieren)',
-    fehlt: 'ein Wurf der Migration endet in console.error, das Sub wird mit dem halb gehobenen Stand betreten' },
-  { art: 'autoritatives-dokument', teil: null, fundstelle: 'importAutoritativDokument',
-    fehlt: 'liefert null oder die Kennung des Mappe-Eintrags, kein Ergebnis mit Grund; das Modell liest einen Erfolg als abgewiesen' },
-  { art: 'b16-migration', teil: null, fundstelle: "importPlan('vivodepot-beta'), importAnwenden",
-    fehlt: 'Plan und Anwende-Ergebnis tragen weder ok noch grund; das Modell liest einen Erfolg als abgewiesen, eine unlesbare Datei ohne eigenen Grund' },
 ]);
 
 /* Arten, für die nur die allgemeine Form in der Tabelle steht, obwohl nichts dagegen
    spricht, ihr Ergebnis später echt zu erzeugen. */
 const NUR_ALLGEMEINE_FORM = Object.freeze([
-  { art: 'mappe-datei', vermerk: 'mappeDateiAufnehmen wirft oder liefert den Eintrag' },
 ]);
 
 /* Arten ohne Zeile „zu neu“, je mit dem Grund aus dem Kern. */
@@ -547,6 +619,22 @@ test('[Import-Anzeige·Tabelle] die echten Zeilen tragen wirklich, was der Einle
   for (const f of await faelleAufgeloest()) {
     if (f.zeile.form !== 'echt') continue;
     if (f.fehler) { schief.push(titel(f.zeile) + ': der Einleser wirft: ' + f.fehler); continue; }
+    if (f.zeile.rueckgabe === 'kennung-oder-null') {
+      /* Vertrag des Einlesers: die Kennung des abgelegten Eintrags oder null (nicht erkannt). */
+      const form = (typeof f.ergebnis === 'string' && f.ergebnis) ? 'kennung' : (f.ergebnis === null ? 'null' : 'anderes');
+      const soll = f.erwartet.angenommen ? 'kennung' : 'null';
+      if (form !== soll) schief.push(titel(f.zeile) + ': der Einleser liefert ' + form + ', die Zeile erwartet ' + soll);
+      continue;
+    }
+    if (f.zeile.rueckgabe === 'plan-oder-anwenden') {
+      /* Vertrag der Übernahme aus Beta 16: ein Plan (ungueltig, zeilen) oder das Ergebnis des Anwendens (gesetzt). */
+      const e = f.ergebnis || {};
+      const form = typeof e.gesetzt === 'number' ? (e.gesetzt > 0 ? 'uebernommen' : 'nichts-uebernommen')
+        : (Array.isArray(e.zeilen) && typeof e.ungueltig === 'boolean') ? (e.ungueltig ? 'ungueltiger-plan' : 'gueltiger-plan') : 'anderes';
+      const passt = f.erwartet.angenommen ? (form === 'uebernommen' || form === 'gueltiger-plan') : form === 'ungueltiger-plan';
+      if (!passt) schief.push(titel(f.zeile) + ': der Einleser liefert ' + form);
+      continue;
+    }
     if (!f.ergebnis || typeof f.ergebnis !== 'object') { schief.push(titel(f.zeile) + ': kein Ergebnisobjekt'); continue; }
     const n = zahlVerworfenImErgebnis(f.ergebnis);
     if (n !== f.erwartet.verworfen.length) schief.push(titel(f.zeile) + ': der Einleser verwirft ' + n + ', die Zeile erwartet ' + f.erwartet.verworfen.length);
@@ -589,11 +677,28 @@ test('[Import-Anzeige·Deckung] jede Art ist echt gedeckt ODER steht ohne Ergebn
 });
 
 test('[Import-Anzeige·Deckung·Rot-Beweis] eine Art, die in keiner der drei Mengen steht, wird genannt', () => {
-  const ohne = OHNE_ERGEBNISOBJEKT.filter((e) => e.art !== 'depot-datei');
-  assert.deepEqual(deckungLuecken(ARTEN_LAUT_VERTRAG, FAELLE, ohne, NUR_ALLGEMEINE_FORM).inKeiner, ['depot-datei']);
+  // Eine Art, deren echte Zeilen fehlen und die in keiner Liste steht, wird genannt (seit alle Arten echt gedeckt sind,
+  // nimmt die Probe einer Art ihre echten Zeilen).
+  const weg = 'mappe-datei';
+  const ohneEcht = FAELLE.filter((z) => !(z.art === weg && z.form === 'echt'));
+  assert.deepEqual(deckungLuecken(ARTEN_LAUT_VERTRAG, ohneEcht, OHNE_ERGEBNISOBJEKT, NUR_ALLGEMEINE_FORM).inKeiner, [weg]);
   const doppelt = NUR_ALLGEMEINE_FORM.concat([{ art: 'modul', vermerk: 'gepflanzt' }]);
   assert.deepEqual(deckungLuecken(ARTEN_LAUT_VERTRAG, FAELLE, OHNE_ERGEBNISOBJEKT, doppelt).inMehreren, ['modul'],
     'und eine echte Art darf nicht zugleich als nur allgemeine Form geführt werden');
+});
+
+test('[Import-Anzeige·Mappe·Rot-Beweis am Kern] ohne die Lesart des Eintrags hieße eine aufgenommene Datei abgewiesen', async () => {
+  const quelle = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+  const LESART = "  } else if (art === 'mappe-datei' && typeof e.inhalt === 'string' && typeof e.groesse === 'number') {\n";
+  assert.equal(quelle.split(LESART).length, 2, 'die Lesart steht genau einmal im Kern');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'import-anzeige-mappe-'));
+  try {
+    const pfad = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(pfad, quelle.replace(LESART, "  } else if (false) {\n"));
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true });
+    const eintrag = await mitDateiLeser(() => V.mappeDateiAufnehmen(new Blob(['%PDF-1.4 zz-probe'], { type: 'application/pdf' })));
+    assert.equal(V.importAnzeigeModell('mappe-datei', eintrag).abgewiesen, 'abgewiesen');
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
 /* A7 · Die Kennungen des internen Stands heißen nicht „falsches Passwort“ (die Zeile in der Oberfläche setzt
@@ -780,4 +885,18 @@ test('[Import-Anzeige·6] eine unbekannte Art wirft nicht und wird als art-unbek
   assert.equal(m.abgewiesen, 'art-unbekannt');
   assert.doesNotThrow(() => { m = V.importAnzeigeModell(undefined, undefined); });
   assert.equal(m && m.abgewiesen, 'art-unbekannt', 'auch ganz ohne Angaben');
+});
+
+/* White Label (08.11.2026): der Satz zu einer fremden Endung nennt die Endung der Depot-Datei. Der Text im Textsatz trägt sie als
+   `{endung}`, der Kern setzt sie ein; so steht die Wortmarke in keinem Text, den eine fremde Marke zeigt
+   (tests/white-label-greift.test.js). Rot-Beweis: der frühere Wortlaut mit der Endung im Text fiele als Stelle außerhalb auf. */
+test('[Import·Endung·White Label] der Text trägt keine Wortmarke, der Satz nennt die Endung trotzdem', () => {
+  const W = require('../tools/white-label-greift-messen.js');
+  const { V } = ladeKern();
+  const k = 'strings:importGrundEndungUnbekannt.text';
+  assert.ok(!/vivodepot/i.test(V.TEXTSATZ_DE_QUELLE.texte[k]), 'der deutsche Text trägt die Wortmarke nicht');
+  assert.deepEqual(W.wortmarkeEinordnen([k]).ausserhalb, [k], 'Rot-Beweis: eine Wortmarke an dieser Kennung gälte als außerhalb');
+  const ergebnis = V.dateiOeffnenMitPruefen({ name: 'zz-probe-foto.jpg' });
+  const text = V.importAnzeigeText(V.importAnzeigeModell('datei-oeffnen-mit', ergebnis));
+  assert.ok(text.includes('zz-probe-foto.jpg') && text.includes('.vivodepot') && !text.includes('{endung}'), 'der Satz: ' + text);
 });

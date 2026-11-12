@@ -18,7 +18,7 @@ test('[Attributwert] feldInputHTML: Beispiel, Optionswert und Freitext stehen vo
   const { V } = ladeKern();
   await V.depotAnlegen('attributwert-pw-1');
   const text = V.feldInputHTML({ id: 'f1', typ: 'text', label: 'Feld', beispiel: WERT }, '');
-  assert.ok(text.includes(' placeholder="' + MASKIERT + '"'), 'Beispiel: ' + text);
+  assert.ok(text.includes(' placeholder="' + V.escapeHTML(V.STRINGS.beispielVorsatz) + MASKIERT + '"'), 'Beispiel (mit Vorsatz „z. B.“): ' + text);
   const auswahl = V.feldInputHTML({ id: 'f2', typ: 'auswahl', label: 'Feld', optionen: [{ wert: WERT, label: 'Eins' }] }, '');
   assert.ok(auswahl.includes('<option value="' + MASKIERT + '"'), 'Optionswert: ' + auswahl);
   const ref = V.feldInputHTML({ id: 'f3', typ: 'ref', entitaet: 'person', label: 'Feld' }, { ref: '', override: WERT });

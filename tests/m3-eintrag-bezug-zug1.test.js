@@ -36,7 +36,7 @@ async function depot() {
    (reisepass_gueltig, fuehrerschein_gueltig) / 12 listenZiel", und `provisionInstruments` ist
    nicht mehr die EINZIGE Ziel-Liste — fünf weitere kommen hinzu. Die Gesamtzahl 14 bleibt: es
    sind dieselben Referenzen, nur anders eingeordnet. */
-test('[M3·Zug0] standardDokumente-Katalog: 14 Referenzen, 2 eindeutig, 12 auf sechs verschiedene Listen', () => {
+test('[M3·Zug0] standardDokumente-Katalog: 20 Referenzen, 8 eindeutig, 12 auf sechs verschiedene Listen', () => {
   const { V } = ladeKern();
   const listenFelder = new Set();
   for (const s of V.SEKTOREN) {
@@ -59,8 +59,11 @@ test('[M3·Zug0] standardDokumente-Katalog: 14 Referenzen, 2 eindeutig, 12 auf s
       }
     }
   }
-  assert.equal(gesamt, 14, 'Gesamtzahl der standardDokumente-Feld-Referenzen');
-  assert.equal(eindeutig, 2, 'Feld ohne Liste — unverändert eindeutig (reisepass_gueltig, fuehrerschein_gueltig)');
+  assert.equal(gesamt, 20, 'Gesamtzahl der standardDokumente-Feld-Referenzen');
+  /* 08.11.2026 (W2a, U2-ADR-465 Nr. 35): die Dokumente zur Anmeldung bei der Meldebehörde verweisen auf sechs Felder ohne Liste
+     (housing.moveInDate zweimal, landlordIsOwner, ownerName, landlordConfirmationCode, identity.academicDegree); dazu wie
+     bisher reisepass_gueltig und fuehrerschein_gueltig. Bestand, die Listenziele bleiben dieselben. */
+  assert.equal(eindeutig, 8, 'Feld ohne Liste — reisepass_gueltig, fuehrerschein_gueltig und sechs Verweise der Anmeldung');
   assert.equal(listenZiel, 12, 'Listenfeld-Ziel — der Zug-1-Fall, seit Glied 3 fünf mehr');
   assert.deepEqual([...listenZielSektorFeld].sort(), [
     'advanceCare.provisionInstruments',

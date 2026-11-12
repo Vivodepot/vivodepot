@@ -128,7 +128,7 @@ test('[Pod·Kern] die drei Aufrufer geben das Chiffrat ihres Datei-Wegs, die Dep
   assert.match(dialog, /new Blob\(\[teile\.jwe\]/);
   const sicherung = quelle('podSicherungAblegen');
   assert.match(sicherung, /depotSerialisieren\(\)/);
-  assert.match(sicherung, /podAblegenMitHinweis\('eigen', dateiMitMagic\(JSON\.stringify\(_huelleFuerAussenablage\(umschlag\), null, 2\)\)\)/);
+  assert.match(sicherung, /podAblegenMitHinweis\('eigen', dateiMitMagic\(JSON\.stringify\(_huelleFuerAussenablage\(umschlag\), null, 2\)\), \{ zurueck: true \}\)/);
   assert.match(quelle('depotHerunterladen'), /dateiMitMagic\(JSON\.stringify\(dateiInhalt, null, 2\)\)/, 'die Datei behält Marke und Zeitpunkt, der Pod nicht');
   assert.match(sicherung, /imSubKontext\(\)/, 'im Sub-Kontext nicht');
 });

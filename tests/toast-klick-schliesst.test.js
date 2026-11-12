@@ -26,14 +26,14 @@ const { ladeKern } = require('./load-kern.js');
 
 test('[Toast·Rot-Beweis] ein einfacher Toast (ohne aktion) bekommt einen Klick-Schließen-Handler', () => {
   const { html } = ladeKern();
-  const fn = html.slice(html.indexOf('toast(text, art, aktion) {'), html.indexOf('host.appendChild(el);') + 'host.appendChild(el);'.length);
+  const fn = html.slice(html.indexOf('toast(text, art, aktion, optionen) {'), html.indexOf('host.appendChild(el);') + 'host.appendChild(el);'.length);
   assert.match(fn, /if\s*\(\s*!aktion\s*\)\s*el\.onclick\s*=\s*\(\s*\)\s*=>\s*\{[^}]*el\.remove\(\)/s,
     'ein Toast ohne aktion muss beim Klick el.remove() ausloesen — sonst bleibt der Stapel nur ueber das Auto-Timeout loesbar');
 });
 
 test('[Toast·Gegenprobe] ein Toast MIT aktion bekommt KEINEN zusätzlichen Klick-Schließen-Handler auf der Fläche', () => {
   const { html } = ladeKern();
-  const fn = html.slice(html.indexOf('toast(text, art, aktion) {'), html.indexOf('host.appendChild(el);') + 'host.appendChild(el);'.length);
+  const fn = html.slice(html.indexOf('toast(text, art, aktion, optionen) {'), html.indexOf('host.appendChild(el);') + 'host.appendChild(el);'.length);
   // Der aktion-Knopf setzt SEINEN eigenen onclick (btn.onclick) — el.onclick (die ganze Flaeche)
   // darf dabei nicht ZUSAETZLICH belegt werden, sonst konkurriert ein Flaechen-Klick mit der
   // bewussten Handlung des Knopfs.

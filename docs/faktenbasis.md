@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-11-07 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-11-11 · **Fassung:** v1053 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -52,11 +52,11 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**14 Sektoren, 322 Felder, 212 Unterfelder gesamt.**
+**14 Sektoren, 340 Felder, 217 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
-| `identity` | Identität & Person | 35 | 15 |
+| `identity` | Identität & Person | 36 | 15 |
 | `people` | Meine Menschen | 8 | 24 |
 | `mobility` | Mobilität & Reise | 13 | 7 |
 | `finance` | Finanzen & Zahlungen | 22 | 18 |
@@ -66,12 +66,12 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `socialInsurance` | Sozialversicherung | 22 | 7 |
 | `advanceCare` | Vorsorge & Recht | 49 | 85 |
 | `administration` | Verwaltung & Behörden | 27 | 18 |
-| `housing` | Wohnen & Eigentum | 15 | 11 |
+| `housing` | Wohnen & Eigentum | 32 | 16 |
 | `emergencyPreparedness` | Krisenvorsorge | 33 | 0 |
 | `pets` | Tiere | 1 | 5 |
 | `personal` | Persönliches | 22 | 4 |
 
-**Anlässe:** 19 · **Assistenten (Wizards):** 7 · **Situationen:** 10
+**Anlässe:** 19 · **Assistenten (Wizards):** 6 · **Situationen:** 10
 
 ---
 
@@ -87,13 +87,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-10-25, d90eeb9d7 Stand Kanon)
-- E2E (Playwright): 713 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 216 aus Schleifen über CPU-Drosselungen = **929 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- E2E (Playwright): 742 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 229 aus Schleifen über CPU-Drosselungen = **971 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
 - Wächter-Register (intern): 162
-- Schema-Version: 95 · SCHALEN_STAND: v1047 · Build-Version: v1.0
+- Schema-Version: 96 · SCHALEN_STAND: v1053 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (455)
+## ADR-Register (457)
 
 | Nummer | Titel |
 |---|---|
@@ -267,6 +267,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-158 | Eine Person gilt als verstorben — und das löst das Ereignis „Tod" aus |
 | U2-ADR-159 | Kein Feld, das Geheimnisse aufnimmt, ohne `autocomplete="off"` UND explizites Räumen beim Laden |
 | U2-ADR-160 | Der Bereichssatz wird Dateieigenschaft — Weglassen, nicht Umbelegen |
+| U2-ADR-160 | Ein ruhender Bereich fehlt nicht: Der Schreibweg weckt ihn |
 | U2-ADR-161 | Die zwanzig Korb-1-Felder werden mehrwertig — neun Listen statt zwanzig Skalare |
 | U2-ADR-162 | Der Rechtsraum kommt in den Textsatz-Schlüssel — Sprache und Rechtsraum zusammen |
 | U2-ADR-163 | Fünf Register, eine Form — `bereiche` wird Objekt wie `arten`/`typen` |
@@ -541,6 +542,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-507 | Korpus-Zuordnung: amtlicher Wortlaut ins Rechtsraum-Modul, eigene Formulierung ins Template |
 | U2-ADR-508 | Der offene JSON-Vollexport wird entfernt, nicht gefiltert |
 | U2-ADR-509 | Kern-Verschluss — Script 2 als IIFE, nur eine benannte Fläche |
+| U2-ADR-512 | Rückprobe der eigenen Sicherung im Pod |
 | U2-ADR-512 | Stufe 2: „Im Pod ablegen“ aus der Anwendung per postMessage |
 | U2-ADR-512 | das Verzeichnis der Ablagen liegt zusätzlich im eigenen Pod |
 | U2-ADR-512 | Pod-Anbindung über eine Brückenseite — Stufe 1 (Datei), der Kern bleibt ohne Netz |
@@ -561,18 +563,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 39 | 255 |
-| `.btn-sek` | 15 | 121 |
-| `.btn-dezent` | 5 | 15 |
-| `.btn-klein` | 3 | 18 |
+| `.btn` | 47 | 273 |
+| `.btn-sek` | 15 | 129 |
+| `.btn-dezent` | 9 | 18 |
+| `.btn-klein` | 3 | 20 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 37 |
-| `.karte` | 6 | 73 |
-| `.modal` | 23 | 201 |
-| `.toast` | 9 | 334 |
+| `.karte` | 8 | 84 |
+| `.modal` | 66 | 210 |
+| `.toast` | 9 | 336 |
 | `.banner-stapel` | 4 | 2 |
-| `.topbar` | 37 | 2 |
+| `.topbar` | 42 | 4 |
 | `.sidebar` | 14 | 6 |
-| `.leer` | 3 | 360 |
-| `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 35 |
+| `.leer` | 3 | 415 |
+| `.pause-erlaubnis` | 2 | 2 |
+| `.hinweis-box` | 7 | 34 |

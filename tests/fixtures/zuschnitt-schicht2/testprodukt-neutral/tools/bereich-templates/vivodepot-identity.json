@@ -98,6 +98,11 @@
               "typ": "text"
             },
             {
+              "id": "academicDegree",
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
               "id": "displayFamilyNameFirst",
               "typ": "checkbox"
             },

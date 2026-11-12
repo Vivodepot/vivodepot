@@ -76,7 +76,7 @@ function rangFehler(salbei, grundlage, kern) {
   const f = [];
   if (!/:root \{ --fs-role-abschnitt: 1\.25rem; --fs-role-gruppe: 1\.0625rem; --fs-role-label: 0\.875rem; --fs-role-wert: 0\.9375rem; \}/.test(salbei)) f.push('Rollen nicht nach dem Zielbild');
   if (!/\n\.feld-label \{ color: var\(--ink2\); font-weight: 500; \}/.test(salbei)) f.push('Label nicht leiser als der Wert');
-  if (!/input::placeholder, textarea::placeholder \{ color: var\(--ink3\); font-style: normal; font-size: inherit; opacity: 1; \}/.test(grundlage)) f.push('Platzhalter kursiv oder klein');
+  if (!/input::placeholder, textarea::placeholder \{ color: [^;]+; font-style: italic; font-size: inherit; opacity: 1; \}/.test(grundlage)) f.push('Platzhalter gerade oder klein');
   const st = block(salbei, '\n.sektion-titel {');
   if (!st || !/font-size:\s*var\(--fs-role-abschnitt\)/.test(st)) f.push('Abschnitt nicht in seiner Rolle');
   if (!st || !/text-transform:\s*none/.test(st)) f.push('Abschnitt in Versalien');
@@ -101,6 +101,6 @@ test('Rot-Beweis Rangfolge: der Stand von v963 schlägt an', () => {
     .replace(/\n\.sektion-titel \{[^}]*\}/, '\n.sektion-titel { margin: 0 0 var(--space-4); color: var(--ink3); font-size: 0.72rem; font-weight: var(--fw-semibold); letter-spacing: 0.08em; }');
   const grundAlt = GRUNDLAGE.replace(/\.feld-zeile:has\(> \.feld-wert > \.feld-liste-editor\) > \.feld-label \{[^}]*\}/, '')
     .replace(/input::placeholder, textarea::placeholder \{[^}]*\}/, 'input::placeholder, textarea::placeholder { color: var(--ink3); font-style: italic; font-size: var(--fs-xs); opacity: 0.65; }');
-  assert.deepEqual(rangFehler(salbeiAlt, grundAlt, KERN), ['Rollen nicht nach dem Zielbild', 'Label nicht leiser als der Wert', 'Platzhalter kursiv oder klein', 'Abschnitt nicht in seiner Rolle',
+  assert.deepEqual(rangFehler(salbeiAlt, grundAlt, KERN), ['Rollen nicht nach dem Zielbild', 'Label nicht leiser als der Wert', 'Platzhalter gerade oder klein', 'Abschnitt nicht in seiner Rolle',
     'Abschnitt in Versalien', 'Listentitel als Label']);
 });

@@ -434,7 +434,7 @@ test('Render-Smoke: alle 10 Sektoren rendern ohne Crash', async () => {
     V.renderSektor(sid);
     const html = document.getElementById('content').innerHTML;
     assert.ok(html.length > 0, sid + ' rendert');
-    assert.ok(html.includes('pause-erlaubnis'), sid + ' hat Pausen-Zeile');
+    assert.ok(!html.includes('pause-erlaubnis'), sid + ' ohne Schlusszeile (Zielbild 05)');
   }
 });
 
@@ -476,12 +476,18 @@ test('[U2-ADR-046 ②③] Gesundheit-Chooser: nur fhir-ips mit Kurz-Label; self-
   assert.equal(ips.label, 'Gesundheitsdaten', '② Kurz-Label (keine „…als maschinenlesbare Datei"-Dopplung; Präfix „Maschinenlesbar —" kommt aus flowHerausgeben)');
 });
 
-/* ── mehr-Block: kein „mehr"-Toggle, wenn die Sektion nur Modul-Felder hat ──
-   Eine Sektion ohne Kern-Felder (z. B. „Verfügung zur digitalen Nachbildung") darf ihren
-   ganzen Inhalt NICHT hinter einem „mehr"-Toggle verstecken — das klappt das
-   Einzige zu statt Zusätzliches auf (missverständlich, 30.05.). */
+/* ── Karte: jedes Feld einer Sektion steht in einer Gruppenkarte, einen „mehr"-Block gibt es nicht ──
+   Abnahme v998, M07. Die frühere Zusage („mehr"-Block): eine Sektion mit Kern- UND Modulfeldern behält hinter dem
+   „mehr"-Toggle die Modulfelder, eine Sektion nur mit Modulfeldern zeigt sie direkt. Diese Gestaltung ist abgelöst:
+   Seit jede Gruppe mit Feldern in einer Karte steht (`_sektionKartenListe`: ohne Eintrag in der Tabelle trägt der
+   Abschnitt eine Karte mit allen seinen Feldern), gibt es im Abschnitt keinen zweiten Zuklapp-Mechanismus mehr.
+   NEUE ZUSAGE: jedes Feld der Sektion — Kernfeld wie Modulfeld — steht genau einmal in einer Gruppenkarte, keines fehlt,
+   und kein Feld versteckt sich hinter einem „mehr"-Block. Die Proben fahren dieselben Sektionen wie die abgelösten
+   (nur Modulfelder; Kern- und Modulfeld gemischt) mit derselben Feldmenge. */
 
-test('mehr-Block: Sektion ohne Kern-Felder rendert Modul-Felder direkt (kein mehr-Toggle)', async () => {
+function zaehle(html, teil) { return html.split(teil).length - 1; }
+
+test('Karte: Sektion nur aus Modulfeldern — beide Felder stehen genau einmal in einer Karte, ohne mehr-Block', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen('pw');
   V.renderSektor({
@@ -493,10 +499,14 @@ test('mehr-Block: Sektion ohne Kern-Felder rendert Modul-Felder direkt (kein meh
   });
   const html = document.getElementById('content').innerHTML;
   assert.ok(!html.includes('mehr-block'), 'kein mehr-Block, wenn die Sektion nur Modul-Felder trägt');
-  assert.ok(html.includes('Modulfeld A') && html.includes('Modulfeld B'), 'Modul-Felder direkt sichtbar');
+  assert.ok(html.includes('feldgruppen-karte'), 'die Felder stehen in einer Gruppenkarte');
+  for (const id of ['m1', 'm2']) {
+    assert.equal(zaehle(html, 'data-feld="' + id + '"'), 1, 'Feld ' + id + ' steht genau einmal da');
+  }
+  assert.ok(html.includes('Modulfeld A') && html.includes('Modulfeld B'), 'Modul-Felder sichtbar');
 });
 
-test('mehr-Block: Sektion mit Kern UND Modul behält den mehr-Block', async () => {
+test('Karte: jedes Feld steht genau einmal in einer Karte, keines fehlt', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen('pw');
   V.renderSektor({
@@ -507,5 +517,13 @@ test('mehr-Block: Sektion mit Kern UND Modul behält den mehr-Block', async () =
     ] }],
   });
   const html = document.getElementById('content').innerHTML;
-  assert.ok(html.includes('mehr-block'), 'mehr-Block bleibt, wenn Kern-Felder vorhanden sind');
+  assert.ok(!html.includes('mehr-block'), 'der mehr-Block ist abgelöst: auch mit Kern- und Modulfeld gibt es ihn nicht');
+  const iSek = html.indexOf('id="sek-mix"');
+  assert.ok(iSek >= 0, 'Vorbedingung: der Abschnitt rendert');
+  const iKarte = html.indexOf('feldgruppen-karte', iSek);
+  assert.ok(iKarte > iSek, 'der Abschnitt trägt eine Gruppenkarte');
+  for (const id of ['k1', 'm1']) {
+    assert.equal(zaehle(html, 'data-feld="' + id + '"'), 1, 'Feld ' + id + ' steht genau einmal da');
+    assert.ok(html.indexOf('data-feld="' + id + '"') > iKarte, 'Feld ' + id + ' steht in der Karte');
+  }
 });

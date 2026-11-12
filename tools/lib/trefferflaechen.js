@@ -74,7 +74,7 @@ const PFLICHT_PX = 24;
    jeden Vergleich falsch und die Erhebung still leer.
 
    `raum` ist ein Selektor auf die NACHFAHREN des Erhebungsraums (`'#content *'`,
-   `'.app-fuss *'`, `'body *'`) — der Raum ist eine Bedingung der Zahl und wird
+   `'#sidebar *'`, `'body *'`) — der Raum ist eine Bedingung der Zahl und wird
    deshalb übergeben, nicht angenommen. */
 function erheben({ mindest, raum }) {
   const ECHT = 'button, a[href], input:not([type=hidden]), select, textarea, summary, ' +

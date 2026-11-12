@@ -60,6 +60,7 @@ async function seiteMitDepot(browser) {
   await seite.waitForTimeout(300);
   await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await seite.waitForTimeout(300);
+  if (await seite.isVisible('#id-pw-eigen-weg')) await seite.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'], ['#id-pw', PW], ['#id-pw2', PW]]) {
     await seite.fill(sel, wert);
   }
@@ -224,9 +225,9 @@ test('[Weg 3·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht
   try {
     const { seite } = await seiteMitDepot(browser);
     datei = (await probeDatei()).datei;
-    await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });
+    await seite.evaluate(() => { const f = document.querySelector('.nav-fuss-ort'); if (f) f.remove(); });
     const protokoll = await wegGehen(seite, datei);
-    assert.ok(protokoll.every((x) => x.erreicht), 'die Fusszeile geht den Import nichts an');
+    assert.ok(protokoll.every((x) => x.erreicht), 'der Fuß der Seitenleiste („Über und Hinweise“) geht den Import nichts an');
   } finally {
     await browser.close();
     if (datei && fs.existsSync(datei)) fs.unlinkSync(datei);

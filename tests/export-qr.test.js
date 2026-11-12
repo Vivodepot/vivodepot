@@ -73,9 +73,9 @@ test('3) Kartenmodell: nur GEFÜLLTE Felder rein; Label + Klartext-Wert (unverä
   const labels = m.map(z => z.label);
   assert.ok(labels.includes('Vorname'));
   assert.ok(labels.includes('Blutgruppe'));
-  // Auswahl-Wert wird zum Klartext-Label aufgelöst (A+ → „A +"), nicht der rohe Schlüssel.
+  // Auswahl-Wert wird zum Klartext-Label aufgelöst (A+ → „A+"), nicht der rohe Schlüssel.
   const blut = m.find(z => z.label === 'Blutgruppe');
-  assert.equal(blut.wert, 'A +');
+  assert.equal(blut.wert, 'A+');
   // leere Felder (z. B. medikamente) fehlen
   assert.ok(!labels.includes('Medikamente (laufend)'));
 });
@@ -101,7 +101,9 @@ test('u2-077a-vcard-kein-note-kein-gesundheit: ANTI-LECK — QR-vCard trägt Kon
   mitKontakten(V,
     [{ id: 'p1', name: 'Anna Schulz', tel: '+49 151 999' }],
     [{ ref: 'p1', override: '' }],
-    { bloodType: 'A+', allergiesMedicationFoodOther: 'Penicillin', medicationOngoing: 'Ramipril 5mg', chronicConditionsDiagnoses: 'Diabetes mellitus' });
+    // Die drei Listenfelder in der Form, in der das Depot sie speichert ([{ text }]): ein blanker Text löst sich nicht auf und stünde
+    // seit der einen Leerform (v1014) gar nicht auf der Karte — die Gegenprobe unten liefe dann ins Leere.
+    { bloodType: 'A+', allergiesMedicationFoodOther: [{ text: 'Penicillin' }], medicationOngoing: [{ text: 'Ramipril 5mg' }], chronicConditionsDiagnoses: [{ text: 'Diabetes mellitus' }] });
   const vcard = V.notfallKontakteVcard();
   // Der QR IST eine vCard mit dem Kontakt.
   assert.ok(vcard.startsWith('BEGIN:VCARD'), 'QR ist eine vCard');

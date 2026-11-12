@@ -187,8 +187,8 @@ for (const angabe of ['zweck', 'grundlage', 'vorgang', 'gueltigBis']) {
 }
 test('[Kette 07 · Zug 1 · Rot-Beweis] ohne „zweck" am FELD kommt der Feld-Zweck nicht an', async () => {
   await mitMutation(
-    "const ANFRAGE_FELD_SCHLUESSEL = Object.freeze(['kennung', 'zweck', 'pflicht']);",
-    "const ANFRAGE_FELD_SCHLUESSEL = Object.freeze(['kennung', 'pflicht']);",
+    "const ANFRAGE_FELD_SCHLUESSEL = Object.freeze(['kennung', 'zweck', 'pflicht', 'personFelder']);",
+    "const ANFRAGE_FELD_SCHLUESSEL = Object.freeze(['kennung', 'pflicht', 'personFelder']);",
     async (V) => {
       const g = V.anfragePruefen(heimAnfrage());
       const stillAngekommen = g.gueltig && g.anfrage.felder.length === 12

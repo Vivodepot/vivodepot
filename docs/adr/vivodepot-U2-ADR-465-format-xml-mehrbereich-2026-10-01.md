@@ -4,7 +4,7 @@
 **Datum:** 01.10.2026 (Entwurf), ergänzt 05.10.2026 (`werte`, `teil`, `hinweis`; Nachtrag Anhänge), 16.10.2026 (Nachtrag JSON: Ziel als Liste, `schemaUri`), 04.11.2026 (Nachtrag Antragsangaben: `abgeleitet`, `antrag`; Nachtrag Vorprüfung: `pruefung`)
 **Kategorie:** ARCHITEKTUR, STANDARDS
 **Status heute:** gilt
-**Betrifft:** `vivodepot.html` (`FORMAT_MODUL_SCHLUESSEL`, `_xmlKanalGrund`, `FORMAT_ZUORDNUNG_SCHLUESSEL`, `formatNamensraumFremd`, `formatModulPruefen`, `formatModulZuExportKanal`, `_FORMAT_HINWEIS_FORM`, `FORMAT_ANHANG_ROLLEN`, `FORMAT_VERTRETER_FELDER`, `formatAnhaengeAufloesen`, `formatVertreterAufloesen`, `formatAnhangKandidaten`, `_formatAnhangWahl`, `_formatPfadTeile`, `formatSchemaUriFremd`, `_FORMAT_SCHEMA_URI_FORM`, `FORMAT_ABLEITUNGEN`, `FORMAT_ANTRAG_TYPEN`, `formatAbleitungRechnen`, `formatAntragAntwortPruefen`, `formatPruefungFormPruefen`, `formatMusterUebersetzen`, `formatVorpruefung`, `_formatExportDownload`), `docs/format-modul/format-modul-schema.json`, ein nicht öffentliches Werkzeug, `tools/fim-modul-erzeugen.mjs`, `tests/konformitaet/adapter/ajv-json-schema.mjs`.
+**Betrifft:** `vivodepot.html` (`FORMAT_MODUL_SCHLUESSEL`, `_xmlKanalGrund`, `FORMAT_ZUORDNUNG_SCHLUESSEL`, `formatNamensraumFremd`, `formatModulPruefen`, `formatModulZuExportKanal`, `_FORMAT_HINWEIS_FORM`, `FORMAT_ANHANG_ROLLEN`, `FORMAT_VERTRETER_FELDER`, `formatAnhaengeAufloesen`, `formatVertreterAufloesen`, `formatAnhangKandidaten`, `_formatAnhangWahl`, `_formatPfadTeile`, `formatSchemaUriFremd`, `_FORMAT_SCHEMA_URI_FORM`, `FORMAT_ABLEITUNGEN`, `FORMAT_ANTRAG_TYPEN`, `formatAbleitungRechnen`, `formatAntragAntwortPruefen`, `formatPruefungFormPruefen`, `formatMusterUebersetzen`, `formatVorpruefung`, `_formatExportDownload`), die Wohnen-Vorlage, `docs/format-modul/format-modul-schema.json`, ein nicht öffentliches Werkzeug, `tools/fim-modul-erzeugen.mjs`, `tests/konformitaet/adapter/ajv-json-schema.mjs`.
 **Bezug:** U2-ADR-257 (Schreiber `xml@1`), U2-ADR-145 (ein Einlassweg), U2-ADR-456 (FIM-Bezüge: Kennung, Fassung, Status), U2-ADR-030 (Selbstauskunft im Export), U2-ADR-013 („Meine Dokumente“), U2-ADR-468 (Urschrift der Vollmacht), U2-ADR-467 (getrennte Namen und Anschrift).
 
 ## Frage
@@ -157,6 +157,84 @@ ihre Datei eine Regel des Antrags verletzt?
     dass jede Datei, die die Vorprüfung ablehnt, auch KoSIT ablehnt, und die gültige bei beiden gültig ist.
 
 Die Ansicht der Datei („Was diese Datei enthält“, mit der Herkunft jedes Werts) ist ein eigener Schritt.
+
+## Nachtrag 08.11.2026 · Die Lizenzauflage ist aufgehoben
+
+**Lage.** Die FITKO hat am 04.11.2026 telefonisch Auskunft gegeben: Die Inhalte des FIM-Portals darf jeder nutzen. Die Inhaberin hat am 08.11.2026 entschieden, danach zu verfahren.
+
+**Entscheidung.**
+- Die Auflage aus dem Abschnitt „Anwendungsfall FIM und die Lizenzauflage“ entfällt: Ein FIM-Modul darf ausgeliefert und herausgegeben werden. Der Satz dort, die Signatur ändere an der Lizenzfrage nichts, und der letzte Satz im Nachtrag vom 05.10.2026 gelten damit nicht mehr. Der alte Text bleibt als Verlauf stehen.
+- Das Modul trägt den Vermerk „Nutzung nach Auskunft der FITKO (Telefonat 04.11.2026), frei für alle“.
+- Unverändert bleibt die Bauregel Gerüst und Modul: Struktur und Feldnamen eines Schemas stehen im Modul, nicht im Kern. `tools/fim-schema-inhalt-pruefen.js` prüft deshalb weiter den Kern, aber nicht mehr die übrigen Dateien des öffentlichen Zuschnitts.
+
+## Nachtrag 05.11.2026 · Datum des Antrags, Feld für die Unterschrift, ja/nein als Code
+
+Ein Leistungsschema verlangt ein Datum als Zeitpunkt (`xs:dateTime`), ein Element für die Unterschrift (`xs:anyType`, Pflicht)
+und bei Steuerfragen die Codes einer Codeliste. Gemessen mit KoSIT am Wohngeld-Schema: ohne diese drei Formen blieb eine Datei
+des Kerns ungültig.
+
+31. **`heute` und `zeitpunkt`.** `FORMAT_ABLEITUNGEN` kennt die Regel `heute`: das Datum des Geräts, ohne Feld und ohne
+    Bereich; nie als Vorschlag einer ja/nein-Frage. `FORMAT_TEILE` kennt den Teil `zeitpunkt`: aus `JJJJ-MM-TT` wird
+    `JJJJ-MM-TTT00:00:00`, an einem Feld und an `heute`. Ein Datum, das nicht vollständig ist, ergibt keinen Wert.
+32. **`leer`.** Eine Zuordnung `{ leer: { beschriftung }, ziel }` schreibt ein leeres Element, das bei der Stelle ausgefüllt
+    wird. Sie steht allein, nur in der Ausgabe; der Erzeuger setzt sie nur an ein Pflicht-Element vom Typ `xs:anyType`. Die
+    Person sieht im Schritt „Angaben für diesen Antrag“ am Feld, dass es leer bleibt. Der Kern schreibt die Datei nur, wenn
+    der Aufrufer das bestätigt (`leerGesehen`); sonst entsteht keine Datei, und der Grund `leer-ungesehen` ist benannt. Ein
+    Feld bleibt also nie still leer.
+33. **ja/nein als Code.** An `abgeleitet` (Regeln `nichtLeer`, `gleich`, `ausListe`) und an einer Antragsfrage vom Typ
+    `janein` darf `werte: { ja, nein }` stehen, genau diese zwei Schlüssel. Dann steht der Code in der Datei statt
+    `true`/`false`. Die Person beantwortet weiter ja oder nein; ein Vorschlag aus dem Depot bleibt ja/nein und trägt keine
+    Codes. Der Erzeuger verlangt, dass die Codes in der Aufzählung des Elements stehen.
+
+## Nachtrag 04.11.2026 · Mietangaben an der Hauptwohnung im Feldregister
+
+**Frage.** Ein Leistungsschema zum Wohnen fragt nach Angaben, die eine Person dauerhaft führt und die das Register nicht
+kennt: welche Kosten in der Miete stecken, ob jemand einen Mietzuschuss zahlt, wie viel Fläche beruflich genutzt wird und
+wer mit im Haushalt wohnt. Ein Antragsschritt (Nr. 23) trägt sie nicht, denn sie gelten über einen Antrag hinaus.
+
+**Entscheidung.**
+
+34. **Die Hauptwohnung führt die Mietangaben selbst.** `housing` bekommt in der Sektion `wohnen-haupt` die Beträge, die in
+    der Miete stecken (`heatingCostsInRent`, `hotWaterCostsInRent`, `garageCostsInRent`, `parkingSpaceCostsInRent`,
+    `serviceChargeFlatRate`, `householdEnergyCosts`), die Nebenkosten an Dritte (`costsPaidToThirdParties`), den
+    Mietzuschuss (`rentSubsidyProvider`, `rentSubsidyAmount`, `rentSubsidyFrom`, `rentSubsidyUntil`), die beruflich
+    genutzte Fläche (`commercialUseArea`) und die Liste `subtenants` (Verhältnis, Größe des Zimmers, Lebensmittelpunkt,
+    seit wann, Anteil an den Nebenkosten). Die Mietangaben stehen nur bei Miete; Fläche und Mitbewohner gibt es auch im Eigentum.
+    Alle stehen auf der Ebene `modul`; Beträge sind sensibel.
+    Ein Format-Modul ordnet diese Felder wie jedes andere zu; der Kern kennt kein Leistungsschema.
+
+## Nachtrag 05.11.2026 · Angaben der Meldebehörde bei der Anmeldung im Feldregister
+
+**Frage.** Die Anmeldung einer Wohnung fragt nach Angaben, die das Register nicht kennt: wann die Person eingezogen ist, ob
+der Wohnungsgeber auch Eigentümer ist, wer sonst Eigentümer ist, das Zuordnungsmerkmal einer elektronischen Bestätigung des
+Wohnungsgebers und der Doktorgrad. Die Person führt sie dauerhaft; ein Antragsschritt (Nr. 23) trägt sie nicht.
+
+**Entscheidung.**
+
+35. **Hauptwohnung und Person führen die Angaben der Anmeldung.** Je Feld die Rechtsgrundlage im Bundesmeldegesetz und das
+    Datenfeld im FIM-Baukasten (Schema S13000247 1.0, Leistung 99115005104000), auf das ein Bezug zeigen wird:
+
+    | Feld | BMG | FIM-Datenfeld | sichtbar |
+    |---|---|---|---|
+    | `housing.moveInDate` | § 3 Abs. 1 Nr. 13, § 19 Abs. 3 Nr. 2 | F13001522 1.0 | immer |
+    | `housing.landlordIsOwner` (ja/nein) | § 19 Abs. 3 Nr. 1 | F13001541 1.0 | bei Miete |
+    | `housing.ownerName` | § 19 Abs. 3 Nr. 1 | F13001563 1.0 | wenn der Wohnungsgeber nicht Eigentümer ist |
+    | `housing.landlordConfirmationCode` (sensibel) | § 19 Abs. 4 | F13001561 1.0 | bei Miete |
+    | `identity.academicDegree` | § 3 Abs. 1 Nr. 4 | F60000229 2.0 | immer |
+
+    Alle stehen auf der Ebene `modul`. Name und Anschrift des Wohnungsgebers (§ 19 Abs. 3 Nr. 1) trägt die verwiesene Person
+    (`landlordPropertyManagement`); eigene Anschriftfelder am Wohnen bekommt der Wohnungsgeber nicht. Die Anschrift des
+    Eigentümers folgt mit der Personen-Anschrift. Weitere Wohnungen (`furtherHomes`) bekommen hier keine Unterfelder; die
+    Nebenwohnung ist ein eigener Schritt. Die FIM-Datenfelder
+    stehen gepinnt in `bereiche/bezuege-quellen.json`; die Bezugszeilen folgen in `bereiche/bezuege.json`. Felder mit dem
+    Status „in Bearbeitung“ tragen dort höchstens den Grad `naeherung`.
+
+## Nachtrag 05.11.2026 · Anhang-Rollen für Nachweise zum Wohnen
+
+27. **Fünf weitere Rollen.** `FORMAT_ANHANG_ROLLEN` kennt zusätzlich `betreuungsurkunde`, `aufenthaltstitel-nachweis`,
+    `mietnachweis`, `nachweis-kinderbetreuung` und `nachweis` (allgemein). Jede nimmt jede Dateiart und verlangt keine
+    Urschrift; die Prüfung je Rolle bleibt dieselbe (bestätigt, kein Entwurf, Art passt). Kern, Schema des Format-Moduls
+    und Erzeuger führen dieselbe Liste; jede Rolle hat einen eigenen Wortlaut in Deutsch und Englisch.
 
 ## Was diese Entscheidung nicht leistet
 
@@ -381,4 +459,64 @@ konformitaet:
     pruefung:
       - tests/u2-adr-465-format-bereiche-fest-namensraum.test.js
         "[U2-ADR-465] ein Modul ohne die neuen Schlüssel schreibt wie zuvor (ein Bereich, ohne Namensraum)"
+  - aussage: >-
+      Kein FIM-Schema-Inhalt im Kern; ein Modul außerhalb des Kerns darf Schema-Inhalt tragen.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (08.11.2026)
+    pruefung:
+      - tests/fim-schema-inhalt-pruefen.test.js "[FIM-Inhalt] die Kern-Dateien tragen keinen Schema-Inhalt"
+      - tests/fim-schema-inhalt-pruefen.test.js "[FIM-Inhalt·Modul] ein Modul außerhalb des Kerns mit Schema-Inhalt ist grün, derselbe Inhalt im Kern ist rot"
+  - aussage: >-
+      `heute` setzt das Datum des Geräts, `zeitpunkt` macht daraus einen Zeitpunkt; `werte: { ja, nein }` schreibt den Code
+      an `abgeleitet` und an einer ja/nein-Frage.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (05.11.2026, Datum und Codes)
+    pruefung:
+      - tests/format-antrag-datum-leer-codes.test.js
+        "[Antrag·Datum] `heute` mit `zeitpunkt` setzt das Datum des Geräts als Zeitpunkt; `zeitpunkt` an einem Feld ebenso"
+      - tests/format-antrag-datum-leer-codes.test.js
+        "[Antrag·Codes] ja/nein mit `werte` schreibt den Code, an `abgeleitet` und an der ja/nein-Frage"
+  - aussage: >-
+      Ein Feld mit `leer` steht nur in der Datei, wenn der Aufrufer bestätigt, dass die Person den Hinweis gesehen hat; sonst
+      entsteht keine Datei und der Grund ist benannt.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (05.11.2026, Unterschrift)
+    pruefung:
+      - tests/format-antrag-datum-leer-codes.test.js
+        "[Antrag·leer] das leere Element steht in der Datei, wenn die Person den Hinweis gesehen hat; das Feld liegt am Kanal"
+      - tests/format-antrag-datum-leer-codes.test.js
+        "[Antrag·leer·Rot-Beweis] ohne `leerGesehen` keine Datei, der Grund ist benannt — nie still leer"
+  - aussage: >-
+      Die Hauptwohnung führt Mietkosten, Mietzuschuss, beruflich genutzte Fläche und Mitbewohner; Mietangaben nur bei
+      Miete, Ebene modul, Beträge sensibel, Texte in Deutsch und Englisch.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (04.11.2026, Mietangaben)
+    pruefung:
+      - tests/wohnen-miete-angaben.test.js
+        "[Miete·Vorlage] jedes Feld steht in wohnen-haupt, Mietangaben nur bei Miete sichtbar, Ebene modul"
+      - tests/wohnen-miete-angaben.test.js
+        "[Miete·Vorlage·Rot-Beweis] eine Kopie ohne sensibel am Betrag oder mit Mitbewohnern nur bei Miete schlägt an"
+      - tests/wohnen-miete-angaben.test.js "[Miete·Texte] Beschriftung in Deutsch und Englisch, Optionen und Folgeknopf"
+  - aussage: >-
+      Die Anhang-Rollen für Nachweise zum Wohnen stehen in Kern und Schema, nehmen jede Dateiart, verlangen keine Urschrift
+      und haben einen eigenen Wortlaut in Deutsch und Englisch.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (05.11.2026, Anhang-Rollen)
+    pruefung:
+      - tests/format-anhang-rollen-wohnen.test.js
+        "[Anhang·Wohnen] jede neue Rolle steht im Kern, nimmt jede Dateiart und verlangt keine Urschrift"
+      - tests/format-anhang-rollen-wohnen.test.js "[Anhang·Wohnen] jede neue Rolle hat einen eigenen Wortlaut in Deutsch und Englisch"
+  - aussage: >-
+      Die Hauptwohnung führt Einzugsdatum, Wohnungsgeber als Eigentümer, Namen des Eigentümers und das Zuordnungsmerkmal
+      (sensibel), die Person ihren Doktorgrad; Ebene modul, Texte in Deutsch und Englisch, FIM-Felder gepinnt.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (05.11.2026, Anmeldung)
+    pruefung:
+      - tests/wohnsitz-anmeldung-felder.test.js
+        "[Wohnsitz·Vorlage] Einzug, Wohnungsgeber als Eigentümer, Eigentümer, Zuordnungsmerkmal in wohnen-haupt"
+      - tests/wohnsitz-anmeldung-felder.test.js
+        "[Wohnsitz·Vorlage·Rot-Beweis] eine Kopie ohne sensibel oder mit dem Eigentümer bei jeder Miete schlägt an"
+      - tests/wohnsitz-anmeldung-felder.test.js "[Wohnsitz·Person] der Doktorgrad steht bei der Person, Ebene modul"
+      - tests/wohnsitz-anmeldung-felder.test.js
+        "[Wohnsitz·Quelle] die Lock-Datei pinnt die FIM-Felder der Anmeldung mit Fassung und Status"
 ```

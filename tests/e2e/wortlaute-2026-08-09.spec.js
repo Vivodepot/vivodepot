@@ -7,6 +7,7 @@
    einem kleinen Gerät, und den echten Toast-Ausbleib (Nr. 6).
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
 const { oeffneApp, depotAnlegen, setzeFeld } = require('./helpers');
 const { GEBACKENE_PRODUKT_PFADE } = require('./global-setup.js');
 
@@ -22,7 +23,7 @@ test('[Nr.1] Anlege-Dialog zeigt den Speicherort-Hinweis vor dem Datei-Dialog', 
   await page.click('#w-anfangen');
   await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
   await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-vorname', { state: 'visible' });
   await expect(page.locator('#modal-inhalt')).toContainText('Wir empfehlen Ihren Stick');
 });
 
@@ -57,7 +58,7 @@ test('[Nr.2] Schließen-Dialog: drei Wege mit Folgen sichtbar, auf 375px OHNE Sc
   expect(box.y + box.height, 'letzter Knopf liegt innerhalb der 812px Viewport-Höhe, kein Scrollen nötig')
     .toBeLessThanOrEqual(812);
 
-  await page.click('#m-abbr');   // Dialog wieder schließen, App bleibt offen (kein weiterer Fortschritt nötig)
+  await dialogAbbrechen(page);   // Dialog wieder schließen, App bleibt offen (kein weiterer Fortschritt nötig)
 });
 
 test('[Nr.6] interner Modus: die U2-ADR-211-Erinnerung erscheint über den stillen Auto-Save, nicht mehr über den Schließen-Dialog (U2-ADR-222/237)', async ({ page }) => {
@@ -113,7 +114,12 @@ test('[Nr.6] interner Modus: die U2-ADR-211-Erinnerung erscheint über den still
     // Datei), und die U2-ADR-211-Erinnerung zeigt darum zu Recht ihre Risiko-Fassung
     // (exportErinnerungRisiko). Kein Rückfall auf einen bloßen `.toast`-Locator — Text-Filter, s.
     // dieselbe Begründung in tests/e2e/u2-adr-212-sichern-intern.spec.js.
-    await expect(page.locator('#toast-host').getByText('Dieses Gerät kann den internen Speicher jederzeit freiräumen')).toBeVisible();
+    // Seit M21 (03.11.2026) erscheint die Erinnerung nicht mehr als Meldung über dem Inhalt, sondern hinter dem ⓘ neben
+    // dem Speicherstatus im Kopf; derselbe Wortlaut in der Risiko-Fassung steht im Blatt, das das ⓘ öffnet.
+    await expect(page.locator('#toast-host').getByText('Dieses Gerät kann den internen Speicher jederzeit freiräumen')).toHaveCount(0);
+    await expect(page.locator('#tb-save-info')).toBeVisible();
+    await page.locator('#tb-save-info').click();
+    await expect(page.locator('#tb-save-info-blatt').getByText('Dieses Gerät kann den internen Speicher jederzeit freiräumen')).toBeVisible();
   } finally {
     srv.close();
   }

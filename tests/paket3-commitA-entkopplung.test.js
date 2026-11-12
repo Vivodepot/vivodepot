@@ -54,6 +54,7 @@ test('[Entkopplung] SITUATION_IDS_EINGEBAUT trägt exakt die zehn nativen Situat
 
 test('[Entkopplung] WIZARD_IDS_EINGEBAUT trägt exakt die sieben nativen Assistenten-IDs', () => {
   const { V } = ladeKern();
+  // anamwiz ist seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) gestrichen; die ID bleibt hier als Reservierung.
   assert.deepEqual(V.WIZARD_IDS_EINGEBAUT,
     ['gebwiz', 'pvwiz', 'kiwiz', 'anamwiz', 'pflwiz', 'heirwiz', 'umzwiz']);
 });

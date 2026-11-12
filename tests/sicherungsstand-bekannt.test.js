@@ -86,7 +86,7 @@ test('[U2-ADR-211·Gegenprobe] markiereUngespeichert() ohne sicherungsStand: kei
 });
 
 test('[U2-ADR-211·Gegenprobe] exportErinnerungVielleichtZeigen() ohne sicherungsStand: alter Wortlaut, kein unersetzter Platzhalter', async () => {
-  const { V } = ladeKern({ indexedDB: {} });    // interner Speicher-Modus, damit „fällig" überhaupt erreichbar ist
+  const { V } = ladeKern({ indexedDB: {}, zusatzBindungen: ['exportErinnerungHinweisText'] });    // interner Speicher-Modus, damit „fällig" überhaupt erreichbar ist
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Maria');
   assert.equal(V.getData().sicherungsStand, undefined, 'Voraussetzung: kein Stand bekannt');
@@ -95,7 +95,9 @@ test('[U2-ADR-211·Gegenprobe] exportErinnerungVielleichtZeigen() ohne sicherung
   const gezeigt = V.exportErinnerungVielleichtZeigen();
   assert.equal(gezeigt, true, 'ohne bekannten Stand bleibt die alte, unbedingte Erinnerung fällig');
   assert.equal(erfasst.length, 1, 'genau ein Toast');
-  const txt = erfasst[0].text;
+  // C16 (Abnahme v998): die Meldung ist kurz; der Satz zur Erinnerung steht hinter dem ⓘ im Kopf (exportErinnerungHinweisText).
+  assert.equal(erfasst[0].text, V.STRINGS.saveStatusKeineDatei, 'die kurze Meldung');
+  const txt = V.__zusatz.exportErinnerungHinweisText();
   assert.ok(!/\{tage\}|\{aenderungen\}/.test(txt), 'kein unersetzter Platzhalter — der Zustands-Wortlaut darf hier NICHT greifen');
   // Welche der beiden bestehenden Fassungen (Basis/Risiko) greift, hängt von erhoehtesVerlustRisiko()
   // ab (hier nicht gezielt gesetzt) — geprüft wird nur: eine der beiden ALTEN, nicht die neue Zustands-Fassung.
@@ -119,7 +121,7 @@ test('[U2-ADR-211·Gegenprobe] Depot-Liste: Dateiname bekannt, sicherungsStand f
 /* ── Wortlaut-Mechanik — der {Platzhalter}-Ersatz selbst arbeitet korrekt ── */
 
 test('[U2-ADR-211] mit bekanntem Stand ersetzt der Zustands-Wortlaut BEIDE Platzhalter mit echten Zahlen', async () => {
-  const { V } = ladeKern({ indexedDB: {} });
+  const { V } = ladeKern({ indexedDB: {}, zusatzBindungen: ['exportErinnerungHinweisText'] });
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Maria');
   V.markiereAlsDateiGesichert();
@@ -131,7 +133,9 @@ test('[U2-ADR-211] mit bekanntem Stand ersetzt der Zustands-Wortlaut BEIDE Platz
   const gezeigt = V.exportErinnerungVielleichtZeigen();
   assert.equal(gezeigt, true, 'über der Schwelle → fällig');
   assert.equal(erfasst.length, 1);
-  assert.ok(!/\{tage\}|\{aenderungen\}/.test(erfasst[0]), 'beide Platzhalter ersetzt');
-  assert.ok(/\b(19|20|21)\b/.test(erfasst[0]), 'die Tage-Zahl steht im Text (~20, Toleranz für Rundung)');
-  assert.ok(erfasst[0].includes('7'), 'die Änderungen-Zahl (7) steht im Text');
+  // C16 (Abnahme v998): der Zustands-Satz mit den Zahlen steht hinter dem ⓘ im Kopf, die Meldung ist kurz.
+  const satz = V.__zusatz.exportErinnerungHinweisText();
+  assert.ok(!/\{tage\}|\{aenderungen\}/.test(satz), 'beide Platzhalter ersetzt');
+  assert.ok(/\b(19|20|21)\b/.test(satz), 'die Tage-Zahl steht im Text (~20, Toleranz für Rundung)');
+  assert.ok(satz.includes('7'), 'die Änderungen-Zahl (7) steht im Text');
 });

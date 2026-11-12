@@ -17,7 +17,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const SCHREIBER = ['renderWelcome', 'renderCryptoOverlay', 'renderCodeOeffnen', 'renderAnlassAuswahl', 'zeigeSchlussSicht'];
+const SCHREIBER = ['renderWelcome', 'renderCryptoOverlay', 'renderCodeOeffnen', 'zeigeSchlussSicht'];   // renderAnlassAuswahl entfiel mit Zielbild 04
 const NUR_SICHTBAR = 'nur bei sichtbarem Overlay';
 const NUR_START = 'nur beim Start';
 // Schlüssel: <oberste Funktion> · <Aufruf ohne Argumente>. Der Grund sagt, warum die App dort nie offen ist.

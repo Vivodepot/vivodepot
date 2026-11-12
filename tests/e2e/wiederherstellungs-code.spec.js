@@ -51,9 +51,10 @@ async function anlegenBisAngebot(page) {
   await page.click('#w-anfangen');
   await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
   await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
-  await page.waitForSelector('#id-pw', { state: 'visible' });
+  await page.waitForSelector('#id-pw', { state: 'attached' });
   await page.fill('#id-vorname', 'Ayse');
   await page.fill('#id-nachname', 'Beispiel');
+  if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort
   await page.fill('#id-pw', PW);
   await page.fill('#id-pw2', PW);
   await page.click('#m-ok');

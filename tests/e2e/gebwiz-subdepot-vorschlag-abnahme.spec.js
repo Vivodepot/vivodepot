@@ -18,10 +18,9 @@ async function gebwizStarten(page) {
   await expect(page.locator('.wizard-frage')).toBeVisible();
 }
 
-// Die sechs bestehenden Geburts-Schritte leer durchklicken (alle optional) bis zum
-// Namens-Schritt — Zukunftsform ist der Regelfall, zu diesem Zeitpunkt ist nichts davon bekannt.
+// Seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) ist der Namens-Schritt der erste: keine Vorschritte
+// mehr zum Durchklicken, nur die Prüfung, dass er sofort dasteht.
 async function bisZumNamenSchrittDurchklicken(page) {
-  for (let i = 0; i < 6; i++) await page.click('#wiz-weiter');
   await expect(page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]')).toBeVisible();
 }
 

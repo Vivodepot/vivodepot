@@ -15,6 +15,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
+const { echteFaecher, kreisSchluessel } = require('./lib/echte-faecher.js');   // Attrappen-Fächer: echte Fächer zählen, nicht Einträge (04.11.2026)
 
 const PW = 'anker-pw-tuer-12345';
 
@@ -192,7 +193,7 @@ test('[Fach-Tür] zwei Fächer derselben Datei haben verschiedene Salze', async 
   await V.empfaengerkreisFachEinrichten(k1, 'fach-passwort-anja-1', null);
   await V.empfaengerkreisFachEinrichten(k2, 'fach-passwort-anja-1', null);   // gleiches Passwort: nur das Salz trennt
   const u = await V.depotSerialisieren();
-  assert.equal(u.umschlagTabelle.length, 3, 'Voraussetzung: Anker und zwei Fächer');
+  assert.deepEqual(await echteFaecher(V, u, kreisSchluessel(V)), ['Fach 2', 'Fach 3'], 'Voraussetzung: Anker und zwei Fächer');
   assert.notEqual(u.umschlagTabelle[1].kdf.salt, u.umschlagTabelle[2].kdf.salt);
   assert.deepEqual(faecherMitAnkerSalz(u), []);
 });
@@ -220,12 +221,15 @@ test('[Fach-Tür] das kdfSalt entsteht aus 16 Byte CSPRNG, an genau einer Stelle
    oben müssen es sehen. Fällt eine dieser Proben, misst die Probe oben nichts mehr. */
 const SALZ_ZEILE = '  const kdfSalt = crypto.getRandomValues(new Uint8Array(16));';
 const AAD_ZEILE = '    VdCrypto.aadEinheit(aktuelleDepotUUID, k.kennung));';
-function kernMit(ersetzen, durch) {
-  assert.equal(KERN_QUELLE.split(ersetzen).length - 1, 1, 'Vorbedingung: die Stelle steht genau einmal im Kern: ' + ersetzen.trim());
+function kernMit(ersetzen, durch, weitere) {
+  let html = KERN_QUELLE;
+  for (const [a, b] of [[ersetzen, durch]].concat(weitere || [])) {
+    assert.equal(html.split(a).length - 1, 1, 'Vorbedingung: die Stelle steht genau einmal im Kern: ' + a.trim());
+    html = html.replace(a, b);
+  }
   const os = require('node:os');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'fach-tuer-rot-'));
   const datei = path.join(dir, 'kern.html');
-  const html = KERN_QUELLE.replace(ersetzen, durch);
   fs.writeFileSync(datei, html);
   try { return { V: ladeKern({ htmlPfad: datei, backen: true }).V, html }; }
   finally { fs.rmSync(dir, { recursive: true, force: true }); }
@@ -242,8 +246,11 @@ async function zweiFaecher(V, pw) {
   return V.depotSerialisieren();
 }
 
+/* Seit 04.11.2026 würfelt das Einrichten auch den Tür-Salt (U2-ADR-520 Nr. 3). Der Rot-Beweis setzt ihn darum auf den Depot-Salt
+   zurück, wie bis dahin: er zeigt, dass allein das kdfSalt trennt, wenn der Tür-Salt dem Depot-Salt gleicht (Bestandsfächer). */
+const TUER_ZEILE = '  const tuerSalt = crypto.getRandomValues(new Uint8Array(aktuelleDepotSalt.length));';
 test('[Fach-Tür·Rot am Code] Anker-Salz als kdfSalt: die Salz-Prüfung schlägt an, und die Tür öffnet das Anker-Geheimnis', async () => {
-  const { V, html } = kernMit(SALZ_ZEILE, '  const kdfSalt = Uint8Array.from(aktuelleSalt);');
+  const { V, html } = kernMit(SALZ_ZEILE, '  const kdfSalt = Uint8Array.from(aktuelleSalt);', [[TUER_ZEILE, '  const tuerSalt = aktuelleDepotSalt;']]);
   assert.notEqual(kdfSaltErzeugungPruefen(html), null);
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Maria');

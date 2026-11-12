@@ -84,7 +84,9 @@ test('[Vorsorge-Anweisung] der Bearbeiten-Dialog schreibt Text und Termin', asyn
   V.flowSubDepotVorsorgeAnweisung(e.depotUUID);
   assert.equal(gesehen.length, 1);
   assert.match(gesehen[0].koerperHTML, /id="sub-vorsorge"/);
-  assert.match(gesehen[0].koerperHTML, /id="sub-vorsorge-pruefen"[^>]*type="date"|type="date"[^>]*id="sub-vorsorge-pruefen"/);
+  // Der Termin steht in drei Feldern; der Wert, den der Dialog liest, bleibt das versteckte Feld mit der id.
+  assert.match(gesehen[0].koerperHTML, /<input[^>]*data-datum-iso="1"[^>]*id="sub-vorsorge-pruefen"/);
+  assert.doesNotMatch(gesehen[0].koerperHTML, /type="date"/);
 });
 
 test('[Vorsorge-Anweisung] der Anlegen-Dialog eines Sub-Depots trägt die zwei Felder, der des Ankers nicht', () => {
