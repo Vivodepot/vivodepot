@@ -1173,6 +1173,18 @@ const TEXTSATZ_EN_TEXTE = {
   'advanceCare.provisionInstruments/copyDepositedOn.label': 'Copy deposited on',
   'advanceCare.provisionInstruments/depositedBy.label': 'Deposited by',
   'advanceCare.provisionInstruments/depositedBy.hint': 'The body that filed the copy — care authority, care association, law firm or notary\'s office.',
+  // Bedienhinweise unter den Freitextfeldern des Vollmacht-Assistenten, kein amtlicher Wortlaut (die Frage daneben bleibt amtlich).
+  'vollmachtBmj#transactionsExpresslyExcluded.hilfetext': 'Only fill in if you want to expressly exclude certain transactions.',
+  'vollmachtBmj#furtherProvisions.hilfetext': 'Can be left empty.',
+  // Abschnittstitel der Dokument-Module, die bis hierher ohne Kennung blieben (Befund SPRACHE-DOK-TITEL-OHNE-KENNUNG).
+  // Die drei PV-Titel stehen in einem Dokument mit amtlichem deutschem Wortlaut; eine englische BMJ-Fassung gibt es
+  // nicht. Sie tragen darum das Deutsche daneben und nennen die Übersetzung als die von Vivodepot.
+  'dok:patientenverfuegung#8.titel': 'Personal values and other documents (German: Wertvorstellungen; translated by {marke})',
+  'dok:patientenverfuegung#9.titel': 'Organ donation (German: Organspende; translated by {marke})',
+  'dok:patientenverfuegung#10.titel': 'Concluding remarks (German: Schlussbemerkungen; translated by {marke})',
+  'dok:ki-verfuegung#6.titel': 'Closing declaration',
+  'dok:betreuungsverfuegung#2.titel': 'Alternate court-appointed representative',
+  'dok:betreuungsverfuegung#3.titel': 'Persons not to be appointed as court-appointed representative',
 };
 
 module.exports = { TEXTSATZ_EN_TEXTE };

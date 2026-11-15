@@ -182,7 +182,7 @@ test('[Klasse-A] T-A-05 Submission-Paket-Import: Daten übernommen, VC ausstellb
     anbieterId: d.anbieterId, anbieterName: d.anbieterName, anbieterTyp: d.anbieterTyp,
     publicKeyJwk: d.publicKeyJwk, issuanceDate: issuance,
   });
-  assert.equal(vc.expirationDate, '2027-11-30T12:00:00Z', 'Default-Ablauf = +18 Monate');
+  assert.equal(vc.validUntil, '2027-11-30T12:00:00Z', 'Default-Ablauf = +18 Monate');
 
   const signKey = await V._jwsImportSignKey(SENTINEL_PRIVATE_JWK);
   const verifyKey = await V._jwsImportVerifyKey(V.TEST_SENTINEL_PUBLIC_JWK);
@@ -290,13 +290,13 @@ test('[Klasse-A] 1F (a): Behörden-Cert → lange Laufzeit, externe → 18-Monat
     publicKeyJwk: { kty: 'OKP', crv: 'Ed25519', x: 'kmz5gD4oi4pZe0CdR7FhXahRnjZqrAkKCe0VNskNf60' }, issuanceDate: iso });
   const behoerde = V.baueProviderVC(basis('behoerde'));
   const extern   = V.baueProviderVC(basis('institution/sparkasse-de'));
-  assert.equal(behoerde.expirationDate, V.plusMonate(iso, V.ABLAUF_MONATE_BASIS), 'Behörde → lange Laufzeit');
-  assert.equal(extern.expirationDate,   V.plusMonate(iso, V.ABLAUF_MONATE_DEFAULT), 'extern → 18 Monate');
+  assert.equal(behoerde.validUntil, V.plusMonate(iso, V.ABLAUF_MONATE_BASIS), 'Behörde → lange Laufzeit');
+  assert.equal(extern.validUntil,   V.plusMonate(iso, V.ABLAUF_MONATE_DEFAULT), 'extern → 18 Monate');
   assert.equal(V.istBehoerde('behoerde/bmj'), true);
   assert.equal(V.istBehoerde('institution/x'), false);
   // Manuelle Übersteuerung schlägt den Klassen-Default (ADR-038 „pro Ausstellung übersteuerbar").
   const manuell = V.baueProviderVC(Object.assign(basis('behoerde'), { expirationDate: '2030-01-01T00:00:00Z' }));
-  assert.equal(manuell.expirationDate, '2030-01-01T00:00:00Z', 'opts.expirationDate übersteuert den Klassen-Default');
+  assert.equal(manuell.validUntil, '2030-01-01T00:00:00Z', 'opts.expirationDate übersteuert den Klassen-Default');
 });
 
 test('[Klasse-A] 1F (a) UI: expirationFeldZuISO — Behörde bekommt den langen Default trotz generischem Boot-Wert', () => {

@@ -24,8 +24,8 @@ const LOAD_KERN = path.join(__dirname, 'load-kern.js');
 const FIXTURE = path.join(__dirname, 'fixtures', 'vorfuehrung-zugang-zum-recht', 'altdatei-demo-de-2026-09-10.vivodepot');
 const FIXTURE_SHA256 = '6f3bcb135af088005b497bdaa051e3535dab1740439c7246b305fea0b168620f';   // dieselbe gepinnte Vor-Umbau-Fixture wie in der Probe zum Datei-Rundlauf
 const PASSWORT = 'zugang-zum-recht-vorfuehrung-2026';   // steht im README der Fixture
-const K5_ZEILE = '    kreis.ausnahmen = kreis.ausnahmen.map((k) => {';
-const K5_MUTATION = '    kreis.ausnahmen = kreis.ausnahmen.map((k) => k); void ((k) => {';
+const K5_ZEILE = '      kreis[liste] = kreis[liste].map((k) => {';
+const K5_MUTATION = '      kreis[liste] = kreis[liste].map((k) => k); void ((k) => {';
 
 function ladeKernAus(pfad) {
   const vorher = process.env.KERN_HTML_PATH;

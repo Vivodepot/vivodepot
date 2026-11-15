@@ -24,7 +24,8 @@ test('[W-Scroll-Erhalt] die Grundlinie kennt genau 15 Navigations-Funktionen', (
   // hineingehört“ ist ein Dialog über „Meine Dokumente“, kein eigener Bildschirm mehr.
   // 15 → 16 am 02.11.2026 (Seite „Über und Hinweise“): `oeffneUeberHinweise` öffnet die neue Seite oben
   // wie die übrigen Navigationen.
-  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 16);
+  // 16 → 17 am 12.11.2026 (Zurück im Browser: `ansichtAusVerlaufOeffnen` öffnet die Ansicht des Verlaufseintrags)
+  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 17);
 });
 
 test('[W-Scroll-Erhalt] echter Kern: kein neuer renderContent(true)-Aufruf gegen die Grundlinie', () => {

@@ -173,11 +173,11 @@ test('u2-111-kein-buergerinnen-weg-erreicht-den-builder-am-gate-vorbei', () => {
   assert.match(quelle, /exportFormatFuerId\(format\) && format !== 'fhir-ips'/,
     'flowSektorExport nimmt `fhir-ips` vom generischen Registry-Weg aus — sonst liefe der '
     + 'Buergerinnen-Weg am Gate vorbei');
-  assert.match(quelle, /if \(format === 'fhir-ips'\) return flowGesundheitFhirExport\(\)/,
+  assert.match(quelle, /if \(format === 'fhir-ips'\) return flowGesundheitFhirExport\(undefined, vorab\)/,
     'und leitet ihn in den gegateten Flow');
   // Und die DOM-Griffe fuer einen FHIR-Export gehen ueber genau diesen Dispatcher.
   assert.match(quelle, /data-h-format/, 'der Chooser-Griff existiert');
-  assert.match(quelle, /flowSektorExport\(b\.getAttribute\('data-h-format'\)\)/,
+  assert.match(quelle, /return flowSektorExport\(formId, vorab\);/,
     'und ist an den Dispatcher verdrahtet — es gibt keinen zweiten Griff daneben');
 });
 

@@ -153,7 +153,10 @@ my $start = Time::HiRes::time();
 # (sysctl vm.loadavg) und die Zahl der Suite-Plätze, die beim Start ein lebender Lauf hielt. Ein Fehler hier ändert nichts am Lauf.
 my ($last_start, $belegt_start) = ('null', 'null');
 eval {
-  my $la = `sysctl -n vm.loadavg 2>/dev/null`;
+  # Unter Linux gibt es kein `sysctl vm.loadavg`: dort /proc/loadavg (08.11.2026, der öffentliche Lauf auf ubuntu schrieb null).
+  # VD_ZEITGRENZE_OHNE_SYSCTL und VD_ZEITGRENZE_LOADAVG lenken nur die Probe, die den Linux-Weg auf macOS nachfährt.
+  my $la = $ENV{VD_ZEITGRENZE_OHNE_SYSCTL} ? '' : `sysctl -n vm.loadavg 2>/dev/null`;
+  if ($la !~ /[0-9]+\.[0-9]+/ && open(my $lf, '<', $ENV{VD_ZEITGRENZE_LOADAVG} || '/proc/loadavg')) { $la = <$lf> // ''; close $lf; }
   $last_start = $1 if $la =~ /([0-9]+\.[0-9]+)/;
   my $dir = $ENV{VD_SUITE_PLATZ_DIR} || (($ENV{HOME} || '') . '/.cache/vivodepot-suite-platz');
   if (opendir(my $dh, $dir)) {

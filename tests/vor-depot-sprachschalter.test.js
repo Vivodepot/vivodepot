@@ -82,7 +82,7 @@ test('[Vor-Depot-Schalter·Gegenprobe] der Schalter wirkt NICHT in ein bereits g
   // greift ein, STRINGS selbst bleibt allein am Depot-Textsatz hängen.
   V.vorDepotSpracheUmschalten();
   assert.equal(V.vorDepotText('welcomeDepotAnlegen'), 'Create depot', 'Testvoraussetzung: Schalter steht auf Englisch');
-  assert.equal(V.STRINGS.geoeffnet, 'Depot entschlüsselt und geöffnet.',
+  assert.equal(V.STRINGS.geoeffnet, 'Ihr Depot ist geöffnet.',   // Wortlaut seit 12.11.2026 (Zustand statt Vorgang)
     'STRINGS bleibt am Depot-Textsatz hängen, nicht am Vor-Depot-Schalter');
   V.vorDepotSpracheUmschalten();
 });

@@ -19,6 +19,83 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
+## [v1.0.1060] – 2026-11-14
+
+### Hinzugefügt
+- Arzttermin: Wenn Sie Angaben zum Arzttermin herausgeben, erhalten Sie neben dem PDF eine Datei zum Einlesen im Standard
+  HL7 FHIR International Patient Summary.
+- Medikationsplan: Lesen Sie einen bundeseinheitlichen Medikationsplan ein, behält ein Medikament, was der Plan dazu
+  mitbringt: PZN, Wirkstoffe mit Stärke, Darreichungsform und Einheit. In der Patientenkurzakte (IPS) stehen Name, Dosis,
+  Einnahmehinweis und Grund jetzt getrennt.
+- Patientenkurzakte einlesen: Trägt ein Eintrag mehrere Codes, bleiben alle erhalten. Was sich nicht lesen lässt, sehen
+  Sie in der Vorschau unter „Nicht übernommen“.
+- Studio: Eine Vorlage sichern Sie mit „Vorlage sichern“ als Vorlage, als HL7 FHIR R4 Questionnaire und als lesbares PDF,
+  das beide Dateien trägt. Entwurf, Assistent und Blatt gehen ebenso als Questionnaire mit PDF hinaus, Bereiche,
+  Institutionsarten und Rechtsraum-Typen als HL7 FHIR R4 CodeSystem mit PDF.
+- Studio: Bausteine setzen Sie per Ziehen und Ablegen, mit Maus oder Finger. Jede Karte trägt ein Menü zum Bearbeiten,
+  Verschieben und Entfernen.
+- Sicher weitergeben: Unter „Weitere Angaben“ wählen Sie den Empfänger, „Für Personen“ oder „Für Fachsysteme“. Darunter
+  steht, was der Link bewirkt: Eine Person lädt die Datei herunter, das Programm einer Stelle ruft sie ab. Der Link
+  beginnt mit der Abholseite `https://share.vivodepot.de/empfangen.html`. Die Anwendung liest Links mit und
+  ohne Abholseite. Der Link folgt HL7 SMART Health Links (SMART Health Cards and Links IG 1.0.0,
+  STU 1). Die Schritte heißen nach dem, was Sie tun: „1. Datei speichern“, „2. Datei hochladen“, „Link erstellen“.
+  Den Knopf für den Pod sehen Sie nur, wenn ein Pod eingerichtet ist.
+- Personen, die etwas sehen dürfen: Im Dialog eines Kreises stehen unter „Diese vertraulichen Angaben auch weitergeben:“
+  die geschützten Angaben seiner Bereiche, ohne Häkchen. Was Sie dort wählen, geht nur an diesen Kreis. Im Depot bleibt die
+  Angabe geschützt.
+- Nicht mitgeschickt: Bevor Sie die Datei eines Kreises als Datei, als QR-Code oder an ein Fachsystem weitergeben, nennt der
+  Kasten „Nicht mitgeschickt“, welche Angaben hierbleiben. Ein Unterfeld steht mit seiner Liste davor, etwa
+  „Operationen / Eingriffe: Jahr“. Mit „Ändern“ kommen Sie in den Kreis. Den Kasten gibt es auf Deutsch und auf Englisch.
+
+### Geändert
+- Herausgeben: Sie sehen zuerst die Angaben, die hinausgehen, und wählen danach die Form der Übergabe. Jede Form nennt,
+  wie viele Angaben sie trägt.
+- Herausgeben zum Anlass: Beim Arzttermin sind Diagnosen, Allergien und Medikamente vorausgewählt. Halten Sie alles
+  zurück, fragt die Anwendung, ob Sie mit oder ohne diese Angaben herausgeben. Jede zurückgehaltene Angabe trägt den Knopf
+  „Doch mitgeben“. Danach stehen zwei Wege gleichrangig da: „Zum Ausdrucken oder Zeigen“ (PDF) und „Zum Einlesen“ (Datei).
+- Anlass-Blatt: „Als PDF“ und „Diese Zusammenstellung herausgeben“ stehen am Ende des Blatts.
+- Patientenkurzakte: Ein eingelesener Eintrag geht mit seiner Quelle hinaus, etwa der Praxis, die den Medikationsplan
+  ausgestellt hat. Was Sie selbst eingetragen haben, bleibt Ihre Angabe.
+- Nach dem Anlegen: Statt der Meldung „Ihre Datei ist nicht aktuell“ sehen Sie „Sicherungskopie: noch keine“ mit dem
+  Knopf „Sicherungskopie erstellen“, auch als Zeile auf der Übersicht, sobald Ihr Depot Angaben trägt. Nach dem Öffnen steht „Ihr Depot ist geöffnet.“
+- Notfall-Blatt: Unter den Angaben steht mit Ihrem Namen, dass Sie alle Angaben selbst eingetragen haben.
+- Der Hinweis „im Bereich öffnen“ führt Sie zum Feld: Die Karte klappt auf, und das Feld ist markiert. Auf Geräten mit
+  Touch-Bedienung steht der Hinweis dauerhaft an der Zeile.
+- Beispielansicht: Nach dem Verlassen öffnet sich das Start-Depot wieder, und Beispieltexte sind von Ihren Eingaben zu
+  unterscheiden.
+- Sprachwahl: Sie finden sie im Menü unter der Hilfe.
+- Mehrfach-Angaben: Entfernen Sie einen Eintrag, können Sie das mit „Rückgängig“ zurücknehmen.
+- Feld-Knöpfe: „Ausdrücklich keine …“ sieht aus wie die übrigen Knöpfe. In Gesundheit und Finanzen heißt „Fragen“ jetzt
+  „Frage notieren“.
+- Vollmachten (Pro): Der Hinweis zur Befreiung nach § 181 BGB fragt, ob jemand Geschäfte mit sich selbst oder zugleich als
+  Vertreter Dritter abschließen darf, ganz oder für bestimmte Geschäfte. Der Hinweis darunter fragt, wer befreit ist,
+  wofür und wo es festgehalten ist.
+- Nach einer Aktualisierung: Ist kein Depot offen und nichts eingegeben, sehen Sie beim ersten Aufruf schon die neue Fassung.
+- Studio: Im einfachen Weg ist die Ansprechperson freiwillig, Eingaben bleiben beim Schrittwechsel stehen, und das Ergebnis
+  steht in Karten. Die Rechtsform steht im Einreichen-Dialog dort, wo sie verlangt wird.
+- Dateiformat: Die Schemastufe ist jetzt 100. Ein Kreis kann Freigaben für geschützte Angaben tragen. Eine ältere Fassung
+  der Anwendung öffnet eine Datei der Stufe 100 nur lesend (`docs/format/SPEZIFIKATION.md`).
+
+### Behoben
+- Passwort aus sechs Wörtern: Das vorgeschlagene Passwort gilt, gleich ob Sie die Wörter mit Bindestrich, Leerzeichen,
+  Unterstrich, Punkt, Komma, Semikolon oder Schrägstrich trennen und in welcher Schreibung Sie sie tippen.
+- Mehrfach-Angaben: Getippter Text geht beim Speichern nicht mehr verloren, auch ohne vorher Enter zu drücken.
+- Beispielansicht: Ablaufdaten und „Ausdrücklich keine …“ gehen beim Anlegen Ihres Depots mit.
+- Englische Dokumente: In der Patientenverfügung und der KI-Verfügung stehen Ihre eingetragenen Werte, etwa Fristen und
+  Namen, statt eines Platzhalters. Die Abschnittstitel der Patientenverfügung, der KI-Verfügung und der
+  Betreuungsverfügung erscheinen auf Englisch, ebenso die Hilfetexte des Vollmacht-Assistenten.
+- Einlesen: Eigene Ausgaben im xoev-Format und im FIM-Format erkennt die Anwendung wieder, ohne dass Sie das Format wählen.
+- Widerrufs-Beleg (PDF): Die Kennung steht ungebrochen in einer Zeile.
+- Zertifikate für Einrichtungen: Die Gültigkeit steht in den Feldern validFrom und validUntil des Standards W3C Verifiable
+  Credentials Data Model v2.0; ältere Zertifikate gelten weiter. Geht die Uhr eines Geräts bis zu fünf Minuten nach, gilt
+  ein frisch ausgestelltes Zertifikat trotzdem. Die Datei des Zertifikats ist ein EnvelopedVerifiableCredential nach
+  demselben Standard.
+- Zurück im Browser: Die Schaltfläche führt eine Ansicht zurück. Bisher verließ sie die Anwendung, und Ihr Depot war danach
+  geschlossen.
+- Personen, die etwas sehen dürfen: Geben Sie eine geschützte Liste frei, etwa Operationen, stehen ihre Zeilen in der Datei
+  des Kreises vollständig. Bisher waren sie leer. Bei einer offenen Liste, etwa Konten, gehen geschützte Unterfelder ohne
+  Freigabe nicht hinaus.
+
 ## [v1.0.1053] – 2026-11-11
 
 ### Geändert

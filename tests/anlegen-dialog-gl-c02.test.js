@@ -4,9 +4,10 @@
       und sagt „Ihr Passwort“ statt „es“. „Warum?“ bleibt am Satz.
    2. Schritt 2: die beiden Druckknöpfe stehen als eigene Zeile direkt unter dem Code-Kasten; vor dem Abtippen steht die
       Überschrift „Code abtippen“.
-   3. Die Meldung „Ihre Datei ist nicht aktuell“ liegt nie über einem offenen Dialog: beim Anlegen kommt sie nach „Fertig“
-      (oder „Später einrichten“), sonst nach dem Schließen des Dialogs.
-   Rot-Beweis: ein Kern ohne den Aufschub zeigt die Meldung, während Schritt 2 offen ist. */
+   3. Die Speicher-Erinnerung liegt nie über einem offenen Dialog: beim Anlegen kommt sie nach „Fertig“ (oder „Später
+      einrichten“), sonst nach dem Schließen des Dialogs. Seit 12.11.2026 ist sie keine Meldung mehr, sondern der Zustand im Kopf
+      (tests/meldungen-zustand-naechster-schritt.test.js); hier bleibt: weder während noch nach der Anlege-Kette eine Meldung.
+   Rot-Beweis: ein Kern, der die Erinnerung wieder als Meldung zeigt, zeigt sie nach „Später einrichten“. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -93,7 +94,7 @@ async function frisch(opt) {
   return Object.assign(k, { toasts });
 }
 
-test('[C02·3] während der Anlege-Kette keine Meldung; nach „Später einrichten“ genau eine', async () => {
+test('[C02·3] während der Anlege-Kette keine Meldung, nach „Später einrichten“ auch nicht (12.11.2026)', async () => {
   const { V, document, toasts } = await frisch();
   V.__zusatz.exportErinnerungAufschieben();
   let weiter = 0;
@@ -102,8 +103,7 @@ test('[C02·3] während der Anlege-Kette keine Meldung; nach „Später einricht
   assert.equal(toasts.length, 0, 'keine Meldung über Schritt 2');
   document.getElementById('m-zweit').onclick();
   assert.equal(weiter, 1);
-  assert.equal(toasts.length, 1, 'nach dem Schließen genau eine Meldung');
-  assert.ok([V.STRINGS.saveStatusKeineDatei, V.STRINGS.exportErinnerung, V.STRINGS.exportErinnerungRisiko].includes(toasts[0].text), 'die Speicher-Erinnerung: ' + toasts[0].text);
+  assert.equal(toasts.length, 0, 'auch nach dem Schließen keine Meldung: der Zustand steht im Kopf');
 });
 
 test('[C02·3] ohne Anlege-Kette wartet die Meldung, bis der offene Dialog zu ist', async () => {
@@ -114,7 +114,7 @@ test('[C02·3] ohne Anlege-Kette wartet die Meldung, bis der offene Dialog zu is
   assert.equal(toasts.length, 0, 'kein Toast über dem offenen Dialog');
   document.getElementById('m-zweit').onclick();
   await new Promise((r) => setTimeout(r, 5));   // die Reihe arbeitet nach dem Schließen mit setTimeout(…, 0) ab
-  assert.equal(toasts.length, 1, 'beim Schließen nachgeholt');
+  assert.equal(toasts.length, 0, 'beim Schließen keine Meldung (12.11.2026: Zustand im Kopf)');
 });
 
 test('[C02·3] das Anlegen schiebt die Meldung auf und gibt sie in jedem Fortgang frei', () => {
@@ -126,19 +126,17 @@ test('[C02·3] das Anlegen schiebt die Meldung auf und gibt sie in jedem Fortgan
   assert.equal(rumpf.split('exportErinnerungFreigeben(); throw').length - 1, 2, 'ein Abbruch gibt ebenfalls frei');
 });
 
-test('[C02·3·Rot-Beweis] ein Kern ohne den Aufschub zeigt die Meldung über Schritt 2', async () => {
-  const anker = '  if (_exportErinnerungAufschub) { _exportErinnerungAusstehend = true; return false; }\n';
-  const anker2 = "  if (typeof _wennDialogFrei === 'function') _wennDialogFrei('export-erinnerung-hinweis', zeigen); else zeigen();";
-  assert.equal(KERN.split(anker).length - 1, 1, 'Vorbedingung: Anker 1');
-  assert.equal(KERN.split(anker2).length - 1, 1, 'Vorbedingung: Anker 2');
+test('[C02·3·Rot-Beweis] ein Kern, der die Erinnerung wieder als Meldung zeigt, zeigt sie nach „Später einrichten“', async () => {
+  const anker = "    try { renderSaveStatus(); } catch (_) { /* Hinweis ist optional, nie blockierend */ }";
+  assert.equal(KERN.split(anker).length - 1, 1, 'Vorbedingung: Anker');
   const tmp = path.join(os.tmpdir(), 'anlegen-c02-rot-' + process.pid + '.html');
-  fs.writeFileSync(tmp, KERN.replace(anker, '').replace(anker2, '  zeigen();'));
+  fs.writeFileSync(tmp, KERN.replace(anker, "    ui.toast(STRINGS.saveStatusKeineDatei, 'info');\n" + anker));
   try {
     const { V, document, toasts } = await frisch({ htmlPfad: tmp, backen: true });
-    document.getElementById('modal-rueck').classList = classListMitZustand();
     V.__zusatz.exportErinnerungAufschieben();
-    V.anlegenCodeSchritt('c02-pw', () => {});
+    V.anlegenCodeSchritt('c02-pw', () => { V.__zusatz.exportErinnerungFreigeben(); });
     V.exportErinnerungVielleichtZeigen();
-    assert.equal(toasts.length, 1, 'die Meldung kommt über dem offenen Dialog — die Probe oben wäre rot');
+    document.getElementById('m-zweit').onclick();
+    assert.equal(toasts.length, 1, 'die Meldung kommt wieder — die Probe oben wäre rot');
   } finally { fs.unlinkSync(tmp); }
 });

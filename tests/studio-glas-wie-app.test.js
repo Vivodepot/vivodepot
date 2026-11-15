@@ -171,7 +171,7 @@ test('[B6 · Rot-Beweis] eine Meldung ohne Feld setzt den Fokus auf die Liste, n
 test('[B6 · Klasse] jede Meldung von validiereStammdaten, die ein Feld der Maske meint, ist einem Feld zugeordnet, und das Feld existiert', () => {
   const quelle = quelleVon('function validiereStammdaten');
   const meldungen = [...quelle.matchAll(/fehler\.push\('([^']+)'\)/g)].map((m) => m[1]).filter((t) => !/Entwurf/.test(t));
-  assert.ok(meldungen.length >= 8, 'zu wenige Meldungen gelesen: ' + meldungen.length);
+  assert.ok(meldungen.length >= 7, 'zu wenige Meldungen gelesen: ' + meldungen.length);   // 8 bis S-C (10.11.2026): die Namens-Meldung der Ansprechperson entfiel, der Name ist freiwillig
   const s = fehlerSandbox();
   const karte = s.ctx.KARTE;
   assert.deepEqual(meldungen.filter((m) => !karte[m]), [], 'Meldung ohne Feld');

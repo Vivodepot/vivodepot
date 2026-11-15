@@ -58,7 +58,7 @@ test('[Eingang · 1] keine Fachbegriffe im Eingang, deutsch und englisch', () =>
   assert.deepEqual(befundeFachbegriffe(HTML), []);
 });
 test('[Eingang · 1 · Rot-Beweis] ein Fachbegriff an einer Kachel wird gefunden', () => {
-  const kopie = HTML.replace('Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.', 'Für IT-Fachleute: FHIR, JSON und Prüfwerkzeuge.');
+  const kopie = HTML.replace('Für Fachleute: alle Einstellungen.', 'Für IT-Fachleute: FHIR, JSON und Prüfwerkzeuge.');
   assert.notEqual(kopie, HTML);
   assert.ok(befundeFachbegriffe(kopie).length);
 });
@@ -87,7 +87,7 @@ test('[Eingang · 4] höchstens eine der sechs Kacheln spricht von Gesundheit od
 });
 test('[Eingang · 4 · Rot-Beweis] zwei Gesundheitskacheln fallen auf', () => {
   const kopie = HTML.replace(ERSCHEINUNG_DE, 'Für Ihre Praxis: Anamnese und Pflegeplan.')
-    .replace('Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.', 'Für Kliniken: Aufnahme ins Krankenhaus.');
+    .replace('Für Fachleute: alle Einstellungen.', 'Für Kliniken: Aufnahme ins Krankenhaus.');
   assert.ok(gesundheitsKacheln(kopie).length >= 2);
 });
 
@@ -97,7 +97,7 @@ test('[Eingang · 5] Überschrift V2, die Frage, sieben gleich gebaute Kacheln, 
   assert.match(e, /<h2 class="eingang-frage"[^>]*>Was möchten Sie anbieten\?<\/h2>/);
   const k = kacheln(e);
   assert.equal(k.length, 7);
-  assert.deepEqual(k.map((x) => x.klasse), ['kachel eingang-kachel erste', 'kachel eingang-kachel', 'kachel eingang-kachel', 'kachel eingang-kachel eingang-hinweis',
+  assert.deepEqual(k.map((x) => x.klasse), ['kachel eingang-kachel', 'kachel eingang-kachel', 'kachel eingang-kachel erste', 'kachel eingang-kachel eingang-hinweis',
     'kachel eingang-kachel eingang-hinweis eingang-folgt', 'kachel eingang-kachel eingang-hinweis eingang-folgt', 'kachel eingang-kachel']);
   for (const x of k) {
     const roh = e.slice(e.indexOf('id="' + x.id + '"'));

@@ -1,0 +1,147 @@
+{
+  "zweck": "Die Gestaltungsdefinition: die eine Quelle für Grundwerte (Schicht 1) und Bedeutungs-Token (Schicht 2). Jede Zahl steht nur in Schicht 1; Schicht 2 verweist. Erzeuger und Prüfer: tools/gestaltung-definition.js, Wächter für freie Werte: tools/gestaltung-freie-werte.js. Änderung nur mit Nachtrag in der zugehörigen ADR und neuer Prüfsumme.",
+  "version": 1,
+  "grundwerte": {
+    "schriftgroessen": {
+      "verweis": "groessenleiter-klein.json",
+      "hinweis": "Die Schriftgrößen bleiben in der Größenleiter; hier steht nur der Verweis, keine Kopie."
+    },
+    "abstaende": {
+      "einheit": "rem",
+      "anmerkung": "Die Einheit rem folgt der Größenleiter (basis_px_je_rem): die Schriftgrößen-Einstellung der Person skaliert die Abstände mit, wie die bestehenden --space-Token.",
+      "stufen": [
+        {
+          "token": "--abstand-1",
+          "px": 4
+        },
+        {
+          "token": "--abstand-2",
+          "px": 8
+        },
+        {
+          "token": "--abstand-3",
+          "px": 12
+        },
+        {
+          "token": "--abstand-4",
+          "px": 16
+        },
+        {
+          "token": "--abstand-5",
+          "px": 24
+        },
+        {
+          "token": "--abstand-6",
+          "px": 32
+        }
+      ]
+    },
+    "radien": [
+      {
+        "token": "--radius-klein",
+        "wert": "10px"
+      },
+      {
+        "token": "--radius-gross",
+        "wert": "16px"
+      },
+      {
+        "token": "--radius-rund",
+        "wert": "999px"
+      }
+    ],
+    "treffer": {
+      "token": "--treffer",
+      "wert": "48px"
+    },
+    "umbrueche": {
+      "schmal_bis_px": 767,
+      "breit_ab_px": 768
+    },
+    "farben": {
+      "quellen": [
+        "farben-klein.css"
+      ],
+      "hinweis": "Verweis auf bestehende Custom Properties der Stil-Dateien; jeder Name muss in jeder Quelle deklariert sein. Die Werte bleiben dort (je Erscheinungsbild, hell, dunkel, hoher Kontrast).",
+      "namen": [
+        "--ink",
+        "--ink2",
+        "--ink3",
+        "--line",
+        "--line-feiner",
+        "--cream",
+        "--white",
+        "--papier-bereich",
+        "--salbei-dunkel",
+        "--salbei-mid",
+        "--salbei-light",
+        "--flaeche-neutral",
+        "--flaeche-warnung",
+        "--flaeche-hinweis",
+        "--auf-akzent",
+        "--auf-warnung",
+        "--btn-hover",
+        "--link",
+        "--warning",
+        "--error",
+        "--success",
+        "--info"
+      ]
+    }
+  },
+  "bedeutung": {
+    "hinweis": "Schicht 2: Namen nach der Bedeutung. Jeder Eintrag verweist auf genau einen Grundwert aus Schicht 1 (Farbname, Abstand, Radius, Treffer); keine Zahl, kein Farbwert.",
+    "token": [
+      {
+        "bedeutung": "flaeche",
+        "token": "--bedeutung-flaeche",
+        "verweis": "--flaeche-neutral"
+      },
+      {
+        "bedeutung": "flaeche",
+        "token": "--bedeutung-flaeche-karte",
+        "verweis": "--white"
+      },
+      {
+        "bedeutung": "text",
+        "token": "--bedeutung-text",
+        "verweis": "--ink"
+      },
+      {
+        "bedeutung": "text",
+        "token": "--bedeutung-text-leise",
+        "verweis": "--ink2"
+      },
+      {
+        "bedeutung": "linie",
+        "token": "--bedeutung-linie",
+        "verweis": "--line"
+      },
+      {
+        "bedeutung": "aktion",
+        "token": "--bedeutung-aktion",
+        "verweis": "--salbei-dunkel"
+      },
+      {
+        "bedeutung": "aktion",
+        "token": "--bedeutung-aktion-text",
+        "verweis": "--auf-akzent"
+      },
+      {
+        "bedeutung": "warnung",
+        "token": "--bedeutung-warnung",
+        "verweis": "--warning"
+      },
+      {
+        "bedeutung": "warnung",
+        "token": "--bedeutung-warnung-flaeche",
+        "verweis": "--flaeche-warnung"
+      },
+      {
+        "bedeutung": "herkunft",
+        "token": "--bedeutung-herkunft",
+        "verweis": "--info"
+      }
+    ]
+  }
+}

@@ -1147,6 +1147,29 @@ const STUFEN = [
     vorher:  (d) => !('dosis' in d.sektoren.health.medicationOngoing[0]),
     nachher: (d) => d.schemaVersion >= 96 && !('dosis' in d.sektoren.health.medicationOngoing[0])
                  && d.sektoren.health.medicationOngoing[0].text === 'Beispielol · 1-0-1-0' },
+  { nach: 97, was: 'Chip-Feld weitereCodes (09.11.2026): die Stufe ändert keinen Wert; ein älterer Kern öffnet die Datei nur lesend. '
+                 + 'Ausführlich: tests/ips-mehrere-codes.test.js.',
+    baue: () => basis(96, sek('health', { chronicConditionsDiagnoses: [{ text: 'Beispielose', code: { system: 'http://fhir.de/CodeSystem/bfarm/icd-10-gm', code: 'I10.90' } }] })),
+    vorher:  (d) => !('weitereCodes' in d.sektoren.health.chronicConditionsDiagnoses[0]),
+    nachher: (d) => d.schemaVersion >= 97 && !('weitereCodes' in d.sektoren.health.chronicConditionsDiagnoses[0])
+                 && d.sektoren.health.chronicConditionsDiagnoses[0].code.code === 'I10.90' },
+  { nach: 98, was: 'Chip-Felder name, instruction, reason, note an der Medikation (11.11.2026): die Stufe ändert keinen Wert; ein älterer Kern öffnet die Datei nur lesend. '
+                 + 'Ausführlich: tests/ips-medikation-bezeichnung.test.js.',
+    baue: () => basis(97, sek('health', { medicationOngoing: [{ text: 'Beispielol · 1-0-0', dosis: '1-0-0' }] })),
+    vorher:  (d) => !('name' in d.sektoren.health.medicationOngoing[0]),
+    nachher: (d) => d.schemaVersion >= 98 && !('name' in d.sektoren.health.medicationOngoing[0])
+                 && d.sektoren.health.medicationOngoing[0].dosis === '1-0-0' },
+  { nach: 99, was: 'Chip-Felder der Medikamentenliste pzn, ingredients, doseForm, unit, startDate, endDate, prescriber (13.11.2026): die Stufe ändert keinen Wert; '
+                 + 'ein älterer Kern öffnet die Datei nur lesend. Ausführlich: tests/medikamentenliste-felder.test.js.',
+    baue: () => basis(98, sek('health', { medicationOngoing: [{ text: 'Beispielol · 1-0-0', name: 'Beispielol', dosis: '1-0-0' }] })),
+    vorher:  (d) => !('pzn' in d.sektoren.health.medicationOngoing[0]),
+    nachher: (d) => d.schemaVersion >= 99 && !('pzn' in d.sektoren.health.medicationOngoing[0]) && !('ingredients' in d.sektoren.health.medicationOngoing[0])
+                 && d.sektoren.health.medicationOngoing[0].name === 'Beispielol' },
+  { nach: 100, was: 'Feld freigaben am Empfängerkreis (14.11.2026): die Stufe ändert keinen Wert; ein Kreis ohne Freigabe bleibt ohne das Feld, '
+                 + 'ein älterer Kern öffnet die Datei nur lesend. Ausführlich: tests/ausgabe-liste-unterfelder-freigabe.test.js [Kreis · Freigabe].',
+    baue: () => basis(99, {}, { empfaengerkreise: [{ id: 'k1', name: 'Hausbank', bausteine: ['bereich:finance'], ausnahmen: [] }] }),
+    vorher:  (d) => !('freigaben' in d.empfaengerkreise[0]),
+    nachher: (d) => d.schemaVersion >= 100 && !('freigaben' in d.empfaengerkreise[0]) && d.empfaengerkreise[0].name === 'Hausbank' },
 ];
 
 module.exports = { STUFEN, basis };

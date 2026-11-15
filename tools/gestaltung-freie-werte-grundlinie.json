@@ -1,0 +1,12 @@
+{
+ "gegenstand": "Deklarationen mit freier Zahl statt var(--…) in tools/erscheinung/stil/grundlage.css (Kommentare maskiert, erzeugter Block der Definition ausgenommen), je Art. Zählweg: tools/gestaltung-freie-werte.js. Die Zahl kann nur sinken.",
+ "stichtag": "2026-11-13",
+ "zahlen": {
+  "padding": 40,
+  "margin": 26,
+  "gap": 16,
+  "radius": 12,
+  "trefferMin": 45,
+  "mediaFrei": 13
+ }
+}

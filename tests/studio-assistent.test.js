@@ -10,8 +10,8 @@
        jede mit einem Code; Rot-Beweis mit dem alten Filter, der Optionen ohne Code verwarf.
    (3) Keine Fachbegriffe im Assistenten (DE und EN); Kennung, Code-System und Code bleiben in der Fachebene.
    (4) Sektorstreuung: höchstens eines der Beispiele ist Gesundheit.
-   (5) Die Karte zeigt nur, was die App heute zeigt: „von <Einrichtung>“ und das Siegel der App (Textsatz), kein „Erstellt mit
-       Vivodepot“; der Herkunftssatz steht wörtlich.
+   (5) Die Karte zeigt nur, was die App heute zeigt: „von <Einrichtung>“ und den Chip „Vorschau“ (kein „Geprüft“ vor der Prüfung), kein
+       „Erstellt mit Vivodepot“; der Herkunftssatz steht wörtlich.
    (6) Übergabe: „Weiter: Einreichen“ öffnet den Fachweg bei den Angaben, Name vorbelegt; Rechtsform nur bei „Behörde“.
    ═════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
@@ -50,6 +50,7 @@ for (const art of ['behoerde', 'verein', 'kanzlei', 'schule', 'praxis', 'unterne
 }
 test('[Assistent · Gleichlauf] ein Register-Feld aus dem Assistenten ist dasselbe Feld wie aus der Palette', () => {
   const { V } = assistentMitBeispiel('behoerde');
+  V.ASSISTENT.fragen[0].pflicht = false;   // seit Wagen 1.5 als „Muss“ vorbelegt; die Palette legt ohne Pflicht an
   const ausAssistent = nativ(V.assistentFelder())[0];
   const idx = V.FELDKATALOG.findIndex((k) => k.kennung === V.ASSISTENT_REGISTER.vorname);
   const ausPalette = nativ(V.feldAusBasisBauen(V.feldAusKatalog(idx), [], 0).feld);
@@ -98,7 +99,8 @@ test('[Assistent · Fachbegriffe] keine Fachbegriffe in Schritten, Beispielen un
   assert.deepEqual(fachbegriffe(HTML), []);
 });
 test('[Assistent · Fachbegriffe · Rot-Beweis] „Register“ in einem Laufzeittext des Assistenten wird gefunden (Fachebene und Kopf-Link ausgenommen)', () => {
-  const kopie = HTML.replace("L('Standardfeld', 'Standard field')", "L('Feld aus dem Register', 'Register field')");
+  // Seit Wagen 1.5 trägt ein Feld aus dem Depot keine Unterzeile mehr; der Rot-Beweis setzt das Wort in die Unterzeile der eigenen Frage.
+  const kopie = HTML.replace("L('freie Antwort', 'free answer')", "L('Feld aus dem Register', 'Register field')");
   assert.notEqual(kopie, HTML);
   assert.deepEqual(fachbegriffe(kopie), ['Register']);
 });
@@ -118,28 +120,29 @@ test('[Assistent · Sektorstreuung] höchstens eines der Beispiele ist Gesundhei
 });
 
 /* ── (5) Karte ───────────────────────────────────────────────────────────── */
-/* Die Karte zeigt nur, was die App heute zeigt (Quellenprüfung 08.10.2026): das Siegel ist der Textsatz-Wert der App
-   (strings:anfrageGeprueftBadge.text, DE und EN, am Sprachmodul gelesen), kein „Erstellt mit Vivodepot“, solange die App es nicht trägt. */
-const TS_DE = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', 'textsatz-de-modul.json'), 'utf8'));
-const TS_EN = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', 'textsatz-en-modul.json'), 'utf8'));
-const tsText = (m, k) => m.texte[k + '.text'];
+/* Die Karte zeigt nur, was die App heute zeigt (Quellenprüfung 08.10.2026), und keine Prüfung, die noch nicht stattgefunden hat
+   (Wagen S-D, 10.11.2026): vor dem Einreichen steht der Chip „Vorschau“; „Geprüft“ (Textsatz anfrageGeprueftBadge) gehört in der App zur
+   geprüften Anfrage. Kein „Erstellt mit Vivodepot“, solange die App es nicht trägt. */
 function kartenBefunde(html) {
   const b = assistentBlock(html), f = [];
-  const de = tsText(TS_DE, 'strings:anfrageGeprueftBadge'), en = tsText(TS_EN, 'strings:anfrageGeprueftBadge');
   const m = b.match(/<span class="as-siegel" data-en="([^"]*)">([^<]*)<\/span>/);
-  if (!m) f.push('kein Siegel');
-  else { if (m[2] !== de) f.push('Siegel DE „' + m[2] + '“ ≠ App „' + de + '“'); if (m[1] !== en) f.push('Siegel EN „' + m[1] + '“ ≠ App „' + en + '“'); }
+  if (!m) f.push('kein Chip');
+  else { if (m[2] !== 'Vorschau') f.push('Chip DE „' + m[2] + '“ ≠ „Vorschau“'); if (m[1] !== 'Preview') f.push('Chip EN „' + m[1] + '“ ≠ „Preview“'); }
+  if (/Geprüft|Verified/.test(b)) f.push('„Geprüft“ steht auf der Karte, vor dem Einreichen hat keine Prüfung stattgefunden');
   if (/Erstellt mit Vivodepot|Made with Vivodepot/.test(b)) f.push('„Erstellt mit Vivodepot“ steht auf der Karte, die App trägt es nicht');
   return f;
 }
-test('[Assistent · Karte] Siegel = App-Text (Textsatz anfrageGeprueftBadge, DE und EN), kein „Erstellt mit Vivodepot“, „von <Einrichtung>“ und der Herkunftssatz wörtlich', () => {
+test('[Assistent · Karte] Chip „Vorschau“ statt „Geprüft“, kein „Erstellt mit Vivodepot“, „von <Einrichtung>“ und der Herkunftssatz wörtlich', () => {
   assert.deepEqual(kartenBefunde(HTML), []);
   const b = assistentBlock(HTML);
-  assert.match(b, /<small data-en="from">von<\/small><b id="as-k-name"/);
+  assert.match(b, /<small data-en="from">von<\/small><b id="as-vorschau-name"/);
   assert.ok(b.includes('data-en="Vivodepot confirms who the template comes from, not whether its content is correct.">Vivodepot bestätigt, von wem die Vorlage kommt, nicht ob ihr Inhalt richtig ist.'));
 });
-test('[Assistent · Karte · Rot-Beweis] ein erfundenes Siegel und eine erfundene Fußzeile werden gefunden', () => {
-  const kopie = HTML.replace('<span class="as-siegel" data-en="Verified">Geprüft</span>', '<span class="as-siegel" data-en="Origin checked">Herkunft geprüft</span><div class="as-fuss">Erstellt mit Vivodepot</div>');
+test('[Assistent · Karte · Rot-Beweis] ein „Geprüft“-Siegel, ein erfundenes Siegel und eine erfundene Fußzeile werden gefunden', () => {
+  const alt = HTML.replace('<span class="as-siegel" data-en="Preview">Vorschau</span>', '<span class="as-siegel" data-en="Verified">Geprüft</span>');
+  assert.notEqual(alt, HTML);
+  assert.equal(kartenBefunde(alt).length, 3);
+  const kopie = HTML.replace('<span class="as-siegel" data-en="Preview">Vorschau</span>', '<span class="as-siegel" data-en="Origin checked">Herkunft geprüft</span><div class="as-fuss">Erstellt mit Vivodepot</div>');
   assert.notEqual(kopie, HTML);
   assert.equal(kartenBefunde(kopie).length, 3);
 });
@@ -156,7 +159,7 @@ test('[Assistent · Übergabe] „Weiter: Einreichen“ legt die Felder an, bele
   assert.equal(V.rechtsformFuerArt('DE', 'praxis'), '', 'keine Rechtsform, wo das Modul keine zuordnet');
   assert.equal(V.rechtsformFuerArt('', 'behoerde'), '', 'ohne Rechtsraum keine Vorbelegung');
   assert.match(q, /zeigeSchritt\('stammdaten'\);/);
-  assert.ok(HTML.includes("an('ein-aufnahme', 'click', () => { assistentNeu(); zeigeSchritt('assistent'); });"), 'die Kachel „Aufnahmebogen“ führt in den Assistenten');
+  assert.ok(HTML.includes("an('ein-aufnahme', 'click', () => { assistentEintreten('aufnahme'); zeigeSchritt('assistent'); });"), 'die Kachel „Aufnahmebogen“ führt in den Assistenten');
 });
 
 /* ── (7) „Frage hinzufügen“ ohne Doppel (iPad-Prüfung 14.10.2026) ──────────
@@ -193,8 +196,8 @@ test('[Assistent · Doppel] jeder Chip mit Standardfeld zweimal angetippt: kein 
   assert.ok(V.ASSISTENT_HINZU.filter(([art]) => V.ASSISTENT_REGISTER[art]).length >= 5);
 });
 test('[Assistent · Doppel · Rot-Beweis] mit der früheren Fassung (ohne Prüfung) steht „Geburtsdatum“ zweimal da, und die Klassenprobe findet es', () => {
-  const NEU = "  else if (ASSISTENT_REGISTER[art]) { if (!schonDa(art)) ASSISTENT.fragen.push({ reg: art }); }";
-  const ALT = '  else if (ASSISTENT_REGISTER[art]) ASSISTENT.fragen.push({ reg: art });';
+  const NEU = "  else if (ASSISTENT_REGISTER[art]) { if (!schonDa(art)) ASSISTENT.fragen.push(_asMitMuss({ reg: art })); }";
+  const ALT = '  else if (ASSISTENT_REGISTER[art]) ASSISTENT.fragen.push(_asMitMuss({ reg: art }));';
   assert.ok(HTML.includes(NEU), 'die Prüfung steht nicht mehr an ihrer Stelle; die Probe muss mitgezogen werden');
   const { V } = ladeGenerator({ html: HTML.replace(NEU, ALT) });
   V.ASSISTENT.sprache = 'de';

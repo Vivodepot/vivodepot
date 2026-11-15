@@ -39,7 +39,7 @@ test('A1) renderSektor trägt KEINE freistehenden Export-/docx-Knöpfe mehr', as
 test('A2) der Herausgeben-Chooser trägt jedes s.exporte-Format (data-h-format)', async () => {
   const { V, document } = await frischMitDepot();
   V.sektorFeldSetzen('identity', 'givenName', 'Maria');
-  V.flowHerausgeben('identity');
+  V.flowHerausgabeUebergabe('identity', { gewaehlt: new Set() });   // Austausch (11.11.2026): die Formen stehen im Schritt Übergabe, nach den Angaben
   const modal = document.getElementById('modal-inhalt').innerHTML;
   for (const ex of (V.SEKTOR_BY_ID.identity.exporte || [])) {
     assert.ok(modal.includes('data-h-format="' + ex.format + '"'), 'Chooser trägt ' + ex.format);

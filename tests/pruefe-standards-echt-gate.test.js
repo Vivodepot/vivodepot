@@ -78,3 +78,12 @@ test('[Standards-echt-Gate·Werkzeug fehlt·Rot-Beweis] ein rotes Urteil bleibt 
   assert.notEqual(EXIT_WERKZEUG_FEHLT, 1, 'derselbe Exit wie ein Befund wäre nicht unterscheidbar');
   assert.deepEqual(ausgang({}), { code: 0, text: '' });
 });
+
+/* 10.11.2026: die Landung fragt vor dem Volllauf nur, ob das Werkzeug da ist. */
+test('[Standards-echt-Gate·Vorbedingung] ohne Werkzeug Exit 3, mit Werkzeug 0, und nur Zeilen auf „echt“ zählen', async () => {
+  const { vorbedingung } = require('../scripts/pruefe-standards-echt-gate.js');
+  const g = [{ id: 'a', beheben: 'x' }, { id: 'b', beheben: 'y' }];
+  const lauf = (ok, status) => vorbedingung(g, { zeileLesen: (z) => ({ status: z.id === 'a' ? 'echt' : status }), adapterLaden: async () => ({ vorhanden: () => ({ ok, grund: 'Docker aus' }) }) });
+  assert.equal((await lauf(false, 'geplant')).code, EXIT_WERKZEUG_FEHLT);
+  assert.equal((await lauf(true, 'echt')).code, 0);
+});

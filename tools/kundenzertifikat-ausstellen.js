@@ -121,6 +121,11 @@ async function lauf(opts) {
     abbrechen('Aufruf: node tools/kundenzertifikat-ausstellen.js <anbieterId> <anbieterName> <anbieterTyp> <subjekt-public.jwk.json> <ausgabe-schluessel.vdkey.json> <ausstellerzertifikat.json> <ausgabedatei.json> [gueltigkeitMonate=18] (Passphrase wird interaktiv abgefragt)');
     return false;
   }
+  // Die Signierstelle steht direkt unter dem Anker (U2-ADR-499); ein Ausgabe-Schlüssel stellt ihr kein Zertifikat aus.
+  if (anbieterTyp === 'vivodepot/signierstelle') {
+    abbrechen('Die Art „vivodepot/signierstelle“ stellt nur der Anker aus.');
+    return false;
+  }
   // Anbieter-Angaben: PFLICHT, keine Abschaltung vorgesehen (19.09.2026) — „ohne
   // anbieter keine Signatur". anbieterAngabenPruefen wirft benannt, abbrechen() fängt es.
   let anbieterAngaben;

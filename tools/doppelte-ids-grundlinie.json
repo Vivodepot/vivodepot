@@ -1,0 +1,52 @@
+{
+  "_zweck": "Doppelte id-Attribute in den ausgelieferten Seiten (10.11.2026, Studio-Befund as-k-name). markup: Zahl der doppelten IDs im statischen Markup, überall 0. skriptvorlagen: IDs, die in Skriptvorlagen mehrfach stehen oder im Markup und in einer Vorlage; meist Zweige einer Bedingung, statisch nicht entscheidbar, nur sinkend. ausnahmen: id-Attribute mit dynamischem Anteil, nicht vergleichbar, nur sinkend. Messung: node tools/doppelte-ids-pruefen.js --json",
+  "seiten": {
+    "vivodepot.html": {
+      "markup": 0,
+      "ausnahmen": 33,
+      "skriptvorlagen": [
+        "ampel-sektion",
+        "antwort-pw",
+        "einst-sw-pruefen",
+        "import-vorlage-lizenz",
+        "m-zweit",
+        "overlay-titel",
+        "vd-install-block",
+        "whc-angebot",
+        "whc-blatt",
+        "whc-code",
+        "whc-fehler",
+        "whc-kontrolle-hinweis"
+      ]
+    },
+    "vivodepot-studio.html": {
+      "markup": 0,
+      "ausnahmen": 2,
+      "skriptvorlagen": []
+    },
+    "vivodepot-lesen.html": {
+      "markup": 0,
+      "ausnahmen": 3,
+      "skriptvorlagen": [
+        "anlass-vertretung",
+        "antwort-fehler",
+        "antwort-signatur",
+        "btn-zurueck",
+        "content",
+        "pw-fehler",
+        "pw-feld",
+        "pw-form"
+      ]
+    },
+    "vivodepot-vc-issuer.html": {
+      "markup": 0,
+      "ausnahmen": 0,
+      "skriptvorlagen": []
+    },
+    "vivodepot-schluessel-teilen.html": {
+      "markup": 0,
+      "ausnahmen": 0,
+      "skriptvorlagen": []
+    }
+  }
+}

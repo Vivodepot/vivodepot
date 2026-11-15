@@ -10,7 +10,8 @@
      1. die Datei des frühen Rots (VD_ERSTES_ROT, je roter Blatt-Test „datei<TAB>test[<TAB>meldung]“, geschrieben vom Reporter
         aus den test:fail-Ereignissen);
      2. die Marken des spec-Reporters: der Block „failing tests:“ mit „test at <datei>:<zeile>:<spalte>“, sonst Zeilen, die mit
-        ✖ beginnen; dazu „ℹ fail <n>“.
+        ✖ beginnen; dazu „ℹ fail <n>“. Ein Eintrag, dessen Marke ⚠ ist (todo), zählt nicht rot; die Zahl der roten Einträge muss
+        zu „ℹ fail“ passen, sonst nennt die Meldung die Abweichung (14.11.2026).
    Steht in keiner Quelle ein roter Test, sagt die Meldung das ausdrücklich: die Ursache liegt außerhalb der Tests (Hülle,
    Absturz, Zeitgrenze), und die letzten Zeilen des Protokolls zeigen sie.
 
@@ -46,19 +47,27 @@ function roteDateien({ erstesRot = '', protokoll = '', wurzel = null } = {}) {
   const failZeile = [...String(protokoll).matchAll(/^ℹ fail (\d+)/gm)].pop();
   const fail = failZeile ? Number(failZeile[1]) : null;
   let quelle = karte.size ? 'frühes Rot' : null;
+  let todo = 0; let blockRot = 0;
   if (!karte.size) {
     const block = zeilen.findIndex((z) => /failing tests:/.test(z));
     if (block >= 0) {
       for (let i = block + 1; i < zeilen.length; i++) {
         const m = /^\s*test at (.+?):\d+:\d+\s*$/.exec(zeilen[i]);
         if (!m) continue;
-        const name = (zeilen.slice(i + 1).find((x) => /^\s*✖ /.test(x)) || '').replace(/^\s*✖ /, '').replace(/ \([\d.]+m?s\)\s*$/, '').trim();
-        dazu(m[1], name);
+        // Die Marke steht in der Zeile direkt unter „test at“: ✖ ist rot, ⚠ ist ein erwarteter todo-Fehlschlag (14.11.2026: ein
+        // Air-Lauf mit fail 1 nannte 22 todo-Dateien als rot, jede mit dem Namen des einen echten ✖ weiter unten).
+        const marke = zeilen.slice(i + 1).find((x) => x.trim()) || '';
+        if (/^\s*⚠ /.test(marke)) { todo++; continue; }
+        if (!/^\s*✖ /.test(marke)) { dazu(m[1], ''); blockRot++; continue; }
+        dazu(m[1], marke.replace(/^\s*✖ /, '').replace(/ \([\d.]+m?s\)\s*$/, '').trim());
+        blockRot++;
       }
     }
     if (karte.size) quelle = 'spec: failing tests';
   }
-  return { quelle, dateien: [...karte].map(([datei, tests]) => ({ datei, tests })), kreuze, fail };
+  // Wächter: die Zahl der roten Einträge des Blocks muss zu „ℹ fail“ passen; sonst sagt die Meldung es.
+  const abweichung = quelle === 'spec: failing tests' && fail !== null && blockRot !== fail ? { liste: blockRot, fail } : null;
+  return { quelle, dateien: [...karte].map(([datei, tests]) => ({ datei, tests })), kreuze, fail, todo, abweichung };
 }
 
 function letzteZeilen(text, n = LETZTE_ZEILEN) {
@@ -74,6 +83,8 @@ function rotMeldung({ seite, grund = '', erstesRot = '', protokoll = '', wurzel 
   if (r.dateien.length) {
     aus.push('  rote Dateien (' + r.quelle + '):');
     for (const d of r.dateien) aus.push('    ✖ ' + d.datei + (d.tests.length ? ' — ' + d.tests.slice(0, 3).join(' · ') + (d.tests.length > 3 ? ' · …' : '') : ''));
+    if (r.todo) aus.push('  daneben ' + r.todo + ' erwartete todo (⚠), nicht rot');
+    if (r.abweichung) { aus.push('  Rot-Liste passt nicht zur fail-Zahl: Liste ' + r.abweichung.liste + ', fail ' + r.abweichung.fail); letzte(); }
   } else if (r.kreuze.length || r.fail) {
     aus.push('  rote Tests ohne Datei (spec-Marken' + (r.fail ? ', ℹ fail ' + r.fail : '') + '):', ...r.kreuze.slice(0, 10).map((k) => '    ✖ ' + k));
     letzte();

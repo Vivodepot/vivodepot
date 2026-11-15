@@ -146,7 +146,7 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await p.waitForSelector('#anf-schluessel-downloads:not([hidden])');
     await expect(p.locator('#anf-schluessel-fertig')).toBeVisible();
     const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#anf-schluessel-priv')]);
-    expect(dl.suggestedFilename()).toMatch(/\.PROBE-31\.\d{4}-\d{2}-\d{2}\.empfang\.vdkey$/);
+    expect(dl.suggestedFilename()).toMatch(/^NICHT-VERSENDEN-Empfang-.*PROBE-31-\d{4}-\d{2}-\d{2}\.vdkey$/);
     // die Datei ist verschlüsselt (.vdkey) und trägt kein d; das Material holt die Probe über die Hülle der Seite selbst
     const huelle = JSON.parse(require('node:fs').readFileSync(await dl.path(), 'utf8'));
     expect(huelle.d).toBeUndefined();

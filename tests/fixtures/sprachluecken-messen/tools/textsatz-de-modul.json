@@ -1,0 +1,10 @@
+{ "modulTyp": "textsatz", "sprache": "de", "texte": {
+  "people.beispielFeld.label": "Beziehung",
+  "people.beispielFeld/kind.label": "leibliches Kind",
+  "people.beispielFeld/pflege.label": "Pflegekind",
+  "strings:beispielTitel.text": "Wie sollen Sie erscheinen?",
+  "strings:beispielGrund.text": "Größe",
+  "strings:beispielAmt.text": "Ich bin mir der Folgen bewusst.",
+  "people.status.label": "Status",
+  "cluster:beispiel.titel": "Übersicht"
+} }

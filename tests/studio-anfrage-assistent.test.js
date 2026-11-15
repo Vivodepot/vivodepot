@@ -95,12 +95,13 @@ test('[Anfrage-Assistent · Zweck] kein Beispiel nimmt den Gesamtzweck als Zweck
 });
 
 /* ── (4) Der Hauptweg ───────────────────────────────────────────────────── */
-test('[Anfrage-Assistent · Hauptweg] „Anfrage an Personen“ ist die erste, dunkle Kachel und führt in den Assistenten', () => {
+test('[Anfrage-Assistent · Hauptweg] „Anfrage an Personen“ ist die erste Kachel (dunkel ist seit 12.11. „Vorlage erstellen“) und führt in den Assistenten', () => {
   const ein = HTML.slice(HTML.indexOf('<main id="raum-eingang"'), HTML.indexOf('</main>', HTML.indexOf('<main id="raum-eingang"')));
   const ids = [...ein.matchAll(/class="kachel eingang-kachel[^"]*" id="([^"]+)"/g)].map((m) => m[1]);
   assert.equal(ids[0], 'ein-anfrage');
-  assert.match(ein, /class="kachel eingang-kachel erste" id="ein-anfrage"/);
-  assert.ok(HTML.includes("an('ein-anfrage', 'click', () => { anfrageAssistentNeu(); zeigeSchritt('anfrage'); });"));
+  assert.match(ein, /class="kachel eingang-kachel" id="ein-anfrage"/);
+  assert.match(ein, /class="kachel eingang-kachel erste" id="ein-vorlage"/, '[DEMO-S5-Rest] die Hervorhebung liegt auf „Vorlage erstellen“');
+  assert.ok(HTML.includes("an('ein-anfrage', 'click', () => { anfrageAssistentEintreten(); zeigeSchritt('anfrage'); });"));
 });
 
 /* ── (5) Sektorstreuung ─────────────────────────────────────────────────── */

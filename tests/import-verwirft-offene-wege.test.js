@@ -196,17 +196,19 @@ test('[Offene Wege·A5·Gründe] zweiter Patient, Eintrag ohne Text und der Aufb
   ] };
   const r = V.IMPORT_FORMAT_BY_ID['fhir-ips'].parse(JSON.stringify(bundle));
   const kurz = r.verworfene.map((v) => v.name + ':' + v.grund + ':' + v.anzahl).sort();
-  assert.deepEqual(kurz, ['Condition:ohne-text:1', 'Device:ressource-nicht-gelesen:2', 'Patient:weiterer-patient:1']);
+  assert.deepEqual(kurz, ['Device:ressource-nicht-gelesen:2', 'Patient:weiterer-patient:1']);
+  assert.equal(r.verworfeneFelder.length, 1, 'der Eintrag ohne Text steht genau einmal, beim Feld');
+  assert.equal(r.verworfeneFelder[0].grund, 'nicht-lesbar');
 });
 
 test('[Offene Wege·A5·Rot-Beweis] mit dem früheren Einleser stünde nichts unter verworfene', () => {
   const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
-  const NEU = "return { angenommen: felder.length > 0, felder, verworfene: _fhirIpsVerworfene(o) }; } },";
+  const NEU = "return { angenommen: felder.length > 0, felder, verworfene: _fhirIpsVerworfene(o), verworfeneFelder, quelle: _fhirIpsQuelle(o) }; } },";
   assert.equal(quelle.split(NEU).length, 2, 'die Rückgabe steht genau einmal im Kern');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'offene-wege-a5-'));
   try {
     const pfad = path.join(dir, 'vivodepot.html');
-    fs.writeFileSync(pfad, quelle.replace(NEU, 'return { felder }; } },'));
+    fs.writeFileSync(pfad, quelle.replace(NEU, 'return { felder, verworfeneFelder, quelle: _fhirIpsQuelle(o) }; } },'));
     const { V } = ladeKern({ htmlPfad: pfad, backen: true });
     const r = V.IMPORT_FORMAT_BY_ID['fhir-ips'].parse(JSON.stringify({ resourceType: 'Bundle', entry: [{ resource: { resourceType: 'Device' } }] }));
     assert.equal(r.verworfene, undefined);

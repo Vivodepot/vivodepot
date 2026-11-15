@@ -94,9 +94,9 @@ test('[U2-ADR-211·Gegenprobe] exportErinnerungVielleichtZeigen() ohne sicherung
   V.ui.toast = (text, art) => erfasst.push({ text, art });
   const gezeigt = V.exportErinnerungVielleichtZeigen();
   assert.equal(gezeigt, true, 'ohne bekannten Stand bleibt die alte, unbedingte Erinnerung fällig');
-  assert.equal(erfasst.length, 1, 'genau ein Toast');
-  // C16 (Abnahme v998): die Meldung ist kurz; der Satz zur Erinnerung steht hinter dem ⓘ im Kopf (exportErinnerungHinweisText).
-  assert.equal(erfasst[0].text, V.STRINGS.saveStatusKeineDatei, 'die kurze Meldung');
+  // 12.11.2026: die Erinnerung ist keine Meldung mehr, sondern der Zustand hinter dem ⓘ im Kopf (exportErinnerungHinweisText);
+  // geprüft bleibt, was die Aussage dieses ADR verlangt: der Satz ist eine der beiden alten Fassungen, ohne Platzhalter.
+  assert.equal(erfasst.length, 0, 'keine Meldung über dem Inhalt');
   const txt = V.__zusatz.exportErinnerungHinweisText();
   assert.ok(!/\{tage\}|\{aenderungen\}/.test(txt), 'kein unersetzter Platzhalter — der Zustands-Wortlaut darf hier NICHT greifen');
   // Welche der beiden bestehenden Fassungen (Basis/Risiko) greift, hängt von erhoehtesVerlustRisiko()
@@ -132,7 +132,7 @@ test('[U2-ADR-211] mit bekanntem Stand ersetzt der Zustands-Wortlaut BEIDE Platz
   V.ui.toast = (text) => erfasst.push(text);
   const gezeigt = V.exportErinnerungVielleichtZeigen();
   assert.equal(gezeigt, true, 'über der Schwelle → fällig');
-  assert.equal(erfasst.length, 1);
+  assert.equal(erfasst.length, 0, 'keine Meldung über dem Inhalt; der Zustand steht hinter dem ⓘ');
   // C16 (Abnahme v998): der Zustands-Satz mit den Zahlen steht hinter dem ⓘ im Kopf, die Meldung ist kurz.
   const satz = V.__zusatz.exportErinnerungHinweisText();
   assert.ok(!/\{tage\}|\{aenderungen\}/.test(satz), 'beide Platzhalter ersetzt');

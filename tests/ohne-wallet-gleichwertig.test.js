@@ -57,7 +57,10 @@ const POSITIVLISTE = {
   'vivodepot.html|_eudiwAusgeben|wallet': { anzahl: 25, art: 'weg', ohne: 'flowFormatExport', probe: 'tests/ohne-wallet-dateiweg.test.js#[Ohne Wallet·Datei] der Download je Wallet-Profil läuft ohne Wurf', grund: 'Ausgabe für die Wallet; derselbe Inhalt als Datei' },
   'vivodepot.html|_eudiwAusgeben|oid4vp': { anzahl: 1, art: 'weg', ohne: 'flowFormatExport', probe: 'tests/ohne-wallet-dateiweg.test.js#[Ohne Wallet·Datei] der Download je Wallet-Profil läuft ohne Wurf', grund: 'ruft die Abruf-Vorlage auf; derselbe Inhalt als Datei' },
   'vivodepot.html|HERAUSGABE_ZWECK_WEGE|wallet': { anzahl: 1, art: 'weg', ohne: 'flowFormatExport', probe: 'tests/ohne-wallet-dateiweg.test.js#[Ohne Wallet·Datei] der Download je Wallet-Profil läuft ohne Wurf', grund: 'Zweck-Vorschlag für den Vermerk beim Weg der Wallet-Übergabe (Zeile eudiw); dieselben Angaben gehen als Datei hinaus, der Vorschlag ist nur Text' },
-  'vivodepot.html|flowHerausgeben|wallet': { anzahl: 4, art: 'weg', ohne: 'flowFormatExport', probe: 'tests/ohne-wallet-dateiweg.test.js#[Ohne Wallet·Datei] der Download je Wallet-Profil läuft ohne Wurf', grund: 'Knopf „An EUDI-Wallet übergeben“ neben den Datei-Wegen derselben Auswahl' },
+  // Austausch (11.11.2026): der Knopf steht im Schritt Übergabe; die drei Stellen sind die eine frühere Stelle in flowHerausgeben.
+  'vivodepot.html|_herausgabeFormen|wallet': { anzahl: 2, art: 'weg', ohne: 'flowFormatExport', probe: 'tests/ohne-wallet-dateiweg.test.js#[Ohne Wallet·Datei] der Download je Wallet-Profil läuft ohne Wurf', grund: 'Form „An EUDI-Wallet übergeben“ in der Liste der Formen, neben den Datei-Wegen derselben Auswahl' },
+  'vivodepot.html|herausgabeFormStarten|wallet': { anzahl: 1, art: 'weg', ohne: 'flowFormatExport', probe: 'tests/ohne-wallet-dateiweg.test.js#[Ohne Wallet·Datei] der Download je Wallet-Profil läuft ohne Wurf', grund: 'startet die gewählte Form; die Datei-Wege derselben Auswahl laufen durch dieselbe Funktion' },
+  'vivodepot.html|flowHerausgabeUebergabe|wallet': { anzahl: 1, art: 'weg', ohne: 'flowFormatExport', probe: 'tests/ohne-wallet-dateiweg.test.js#[Ohne Wallet·Datei] der Download je Wallet-Profil läuft ohne Wurf', grund: 'Kennzeichen des Knopfs im Schritt Übergabe, neben den Datei-Wegen derselben Auswahl' },
   'vivodepot.html|formatAusgabeErzeugen|wallet': { anzahl: 2, art: 'begriff', grund: 'Datei-Weg selbst; ruft nur den SD-JWT-VC-Serialisierer' },
   'vivodepot.html|_formatExportDownload|wallet': { anzahl: 1, art: 'begriff', grund: 'Datei-Weg; Hinweis bei unsignierter Selbstauskunft' },
   'vivodepot.html|EXPORT_FORMATE|wallet': { anzahl: 3, art: 'begriff', grund: 'Markierung eudiw:true an Datei-Formaten' },
@@ -79,6 +82,8 @@ const POSITIVLISTE = {
   'vivodepot.html|_ebTtfCmap|pid': { anzahl: 2, art: 'begriff', grund: 'Schriftparser: platformID' },
   'vivodepot.html|YB_ZEICHEN|mdoc': { anzahl: 1, art: 'begriff', grund: 'Zeichenfolge in eingebettetem Bild (base64)' },
   'vivodepot.html|Ba|eid': { anzahl: 1, art: 'begriff', grund: 'eingebettete Bibliothek (jsPDF/pako)' },
+  // Studio-Schritt 5 (12.11.2026): dieselbe Bibliothek im Studio, byte-gleiche Kopie des Kerns.
+  'vivodepot-studio.html|Ba|eid': { anzahl: 1, art: 'begriff', grund: 'eingebettete Bibliothek (jsPDF/pako), byte-gleiche Kopie des Kerns' },
   // 15.10.2026, Wort der Gegenlesung: der OID4VP-Spike in einer ENTWICKLERLEISTE-Spanne, aus jedem Produkt geschnitten (Probe unten).
   'vivodepot.html|_OID4VP_JWS_ALGS|oid4vp': { anzahl: 1, art: 'begriff', grund: 'Spike, Entwicklerleiste: erlaubte JWS-Algorithmen der OID4VP-Anfrage (tests/oid4vp-spike.test.js)' },
   'vivodepot.html|_oid4vpJwsPruefen|oid4vp': { anzahl: 3, art: 'begriff', grund: 'Spike, Entwicklerleiste: Prüfung der OID4VP-Anfrage-JWS (tests/oid4vp-spike.test.js)' },
@@ -183,7 +188,7 @@ test('[Ohne Wallet·Anfrage] jede Anfrage hat einen Antwortweg ohne Wallet; „n
 test('[Ohne Wallet·Positivkontrolle] die Wege von heute sind im Suchraum, die Wallet-Übergabe ist ausgeblendet', () => {
   const f = [...funde(TEXTE).keys()];
   for (const k of ['vivodepot.html|flowEudiwUebergabe|wallet', 'vivodepot.html|eudiwOid4vpWrapper|oid4vp', 'vivodepot.html|eudiwOid4vpWrapper|vp_token',
-    'vivodepot.html|flowHerausgeben|wallet']) assert.ok(f.includes(k), k);
+    'vivodepot.html|_herausgabeFormen|wallet']) assert.ok(f.includes(k), k);
   assert.match(TEXTE['vivodepot.html'], /^const EUDIW_SICHTBAR = false;/m);
 });
 

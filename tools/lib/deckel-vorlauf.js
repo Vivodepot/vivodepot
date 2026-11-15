@@ -12,6 +12,8 @@
      · eine feste Zahl über eine Länge prüft, `….length, N)` mit N ≥ 10 (MUSTER[1]), oder
      · sich mit der Zeile `deckel-vorlauf: zählt` selbst meldet (MUSTER[2]) — für Proben, die einen Abgleich ohne Grundlinie
        fahren (03.11.2026: neue Kernfelder gegen die Nativ-A/B-Listen), oder
+     · den Kern liest und im Testnamen eine Klasse prüft (`istKlassenwaechterUeberKern`, 10.11.2026: drei rote Zugköpfe endeten an
+       solchen Proben, und keine von ihnen stand im Vorlauf), oder
      · die Probe tests/<stamm>.test.js eines gleichnamigen Werkzeugs tools/<stamm>.js ist, das eine Grundlinie liest und
        `--grundlinie-schreiben` kennt, und das Werkzeug nennt (03.11.2026: die Probe der Bereichs-Literale liest ihre
        Grundlinie über das Werkzeug, trug den Dateinamen also nicht selbst und fehlte im Vorlauf; erst die Landung wurde rot).
@@ -26,6 +28,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const MUSTER = Object.freeze([/grundlinie[a-z-]*\.json|-ausnahmen\.json|deckel-register/, /\.length, *[0-9]{2,}\)/, /deckel-vorlauf: zählt/]);
+// Beide Bedingungen zusammen: der Name allein wählt auch Proben über fremde Dateien, das Lesen des Kerns allein gut tausend Dateien.
+const KLASSE_IM_TESTNAMEN = /test\(\s*['"`][^'"`]*(Klasse|Wächter|Waechter|Deckung|DIE MESSUNG)/;
+const istKlassenwaechterUeberKern = (text) => text.includes('vivodepot.html') && KLASSE_IM_TESTNAMEN.test(text);
 const ORTE = Object.freeze(['tests', path.join('tests', 'mit-modul')]);
 function eigenesWerkzeugMitGrundlinie(wurzel, stamm, text, lesen) {
   const esc = stamm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -44,10 +49,10 @@ function dateienWaehlen(wurzel, { liste = (d) => fs.readdirSync(d), lesen = (p) 
       const rel = path.join(ort, n);
       let text = '';
       try { text = lesen(path.join(wurzel, rel)); } catch (_) { continue; }
-      if (MUSTER.some((m) => m.test(text)) || eigenesWerkzeugMitGrundlinie(wurzel, n.slice(0, -'.test.js'.length), text, lesen)) gewaehlt.push(rel);
+      if (MUSTER.some((m) => m.test(text)) || istKlassenwaechterUeberKern(text) || eigenesWerkzeugMitGrundlinie(wurzel, n.slice(0, -'.test.js'.length), text, lesen)) gewaehlt.push(rel);
     }
   }
   return gewaehlt.sort();
 }
 
-module.exports = { MUSTER, ORTE, dateienWaehlen, eigenesWerkzeugMitGrundlinie };
+module.exports = { MUSTER, ORTE, istKlassenwaechterUeberKern, dateienWaehlen, eigenesWerkzeugMitGrundlinie };

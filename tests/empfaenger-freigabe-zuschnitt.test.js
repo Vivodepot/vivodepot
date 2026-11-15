@@ -158,7 +158,8 @@ test('[Freigabe·Dialog] der Kreisdialog nennt die gefüllten geschützten Angab
   // Im Dialog: offen, vorab angekreuzt bis auf die Ausnahmen, beim Wechsel der Bausteine neu gezeichnet; gespeichert wird die Menge.
   const quelle = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'vivodepot.html'), 'utf8');
   const a = quelle.indexOf('function _kreisGeschuetztVerdrahten'); const block = quelle.slice(a, quelle.indexOf('\nfunction ', a + 10));
-  assert.match(block, /el\.checked = !abgewaehlt\.has\(a\.adresse\)/);
+  // Seit 14.11.2026 steht in derselben Liste das Angebot der Bereiche (`kreis.freigaben`), ohne Häkchen vorbelegt.
+  assert.match(block, /el\.checked = a\.frei \? freigegeben\.has\(a\.adresse\) : !abgewaehlt\.has\(a\.adresse\)/);
   assert.match(block, /abgewaehlt\.add\(a\.adresse\)/);
   assert.match(block, /addEventListener\('change', zeichnen\)/);
   assert.match(quelle, /ausnahmen: \[\.\.\.abgewaehlt\]/);

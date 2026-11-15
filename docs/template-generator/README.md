@@ -56,7 +56,7 @@ Gehalten wird das von einer Probe der Arbeitsfläche im internen Prüfbestand (k
 
 ## Submission-Strecke
 
-Der Generator versendet **nichts automatisch**. Die Institution lädt die Datei `vivodepot-submission-<anbieterId>-<id8>.json` herunter und sendet sie an die von Vivodepot genannte Submission-Adresse (E-Mail oder Upload-Strecke — nach Operations-Entscheidung). Die angezeigte **Submission-ID** bitte für Rückfragen aufbewahren.
+Der Generator versendet **nichts automatisch**. Die Institution lädt die Datei `Per-E-Mail-an-Vivodepot-<Name>-<id8>.json` herunter (`<Name>`: der Name der Einrichtung, gefiltert auf Buchstaben, Ziffern und Bindestrich; die Schlüsseldatei heißt `NICHT-VERSENDEN-Sicherung-<Name>-<Datum>.vdkey` und geht nie hinaus) und sendet sie an die von Vivodepot genannte Submission-Adresse (E-Mail oder Upload-Strecke — nach Operations-Entscheidung). Die angezeigte **Submission-ID** bitte für Rückfragen aufbewahren.
 
 ## Sicherheit
 

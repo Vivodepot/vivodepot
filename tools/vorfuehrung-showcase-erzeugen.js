@@ -45,7 +45,12 @@ const SHOWCASE_BEGIN = '/* AB_WERK_SHOWCASE:BEGIN */';
 const SHOWCASE_ENDE = '/* AB_WERK_SHOWCASE:END */';
 
 // Dieselbe Liste wie `vorschauDatenUebernehmen` im Kern — die Nutzlast ist Inhalt, nie Verwaltung.
-const INHALTS_FELDER = ['menschen', 'institutionen', 'mappe', 'sektoren', 'situationen', 'codes', 'sensibelFelder', 'schwangerschaften', 'fragen'];
+// feldGueltigkeit und ausdruecklichKeine (13.11.2026): die Nebenablagen eines Bereichs, wie im Kern (vorschauDatenUebernehmen).
+const INHALTS_FELDER = ['menschen', 'institutionen', 'mappe', 'sektoren', 'situationen', 'codes', 'sensibelFelder', 'schwangerschaften', 'fragen',
+  'feldGueltigkeit', 'ausdruecklichKeine'];
+// Diese Teile kommen nur mit Inhalt in die Nutzlast: Depots ohne sie bleiben byte-gleich.
+const NUR_MIT_INHALT = ['fragen', 'feldGueltigkeit', 'ausdruecklichKeine'];
+const _leerOderLeerObjekt = (w) => (Array.isArray(w) && !w.length) || (w && typeof w === 'object' && !Array.isArray(w) && !Object.keys(w).length);
 
 // Das Produkt, auf dem gebaut wird, muss Bereichsquellen gebacken tragen. Der blanke Kern hat die Region leer
 // (`Object.freeze([])`); die Vorführung darauf hätte leere Bereiche („Für diesen Bereich sind noch keine Felder spezifiziert").
@@ -348,7 +353,7 @@ function showcaseNutzlastErzeugen({ daten, V, dokumentOrdner, sprache } = {}) {
   if (funde.length) throw new Error('Das Beispieldepot besteht die Feldprüfung nicht: ' + funde.join(' | '));
   const nutzlast = {};
   // Ein leeres Fragen-Register gehört nicht in die Nutzlast: die Depots ohne Fragen bleiben byte-gleich.
-  for (const f of INHALTS_FELDER) if (d[f] !== undefined && d[f] !== null && !(f === 'fragen' && Array.isArray(d[f]) && !d[f].length)) nutzlast[f] = d[f];
+  for (const f of INHALTS_FELDER) if (d[f] !== undefined && d[f] !== null && !(NUR_MIT_INHALT.includes(f) && _leerOderLeerObjekt(d[f]))) nutzlast[f] = d[f];
   return _idsFestschreiben(JSON.parse(JSON.stringify(nutzlast)));
 }
 

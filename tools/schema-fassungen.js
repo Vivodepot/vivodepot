@@ -32,7 +32,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { spawnSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
 
 const REPO = path.join(__dirname, '..');
@@ -46,7 +45,7 @@ const ARCHIV = 'tools/schema-fassungen-archiv';
 
 const sha256 = (b) => crypto.createHash('sha256').update(b).digest('hex');
 function git(args, repo = REPO, eingabe) {
-  const r = spawnSync('git', args, { cwd: repo, env: ohneGitUmgebung(), input: eingabe, maxBuffer: 64 * 1024 * 1024 });
+  const r = require('./lib/kind-mit-eingabe.js').kindMitEingabe('git', args, { cwd: repo, env: ohneGitUmgebung(), eingabe, maxBuffer: 64 * 1024 * 1024 });
   if (r.status !== 0) throw new Error('git ' + args.join(' ') + ': ' + String(r.stderr).trim());
   return r.stdout;
 }

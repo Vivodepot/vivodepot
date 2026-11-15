@@ -99,6 +99,17 @@ Reihenfolge des Feldkatalogs; die Bereiche stehen in ihrer festen Folge (Identit
 ein Feld weiter genau dort. „Nach Bereichen ordnen“ sortiert vorhandene Felder einmal so. Ein Registerfeld steht höchstens einmal
 in der Vorlage. Der Knopf der Ansicht heißt „Vorschau“ statt „Ausprobieren“. Kein Schema, keine Signatur, kein Kern.
 
+## Nachtrag 10.11.2026 — Die Vorschaukarte trägt den Chip „Vorschau“
+
+**Status:** Angenommen (10.11.2026). **Bezug:** Nr. 4. Die Vorschau liegt vor dem Einreichen; dort ist nichts geprüft, und das Siegel
+„Geprüft“ der App steht bei geprüften Anfragen. Die Karte trägt darum den Chip „Vorschau“ (EN „Preview“). Wortlaut und Fußzeile
+kommen weiter aus dem Textsatz der App; Nr. 4 gilt für sie unverändert, für das Siegel gilt dieser Nachtrag.
+
+## Nachtrag 10.11.2026 — S4 erfüllt: eine Schlüsseldatei je Einreichung
+
+**Status:** Angenommen (10.11.2026). **Bezug:** Abgrenzung oben (S4). S4 erfüllt: eine Schlüsseldatei je Einreichung, Namen und Chips;
+Belege: die drei Proben im Block unten. Gateway-Punkte 8/9 und Betriebsablauf 10 liegen bei Krypto.
+
 ```yaml
 konformitaet:
   - aussage: >-
@@ -130,11 +141,12 @@ konformitaet:
       - tests/studio-assistent.test.js "[Assistent · B1] „Anliegen“ mit drei Antworttexten kommt mit allen drei im Paket an, jede mit Code"
       - tests/studio-assistent.test.js "[Assistent · Übergabe] „Weiter: Einreichen“ legt die Felder an, belegt den Namen vor und öffnet die Angaben; Rechtsform nur bei Behörde"
   - aussage: >-
-      Die Vorschaukarte zeigt das Siegel der App aus deren Textsatz und keine Aussage, die die App nicht trägt.
+      Die Vorschaukarte trägt den Chip „Vorschau“ und Wortlaut und Fußzeile der App aus deren Textsatz, keine Aussage, die die App nicht trägt.
     zustand: erfuellt
     herkunft: U2-ADR-493 (08.10.2026)
     pruefung:
-      - tests/studio-assistent.test.js "[Assistent · Karte · Rot-Beweis] ein erfundenes Siegel und eine erfundene Fußzeile werden gefunden"
+      - tests/studio-assistent.test.js "[Assistent · Karte · Rot-Beweis] ein „Geprüft“-Siegel, ein erfundenes Siegel und eine erfundene Fußzeile werden gefunden"
+      - tests/studio-sd.test.js "[S-D · Karte] die Vorschau trägt den Chip „Vorschau“, nirgends „Geprüft“"
   - aussage: >-
       Die Fehlerliste der Angaben erreicht Bildschirmleser und setzt den Fokus ins erste fehlerhafte Feld.
     zustand: erfuellt
@@ -187,12 +199,23 @@ konformitaet:
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Erscheinungsbild] ohne Signatur ein Hinweis mit der Folge und dem Weg, keine rote Fehlermeldung; die Regel bleibt"
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Erscheinungsbild · Rot-Beweis] die frühere rote Meldung ohne Folge fällt auf"
   - aussage: >-
-      Ein Registerfeld kommt in seinen Bereich, in Katalog-Reihenfolge, Identität & Person vorn; „Nach Bereichen ordnen“ sortiert
-      vorhandene Felder so, und die Einreichung bleibt gültig; ein Registerfeld steht höchstens einmal in der Vorlage.
+      Ein Registerfeld steht dort, wo es abgelegt wird (am Ende, in der Folge des Antippens); „Nach Themen ordnen“ sortiert vorhandene
+      Felder nach Bereichen in Katalog-Reihenfolge, Identität & Person vorn, und die Einreichung bleibt gültig; ein Registerfeld steht
+      höchstens einmal in der Vorlage.
     zustand: erfuellt
-    herkunft: U2-ADR-493, Nachtrag 15.10.2026 (Anordnung nach Bereichen)
+    herkunft: U2-ADR-493, Nachtrag 15.10.2026 (Anordnung nach Bereichen), 12.11.2026 (Ablegen bestimmt die Folge, „Nach Themen ordnen“ als Knopf)
     pruefung:
-      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung] ein Feld per + kommt in seinen Bereich, in Katalog-Reihenfolge; Personendaten stehen vorn"
-      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung · Rot-Beweis] ohne das Einordnen stehen die Felder in der Folge des Antippens"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung] ein Feld per + steht dort, wo es abgelegt wird: am Ende, in der Folge des Antippens (12.11.2026, ersetzt die Katalog-Ordnung beim Antippen)"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung · Rot-Beweis] mit dem früheren Einordnen nach Katalog rückt das Finanzfeld ans Ende (Marke Rot-Beweis)"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung] „Nach Themen ordnen“: Bereiche in fester Folge, Katalog-Reihenfolge darin; die Einreichung ist gültig und trägt die Folge"
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung] ein Registerfeld, das schon da ist, wird nicht noch einmal angelegt; das Studio sagt es"
+  - aussage: >-
+      Eine Schlüsseldatei je Einreichung (die Sicherung, `.vdkey`, mit der Warnung vorn im Namen); Antragsdatei, Einreichung und
+      Umschlag tragen auf keiner Ebene ein Feld `d` und kein Kennfeld der Sicherung, und die Namen filtern den Namen der Einrichtung.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 10.11.2026 (S4)
+    pruefung:
+      - tests/studio-dateinamen-einreichung.test.js "[Inhalt] Antragsdatei, Einreichung und Umschlag tragen auf keiner Ebene ein Feld `d` und kein vivodepotProtectedKey"
+      - tests/studio-dateinamen-einreichung.test.js "[Inhalt·Rot-Beweis] das Suchwerkzeug findet `d` und das Kennfeld auf jeder Ebene"
+      - tests/studio-dateinamen-einreichung.test.js "[Dateinamen] die Tabelle: Warnung vorn, Endung .vdkey nur bei Schlüsseldateien, DE und EN"
 ```

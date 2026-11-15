@@ -2,8 +2,12 @@
 // ────────────────────────────────────────────────────────────────────────────
 // Der Schlüssel entsteht in der Secure Enclave und verlässt sie nie („Works only with NIST P-256 elliptic curve
 // keys“, Apple: Protecting keys with the Secure Enclave). Im Schlüsselbund liegt nur sein Verweis
-// (dataRepresentation), der auf keinem anderen Gerät etwas taugt. Jede Signatur verlangt Touch ID; gebunden mit
-// .biometryAny, nicht .biometryCurrentSet (der Schlüssel bliebe nach einer Fingeränderung sonst unbrauchbar).
+// (dataRepresentation), der auf keinem anderen Gerät etwas taugt. Jede Signatur eines Ausgabe-Schlüssels verlangt Touch ID; gebunden
+// mit .biometryAny, nicht .biometryCurrentSet (der Schlüssel bliebe nach einer Fingeränderung sonst unbrauchbar).
+//
+// DER SCHLÜSSEL DER SIGNIERSTELLE (U2-ADR-498) trägt keine Biometrie und zeichnet ohne Bestätigung, aber nur Prüfvermerke. Er heißt
+// immer `signierstelle-…`. Die Befehle für ihn nehmen keine andere Kennung, und die Befehle für Ausgabe-Schlüssel nehmen diese nicht.
+// Die Form des Vermerks prüft dieser Helfer, bevor er den Schlüssel anfasst. Bei gesperrtem Bildschirm wird nicht gezeichnet.
 //
 // EIN KLICK FÜR VIELE SIGNATUREN: `signieren` liest die ganze Liste, zeigt sie in der Touch-ID-Abfrage an und
 // signiert danach genau diese Liste mit demselben, einmal bestätigten Kontext. Der Kontext endet mit dem Prozess;
@@ -19,11 +23,18 @@
 //   signieren <kennung>     stdin {"eingaben": ["<JWS signing input>", …]}
 //   anzeige <kennung>       wie signieren, gibt nur den Anzeigetext aus
 //                           stdout {"signaturen": ["<base64url, 64 Byte r‖s>", …], "gesamt": "<sha256 der Liste>"}
+//   vermerk-erzeugen <signierstelle-…>   legt den Schlüssel der Signierstelle an, ohne Biometrie
+//   vermerk-zeichnen <signierstelle-…>   stdin: die Bytes genau eines Prüfvermerks; stdout {"signatur": "<base64url, 64 Byte r‖s>"}
 // Aufgerufen von tools/lib/enclave-signierer.js; dort auch der Bau (swiftc) und die Probe.
+//
+// DER PROBE-BAU (-D VD_PROBE, U2-ADR-498): Aller Code, der Schlüsselbund, Secure Enclave oder Biometrie erreicht, steht unter
+// `#if !VD_PROBE` und ist im Probe-Bau nicht enthalten. Proben starten nur diesen Bau; das prüft das Symboltor in enclave-signierer.js.
 import CryptoKit
 import Foundation
+#if !VD_PROBE
 import LocalAuthentication
 import Security
+#endif
 
 let DIENST = "de.vivodepot.enclave-signatur"
 
@@ -37,6 +48,7 @@ func b64u(_ d: Data) -> String {
     .replacingOccurrences(of: "=", with: "")
 }
 
+#if !VD_PROBE
 func verweisLesen(_ kennung: String) -> Data? {
   let anfrage: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: DIENST,
                                 kSecAttrAccount as String: kennung, kSecReturnData as String: true]
@@ -51,6 +63,7 @@ func verweisSchreiben(_ kennung: String, _ daten: Data) {
   let status = SecItemAdd(eintrag as CFDictionary, nil)
   if status != errSecSuccess { fehler("Schlüsselbund: Eintrag nicht geschrieben (Status \(status))") }
 }
+#endif
 
 func b64uDecode(_ s: Substring) -> Data? {
   var t = s.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
@@ -89,6 +102,19 @@ func jwk(_ k: P256.Signing.PublicKey) -> [String: String] {
   return ["kty": "EC", "crv": "P-256", "x": b64u(roh.prefix(32)), "y": b64u(roh.suffix(32))]
 }
 
+/* Genau ein Prüfvermerk: acht nicht leere Zeilen, getrennt durch LF, ohne CR, die erste ist die Kennung des Formats. */
+let VERMERK_KOPF = Data("vivodepot-signierstelle-pruefvermerk/1".utf8)
+let VERMERK_HOECHSTENS = 4096
+func vermerkLesen() -> Data {
+  let d = FileHandle.standardInput.readDataToEndOfFile()
+  guard d.count > 0, d.count <= VERMERK_HOECHSTENS, !d.contains(0x0D) else { fehler("kein Prüfvermerk, es wird nicht gezeichnet") }
+  let zeilen = d.split(separator: 0x0A, omittingEmptySubsequences: false)
+  guard zeilen.count == 8, zeilen.allSatisfy({ !$0.isEmpty }), Data(zeilen[0]) == VERMERK_KOPF else {
+    fehler("kein Prüfvermerk, es wird nicht gezeichnet")
+  }
+  return d
+}
+
 func ausgeben(_ objekt: Any) {
   let d = try! JSONSerialization.data(withJSONObject: objekt, options: [.sortedKeys])
   FileHandle.standardOutput.write(d)
@@ -96,12 +122,15 @@ func ausgeben(_ objekt: Any) {
 }
 
 let argumente = CommandLine.arguments
-guard argumente.count == 3, ["erzeugen", "oeffentlich", "signieren", "anzeige"].contains(argumente[1]) else {
-  fehler("Aufruf: enclave-signieren erzeugen|oeffentlich|signieren|anzeige <kennung>")
+guard argumente.count == 3, ["erzeugen", "oeffentlich", "signieren", "anzeige", "vermerk-erzeugen", "vermerk-zeichnen"].contains(argumente[1]) else {
+  fehler("Aufruf: enclave-signieren erzeugen|oeffentlich|signieren|anzeige|vermerk-erzeugen|vermerk-zeichnen <kennung>")
 }
 let befehl = argumente[1]
 let kennung = argumente[2]
 guard kennung.range(of: "^[a-z0-9][a-z0-9-]{0,62}$", options: .regularExpression) != nil else { fehler("ungültige Kennung") }
+let istSignierstelle = kennung.hasPrefix("signierstelle-")
+if ["vermerk-erzeugen", "vermerk-zeichnen"].contains(befehl) && !istSignierstelle { fehler("dieser Befehl gilt nur für einen Schlüssel der Signierstelle") }
+if ["erzeugen", "signieren"].contains(befehl) && istSignierstelle { fehler("ein Schlüssel der Signierstelle zeichnet nur Prüfvermerke") }
 func eingabenLesen() -> [String] {
   let eingabe = FileHandle.standardInput.readDataToEndOfFile()
   guard let objekt = try? JSONSerialization.jsonObject(with: eingabe) as? [String: Any],
@@ -117,6 +146,8 @@ if befehl == "anzeige" {
   ausgeben(["anzeige": a.text, "gesamt": a.gesamt])
   exit(0)
 }
+let vermerk: Data? = befehl == "vermerk-zeichnen" ? vermerkLesen() : nil
+#if !VD_PROBE
 guard SecureEnclave.isAvailable else { fehler("dieser Rechner hat keine Secure Enclave") }
 
 switch befehl {
@@ -139,6 +170,26 @@ case "oeffentlich":
     let schluessel = try SecureEnclave.P256.Signing.PrivateKey(dataRepresentation: verweis)
     ausgeben(["kennung": kennung, "jwk": jwk(schluessel.publicKey)])
   } catch { fehler("Schlüssel nicht lesbar: \(error.localizedDescription)") }
+
+case "vermerk-erzeugen":
+  if verweisLesen(kennung) != nil { fehler("für „\(kennung)“ besteht schon ein Schlüssel — nichts überschrieben") }
+  var cfFehler: Unmanaged<CFError>?
+  guard let zugriff = SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                                                      [.privateKeyUsage], &cfFehler) else {
+    fehler("Zugriffsregel nicht erzeugt")
+  }
+  do {
+    let schluessel = try SecureEnclave.P256.Signing.PrivateKey(accessControl: zugriff)
+    verweisSchreiben(kennung, schluessel.dataRepresentation)
+    ausgeben(["kennung": kennung, "jwk": jwk(schluessel.publicKey)])
+  } catch { fehler("Schlüssel nicht erzeugt: \(error.localizedDescription)") }
+
+case "vermerk-zeichnen":
+  guard let verweis = verweisLesen(kennung) else { fehler("kein Schlüssel „\(kennung)“ auf diesem Rechner") }
+  do {
+    let schluessel = try SecureEnclave.P256.Signing.PrivateKey(dataRepresentation: verweis)
+    ausgeben(["signatur": b64u(try schluessel.signature(for: vermerk!).rawRepresentation)])
+  } catch { fehler("Signatur fehlgeschlagen: \(error.localizedDescription)") }
 
 default:  // signieren
   guard let verweis = verweisLesen(kennung) else { fehler("kein Schlüssel „\(kennung)“ auf diesem Rechner") }
@@ -166,3 +217,7 @@ default:  // signieren
     ausgeben(["signaturen": signaturen, "gesamt": gesamt])
   } catch { fehler("Signatur fehlgeschlagen: \(error.localizedDescription)") }
 }
+#else
+_ = vermerk
+fehler("Probe-Bau: kein Schlüsselzugriff enthalten")
+#endif

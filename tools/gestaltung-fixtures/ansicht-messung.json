@@ -1,0 +1,12 @@
+{
+ "a": [
+  { "pfad": "header#kopf", "tag": "header", "baustein": "kopfzeile", "innerhalb": true },
+  { "pfad": "header#kopf > button", "tag": "button", "baustein": null, "innerhalb": true },
+  { "pfad": "main > div", "tag": "div", "baustein": null, "innerhalb": false },
+  { "pfad": "main > div > button", "tag": "button", "baustein": "knopf", "innerhalb": true }
+ ],
+ "b": [
+  { "pfad": "section#s", "tag": "section", "baustein": "abschnitt", "innerhalb": true },
+  { "pfad": "section#s > span", "tag": "span", "baustein": "chip", "innerhalb": true }
+ ]
+}

@@ -52,7 +52,6 @@ async function oeffentlicheSchluesselDownloads() {
   gen.V.STATE.publicKeyJwk = r.publicJwk;
   gen.V.STATE.anbieter = gen.V.baueAnbieter({ anbieterName: 'Stadtwerke Musterstadt', rechtsform: 'GmbH', strasse: 'Am Markt 1', plz: '12345',
     ort: 'Musterstadt', land: 'Deutschland', kontaktName: 'Erika Beispiel', kontaktEmail: 'register@beispiel-einrichtung.example' });
-  gen.document.getElementById('sk-antragsnummer').value = '0123456789abcdef0123456789abcdef';
   await gen.V.antragsdateiErstellen({ isTrusted: true, currentTarget: { id: gen.V.SCHLUESSEL_NACHWEIS_KNOPF }, timeStamp: performance.now() });
   return { dateien, publicJwk: r.publicJwk };
 }

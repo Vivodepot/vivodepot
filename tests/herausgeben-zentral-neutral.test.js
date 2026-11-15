@@ -74,7 +74,11 @@ test('4) Leerer Datenstand → freundlicher Hinweis statt leerem Picker', async 
 test('5) Ziel „Bereich": flowHerausgeben(<sektor>) öffnet den Bereichs-Chooser (Klick-Ziel)', async () => {
   const { V, document } = await frischMitDepot();
   V.listenEintragHinzufuegen('finance', 'taxIdsTaxNumbers', { system: 'DE', taxNumber: '12 345 678 901' });   // Schnitt Glied 3 (A448): steuerid ist jetzt eine Liste
+  // Austausch (11.11.2026): der Bereich öffnet erst die Angaben, danach die Übergabe mit den Formen.
   V.flowHerausgeben('finance');
+  assert.ok(modal(document).includes('export-uebersicht-block'), 'zuerst die Angaben');
+  assert.ok(!modal(document).includes('data-h-pdf'), 'noch keine Form');
+  V.flowHerausgabeUebergabe('finance', { gewaehlt: new Set() });
   const box = modal(document);
   assert.ok(box.includes('data-h-pdf'), 'PDF-Weg im Chooser');
   // CC-08 (14.07.): der Bereichs-QR-Weg (data-h-qr) ist entfernt (Klartext-Leck an die Systemkamera).

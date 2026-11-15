@@ -59,10 +59,17 @@ test('Anlass-Export liefert JSON UND PDF', async ({ page }) => {
   await page.evaluate((id) => { window.__vdOeffentlich.flowAnlassExport(id); }, anlassId);
   await page.waitForTimeout(300);
   await uebersichtBestaetigen(page);
-  await ausgabeWegHerunterladen(page);
+  /* B3 (12.11.2026): Nach dem Herausgeben zeigt der Ergebnis-Dialog zwei gleichrangige Wege, PDF und Datei.
+     Beide stammen aus demselben Lauf; die Probe geht beide Wege und verlangt beide Dateien. */
+  const ergebnis = page.locator('[data-anlass-ergebnis]');
+  await expect(ergebnis, 'der Ergebnis-Dialog bietet die Wege an').toBeVisible();
+  await ergebnis.locator('[data-ergebnis-weg="pdf"]').click();
+  await page.waitForTimeout(600);
+  await ergebnis.locator('[data-ergebnis-weg="datei"]').click();
   await page.waitForTimeout(600);
 
   const namen = downloads.map((d) => d.suggestedFilename());
   expect(namen.some((n) => n.endsWith('.pdf')), 'PDF-Datei muss dabei sein: ' + namen.join(',')).toBe(true);
+  expect(namen.some((n) => n.endsWith('.json')), 'Datei zum Einlesen muss dabei sein: ' + namen.join(',')).toBe(true);
   expect(konsoleFehler).toEqual([]);
 });

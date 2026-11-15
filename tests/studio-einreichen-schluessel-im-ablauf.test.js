@@ -34,7 +34,6 @@ const TOR = 'function einreichungFrei() { return SCHLUESSEL_TRESOR.vorhanden() &
 const PROBE = "if (!probe || probe.kty !== 'OKP' || probe.crv !== 'Ed25519' || !probe.d || _pubAusPriv(probe).x !== r.publicJwk.x) throw new Error('sicherung-probe');";
 const klick = () => ({ isTrusted: true, currentTarget: { id: 'pr-submit' }, timeStamp: performance.now() });
 const antragKlick = () => ({ isTrusted: true, currentTarget: { id: 'sk-antrag' }, timeStamp: performance.now() });
-const ANTRAGSNUMMER = '0123456789abcdef0123456789abcdef';   // frei erfunden, Form wie im Antragsformular
 
 /* Schritt ② wie im Browser: Passwort zweimal, „Sicherung speichern“. Die heruntergeladenen Dateien werden mitgeschrieben. */
 async function sicherungGespeichert(html) {
@@ -54,10 +53,9 @@ function stammMit(V, publicKeyJwk) {
   publicKeyJwk, felder: [{ feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', provenienzPflichtig: true }] };
 }
 const kopie = (x) => JSON.parse(JSON.stringify(x));
-/* Die Antragsdatei in ② wie im Browser: Angaben stehen, Antragsnummer im Feld, ein echter Klick auf „Antragsdatei erstellen“. */
+/* Die Antragsdatei in ② wie im Browser: Angaben stehen (die Antragsnummer bildet das Studio), ein echter Klick auf „Antragsdatei erstellen“. */
 async function antragsdateiErstellt(g) {
   if (!g.V.STATE.anbieter) g.V.STATE.anbieter = stammMit(g.V, g.V.STATE.publicKeyJwk).anbieter;
-  g.el('sk-antragsnummer').value = ANTRAGSNUMMER;
   const datei = await g.V.antragsdateiErstellen(antragKlick());
   assert.ok(datei && datei.besitznachweis, 'Vorbedingung: die Antragsdatei ist entstanden: ' + g.el('sk-antrag-meldung').textContent);
   return datei;
@@ -66,7 +64,7 @@ async function antragsdateiErstellt(g) {
 test('[Einreichen·Schlüssel] eine Folge in drei Schritten; kein Schritt „Signieren“, keine Schlüssel-Stufe im Weg', () => {
   assert.equal(HTML.split(SCHALTER_AN).length - 1, 1, 'die Schalterzeile steht genau einmal da, auf true');
   assert.equal(HTML.indexOf(SCHALTER_AUS), -1);
-  assert.match(HTML, /<div class="karte-innen" id="sk-antrag-karte" hidden>\s*<label for="sk-antragsnummer"[\s\S]*?<button type="button" class="sekundaer" id="sk-antrag"/,
+  assert.match(HTML, /<div class="karte-innen" id="sk-antrag-karte" hidden>\s*<button type="button" class="sekundaer" id="sk-antrag"/,
     'die Antragsdatei steht in einer Karte, die erst mit dem Schlüssel im Speicher erscheint');
   const sichern = HTML.indexOf('id="es-sichern"'), priv = HTML.indexOf('id="sk-priv"'), karte = HTML.indexOf('id="sk-antrag-karte"'), drei = HTML.indexOf('id="fs-c"');
   assert.ok(sichern < priv && priv < karte && karte < drei, 'die Antragsdatei steht in ② hinter „Sicherung speichern“');
@@ -202,8 +200,8 @@ test('[Einreichen·Schlüssel] die Antragsdatei ist Bedingung: zu ohne sie, frei
   const datei = await antragsdateiErstellt(g);
   assert.equal(datei.format, 'vivodepot-herausgeber-antragsdatei/1');
   assert.equal(datei.jwk.x, g.V.STATE.publicKeyJwk.x, 'die Antragsdatei trägt den Schlüssel des Tresors');
-  assert.deepEqual(g.geladen.map((d) => d.name.replace(/^.*?\.(?=antrag|private)/, '')), ['private.vdkey', 'antrag-zertifikat.json'],
-    'zwei Dateien: die Sicherung und die Antragsdatei, kein .public.jwk');
+  assert.deepEqual(g.geladen.map((d) => d.name.replace(/^(NICHT-VERSENDEN-Sicherung|Fuer-Antragsformular)-.*?(\.vdkey|\.json)$/, '$1$2')), ['NICHT-VERSENDEN-Sicherung.vdkey', 'Fuer-Antragsformular.json'],
+    'zwei Dateien: die Sicherung (Warnung vorn) und die Antragsdatei, kein .public.jwk');
   assert.equal(g.V.einreichungFrei(), true, 'nach der Antragsdatei frei');
   // Ohne Schlüssel im Speicher steht die Karte nicht da (antragsdateiErstellen könnte nichts zeichnen).
   g.V.SCHLUESSEL_TRESOR.verwerfen('manuell');
@@ -232,7 +230,8 @@ async function blattOhneAntragsdatei(html) {
   assert.equal(V.pruefeBlatt(g.lauf('blattStateFuerBauen()')).blocker.length, 0, 'Vorbedingung: das Blatt selbst hält nichts auf');
   assert.equal(V.STATE.pubDownloaded, false, 'Vorbedingung: keine Antragsdatei erstellt');
   await V.blattErzeugen({ isTrusted: true, currentTarget: { id: 'ab-erzeugen' }, timeStamp: performance.now() });
-  return { ...g, blaetter: g.geladen.filter((d) => /^vivodepot-angehoerigenvorlage-/.test(d.name)) };
+  // Das Modul selbst; daneben gehen der Fragebogen im Standard (-questionnaire.json) und das PDF hinaus (Studio-Ausgabewege).
+  return { ...g, blaetter: g.geladen.filter((d) => /^vivodepot-angehoerigenvorlage-/.test(d.name) && !/-questionnaire\.json$|\.pdf$/.test(d.name)) };
 }
 test('[Einreichen·Schlüssel·Blatt] das Angehörigen-Blatt entsteht nach der Sicherung ohne Antragsdatei; die Karte steht dort nicht', async () => {
   assert.equal(HTML.split(ERLEDIGT).length - 1, 1, 'die Zeile des öffentlichen Teils steht genau einmal da');
@@ -255,7 +254,7 @@ test('[Einreichen·Schlüssel] Wortlaut der Folge, deutsch und englisch', () => 
   const da = [
     '>Die Sicherungsdatei bleibt bei Ihnen. Bewahren Sie sie an zwei Orten auf, zum Beispiel auf einem USB-Stick und in einem verschlüsselten Speicher.</p>',
     '>Diese Datei geht mit dem Antragsformular an Vivodepot. Sie enthält Ihren öffentlichen Schlüssel und einen Nachweis, dass Sie den privaten Schlüssel besitzen.',
-    '<p class="hint" data-en="Your public key goes to Vivodepot with the submission.">Ihr öffentlicher Schlüssel geht mit der Einreichung an Vivodepot.</p>',
+    '<span class="nur-fach" data-en="Your public key goes to Vivodepot with the submission.">Ihr öffentlicher Schlüssel geht mit der Einreichung an Vivodepot.</span>',
     'data-en="Save submission">Einreichung speichern</button>',
     '>Die Einreichung wird mit Ihrem Schlüssel unterschrieben und als eine Datei gespeichert.</p>',
     "L('Sicherung geprüft, heruntergeladen', 'Backup checked, downloaded')",

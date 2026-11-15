@@ -30,9 +30,25 @@ const { ladeKern } = require(path.join(__dirname, '..', 'tests', 'load-kern.js')
 
   V.flowGesundheitFhirExport();
   const okBtn = document.getElementById('m-ok');
-  if (typeof okBtn.onclick !== 'function') { console.log('ROT: kein Modal geöffnet — Aufbau gebrochen'); process.exit(1); }
+  if (!okBtn || typeof okBtn.onclick !== 'function') { console.log('ROT: kein Modal geöffnet — Aufbau gebrochen'); process.exit(1); }
+  /* A1 (11.11.2026): geht nichts mit und ist etwas zurückgehalten, stehen zwei Knöpfe da. Der Hauptknopf gibt die
+     zurückgehaltenen Angaben MIT heraus und muss das in seiner Beschriftung sagen; der Weg „nichts angekreuzt“ ist der
+     Zweitknopf „Ohne sie herausgeben“. Ohne zwei Wege bleibt es beim Hauptknopf. */
+  const box = document.getElementById('modal-inhalt');
+  const html = String((box && box.innerHTML) || '');
+  let knopf = okBtn;
+  if (html.includes('data-herausgabe-zwei-wege')) {
+    const S = V.STRINGS;
+    const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    if (!html.includes('id="m-ok">' + esc(S.exportAlleMitgebenKnopf) + '</button>')) {
+      console.log('ROT: der Hauptknopf gibt Zurückgehaltenes mit heraus, sagt das aber nicht in seiner Beschriftung');
+      process.exit(1);
+    }
+    knopf = document.getElementById('m-zweit');
+    if (!knopf || typeof knopf.onclick !== 'function') { console.log('ROT: zwei Wege ohne Zweitknopf — Aufbau gebrochen'); process.exit(1); }
+  }
   // Das Versprechen der Übersicht löst erst nach dem Bau auf (Befund EXPORT-AUSWAHL-VERFAELLT-IM-MODAL): nicht vor der Sprachwahl abwarten.
-  const uebersichtFertig = okBtn.onclick();
+  const uebersichtFertig = knopf.onclick();
   // Seit U2-ADR-458 folgt die Wahl der Exportsprache als eigener Dialog; die Voreinstellung (Englisch) bestätigen.
   const spracheOk = document.getElementById('ips-exportsprache') && document.getElementById('m-ok');
   if (!inhalt && spracheOk && typeof spracheOk.onclick === 'function') spracheOk.onclick();

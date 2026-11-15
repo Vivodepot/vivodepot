@@ -72,6 +72,7 @@ const SENKEN = [
   // Wiederherstellungs-Code. Beide Anweisungen füllen `html`, das danach in `c.innerHTML` geht.
   { name: 'Erledigen-Seite, Kopf (renderErledigen)', anker: "let html = '<div class=\"content-narrow erledigen\"", ende: ';', mindestens: 2 },
   { name: 'Erledigen-Seite, Code-Hinweis (renderErledigen)', anker: "html += '<div class=\"erledigen-whc\"", ende: ';', mindestens: 2 },
+  { name: 'Erledigen-Seite, Sicherungskopie (renderErledigen)', anker: "html += '<div class=\"erledigen-whc\" data-erledigen-sicherung", ende: ';', mindestens: 2 },
 ];
 
 for (const s of SENKEN) {

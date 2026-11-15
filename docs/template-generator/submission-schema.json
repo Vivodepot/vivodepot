@@ -104,17 +104,15 @@
             },
             "land": {
               "type": "string",
-              "minLength": 1,
-              "default": "Deutschland"
+              "minLength": 1
             }
           }
         },
         "kontakt": {
-          "description": "Kontaktperson für Rückfragen.",
+          "description": "Rückkanal der Einrichtung: die E-Mail-Adresse (aus ihr wird das Konto der Antragsdatei abgeleitet). Die Ansprechperson (Name), die Funktion und das Telefon sind freiwillig.",
           "type": "object",
           "additionalProperties": false,
           "required": [
-            "name",
             "email"
           ],
           "properties": {

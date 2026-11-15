@@ -3,12 +3,13 @@
    Passwort in zwei Schritten: technische Vorbereitung (30.10.2026)
    ────────────────────────────────────────────────────────────────────────
    Die Oberfläche der zwei Schritte baut die Gestaltung; hier stehen die Prüfungen, auf die sie sich stützt.
-   - K1/K9/K10: pwProbeVergleich sagt, welches der sechs Wörter abweicht, und trennt „nur Schreibung oder Trenner
-     anders“ von „gleich“, weil das Depot nur mit der Kanonform öffnet. Ein eigenes Passwort bekommt nie eine Stelle.
+   - K1/K9/K10: pwProbeVergleich sagt, welches der sechs Wörter abweicht. Seit PASSWORT-TRENNZEICHEN (11.11.2026, K9 Variante B)
+     sind dieselben Wörter mit anderem Trenner oder anderer Schreibung „gleich“, denn das Depot öffnet auch so
+     (tests/passwort-trennzeichen-kanon.test.js). Ein eigenes Passwort bekommt nie eine Stelle.
    - K10: whcProbeStelle nennt die erste abweichende Stelle des Ersatz-Codes, gelesen wie whcCodeLesen.
    - K4: beim Vorschlag zeigt die Stärke-Anzeige nichts, beim eigenen Passwort wie bisher.
    - K2: „Später einrichten“ ohne eigenen Ablehnen-Dialog ist vorbereitet und steht ab Werk aus.
-   Rot-Beweis: eine Probe, die Groß/klein gleichsetzt, und eine Stelle beim eigenen Passwort fallen auf.
+   Rot-Beweis: eine Probe, die Groß/klein oder Trenner unterscheidet, und eine Stelle beim eigenen Passwort fallen auf.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -23,7 +24,7 @@ const SOLL = 'tinte-wolke-hafen-apfel-geige-birke';
 // Das Urteil, das eine Probe-Funktion über drei Grenzfälle fällt; Grundlage auch des Rot-Beweises.
 function probeUrteil(f) {
   const raus = [];
-  if (f(SOLL, 'Tinte Wolke Hafen Apfel Geige Birke', LISTE).art === 'gleich') raus.push('Schreibung gilt als gleich');
+  if (f(SOLL, 'Tinte Wolke Hafen Apfel Geige Birke', LISTE).art !== 'gleich') raus.push('Schreibung gilt nicht als gleich');
   if (f(SOLL, SOLL, LISTE).art !== 'gleich') raus.push('Kanonform gilt nicht als gleich');
   if (f('mein-eigenes-passwort', 'mein-eigenes-passwortX', LISTE).wort !== -1) raus.push('eigenes Passwort bekommt eine Stelle');
   return raus;
@@ -36,8 +37,8 @@ test('[S2·Probe·Wörter] gleich, ein Wort abweichend, nur Schreibung/Trenner, 
   assert.deepEqual(f(SOLL, SOLL, LISTE), { art: 'gleich', wort: -1 });
   assert.deepEqual(f(SOLL, 'tinte-wolke-hafen-apfel-geige-kanne', LISTE), { art: 'wort', wort: 5 });
   assert.deepEqual(f(SOLL, 'tinte wolke hofen apfel geige birke', LISTE), { art: 'wort', wort: 2 }, 'auch mit Leerzeichen getippt');
-  assert.deepEqual(f(SOLL, 'Tinte-Wolke-Hafen-Apfel-Geige-Birke', LISTE), { art: 'form', wort: -1 });
-  assert.deepEqual(f(SOLL, ' tinte wolke hafen apfel geige birke ', LISTE), { art: 'form', wort: -1 });
+  assert.deepEqual(f(SOLL, 'Tinte-Wolke-Hafen-Apfel-Geige-Birke', LISTE), { art: 'gleich', wort: -1 });
+  assert.deepEqual(f(SOLL, ' tinte wolke hafen apfel geige birke ', LISTE), { art: 'gleich', wort: -1 });
   assert.deepEqual(f(SOLL, 'tinte-wolke-hafen', LISTE), { art: 'ungleich', wort: -1 });
   assert.deepEqual(f(SOLL, '', LISTE), { art: 'leer', wort: -1 });
   assert.deepEqual(probeUrteil(f), []);
@@ -72,15 +73,15 @@ test('[S2·Verdrahtung] die Code-Probe beim Anlegen nennt die Stelle und das ang
   assert.match(V.whcKontrolleHinweis(falsch, code), /Gruppe 3 .*Zeichen 4/);
 });
 
-test('[S2·Verdrahtung] der Passwort-Schritt nennt beim Vorschlag das abweichende Wort und die Kanonform', () => {
+test('[S2·Verdrahtung] der Passwort-Schritt nennt beim Vorschlag das abweichende Wort', () => {
   const K = KERN.slice(KERN.indexOf('function _depotIdentitaetUndPasswortAbfragen('));
   const koerper = K.slice(0, K.indexOf('\nfunction ', 10));
   assert.match(koerper, /_pwIstVorschlagForm\(pw\) \? pwProbeVergleich\(pw, pw2\) : null/);
   assert.match(koerper, /STRINGS\.pwProbeWortWeichtAb\.replace\('\{n\}', String\(probe\.wort \+ 1\)\)/);
-  assert.match(koerper, /STRINGS\.pwProbeNurSchreibung/);
+  assert.doesNotMatch(koerper, /pwProbeNurSchreibung/, 'keine Meldung „nur Schreibung“ mehr (PASSWORT-TRENNZEICHEN)');
   assert.ok(koerper.indexOf('pwProbeVergleich(') < koerper.indexOf("modalPwMismatch('id-pw'"), 'die Wort-Probe vor dem allgemeinen Vergleich');
   const { V } = ladeKern();
-  for (const k of ['pwProbeWortWeichtAb', 'pwProbeNurSchreibung', 'whcKontrolleStelle']) assert.equal(typeof V.STRINGS[k], 'string', k);
+  for (const k of ['pwProbeWortWeichtAb', 'whcKontrolleStelle']) assert.equal(typeof V.STRINGS[k], 'string', k);
 });
 
 test('[S2·Stärke] beim Vorschlag keine Stärke-Anzeige, beim eigenen Passwort wie bisher', () => {
@@ -98,9 +99,9 @@ test('[S2·Später] „Später einrichten“ ohne Ablehnen-Dialog ist vorbereite
   assert.match(KERN, /if \(WHC_ABLEHNEN_OHNE_DIALOG\) weiter\(\); else _whcAblehnenFragen\(passwort, weiter\);/);
 });
 
-test('[S2·Rot-Beweis] eine Probe, die Schreibung gleichsetzt oder dem eigenen Passwort eine Stelle gibt, fällt auf', () => {
-  const nachsichtig = (s, e) => ({ art: e.toLowerCase().replace(/\s+/g, '-') === s ? 'gleich' : 'ungleich', wort: -1 });
-  assert.ok(probeUrteil(nachsichtig).includes('Schreibung gilt als gleich'));
+test('[S2·Rot-Beweis] eine Probe, die Schreibung unterscheidet oder dem eigenen Passwort eine Stelle gibt, fällt auf', () => {
+  const streng = (s, e) => ({ art: e === s ? 'gleich' : 'ungleich', wort: -1 });
+  assert.ok(probeUrteil(streng).includes('Schreibung gilt nicht als gleich'));
   const plaudernd = (s, e) => (e === s ? { art: 'gleich', wort: -1 } : { art: 'wort', wort: 0 });
   assert.ok(probeUrteil(plaudernd).includes('eigenes Passwort bekommt eine Stelle'));
 });

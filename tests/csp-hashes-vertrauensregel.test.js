@@ -269,14 +269,49 @@ test('[Vertrauensregel] Skript-Adressen nur aus der festen Liste, Skript aus Tex
   assert.throws(() => p.createScript('alert(1)'), TYPFEHLER);
 });
 
+/* Studio-Schritt 5 (12.11.2026): eine weitere Anwendung darf eine eingebettete Bibliothek tragen, die der Kern trägt (jsPDF im
+   Studio). Ein @vd-lib-Block fällt aus der Suche heraus, aber nur, wenn er byte-gleich zum Block desselben Namens im Kern ist —
+   vom Kommentar mit dem Marker bis zum Ende des Skripts, wie tools/sbom-pflegen.js (zusaetzlicheTraeger) ihn liest. Im Kern ist
+   der Block geprüft; zur Laufzeit lehnt die Vertrauensregel jede Skript-Adresse außerhalb der Liste ab. Jede andere Stelle bleibt
+   in der Suche (12.11.2026). */
+const SKRIPT_LADEN = /serviceWorker\.register\(|createElement\(\s*['"]script['"]\s*\)|new Worker\(|importScripts\(/;
+function vdLibBlock(html, name) {
+  const m = html.indexOf('@vd-lib name="' + name + '"');
+  if (m < 0) return null;
+  const ende = html.indexOf('</script>', m);
+  return ende < 0 ? null : html.slice(html.lastIndexOf('<!--', m), ende + '</script>'.length);
+}
+function ohneKernGleicheBibliotheken(html, kern) {
+  let rest = html;
+  for (const m of html.matchAll(/@vd-lib name="([^"]+)"/g)) {
+    const block = vdLibBlock(html, m[1]);
+    if (block !== null && block === vdLibBlock(kern, m[1])) rest = rest.split(block).join('');
+  }
+  return rest;
+}
+
 test('[Vertrauensregel] die Skript-Adressen der Liste sind die, die der Kern wirklich lädt — und keine andere Anwendung lädt Skript', () => {
   const kern = lies('vivodepot.html');
   assert.match(kern, /navigator\.serviceWorker\.register\('sw\.js'\)/);
   assert.match(kern, /const VOR_DEPOT_KONFIGURATION_PFAD = '\.\/vorabkonfiguration\.js';/);
   for (const f of ANWENDUNGEN_SOLL.filter((x) => x !== 'vivodepot.html')) {
-    const html = lies(f);
-    assert.doesNotMatch(html, /serviceWorker\.register\(|createElement\(\s*['"]script['"]\s*\)|new Worker\(|importScripts\(/, f);
+    assert.doesNotMatch(ohneKernGleicheBibliotheken(lies(f), kern), SKRIPT_LADEN, f);
   }
+});
+
+test('[Vertrauensregel·Rot-Beweis] eine Bibliothek fällt nur byte-gleich zum Kern heraus; ein Byte anders oder Skript außerhalb bleibt rot', () => {
+  const kern = lies('vivodepot.html');
+  const block = vdLibBlock(kern, 'jspdf');
+  assert.ok(block && SKRIPT_LADEN.test(block), 'Vorbedingung: der jsPDF-Block des Kerns trägt die Fundstelle');
+  const seite = (b, dazu = '') => '<title>Probe</title><script>let a = 1;</script>' + b + dazu;
+  assert.doesNotMatch(ohneKernGleicheBibliotheken(seite(block), kern), SKRIPT_LADEN, 'byte-gleich: fällt heraus');
+  const einByte = block.replace('jsPDF', 'jsPDf');
+  assert.notEqual(einByte, block);
+  assert.match(ohneKernGleicheBibliotheken(seite(einByte), kern), SKRIPT_LADEN, 'ein Byte anders: bleibt in der Suche');
+  assert.match(ohneKernGleicheBibliotheken(seite(block, "<script>document.createElement('script');</script>"), kern), SKRIPT_LADEN,
+    'Skript außerhalb des Blocks: bleibt in der Suche');
+  const fremd = block.replace('@vd-lib name="jspdf"', '@vd-lib name="fremd"');
+  assert.match(ohneKernGleicheBibliotheken(seite(fremd), kern), SKRIPT_LADEN, 'ein Block, den der Kern nicht trägt: bleibt in der Suche');
 });
 
 test('[Vertrauensregel] der Blocktext bricht das Skript-Element nicht und hängt an keiner Laufzeit-Bibliothek', () => {

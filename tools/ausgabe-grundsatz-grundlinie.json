@@ -1,0 +1,160 @@
+{
+  "_zweck": "Bestand der Ausgaben an Stellen, denen der anwendbare Standard oder das PDF noch fehlt (Grundsatz vom 10.11.2026). Die Liste darf nur kürzer werden; ein Eintrag fällt mit der geschlossenen Lücke weg. Unter keinStandard stehen Ausgaben, für die gesucht und nichts gefunden wurde; sie gehen maschinenlesbar als Eigenes und als PDF hinaus. Prüfung: node tools/ausgabewege-pruefen.js",
+  "luecken": {
+    "bereich:assets": {
+      "kennung": "L5",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "Bereich ohne Format im Standard, nur PDF"
+    },
+    "bereich:emergencyPreparedness": {
+      "kennung": "L5",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "Bereich ohne Format im Standard, nur PDF"
+    },
+    "bereich:housing": {
+      "kennung": "L5",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "Bereich ohne Format im Standard, nur PDF"
+    },
+    "bereich:mobility": {
+      "kennung": "L5",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "Bereich ohne Format im Standard, nur PDF"
+    },
+    "bereich:personal": {
+      "kennung": "L5",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "Bereich ohne Format im Standard, nur PDF"
+    },
+    "bereich:pets": {
+      "kennung": "L5",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "Bereich ohne Format im Standard, nur PDF"
+    },
+    "format:bildungsangaben": {
+      "kennung": "L10",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "nur die eigenen Bildungsangaben; offizielle Nachweise gehen rein und raus. Vivodepot ist Holder, darum kein selbst erklärtes ELM"
+    },
+    "format:xoev-verwaltung": {
+      "kennung": "L1",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "eigenes JSON, Registerstand fehlt; anwendbar ist FIM"
+    },
+    "weg:_anfrageAntwortSchreiben": {
+      "kennung": "L8",
+      "fehlt": [
+        "standard",
+        "pdf"
+      ],
+      "grund": "eigene Antwort; eine Standarddatei nur, wenn die Anfrage ein Format nennt"
+    },
+    "weg:_shlDialogZeigen": {
+      "kennung": "L11",
+      "fehlt": [
+        "pdf"
+      ],
+      "grund": "Freigabe-Link aus der Mappe ohne PDF daneben",
+      "eigentuemer": "Sub-Depot",
+      "abnahme": "Zeile aus der Liste weg"
+    },
+    "weg:empfaengerDateiHerausgeben": {
+      "kennung": "L9",
+      "fehlt": [
+        "standard",
+        "pdf"
+      ],
+      "grund": "eigener verschlüsselter Container, auch als QR-Code"
+    },
+    "weg:flowErbscheinXmlSichern": {
+      "kennung": "L2",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "eigenes XML; anwendbar ist XJustiz"
+    },
+    "weg:flowGespraechsblatt": {
+      "kennung": "L7",
+      "fehlt": [
+        "standard",
+        "pdf"
+      ],
+      "grund": "Blatt zum Drucken, kein maschinenlesbarer Weg"
+    },
+    "weg:flowMappeEuLabDerPersonHerunterladen": {
+      "kennung": "L11",
+      "fehlt": [
+        "pdf"
+      ],
+      "grund": "in der Vorschau der Mappe kein PDF daneben",
+      "eigentuemer": "Sub-Depot",
+      "abnahme": "Zeile aus der Liste weg"
+    },
+    "weg:flowMappeVerwahrungHerunterladen": {
+      "kennung": "L11",
+      "fehlt": [
+        "pdf"
+      ],
+      "grund": "in der Vorschau der Mappe kein PDF daneben",
+      "eigentuemer": "Sub-Depot",
+      "abnahme": "Zeile aus der Liste weg"
+    },
+    "weg:flowSituationPdf": {
+      "kennung": "L6",
+      "fehlt": [
+        "standard"
+      ],
+      "grund": "nur PDF"
+    }
+  },
+  "keinStandard": {
+    "weg:flowAnlassExport": {
+      "thema": "Auszug zu einem Anlass über mehrere Lebensbereiche, für die Anlässe ohne Standard am Anlass im Katalog (anlass.ausgabe) (der Arzttermin gibt FHIR IPS aus)",
+      "suchweg": "Websuche nach einem Format für persönliche Daten über Lebensbereiche hinweg: Das Personal Data Portability Archive der IETF (https://datatracker.ietf.org/doc/draft-ietf-mailmaint-pdparchive/) umfasst E-Mail, Kontakte, Kalender, Aufgaben und Dateien. Websuche in den XÖV-Standards (https://www.xrepository.de/): XDatenschutzcockpit regelt den Nachweis von Übermittlungen, keinen Auszug. Nichts gefunden, das einen solchen Auszug beschreibt.",
+      "datum": "2026-11-10",
+      "wiedervorlage": "2027-11-10",
+      "medientyp": "application/json",
+      "herkunft": "vivodepot-anlass",
+      "anlaesse": {
+        "krankenhaus": "FHIR IPS mit Vorsorge-Abschnitt, eigener Bau nach dem Arzttermin. Eigentümer: Strang xShare.",
+        "pflegeheim": "Gesundheit FHIR IPS, Überleitung PIO ULB 1.0.0. Eigentümer: Strang xShare.",
+        "erbfall": "XJustiz 4.0.0, Bau nach dem Ja zu den Codelisten. Eigentümer: Strang xShare.",
+        "todesfall-uebernahme": "Zuschnitt offen (Datensatz oder Leitfaden). Eigentümer: Strang xShare.",
+        "geburt": "Personen vCard 4.0, Personenstand: Prüfung XPersonenstand. Eigentümer: Strang xShare.",
+        "volljaehrig": "Identität SD-JWT VC, Meldewesen xMeld-Ausgabe zu prüfen. Eigentümer: Strang xShare.",
+        "hauskauf": "Identität SD-JWT VC, Wohnen: Standardsuche offen. Eigentümer: Strang xShare.",
+        "notar": "Vorsorge: ZVR-Schnittstelle (Anfrage BNotK), Finanzen SD-JWT VC. Eigentümer: Strang xShare.",
+        "einfach-so": "je Thema ein Standard, Zuschnitt je Thema. Eigentümer: Strang xShare.",
+        "krankenhausakut": "Angehörigen-Blatt; wie krankenhaus. Eigentümer: Strang xShare.",
+        "pflegeheimakut": "Angehörigen-Blatt; wie pflegeheim. Eigentümer: Strang xShare.",
+        "beerdigung": "Angehörigen-Blatt; Zuschnitt wie todesfall-uebernahme. Eigentümer: Strang xShare.",
+        "behoerden_nachlass": "Angehörigen-Blatt; Nachlass XJustiz wie erbfall. Eigentümer: Strang xShare.",
+        "meine_menschen": "Angehörigen-Blatt; Personen vCard 4.0. Eigentümer: Strang xShare."
+      }
+    },
+    "weg:flowZusammenstellungHerausgeben": {
+      "thema": "Von der Person gewählte Zusammenstellung über mehrere Lebensbereiche",
+      "suchweg": "Websuche nach einem Format für persönliche Daten über Lebensbereiche hinweg: Das Personal Data Portability Archive der IETF (https://datatracker.ietf.org/doc/draft-ietf-mailmaint-pdparchive/) umfasst E-Mail, Kontakte, Kalender, Aufgaben und Dateien. Websuche in den XÖV-Standards (https://www.xrepository.de/): XDatenschutzcockpit regelt den Nachweis von Übermittlungen, keinen Auszug. Nichts gefunden, das einen solchen Auszug beschreibt.",
+      "datum": "2026-11-10",
+      "wiedervorlage": "2027-11-10",
+      "medientyp": "application/json",
+      "herkunft": "vivodepot-anlass"
+    }
+  }
+}

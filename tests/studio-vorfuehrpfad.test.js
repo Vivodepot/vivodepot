@@ -234,28 +234,26 @@ function vierPerPlus(V) {
   for (const i of [KAT(V, 'identity.birthDate'), ERSTES_FINANZFELD(V), KAT(V, 'identity.givenName'), KAT(V, 'identity.familyName')]) V.feldEinfuegen(V.feldAusKatalog(i), null);
   return V.STATE.felder.map((f) => f.bereich + ':' + f.feldname);
 }
-test('[Vorführpfad · Feldordnung] ein Feld per + kommt in seinen Bereich, in Katalog-Reihenfolge; Personendaten stehen vorn', () => {
+test('[Vorführpfad · Feldordnung] ein Feld per + steht dort, wo es abgelegt wird: am Ende, in der Folge des Antippens (12.11.2026, ersetzt die Katalog-Ordnung beim Antippen)', () => {
   const { V } = ladeGenerator();
   V.spracheFuerProbeSetzen('de');
   const reihe = vierPerPlus(V);
-  assert.deepEqual(reihe.map((x) => x.split(':')[0]), ['identity', 'identity', 'identity', 'finance']);
-  const namen = reihe.slice(0, 3).map((x) => x.split(':')[1]);
-  const erwartet = ['identity.givenName', 'identity.familyName', 'identity.birthDate']
-    .map((k) => V.FELDKATALOG[KAT(V, k)]).sort((a, b) => V.FELDKATALOG.indexOf(a) - V.FELDKATALOG.indexOf(b)).map((k) => k.label);
-  assert.deepEqual(namen, erwartet);
+  const erwartet = [KAT(V, 'identity.birthDate'), ERSTES_FINANZFELD(V), KAT(V, 'identity.givenName'), KAT(V, 'identity.familyName')].map((i) => V.FELDKATALOG[i].label);
+  assert.deepEqual(reihe.map((x) => x.split(':')[1]), erwartet);
 });
-test('[Vorführpfad · Feldordnung · Rot-Beweis] ohne das Einordnen stehen die Felder in der Folge des Antippens', () => {
-  const zeile = '  if (pos == null && basis && basis._kennung) pos = einordnungsIndex(STATE.felder, basis);\n';
-  const { V } = ladeGenerator({ html: ersetzt(zeile, '') });
+test('[Vorführpfad · Feldordnung · Rot-Beweis] mit dem früheren Einordnen nach Katalog rückt das Finanzfeld ans Ende (Marke Rot-Beweis)', () => {
+  const zeile = '  if (pos == null) pos = STATE.felder.length;\n';
+  const { V } = ladeGenerator({ html: ersetzt(zeile, '  if (pos == null && basis && basis._kennung) pos = einordnungsIndex(STATE.felder, basis);\n' + zeile) });
   V.spracheFuerProbeSetzen('de');
-  assert.equal(vierPerPlus(V)[1].split(':')[0], 'finance');
+  assert.equal(vierPerPlus(V)[3].split(':')[0], 'finance');
+  assert.notEqual(vierPerPlus(V)[1].split(':')[0], 'finance');
 });
 function gemischt(V) {
   const f = (i) => V.feldAusBasisBauen(V.feldAusKatalog(i), [], 0).feld;
   return [f(ERSTES_FINANZFELD(V)), { feldname: 'Eigene Frage', feldtyp: 'text', pflicht: false, bereich: 'identity', provenienzPflichtig: true },
     f(KAT(V, 'identity.birthDate')), f(KAT(V, 'identity.givenName'))];
 }
-test('[Vorführpfad · Feldordnung] „Nach Bereichen ordnen“: Bereiche in fester Folge, Katalog-Reihenfolge darin; die Einreichung ist gültig und trägt die Folge', () => {
+test('[Vorführpfad · Feldordnung] „Nach Themen ordnen“: Bereiche in fester Folge, Katalog-Reihenfolge darin; die Einreichung ist gültig und trägt die Folge', () => {
   const { V } = ladeGenerator();
   V.spracheFuerProbeSetzen('de');
   const sortiert = nativ(V.felderNachBereichen(gemischt(V)));
@@ -268,7 +266,7 @@ test('[Vorführpfad · Feldordnung] „Nach Bereichen ordnen“: Bereiche in fes
   assert.notEqual(V.vorabUrteilVorlage(state).urteil, 'abgewiesen', 'Vorprüfung gegen den Torwächter des Kerns');
   assert.deepEqual(nativ(paket.templates[0].felder).map((x) => x.feldname), sortiert.map((x) => x.feldname), 'die Einreichung trägt die neue Folge');
   // Der Knopf ist da und gebunden.
-  assert.match(HTML, /<button type="button" class="sekundaer mini" id="tpl-ordnen" data-en="Sort by section">Nach Bereichen ordnen<\/button>/);
+  assert.match(HTML, /<button type="button" class="sekundaer mini" id="tpl-ordnen" data-en="Sort by topic">Nach Themen ordnen<\/button>/);
   assert.match(HTML, /an\('tpl-ordnen', 'click', felderOrdnen\);/);
   // Ziehen in die leere Fläche ordnet ein, Ziehen auf eine Karte setzt genau dorthin.
   assert.match(HTML, /feldEinfuegen\(feldAusKatalog\(d\.idx\), z\.karte \? z\.index : null\)/);
@@ -320,38 +318,37 @@ test('[Vorführpfad · Vorschau · Rot-Beweis] der alte Knopftext fällt auf, de
 /* ── (10) Anfrage: Ergebnis in der Reihenfolge Brief, Passwort, Link; jeder Knopf sagt, für wen; Hinweis zur Signatur ─ */
 function ergebnisKoerper(html) {
   const a = html.indexOf('async function anfrageAssistentErzeugen');
-  return html.slice(a, html.indexOf('\n}\n', a));
+  return html.slice(a, html.indexOf('function anfrageErgebnisAbschluss', a));
 }
-test('[Vorführpfad · Anfrage] das Ergebnis zeigt zuerst den Brief, dann das Passwort, dann den Link; jeder Knopf sagt, für wen die Datei ist', () => {
+test('[Vorführpfad · Anfrage] das Ergebnis zeigt zuerst den Brief, dann das Passwort, dann den Link; jede Karte sagt, für wen die Datei ist', () => {
   const k = ergebnisKoerper(HTML);
-  const i = ["'1. Der Brief für die Person'", "'2. Das Passwort (für Sie und die Person)'", "'3. Der Link allein"].map((t) => k.indexOf(t));
+  const i = ["ergebnisKarte({ id: 'brief'", "ergebnisKarte({ id: 'passwort'", "ergebnisKarte({ id: 'link'"].map((t) => HTML.indexOf(t));
   assert.ok(i.every((x) => x > 0) && i[0] < i[1] && i[1] < i[2], JSON.stringify(i));
-  for (const t of ['Brief speichern (Text, für die Person)', 'Save letter (text, for the person)', 'Anfrage als Datei speichern (für die Person, zum Anhängen)',
-    'Save request as a file (for the person, to attach)', 'Passwort-Zettel speichern (für die Person, getrennt vom Brief)', 'Save password note (for the person, separate from the letter)']) assert.ok(k.includes(t), t);
+  for (const t of ["L('Speichern', 'Save') + ': ' + k.titel", "L('Brief für die Person', 'Letter for the person')", "L('Passwort', 'Password')", 'Anfrage als Datei (zum Anhängen)', 'Request as a file (to attach)']) assert.ok(HTML.includes(t), t);
   assert.ok(!/herunterladen'|'Download /.test(k), 'kein Knopf ohne Empfänger');
   assert.match(HTML, /Die Person sieht „Nicht geprüft“, weil Ihre Anfrage nicht signiert ist\. Fragen können Sie trotzdem\. .*den brauchen Sie jetzt nicht\./);
   assert.match(HTML, /data-en="The person sees “Not verified” because your request is not signed\. You can still ask\. .*you do not need one now\."/);
   assert.match(HTML, /data-en="Attach the submission file that was just saved \(not the key file\)\.">Hängen Sie die Einreichungs-Datei an, die gerade gespeichert wurde \(nicht die Schlüsseldatei\)\.<\/li>/);
 });
 test('[Vorführpfad · Anfrage · Rot-Beweis] die frühere Reihenfolge und ein Knopf ohne Empfänger fallen auf', () => {
-  const alt = ersetzt("[L('Brief speichern (Text, für die Person)', 'Save letter (text, for the person)')]", "[L('Brieftext herunterladen', 'Download letter')]");
-  assert.ok(/herunterladen'|'Download /.test(ergebnisKoerper(alt)));
-  const k = ergebnisKoerper(HTML.replace("'1. Der Brief für die Person'", "'9. Der Brief für die Person'"));
-  assert.equal(k.indexOf("'1. Der Brief für die Person'"), -1);
+  const alt = ersetzt("L('Anfrage als Datei (zum Anhängen)', 'Request as a file (to attach)')", "L('Brieftext herunterladen', 'Download letter')");
+  assert.ok(/herunterladen'|'Download /.test(alt));
+  const k = ergebnisKoerper(HTML.replace("L('Brief für die Person'", "L('9. Brief für die Person'"));
+  assert.equal(k.indexOf("L('Brief für die Person'"), -1);
 });
 
 /* ── (11) Wörter für Laien, Runde 2 (15.10.2026) ──────────────────────────────────────────────────────────────── */
 const RUNDE2 = [
-  ['Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.', 'For IT specialists: building blocks, formats and checking tools.'],
+  ['Für Fachleute: alle Einstellungen.', 'For specialists: all settings.'],   // seit 12.11.2026 (UX): kein „IT-Fachleute“ auf der Kachel
   ['Ihr Aktenzeichen (freiwillig)', 'Your file reference (optional)'],
   ['In welchem Land gilt das Recht, nach dem Sie fragen? (freiwillig; leer lassen, wenn Sie es nicht wissen)', 'In which country does the law apply that you are asking under? (optional; leave empty if you do not know)'],
   ['An welche E-Mail-Adresse soll die Person ihre Antwort schicken?', 'To which e-mail address should the person send the reply?'],
   ['Expertensicht: mit eigenem Schlüsselpaar', 'Expert view: with your own key pair'],   // seit Studio-Umbau Wagen 1 (09.11.2026) Chip „Expertensicht ↗“
   ['Alle Felder ansehen (Register)', 'See all fields (register)'],
   ['Technische Namen (Kennungen) zeigen', 'Show technical names (identifiers)'],
-  ['Die Dateien liegen danach auf Ihrem Gerät im Ordner „Downloads“.', 'After saving, the files are in your device’s “Downloads” folder.'],
+  ['Gespeichertes liegt im Ordner „Downloads“.', 'Saved files are in the “Downloads” folder.'],
 ];
-const RUNDE2_ALT = ['Für Integratoren:', 'For integrators:', 'Ihr Zeichen für diesen Vorgang', 'Nach welchem Recht fragen Sie?', 'Wohin schickt die Person die Datei?',
+const RUNDE2_ALT = ['Für IT-Fachleute:', 'Kennung vorschlagen</button>', 'Nach Bereichen ordnen', 'Für Integratoren:', 'For integrators:', 'Ihr Zeichen für diesen Vorgang', 'Nach welchem Recht fragen Sie?', 'Wohin schickt die Person die Datei?',
   'Stattdessen mit eigenem Schlüsselpaar', 'Register ansehen', '>Kennungen zeigen<', 'Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)'];
 const runde2Befunde = (h) => RUNDE2.flat().filter((t) => !h.includes(t)).concat(RUNDE2_ALT.filter((t) => h.includes(t)));
 test('[Vorführpfad · Wörter] die Laien-Wörter stehen deutsch und englisch, die alten sind fort', () => {

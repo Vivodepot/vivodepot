@@ -116,10 +116,13 @@ test('[Nr.6] interner Modus: die U2-ADR-211-Erinnerung erscheint über den still
     // dieselbe Begründung in tests/e2e/u2-adr-212-sichern-intern.spec.js.
     // Seit M21 (03.11.2026) erscheint die Erinnerung nicht mehr als Meldung über dem Inhalt, sondern hinter dem ⓘ neben
     // dem Speicherstatus im Kopf; derselbe Wortlaut in der Risiko-Fassung steht im Blatt, das das ⓘ öffnet.
-    await expect(page.locator('#toast-host').getByText('Dieses Gerät kann den internen Speicher jederzeit freiräumen')).toHaveCount(0);
+    // 12.11.2026: die Risiko-Fassung ist ruhiger gefasst (Zustand mit nächstem Schritt); das Blatt nennt den Stand und den Knopf.
+    await expect(page.locator('#toast-host').getByText('Der Browser darf Daten auf diesem Gerät von sich aus löschen')).toHaveCount(0);
     await expect(page.locator('#tb-save-info')).toBeVisible();
     await page.locator('#tb-save-info').click();
-    await expect(page.locator('#tb-save-info-blatt').getByText('Dieses Gerät kann den internen Speicher jederzeit freiräumen')).toBeVisible();
+    await expect(page.locator('#tb-save-info-blatt').getByText('Der Browser darf Daten auf diesem Gerät von sich aus löschen')).toBeVisible();
+    await expect(page.locator('#tb-save-info-blatt').getByText('Sicherungskopie: noch keine')).toBeVisible();
+    await expect(page.locator('#tb-save-info-blatt').getByRole('button', { name: 'Sicherungskopie erstellen' })).toBeVisible();
   } finally {
     srv.close();
   }

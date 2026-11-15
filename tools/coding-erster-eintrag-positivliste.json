@@ -1,0 +1,9 @@
+{
+ "zweck": "Stellen, die bewusst nur den ersten coding-Eintrag eines CodeableConcept lesen. Wer nur den ersten liest, verliert die übrigen Codes; jede Stelle braucht darum einen Grund. Die Zahl der Einträge ist die Zahl der Stellen und kann nur sinken.",
+ "eintraege": [
+  {
+   "funktion": "_fhirCodingDisplay",
+   "grund": "Zeigt die Bezeichnung eines Laborwerts in der Anzeige eines fremden Dokuments; übernimmt keinen Code ins Depot und gibt keinen weiter."
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "zweck": "Wächter „Ansicht“: je gerenderter Ansicht die Zahl der sichtbaren Elemente ohne Baustein (data-baustein am Element oder an einem Vorfahren). Darf nur sinken. Erhoben mit dem ersten Baustein: node tools/gestaltung-ansicht.js --grundlinie-schreiben --messung test-results/gestaltung-ansicht-messung.json",
+ "zahlen": {
+  "bereich-gesundheit": 460,
+  "bereich-identitaet": 479,
+  "meine-dokumente-leer": 123,
+  "prueftermine-leer": 116,
+  "sub-depots-leer": 130,
+  "uebersicht": 479,
+  "willkommen": 31
+ }
+}

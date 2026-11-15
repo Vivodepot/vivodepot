@@ -107,12 +107,12 @@ html:not(.dark-mode):not(.high-contrast) body, html:not(.dark-mode):not(.high-co
 html:not(.dark-mode):not(.high-contrast) #app .sidebar { background: rgba(255,255,255,.58); border-right: 1px solid rgba(255,255,255,.92); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); }
 html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(28,42,30,.22); -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2); }
-html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,var(--dialog-deckkraft)); border: 1px solid transparent; box-shadow: 0 18px 50px rgba(79,101,57,.14); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: 24px; }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,var(--dialog-deckkraft)); border: 1px solid transparent; box-shadow: 0 18px 50px rgba(79,101,57,.14); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: var(--radius-fenster); }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal .modal-aktionen { background: transparent; }
 html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); }
 html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar { background: rgba(26,28,31,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
 html.dark-mode:not(.high-contrast) body, html.dark-mode:not(.high-contrast) #app { background: radial-gradient(1200px 500px at 15% 0%, #262b27 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #23262d 0%, transparent 55%), var(--cream); background-attachment: fixed; }
-html.dark-mode:not(.high-contrast) #modal-rueck .modal { background: rgba(30,32,35,.82); border: 1px solid rgba(255,255,255,.08); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-radius: 24px; }
+html.dark-mode:not(.high-contrast) #modal-rueck .modal { background: rgba(30,32,35,.82); border: 1px solid rgba(255,255,255,.08); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-radius: var(--radius-fenster); }
 @media (prefers-reduced-transparency: reduce) {
 /* Dieselben Selektoren wie das Glas oben (gleiche Spezifität, später = gewinnt): sonst bliebe das Glas stehen (Probe glas-flaechen). */
 html:not(.dark-mode):not(.high-contrast) .topbar, html:not(.dark-mode):not(.high-contrast) #app .sidebar, html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal, html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte, html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: #f7f8f4; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -233,47 +233,47 @@ font-size: var(--fs-role-text); font-weight: 700; letter-spacing: normal; text-t
 }
 .sidebar details.nav-gruppe:not(.nav-gruppe-austausch) > summary { font-size: var(--fs-role-hilfe); font-weight: 500; color: var(--ink2); }
 .sidebar .nav-gruppe-austausch, .sidebar .nav-item-klein { border-top: 0; border-bottom: 0; }
-.sidebar .nav-gruppe-austausch { margin-top: 12px; }
+.sidebar .nav-gruppe-austausch { margin-top: var(--abstand-3); }
 
 /* ── App-Start in der Sprache der Website (07.10.2026, zweiter Entwurf freigegeben): Glaskarte ohne Rand, Pillen-Knöpfe, der Hauptknopf
    gefüllt, die übrigen als ruhige Fläche ohne Symbol; Vorlesen und Installationshinweis als leiser Text. Bleibt der Bildschirm der App. ── */
 html:not(.dark-mode):not(.high-contrast) #overlay { background: radial-gradient(1100px 520px at 12% 0%, var(--salbei-light) 0%, transparent 60%), var(--cream); }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt.karte {
-border: 0; border-radius: 22px; background: rgba(255,255,255,.72); box-shadow: 0 18px 50px rgba(79,101,57,.10); padding: 40px 44px 36px; max-width: 620px;
+border: 0; border-radius: var(--radius-fenster); background: rgba(255,255,255,.72); box-shadow: 0 18px 50px rgba(79,101,57,.10); padding: var(--space-7) var(--space-7) var(--space-6); max-width: var(--dialog-breite-weit);
 }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-kopf { position: relative; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .vor-depot-sprache { position: absolute; top: -18px; right: -20px; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-brand { margin: 8px 0 22px; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub { font-size: var(--fs-role-gruppe); line-height: 1.6; color: var(--ink2); margin: 0 0 6px; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub:first-of-type { font-size: var(--fs-role-abschnitt); font-weight: 650; color: var(--ink); letter-spacing: -0.005em; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-brand { margin: var(--space-2) 0 var(--space-5); }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub { font-size: var(--fs-role-gruppe); line-height: var(--dialog-zeilenhoehe); color: var(--ink2); margin: 0 0 var(--space-2); }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub:first-of-type { font-size: var(--fs-role-abschnitt); font-weight: 650; color: var(--ink); letter-spacing: var(--ls-titel); }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt > .welcome-kopf + div { text-align: center; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #vorlese-sicht {
-border: 0; background: none; box-shadow: none; color: var(--ink2); padding: 4px; text-decoration: underline; text-underline-offset: 3px; font-size: var(--fs-role-hilfe);
+border: 0; background: none; box-shadow: none; color: var(--ink2); padding: var(--space-1); text-decoration: underline; text-underline-offset: 3px; font-size: var(--fs-role-hilfe);
 }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-aktionen { margin-top: 26px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-aktionen { margin-top: var(--space-5); }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anlegen {
-border-radius: var(--radius-pill); padding: 15px 26px; font-size: var(--fs-role-text); font-weight: 600; box-shadow: 0 10px 24px rgba(79,101,57,.18);
+border-radius: var(--radius-pill); padding: var(--space-4) var(--space-5); font-size: var(--fs-role-text); font-weight: 600; box-shadow: 0 10px 24px rgba(79,101,57,.18);
 }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer { gap: 10px; margin-top: 12px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer { gap: var(--space-2); margin-top: var(--space-3); }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer .btn-sek {
-border: 0; border-radius: var(--radius-pill); background: rgba(79,101,57,.10); color: var(--ink); font-weight: 500; padding: 13px 20px; flex: 1 1 auto; white-space: nowrap;
+border: 0; border-radius: var(--radius-pill); background: rgba(79,101,57,.10); color: var(--ink); font-weight: 500; padding: var(--space-3) var(--space-5); flex: 1 1 auto; white-space: nowrap;
 }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer .btn-sek svg { display: none; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anfangen { color: var(--ink2); }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung { background: none; border: 0; box-shadow: none; padding: 0; margin-top: 30px; text-align: center; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung { background: none; border: 0; box-shadow: none; padding: 0; margin-top: var(--space-6); text-align: center; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung-titel { font-size: var(--fs-role-hilfe); color: var(--ink2); font-weight: 600; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .webapp-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink2); justify-content: center; }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .webapp-hinweis svg { display: none; }
 @media (max-width: 600px) {
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt.karte { padding: 32px 20px 28px; border-radius: 18px; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .vor-depot-sprache { position: static; display: flex; margin: -12px 0 6px auto; width: max-content; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt.karte { padding: var(--space-6) var(--space-5) var(--space-5); border-radius: var(--radius-blatt); }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .vor-depot-sprache { position: static; display: flex; margin: calc(-1 * var(--space-3)) 0 var(--space-2) auto; width: max-content; }
 }
 
 /* ── Listen nach der Konvention „Hinzufügen“ (07.10.2026, freigegeben): Einträge als Zeilen auf ruhiger Fläche, Bearbeiten und Entfernen
    als leise Verweise, darunter der Zweitknopf „Weitere … hinzufügen“ als ruhige Fläche ohne Plus und ohne Symbol. ── */
 .feld-liste-editor .liste-eintraege { padding-left: 0; margin: 0; list-style: none; }
 html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege > li {
-display: flex; align-items: baseline; gap: 16px; padding: 10px 12px; margin-bottom: 6px; background: rgba(79,101,57,.05); border: 0; border-radius: var(--radius-sm);
+display: flex; align-items: baseline; gap: var(--abstand-4); padding: 10px var(--abstand-3); margin-bottom: 6px; background: rgba(79,101,57,.05); border: 0; border-radius: var(--radius-sm);
 }
 /* 01.11.2026: Startbreite 16rem statt 0 — am schmalen Bildschirm steht die Zeile (Beschriftung über Wert) über der ganzen
    Breite und die Knöpfe brechen darunter um; mit 0 teilte sie sich die Reihe mit ihnen und stand wenige Wörter breit. */
@@ -283,7 +283,7 @@ background: none; border: 0; box-shadow: none; padding: 2px 0; min-height: 24px;
 }
 .feld-liste-editor .liste-eintraege .btn-mini[disabled] { display: none; }
 html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:not([hidden]) {
-display: inline-block; align-self: flex-start; margin-top: 8px; padding: 9px 16px; min-height: 40px; border: 0; border-radius: var(--radius-md); box-shadow: none;
+display: inline-block; align-self: flex-start; margin-top: var(--abstand-2); padding: 9px var(--abstand-4); min-height: 40px; border: 0; border-radius: var(--radius-md); box-shadow: none;
 background: rgba(79,101,57,.10); color: var(--ink); font: inherit; font-size: var(--fs-role-hilfe); font-weight: 500; cursor: pointer;
 }
 html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:hover { background: rgba(79,101,57,.16); }
@@ -466,14 +466,14 @@ html:not(.high-contrast) #app .feldgruppen-karte:not([open]) { padding-top: var(
 /* Schmal wie breit: die Zeile wächst mit ihrem Inhalt (keine feste Höhe, nichts abgeschnitten); Pfeil und › bleiben neben ihr, der ganze Eintrag steht hinter dem ›. */
 .feld-liste-editor .liste-eintraege > li > .liste-eintrag-zusammenfassung { line-height: 1.5; }
 .feld-liste-editor .liste-eintrag-zusammenfassung { display: flex; flex-direction: row; flex-wrap: wrap; align-items: baseline; row-gap: 2px; column-gap: 0; }
-.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld { flex-direction: row; align-items: baseline; gap: 4px; }
-.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld + .liste-eintrag-feld::before { content: "·"; margin: 0 8px; color: var(--ink3); }
+.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld { flex-direction: row; align-items: baseline; gap: var(--abstand-1); }
+.feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld + .liste-eintrag-feld::before { content: "·"; margin: 0 var(--abstand-2); color: var(--ink3); }
 .feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld:not(.liste-eintrag-feld--datum) > .liste-eintrag-label { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .feld-liste-editor .liste-eintrag-zusammenfassung > .liste-eintrag-feld--datum > .liste-eintrag-label { font-size: inherit; }
 .feld-liste-editor .liste-eintraege > li > button { position: relative; z-index: 1; }
-#app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten] { position: static; z-index: 0; order: 99; font-size: 0; text-decoration: none; padding: 0 4px; min-width: 24px; }
+#app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten] { position: static; z-index: 0; order: 99; font-size: 0; text-decoration: none; padding: 0 var(--abstand-1); min-width: 24px; }
 @media (pointer: coarse) { #app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten] { min-width: var(--ziel); } }   /* grobes Zeigegerät: die Zeile behält ihr 44-px-Ziel */
-#app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten]::after { content: ""; display: inline-block; width: 8px; height: 8px; border-top: 2px solid var(--ink2); border-right: 2px solid var(--ink2); transform: rotate(45deg); margin-right: 4px; }
+#app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten]::after { content: ""; display: inline-block; width: 8px; height: 8px; border-top: 2px solid var(--ink2); border-right: 2px solid var(--ink2); transform: rotate(45deg); margin-right: var(--abstand-1); }
 #app .feld-liste-editor .liste-eintraege > li > button[data-eintrag-bearbeiten]::before { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 /* Das › (order: 99) ist Flex-Element und malt sonst zuletzt, seine Fläche läge über Entfernen, den Pfeilen und „Depot für dieses Kind anlegen“: z-index 0 legt sie unter deren z-index 1. */
 /* (d) Seitenleiste */

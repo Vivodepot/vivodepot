@@ -145,6 +145,8 @@ ohne dass ein Feld es offenlegt.
    Krypto-Hülle; ihr Rückbau geht mit der nächsten Festschreibung. Bis dahin prüft `tests/holder-schluessel-unverknuepfbar.test.js`,
    dass außer den Gliedern dieser Kette selbst nichts sie ruft, im Kern und in den anderen Oberflächen.
 
+**Nachtrag 10.11.2026, Fassung.** Das Format SD-JWT folgt RFC 9901. SD-JWT VC ist bisher kein RFC. Die Ausgabe folgt `draft-ietf-oauth-sd-jwt-vc`, entschieden an Fassung -19 und am 10.11.2026 gegen Fassung -26 verglichen: `typ`, `vct`, `iss`, `cnf` und die Ablehnung ohne Schlüsselzuordnung sind unverändert. Weg zum Nachsehen: `tools/standards-register/signatur.json`, Eintrag `sd-jwt-vc`.
+
 ## Was nicht entschieden ist
 
 - **Registrierte `vct`** statt `urn:vivodepot:*`: Es gibt dafür heute weder ein Rulebook noch einen Katalogeintrag (Teil 2 von

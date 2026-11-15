@@ -158,13 +158,17 @@ Frist**, `nicht-prüfbar` ohne Grund. Das ist Dateien lesen, Namen vergleichen
 und ein Datum — klein, sobald die Integritäts-Registry steht.
 
 ```konformitaet
-aussage:   Jede ADR ab diesem Beschluss trägt einen Konformitäts-Block, und
-           jede Prüfung nennt ihre ADR.
-zustand:   offen
-frist:     2026-11-27
-bedingung: Integritäts-Registry steht (Prüf-Architektur, Spur B)
-           Frist am 28.10.2026 neu gesetzt, vorher 2026-10-31; Eigentümer Strang Prüfregeln; Abnahme Integritäts-Registry Spur B gebaut oder Klausel neu gefasst.
+aussage:   Jede ADR ab diesem Beschluss trägt einen Konformitäts-Block, außer sie
+           steht in tools/adr-ohne-block-grundlinie.json; die Liste darf nur sinken.
+zustand:   geprüft
+pruefung:  tests/adr-konformitaet-pruefen.test.js#[Ohne-Block] die echte Liste hält
 ```
+
+*Nachtrag 09.11.2026: Die Klausel lautete zuvor „Jede ADR ab diesem Beschluss trägt einen Konformitäts-Block, und jede
+Prüfung nennt ihre ADR.“ Gemessen am 09.11.2026 tragen 169 von 379 ADRs ab diesem Beschluss keinen Block; sie stehen jetzt in
+der Liste. Die Rückrichtung, das Feld `adr:` im Code, steht in 6 Dateien. Von 1220 `pruefung:`-Zeilen zeigen 309 auf eine
+Datei, die ihre ADR nicht nennt. Die Rückrichtung ist nicht eingeführt, die Bindung läuft von der ADR zur Prüfung
+(tools/adr-konformitaet-pruefen.js). Darum steht sie nicht mehr in der Aussage.*
 
 *Ohne diesen Block wäre dieses ADR das erste, das seine eigene Regel bricht.
 Das Datum ist bewusst gesetzt und nicht großzügig: Verstreicht es, ohne dass

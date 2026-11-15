@@ -147,6 +147,11 @@ test('renderSituation: eigenes Feld zeigt Wert; sensibel trägt Bildschirm-Marke
   assert.ok(html.includes('Eigenes Feld') && html.includes('Hallo Welt'), 'eigenes Feld mit Wert');
   assert.ok(html.includes('Geheim') && html.includes(V.STRINGS.situationSensibel),
     'sensibel-Feld trägt „nur am Bildschirm"-Marker');
+  // ABN-B11: der Marker ist ein Symbol mit title, kein sichtbarer Fließtext.
+  const m = /<span class="sensibel-marker"([^>]*)>([^<]*)<\/span>/.exec(html);
+  assert.ok(m, 'Marker vorhanden');
+  assert.ok(m[1].includes('title="' + V.STRINGS.situationSensibel + '"'), 'title trägt den Satz');
+  assert.ok(!/Bildschirm/.test(m[2]), 'kein Satz als sichtbarer Text');
 });
 
 test('renderSituation druck=true: sensibel-Feld ausgeblendet, restliche Felder bleiben', async () => {

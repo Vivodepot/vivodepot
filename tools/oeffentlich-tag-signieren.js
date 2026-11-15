@@ -40,6 +40,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
+const { grundVon } = require('./lib/grund.js');
 const { belegLesen, laufBelegPruefen } = require('./oeffentlicher-lauf-beleg.js');
 const { releaseVorbereiten } = require('./opencode-release-vorbereiten.js');
 
@@ -119,7 +120,7 @@ function fassungPruefen(tag, { standDoku, oeffentlicheStaende }) {
     return { ok: false, grund: 'Kern v' + n + ' steht nicht im Register der Auslieferungen — nie ausgeliefert' };
   }
   let staende;
-  try { staende = JSON.parse(oeffentlicheStaende).staende; } catch { return { ok: false, grund: 'Register der öffentlichen Stände nicht lesbar' }; }
+  try { staende = JSON.parse(oeffentlicheStaende).staende; } catch (e) { return { ok: false, grund: 'Register der öffentlichen Stände nicht lesbar (' + grundVon(e) + ')' }; }
   const hoechste = Math.max(0, ...staende.map((x) => Number((/^v1\.0\.(\d+)$/.exec(x.fassung) || [])[1] || 0)));
   if (n <= hoechste) return { ok: false, grund: tag + ' ist nicht neuer als der jüngste öffentliche Stand v1.0.' + hoechste };
   return { ok: true };
@@ -132,7 +133,7 @@ function releaseTextPruefen(klon, commit, tag, env) {
   try {
     const tar = git(klon, ['archive', '--format=tar', commit], { env, binaer: true });
     if (tar.status !== 0) return { ok: false, grund: 'der Stand ' + commit + ' ließ sich nicht abziehen (git archive)' };
-    const x = spawnSync('tar', ['-x', '-C', abzug], { input: tar.stdout });
+    const x = require('./lib/kind-mit-eingabe.js').kindMitEingabe('tar', ['-x', '-C', abzug], { eingabe: tar.stdout, werfen: false, zeitgrenzeMs: 30 * 60 * 1000 });
     if (x.status !== 0) return { ok: false, grund: 'der Abzug von ' + commit + ' ließ sich nicht entpacken' };
     const r = releaseVorbereiten({ quelle: abzug, fassung: tag });
     if (r.fehler.length) return { ok: false, grund: 'der Spiegel fände für ' + tag + ' keinen vollständigen Release-Text: ' + r.fehler.join('; ') };
@@ -144,10 +145,11 @@ function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundl
   const rot = (satz) => { schreiben('[tag-signieren] ROT — ' + satz + '\n'); return 1; };
   if (!klon || !fs.existsSync(path.join(klon, '.git'))) return rot('kein Git-Klon: ' + klon);
   if (!TAG_MUSTER.test(String(tag || ''))) return rot('der Tag heißt v1.0.<Fassung>, nicht „' + tag + '“');
-  const lesen = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch { return null; } };
+  const gruende = [];
+  const lesen = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { gruende.push(path.basename(p) + ': ' + grundVon(e)); return null; } };
   const standDoku = auslieferungen ? lesen(auslieferungen) : null;
   const oeffentlicheStaende = staende ? lesen(staende) : null;
-  if (standDoku === null || oeffentlicheStaende === null) return rot('--auslieferungen und --staende (die zwei Register) fehlen oder sind nicht lesbar — ohne Register kein Tag');
+  if (standDoku === null || oeffentlicheStaende === null) return rot('--auslieferungen und --staende (die zwei Register) fehlen oder sind nicht lesbar' + (gruende.length ? ' (' + gruende.join('; ') + ')' : '') + ' — ohne Register kein Tag');
   const fassung = fassungPruefen(tag, { standDoku, oeffentlicheStaende });
   if (!fassung.ok) return rot(fassung.grund);
   if (git(klon, ['rev-parse', '-q', '--verify', 'refs/tags/' + tag], { env }).status === 0) {
@@ -161,7 +163,7 @@ function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundl
   // Der öffentliche Lauf für genau diesen Baum (05.10.2026): ohne grünen Beleg kein Tag.
   let liste = null;
   if (grundliste) {
-    try { liste = JSON.parse(fs.readFileSync(grundliste, 'utf8')); } catch { return rot('die Grundliste ist nicht lesbar: ' + grundliste); }
+    try { liste = JSON.parse(fs.readFileSync(grundliste, 'utf8')); } catch (e) { return rot('die Grundliste ist nicht lesbar: ' + grundliste + ' (' + grundVon(e) + ')'); }
     if (!Array.isArray(liste) || liste.some((x) => typeof x !== 'string')) return rot('die Grundliste ist keine Liste von Probennamen');
   }
   const baum = git(klon, ['rev-parse', commit + '^{tree}'], { env }).stdout.trim();

@@ -12,7 +12,8 @@
      · `SHA256SUMS` über sie,
      · `release.json` (Name, Tag, Beschreibung aus docs/release-notes/<fassung>.md, sonst aus dem CHANGELOG-Abschnitt der
        Fassung, Links auf die Paketdateien) und `github-release.md` mit genau derselben Beschreibung,
-   und gibt die Befehle aus: Hochladen in die Generic Package Registry, dann das Release anlegen.
+   und gibt die Befehle aus: Hochladen in die Generic Package Registry, dann das Release anlegen; danach den Befehl für das
+   GitHub-Release mit denselben Anhängen (gh release create … --latest, seit 08.11.2026).
 
    VORAB gibt es die vier Befehle für den signierten Stand aus (git commit -S, git tag -s, git verify-commit, git tag -v),
    die im öffentlichen Klon vor dem Push auf GitHub laufen (Entscheidung 01.10.2026; Prüfung des Tags:
@@ -108,6 +109,21 @@ function notesMitPruefsummen(text) {
   return deTeil + '\n\n' + PRUEFSUMMEN_SATZ.de + '\n\n---\n\n' + enTeil + '\n\n' + PRUEFSUMMEN_SATZ.en;
 }
 
+/* GITHUB-RELEASE (08.11.2026, Befund GITHUB-RELEASE-FEHLT): nach v952 entstand zu keinem Fassungs-Tag mehr ein Release auf GitHub;
+   vier wurden am 08.11.2026 von Hand nachgetragen. Die Befehle dafür stehen jetzt hier und im Release-Werkzeug (Teil 2 nennt
+   sie nach dem Push des Tags, Teil 3 verlangt das Release). Die Anhänge kommen aus dem Baum des Tags, nicht aus dem Kanon:
+   so trägt das Release genau die Bytes, die das signierte Tag beschreibt. Das Werkzeug ruft gh nicht selbst auf. */
+const GITHUB_REPO = 'vivodepot/vivodepot';
+const GITHUB_ANHAENGE = Object.freeze(ANHAENGE.concat(['SHA256SUMS']));
+function githubReleaseBefehle(fassung, { klon = '<öffentlicher-klon>', quelle = '<tag-baum>', ziel = '<ziel>' } = {}) {
+  return [
+    `mkdir -p ${quelle} && git -C ${klon} archive ${fassung} | tar -x -C ${quelle}`,
+    `node tools/opencode-release-vorbereiten.js --quelle ${quelle} --fassung ${fassung} --ziel ${ziel}`,
+    `cd ${ziel} && gh release create ${fassung} -R ${GITHUB_REPO} --verify-tag --title "Vivodepot ${fassung}" --notes-file github-release.md --latest `
+      + GITHUB_ANHAENGE.join(' '),
+  ];
+}
+
 function paketUrl(version, datei) {
   return `${HOST}/api/v4/projects/${PROJEKT_ID}/packages/generic/${PAKET}/${version}/${datei}`;
 }
@@ -176,10 +192,12 @@ function main(argv) {
   for (const b of signierBefehle(fassung)) console.log(b);
   console.log('\n2. Nach dem Spiegeln, für das Release auf openCoDE (Token aus der eigenen Umgebung: export OPENCODE_TOKEN=…, es steht nirgends sonst):\n');
   for (const b of r.befehle) console.log(b);
+  console.log('\n3. Nach dem Push des Tags auf GitHub, das GitHub-Release mit denselben Anhängen (gh mit der eigenen Anmeldung):\n');
+  console.log(githubReleaseBefehle(fassung, { ziel: ziel || '<ziel>' })[2]);
   return 0;
 }
 
 if (require.main === module) process.exitCode = main(process.argv.slice(2));
 
-module.exports = { ANHAENGE, PROJEKT_ID, PFLICHTHINWEISE, mitPflichthinweisen, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE,
+module.exports = { ANHAENGE, GITHUB_REPO, GITHUB_ANHAENGE, githubReleaseBefehle, PROJEKT_ID, PFLICHTHINWEISE, mitPflichthinweisen, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE,
   NOTES_ORDNER, SPRACHEN, PRUEFSUMMEN_SATZ, notesPruefen, notesMitPruefsummen };

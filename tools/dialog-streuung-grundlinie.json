@@ -1,0 +1,73 @@
+{
+  "zweck": "Ratsche Dialog-Streuung (Stufe 4, 11.11.2026): je Dialog-Bauteil die Zahl verschiedener Maß-/Schriftwerte und der freien Werte (feste Länge statt Token) in den Stilquellen und im Inline-Stil. Nur sinkend. Gemessen von tools/dialog-streuung-messen.js, geprüft von tests/dialog-streuung-ratsche.test.js.",
+  "vorher_vor_stufe_4": {
+    "bauteile": {
+      "titel": {
+        "verschieden": 36,
+        "frei": 14
+      },
+      "text": {
+        "verschieden": 31,
+        "frei": 9
+      },
+      "knopfzeile": {
+        "verschieden": 29,
+        "frei": 7
+      },
+      "schliessen": {
+        "verschieden": 7,
+        "frei": 3
+      },
+      "abstand": {
+        "verschieden": 69,
+        "frei": 27
+      },
+      "breite": {
+        "verschieden": 14,
+        "frei": 10
+      },
+      "radius": {
+        "verschieden": 13,
+        "frei": 4
+      }
+    }
+  },
+  "inlineAttribute": 20,
+  "bauteile": {
+    "titel": {
+      "verschieden": 32,
+      "frei": 0,
+      "freiDeklarationen": 0
+    },
+    "text": {
+      "verschieden": 28,
+      "frei": 0,
+      "freiDeklarationen": 0
+    },
+    "knopfzeile": {
+      "verschieden": 28,
+      "frei": 0,
+      "freiDeklarationen": 0
+    },
+    "schliessen": {
+      "verschieden": 7,
+      "frei": 0,
+      "freiDeklarationen": 0
+    },
+    "abstand": {
+      "verschieden": 62,
+      "frei": 0,
+      "freiDeklarationen": 0
+    },
+    "breite": {
+      "verschieden": 11,
+      "frei": 0,
+      "freiDeklarationen": 0
+    },
+    "radius": {
+      "verschieden": 10,
+      "frei": 0,
+      "freiDeklarationen": 0
+    }
+  }
+}

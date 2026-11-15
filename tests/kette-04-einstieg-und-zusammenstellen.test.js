@@ -80,8 +80,11 @@ test('[Kette 04 · Zug 1] die Navigationsleiste ist NICHT länger geworden', () 
      12 → 13 (20.09.2026, U2-ADR-425, „Hilfe in der Datei"): der Sidebar-Eintrag „Hilfe"
      (data-hilfe="1", renderSidebar()) trägt ebenfalls class="nav-item" — ein eigener,
      IMMER sichtbarer Eintragstyp (kein bedingtes Erscheinen wie bei den beiden vorigen),
-     der `hilfeOeffnen()` öffnet. Angesagt wie die vorigen Fälle, nicht still gesetzt. */
-  assert.equal(navZeilen, 13, 'U2-ADR-425: der Hilfe-Sidebar-Eintrag trägt ebenfalls class="nav-item" — ein neuer Menüpunkt-TYP, angesagt statt still gesetzt');
+     der `hilfeOeffnen()` öffnet. Angesagt wie die vorigen Fälle, nicht still gesetzt.
+     13 → 14 (11.11.2026, A5, Entscheid 11.11. „der Sprachknopf kommt ins Menü“): der Sprachknopf im Menü (`depotSprachKnopfHTML()`, id sb-sprache)
+     trägt class="nav-item nav-item-klein" — ein eigener Eintragstyp, der nur erscheint, wenn mindestens zwei volle Sprachen vorliegen; die Kopfzeile
+     bleibt unverändert (Entscheidung 31.10.2026 22:40). Angesagt, nicht still gesetzt. */
+  assert.equal(navZeilen, 14, 'A5: der Sprachknopf im Menü trägt ebenfalls class="nav-item" — ein neuer Menüpunkt-TYP, angesagt statt still gesetzt');
 });
 
 test('[Kette 04 · Zug 1] die irreführende Beschriftung ist weg', () => {

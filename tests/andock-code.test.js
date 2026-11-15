@@ -101,7 +101,9 @@ test('Keine Code-Tabelle im Kern (kein SNOMED/LOINC/ICD-System hardkodiert)', ()
   //    Dieser klar abgegrenzte Block (Header bis Ende flowSektorExport) ist erlaubt und wird
   //    herausgeschnitten, bevor geprüft wird. (Regex-Schwanz robust: bis zum Funktions-Ende, nicht
   //    an eine bestimmte return-Zeile gekoppelt — flowSektorExport wächst mit weiteren Export-Formaten.)
-  snapshot = snapshot.replace(/Export-Modul — FHIR R4[\s\S]*?function flowSektorExport\(format\) \{[\s\S]*?\n}/, '');
+  //    Austausch (11.11.2026): flowSektorExport trägt als zweites Argument die vorab getroffene Wahl (`vorab`); das Ende des
+  //    Blocks bleibt dieselbe Funktion, darum steht die Argumentliste hier offen.
+  snapshot = snapshot.replace(/Export-Modul — FHIR R4[\s\S]*?function flowSektorExport\(format(?:, vorab)?\) \{[\s\S]*?\n}/, '');
   // 3) Paket 3 (text+code-Andock): die Code-Systeme leben jetzt LEGITIM in den dedizierten
   //    @vd-codeliste-Blöcken der Region CODE-LISTEN + im Registry-/Export-Andock. Das ist genau
   //    der designierte Ort (öffentliche Daten, keine Krypto) — analog zum IPS-Block oben

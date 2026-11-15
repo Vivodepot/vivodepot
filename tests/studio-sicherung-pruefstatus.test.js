@@ -205,7 +205,6 @@ test('[Studio·Sicherung·Schritt] „✓ Sicherung geprüft, heruntergeladen“
   assert.equal(V.einreichungFrei(), false, 'nach Probe und Download allein fehlt noch die Antragsdatei');
   V.STATE.anbieter = V.baueAnbieter({ anbieterName: 'Testheim e.V.', rechtsform: 'e.V.', strasse: 'Weg 1', plz: '10115', ort: 'Berlin', land: 'Deutschland',
     kontaktName: 'A B', kontaktEmail: 'a@b.example.de' });   // frei erfunden
-  el('sk-antragsnummer').value = '0123456789abcdef0123456789abcdef';
   assert.ok(await V.antragsdateiErstellen({ isTrusted: true, currentTarget: { id: 'sk-antrag' }, timeStamp: performance.now() }), 'die Antragsdatei ist entstanden');
   assert.equal(V.einreichungFrei(), true, 'nach Probe, Download und Antragsdatei ist die Einreichung frei');
   assert.equal(el('pr-sperre-hinweis').hidden, true);

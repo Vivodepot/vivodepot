@@ -14,7 +14,7 @@ test('[Länderannahme] die geführten Dateien stehen auf der Grundlinie, nicht d
   assert.deepEqual(W.vergleichen(W.messen(), soll), []);
 });
 test('[Länderannahme · Rot-Beweis] das Fixture zählt jede Art, Kommentar, Normzitat und country_code nicht', () => {
-  assert.deepEqual(W.zaehlen(FIXTURE), { 'land-vorgabe': 2, 'rechtsraum-vorgabe': 1, 'rechtsform-liste': 1 });
+  assert.deepEqual(W.zaehlen(FIXTURE), { 'land-vorgabe': 3, 'rechtsraum-vorgabe': 1, 'rechtsform-liste': 1 });
 });
 test('[Länderannahme · Rot-Beweis] ein neuer Rückfall auf „Deutschland“ im Studio ist rot', () => {
   const studio = fs.readFileSync(path.join(__dirname, '..', 'vivodepot-studio.html'), 'utf8');
@@ -22,6 +22,31 @@ test('[Länderannahme · Rot-Beweis] ein neuer Rückfall auf „Deutschland“ i
   const ist = W.messen();
   ist['vivodepot-studio.html'] = W.zaehlen(studio + "\n<script>const x = y || 'Deutschland';</script>\n");
   assert.equal(W.vergleichen(ist, soll).length, 1);
+});
+/* Befund STUDIO-LAND-SCHEMA-DEFAULT (HOCH, 09.11.2026): `adresse.land` trug im Einreich-Schema `"default": "Deutschland"`; der Wächter
+   zählte nur `land:`, `||` und `value="…"`. Das Land ist Pflicht und wird genannt, nicht vorbelegt (U2-ADR-495 Nr. 4).
+   ROT-BEWEIS: in einer der drei Schema-Kopien `"default": "Deutschland"` bei `land` wieder eintragen → beide Proben rot. */
+const SCHEMA_KOPIEN = ['vivodepot-studio.html', 'vivodepot-vc-issuer.html', path.join('docs', 'template-generator', 'submission-schema.json')];
+test('[Länderannahme · Schema-Default] in keiner der drei Kopien des Einreich-Schemas trägt adresse.land einen Vorgabewert', () => {
+  for (const rel of SCHEMA_KOPIEN) {
+    const text = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8');
+    const a = text.indexOf('"adresse": {');
+    assert.ok(a >= 0, rel + ': kein adresse-Objekt im Schema');
+    const land = text.indexOf('"land": {', a);
+    assert.ok(land > a, rel + ': kein land im adresse-Objekt');
+    const ende = text.indexOf('}', land);
+    assert.doesNotMatch(text.slice(land, ende), /"default"/, rel + ': adresse.land ist vorbelegt (U2-ADR-495 Nr. 4)');
+  }
+});
+test('[Länderannahme · Schema-Default · Rot-Beweis] der Wächter zählt einen Vorgabewert „Deutschland“ im Schema, auch in der Studio-Datei', () => {
+  const studio = fs.readFileSync(path.join(__dirname, '..', 'vivodepot-studio.html'), 'utf8');
+  const ist = W.messen();
+  ist['vivodepot-studio.html'] = W.zaehlen(studio.replace('"land": {', '"land": {\n "default": "Deutschland",'));
+  assert.equal(W.vergleichen(ist, W.grundlinieLesen()).length, 1);
+  const issuer = fs.readFileSync(path.join(__dirname, '..', 'vivodepot-vc-issuer.html'), 'utf8');
+  const ist2 = W.messen();
+  ist2['vivodepot-vc-issuer.html'] = W.zaehlen(issuer.replace('"land": {', '"land": {\n "default": "Deutschland",'));
+  assert.equal(W.vergleichen(ist2, W.grundlinieLesen()).length, 1, 'der VC-Issuer ist mitgemessen');
 });
 test('[Länderannahme · Drift] eine entfernte Stelle ohne nachgezogene Grundlinie ist ebenfalls rot', () => {
   const soll = W.grundlinieLesen();

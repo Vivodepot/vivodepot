@@ -116,7 +116,9 @@ const OHNE_NFC = [
   ["new TextEncoder().encode(String(passwort).normalize('NFC'));", 'new TextEncoder().encode(String(passwort));'],
 ];
 /* OHNE den NFD-Rückfall beim Öffnen von Depot und Sub. */
-const OHNE_NFD_RUECKFALL = [['    if (nfd === nfc) throw e1;', '    throw e1;']];
+// Seit PASSWORT-TRENNZEICHEN (11.11.2026) steht der NFD-Versuch als `if (nfd !== nfc) return oeffne(nfd);`; danach kommt nur noch
+// der Kanon-Rückfall, der für Umlaut-Eingaben nichts tut.
+const OHNE_NFD_RUECKFALL = [['    if (nfd !== nfc) return oeffne(nfd);', '    if (false) return oeffne(nfd);']];
 const leseAppOhneFix = () => leseAppMit(OHNE_NFC);
 
 async function kernDateien() {

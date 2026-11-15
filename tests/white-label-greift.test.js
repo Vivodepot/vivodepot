@@ -51,7 +51,7 @@ test('[White Label greift] die benannte Liste trägt je einen Grund, und jede St
 
 test('[Negativprobe] die Wortmarken-Diskriminante ordnet eine unbenannte Stelle als „außerhalb" ein', () => {
   const erfunden = 'strings:erfundeneStelleMitMarke.text';
-  const e = W.wortmarkeEinordnen(['strings:herkunftPoweredBy.text', 'strings:shlUrlHinweis.text', erfunden]);
+  const e = W.wortmarkeEinordnen(['strings:herkunftPoweredBy.text', 'strings:shlAblageOeffnenKnopf.text', erfunden]);
   assert.deepEqual(e.ausserhalb, [erfunden]);
   assert.deepEqual(W.wortmarkeEinordnen(['strings:herkunftPoweredBy.text']).ausserhalb, []);
   // Der Hinweisort ist genau eine benannte Kennung, kein Muster: ein ähnlich benannter Schlüssel bleibt außerhalb.

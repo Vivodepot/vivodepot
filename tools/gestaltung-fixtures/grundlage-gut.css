@@ -1,0 +1,10 @@
+/* Fixture: Stilquelle mit einem erzeugten Block */
+.a { padding: var(--abstand-2); }
+  @media (max-width: 767px) { :root { --fs-role-anzeige: 1.75rem; } }
+  /* GESTALTUNG-DEFINITION:BEGIN — erzeugt aus tools/erscheinung/definition.json durch tools/gestaltung-definition.js; nicht von Hand ändern */
+  :root {
+    --abstand-1: 0.25rem; --abstand-2: 0.5rem; --abstand-3: 0.75rem; --abstand-4: 1rem; --abstand-5: 1.5rem; --abstand-6: 2rem;
+    --radius-klein: 10px; --radius-gross: 16px; --radius-rund: 999px;
+    --treffer: 48px;
+  }
+  /* GESTALTUNG-DEFINITION:END */

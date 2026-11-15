@@ -1,0 +1,8 @@
+/* Fixture: je Art genau ein freier Wert */
+.a { padding: 12px var(--abstand-2); }
+.b { margin: 0 auto 1.5rem; }
+.c { gap: var(--abstand-1) 8px; }
+.d { border-radius: 50%; }
+.e { min-height: 44px; }
+@media (max-width: 560px) { .a { padding: var(--abstand-2); } }
+@media (max-width: 767px) { .b { margin: 0; } }

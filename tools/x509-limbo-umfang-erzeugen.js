@@ -42,7 +42,6 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { spawnSync } = require('node:child_process');
 
 const REPO = path.join(__dirname, '..');
 const LIMBO_COMMIT = '554528a9b0c0d95e071f55de018326f0b65a8364';
@@ -125,7 +124,7 @@ function textLesen(text) {
 }
 
 function ossl(bin, args, input) {
-  return spawnSync(bin, args, { input, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024 });
+  return require('./lib/kind-mit-eingabe.js').kindMitEingabe(bin, args, { eingabe: input, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024, zeitgrenzeMs: 30 * 60 * 1000, werfen: false });
 }
 /* Alle Zertifikate einmal durch openssl: stapelweise (crl2pkcs7 | pkcs7 -print_certs -text), bei einem Fehler im Stapel
    einzeln (x509 -text). Was openssl nicht liest, ist { lesbar: false }. */

@@ -103,7 +103,7 @@ test('[Einstieg] jede Kachel des Eingangs außer „Etwas anderes“ endet im Ei
 test('[Einstieg] „Vorlage erstellen“ steht auf der ersten Ebene und benutzt den Assistenten Aufnahmebogen mit', () => {
   assert.ok(kacheln(HTML).some((k) => k.id === 'ein-vorlage'), 'Kachel ein-vorlage fehlt');
   assert.deepEqual(ziele(bindung(HTML, 'ein-vorlage') || ''), ['assistent']);
-  assert.match(bindung(HTML, 'ein-vorlage'), /assistentNeu\(\)/);
+  assert.match(bindung(HTML, 'ein-vorlage'), /assistentEintreten\('vorlage'\)/);   // seit Wagen 1.5 mit der Kopfzeile der Kachel
 });
 
 test('[Einstieg · Deckel] die Ausnahmeliste kann nur sinken (Deckel ' + AUSSTEHEND_DECKEL + ')', () => {
@@ -118,12 +118,12 @@ test('[Einstieg · Rot-Beweis] der Stand vor Wagen 1 meldet „Daten bereitstell
 });
 
 test('[Einstieg · Rot-Beweis] ein neuer Hinweis ohne Ausnahme, ein Ziel an einer „in Arbeit“-Kachel und eine Kachel in die Expertensicht fallen auf', () => {
-  const neuHinweis = HTML.replace('class="kachel eingang-kachel" id="ein-vorlage"', 'class="kachel eingang-kachel eingang-hinweis" id="ein-vorlage"')
-    .replace("an('ein-vorlage', 'click', () => { assistentNeu(); zeigeSchritt('assistent'); });", '');
+  const neuHinweis = HTML.replace('class="kachel eingang-kachel erste" id="ein-vorlage"', 'class="kachel eingang-kachel erste eingang-hinweis" id="ein-vorlage"')   // die Hervorhebung liegt seit S5-Rest auf der Vorlage
+    .replace("an('ein-vorlage', 'click', () => { assistentEintreten('vorlage'); zeigeSchritt('assistent'); });", '');
   assert.deepEqual(befunde(neuHinweis), ['ein-vorlage ist ein Hinweis ohne Ziel und steht nicht in der Ausnahmeliste']);
   const mitZiel = HTML.replace("an('ein-anderes', 'click',", "an('ein-erscheinung', 'click', () => zeigeSchritt('assistent'));\n  an('ein-anderes', 'click',");
   assert.deepEqual(befunde(mitZiel), ['ein-erscheinung ist als Hinweis markiert, hat aber ein Ziel']);
-  const fach = HTML.replace("an('ein-vorlage', 'click', () => { assistentNeu(); zeigeSchritt('assistent'); });", "an('ein-vorlage', 'click', () => zeigeSchritt('template'));");
+  const fach = HTML.replace("an('ein-vorlage', 'click', () => { assistentEintreten('vorlage'); zeigeSchritt('assistent'); });", "an('ein-vorlage', 'click', () => zeigeSchritt('template'));");
   assert.deepEqual(befunde(fach), ['ein-vorlage führt in die Expertensicht (template)']);
   assert.deepEqual(befunde(HTML, Object.assign({ 'ein-weg': 'Wagen 9' }, AUSSTEHEND)), ['ein-weg steht in der Ausnahmeliste, die Kachel gibt es nicht mehr']);
 });

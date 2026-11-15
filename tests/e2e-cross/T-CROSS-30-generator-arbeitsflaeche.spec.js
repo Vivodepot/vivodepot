@@ -90,15 +90,15 @@ for (const sprache of ['de', 'en']) {
       // Schlüssel im Speicher ist; ohne sie bleibt die Einreichung gesperrt. Das nackte .public.jwk gibt es nicht mehr.
       await expect(p.locator('#sk-pub')).toHaveCount(0);
       await expect(p.locator('#pr-submit')).toBeDisabled();
-      await p.fill('#sk-antragsnummer', '0123456789abcdef0123456789abcdef');   // Antragsnummer aus dem Antragsformular (erfunden)
+      await expect(p.locator('#sk-antragsnummer')).toHaveCount(0);   // die Antragsnummer bildet das Studio selbst
       await Promise.all([ p.waitForEvent('download'), p.click('#sk-antrag') ]);
       await expect(p.locator('#pr-submit')).toBeEnabled();
       const datei = await H.downloadNachTmp(p, tmp, () => p.click('#pr-submit'));
 
       // Das erzeugte Artefakt: drei Felder in der gebauten Reihenfolge (das neue hinter dem gewählten), signiert, ohne erneutes Suchen der Schlüsseldatei
       const paket = JSON.parse(fs.readFileSync(datei, 'utf8'));
-      expect(paket.templates[0].felder.map((f) => f.feldname)).toEqual([namen0[1], 'Aufnahmedatum', namen0[0]]);   // ein neues Feld kommt hinter das gewählte
-      expect(paket.templates[0].felder[1].pflicht).toBe(true);
+      expect(paket.templates[0].felder.map((f) => f.feldname)).toEqual([namen0[1], namen0[0], 'Aufnahmedatum']);   // ein neues Feld kommt ans Ende (Studio per Ziehen und Ablegen, Schritt 2)
+      expect(paket.templates[0].felder[2].pflicht).toBe(true);
       expect(paket.templatesJws.length).toBe(1);
       expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);     // der Schlüssel ist nach dem Signieren verworfen
       // Der Weg nach dem Erzeugen ist sichtbar: die Erfolgskarte mit vorbereiteter E-Mail an die Einreichadresse

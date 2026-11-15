@@ -235,7 +235,7 @@
   .welcome-primaer, .welcome-sekundaer { display: flex; gap: var(--space-3); }
   /* Alle Welcome-Knöpfe gleiche Höhe/Optik, zentrierter Inhalt, voll breit im Track. */
   .welcome-primaer .btn, .welcome-sekundaer .btn {
-    flex: 1 1 0; min-width: 0; justify-content: center; min-height: 48px; font-size: var(--fs-role-text);
+    flex: 1 1 0; min-width: 0; justify-content: center; min-height: var(--treffer); font-size: var(--fs-role-text);
   }
   .welcome-sek-hint { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: 0; }
   /* Notfall klar abgesetzt unten (eigener Block mit Trennlinie), dezenter Stil. */
@@ -534,7 +534,7 @@
   .sidebar { background: var(--papier-bereich); color: var(--ink); padding: var(--space-4) 0; overflow-y: auto; border-right: 1px solid var(--line); border-left: var(--akzent-rand) solid var(--akzent-papier); }
   /* Gesamtbild-UX-Konzept, Abschnitt A (27.08.2026): Gewicht 500 + Sperrung 0.09em (statt 0.07em)
      ergänzt — Ebene 0 (Rubrik) muss sich von Ebene 1 (Cluster, jetzt fett) klar absetzen. */
-  .sidebar .gruppe-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-nav); color: var(--ink3); padding: 6px var(--space-5) 4px; }   /* --ink3 auf --papier-bereich: 4,75:1 hell / 6,42:1 Nacht / 15,13:1 Hochkontrast */
+  .sidebar .gruppe-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-nav); color: var(--ink3); padding: 6px var(--space-5) var(--abstand-1); }   /* --ink3 auf --papier-bereich: 4,75:1 hell / 6,42:1 Nacht / 15,13:1 Hochkontrast */
   /* U2-ADR-171 (25.08.2026) — Themen-Cluster INNERHALB „Eintragen", kollabierbar. Zuerst
      dieselbe Typografie wie .gruppe-titel gebaut (kein neues UI-Vokabular), jetzt als <summary>
      mit eigenem ▾-Marker statt des nativen (der native Marker sieht in iOS-Safari doppelt aus,
@@ -550,7 +550,7 @@
   .sidebar .nav-gruppe > summary {
     list-style: none; cursor: pointer; display: flex; align-items: center; width: 100%;
     font-size: var(--fs-role-hilfe); font-weight: var(--fw-bold); text-transform: none; color: var(--ink);
-    padding: 6px var(--space-5) 4px; min-height: 24px;
+    padding: 6px var(--space-5) var(--abstand-1); min-height: 24px;
   }
   .sidebar .nav-gruppe > summary::-webkit-details-marker { display: none; }
   /* Die Gruppen der Seitenleiste tragen kein Dreieck mehr (Zielbild S4, Abnahme v979 Nr. 11). Auf- und Zuklappen bleibt das native
@@ -946,7 +946,7 @@
   .mappe-narrativ p { margin: 0 0 var(--space-2); }
   .mappe-narrativ ul, .mappe-narrativ ol { margin: 0 0 var(--space-2) var(--space-4); }
   .mappe-narrativ table { border-collapse: collapse; width: 100%; margin: var(--space-1) 0 var(--space-3); font-size: var(--fs-role-hilfe); }
-  .mappe-narrativ th, .mappe-narrativ td { border: 1px solid var(--line); padding: 4px 8px; text-align: left; vertical-align: top; }
+  .mappe-narrativ th, .mappe-narrativ td { border: 1px solid var(--line); padding: var(--abstand-1) var(--abstand-2); text-align: left; vertical-align: top; }
   .mappe-narrativ th { background: var(--salbei-light); font-weight: var(--fw-semibold); }
   .mappe-narrativ caption { text-align: left; font-weight: var(--fw-semibold); color: var(--ink2); padding: 2px 0; }
   .mappe-narrativ .mappe-narrativ-defekt { margin: 0 0 var(--space-3); }   /* U2-ADR-076: Defekt-Hinweis über den Messwerten */
@@ -1325,7 +1325,7 @@
   /* B.3-Nachtrag (UX-Design-Konzept, Gesamtbild 27.08.2026): der Trennstrich zwischen Feldern
      soll neutral bleiben, kein grüner Reststrich — `var(--salbei-light)` gegen das feinere,
      eigens dafür bestehende `--line-feiner` getauscht (Fallback `--line` für ältere Aufrufer). */
-  .feld-zeile { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-3); padding: 4px 0; border-top: 1px solid var(--line-feiner, var(--line)); align-items: baseline; }
+  .feld-zeile { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-3); padding: var(--abstand-1) 0; border-top: 1px solid var(--line-feiner, var(--line)); align-items: baseline; }
   .feld-zeile--mehrzeilig { align-items: start; }   /* Finding 9: Label oben am mehrzeiligen Textfeld, nicht vertikal zentriert */
   .feld-zeile--mehrzeilig .feld-label { padding-top: var(--space-1); }   /* optische Grundlinie zur ersten Textzeile */
   .feld-zeile:first-of-type { border-top: none; }
@@ -1463,7 +1463,7 @@
      Modals. Roter Akzentrand, gut lesbar, im Design-System. `hidden` blendet sie aus. */
   .modal-fehler { background: var(--fehler-flaeche); border: 1px solid var(--error); border-left: var(--akzent-rand-warnung) solid var(--error);
     border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--fs-role-hilfe);
-    color: var(--ink); margin: 0 0 var(--space-3); line-height: 1.5; }
+    color: var(--ink); margin: 0 0 var(--space-3); line-height: var(--dialog-zeilenhoehe); }
   .modal-fehler[hidden] { display: none; }
   /* Beschäftigt-Zustand des Anlegen-Knopfs: ausgegraut + kleiner, drehender Ring,
      damit die mehrere Sekunden lange PBKDF2-Ableitung nicht wie ein Einfrieren wirkt. */
@@ -1497,6 +1497,8 @@
      zu kollidieren. */
   .feld-zeile.klick-durch .klick-hinweis { display: block; color: var(--ink3); font-size: var(--fs-role-hilfe); opacity: 0; transition: opacity .15s; }
   .feld-zeile.klick-durch:hover .klick-hinweis { opacity: 0.7; }
+  /* DEMO-D3: ohne Maus gibt es kein Hover; am Touch-Gerät steht der Hinweis dauerhaft da. */
+  @media (hover: none), (pointer: coarse) { .feld-zeile.klick-durch .klick-hinweis { opacity: 0.7; } }
   .autoritativ-marker { color: var(--salbei-dunkel); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); margin-left: var(--space-2); }
   /* Nutzer-gewählte Sensibilität (Schema 21): kleines Schloss pro Feld + dezenter Marker. */
   .sensibel-schloss { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle;
@@ -1579,6 +1581,13 @@
   .export-zz-fehlt .export-zz-lab, .export-zusatz-fehlt { color: var(--ink3); }
   .export-chip-fehlt { display: inline-block; margin-left: var(--space-2); padding: 0 var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-sm);
     font-size: var(--fs-role-hilfe); color: var(--ink3); background: none; }
+  .export-vorauswahl { margin: 0 0 var(--space-2); }
+  .export-vorauswahl-chip { display: inline-block; padding: 0 var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-sm); font-weight: var(--fw-semibold); }
+  /* B3: nach dem Herausgeben eines Anlasses zwei gleichrangige Wege, je mit dem Dateinamen in der zweiten Zeile. */
+  .anlass-ergebnis-wege { display: flex; flex-direction: column; gap: var(--space-2); }
+  .anlass-ergebnis-weg { display: flex; flex-direction: column; align-items: flex-start; min-height: var(--treffer); text-align: left; }
+  .anlass-ergebnis-datei { font-size: var(--fs-role-hilfe); color: var(--ink3); }
+  .export-gehalten-liste { margin: 0 0 var(--space-2); }
   .herausgeben-chooser { display: flex; flex-direction: column; gap: var(--space-2); }
   .herausgeben-chooser .btn { justify-content: flex-start; text-align: left; font-size: var(--fs-role-hilfe); }   /* U2-ADR-046 ② — Chooser-Knöpfe kleiner (waren --fs-base, wirkten zu groß) */
   .qr-teile { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
@@ -1615,14 +1624,14 @@
      Modal war betroffen). `.modal` ist jetzt der Rahmen (flex, Spalte), NUR `.modal-koerper`
      scrollt — Kopf (h3) und Fuß (.modal-aktionen) bleiben außerhalb des Scrollbereichs, kein
      Überlappen mehr möglich, kein `position:sticky` mehr nötig. */
-  .modal { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-soft); max-width: 460px; width: 100%; padding: var(--space-5) var(--space-4); max-height: calc(100vh - 2 * var(--space-5)); max-height: calc(100dvh - 2 * var(--space-5)); display: flex; flex-direction: column; }
+  .modal { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-soft); max-width: var(--dialog-breite); width: 100%; padding: var(--space-5) var(--space-4); max-height: calc(100vh - 2 * var(--space-5)); max-height: calc(100dvh - 2 * var(--space-5)); display: flex; flex-direction: column; }
   .modal-koerper { overflow-y: auto; -webkit-overflow-scrolling: touch; flex: 1 1 auto; min-height: 0; }
   .modal h3 { margin: 0 0 var(--space-3) 0; color: var(--salbei-dunkel); display: flex; align-items: center; gap: var(--space-2); flex: 0 0 auto; }
   /* I02 (Muster 03): der Kopf trägt links oben das Schließen-Kreuz, daneben den Titel. Das Kreuz ist eine ruhige Fläche mit 44 px Zielgröße, kein Rahmen. */
   .modal-kopf { display: flex; align-items: flex-start; gap: var(--space-2); flex: 0 0 auto; }
   .modal-kopf h3 { flex: 1 1 auto; min-width: 0; padding-top: var(--space-2); }
-  .modal-x { position: relative; flex: 0 0 auto; width: 44px; height: 44px; margin: calc(-1 * var(--space-2)) 0 0 calc(-1 * var(--space-2)); padding: 0; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink2); cursor: pointer; }
-  .modal-x::before, .modal-x::after { content: ""; position: absolute; left: 50%; top: 50%; width: 18px; height: 2px; border-radius: var(--radius-pill); background: currentColor; }
+  .modal-x { position: relative; flex: 0 0 auto; width: var(--ziel); height: var(--ziel); margin: calc(-1 * var(--space-2)) 0 0 calc(-1 * var(--space-2)); padding: 0; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink2); cursor: pointer; }
+  .modal-x::before, .modal-x::after { content: ""; position: absolute; left: 50%; top: 50%; width: var(--space-4); height: 2px; border-radius: var(--radius-pill); background: currentColor; }
   .modal-x::before { transform: translate(-50%, -50%) rotate(45deg); }
   .modal-x::after { transform: translate(-50%, -50%) rotate(-45deg); }
   .modal-x[hidden], .modal-verwerfen[hidden] { display: none; }
@@ -1634,8 +1643,8 @@
   .modal-verwerfen .modal-aktionen { margin-top: var(--space-3); padding-top: 0; }
   /* Vivodepot-Bildmarke im Dialog-Titel (z. B. Speichern/Anlegen) — Branding-Konsistenz,
      auf Desktop wie auf Mobile sichtbar. */
-  .modal-logo { width: 32px; height: 32px; border-radius: 50%; background: var(--cream); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
-  .modal-logo svg { width: 24px; height: 24px; display: block; }
+  .modal-logo { width: var(--space-6); height: var(--space-6); border-radius: var(--radius-pill); background: var(--cream); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+  .modal-logo svg { width: var(--space-5); height: var(--space-5); display: block; }
   .modal label { display: block; font-size: var(--fs-role-hilfe); color: var(--ink2); margin-bottom: var(--space-2); }
   /* A104 Teil 1, Klasse C (05.08.2026) — WCAG 2.5.5 AAA Touch-Ziel im Modal-Kontext: jeder
      Select in jedem Modal wächst auf 44px. Gemessen (u. a. #sub-grundlage, Sub-Depot-Anlage):
@@ -1677,6 +1686,9 @@
   .pw-trenner { color: var(--ink3); }
   .modal-zweit-text { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); margin-right: auto; }
   .btn-pille, .modal:has([data-zwei-schritte]) .modal-aktionen .btn { border-radius: var(--radius-pill); }
+  /* A1-Untergrenze (UX 11.11.2026): zwei Wege „Mit ihnen herausgeben“ / „Ohne sie herausgeben“, beide mindestens 48 px hoch, im Knopf kein Umbruch (X3). */
+  .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen { flex-wrap: wrap; }
+  .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen .btn { min-height: var(--ziel-gross); white-space: nowrap; }
   .pw-staerke .pw-staerke-balken { display: inline-flex; gap: 3px; flex: 0 0 auto; }
   .pw-staerke .pw-staerke-balken i { width: 20px; height: 5px; border-radius: var(--radius-balken); background: var(--line); display: inline-block; }
   .pw-staerke-schwach .pw-staerke-balken i:nth-child(1) { background: var(--warning); }
@@ -1776,6 +1788,10 @@
   .einst-abschnitt > summary::-webkit-details-marker { display: none; }
   .einst-abschnitt > summary::after { content: '▾'; color: var(--ink3); transition: transform 0.15s ease; grid-column: 3; }
   .einst-abschnitt[open] > summary::after { transform: rotate(180deg); }
+  /* Austausch (11.11.2026): die Gruppen im Angebot und im Fenster vor der Herausgabe. Die Kopfzeile ist die ganze
+     Tippfläche (48 px); der Abstand der Hülle entfällt dafür. */
+  .einst-abschnitt[data-zus-gruppe], .einst-abschnitt[data-export-gruppe] { padding: 0; }
+  .einst-abschnitt[data-zus-gruppe] > summary, .einst-abschnitt[data-export-gruppe] > summary { min-height: var(--treffer); }
   .einst-zeile { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: var(--space-2) 0; flex-wrap: wrap; }
   .einst-label { color: var(--ink2); font-size: var(--fs-role-hilfe); }
   .einst-hint { color: var(--ink3); font-size: var(--fs-role-hilfe); margin: 0 0 var(--space-2); }
@@ -1812,6 +1828,9 @@
   .einst-opt { background: var(--white); color: var(--ink2); border: none; border-left: 1px solid var(--line); padding: var(--space-2) var(--space-3); font-size: var(--fs-role-hilfe); min-height: 36px; }
   .einst-opt:first-child { border-left: none; }
   .einst-opt.aktiv { background: var(--salbei-dunkel); color: var(--auf-akzent); }
+  /* Muster 20 (Eins aus 2 bis 4): gleich breite Teile. Die Knopfreihe füllt die Zeile, jeder Teil nimmt denselben Anteil. */
+  .einst-knopfreihe.gleich-breit { display: flex; width: 100%; }
+  .einst-knopfreihe.gleich-breit > .einst-opt { flex: 1 1 0; min-width: 0; }
   /* Fund (Screenshot-Review, 27.08.2026): der frühere `.einst-toggle`-Rechteck-Knopf mit
      Text "An"/"Aus" war neben der klar erkennbaren Segmentsteuerung (Schriftgröße direkt
      darüber) nicht als Schalter zu erkennen — unklar, ob "Aus" den Zustand beschreibt oder
@@ -1929,7 +1948,7 @@
   .a11y-leiste { display: inline-flex; gap: var(--space-1); align-items: center; }
   .a11y-btn {
     display: inline-flex; align-items: center; justify-content: center;
-    min-width: 38px; min-height: 38px; padding: 4px 8px;
+    min-width: 38px; min-height: 38px; padding: var(--abstand-1) var(--abstand-2);
     border-radius: var(--radius-sm);
     border: 1px solid var(--chrome-feld-rand);
     background: var(--chrome-feld-flaeche); color: var(--auf-akzent);
@@ -2348,14 +2367,14 @@
   .pv-dok { color: var(--dok-schrift); font-size: var(--fs-role-text); line-height: 1.55; }
   /* Zielbild S6 (31.10.2026): Titel links mit der Linie der Marke darunter, Überschriften ohne Unterstrich, keine Versalien und
      kein Kursiv; der Wortlaut der Blätter bleibt, nur der Rahmen ist neu. */
-  .pv-dok h1 { font-size: var(--fs-role-titel); font-weight: var(--fw-semibold); margin: 0 0 1.2rem; padding-bottom: 0.5rem; text-align: left;
+  .pv-dok h1 { font-size: var(--fs-role-titel); font-weight: var(--fw-semibold); margin: 0 0 1.2rem; padding-bottom: var(--abstand-2); text-align: left;
     border-bottom: 1px solid var(--salbei-dunkel); }
   .pv-dok-abschnitt { margin: 0 0 1.4rem; }
-  .pv-dok-abschnitt h2 { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); margin: 0 0 0.5rem; }
+  .pv-dok-abschnitt h2 { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); margin: 0 0 var(--abstand-2); }
   .pv-dok-abschnitt p { margin: 0 0 0.6rem; }
-  .pv-dok .pv-line { margin-top: 1rem; white-space: pre; }
+  .pv-dok .pv-line { margin-top: var(--abstand-4); white-space: pre; }
   .pv-dok-arzt { color: var(--dok-schrift-zart); }
-  .pv-dok-fuss { margin-top: 2rem; padding-top: 0.6rem; border-top: 1px solid var(--dok-linie);
+  .pv-dok-fuss { margin-top: var(--abstand-6); padding-top: 0.6rem; border-top: 1px solid var(--dok-linie);
     font-size: var(--fs-role-hilfe); color: var(--dok-schrift-gedaempft); text-align: left; }
   /* Notfall-Blatt (U2-ADR-095, Beschluss B) — teilt Overlay-, Blatt- und Druck-Mechanik
      mit dem PV-Dokument. Eigene Regeln nur für die handschriftlichen Leerzeilen. Es gibt
@@ -2379,12 +2398,13 @@
   .hilfe-toolbar { position: sticky; top: 0; z-index: 2; background: var(--dok-leiste);
     border-bottom: 1px solid var(--line); padding: var(--space-3) var(--space-4);
     display: flex; gap: var(--space-3); align-items: center; justify-content: space-between; flex-wrap: wrap; }
-  .hilfe-blatt { max-width: 21cm; margin: var(--space-5) auto; padding: 2cm 2.2cm; background: var(--dok-papier);
+  .hilfe-blatt { max-width: var(--blatt-breite); margin: var(--space-5) auto; padding: var(--space-7); background: var(--dok-papier);
     color: var(--dok-schrift); box-shadow: var(--dok-schatten); border-radius: var(--dok-radius); }
   .hilfe-themen-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
   .hilfe-thema-knopf { text-align: left; width: 100%; }
   .hilfe-einleitung { font-size: var(--fs-role-einleitung); color: var(--dok-schrift-zart); }
-  .hilfe-abschnitt { margin: 0 0 1.2rem; line-height: 1.55; }
+  .hilfe-abschnitt { margin: 0 0 var(--space-4); line-height: var(--dialog-zeilenhoehe); }
+  @media (max-width: 767px) { .hilfe-blatt { margin: 0 auto; padding: var(--space-5) var(--space-4); border-radius: 0; } }
 
   @media print {
     
@@ -2591,7 +2611,7 @@
     .depot-pille { padding: var(--space-1) var(--space-2); }
     /* Knöpfe optisch schlanker (Höhe wird unten per min-height:44px als Trefferfläche
        gewahrt — visuell kleiner, fingerfreundlich gleich). */
-    .topbar .a11y-btn, .topbar .btn { padding: 4px 8px; }
+    .topbar .a11y-btn, .topbar .btn { padding: var(--abstand-1) var(--abstand-2); }
     /* A2 (2026-06-10 Korrektur): Save-Status mobil KOMPAKT + überlauf-sicher — OHNE order:1.
        FRÜHERER FEHLER: order:1 machte die Pille zum letzten Flex-Element; zusammen mit dem
        flex-grow-Spacer (der die Hauptzeile auffüllt) blieb für sie NIE Platz → sie brach
@@ -2683,7 +2703,7 @@
        der Mitte der Seite"). Höhe auf den Schirm begrenzt, Inhalt scrollt innen. ── */
     #modal-rueck { padding: var(--space-3); align-items: flex-start; }
     .modal { padding: var(--space-5) var(--space-4); max-height: calc(100vh - 2 * var(--space-3)); max-height: calc(100dvh - 2 * var(--space-3)); }
-    .modal-aktionen .btn { min-height: 44px; }
+    .modal-aktionen .btn { min-height: var(--ziel); }
 
     /* ── Wizard: eine Frage pro Schritt, Knöpfe groß ──────────────────────── */
     .wizard-schritt { padding: var(--space-4); }
@@ -2693,6 +2713,9 @@
     /* Drei Knöpfe passen in einem Dialog nicht in eine Zeile (L1b „Link senden“, Vorschau vom 19.10.2026: „Herunterladen“
        war bei 390 px abgeschnitten). Die Knopfleiste bricht um; der Hauptknopf bleibt rechts. */
     .modal-aktionen { flex-wrap: wrap; }
+    /* A1-Untergrenze: die zwei Wege untereinander, voll breit, der Hauptknopf zuerst (im DOM steht er zuletzt). */
+    .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen { flex-direction: column-reverse; align-items: stretch; }
+    .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen .btn { min-height: var(--ziel-gross); width: 100%; }
     .content { padding: var(--space-4); }
     /* Wortmarke weicht auf sehr schmalen Screens — die Bildmarke bleibt als Home-Klick. */
     .topbar .logo-wort { display: none; }
@@ -2935,7 +2958,7 @@
      sichtbar, wenn der Block gebacken ist: die Elemente entstehen erst in vorfuehrungStarten(). */
   #vorfuehrung-streifen { position: fixed; top: 0; left: 0; right: 0; z-index: 400; pointer-events: none;
     background: var(--salbei-dunkel); color: var(--vorfuehrung-auf-farbe); text-align: center; font-size: var(--fs-role-hilfe);
-    font-weight: var(--fw-semibold); letter-spacing: var(--ls-vorfuehrung-streifen); padding: 4px var(--space-3); line-height: 1.4; }
+    font-weight: var(--fw-semibold); letter-spacing: var(--ls-vorfuehrung-streifen); padding: var(--abstand-1) var(--space-3); line-height: 1.4; }
   html.vorfuehrung body { padding-top: var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)); }
   /* Der Einrichten-Hinweis führt zum Passwort — in der Vorführung gesperrt, also nicht angeboten. */
   
@@ -2968,7 +2991,7 @@
      im Seitenfluss direkt dahinter, darum verdeckt er nichts, auch schmal nicht. Gelb mit Schatten und Nadel, damit er nie als Teil
      des Produkts gelesen wird. Die Farben sind fest (auch im dunklen Modus bleibt Papier Papier); Kontrast Text/Grund über 12:1. */
   .vorfuehrung-notiz { position: absolute; z-index: 5; display: block; width: max-content; max-width: min(17rem, 60vw); margin: 0;
-    padding: 9px 12px 8px; background: var(--notiz-papier); color: var(--notiz-tinte); border-radius: var(--notiz-radius); font-size: var(--fs-role-hilfe); line-height: 1.4;
+    padding: 9px var(--abstand-3) var(--abstand-2); background: var(--notiz-papier); color: var(--notiz-tinte); border-radius: var(--notiz-radius); font-size: var(--fs-role-hilfe); line-height: 1.4;
     box-shadow: var(--notiz-schatten); transform: rotate(1.5deg); }
   .vorfuehrung-notiz::before { content: ''; position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px;
     border-radius: 50%; background: var(--error); box-shadow: var(--notiz-nadel-schatten); }
@@ -2999,7 +3022,7 @@
     html.vorfuehrung-hand .vorfuehrung-karte-titel { font-size: var(--fs-role-gruppe); margin-bottom: var(--space-1); }
     html.vorfuehrung-hand .vorfuehrung-karte-text { font-size: var(--fs-role-text); margin-bottom: var(--space-2); }
     .vorfuehrung-leiste { flex-wrap: nowrap; gap: 6px; }
-    .vorfuehrung-leiste .btn { padding-left: 12px; padding-right: 12px; white-space: nowrap; }
+    .vorfuehrung-leiste .btn { padding-left: var(--abstand-3); padding-right: var(--abstand-3); white-space: nowrap; }
   }
   /* Die Spalte „Die Situation" der Demo mit Handsteuerung (26.09.2026, U2-ADR-413 Nachtrag (3)): eine Stelle für die ganze
      Geschichte — Situation, Rolle, Schritte, Knöpfe. Breit links neben der Anwendung, schmal ein Block oben, eingeklappt auf Rolle
@@ -3010,7 +3033,7 @@
     box-shadow: var(--vorfuehrung-schatten-spalte); max-height: calc(100vh - 26px); overflow-y: auto; padding: var(--space-3) var(--space-4); }
   .vorfuehrung-spalte--empfaenger { --vorfuehrung-farbe: var(--salbei-dunkel); }
   .vorfuehrung-spalte--vollmacht { --vorfuehrung-farbe: var(--modus-vollmacht); }
-  .vorfuehrung-situation-titel { margin: 0 0 4px; font-size: var(--fs-role-hilfe); font-weight: var(--fw-bold); letter-spacing: var(--ls-label-klasse); text-transform: var(--label-schreibung); color: var(--ink2); }
+  .vorfuehrung-situation-titel { margin: 0 0 var(--abstand-1); font-size: var(--fs-role-hilfe); font-weight: var(--fw-bold); letter-spacing: var(--ls-label-klasse); text-transform: var(--label-schreibung); color: var(--ink2); }
   .vorfuehrung-situation { margin: 0 0 var(--space-3); line-height: 1.5; white-space: pre-line; }
   .vorfuehrung-rolle-text { margin: 0 0 var(--space-3); padding: 10px 14px; border-radius: var(--radius-sm); background: var(--vorfuehrung-farbe);
     color: var(--vorfuehrung-auf-farbe); font-weight: var(--fw-bold); font-size: var(--fs-role-gruppe); line-height: 1.3; }
@@ -3022,7 +3045,7 @@
   .vorfuehrung-schritt-nr { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px;
     border-radius: 50%; border: 1.5px solid var(--line); font-size: var(--fs-role-hilfe); }
   .vorfuehrung-schritte li.aktiv .vorfuehrung-schritt-nr { background: var(--vorfuehrung-farbe); border-color: var(--vorfuehrung-farbe); color: var(--vorfuehrung-auf-farbe); font-weight: var(--fw-bold); }
-  .vorfuehrung-spalte .vorfuehrung-karte-titel { font-size: var(--fs-role-gruppe); margin: 0 0 4px; }
+  .vorfuehrung-spalte .vorfuehrung-karte-titel { font-size: var(--fs-role-gruppe); margin: 0 0 var(--abstand-1); }
   .vorfuehrung-spalte .vorfuehrung-karte-text { margin: 0; white-space: pre-line; }
   .vorfuehrung-spalte--vollmacht .vorfuehrung-leiste .btn:not(.btn-sek) { background: var(--modus-vollmacht); border-color: var(--modus-vollmacht); }
   .vorfuehrung-spalte--vollmacht .vorfuehrung-leiste .btn-sek { color: var(--modus-vollmacht); border-color: var(--modus-vollmacht); }
@@ -3126,7 +3149,7 @@
   /* Datum in drei Feldern (Zielbild S4, Abnahme v979 Nr. 5): Tag und Monat je 5.5ch, Jahr 8ch, die Beschriftung jedes Teils
      klein darüber. Der Kalender des Browsers entfällt; der gespeicherte Wert bleibt ISO (_datumDreifeldHTML). */
   .datum-dreifeld { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-end; }
-  .datum-teil { display: flex; flex-direction: column; gap: 4px; margin: 0; }
+  .datum-teil { display: flex; flex-direction: column; gap: var(--abstand-1); margin: 0; }
   .datum-teil-name { color: var(--ink3, var(--ink)); font-size: var(--fs-role-hilfe); line-height: 1.4; font-weight: var(--fw-regular); }
   .datum-teil > input[data-datum-teil] { width: 100%; min-width: 0; min-height: var(--feld-hoehe); text-align: left; font-variant-numeric: tabular-nums; }
   .datum-teil--t, .datum-teil--m { width: 5.5ch; min-width: 5.5ch; }
@@ -3191,6 +3214,9 @@
 
   /* Rollen-Tokens der Zielbilder 01 bis 04: Fenster, Blatt am Telefon, ruhige Fläche, Kachel, Kachelschatten, Einleitung,
      Nummer im Wörter-Raster. */
+  /* Blatt (Stufe 4, 11.11.2026): Dialoge und Hilfe lesen ihre Maße aus diesen Werten und aus der Abstandsleiter (--space-*); Messung: tools/dialog-streuung-messen.js. */
+  :root { --dialog-breite: 480px; --dialog-breite-weit: 560px; --blatt-breite: 21cm; --ziel-gross: 48px;
+    --dialog-zeilenhoehe: 1.5; --dialog-zeilenhoehe-titel: 1.4; --entsperren-oben: clamp(var(--space-5), 18vh, 200px); }
   :root { --radius-fenster: 24px; --radius-blatt: 20px; --radius-flaeche: 16px; --radius-kachel: 12px;
     --schatten-kachel: 0 1px 2px rgba(22,37,23,.06), 0 4px 14px rgba(22,37,23,.05);
     --schatten-kachel-hover: 0 2px 4px rgba(22,37,23,.08), 0 8px 22px rgba(22,37,23,.08);
@@ -3198,28 +3224,35 @@
   /* Größenleiter (tools/groessenleiter.json, Zielbild 30.10.2026, Schrift): jede Schriftgröße der Anwendung zeigt auf eine dieser Stufen; rem, damit die Schriftgrößen-Einstellung der Person die ganze Leiter skaliert; unter 768 px gelten die Telefon-Größen. */
   :root { --fs-role-anzeige: 2rem; --fs-role-titel: 1.75rem; --fs-role-abschnitt: 1.25rem; --fs-role-gruppe: 1.0625rem; --fs-role-einleitung: 1.0625rem; --fs-role-text: 0.9375rem; --fs-role-wert: 0.9375rem; --fs-role-label: 0.875rem; --fs-role-knopf: 0.9375rem; --fs-role-nav: 0.875rem; --fs-role-hilfe: 0.875rem; }
   @media (max-width: 767px) { :root { --fs-role-anzeige: 1.75rem; --fs-role-titel: 1.625rem; --fs-role-text: 1rem; --fs-role-wert: 1rem; --fs-role-label: 0.9375rem; --fs-role-knopf: 1rem; --fs-role-nav: 1rem; } }
+  /* GESTALTUNG-DEFINITION:BEGIN — erzeugt aus tools/erscheinung/definition.json durch tools/gestaltung-definition.js; nicht von Hand ändern */
+  :root {
+    --abstand-1: 0.25rem; --abstand-2: 0.5rem; --abstand-3: 0.75rem; --abstand-4: 1rem; --abstand-5: 1.5rem; --abstand-6: 2rem;
+    --radius-klein: 10px; --radius-gross: 16px; --radius-rund: 999px;
+    --treffer: 48px;
+  }
+  /* GESTALTUNG-DEFINITION:END */
 
   /* ── Zielbild 01/02 (30.10.2026): „Depot anlegen“ als Fenster mit Schritten ──────────────────────────────────────────────
      Kopf: Titel links, Schritt-Leiste rechts (zwei Balken, gezeichnet). Schritt 1: die sechs Wörter als nummeriertes Raster auf
      ruhiger Fläche, die Probe direkt darunter, die Empfehlung als leise Zeile. Fuß: Nebenweg als Textknopf links, „Abbrechen“ und der
      Hauptknopf rechts. Am Telefon ein Blatt von unten, der Hauptknopf über dem Nebenweg. Schritt 2: der Code in Kacheln. */
-  #modal-rueck .modal:has([data-zwei-schritte]) { max-width: 560px; padding: var(--space-6) 36px 28px; border-radius: var(--radius-fenster); }
+  #modal-rueck .modal:has([data-zwei-schritte]) { max-width: var(--dialog-breite-weit); padding: var(--space-6) var(--space-6) var(--space-5); border-radius: var(--radius-fenster); }
   #modal-rueck .modal:has([data-zwei-schritte]) .modal-kopf { align-items: center; margin-bottom: var(--space-5); }
-  #modal-rueck .modal:has([data-zwei-schritte]) .modal-kopf h3 { margin: 0; padding-top: 0; color: var(--ink); font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); line-height: 1.4; flex-wrap: wrap-reverse; gap: var(--space-2) var(--space-4); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-kopf h3 { margin: 0; padding-top: 0; color: var(--ink); font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); line-height: var(--dialog-zeilenhoehe-titel); flex-wrap: wrap-reverse; gap: var(--space-2) var(--space-4); }
   #modal-rueck .modal:has(#whc-angebot) .modal-x { display: none; }
   @media (min-width: 768px) { #modal-rueck .modal.modal-mit-abbrechen:has([data-zwei-schritte]) .modal-x { display: none; } }
   #modal-rueck .modal:has([data-zwei-schritte]) .modal-schritt { order: 1; flex: 0 0 auto; flex-basis: auto; margin-left: auto; display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink3); white-space: nowrap; }
-  .modal-schritt::before { content: ""; width: 28px; height: 6px; margin-right: 36px; border-radius: var(--radius-balken); background: var(--salbei-dunkel); box-shadow: 36px 0 0 var(--line); flex: 0 0 auto; }
-  .modal-schritt[data-schritt="2"]::before { box-shadow: 36px 0 0 var(--salbei-dunkel); }
+  .modal-schritt::before { content: ""; width: var(--space-6); height: var(--space-2); margin-right: calc(var(--space-6) + var(--space-2)); border-radius: var(--radius-balken); background: var(--salbei-dunkel); box-shadow: calc(var(--space-6) + var(--space-2)) 0 0 var(--line); flex: 0 0 auto; }
+  .modal-schritt[data-schritt="2"]::before { box-shadow: calc(var(--space-6) + var(--space-2)) 0 0 var(--salbei-dunkel); }
   html.dark-mode .modal-schritt::before { background: var(--salbei-nacht); }
-  html.dark-mode .modal-schritt[data-schritt="2"]::before { box-shadow: 36px 0 0 var(--salbei-nacht); }
+  html.dark-mode .modal-schritt[data-schritt="2"]::before { box-shadow: calc(var(--space-6) + var(--space-2)) 0 0 var(--salbei-nacht); }
   #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-name > legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  #modal-rueck .modal:has([data-zwei-schritte]) label { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink2); margin-bottom: 6px; }
+  #modal-rueck .modal:has([data-zwei-schritte]) label { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink2); margin-bottom: var(--space-2); }
   #modal-rueck .modal:has([data-zwei-schritte]) input { min-height: 44px; margin-bottom: 0; }
   #modal-rueck .modal:has([data-zwei-schritte]) .feld-inline-fehler { margin: var(--space-1) 0 0; }
   .anlegen-woerter-titel { font-size: var(--fs-role-einleitung); font-weight: var(--fw-semibold); color: var(--ink); margin: var(--space-6) 0 6px; }
   .anlegen-woerter-titel[hidden], .anlegen-pw-eigen[hidden] { display: none; }
-  #modal-rueck .modal:has([data-zwei-schritte]) .pw-satz { font-size: var(--fs-role-text); line-height: 1.55; margin: 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .pw-satz { font-size: var(--fs-role-text); line-height: var(--dialog-zeilenhoehe); margin: 0; }
   #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag { margin: 0; }
   .pw-woerter-raster { list-style: none; margin: var(--space-4) 0 0; padding: 18px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; background: var(--salbei-light); border-radius: var(--radius-flaeche); counter-reset: wort; letter-spacing: normal; font-size: inherit; }
   .pw-woerter-raster li { counter-increment: wort; display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; background: var(--white); border-radius: var(--radius-kachel); padding: var(--space-3) 14px; font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); line-height: 1.2; color: var(--ink); overflow-wrap: anywhere; }
@@ -3230,8 +3263,8 @@
   .anlegen-warum-mehr[hidden] { display: none; }
   .anlegen-warum-mehr .anlegen-unterhinweis { margin: 0 0 var(--space-1); }
   .anlegen-warum-mehr .btn-text { min-height: 44px; padding: 0; }
-  #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag-aktionen { margin: 6px 0 0; gap: 0; }
-  #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag-aktionen .btn-text { min-height: 44px; padding: 0 var(--space-3); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag-aktionen { margin: var(--space-2) 0 0; gap: 0; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .pw-vorschlag-aktionen .btn-text { min-height: var(--ziel); padding: 0 var(--space-3); }
   #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-pw-eigen { margin-top: var(--space-5); }
   #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-pw-eigen .pw-staerke { margin: var(--space-1) 0 0; }
   #modal-rueck .modal:has([data-zwei-schritte]) #id-pw2-label { margin-top: var(--space-5); }
@@ -3240,19 +3273,19 @@
   .anlegen-unterhinweis { font-size: var(--fs-role-hilfe); line-height: 1.46; color: var(--ink3); margin: var(--space-2) 0 0; }
   #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen { align-items: center; margin-top: var(--space-6); padding-top: 0; flex-wrap: nowrap; }
   .modal-nebenweg { display: flex; align-items: center; margin-right: auto; }
-  .modal-nebenweg .btn-text { min-height: 44px; padding: 0 var(--space-3); white-space: nowrap; }
+  .modal-nebenweg .btn-text { min-height: var(--ziel); padding: 0 var(--space-3); white-space: nowrap; }
   .modal-nebenweg .btn-text[hidden] { display: none; }
-  #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen .btn { min-height: 44px; padding: 0 22px; border-radius: var(--radius-pill); flex: 0 0 auto; white-space: nowrap; }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen .btn { min-height: var(--ziel); padding: 0 var(--space-5); border-radius: var(--radius-pill); flex: 0 0 auto; white-space: nowrap; }
   #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen #m-abbr { border: 0; background: var(--flaeche-hover); color: var(--ink); }
   #modal-rueck .modal:has([data-zwei-schritte]) .modal-zweit-text { align-items: center; gap: 0 var(--space-3); }
-  #modal-rueck .modal:has([data-zwei-schritte]) .modal-zweit-text .btn-text { min-height: 44px; padding: 0 var(--space-3); }
+  #modal-rueck .modal:has([data-zwei-schritte]) .modal-zweit-text .btn-text { min-height: var(--ziel); padding: 0 var(--space-3); }
   #modal-rueck .modal:has([data-zwei-schritte]) #m-zweit-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink3); }
   /* Schritt 2: der Code in Kacheln auf ruhiger Fläche, die Druckknöpfe mittig darunter, „Code abtippen“ als Beschriftung des Felds. */
   .whc-code.whc-code-kacheln { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: var(--space-4) 0 0; padding: 22px 18px; background: var(--salbei-light); border: 0; border-radius: var(--radius-flaeche); font-size: var(--fs-role-abschnitt); letter-spacing: var(--ls-code); text-align: center; color: var(--ink); }
   .whc-code-kacheln span { background: var(--white); border-radius: var(--radius-kachel); padding: var(--space-2) var(--space-3); white-space: nowrap; }
   #modal-rueck .modal:has(#whc-angebot) .whc-druck-zeile { justify-content: center; gap: var(--space-3); margin-top: var(--space-3); }
-  #modal-rueck .modal:has(#whc-angebot) .whc-druck-zeile .btn { min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--radius-pill); background: var(--flaeche-hover); color: var(--ink); font-size: var(--fs-role-text); font-weight: var(--fw-medium); }
-  #modal-rueck .modal:has(#whc-angebot) h3.whc-abtippen-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink2); margin: 28px 0 6px; }
+  #modal-rueck .modal:has(#whc-angebot) .whc-druck-zeile .btn { min-height: var(--ziel); padding: 0 var(--space-4); border: 0; border-radius: var(--radius-pill); background: var(--flaeche-hover); color: var(--ink); font-size: var(--fs-role-text); font-weight: var(--fw-medium); }
+  #modal-rueck .modal:has(#whc-angebot) h3.whc-abtippen-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink2); margin: var(--space-6) 0 var(--space-2); }
   #modal-rueck .modal:has(#whc-angebot) label[for="whc-kontrolle"] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
   #modal-rueck .modal:has(#whc-angebot) #whc-kontrolle-hinweis { font-size: var(--fs-role-hilfe); color: var(--ink3); margin: var(--space-1) 0 0; }
   /* Ein Abschreibfehler steht als Satz unter dem Feld, die Unterkante wird rot; kein Kasten, und der leise Hinweis weicht ihm. */
@@ -3262,13 +3295,13 @@
   #modal-rueck .modal:has(#whc-angebot) #whc-kontrolle:has(~ #whc-fehler:not([hidden])) { border-bottom: 2px solid var(--error); }
   @media (max-width: 767px) {
     #modal-rueck:has([data-zwei-schritte]) { padding: var(--space-6) 0 0; align-items: flex-end; }
-    #modal-rueck .modal:has([data-zwei-schritte]) { max-width: none; width: 100%; padding: var(--space-5) var(--space-4) 20px; border-radius: var(--radius-blatt) var(--radius-blatt) 0 0; max-height: calc(100dvh - var(--space-6)); }
+    #modal-rueck .modal:has([data-zwei-schritte]) { max-width: none; width: 100%; padding: var(--space-5) var(--space-4) var(--space-4); border-radius: var(--radius-blatt) var(--radius-blatt) 0 0; max-height: calc(100dvh - var(--space-6)); }
     #modal-rueck .modal:has([data-zwei-schritte]) .anlegen-name-felder { grid-template-columns: 1fr; gap: var(--space-4); }
-    #modal-rueck .modal:has([data-zwei-schritte]) input { min-height: 48px; }
+    #modal-rueck .modal:has([data-zwei-schritte]) input { min-height: var(--ziel-gross); }
     .pw-woerter-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-3); }
     .pw-woerter-raster li { font-size: var(--fs-role-gruppe); }
     #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen { flex-direction: column; align-items: stretch; gap: var(--space-3); }
-    #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen #m-ok { order: 1; width: 100%; min-height: 48px; justify-content: center; }
+    #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen #m-ok { order: 1; width: 100%; min-height: var(--ziel-gross); justify-content: center; }
     #modal-rueck .modal:has([data-zwei-schritte]) .modal-aktionen #m-abbr { display: none; }
     #modal-rueck .modal:has([data-zwei-schritte]) .modal-nebenweg, #modal-rueck .modal:has([data-zwei-schritte]) .modal-zweit-text { order: 2; margin: 0; justify-content: center; text-align: center; flex-direction: column; }
   }
@@ -3304,29 +3337,29 @@
   /* Zielbild 03 (Entsperren): die Karte trägt Marke und Sprache in einer Zeile, die Überschrift, ein Feld, „Öffnen“ als Pille und
      zwei leise Wege nebeneinander; der Haftungshinweis steht leise unter der Karte. Ein Fehler steht als Satz unter dem Feld, die
      Unterkante wird rot. Die äußere Overlay-Karte tritt zurück, damit der Hinweis außerhalb der Karte stehen kann. */
-  #overlay:has(.entsperren-karte) { padding-top: clamp(var(--space-5), 18vh, 200px); }
-  #overlay > #overlay-inhalt.karte:has(> .entsperren-karte) { background: none; border: 0; box-shadow: none; padding: 0; max-width: 520px; }
-  .entsperren-karte { padding: 44px; border-radius: var(--radius-fenster); }
+  #overlay:has(.entsperren-karte) { padding-top: var(--entsperren-oben); }
+  #overlay > #overlay-inhalt.karte:has(> .entsperren-karte) { background: none; border: 0; box-shadow: none; padding: 0; max-width: var(--dialog-breite); }
+  .entsperren-karte { padding: var(--space-7); border-radius: var(--radius-fenster); }
   .entsperren-kopf { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: 0 0 var(--space-6); }
-  #overlay #overlay-inhalt .entsperren-kopf .welcome-brand { margin: 0; gap: 14px; }
-  #overlay .entsperren-kopf .welcome-logo-mark { width: 28px; height: 28px; }
+  #overlay #overlay-inhalt .entsperren-kopf .welcome-brand { margin: 0; gap: var(--space-3); }
+  #overlay .entsperren-kopf .welcome-logo-mark { width: var(--space-6); height: var(--space-6); }
   #overlay .entsperren-kopf .welcome-wort { font-size: var(--fs-role-text); font-weight: var(--fw-semibold); letter-spacing: var(--ls-wortmarke); }
   #overlay #overlay-inhalt .entsperren-kopf .vor-depot-sprache { position: static; margin: 0; font-weight: var(--fw-semibold); color: var(--salbei-dunkel); text-decoration: none; }
   #overlay .entsperren-kopf .vor-depot-sprache svg { display: none; }
-  .entsperren-titel { font-size: var(--fs-role-titel); line-height: 1.2; font-weight: var(--fw-bold); color: var(--ink); margin: 0 0 6px; letter-spacing: var(--ls-titel); }
+  .entsperren-titel { font-size: var(--fs-role-titel); line-height: var(--dialog-zeilenhoehe-titel); font-weight: var(--fw-bold); color: var(--ink); margin: 0 0 var(--space-2); letter-spacing: var(--ls-titel); }
   .entsperren-karte .crypto-auff { font-size: var(--fs-role-einleitung); color: var(--ink2); margin: 0 0 var(--space-5); }
   .entsperren-karte label[for="co-pw"] { font-weight: var(--fw-medium); }
-  #overlay #overlay-inhalt .entsperren-karte #co-pw { min-height: 44px; margin-bottom: 0; }
+  #overlay #overlay-inhalt .entsperren-karte #co-pw { min-height: var(--ziel); margin-bottom: 0; }
   #overlay #overlay-inhalt .entsperren-karte #co-pw:has(+ #crypto-fehler:not([hidden])) { border-bottom: 2px solid var(--error); }
-  #overlay .entsperren-karte #crypto-fehler { margin: 6px 0 0; padding: 0; border: 0; background: none; color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); line-height: 1.45; }
+  #overlay .entsperren-karte #crypto-fehler { margin: var(--space-2) 0 0; padding: 0; border: 0; background: none; color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); line-height: var(--dialog-zeilenhoehe); }
   #overlay #overlay-inhalt .entsperren-karte .welcome-aktionen { margin-top: var(--space-5); }
-  #overlay #overlay-inhalt .entsperren-karte #w-oeffnen { width: 100%; min-height: 52px; justify-content: center; border-radius: var(--radius-pill); font-size: var(--fs-role-text); font-weight: var(--fw-semibold); }
+  #overlay #overlay-inhalt .entsperren-karte #w-oeffnen { width: 100%; min-height: var(--ziel-gross); justify-content: center; border-radius: var(--radius-pill); font-size: var(--fs-role-text); font-weight: var(--fw-semibold); }
   .entsperren-wege { font-size: var(--fs-role-hilfe); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2) var(--space-4); margin: var(--space-4) 0 0; }
-  #overlay .entsperren-wege .btn-dezent { min-height: 44px; padding: 0 4px; font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--salbei-dunkel); text-decoration: none; }
+  #overlay .entsperren-wege .btn-dezent { min-height: var(--ziel); padding: 0 var(--space-1); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--salbei-dunkel); text-decoration: none; }
   #overlay #overlay-inhalt.karte:has(> .entsperren-karte) > .welcome-haftung { margin: var(--space-5) var(--space-4) 0; font-size: var(--fs-role-hilfe); color: var(--ink3); }
   html.dark-mode #overlay #overlay-inhalt .entsperren-kopf .vor-depot-sprache, html.dark-mode #overlay .entsperren-wege .btn-dezent { color: var(--salbei-nacht); }
   @media (max-width: 767px) {
     #overlay:has(.entsperren-karte) { padding-top: var(--space-5); }
-    .entsperren-karte { padding: 36px 20px 28px; }
+    .entsperren-karte { padding: var(--space-6) var(--space-5) var(--space-5); }
     .entsperren-wege { flex-direction: column; align-items: flex-start; gap: 0; }
   }

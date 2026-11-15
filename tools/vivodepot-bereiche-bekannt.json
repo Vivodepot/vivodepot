@@ -207,7 +207,7 @@
               "id": "tpl_exemption_from_self_dealing",
               "typ": "auswahl",
               "label": "Befreiung vom Insichgeschäft",
-              "hint": "Ist jemand von der Beschränkung für Geschäfte mit sich selbst befreit?",
+              "hint": "Darf jemand Geschäfte mit sich selbst oder zugleich als Vertreter Dritter abschließen, ganz oder für bestimmte Geschäfte?",
               "optionen": [
                 {
                   "wert": "ja",
@@ -227,7 +227,7 @@
               "id": "tpl_exemption_from_self_dealing_details",
               "typ": "text",
               "label": "Befreiung vom Insichgeschäft: wer, und wo steht es",
-              "hint": "Wer ist befreit, und wo ist es festgehalten?"
+              "hint": "Wer ist befreit, wofür, und wo ist es festgehalten?"
             },
             {
               "id": "tpl_domestic_business_address",

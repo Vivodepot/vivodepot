@@ -160,6 +160,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   get SEKTOR_BY_ID() { return SEKTOR_BY_ID; },
   // Lese-Logik (DOM-frei testbar) — U2-ADR-078: notfallCacheAusUmschlag entfernt
   erkenneFormat, leseDepotUmschlag,
+  pwWoerterKanon: (typeof pwWoerterKanon === 'function' ? pwWoerterKanon : undefined),   // PASSWORT-TRENNZEICHEN
   subBannerHTML,   // U2-ADR-156: trägt den Empfänger-Ausschnitt-Satz
   magicStrippen,
   parseNotfallQrText, qrTeilAufnehmen, _qrRahmenParsen,

@@ -61,7 +61,7 @@ function pruefen({ produkt = 'privat-de', ohneTausch = false, manipuliere = fals
   try {
     const archiv = spawnSync('git', ['archive', '--format=tar', ref.kanonCommit], { cwd: REPO, env: ohneGitUmgebung(), maxBuffer: 1 << 30 });
     if (archiv.status !== 0) throw new Error('git archive ' + ref.kanonCommit + ' scheitert: ' + String(archiv.stderr).trim());
-    const tar = spawnSync('tar', ['-x', '-C', baum], { input: archiv.stdout, maxBuffer: 1 << 30 });
+    const tar = require('./lib/kind-mit-eingabe.js').kindMitEingabe('tar', ['-x', '-C', baum], { eingabe: archiv.stdout, maxBuffer: 1 << 30, zeitgrenzeMs: 30 * 60 * 1000 });
     if (tar.status !== 0) throw new Error('tar scheitert: ' + String(tar.stderr).trim());
     fs.symlinkSync(path.join(REPO, 'node_modules'), path.join(baum, 'node_modules'));
     if (!ohneTausch) fs.copyFileSync(NEUES_WERKZEUG, path.join(baum, 'tools', 'lib', 'produkt-text-erzeugen.js'));

@@ -126,10 +126,12 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await p.tap('#aa-erzeugen');
       await expect(p.locator('#aa-link')).toBeVisible();
       await p.locator('#aa-link').scrollIntoViewIfNeeded();
+      await p.tap('#aa-link-aufklapper summary');   // seit Wagen S-H steht der volle Link im Aufklapper, der kurze oben
+      await expect(p.locator('#aa-link-voll')).toBeVisible();
       await bildschirm(p, 'Anfrage 6 mit Link', s);
 
       // Rot-Beweis (1): ohne den Umbruch wird die Seite breiter als das Fenster, und die Messung sieht es.
-      await p.addStyleTag({ content: 'code.sub-id { max-width: none !important; overflow-wrap: normal !important; word-break: normal !important; }' });
+      await p.addStyleTag({ content: 'code.sub-id, .aa-link-voll code.sub-id { max-width: none !important; max-height: none !important; overflow: visible !important; white-space: nowrap !important; overflow-wrap: normal !important; word-break: normal !important; }' });
       const ohne = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(ohne, 'Rot-Beweis: ohne Umbruch läuft der Link über').toBeGreaterThan(100);
       await s.ctx.close();
@@ -144,7 +146,6 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await p.keyboard.type('Sportverein Beispielstadt');
       await p.locator('#as-art [data-art="verein"]').tap();
       await bildschirm(p, 'Bogen 1', s);
-      await p.tap('#as-weiter-1');
       await expect(p.locator('#as-felder li').first()).toBeVisible();
       const vorher = await p.locator('#as-felder li').count();
       await p.locator('#as-hinzu button', { hasText: 'Geburtsdatum' }).tap();   // steht im Beispiel schon: kein Doppel

@@ -396,12 +396,43 @@ test('[K9] baueSubmissionSigniert MIT wortlaut: templateJws trägt den wortlaut 
 });
 
 /* ── Zusatz: keine Persistenz-/Netzwerk-Aufrufe in der Quelle ─────────────── */
+/* Studio-Schritt 5 (12.11.2026): das Studio trägt jsPDF als byte-gleiche Kopie des Kern-Blocks (@vd-lib). Die Bibliothek enthält
+   einen XMLHttpRequest-Ladeweg, den das Studio nie aufruft; die CSP setzt connect-src 'none'. Ein @vd-lib-Block fällt aus der
+   Suche nur heraus, wenn er byte-gleich zum Block desselben Namens im Kern ist (dieselbe Regel wie in
+   tests/csp-hashes-vertrauensregel.test.js). Jede andere Stelle bleibt in der Suche. */
+const KLASSE_A_MUSTER = [/localStorage\s*[.\[]/, /sessionStorage\s*[.\[]/, /indexedDB\s*[.\[]/, /document\.cookie\s*=/,
+  /new\s+XMLHttpRequest/, /(^|[^.\w])fetch\s*\(/, /new\s+WebSocket/, /new\s+EventSource/, /navigator\.sendBeacon\s*\(/];
+function klasseAVdLibBlock(html, name) {
+  const m = html.indexOf('@vd-lib name="' + name + '"');
+  if (m < 0) return null;
+  const ende = html.indexOf('</script>', m);
+  return ende < 0 ? null : html.slice(html.lastIndexOf('<!--', m), ende + '</script>'.length);
+}
+function klasseAOhneKernGleicheBibliotheken(html, kern) {
+  let rest = html;
+  for (const m of html.matchAll(/@vd-lib name="([^"]+)"/g)) {
+    const block = klasseAVdLibBlock(html, m[1]);
+    if (block !== null && block === klasseAVdLibBlock(kern, m[1])) rest = rest.split(block).join('');
+  }
+  return rest;
+}
+const KLASSE_A_KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+
+test('[Klasse-A·Rot-Beweis] eine Bibliothek fällt nur byte-gleich zum Kern heraus; ein Byte anders oder Code außerhalb bleibt rot', () => {
+  const block = klasseAVdLibBlock(KLASSE_A_KERN, 'jspdf');
+  assert.ok(block && /new\s+XMLHttpRequest/.test(block), 'Vorbedingung: der jsPDF-Block des Kerns trägt die Fundstelle');
+  const seite = (b, dazu = '') => '<script>let a = 1;</script>' + b + dazu;
+  const trifft = (html) => KLASSE_A_MUSTER.some((re) => re.test(klasseAOhneKernGleicheBibliotheken(html, KLASSE_A_KERN)));
+  assert.equal(trifft(seite(block)), false, 'byte-gleich: fällt heraus');
+  assert.equal(trifft(seite(block.replace('jsPDF', 'jsPDf'))), true, 'ein Byte anders: bleibt in der Suche');
+  assert.equal(trifft(seite(block, '<script>new XMLHttpRequest();</script>')), true, 'Abruf außerhalb des Blocks: bleibt in der Suche');
+  assert.equal(trifft(seite(block.replace('@vd-lib name="jspdf"', '@vd-lib name="fremd"'))), true, 'ein Block, den der Kern nicht trägt: bleibt in der Suche');
+});
+
 test('[Klasse-A] Sicherheit: kein Storage, kein Netzwerk in der Generator-Quelle', () => {
-  const html = fs.readFileSync(GEN_PATH, 'utf8');
+  const html = klasseAOhneKernGleicheBibliotheken(fs.readFileSync(GEN_PATH, 'utf8'), KLASSE_A_KERN);
   // Ausführungs-Muster (nicht bloße Erwähnungen in Kommentaren/Doku):
-  [/localStorage\s*[.\[]/, /sessionStorage\s*[.\[]/, /indexedDB\s*[.\[]/, /document\.cookie\s*=/,
-   /new\s+XMLHttpRequest/, /(^|[^.\w])fetch\s*\(/, /new\s+WebSocket/, /new\s+EventSource/, /navigator\.sendBeacon\s*\(/]
-    .forEach((re) => assert.equal(re.test(html), false, 'verbotenes Ausführungs-Muster gefunden: ' + re));
+  KLASSE_A_MUSTER.forEach((re) => assert.equal(re.test(html), false, 'verbotenes Ausführungs-Muster gefunden: ' + re));
   // CSP-Meta vorhanden mit connect-src 'none'
   assert.ok(/Content-Security-Policy/.test(html), 'CSP-Meta muss vorhanden sein');
   assert.ok(/connect-src 'none'/.test(html), "CSP muss connect-src 'none' setzen");

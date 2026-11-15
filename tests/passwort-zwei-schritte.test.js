@@ -118,7 +118,8 @@ test('[S2·Markierung je Wort] richtig abgetippte Wörter sind oben markiert, fa
   const probe = els['id-pw2'];
   probe.value = soll[0] + '-' + soll[1].toUpperCase() + '-' + soll[2] + '-' + soll[3].slice(0, 2);
   probe.dispatchEvent({ type: 'input' });
-  assert.deepEqual(haken(), [true, false, true, false, false, false], 'Markierung am ersten und dritten Wort; Großschreibung und halbes Wort ohne');
+  // PASSWORT-TRENNZEICHEN (11.11.2026, K9 Variante B): Schreibung und Trenner sind frei, darum trägt auch das groß geschriebene Wort die Markierung.
+  assert.deepEqual(haken(), [true, true, true, false, false, false], 'Markierung an den ersten drei Wörtern; das halbe Wort ohne');
   probe.value = soll.join('-');
   probe.dispatchEvent({ type: 'input' });
   assert.deepEqual(haken(), [true, true, true, true, true, true]);
@@ -276,7 +277,7 @@ test('[S2·Probe-Meldung] beim Wörter-Vorschlag spricht die Meldung von den Wö
   const w = woerter.split('-');
   assert.equal(V.pwProbeMeldung(woerter, w.slice(0, 3).join('-') + '-' + w[3].slice(0, 2)), V.STRINGS.pwProbeWoerterUngleich);
   assert.equal(V.pwProbeMeldung(woerter, [w[0], 'xxxqq'].concat(w.slice(2)).join('-')), V.STRINGS.pwProbeWortWeichtAb.replace('{n}', '2'));
-  assert.equal(V.pwProbeMeldung(woerter, w.join(' ')), V.STRINGS.pwProbeNurSchreibung);
+  assert.equal(V.pwProbeVergleich(woerter, w.join(' ')).art, 'gleich', 'die Wörter, wie angezeigt, sind gleich (PASSWORT-TRENNZEICHEN)');
   assert.equal(V.pwProbeMeldung('Sommer-Garten-2026', 'Sommer-Garten'), V.STRINGS.pwSetzenUngleich);
   assert.doesNotMatch(V.STRINGS.pwProbeWoerterUngleich, /Passw/);
 });

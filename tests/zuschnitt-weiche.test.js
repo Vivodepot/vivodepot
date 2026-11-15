@@ -48,6 +48,7 @@ const STELLEN = Object.freeze({
   'tests/e2e/fix-6-trefferflaechen.spec.js': 1,                 // öffentlich ohne die zurückgehaltenen Vorlagen (20.10.2026, gemessen: mit den Vorlagen grün)
   'tests/e2e/f8-dokument-oeffner-abnahme.spec.js': 1,           // öffentlich ohne die zurückgehaltenen Vorlagen (20.10.2026)
   'tests/e2e/nachlese-f8-m1-zug4-abnahme.spec.js': 1,           // öffentlich ohne die zurückgehaltenen Vorlagen (20.10.2026)
+  'tests/e2e/gestaltung-ansicht.spec.js': 1,                    // öffentlich ein anderer Bestand als die private Grundlinie (14.11.2026)
   'tests/suite-rot-zusammenfassung.test.js': 1, // beide Hook-Proben (die Hooks sind zurückgehalten; zuschnitt-privat)
 });
 

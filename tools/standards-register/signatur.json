@@ -5,11 +5,11 @@
     {
       "id": "sd-jwt-vc",
       "name": "SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)",
-      "version": "draft-ietf-oauth-sd-jwt-vc-19 (Stand 31.08.2026); Kern-Format SD-JWT ist RFC 9901",
+      "version": "draft-ietf-oauth-sd-jwt-vc-26 (Stand 06.11.2026, Internet-Draft); Kern-Format SD-JWT ist RFC 9901",
       "herausgeber": "IETF OAuth Working Group",
       "quelle": {
         "url": "https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/",
-        "abgerufen": "2026-10-01"
+        "abgerufen": "2026-11-10"
       },
       "lizenz": {
         "status": "geprueft",

@@ -35,7 +35,15 @@ test('[Negativprobe] U2-ADR-190: Stufe 2 (ungefragter Versions-/Neuladen-Hinweis
   // hier: eine Wegwerf-Mutation würde denselben Quelltext wiederherstellen, den U2-ADR-190 gerade
   // entfernt hat, und damit die eigene Entscheidung im Test wieder einführen.
   assert.doesNotMatch(HTML, /_swUpdateHinweisZeigen/, 'die Hinweis-Funktion ist entfernt, nicht nur unbenutzt');
-  assert.doesNotMatch(HTML, /addEventListener\('controllerchange'/, 'kein controllerchange-Hörer mehr — nichts zeigt einen Hinweis bei der Übernahme');
+  // Nachtrag 11.11.2026 (neue Fassung beim ersten Aufruf): Es gibt wieder genau einen Hörer auf die Übernahme. Er zeigt
+  // nichts; er lädt die Seite nur dann einmal selbst neu, wenn kein Depot offen ist (tests/sw-neue-fassung-selbst-neuladen.test.js).
+  const hoerer = [...HTML.matchAll(/addEventListener\('controllerchange', function \(\) \{([\s\S]*?)\n          \}\);/g)].map((m) => m[1]);
+  assert.equal((HTML.match(/addEventListener\('controllerchange'/g) || []).length, hoerer.length, 'jeder Hörer auf die Übernahme hat die geprüfte Form');
+  assert.ok(hoerer.length <= 1, 'höchstens ein Hörer auf die Übernahme');
+  for (const h of hoerer) {
+    assert.match(h, /_swNeueFassungUebernommen\(/, 'der Hörer entscheidet nur über das stille Neuladen');
+    assert.doesNotMatch(h, /toast|banner|hinweis|STRINGS|ui\./i, 'nichts zeigt einen Hinweis bei der Übernahme');
+  }
   assert.doesNotMatch(HTML, /swUpdateVerfuegbar/, 'auch der Text dazu ist entfernt, kein toter String neben totem Code');
 });
 

@@ -1,0 +1,6 @@
+{
+ "zweck": "Ratsche der Sprachlücken (tests/sprachluecken-ratsche.test.js). Gezählt von tools/sprachluecken-messen.js --wurzel . --mit-kern: teilBOberflaeche = Stellen mit fester deutscher Anzeige (.<name>De) in die Oberfläche; dokTitelOhneKennung = Abschnittstitel der Dokument-Module ohne Kennung dok:<id>#<i>.titel; teilC = Text-Träger im Kern, die keine Kennung des Textsatzes erreicht. Die Zahlen stehen genau auf dem Bestand und sinken nur; eine höhere Zahl braucht das Wort der Gegenlesung (Register der Zähler).",
+ "teilBOberflaeche": 2,
+ "teilC": 26,
+ "dokTitelOhneKennung": 0
+}

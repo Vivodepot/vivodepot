@@ -129,7 +129,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 308499
+   "bytes": 312844
   },
   "satz": {
    "bytes": 27597
@@ -194,6 +194,7 @@
   "Indexed",
   "Inter",
   "Length",
+  "Medication",
   "Numeric",
   "Object",
   "Observation",
@@ -231,7 +232,8 @@
   "Byte",
   "None",
   "Off",
-  "Opt"
+  "Opt",
+  "Coverage"
  ],
  "regionen": {
   "uebergangDeckel": 1,
@@ -3280,6 +3282,237 @@
    "auf": 308499,
    "daneben": {},
    "grund": "Größenleiter: freie Schriftgrößen im Kern-Quelltext zeigen auf var(--fs-role-<stufe>), die Tokens sind länger als die alten; Bestandszähler, folgt aus dem Diff",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308499,
+   "auf": 308543,
+   "daneben": {},
+   "grund": "Erkennung xoev/FIM: Hilfsfunktion _istJsonObjekt und zwei erkennen-Regeln im Import-Register",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308543,
+   "auf": 308549,
+   "daneben": {},
+   "grund": "Dokument-Platzhalter: _dokPlatzhalterErsetzen sucht die eine Klammergruppe der Option (Muster und Funktionsname im Kern); Bestandszähler, folgt aus dem Diff",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308549,
+   "auf": 308575,
+   "daneben": {},
+   "grund": "Knopf-Wagen: Klassen der Feld-Knoepfe Ausdruecklich keine von btn-mini auf btn btn-sek btn-klein (eine Gestalt je Feld), zwei Stellen in ausdruecklichKeineZeileHTML; im Zug v1054 zusammengeführt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308575,
+   "auf": 308592,
+   "daneben": {},
+   "grund": "Passwort-Trennzeichen (Krypto ABN-B1): Normalisierung der sechs Wörter; Bestandszähler, folgt aus dem Diff, im Zug v1054 zusammengeführt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 308592,
+   "auf": 309076,
+   "daneben": {},
+   "grund": "A5: Sprachknopf im Menü (depotSprachKnopfHTML, +Handler) und A2/A4/B6-Verdrahtung in vivodepot.html; Zuwachs gemessen, Sprachwahl-Aufruf im Kern; im Zug v1055 zusammengeführt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 309076,
+   "auf": 309105,
+   "daneben": {},
+   "grund": "ABN-B11: das Symbol für „nur am Bildschirm“ trägt title und aria-label, der Ausgabe-Knopf-Block rückt ans Blattende; Struktur, kein Inhalt.; im Zug v1055 zusammengeführt (ABN-B11)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 309105,
+   "auf": 309121,
+   "daneben": {},
+   "grund": "Widerrufs-Beleg: Kennzeile ungebrochen, Schrift notfalls kleiner (Wert ohne Leerzeichen brach nach Zeichenbreite um)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 309121,
+   "auf": 309155,
+   "daneben": {},
+   "grund": "Speichern übernimmt eine offene Chip-Eingabe: Übernahme-Funktion und Aufrufe (Bezeichner); im Zug v1056 zusammengeführt (Chip-Wagen 6a)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 309155,
+   "auf": 310010,
+   "daneben": {},
+   "grund": "Anlass-Vollständigkeit vor dem Herausgeben: Prüfung und Hinweis je Anlass (Bezeichner und Markup ohne Wort); im Zug v1056 zusammengeführt (UX-Kette Anlass A1/B2/B3)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 309155,
+   "auf": 310010,
+   "daneben": {},
+   "grund": "Ergebnis nach dem Herausgeben: zwei Wege mit Dateinamen (Bezeichner und Markup ohne Wort); im Zug v1056 zusammengeführt (UX-Kette Anlass A1/B2/B3)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 309447,
+   "auf": 309917,
+   "daneben": {},
+   "grund": "Austausch in einem Weg: Schrittfolge und Angaben in Gruppen (Bezeichner und Markup ohne Wort)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 310480,
+   "auf": 310699,
+   "daneben": {},
+   "grund": "Zustand „Sicherungskopie: noch keine“ mit Knopf im Blatt am Speicherstatus und auf der Übersicht: Kennungen, Klassen und Verdrahtung, kein Satz.; im Zug v1056 zusammengeführt (Meldungen B10)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 310699,
+   "auf": 311472,
+   "daneben": {},
+   "grund": "D2: Arzttermin als FHIR IPS, Anlass-Abschnitte (Practitioner, Coverage, Plan of Care, Reason for visit), Tafel ANLASS_AUSGABE_STANDARD; im Zug v1056 zusammengeführt (xShare D2)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 311472,
+   "auf": 311542,
+   "daneben": {},
+   "grund": "Neue Fassung beim ersten Aufruf: stilles Selbst-Neuladen ohne offenes Depot (Bezeichner, keine Sätze); im Zug v1056 zusammengeführt (B1 neue Fassung beim ersten Aufruf)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 311454,
+   "auf": 311605,
+   "daneben": {},
+   "grund": "H1/H2: eingelesene Einträge gehen mit ihrer Quelle hinaus (Provenance author/enterer), BMP-Übernahme und Anschrift-Bestätigung stempeln die Herkunft; im Zug v1057 zusammengeführt (Herkunft H1/H2)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 311605,
+   "auf": 311748,
+   "daneben": {},
+   "grund": "Chip-Feld weitereCodes, Schema 97, IPS mehrere coding-Eintraege (auf v1057 neu aufgesetzt)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 311748,
+   "auf": 311871,
+   "daneben": {},
+   "grund": "Medikation: Bezeichnung, Dosis, Hinweis, Grund, Zusatz je an ihrem IPS-Element, Schema 98 (auf v1057 neu aufgesetzt)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 311871,
+   "auf": 311935,
+   "daneben": {},
+   "grund": "Medikamentenliste M1: Chip-Felder pzn, ingredients, doseForm, unit, startDate, endDate, prescriber (Schema 99)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 311935,
+   "auf": 312152,
+   "daneben": {},
+   "grund": "Zurück im Browser: Vermerk der Ansicht im Verlauf und Öffnen aus dem Verlauf (Bezeichner, keine Sätze)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312152,
+   "auf": 312557,
+   "daneben": {},
+   "grund": "Freigabeweg-Wahl im Dialog Sicher weitergeben, Segment und Link mit Abholseite (B7 aus 13c347399, mit Zurück im Browser zusammengeführt)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312557,
+   "auf": 312844,
+   "daneben": {},
+   "grund": "Kreis-Wagen: Unterfelder im Kreis-Zuschnitt, Kasten „Nicht mitgeschickt“, Freigabe je Kreis (aus 90b6d9370, mit B7 und Zurück im Browser zusammengeführt)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

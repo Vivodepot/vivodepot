@@ -289,6 +289,8 @@ const EXPORT_HOOK = `
   // Template-Literal, ein Backtick hier bricht es mitten durch (Werkzeug-Falle, s. Memory).
   codeChipInhaltHTML: (typeof codeChipInhaltHTML === 'function' ? codeChipInhaltHTML : undefined),
   codeChipKlartext: (typeof codeChipKlartext === 'function' ? codeChipKlartext : undefined),
+  anlassAusgabeStandard: (typeof anlassAusgabeStandard !== 'undefined' ? anlassAusgabeStandard : undefined),
+  _ipsAnlassSektionen: (typeof _ipsAnlassSektionen === 'function' ? _ipsAnlassSektionen : undefined),
   blackboxDateiname: (typeof blackboxDateiname === 'function' ? blackboxDateiname : undefined),
   feldAusgabeBeschriftung: (typeof feldAusgabeBeschriftung === 'function' ? feldAusgabeBeschriftung : undefined),
   // Ein Personen-Wähler (30.10.2026, Befund UX-PERSONENWAEHLER-DREIFACH); ältere Kerne kennen sie nicht.
@@ -353,6 +355,11 @@ const EXPORT_HOOK = `
   _abschnittTitelDoppelt: (typeof _abschnittTitelDoppelt !== 'undefined' ? _abschnittTitelDoppelt : undefined),
   renderErledigen: (typeof renderErledigen !== 'undefined' ? renderErledigen : undefined),
   oeffneErledigen: (typeof oeffneErledigen !== 'undefined' ? oeffneErledigen : undefined),
+  empfaengerUnterfelderZurueck: (typeof empfaengerUnterfelderZurueck !== 'undefined' ? empfaengerUnterfelderZurueck : undefined),   // Teil C Kreis (07.11.2026); ältere Fassungen laden ohne sie
+  kreisSchutzAngebot: (typeof kreisSchutzAngebot !== 'undefined' ? kreisSchutzAngebot : undefined),
+  _wertNachTor: (typeof _wertNachTor !== 'undefined' ? _wertNachTor : undefined),   // geschützte Angabe im Kreis freigeben (14.11.2026)
+  nichtMitgeschicktSchutzSatz: (typeof nichtMitgeschicktSchutzSatz !== 'undefined' ? nichtMitgeschicktSchutzSatz : undefined),   // Einzahl/Mehrzahl im Kasten „Nicht mitgeschickt“ (14.11.2026)
+  unterfelderMitListeName: (typeof unterfelderMitListeName !== 'undefined' ? unterfelderMitListeName : undefined),   // „<Liste>: <Unterfeld>, …“ im Kasten „Nicht mitgeschickt“ (14.11.2026)
   _anlassKachelnHTML: (typeof _anlassKachelnHTML !== 'undefined' ? _anlassKachelnHTML : undefined),
   _standardVorlageSprache: (typeof _standardVorlageSprache !== 'undefined' ? _standardVorlageSprache : undefined),
   vollimportNichtUebernommenNamen: (typeof vollimportNichtUebernommenNamen !== 'undefined' ? vollimportNichtUebernommenNamen : undefined),
@@ -480,6 +487,8 @@ const EXPORT_HOOK = `
   subDepotNeuVersiegeln, subKontextBetreten, subKontextVerlassen,
   subDepotNieBetreten: (typeof subDepotNieBetreten !== 'undefined' ? subDepotNieBetreten : undefined),
   aktiverSubName, imSubKontext, ankerDaten,
+  podEingerichtet: (typeof podEingerichtet !== 'undefined' ? podEingerichtet : undefined),
+  shlLinkMitAbholseite: (typeof shlLinkMitAbholseite !== 'undefined' ? shlLinkMitAbholseite : undefined),
   sicherungskopieToastText: (typeof sicherungskopieToastText !== 'undefined' ? sicherungskopieToastText : undefined),
   vollmachtBannerHTML, flowSubKontextBetreten, flowSubKontextVerlassen,
   getAktiverSubKontext: () => aktiverSubKontext,
@@ -530,12 +539,18 @@ const EXPORT_HOOK = `
   pruefzifferHinweis, pruefzifferArtFuer, _steueridPlausibel, _kvnrPlausibel, _rvnrPlausibel, _ibanPlausibel,
   kennungBauen, kennungZerlegen, kennungAusSelektor, kennungZuSelektor, kennungFeldDef, kennungPruefen,
   formatKennung, formatKennungAufloesen, formatHerkunftKennung,
-  anlassDef, anlassEintraege, anlassKennungen, anlassDatensatz, anlassPdfModell, anlassQrTeile, anlassAusgaben, anlassVertretung,
+  anlassDef, anlassEintraege, anlassKennungen, anlassZweckFelder: (typeof anlassZweckFelder === 'function' ? anlassZweckFelder : undefined), _anlassDateinameBasis: (typeof _anlassDateinameBasis === 'function' ? _anlassDateinameBasis : undefined), _anlassDateiStamm: (typeof _anlassDateiStamm === 'function' ? _anlassDateiStamm : undefined), _anlassErgebnisWege: (typeof _anlassErgebnisWege === 'function' ? _anlassErgebnisWege : undefined), anlassDatensatz, anlassPdfModell, anlassQrTeile, anlassAusgaben, anlassVertretung,
   _datensatzAusEintraegen,
   zusammenstellungDatensatz, flowAnlassExport, anlaesseMitDaten, flowHerausgebenZentral,
   zusammenstellenTreffer, zusammenstellungAuswahl, zusammenstellungAufnehmen, zusammenstellungEntfernen,
   zusammenstellungZuruecksetzen, zusammenstellungFeldFuellen, zusammenstellungSpeichern, zusammenstellungenLesen,
   renderZusammenstellen, oeffneZusammenstellen, flowZusammenstellungHerausgeben,
+  flowHerausgabeUebergabe: (typeof flowHerausgabeUebergabe === 'function' ? flowHerausgabeUebergabe : undefined),
+  herausgabeFormStarten: (typeof herausgabeFormStarten === 'function' ? herausgabeFormStarten : undefined),
+  herausgabeFormTraegt: (typeof herausgabeFormTraegt === 'function' ? herausgabeFormTraegt : undefined),
+  _herausgabeFormen: (typeof _herausgabeFormen === 'function' ? _herausgabeFormen : undefined),
+  _herausgabeFormateFuerBereich: (typeof _herausgabeFormateFuerBereich === 'function' ? _herausgabeFormateFuerBereich : undefined),
+  herausgabeFormatTraegt: (typeof herausgabeFormatTraegt === 'function' ? herausgabeFormatTraegt : undefined),
   anfragenOrtModell, anfragenOrtHTML, anfragenListe, ANFRAGE_ZUSTAENDE,
   // Kette, Auftrag 7 (20.08.2026) — die Anfrage von aussen
   ANFRAGE_FORMAT_ID, ANFRAGE_FORMAT_VERSION, ANFRAGE_SCHLUESSEL, ANFRAGE_FELD_SCHLUESSEL,
@@ -877,6 +892,8 @@ const EXPORT_HOOK = `
   _dokumentModuleUndVorlagenAusBuendelMaterialisieren: (typeof _dokumentModuleUndVorlagenAusBuendelMaterialisieren !== 'undefined' ? _dokumentModuleUndVorlagenAusBuendelMaterialisieren : undefined),
   // Geteilter Dokument-Generator (Modul-Vertrag, U2-ADR-068): Engine + Blocktyp-Handler + PV-Instanz
   modulDokumentAbschnitte,
+  // Platzhalter in der Anzeigesprache (11.11.2026); ältere Kerne, die eine Probe lädt, kennen den Namen nicht.
+  _dokPlatzhalterErsetzen: (typeof _dokPlatzhalterErsetzen !== 'undefined' ? _dokPlatzhalterErsetzen : undefined),
   // U2-ADR-333: die Zahl der unuebersetzten Passagen — gemessen, nicht gefuehrt
   _dokumentUnuebersetzteStellen: (typeof _dokumentUnuebersetzteStellen !== 'undefined' ? _dokumentUnuebersetzteStellen : undefined), MODUL_BLOCK_HANDLER, modulSichtbar, PV_MODUL,
   // KI-Verfügung „Verfügung zur digitalen Nachbildung" (U2-ADR-069): zweite Generator-Instanz (Testament-Anlage)
@@ -1181,6 +1198,8 @@ const EXPORT_HOOK = `
   saveKnopfDateiWeg: (typeof saveKnopfDateiWeg !== 'undefined' ? saveKnopfDateiWeg : undefined),
   // U2-ADR-190 (01.09.2026) — bedingtes skipWaiting: die Seite entscheidet, der Worker gehorcht nur.
   _swAktivierenWennMoeglich: (typeof _swAktivierenWennMoeglich !== 'undefined' ? _swAktivierenWennMoeglich : undefined),
+  _swNeueFassungUebernommen: (typeof _swNeueFassungUebernommen === 'function' ? _swNeueFassungUebernommen : undefined),
+  _swNeuLadenRuhig: (typeof _swNeuLadenRuhig === 'function' ? _swNeuLadenRuhig : undefined),
   // Zug 1 (Auftrag „Speicherweg ohne Datei-Picker", 09.08.2026) — vierter Zustand bekommt einen Abnehmer
   markiereDateiSicherungUnbestaetigt, bestaetigeDateiAngekommen,
   // Zug 2 (Auftrag „Speicherweg ohne Datei-Picker", 09.08.2026) — S15: Uhrzeit im Nicht-Picker-Namen
@@ -1444,6 +1463,9 @@ const EXPORT_HOOK = `
   _pwZufallsIndex: (typeof _pwZufallsIndex === 'function' ? _pwZufallsIndex : undefined),
   _pwIstVorschlagForm: (typeof _pwIstVorschlagForm === 'function' ? _pwIstVorschlagForm : undefined),
   pwProbeVergleich: (typeof pwProbeVergleich === 'function' ? pwProbeVergleich : undefined),
+  pwWoerterKanon: (typeof pwWoerterKanon === 'function' ? pwWoerterKanon : undefined),
+  _pwKanonRueckfall: (typeof _pwKanonRueckfall === 'function' ? _pwKanonRueckfall : undefined),
+  _passwortProbeMitKanon: (typeof _passwortProbeMitKanon === 'function' ? _passwortProbeMitKanon : undefined),
   modalPwMismatch: (typeof modalPwMismatch === 'function' ? modalPwMismatch : undefined),
   flowSubDepotAnlegen: (typeof flowSubDepotAnlegen === 'function' ? flowSubDepotAnlegen : undefined),
   pwProbeMeldung: (typeof pwProbeMeldung === 'function' ? pwProbeMeldung : undefined),

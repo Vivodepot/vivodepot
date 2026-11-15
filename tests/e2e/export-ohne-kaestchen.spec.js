@@ -111,7 +111,7 @@ test('Ephemer: eine „doch mitgeben"-Freigabe im Rückhalte-Weg überlebt das e
   await expect(zeileNationalitaet().locator('.export-zz-btn')).toHaveText('Doch mitgeben');
 });
 
-test('ein Bereich, in dem alles schema-sensibel ist, zeigt den „nichts geht mit"-Hinweis, kein leerer Zustand', async ({ page }) => {
+test('ein Bereich, in dem alles schema-sensibel ist, zeigt je Angabe den Zeilenknopf, keinen leeren Zustand', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await oeffneSektor(page, 'health');
@@ -122,7 +122,12 @@ test('ein Bereich, in dem alles schema-sensibel ist, zeigt den „nichts geht mi
   });
   const modal = page.locator('#modal-inhalt');
   await expect(modal.locator('.export-geht-liste')).toHaveCount(0);
-  await expect(modal).toContainText('geht nur mit, wenn Sie es unter');
+  // B2 (12.11.2026): statt eines Hinweissatzes trägt jede gehaltene Angabe ihren Knopf „Doch mitgeben“.
+  const gehalten = modal.locator('.export-gehalten-liste .export-zz-gehalten');
+  await expect(gehalten).toHaveCount(1);
+  await expect(gehalten).toContainText('Blutgruppe');
+  await expect(gehalten.locator('.export-zz-btn')).toHaveText('Doch mitgeben');
+  await expect(modal).not.toContainText('geht nur mit, wenn Sie es unter');
   // Der Zurückhalten-Weg bleibt trotzdem erreichbar — "nichts geht mit" ist keine Sackgasse.
   await expect(modal.locator('#exp-zurueckhalten-weg')).toBeVisible();
 });

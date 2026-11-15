@@ -126,8 +126,9 @@ async function fahre({ wahlFeld, sprache, weg, ohneGeburtsdatum, festlegung }) {
   assert.ok(ok, 'der Host wird zur Bestätigung gezeigt');
   ok.onclick();                                                              // … bestätigen → Link
   const uriEl = erzeugt.find((e) => e.id === 'shl-uri');
-  assert.ok(uriEl && /^shlink:\//.test(uriEl.textContent), 'ein Link entstand');
-  const nutzlast = JSON.parse(b64u(uriEl.textContent.slice('shlink:/'.length)).toString('utf8'));
+  // Der Link für Menschen trägt die Abholseite davor (…#shlink:/…, tests/shl-link-abholseite.test.js).
+  assert.ok(uriEl && /#shlink:\//.test(uriEl.textContent), 'ein Link entstand');
+  const nutzlast = JSON.parse(b64u(uriEl.textContent.slice(uriEl.textContent.indexOf('shlink:/') + 'shlink:/'.length)).toString('utf8'));
   const ent = jweEntschluesseln(jwe, nutzlast.key);
   return { k, V, modale, uri: uriEl.textContent, nutzlast, jwe, kopf: ent.kopf, bundleText: ent.bytes.toString('utf8') };
 }

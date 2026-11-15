@@ -40,8 +40,8 @@
         "abgerufen": "2026-09-28"
       },
       "lizenz": {
-        "status": "genehmigung-noetig",
-        "text": "Für die Inhalte der FIM-Bausteine ist keine Lizenz ausgewiesen (fimportal.de: „© FITKO“, Impressum der FITKO). Im Repo und im Produkt stehen darum nur Kennung, Fassung und Freigabestatus je Baustein; Feldnamen, Beschreibungen und Schemata erst nach Zustimmung der FITKO (U2-ADR-456)."
+        "status": "geprueft",
+        "text": "Die FITKO hat am 04.11.2026 telefonisch Auskunft gegeben: Die Inhalte des FIM-Portals darf jeder nutzen. Die Inhaberin hat am 08.11.2026 entschieden, danach zu verfahren (U2-ADR-456 und U2-ADR-465, je Nachtrag 08.11.2026). Auf fimportal.de selbst steht nur „© FITKO“, eine Lizenz ist dort nicht ausgewiesen."
       },
       "richtung": [
         "schreiben",
@@ -72,8 +72,8 @@
         "abgerufen": "2026-10-05"
       },
       "lizenz": {
-        "status": "genehmigung-noetig",
-        "text": "Für die Inhalte der FIM-Bausteine ist keine Lizenz ausgewiesen (fimportal.de: openapi.json ohne license und termsOfService, gemessen 05.10.2026; Impressum der FITKO: Nutzung nach den jeweiligen Lizenzbestimmungen oder nach vorheriger Anfrage). Schema-Struktur und Feldnamen stehen darum nur im eingelassenen Format-Modul und im gepinnten XSD außerhalb des Repos (U2-ADR-456, U2-ADR-465)."
+        "status": "geprueft",
+        "text": "Die FITKO hat am 04.11.2026 telefonisch Auskunft gegeben: Die Inhalte des FIM-Portals darf jeder nutzen. Die Inhaberin hat am 08.11.2026 entschieden, danach zu verfahren (U2-ADR-465, Nachtrag 08.11.2026). Die openapi.json von fimportal.de nennt weder license noch termsOfService (gemessen 05.10.2026). Dass Schema-Struktur und Feldnamen im Format-Modul stehen und nicht im Kern, ist eine Bauregel und hat mit der Lizenz nichts zu tun."
       },
       "richtung": [
         "schreiben"

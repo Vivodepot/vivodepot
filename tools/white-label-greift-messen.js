@@ -68,7 +68,6 @@ const HINWEIS_APP = /<p class="[^"]*" data-herkunft-hinweis="app">([^<]*)<\/p>/g
    kommt nur mit Entscheidung auf diese Liste, nie, damit die Messung grün wird. */
 const BLEIBT_BEWUSST = Object.freeze({
   'strings:shlAblageOeffnenKnopf.text': 'share.vivodepot.de ist die tatsächliche Adresse des Ablagedienstes (3c).',
-  'strings:shlUrlHinweis.text': 'share.vivodepot.de ist die tatsächliche Adresse des Ablagedienstes (3c).',
   'strings:importBetaLabel.text': 'Die alte Vivodepot-App (Beta) ist ein Eigenname der Quelle, aus der importiert wird (3c).',
   'strings:importKlartext.vivodepot-beta.text': 'Die alte Vivodepot-App (Beta) ist ein Eigenname der Quelle, aus der importiert wird (3c).',
   'strings:dokFussHaftung.text': 'Fassung C (U2-ADR-025) bleibt im Textsatz wortgleich; das Markenwort tauscht der Verbrauchsort _dokFussHaftungMitMarke — gemessen im Punkt pdf.',

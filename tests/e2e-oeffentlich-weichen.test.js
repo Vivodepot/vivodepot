@@ -10,11 +10,14 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const GRUENDE = Object.freeze(['öffentlich kein Pro-Produkt', 'öffentlich ohne die zurückgehaltenen Vorlagen']);
+// 'öffentlich ein anderer Bestand als die private Grundlinie': 14.11.2026 (Wort der Gegenlesung, öffentlicher Lauf d25247c68),
+//   für den Wächter „Ansicht“, dessen Grundlinie am privaten Bestand erhoben ist.
+const GRUENDE = Object.freeze(['öffentlich kein Pro-Produkt', 'öffentlich ohne die zurückgehaltenen Vorlagen', 'öffentlich ein anderer Bestand als die private Grundlinie']);
 const WEICHEN = Object.freeze({
   'tests/e2e/eine-anlege-aufforderung-je-ansicht.spec.js': ['öffentlich kein Pro-Produkt'],
   'tests/e2e/f8-dokument-oeffner-abnahme.spec.js': ['öffentlich ohne die zurückgehaltenen Vorlagen'],
   'tests/e2e/fix-6-trefferflaechen.spec.js': ['öffentlich ohne die zurückgehaltenen Vorlagen'],
+  'tests/e2e/gestaltung-ansicht.spec.js': ['öffentlich ein anderer Bestand als die private Grundlinie'],
   'tests/e2e/nachlese-f8-m1-zug4-abnahme.spec.js': ['öffentlich ohne die zurückgehaltenen Vorlagen'],
 });
 

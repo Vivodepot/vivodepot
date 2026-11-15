@@ -1,0 +1,8 @@
+{ "modulTyp": "textsatz", "sprache": "xx", "texte": {
+  "people.beispielFeld.label": "Relationship",
+  "people.beispielFeld/kind.label": "leibliches Kind",
+  "strings:beispielTitel.text": "How should you appear?",
+  "strings:beispielGrund.text": "Größe",
+  "strings:beispielAmt.text": "Ich bin mir der Folgen bewusst.",
+  "people.status.label": "Status"
+} }

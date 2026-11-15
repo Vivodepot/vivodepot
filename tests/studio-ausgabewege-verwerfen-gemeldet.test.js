@@ -97,6 +97,10 @@ const FILTER = {
   'paletteRendern | (b) => gruppen[b]': [K, 'Palette'],
   'paletteRendern | (b) => reihenfolge.indexOf(b) < 0': [K, 'Palette'],
   'rendereFelder | Boolean': [K, 'Vorschlagsliste der Gruppen'],
+  'vorlagePdfBauen | Boolean': [L, 'leere Teile der Kopfzeile des Vorlage-PDFs (Anbieter, Fassung, Datum; Titel, Behörde, Lizenz der Quelle)'],
+  'studioPdfBauen | Boolean': [L, 'leere Teile der Kopfzeile eines Ausgabe-PDFs (Anbieter, Herkunft); die Angaben selbst stehen in den Anhängen'],
+  '_studioPdfAnhang | (a) => a.spec != null': [K, 'Anhänge des PDFs: nennt im Katalog nur die schon geschriebenen Dateibeschreibungen, verwirft keine Angabe'],
+  'p | function(t){return"content"!=t': [K, 'jsPDF, byte-gleiche Kopie des Kern-Blocks: Eigenschaften eines Formularfelds beim Schreiben, keine Angabe des Studios'],
   '_brandingStapelTeile | (t) => t && !/^var\\(/i.test(t)': [K, 'zerlegt den Schriftstapel des Erscheinungsbilds, um eine Schriftart zu beurteilen (Einlass-Bereich aus dem Kern)'],
 };
 

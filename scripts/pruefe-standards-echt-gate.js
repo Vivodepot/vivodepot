@@ -85,7 +85,22 @@ function registerZeile(g) {
   return r.standards.find((s) => s.id === g.id);
 }
 
+/* VORBEDINGUNG (10.11.2026): dieselbe Frage nach Anlass und Werkzeug, ohne Prüferlauf und in Sekunden. Die Landung stellt sie vor
+   dem Volllauf; „fehlt“ heißt dort „nicht gestartet“ statt eines roten Laufs nach einer halben Stunde. Durchgelassen wird dadurch
+   nichts: der Exit bleibt 3, und das Gate selbst läuft unverändert im Zugkopf und im pre-push. */
+async function vorbedingung(gemessen, { zeileLesen, adapterLaden }) {
+  const fehlt = [];
+  for (const g of gemessen) {
+    const zeile = zeileLesen(g);
+    if (!zeile || zeile.status !== 'echt') continue;
+    const v = (await adapterLaden(g)).vorhanden();
+    if (!v.ok) fehlt.push(g.id + ': ' + v.grund + ' — Beheben: Docker Desktop starten; einmal ' + g.beheben);
+  }
+  return ausgang({ fehlt });
+}
+
 async function main() {
+  const nurVorbedingung = process.argv.includes('--vorbedingung');
   const roh = fs.readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[standards-echt] nichts zu pushen'); return 0; }
 
@@ -104,6 +119,12 @@ async function main() {
     return 0;
   }
   console.log('[standards-echt] Anlass: ' + anlass.grund);
+  if (nurVorbedingung) {
+    const a = await vorbedingung(GEMESSEN, { zeileLesen: registerZeile, adapterLaden: async (g) => (await import(path.join(REPO, g.adapter))).default });
+    console.log('[standards-echt] Vorbedingung: ' + (a.code === 0 ? 'Werkzeug bereit.' : 'Werkzeug fehlt.'));
+    if (a.text) console.error(a.text);
+    return a.code;
+  }
 
   const rot = [];
   const fehlt = [];
@@ -148,4 +169,4 @@ function ausgang({ rot = [], fehlt = [] } = {}) {
 
 if (require.main === module) main().then((c) => { process.exitCode = c; }, (e) => { console.error('[standards-echt] ' + e.message); process.exitCode = 1; });
 
-module.exports = { anlassGegeben, kernStellenMitBildungstyp, ausgang, EXIT_WERKZEUG_FEHLT, ITB_EIGENE_DATEIEN, KERN_WEG, GEMESSEN };
+module.exports = { anlassGegeben, kernStellenMitBildungstyp, ausgang, vorbedingung, EXIT_WERKZEUG_FEHLT, ITB_EIGENE_DATEIEN, KERN_WEG, GEMESSEN };

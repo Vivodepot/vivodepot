@@ -141,6 +141,44 @@ Erinnerung jetzt fällig, sobald seit der letzten Datei Änderungen bestehen, be
 Feld `webkitFrist`, Einstufung `webkitTabMitFrist()`). Überall sonst bleibt die Schwelle 14 Tage. Probe:
 `tests/safari-luecke.test.js`. Quellen: webkit.org/tracking-prevention („7-Day Cap on All Script-Writeable Storage“, „Home Screen Web Application Domain Exempt From ITP“); webkit.org/blog/14445 („Safari does not copy over any other kind of local storage“).
 
+## Nachtrag 12.11.2026 — der Hinweis ohne bekannten Stand als Zustand mit Knopf
+
+**Anlass:** Die Meldung „Ihre Datei ist nicht aktuell“ erschien direkt nach dem Anlegen und sagte der Person nicht, ob etwas zu tun ist.
+
+**Entscheidung (12.11.2026):**
+1. Der unbedingte Hinweis aus Punkt 3 bleibt: Ohne bekannten Stand ist die Erinnerung fällig, und ihr Satz ist eine der beiden
+   bestehenden Fassungen (`exportErinnerung`/`exportErinnerungRisiko`), nie ein unersetzter Platzhalter.
+2. Seine Form ist ein Zustand mit Knopf, an zwei Stellen:
+   - im Blatt am Speicherstatus (ⓘ im Kopf): „Sicherungskopie: noch keine“, der Satz, der Knopf „Sicherungskopie erstellen“;
+   - auf der Übersicht, sobald das Depot Angaben trägt, mit Schreibrecht, nicht in Vorschau oder Umschau: die Zeile
+     „Sicherungskopie: noch keine“ mit demselben Knopf. Auch der Name aus dem Anlegen zählt als Angabe (`vorschauHatDaten`); die
+     Zeile steht darum gleich nach dem Anlegen. Ein eigenes Merkmal dafür gibt es nicht; U2-ADR-222 bleibt unberührt.
+   Beide Stellen lesen eine Bedingung, `exportErinnerungModell().ohneSicherungskopie` (fällig und nie als Datei gesichert). Der Knopf
+   geht denselben Weg wie der Menüpunkt (`sicherungskopieErstellen`). Nach der Sicherungskopie verschwinden Zeile und ⓘ.
+3. Die Meldung direkt nach dem Anlegen entfällt. `exportErinnerungVielleichtZeigen()` bleibt einmal je Sitzung fällig und zeichnet
+   nur den Speicherstatus neu.
+4. Der Satz der Risiko-Fassung ist ruhig gefasst und nennt den Sachverhalt weiter: Der Browser darf Daten auf diesem Gerät von
+   sich aus löschen; eine Sicherungskopie als Datei bewahrt das Depot.
+
+Die bestehende `pruefung:`-Zeile „exportErinnerungVielleichtZeigen() ohne sicherungsStand“ bleibt gültig; sie prüft die Fassung
+ohne offenen Platzhalter und erwartet seit diesem Nachtrag keine Meldung.
+
+```konformitaet
+aussage:  Ohne bekannten Stand steht der Hinweis als Zustand mit Knopf im Blatt am Speicherstatus, nicht als Meldung nach dem Anlegen.
+zustand:  geprüft
+herkunft: rot-bewiesen (Kern-Kopie mit der früheren Meldung fällt durch)
+pruefung: tests/meldungen-zustand-naechster-schritt.test.js#[Meldungen·1] nach dem Anlegen erscheint keine Meldung, die einen veralteten Stand behauptet
+pruefung: tests/meldungen-zustand-naechster-schritt.test.js#[Meldungen·2] das ⓘ öffnet den Zustand mit dem nächsten Schritt
+```
+
+```konformitaet
+aussage:  Ohne bekannten Stand steht auf der Übersicht, sobald das Depot Angaben trägt (auch der Name aus dem Anlegen), die Zeile „Sicherungskopie: noch keine“ mit Knopf, nicht im leeren Depot und nicht nach der Sicherungskopie.
+zustand:  geprüft
+herkunft: rot-bewiesen (Kern-Kopie ohne die Zeile fällt durch)
+pruefung: tests/meldungen-zustand-naechster-schritt.test.js#[Meldungen·2b] Übersicht: im leeren Depot keine Zeile
+pruefung: tests/meldungen-zustand-naechster-schritt.test.js#[Meldungen·2b] angelegt mit Namen: die Zeile steht gleich nach dem Anlegen
+```
+
 ---
 
 *Vivodepot GmbH · Berlin · 02.09.2026*

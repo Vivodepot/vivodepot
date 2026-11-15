@@ -17,7 +17,7 @@
    NUR der Firefox-Start bekommt in seiner env CFFIXED_USER_HOME auf ein leeres Verzeichnis, das beim Prozessende geräumt wird.
    process.env bleibt unberührt, kein anderes Kind sieht die Variable; Chromium und WebKit bleiben unberührt. Eine eigene env
    der Probe bleibt, ein schon gesetztes CFFIXED_USER_HOME auch. ohneLeeresHome(fn) startet ohne Patch (für den Rot-Beweis).
-   Probe: tests/mit-modul/firefox-start-macos.test.js.
+   Probe: die Firefox-Probe für macOS 27 auf den eigenen Rechnern (bleibt intern, der öffentliche Lauf hat nur Chromium).
    MERKPOSTEN: entfernen, sobald Playwright >= 1.65 im Repo steht. Dann wird der Rot-Beweis jener Probe rot und sagt es. */
 const fs = require('node:fs');
 const os = require('node:os');

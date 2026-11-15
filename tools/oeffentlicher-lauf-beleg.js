@@ -31,6 +31,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
+const { grundVon, fehlt } = require('./lib/grund.js');
 const WB = require('./lib/e2e-workflow-browser.js');
 const { abgleich } = WB;
 
@@ -48,7 +49,8 @@ function belegSchreiben(klon, beleg) {
 }
 
 function belegLesen(klon, baum) {
-  try { return JSON.parse(fs.readFileSync(belegPfad(klon, baum), 'utf8')); } catch { return null; }
+  // Fehlt der Beleg, ist es null („kein Beleg“); ist er unlesbar oder kein JSON, sagt die Meldung das mit Grund.
+  try { return JSON.parse(fs.readFileSync(belegPfad(klon, baum), 'utf8')); } catch (e) { return fehlt(e) ? null : { unlesbar: grundVon(e) }; }
 }
 
 /* Rein: die Namen der roten Proben aus der Ausgabe von `node --test` (Abschnitt „failing tests“). */
@@ -114,6 +116,7 @@ function fehlerTexteAusBericht(bericht) {
 /* Rein: { ok } oder { ok:false, grund }. Ohne Grundliste gilt nur grün; mit Grundliste hält jede rote Probe an, die
    nicht darin steht, und ein Abbruch ohne benannte rote Probe hält immer an. */
 function laufBelegPruefen(beleg, { baum, grundliste = null } = {}) {
+  if (beleg && beleg.unlesbar) return { ok: false, grund: 'der Beleg des öffentlichen Laufs für den Baum ' + baum + ' ist nicht lesbar (' + beleg.unlesbar + ')' };
   if (!beleg) return { ok: false, grund: 'kein Beleg des öffentlichen Laufs für den Baum ' + baum + ' — vorher im Klon: node tools/oeffentlicher-lauf-beleg.js --klon <klon>' };
   if (beleg.baum !== baum) return { ok: false, grund: 'der Beleg gilt für den Baum ' + beleg.baum + ', nicht für ' + baum };
   const rot = [...(beleg.unit && beleg.unit.rot) || [], ...(beleg.e2e && beleg.e2e.rot) || []];
@@ -161,7 +164,7 @@ function laufen(klon, schreiben = (t) => process.stdout.write(t), d = {}) {
   const spawn = d.spawn || spawnSync;
   const rot = (satz) => { schreiben('[oeffentlicher-lauf] ROT — ' + satz + '\n'); return 1; };
   let st;
-  try { st = fs.statSync(path.join(klon, '.git')); } catch { return rot('kein Git-Klon: ' + klon); }
+  try { st = fs.statSync(path.join(klon, '.git')); } catch (e) { return rot('kein Git-Klon: ' + klon + (fehlt(e) ? '' : ' (' + grundVon(e) + ')')); }
   if (!st.isDirectory()) return rot('ein Worktree, kein eigenständiger Klon: ' + klon);
   const ergaenzt = ausschluesseSichern(klon);
   if (ergaenzt.length) schreiben('[oeffentlicher-lauf] .git/info/exclude ergänzt: ' + ergaenzt.join(', ') + '\n');

@@ -103,13 +103,13 @@ const ANKER = {
   K2: "  if (Array.isArray(depot.bereichssatz)) depot.bereichssatz = depot.bereichssatz.map((b) => (typeof b === 'string' ? bereich(b) : b));",
   K3: "    depot[name] = depot[name].map((d) => (d && typeof d.sektorId === 'string' && nach.bereichAltZuNeu.has(d.sektorId)",
   K4: '    if (Array.isArray(doc.felder)) doc.felder = doc.felder.map(verweisNeu);',
-  K5: '    kreis.ausnahmen = kreis.ausnahmen.map((k) => {',
+  K5: '      kreis[liste] = kreis[liste].map((k) => {',
   K6: '    if (z && Array.isArray(z.kennungen)) z.kennungen = z.kennungen.map(kennungNeu);',
 };
 // K3/K5 brauchen den ganzen Ausdruck — die Mutation ersetzt ihn durch einen, der nichts ändert.
 const MUTATION_ERSATZ = {
   K3: "    depot[name] = depot[name].map((d) => (false",
-  K5: '    kreis.ausnahmen = kreis.ausnahmen.map((k) => k); void ((k) => {',
+  K5: '      kreis[liste] = kreis[liste].map((k) => k); void ((k) => {',
 };
 
 for (const k of Object.keys(PROBEN)) {

@@ -20,6 +20,8 @@ const H = require('./support/helpers');
 const FIX = require('./fixtures/reise-4-vertrauenskette.json');
 
 const KEINE_PFLICHT = { de: /keine Pflichtfelder/, en: /no required fields/ };
+// Aus dem Assistenten nennt der Dialog dieselbe Empfehlung in Alltagswörtern (Wagen 1.5, einfachWorte).
+const KEINE_PFLICHT_EINFACH = { de: /keine Frage mit „Muss ausgefüllt werden“/, en: /no question marked “Must be filled in”/ };
 const BEHEBEN = { de: 'Beheben', en: 'Fix' };
 
 // Seit „Einreichen in drei Schritten“ (16.10.2026) ist offen genau ein Schritt, und nur der Kopf von ① lässt sich
@@ -45,9 +47,11 @@ async function assistentBisFertigDialog(p, sprache) {
   await p.waitForSelector('#as-name', { state: 'visible' });
   await p.fill('#as-name', 'Musterverein Probe');
   await p.click('#as-art [data-art="andere"]');
-  await p.click('#as-weiter-1');
-  await expect(p.locator('#as-schritt-2')).toBeVisible();
-  await expect(p.locator('#as-felder .as-frage')).toHaveCount(3);          // „Kontaktbogen“: drei Fragen, keine Pflicht
+  await expect(p.locator('#as-schritt-2')).toBeVisible();                  // seit Einfach-Weg Teil 2 stehen Einrichtung und Bogen auf einer Seite
+  await expect(p.locator('#as-felder .as-frage')).toHaveCount(3);          // „Kontaktbogen“: drei Fragen
+  // Seit Wagen 1.5 stehen Vorname, Nachname und E-Mail als „Muss“ vorbelegt da; abgewählt hat der Bogen keine Pflicht.
+  await expect(p.locator('#as-felder .as-frage-pflicht input:checked')).toHaveCount(3);
+  for (const k of await p.locator('#as-felder .as-frage-pflicht input').all()) await k.uncheck();
   await expect(p.locator('#as-felder .as-frage-pflicht input:checked')).toHaveCount(0);
   await p.click('#as-weiter-2');
   await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
@@ -68,7 +72,7 @@ for (const sprache of ['de', 'en']) {
       await assistentBisSchritt3(p, sprache);
 
       await H.einzelheitenOeffnen(p);
-      const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT[sprache] });
+      const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT_EINFACH[sprache] });
       await expect(zeile).toHaveCount(1);
       const knopf = zeile.locator('.pr-beheben');
       await expect(knopf).toHaveText(BEHEBEN[sprache]);
@@ -85,13 +89,11 @@ for (const sprache of ['de', 'en']) {
 
       await p.click('#as-weiter-2');                                            // ein Klick zurück zum Fertigstellen, wie bisher
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
-      // Aus dem Assistenten öffnet der Dialog bei ① zum Ansehen der Angaben (assistentEinreichen → fsOeffnen('a'));
-      // sie stehen noch, ② ist erledigt, also führt „Weiter“ direkt zu ③.
+      // Seit Wagen 1.5: die Angaben stehen vollständig, ② ist erledigt, also öffnet der Dialog gleich bei ③ (assistentEinreichen
+      // übernimmt vollständige Angaben); ① steht als erledigte Zeile mit dem Namen da.
       await expect(p.locator('#sd-name')).toHaveValue(FIX.stammdaten.anbieterName);
-      await expect(p.locator('#fs-c-rumpf')).toBeHidden();
-      await p.click('#sd-weiter');
       await expect(p.locator('#fs-c-rumpf')).toBeVisible();
-      await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT[sprache] })).toHaveCount(0);
+      await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT_EINFACH[sprache] })).toHaveCount(0);
       await ctx.close();
     });
   });
@@ -163,12 +165,14 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Rot-Beweis', () => {
     await expect(p.locator('#pr-warnungen .pr-beheben')).not.toHaveCount(0);  // Gegenprobe: mit dem Bau sind sie da
     await p.evaluate(() => document.querySelectorAll('.pr-beheben').forEach((b) => b.remove()));
     await H.einzelheitenOeffnen(p);
-    const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT.de });
+    const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT_EINFACH.de });
     await expect(zeile).toHaveCount(1);                                       // die Meldung steht …
     await expect(p.locator('.pr-beheben')).toHaveCount(0);                    // … aber nichts führt zur Stelle
     await expect(zeile.locator('button')).toHaveCount(0);
     await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
-    await expect(p.locator('#as-schritt-2')).toBeHidden();
+    // Seit Wagen 1.5 steht der Dialog über dem Assistenten (Schritt 2 bleibt dahinter sichtbar); ohne „Beheben“ bekommt der
+    // Schalter „Muss ausgefüllt werden“ keinen Fokus.
+    await expect(p.locator('#as-felder .as-frage-pflicht input').first()).not.toBeFocused();
     await ctx.close();
   });
 });

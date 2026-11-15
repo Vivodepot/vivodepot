@@ -154,7 +154,7 @@ async function mitMutation(anker, ersatz, pruefung) {
 
 test('[Rotmachbarkeit] fällt ein Absenz-Block weg, schlägt dieser Wächter an', async () => {
   await mitMutation(
-    "if (!medRefs.length && ausdruecklichKeineGesetzt('health', 'medicationOngoing')) {",
+    "if (!medRefs.length && !nichtImAnlass('medicationOngoing') && ausdruecklichKeineGesetzt('health', 'medicationOngoing')) {",
     "if (false && ausdruecklichKeineGesetzt('health', 'medicationOngoing')) {",
     async (V) => {
       V.ausdruecklichKeineSetzen('health', 'medicationOngoing', true);
@@ -168,8 +168,8 @@ test('[Rotmachbarkeit] wird die Aussage an sensible Daten gekoppelt, schlägt NU
   // {sensibel: true} und bliebe unter dieser Mutation vollständig grün. Der xShare-Fall
   // („ohne sensible Daten") hängt allein an dieser Datei.
   await mitMutation(
-    "if (!allergieRefs.length && ausdruecklichKeineGesetzt('health', 'allergiesMedicationFoodOther')) {",
-    "if (inklSensibel && !allergieRefs.length && ausdruecklichKeineGesetzt('health', 'allergiesMedicationFoodOther')) {",
+    "if (!allergieRefs.length && !nichtImAnlass('allergiesMedicationFoodOther') && ausdruecklichKeineGesetzt('health', 'allergiesMedicationFoodOther')) {",
+    "if (inklSensibel && !allergieRefs.length && !nichtImAnlass('allergiesMedicationFoodOther') && ausdruecklichKeineGesetzt('health', 'allergiesMedicationFoodOther')) {",
     async (V) => {
       V.ausdruecklichKeineSetzen('health', 'allergiesMedicationFoodOther', true);
       const mit = sektionVon(V.fhirIpsBundle(JETZT, { sensibel: true }), '48765-2');

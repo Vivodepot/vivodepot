@@ -1,0 +1,15 @@
+/* Fixture für tools/gestaltung-umstellen.js: exakte Werte, Off-Raster-Werte, Nicht-Anzufassendes */
+.a { padding: 8px 16px; }
+.b { margin: 0 auto 1.5rem; }
+.c { gap: 12px 4px; }
+.d { padding: 10px 14px; }
+.e { margin: 6px 0 -4px; }
+.f { border-radius: 16px; }
+.g { border-radius: 4px; }
+.h { min-height: 48px; }
+.i { min-height: 44px; }
+.j { padding: calc(var(--abstand-5) - 2px); }
+.k { padding: 404px; }
+.l { border-radius: 50%; }
+.m { gap: var(--abstand-1) 1px; }
+.n { min-height: 24px; min-width: 32px; }

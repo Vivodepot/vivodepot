@@ -288,6 +288,11 @@ const EXKLUSIV = 'pre-push';
 const TICKET_VORRANG_DATEI = 'ticket-vorrang.json';
 const TICKET_VORRANG_STUFE = 0.5;
 const TICKET_VORRANG_HOECHSTENS_MS = 12 * 60 * 60 * 1000;
+/* KEIN VORRANG AUF ALLGEMEINE NAMEN (08.11.2026, Befund ZUG-VORRANG-AM-NAMEN): ein Präfix, mit dem ein Laufname beginnt, den
+   jeder Wagen trägt („vor-pre-commit“ zieht jeden vpc vor, nicht nur den des Zugs), wird nicht gesetzt und gilt nicht. Ein Zug
+   bekommt seinen Vorrang am Zweig (ZUG_STUFE), nicht am Namen. Die Liste verschärft nur; Probe: tests/suite-platz-zug-vorrang.test.js. */
+const ALLGEMEINE_NAMEN = Object.freeze(['vor-pre-commit', 'pre-commit', 'pre-push', 'landung-vorbereiten', 'npm-test', 'klein', 'air']);
+function praefixAllgemein(p) { return ALLGEMEINE_NAMEN.some((n) => n.startsWith(String(p))); }
 const UNTER_VERZEICHNISSE = Object.freeze(['klein', 'air']);
 function hauptVerzeichnis(dir) { return dir && UNTER_VERZEICHNISSE.includes(path.basename(dir)) ? path.dirname(dir) : dir; }
 /** Die Regel: null (keine Datei) oder { praefixe, bis, grund, gesetztAm, gueltig, hinweis? }. */
@@ -298,7 +303,8 @@ function ticketVorrangLesen({ dir = verzeichnis(), jetzt = Date.now() } = {}) {
   let r;
   try { r = JSON.parse(roh); } catch (_) { return { gueltig: false, hinweis: 'Ticket-Vorrang unlesbar, gilt nicht' }; }
   const bis = Date.parse(r && r.bis);
-  const praefixe = r && Array.isArray(r.praefixe) ? r.praefixe.filter((p) => typeof p === 'string' && p.length) : [];
+  const alle = r && Array.isArray(r.praefixe) ? r.praefixe.filter((p) => typeof p === 'string' && p.length) : [];
+  const praefixe = alle.filter((p) => !praefixAllgemein(p));
   if (!praefixe.length || !Number.isFinite(bis) || typeof r.grund !== 'string' || !r.grund.trim()) {
     return { ...r, gueltig: false, hinweis: 'Ticket-Vorrang unvollständig, gilt nicht' };
   }
@@ -322,6 +328,10 @@ function ticketVorrangSetzen({ dir = verzeichnis(), praefixe, bis, grund, jetzt 
   const liste = (Array.isArray(praefixe) ? praefixe : String(praefixe || '').split(',')).map((p) => String(p).trim()).filter(Boolean);
   if (!liste.length) throw new Error('Ticket-Vorrang braucht mindestens ein Präfix');
   if (liste.some((p) => p.length < 2)) throw new Error('ein Präfix braucht mindestens zwei Zeichen');
+  const allgemein = liste.filter(praefixAllgemein);
+  if (allgemein.length) {
+    throw new Error('kein Ticket-Vorrang auf ' + allgemein.join(', ') + ': den Namen trägt jeder Wagen. Ein Zug hat Vorrang am Zweig (zug-…), ohne Setzen');
+  }
   const g = typeof grund === 'string' ? grund.trim() : '';
   if (g.length < 10 || !UHRZEIT.test(g)) throw new Error('Ticket-Vorrang braucht einen Grund mit der Uhrzeit des Worts');
   const b = bisAuswerten(bis, jetzt);
@@ -336,11 +346,34 @@ function ticketVorrangSetzen({ dir = verzeichnis(), praefixe, bis, grund, jetzt 
 function ticketVorrangAufheben({ dir = verzeichnis() } = {}) {
   try { fs.unlinkSync(path.join(hauptVerzeichnis(dir), TICKET_VORRANG_DATEI)); return true; } catch (_) { return false; }
 }
-function vorrang(name, regel = null) {
+function vorrang(name, regel = null, zweig = null) {
   if (Object.prototype.hasOwnProperty.call(VORRANG, name)) return VORRANG[name];
   if (regel && regel.gueltig && regel.praefixe.some((p) => String(name || '').startsWith(p))) return TICKET_VORRANG_STUFE;
+  if (istZugZweig(zweig)) return ZUG_STUFE;
   return 1;
 }
+/* ZUG-VORRANG AM ZWEIG (08.11.2026, Befund ZUG-VORRANG-AM-NAMEN). Der Ticket-Vorrang kannte nur Namen; die Werkzeuge eines Zugs
+   ziehen aber allgemeine Namen (vor-pre-commit, landung-vorbereiten). Ein Vorrang auf sie zog jeden Wagen mit, und sein `bis`
+   lief zweimal mitten im Zuglauf ab. Jetzt trägt jedes Ticket den Zweig seines Baums (Feld `zweig`, beim Ziehen gelesen); ein
+   Ticket aus einem Zweig zug-… steht auf ZUG_STUFE: nach dem Push (0), der Marke in Klein (0,25) und einem gesetzten
+   Ticket-Vorrang wie release- (0,5), vor allen übrigen (1). Es gibt kein `bis` und keine Datei: die Stufe gilt, solange das
+   Ticket lebt (wartende() räumt Tickets toter Prozesse). Der Laufname bleibt unverändert — ein Zug-Präfix im Namen (1ff6b5578)
+   machte Proben nur im Zugbaum rot. Den Zweig liest zweigLesen; Proben ersetzen ihn (zweigLeserSetzen).
+   Probe: tests/suite-platz-zug-vorrang.test.js. */
+const ZUG_STUFE = 0.75;
+function istZugZweig(zweig) { return typeof zweig === 'string' && zweig.startsWith('zug-'); }
+function zweigLesenGit(cwd) {
+  if (!cwd) return null;
+  const env = require('./ohne-git-umgebung.js').ohneGitUmgebung(process.env);
+  try {
+    return require('node:child_process').execFileSync('git', ['-C', cwd, 'symbolic-ref', '--short', '-q', 'HEAD'],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 5000, env }).trim() || null;
+  } catch (_) { return null; }
+}
+let zweigLeser = zweigLesenGit;
+function zweigLesen(cwd) { try { return zweigLeser(cwd); } catch (_) { return null; } }
+/** Für Proben: den Zweig-Leser ersetzen; ohne Argument wieder git. Gibt den vorigen zurück. */
+function zweigLeserSetzen(fn) { const alt = zweigLeser; zweigLeser = typeof fn === 'function' ? fn : zweigLesenGit; return alt; }
 /* Die Art eines Laufs: 'e2e' für alles, was Browser fährt — der Push (E2E-Strecke), landung-vorbereiten und jeder Lauf,
    dessen Name das sagt (e2e, playwright, browser, vorschau, journey). Ein Browserlauf über die Kommandozeile trägt
    eines dieser Wörter im Namen. Alles andere: 'node'. */
@@ -369,7 +402,7 @@ function wartende({ dir = verzeichnis(), mitReihe = true } = {}) {
   const liste = [];
   const regel = ticketVorrangLesen({ dir });
   const reiheBaum = mitReihe ? reiheBaumKlein(dir) : null;
-  const stufeVon = (e) => Math.min(vorrang(e.name, regel), reiheBaum && imBaum(reiheBaum, e.cwd) ? REIHE_KLEIN_STUFE : Infinity);
+  const stufeVon = (e) => Math.min(vorrang(e.name, regel, e.zweig), reiheBaum && imBaum(reiheBaum, e.cwd) ? REIHE_KLEIN_STUFE : Infinity);
   for (const d of namen) {
     const pfad = path.join(tv, d);
     const e = lesen(pfad);
@@ -394,12 +427,13 @@ let ticketZaehler = 0;
 /** Zieht ein Ticket: der Name ordnet nach Zeit (feste Breite), dann PID und Zähler. */
 function ticketZiehen({ name, pid = process.pid, dir = verzeichnis(), cwd = process.cwd(), extra = {} } = {}) {
   const tv = ticketVerzeichnis(dir);
+  const zweig = zweigLesen(cwd);
   fs.mkdirSync(tv, { recursive: true });
   for (;;) {
     const pfad = path.join(tv, String(Date.now()).padStart(15, '0') + '-' + String(pid).padStart(10, '0')
       + '-' + String(ticketZaehler++).padStart(4, '0') + '.ticket');
     // host (02.10.2026): ohne ihn erkannte eigeneLaeufe kein Ticket als eigenes — --beenden --cwd sah Wartende nie.
-    if (atomarAnlegen(pfad, JSON.stringify({ ...extra, pid, name, cwd, host: os.hostname(), gezogenAm: new Date().toISOString() }))) return pfad;
+    if (atomarAnlegen(pfad, JSON.stringify({ ...extra, pid, name, cwd, zweig, host: os.hostname(), gezogenAm: new Date().toISOString() }))) return pfad;
   }
 }
 
@@ -437,6 +471,19 @@ function halter({ dir = verzeichnis(), n = anzahl() } = {}) {
 
 const REIHE_DATEI = 'reihe';
 const REIHE_GUELTIG_MS = 90 * 60 * 1000;
+/* MARKE ÜBER 90 MINUTEN (08.11.2026, Befund ZUG-VORRANG-AM-NAMEN): die Marke verfiel nach 90 Minuten, auch wenn ihr Lauf
+   (landung-vorbereiten, reiheLaufMerken) noch rechnete — ein Zuglauf dauert länger. Jetzt gilt sie über 90 Minuten hinaus,
+   solange ihr Lauf lebt (PID mit derselben Startzeit) UND sein Herzschlag frisch ist (reiheHerzschlag, höchstens
+   HERZSCHLAG_FRISCH_MS alt). Eine harte Obergrenze gegen Leichen: nach REIHE_HOECHSTENS_MS gilt sie nie, und der Grund sagt es
+   laut (OBERGRENZE). Probe: tests/suite-platz-zug-vorrang.test.js. */
+const REIHE_HOECHSTENS_MS = 6 * 60 * 60 * 1000;
+const HERZSCHLAG_FRISCH_MS = 5 * 60 * 1000;
+const HERZSCHLAG_TAKT_MS = 60 * 1000;
+function laufFrisch(lauf, { jetzt = Date.now(), startVon = prozessStart } = {}) {
+  if (!markenLaufLebt(lauf, { startVon })) return false;
+  const h = Date.parse(lauf.herzschlag);
+  return Number.isFinite(h) && jetzt - h <= HERZSCHLAG_FRISCH_MS;
+}
 /* VERWAISTE MARKE (16.10.2026, Befund VORRANG-MARKE-VERWAIST): eine Marke, deren Lauf nicht mehr lebt (Sitzung beendet,
    Kontowechsel, Lauf abgebrochen), hielt die Schlange bis zum Ablauf der 90 Minuten auf — heute zweimal. Jetzt gilt sie nach
    einer Schonfrist nur, solange im markierten Baum ein lebender Eintrag steht: ein Halter oder ein Ticket, auf den Suite-Plätzen
@@ -507,17 +554,23 @@ const WARTEN_S_VORGABE = 7200;
 function wartenS(env = process.env) { const n = Number(env.VD_SUITE_PLATZ_WARTEN_S); return Number.isFinite(n) && n > 0 ? n : WARTEN_S_VORGABE; }
 
 /** Die Vorrang-Marke: null (keine) oder { baum, gesetztAm, gueltig, grund }. */
-function reiheLesen({ dir = verzeichnis(), jetzt = Date.now() } = {}) {
+function reiheLesen({ dir = verzeichnis(), jetzt = Date.now(), startVon = prozessStart } = {}) {
   let roh;
   try { roh = fs.readFileSync(path.join(dir, REIHE_DATEI), 'utf8'); } catch (_) { return null; }
   let m;
   try { m = JSON.parse(roh); } catch (_) { return { baum: null, gueltig: false, grund: 'Marke unlesbar, altes Verhalten' }; }
   const t = Date.parse(m && m.gesetztAm);
   if (!m || typeof m.baum !== 'string' || !Number.isFinite(t)) return { baum: null, gueltig: false, grund: 'Marke unvollständig, altes Verhalten' };
-  if (jetzt - t > REIHE_GUELTIG_MS) return { ...m, gueltig: false, grund: 'Marke abgelaufen, altes Verhalten' };
+  if (jetzt - t > REIHE_HOECHSTENS_MS) {
+    return { ...m, gueltig: false, obergrenze: true, grund: 'OBERGRENZE: Marke älter als 6 Std (gesetzt ' + m.gesetztAm + ') — gilt nicht mehr; lebt der Lauf noch, die Marke neu setzen' };
+  }
+  if (jetzt - t > REIHE_GUELTIG_MS && !laufFrisch(m.lauf, { jetzt, startVon })) {
+    const warum = !m.lauf ? 'kein Lauf eingetragen' : !markenLaufLebt(m.lauf, { startVon }) ? 'Lauf PID ' + m.lauf.pid + ' lebt nicht' : 'Herzschlag nicht frisch (' + (m.lauf.herzschlag || 'keiner') + ')';
+    return { ...m, gueltig: false, grund: 'Marke abgelaufen, altes Verhalten', warum: 'über 90 Min, ' + warum };
+  }
   if (!fs.existsSync(m.baum)) return { ...m, gueltig: false, grund: 'Marke abgelaufen (Baum fehlt), altes Verhalten' };
   if (jetzt - t > REIHE_SCHONFRIST_MS) {
-    const b = markeLaufBefund(echterPfad(m.baum), { dir, lauf: m.lauf });
+    const b = markeLaufBefund(echterPfad(m.baum), { dir, lauf: m.lauf, startVon });
     if (!b.hatLauf) return { ...m, gueltig: false, verwaist: true, grund: 'Marke verwaist (nach der Schonfrist kein lebender Lauf im Baum ' + m.baum + ': ' + b.grund + '), altes Verhalten' };
   }
   return { ...m, gueltig: true };
@@ -577,7 +630,16 @@ function reiheLaufMerken({ dir = verzeichnis(), pid = process.pid, cwd = process
   let m;
   try { m = JSON.parse(fs.readFileSync(path.join(dir, REIHE_DATEI), 'utf8')); } catch (_) { return false; }
   if (!m || echterPfad(m.baum || '') !== reihe.baum || m.gesetztAm !== reihe.gesetztAm) return false;
-  atomarErsetzen(path.join(dir, REIHE_DATEI), JSON.stringify({ ...m, lauf: { pid, start } }) + '\n');
+  atomarErsetzen(path.join(dir, REIHE_DATEI), JSON.stringify({ ...m, lauf: { pid, start, herzschlag: new Date(jetzt).toISOString() } }) + '\n');
+  return true;
+}
+/* Der Herzschlag des eingetragenen Laufs: nur wenn die Marke noch dieselbe ist und den Lauf mit dieser PID nennt. Gerufen im
+   Takt HERZSCHLAG_TAKT_MS von dem Lauf, der sich mit reiheLaufMerken eingetragen hat. Ergebnis: true, wenn geschrieben. */
+function reiheHerzschlag({ dir = verzeichnis(), pid = process.pid, jetzt = Date.now() } = {}) {
+  let m;
+  try { m = JSON.parse(fs.readFileSync(path.join(dir, REIHE_DATEI), 'utf8')); } catch (_) { return false; }
+  if (!m || !m.lauf || m.lauf.pid !== pid) return false;
+  atomarErsetzen(path.join(dir, REIHE_DATEI), JSON.stringify({ ...m, lauf: { ...m.lauf, herzschlag: new Date(jetzt).toISOString() } }) + '\n');
   return true;
 }
 /** Liegt ein Arbeitsverzeichnis im markierten Baum? */
@@ -658,7 +720,7 @@ function platzVergeben(opts) {
   const schlange = wartende({ dir }).filter((t) => !t.pause && (t.name !== EXKLUSIV || t.pfad === ticket || !fremderPush({ dir, n, pid: t.pid })));
   const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : -1;
   // Ohne Ticket: hinter allen derselben oder einer höheren Stufe — ein Push also vor wartenden Vorbereitungen.
-  const rang = eigenerRang >= 0 ? eigenerRang : schlange.filter((t) => t.stufe <= vorrang(name, ticketVorrangLesen({ dir }))).length;
+  const rang = eigenerRang >= 0 ? eigenerRang : schlange.filter((t) => t.stufe <= vorrang(name, ticketVorrangLesen({ dir }), zweigLesen(cwd))).length;
   if (rang > 0 && n - halter({ dir, n }).length <= rang) {
     return { geholt: false, halter: halter({ dir, n }), wartende: schlange, ...(reiheHinweis ? { reiheHinweis } : {}) };
   }
@@ -1305,6 +1367,8 @@ module.exports = {
   eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren, vorfahrHaelt, geerbterPlatz, pushPauseSetzen, pushPauseEnden, fremderPush,
   reiheLesen, reiheSetzen, reiheLoeschen, imBaum, markeHatLauf, markeLaufBefund, reiheLaufMerken, prozessStart, hostGleich, platzNummern,
   halterAlle, ticketVorrangLesen, ticketVorrangSetzen, ticketVorrangAufheben, TICKET_VORRANG_DATEI, TICKET_VORRANG_STUFE,
+  ZUG_STUFE, ALLGEMEINE_NAMEN, istZugZweig, zweigLesen, zweigLeserSetzen, reiheHerzschlag, laufFrisch,
+  REIHE_HOECHSTENS_MS, HERZSCHLAG_FRISCH_MS, HERZSCHLAG_TAKT_MS,
   TICKET_VORRANG_HOECHSTENS_MS, REIHE_GUELTIG_MS, REIHE_SCHONFRIST_MS, WARTEN_S_VORGABE, wartenS,
   airVerzeichnis, anzahlAir, airPlatzHolen, airPlatzHolenMitWarten, airPlatzFreigeben, gleicheSitzung,
   UNLESBAR_FRIST_MS, UMGEBUNG_KLEIN, kleinVerzeichnis, anzahlKlein, KLEIN_PLAETZE_DYNAMISCH, KLEIN_DYNAMISCH_LAST, kleinPlaetzeHoechstens, kleinPlaetzeWirksam, kleinTotRaeumen, kleinGruppeEintragen, gruppeLebt, gruppeBeenden, kleinPlatzHolen, kleinPlatzHolenMitWarten, kleinPlatzFreigeben,

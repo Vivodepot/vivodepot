@@ -142,3 +142,13 @@ test('[Release·Notes·Rot-Beweis] eine fehlende Sprache, ein eigener SHA256SUMS
     });
   }
 });
+
+/* GITHUB-RELEASE (08.11.2026): der Befehl für das GitHub-Release, mit den Anhängen aus dem Baum des Tags. */
+test('[openCoDE-Release·GitHub] der Befehl holt die Anhänge aus dem Tag-Baum und legt das Release mit allen Anhängen, SHA256SUMS und --latest an', () => {
+  const b = R.githubReleaseBefehle('v1.0.900', { klon: '/k', quelle: '/q', ziel: '/z' });
+  assert.equal(b[0], 'mkdir -p /q && git -C /k archive v1.0.900 | tar -x -C /q');
+  assert.equal(b[1], 'node tools/opencode-release-vorbereiten.js --quelle /q --fassung v1.0.900 --ziel /z');
+  assert.equal(b[2], 'cd /z && gh release create v1.0.900 -R vivodepot/vivodepot --verify-tag --title "Vivodepot v1.0.900" --notes-file github-release.md --latest '
+    + R.ANHAENGE.join(' ') + ' SHA256SUMS');
+  assert.deepEqual(R.GITHUB_ANHAENGE, R.ANHAENGE.concat(['SHA256SUMS']));
+});

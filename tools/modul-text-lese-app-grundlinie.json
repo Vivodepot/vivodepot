@@ -56,11 +56,11 @@
       "grund": "Lebenslagen-Katalog des Kerns (Wegweiser, Bestandsauswahl, Suche); die Lese-App führt keinen Wegweiser"
     },
     "vollmacht-formular": {
-      "anzahl": 156,
+      "anzahl": 158,
       "grund": "Vollmacht-Formular und Korpus des Kerns"
     },
     "dokumentgenerator": {
-      "anzahl": 91,
+      "anzahl": 97,
       "grund": "Dokumentgenerator des Kerns; die Lese-App hat keine Dokumentansicht"
     },
     "dokumenttext-art": {

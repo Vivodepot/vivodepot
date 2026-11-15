@@ -148,7 +148,8 @@ test('[Link senden·Wege] Antwort und Anlass-Auszug fragen nach dem Weg, die Ant
   assert.match(antwortWeg, /_ausgabeWegWaehlen\(STRINGS\.anfrageAntwortenCta, name, herunterladen,/);
   assert.match(antwortWeg, /flowLinkSenden\(\(o\) => antwortLinkTeile\(jwe, o\)/);
   const anlassWeg = rumpf('flowAnlassExport');
-  assert.match(anlassWeg, /_ausgabeWegWaehlen\(def\.titel \|\| def\.id, dateiBasis \+ '\.json', herunterladen,/);
+  // B3 (12.11.2026): der Anlass fragt über den Ergebnis-Dialog mit zwei Wegen (PDF, Datei); „Link senden“ bleibt sein Zweitweg.
+  assert.match(anlassWeg, /_anlassErgebnisWaehlen\(def\.titel \|\| def\.id, _anlassErgebnisWege\(dateiBasis, dateiStamm\),/);
   assert.match(anlassWeg, /flowLinkSenden\(\(o\) => auszugLinkTeile\(blob,/);
 });
 

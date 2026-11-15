@@ -36,7 +36,7 @@ function klassenMaengel(texte) {
 const ZUSAMMENGESETZT = ['strings:importEintraegeNeu.text'];
 const AUFRUFE = [
   ['strings:importEintraegeNeu.text', "nachZahl(l.anzahl, STRINGS.importEintraegeNeuEinzahl, STRINGS.importEintraegeNeu)"],
-  ['strings:importTemplateVerworfenAnzahl.text', "nachZahl(_tplV.length, STRINGS.importTemplateVerworfenAnzahlEinzahl, STRINGS.importTemplateVerworfenAnzahl)"],
+  ['strings:importTemplateVerworfenAnzahl.text', "nachZahl(_tplVVorlage.length, STRINGS.importTemplateVerworfenAnzahlEinzahl, STRINGS.importTemplateVerworfenAnzahl)"],
   ['strings:anlassAusgabeFertigMitZurueck.text', "nachZahl(teile[0], STRINGS.anlassAusgabeFertigMitZurueckEinzahl, STRINGS.anlassAusgabeFertigMitZurueck)"],
   ['strings:fassungenAutomatischHinweis.text', "nachZahl(vergleich.automatisch.length, STRINGS.fassungenAutomatischHinweisEinzahl, STRINGS.fassungenAutomatischHinweis)"],
   ['strings:fassungenAutomatischHinweis.text', "nachZahl(r.uebernommen, STRINGS.fassungenAutomatischHinweisEinzahl, STRINGS.fassungenAutomatischHinweis)"],

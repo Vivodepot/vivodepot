@@ -80,3 +80,21 @@ test('[Dauer·Last und Belegung] jede Zeile trägt last_start und plaetze_belegt
     assert.strictEqual(lauf(10, ['true'], { VD_SUITE_PLATZ_DIR: pd }).zeilen[0].plaetze_belegt_start, 0);
   } finally { fs.rmSync(pd, { recursive: true, force: true }); }
 });
+
+/* Linux-Weg (08.11.2026): ohne sysctl liest mit-zeitgrenze.pl /proc/loadavg; auf macOS über eine Ersatzdatei nachgefahren. */
+test('[Dauer·Last·Linux] ohne sysctl kommt die Last aus loadavg', () => {
+  const d = fs.mkdtempSync(path.join(os.tmpdir(), 'zeitgrenze-loadavg-'));
+  try {
+    const la = path.join(d, 'loadavg');
+    fs.writeFileSync(la, '1.25 0.90 0.70 2/345 6789\n');
+    const { r, zeilen } = lauf(10, ['true'], { VD_ZEITGRENZE_OHNE_SYSCTL: '1', VD_ZEITGRENZE_LOADAVG: la });
+    assert.strictEqual(r.status, 0);
+    assert.strictEqual(zeilen[0].last_start, 1.25);
+  } finally { fs.rmSync(d, { recursive: true, force: true }); }
+});
+
+test('[Dauer·Last·Linux·Rot-Beweis] ohne sysctl und ohne lesbare loadavg bleibt die Last null — der Linux-Weg ist es, der misst', () => {
+  const { r, zeilen } = lauf(10, ['true'], { VD_ZEITGRENZE_OHNE_SYSCTL: '1', VD_ZEITGRENZE_LOADAVG: path.join(os.tmpdir(), 'gibt-es-nicht-' + process.pid) });
+  assert.strictEqual(r.status, 0);
+  assert.strictEqual(zeilen[0].last_start, null);
+});

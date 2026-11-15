@@ -1,0 +1,14 @@
+<script>
+const KATALOG = { A: { displayEn: 'a', displayDe: 'Ich bin A' } };
+// Kommentar mit .displayDe zählt nicht
+const html = '<option>' + escapeHTML(KATALOG.A.displayDe) + '</option>';
+const fuerAusgabe = KATALOG.A.displayDe;
+</script>
+<script>
+// Vorlage für Teil C: KATALOG wird oben gelesen, ALTREGISTER nirgends.
+const ALTREGISTER = [{ feld: { label: 'Früheres Feld' } }];
+</script>
+<script>
+/* Ein Blockkommentar nennt ALTREGISTER,
+   auch ALTREGISTER in einer Fortsetzungszeile — beides ist kein Leser. */
+</script>

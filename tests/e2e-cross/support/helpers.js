@@ -428,7 +428,7 @@ const generator = {
   async schluesselErzeugen(page) {
     await sicherungSpeichernUndPruefen(page);
     // Die Antragsdatei (#sk-antrag) löst über blobDownload einen ECHTEN Datei-Download aus, der hier abgefangen wird.
-    await page.fill('#sk-antragsnummer', '0123456789abcdef0123456789abcdef');   // Antragsnummer aus dem Antragsformular (erfunden)
+    // Die Antragsnummer bildet das Studio selbst (Einfach-Weg Teil 2); es gibt kein Feld dafür.
     await Promise.all([ page.waitForEvent('download'), page.click('#sk-antrag') ]);
   },
   // Drei einfache Felder auf der Arbeitsfläche anlegen (Palette „eigenes Feld", Eigenschaften live).

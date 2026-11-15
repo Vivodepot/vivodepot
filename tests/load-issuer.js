@@ -138,7 +138,7 @@ const EXPORT_HOOK = `
   _letztesSchnellwegBuendelLesen,
   // "Der Rückweg zum Kern" (27.08.2026): Modul-Umschlag-Import
   _leseModulUmschlag, _pruefeModulSignatur, onModulUmschlagDatei,
-  stapelPruefen, stapelAusstellen, stapelBuendel,
+  stapelPruefen, stapelAusstellen, stapelBuendel, vcDateiForm,
   SITZUNG_AUDIT, auditEintrag, auditLogJSON, renderAudit,
   // „Prüfung vor Verteilung einhängen" (25.08.2026)
   _pruefeGroessenDisziplin, _pruefeReservierteKennungen, _pruefeNamensraumKollision,

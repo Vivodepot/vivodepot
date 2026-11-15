@@ -319,6 +319,8 @@ const AUFRUFER_UEBERSICHT = {
     belege: [/new Promise\(\(fertig, scheitern\) => \{[^\n]*\n\s*const r = _formatAnhangWahl\(/] },
   flowGespraechsblatt: { art: 'synchron', grund: 'gespraechsblattModell steht am Anfang von bauen, vor mitVereinbarung und vor dem Druck-Overlay (U2-ADR-523)',
     belege: [/const bauen = \(exportOpt\) => \{\s*const modell = gespraechsblattModell\(adressat, ausschnitt, exportOpt\);/] },
+  flowHerausgeben: { art: 'synchron', grund: 'gibt nichts aus: mit nurAuswahl reicht das Fenster die Wahl an den Schritt Übergabe; gebaut wird erst in der gewählten Form, die das Fenster mit vorab durch dieselbe Stelle führt',
+    belege: [/nurAuswahl: true,\s*aufFortfahren: \(auswahl\) => flowHerausgabeUebergabe\(sektorId, auswahl\),/, /if \(opt && opt\.nurAuswahl\) \{ if \(typeof opt\.aufFortfahren === 'function'\) opt\.aufFortfahren\(\{ gewaehlt \}\); return; \}/] },
   _anfrageHerausgeben: { art: 'wartet', grund: 'aufFortfahren ist async und baut selbst (anfrageAntwortDatensatzGeprueft); die Übersicht wartet darauf',
     belege: [/aufFortfahren: async \(o\) => \{\s*const ds = await anfrageAntwortDatensatzGeprueft\(umschlag, o\);/] },
 };

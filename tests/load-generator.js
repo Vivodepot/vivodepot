@@ -157,6 +157,8 @@ const EXPORT_HOOK = `
   GENERATOR_EIGENE_FELD_SCHLUESSEL, FELD_NICHT_DURCHGEREICHT, FELD_OHNE_KERN_VERBRAUCHER, feldnameText,
   validiereStammdaten, pruefeKonformitaet, baueSubmission,
   validiereSubmission, submissionDateiname,
+  // S4 (10.11.2026) — Dateinamen der Einreichung
+  dateinameTeil, dateinameName, dateinameDatum, dateinameVorsatz, einrichtungsNameFuerDatei, sicherungDateiname, fertigDateienZeigen, fertigDateiListe, absendenMailtext,
   // Trust-1B Schritt 2a — Anbieter signiert das Template
   templateJwsErzeugen, baueSubmissionSigniert,
   // Schnitt 24.08.2026 (A523/Sammelvorlagen) — mehrere Vorlagen in einer Einreichung
@@ -231,11 +233,35 @@ const EXPORT_HOOK = `
   anfrageVorgang, listeUnterfelder, paletteKennungKlein, brandingOhneSignaturSatz,
   paletteKennungenSetzen: (w) => { paletteKennungenZeigen = !!w; }, paletteKennungenAbWerk: () => paletteKennungenZeigen,
   feldUebernehmen, editorIndexSetzen: (i) => { editorIndex = i; },
+  // Studio per Ziehen und Ablegen (12.11.2026)
+  assistentKatHinzu, assistentAblegen, dndAblegen, verschiebe, loescheFeld, assistentFrageName,
   // Hauptweg der Anfrage mit dem Zertifikat der Stelle (18.10.2026): Ladeweg, Vorauswahl beim Erstellen, Bindung beim Öffnen.
   ANF_STELLE, zertifikatAusText, stelleZertifikatPruefen, anfrageAssistentHauptweg, anfrageAssistentWegZeigen, anfrageBriefTextOhnePasswort,
   verifiziereProviderCredential, schluesselAnfrageBindung,
 };
 `;
+
+/* Die PDF-Bibliothek des Studios in einem eigenen Kontext, wie tests/pdf-namen-nicht-latein.test.js es für den Kern tut: der
+   jsPDF-Block (@vd-lib name="jspdf") und danach der Block studio-pdf-schrift, der die Inter-Schnitte registriert. Je Quelltext
+   einmal geladen. Fehlt der Block, ist window.jspdf undefined — wie im Browser ohne Bibliothek. */
+const _JSPDF_CACHE = new Map();
+function studioJsPdf(html) {
+  if (_JSPDF_CACHE.has(html)) return _JSPDF_CACHE.get(html);
+  let lib;
+  const m = html.indexOf('@vd-lib name="jspdf"');
+  if (m >= 0) {
+    const auf = html.indexOf('<script>', m), zu = html.indexOf('</script>', auf);
+    const fenster = { atob: (b) => Buffer.from(b, 'base64').toString('binary'), btoa: (s) => Buffer.from(s, 'binary').toString('base64'),
+      TextEncoder, TextDecoder, URL, setTimeout, clearTimeout, console, navigator: { userAgent: 'node' }, document: undefined };
+    fenster.window = fenster; fenster.self = fenster; fenster.globalThis = fenster;
+    vm.runInNewContext(html.slice(auf + '<script>'.length, zu), fenster);
+    const schrift = /<script id="studio-pdf-schrift">([\s\S]*?)<\/script>/.exec(html);
+    if (schrift) vm.runInContext(schrift[1], fenster);
+    lib = fenster.jspdf;
+  }
+  _JSPDF_CACHE.set(html, lib);
+  return lib;
+}
 
 function ladeGenerator(optionen) {
   // `optionen.html`: ein Quelltext statt der Datei — für die Rot-Beweise (eine absichtlich verschlechterte Fassung).
@@ -244,6 +270,9 @@ function ladeGenerator(optionen) {
 
   const documentStub = makeDocument();
   const windowStub = { crypto: webcrypto, addEventListener: () => {}, location: { href: '' }, scrollTo: () => {} };
+  // Studio-Schritt 5 (12.11.2026): window.jspdf ist die echte Bibliothek des Studios (jsPDF-Block samt Block studio-pdf-schrift),
+  // erst beim ersten Zugriff geladen — die übrigen Proben zahlen nichts dafür.
+  Object.defineProperty(windowStub, 'jspdf', { configurable: true, enumerable: true, get: () => studioJsPdf(html) });
   const sandbox = {
     crypto: webcrypto,
     TextEncoder, TextDecoder,

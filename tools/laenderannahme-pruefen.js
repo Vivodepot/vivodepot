@@ -9,7 +9,8 @@
 
    WAS GEZÄHLT WIRD (je Datei, nur Code, Kommentare ausgenommen):
      · land-vorgabe       ein Ländername als Rückfall- oder Vorgabewert: `|| 'Deutschland'`, `land: 'Deutschland'`,
-                          `rechtsraumName: L('Deutschland', …)`, `value="Deutschland"` an einem Eingabefeld
+                          `rechtsraumName: L('Deutschland', …)`, `value="Deutschland"` an einem Eingabefeld,
+                          `"default": "Deutschland"` in einem Schema (der Vorgabewert eines JSON-Schemas ist ebenfalls eine Vorbelegung)
      · rechtsraum-vorgabe ein Rechtsraum-Kürzel als Vorgabewert: `rechtsraum: 'DE'`, `|| 'DE'`
      · rechtsform-liste   eine Rechtsform als feste Aufzählung im Code oder Schema („GmbH“, „e.V.“, „AG“ in einer
                           Liste oder einem `enum`), statt aus dem Modul
@@ -89,6 +90,7 @@ const ARTEN = Object.freeze({
     new RegExp("\\|\\|\\s*['\"](?:" + L_ALT + ")['\"]", 'g'),
     new RegExp("\\b(?:land|rechtsraumName)\\s*:\\s*(?:L\\()?['\"](?:" + L_ALT + ")['\"]", 'g'),
     new RegExp("\\bvalue=\"(?:" + L_ALT + ")\"", 'g'),
+    new RegExp("\"default\"\\s*:\\s*\"(?:" + L_ALT + ")\"", 'g'),
   ],
   'rechtsraum-vorgabe': [
     /\brechtsraum\s*:\s*['"][A-Z]{2}['"]/g,

@@ -125,7 +125,10 @@ test('[B1 Inventur] alle vier Leaf-Funktionen normalisieren; L2/L4 mit genau ein
   // L2/L4 Fallback-Guard (Wort Krypto 2, 18.10.2026): GENAU ein NFD-Versuch, wenn NFD != NFC — gleich, in welcher Form getippt
   // wurde. Die frühere Bedingung „nur wenn die Eingabe nicht schon NFC ist“ ist entfallen (tests/passwort-nfc-klasse.test.js).
   assert.equal((src.match(/if \(typeof \w+ !== 'string'\) throw e1;/g) || []).length, 2, 'L2+L4: nur der Typ-Guard vor dem NFD-Versuch');
-  assert.equal((src.match(/if \(nfd === nfc\) throw e1;/g) || []).length, 2, 'L2+L4: kein Versuch, wenn NFD und NFC gleich sind');
-  assert.equal(/\w+ === nfc\) throw e1;/.test(src.replace(/nfd === nfc\) throw e1;/g, '')), false, 'die alte Bedingung pw === nfc ist weg');
+  // Seit PASSWORT-TRENNZEICHEN (11.11.2026): sind NFD und NFC gleich, kommt KEIN NFD-Versuch, sondern nur der Kanon-Rückfall
+  // (tests/passwort-trennzeichen-kanon.test.js); der NFD-Versuch steht im anderen Zweig.
+  const gleichZweig = /if \(nfd === nfc\) (?:\{\s*\n(?:\s*\/\/.*\n)*\s*obj = await _pwKanonRueckfall\(nfc, e1, entschluessleMit\);|return await _pwKanonRueckfall\(nfc, e1, entsiegleMit\);)/g;
+  assert.equal((src.match(gleichZweig) || []).length, 2, 'L2+L4: kein NFD-Versuch, wenn NFD und NFC gleich sind; dann nur der Kanon-Rückfall');
+  assert.equal(/\w+ === nfc\) throw e1;/.test(src), false, 'die alte Bedingung pw === nfc ist weg');
   assert.equal((src.match(/\.normalize\('NFD'\)/g) || []).length >= 2, true, 'L2+L4: NFD-Zweitversuch');
 });

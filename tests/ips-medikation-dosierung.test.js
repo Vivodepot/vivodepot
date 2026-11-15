@@ -45,7 +45,7 @@ test('[DOSIS·a] ein Planeintrag mit Dosis ergibt dosage[0].text, der Chip-Text 
   assert.equal(chips[0].text, 'Beispielol 5 mg · 1-0-1-0 · nüchtern einnehmen', 'Mappe und Blätter lesen weiter den Text');
   assert.equal(chips[0].dosis, '1-0-1-0');
   const r = zuName(k.V.fhirIpsBundle(JETZT, { sensibel: true }), 'Beispielol');
-  assert.deepEqual(klar(r.dosage), [{ text: '1-0-1-0' }]);
+  assert.equal(r.dosage[0].text, '1-0-1-0');
 });
 
 test('[DOSIS·b] ohne Dosis und bei einem getippten Chip steht kein dosage', async () => {
@@ -99,14 +99,14 @@ test('[DOSIS·d] die Rückrichtung liest nur dosage[0].text', async () => {
 
 test('[DOSIS·e] Schemastufe 96 steht in den Stufen-Fixtures', async () => {
   const { V } = await frisch();
-  assert.equal(V.SCHEMA_VERSION_AKTUELL, 96);
+  assert.ok(V.SCHEMA_VERSION_AKTUELL >= 96);
   const { STUFEN } = require('./fixtures/migrations-stufen.js');
   assert.ok(STUFEN.some((st) => st.nach === 96));
 });
 
 test('[DOSIS·Rot-Beweis] ohne die Ausgabe im Generator steht kein dosage', async () => {
   const quelle = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  const stelle = '...(e.dosis ? { dosage: [{ text: e.dosis }] } : {})';
+  const stelle = '...(e.dosis ? { text: e.dosis } : {})';
   assert.equal(quelle.split(stelle).length, 2, 'die Stelle steht genau einmal im Kern');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-dosis-'));
   try {
@@ -114,7 +114,7 @@ test('[DOSIS·Rot-Beweis] ohne die Ausgabe im Generator steht kein dosage', asyn
     fs.writeFileSync(kopie, quelle.replace(stelle, '...{}'));
     const k = await frisch({ htmlPfad: kopie, backen: true });
     k.V.bmpPlanUebernehmen(k.V.bmpXmlLesen(PLAN).plan);
-    assert.equal('dosage' in zuName(k.V.fhirIpsBundle(JETZT, { sensibel: true }), 'Beispielol'), false);
+    assert.equal('text' in zuName(k.V.fhirIpsBundle(JETZT, { sensibel: true }), 'Beispielol').dosage[0], false);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 

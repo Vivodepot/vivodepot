@@ -118,7 +118,9 @@ test('[Empfehlung mit Weg · Ziele] die Laufzeit-Meldungen treffen das erwartete
 test('[Empfehlung mit Weg · Assistent] Pflicht reist mit, auch bei einem Standardfeld; der Schalter am Modell ändert die Felder', () => {
   const { V } = ladeGenerator();
   V.ASSISTENT.sprache = 'de';
-  V.assistentBeispielLaden('andere');                 // „Kontaktbogen“: drei Standardfelder, keine Pflicht
+  V.assistentBeispielLaden('andere');                 // „Kontaktbogen“: drei Standardfelder, seit Wagen 1.5 als „Muss“ vorbelegt
+  assert.deepEqual(nativ(V.assistentFelder()).map((f) => f.pflicht), [true, true, true]);
+  V.ASSISTENT.fragen.forEach((f) => { f.pflicht = false; });   // abgewählt: keine Pflicht
   assert.deepEqual(nativ(V.assistentFelder()).map((f) => f.pflicht), [false, false, false]);
   V.ASSISTENT.fragen[0].pflicht = true;               // Standardfeld (Vorname)
   assert.ok(V.ASSISTENT.fragen[0].reg, 'Frage 1 ist ein Standardfeld');

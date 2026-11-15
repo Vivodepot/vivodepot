@@ -1,0 +1,83 @@
+{
+ "zweck": "Ausgabewege des Studios (Funktionen mit blobDownload). geschlossen: Standard und PDF, je Weg die Aufrufe, die sein Rumpf trägt. luecken: ohne Standard oder ohne PDF, je mit Grund; die Liste sinkt nur (tools/studio-ausgabewege-pruefen.js, angelegt 12.11.2026 mit Studio-Schritt 5).",
+ "geschlossen": {
+  "vorlageSichern": {
+   "standard": "fhir-r4-questionnaire",
+   "pdf": true,
+   "ruft": [
+    "vorlageQuestionnaire",
+    "vorlagePdfBauen"
+   ]
+  },
+  "entwurfSichern": {
+   "standard": "fhir-r4-questionnaire",
+   "pdf": true,
+   "ruft": [
+    "entwurfQuestionnaire",
+    "studioStandardUndPdfAusgeben"
+   ]
+  },
+  "wizardErzeugen": {
+   "standard": "fhir-r4-questionnaire",
+   "pdf": true,
+   "ruft": [
+    "wizardQuestionnaires",
+    "studioStandardUndPdfAusgeben"
+   ]
+  },
+  "blattErzeugen": {
+   "standard": "fhir-r4-questionnaire",
+   "pdf": true,
+   "ruft": [
+    "blattQuestionnaires",
+    "studioStandardUndPdfAusgeben"
+   ]
+  },
+  "studioStandardUndPdfAusgeben": {
+   "standard": "der Standard des aufrufenden Wegs",
+   "pdf": true,
+   "ruft": [
+    "studioPdfBauen"
+   ]
+  },
+  "bereichErzeugen": {
+   "standard": "fhir-r4-codesystem",
+   "pdf": true,
+   "ruft": [
+    "modulCodeSystemAusgeben"
+   ]
+  },
+  "institutionsArtErzeugen": {
+   "standard": "fhir-r4-codesystem",
+   "pdf": true,
+   "ruft": [
+    "modulCodeSystemAusgeben"
+   ]
+  },
+  "rechtsraumErzeugen": {
+   "standard": "fhir-r4-codesystem",
+   "pdf": true,
+   "ruft": [
+    "modulCodeSystemAusgeben"
+   ]
+  }
+ },
+ "luecken": {
+  "absendenNochmal": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "anfrageAssistentErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "anfrageAssistentErzeugenMitPaar": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "anfrageErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "anfrageQrTeilAnhaengen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "anfrageSchluesselLaden": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "antragsdateiErstellen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "brandingErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "formatErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "kennungVorschlagErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "ladePrivate": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "logikmodulErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "schluesselDateiNeuSpeichern": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "sprachmodulErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "submissionErzeugen": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF",
+  "vereinbarungBeantworten": "gemessen 12.11.2026: gibt im eigenen Format oder als Schlüssel-/Textdatei aus, ohne PDF"
+ }
+}

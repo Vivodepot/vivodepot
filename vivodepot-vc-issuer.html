@@ -25,7 +25,7 @@
      (Entwurf, 17.10.2026) je mit ihrem sha256 in script-src, geschrieben von
      tools/csp-bauen.js; dazu Trusted Types (Block „vertrauensregel“). -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-9QQ+hrpqP4VhG/ZPOfGK5HH7jxebtKmtRmrA7JuAZNk='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types default">
+      content="default-src 'self'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-rTYa8h+VWah0Bp1pQN2+S5XY3Dq3tshQzgO6EgE3T5Q='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -1342,12 +1342,16 @@ async function _verifyJWS(jwsCompact, publicKey, opts) {
       return r;
     }
   }
-  // Gültigkeitsbeginn: VC 2.0 (validFrom), JWT (nbf/Sekunden) — vor dem Beginn nicht gültig.
+  // Gültigkeitsbeginn: VC 2.0 (validFrom), JWT (nbf/Sekunden) — vor dem Beginn nicht gültig. Geduldet wird ein
+  // Uhrzeitversatz von 5 Minuten (RFC 7519 4.1.5 „some small leeway"), nur hier: ein frisch ausgestelltes
+  // Zertifikat (validFrom = Ausstellzeit) fällt sonst auf einem Gerät, dessen Uhr nachgeht. Das Ende bleibt streng.
+  // opts.ohneVersatz: ein errechneter Zeitpunkt (z. B. ein Tagesrand) ist keine Uhr — dort gilt der Beginn genau.
+  const UHR_VERSATZ_BEGINN_MS = opts.ohneVersatz ? 0 : 5 * 60 * 1000;
   const beginn = n.validFrom ||
                  (typeof n.nbf === 'number' ? new Date(n.nbf * 1000).toISOString() : null);
   if (beginn) {
     const tb = new Date(beginn).getTime();
-    if (!isNaN(tb) && tb > jetzt.getTime()) {
+    if (!isNaN(tb) && tb > jetzt.getTime() + UHR_VERSATZ_BEGINN_MS) {
       r.vorGueltigkeit = true;
       r.grund = 'JWS: noch nicht gültig (' + beginn + ')';
       return r;
@@ -1646,17 +1650,15 @@ const SUBMISSION_SCHEMA = {
             },
             "land": {
               "type": "string",
-              "minLength": 1,
-              "default": "Deutschland"
+              "minLength": 1
             }
           }
         },
         "kontakt": {
-          "description": "Kontaktperson für Rückfragen.",
+          "description": "Rückkanal der Einrichtung: die E-Mail-Adresse (aus ihr wird das Konto der Antragsdatei abgeleitet). Die Ansprechperson (Name), die Funktion und das Telefon sind freiwillig.",
           "type": "object",
           "additionalProperties": false,
           "required": [
-            "name",
             "email"
           ],
           "properties": {
@@ -3316,8 +3318,11 @@ function baueProviderVC(opts) {
     '@context': VC_CONTEXT.slice(),
     type: VC_TYPEN.slice(),
     issuer: opts.issuer || ISSUER_DEFAULT,
-    issuanceDate: issuanceDate,
-    expirationDate: expirationDate,
+    // VC Data Model 2.0 (W3C Recommendation 15.05.2025, 4.9 Validity Period): im v2-Kontext heißen die
+    // Daten validFrom/validUntil. issuanceDate/expirationDate sind Namen aus VC 1.1 und bleiben nur
+    // Optionsnamen dieser Funktion; die Leser nehmen Altbestand mit den alten Namen weiter an.
+    validFrom: issuanceDate,
+    validUntil: expirationDate,
     credentialSubject: credentialSubject,
   };
 }
@@ -3325,7 +3330,15 @@ function baueProviderVC(opts) {
 /* ── VC signieren → JWS Compact (nutzt den gemeinsamen JWS-Block) ─────────── */
 async function stelleProviderCredentialAus(vc, privateKey, opts) {
   // _signJWS setzt typ "vc+jwt" und leitet alg (EdDSA/ES256) aus dem Schlüssel ab.
-  return _signJWS(vc, privateKey, opts || {});
+  // iat ist die Signierzeit in Sekunden (VC-JOSE-COSE, W3C Recommendation 13.10.2026, 3.1.3: iat steht für die
+  // Ausstellzeit der Signatur, validFrom für die Gültigkeit der Daten). Nie aus validFrom abgeleitet; opts.iat
+  // nur für reproduzierbare Proben. Ausgelieferte Kerne lesen im Anker-Satz issuanceDate oder iat — mit iat
+  // nehmen sie auch ein Zertifikat an, das nur validFrom trägt. Kein nbf (dort NOT RECOMMENDED).
+  const o = opts || {};
+  const iat = Number.isInteger(o.iat) ? o.iat : Math.floor(Date.now() / 1000);
+  const nutzlast = Object.assign({}, vc, { iat: iat });
+  const sigOpts = Object.assign({}, o); delete sigOpts.iat;
+  return _signJWS(nutzlast, privateKey, sigOpts);
 }
 
 /* ── Submission-Paket → Anbieter-Daten (F-4, Symmetrie Template-Generator) ──
@@ -3585,6 +3598,15 @@ async function _pruefeEinreichungSignatur(daten, jetzt) {
    SEPARAT, das anbieter-signierte Template-JWS. Die TA signiert das Template NICHT
    mit (echte Zweistufen-Trennung) — der Cert traegt es nur additiv als Plain-Daten
    bis Schritt 3. templateJws nur, wenn vorhanden (additiv). DOM-frei, testbar. */
+/* Die VC-Datei (Einzel-Download „VC herunterladen" und Feld `vc` je Stapelzeile): ein umschlossenes Credential nach
+   VC Data Model 2.0 (W3C Recommendation 15.05.2025, 4.13 Enveloped Verifiable Credentials). Die Signatur ist VC-JOSE-COSE
+   (typ vc+jwt), das Credential steht nur einmal, in der JWS. Bis 11.11.2026 stand hier das Credential im Klartext mit
+   `proof: { type: 'JsonWebSignature2020' }` — kein W3C-Standard; Leser nehmen diese Form weiter an
+   (tools/lib/zertifikat-datei.js). Probe: tests/vc-datei-umschlag.test.js. */
+function vcDateiForm(jws) {
+  return { '@context': ['https://www.w3.org/ns/credentials/v2'], id: 'data:application/vc+jwt,' + jws, type: 'EnvelopedVerifiableCredential' };
+}
+
 function baueAuslieferungsBundle(providerCredentialJws, templateJws, modulSignaturJws) {
   const bundle = { providerCredentialJws: providerCredentialJws };
   if (templateJws) bundle.templateJws = templateJws;
@@ -3846,7 +3868,7 @@ async function stapelAusstellen(zeilen, signierFn, opts) {
           ? dateinameBasis.replace(/\.json$/, '-vorlage' + (vi + 1) + '.json')
           : dateinameBasis,
         bundle: baueAuslieferungsBundle(jws, templateJws),
-        vc: Object.assign({}, vc, { proof: { type: 'JsonWebSignature2020', jws: jws } }),
+        vc: vcDateiForm(jws),
       }));
     }
     if (typeof o.stempelFn === 'function') {
@@ -4408,8 +4430,8 @@ async function onAusstellen() {
   try { jws = await stelleProviderCredentialAus(vc, _trustAuthorityKey); }
   catch (e) { setStatus('issueStatus', 'Signatur fehlgeschlagen: ' + e.message, 'err'); return; }
 
-  // Vollständiges, signiertes VC als Download-Objekt: VC + beigelegte JWS-Compact-Form.
-  const vcDownload = Object.assign({}, vc, { proof: { type: 'JsonWebSignature2020', jws: jws } });
+  // Signiertes VC als Download-Objekt: umschlossen nach VC 2.0 (vcDateiForm).
+  const vcDownload = vcDateiForm(jws);
   _letztesVc = vcDownload;
   _letzterDateiname = vcDateiname(stamm.anbieterId, issuanceDate);
   // 1B Schritt 2b/3: Ausliefer-Bundle — Cert als JWS-Compact + separat das anbieter-signierte
@@ -4460,8 +4482,8 @@ function zeigeErgebnis(vc, jws) {
     ['Anbieter-ID', cs.anbieterId],
     ['Anbieter-Typ', cs.anbieterTyp],
     ['Aussteller', vc.issuer],
-    ['Ausgestellt', vc.issuanceDate],
-    ['Läuft ab', vc.expirationDate],
+    ['Ausgestellt', vc.validFrom || vc.issuanceDate],
+    ['Läuft ab', vc.validUntil || vc.expirationDate],
     ['Signatur-Algorithmus', _keyAlg],
   ];
   zeilen.forEach(([k, v]) => {

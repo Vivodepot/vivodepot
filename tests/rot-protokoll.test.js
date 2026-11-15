@@ -53,3 +53,38 @@ test('[Rot-Protokoll] Protokolle behalten: Kopie am Ort, die jüngsten bleiben; 
     assert.throws(() => RP.protokolleBehalten({ ort: datei, dateien: [{ name: 's', pfad: quelle }] }));
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 });
+
+/* 14.11.2026: ein Air-Lauf mit „ℹ fail 1“ nannte 22 Dateien als rot. Im Block „failing tests:“ stehen auch die todo-Proben
+   offener Befunde (⚠ … # Befund); die alte Zuordnung zählte jedes „test at“ und gab jeder Datei den nächsten ✖-Namen. */
+const MIT_TODO = 'ℹ fail 1\nℹ todo 2\n\n✖ failing tests:\n\n'
+  + 'test at /repo/tests/t1.test.js:4:1\n⚠ [T1] offen (1ms) # Befund EINS\n  AssertionError\n\n'
+  + 'test at /repo/tests/t2.test.js:9:1\n⚠ [T2] offen (1ms) # Befund ZWEI\n  AssertionError\n\n'
+  + 'test at /repo/tests/b.test.js:3:1\n✖ [B] rechnet (2ms)\n  AssertionError: 1 !== 2\n';
+function alteZuordnung(protokoll) {   // die Zuordnung bis 13.11.2026, nachgebaut für den Rot-Beweis
+  const z = protokoll.split('\n'); const aus = [];
+  for (let i = z.findIndex((x) => /failing tests:/.test(x)) + 1; i < z.length; i++) {
+    const m = /^\s*test at (.+?):\d+:\d+\s*$/.exec(z[i]);
+    if (m) aus.push([m[1], (z.slice(i + 1).find((x) => /^\s*✖ /.test(x)) || '').replace(/^\s*✖ /, '').replace(/ \([\d.]+m?s\)\s*$/, '')]);
+  }
+  return aus;
+}
+test('[Rot-Protokoll·todo·Rot-Beweis] ⚠-Einträge im Block „failing tests“ sind nicht rot; die rote Datei trägt ihren eigenen Namen', () => {
+  const alt = alteZuordnung(MIT_TODO);
+  assert.equal(alt.length, 3, 'Rot-Beweis: die alte Zuordnung nennt drei Dateien');
+  assert.deepEqual(alt.map((x) => x[1]), ['[B] rechnet', '[B] rechnet', '[B] rechnet'], 'und jede mit dem Namen des einen ✖');
+  const r = RP.roteDateien({ protokoll: MIT_TODO, wurzel: '/repo' });
+  assert.deepEqual(r.dateien, [{ datei: 'tests/b.test.js', tests: ['[B] rechnet'] }]);
+  assert.equal(r.todo, 2);
+  assert.equal(r.abweichung, null);
+  const meldung = RP.rotMeldung({ seite: 'node-suite', protokoll: MIT_TODO, wurzel: '/repo' });
+  assert.match(meldung, /daneben 2 erwartete todo \(⚠\), nicht rot/);
+  assert.doesNotMatch(meldung, /t1\.test\.js|t2\.test\.js/);
+});
+test('[Rot-Protokoll·Wächter] passt die Rot-Liste nicht zu „ℹ fail“, sagt die Meldung es und zeigt die letzten Zeilen', () => {
+  const zuViel = MIT_TODO.replace('ℹ fail 1', 'ℹ fail 3');
+  const r = RP.roteDateien({ protokoll: zuViel, wurzel: '/repo' });
+  assert.deepEqual(r.abweichung, { liste: 1, fail: 3 });
+  const meldung = RP.rotMeldung({ seite: 'node-suite', protokoll: zuViel, wurzel: '/repo' });
+  assert.match(meldung, /Rot-Liste passt nicht zur fail-Zahl: Liste 1, fail 3/);
+  assert.match(meldung, /letzte Zeilen der Seite/);
+});

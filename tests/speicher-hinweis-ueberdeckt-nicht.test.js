@@ -2,7 +2,8 @@
 /* C16 der Gestaltungsleitung (Mängelliste v998, 31.10.2026): Der Satz „Dieses Gerät kann den internen Speicher jederzeit freiräumen …“ stand als
    dunkle Meldung über dem Inhalt (Fußzeile, Formular). Nach Bedienmuster 27 (Speicherstatus) gehört der Status in den Kopf, nach Muster 33
    (Kurze Bestätigung) ist eine Meldung kurz: etwa drei Sekunden, ein Satz, ohne Knopf. Jetzt gilt:
-   · die Meldung ist der kurze Statussatz („Ihre Datei ist nicht aktuell“), nie der lange Erinnerungssatz; sie trägt keinen Knopf und bleibt nicht;
+   · seit 12.11.2026 gibt es keine Meldung mehr (vorher der kurze Statussatz „Ihre Datei ist nicht aktuell“, direkt nach dem Anlegen); der Zustand
+     steht im Kopf (tests/meldungen-zustand-naechster-schritt.test.js);
    · der lange Satz (exportErinnerungHinweisText) liegt hinter einem ⓘ neben dem Speicherstatus im Kopf (#tb-save-info) und öffnet ein kurzes Blatt
      am Auslöser mit „Verstanden“ (speicherHinweisOeffnen, kein Dialog — GL v999 Runde 1); das ⓘ steht nur, solange die Erinnerung fällig ist und der Status ruhig auf „aktuell“ steht;
    · ui.toast räumt jede Meldung ohne Knopf nach wenigen Sekunden ab.
@@ -36,15 +37,13 @@ function meldungsFunde(V, toasts) {
   return aus;
 }
 
-test('[Speicher-Hinweis] die Meldung ist kurz, ohne Knopf, einmal, und der lange Satz steht nicht darin', async () => {
+test('[Speicher-Hinweis] die fällige Erinnerung erzeugt keine Meldung, einmal je Sitzung (12.11.2026: Zustand im Kopf statt Meldung)', async () => {
   const { V } = await frisch();
   const toasts = [];
   V.ui.toast = (text, art, aktion) => toasts.push({ text, art, aktion });
   assert.equal(V.exportErinnerungVielleichtZeigen(), true);
   assert.equal(V.exportErinnerungVielleichtZeigen(), false, 'einmal je Sitzung');
-  assert.deepEqual(meldungsFunde(V, toasts), []);
-  assert.equal(toasts[0].text, V.STRINGS.saveStatusKeineDatei);
-  assert.equal(toasts[0].art, 'info');
+  assert.deepEqual(toasts, [], 'keine Meldung über dem Inhalt');
 });
 
 test('[Speicher-Hinweis] der lange Satz liegt hinter dem ⓘ im Kopf: sichtbar nur, solange die Erinnerung fällig ist und der Status ruhig steht', async () => {
@@ -104,17 +103,17 @@ test('[Speicher-Hinweis] der Satz geht an keiner Stelle des Kerns als Meldung hi
   assert.ok(!/ui\.toast\([^)]*exportErinnerung/.test(KERN), 'kein ui.toast mit einem exportErinnerung-Text');
   const a = KERN.indexOf('function exportErinnerungVielleichtZeigen()');
   const rumpf = KERN.slice(a, KERN.indexOf('\n}\n', a));
-  assert.ok(!/bleibt/.test(rumpf) && /ui\.toast\(STRINGS\.saveStatusKeineDatei, 'info'\)/.test(rumpf), 'kurze Meldung, ohne Knopf');
+  assert.ok(!/ui\.toast\(/.test(rumpf), 'die Erinnerung ruft keine Meldung (12.11.2026)');
   // Seit der Import-Anzeige (Kanon 844ce83a9) trägt ui.toast eine wählbare Dauer; ohne sie bleibt es bei 8 s mit Knopf, sonst 3,2 s.
   assert.match(KERN, /const dauer = \(optionen && optionen\.dauer\) \|\| \(aktion \? 8000 : 3200\);/);
   assert.match(KERN, /let timer = \(aktion && aktion\.bleibt\) \? null : _ohneProzessHalt\(setTimeout\(\(\) => el\.remove\(\), dauer\)\)/);
 });
 
 test('[Speicher-Hinweis·Rot-Beweis] ein Kern, der den langen Satz wieder als Meldung zeigt, fällt durch', async () => {
-  const anker = "ui.toast(STRINGS.saveStatusKeineDatei, 'info');";
+  const anker = "    try { renderSaveStatus(); } catch (_) { /* Hinweis ist optional, nie blockierend */ }";
   assert.equal(KERN.split(anker).length - 1, 1, 'Vorbedingung: Anker');
   const tmp = path.join(os.tmpdir(), 'speicher-hinweis-rot-' + process.pid + '.html');
-  fs.writeFileSync(tmp, KERN.replace(anker, "ui.toast(exportErinnerungText(m), 'info');"));
+  fs.writeFileSync(tmp, KERN.replace(anker, "    ui.toast(exportErinnerungText(m), 'info');\n" + anker));
   try {
     const { V } = await frisch({ htmlPfad: tmp, backen: true });
     const toasts = [];

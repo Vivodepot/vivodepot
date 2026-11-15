@@ -104,7 +104,7 @@ test('[N2·Zug2·Rotmachbarkeit] ohne den Sensibel-Gate im Builder fällt der Mu
   // v835 (29.09.2026): die Liste des Gates trägt seither auch die vier NFD-Felder (Schwangerschaft, Weglaufgefährdung).
   // 19.10.2026: die Liste geht seither durch _rohFuerAusgabe (Unterfeld-Entscheidung); der Mutant streicht allein das Gate.
   const gate = "    if (!inklSensibel && feldIstSensibel(def, bereich)) continue;\n";
-  const anker = "'pregnancy', 'pregnancyEstimatedDueDate', 'wanderingRisk', 'wanderingRiskDetails']) {\n    const bereich = 'health', def = feldDefFuer(bereich, feldId);\n" + gate;
+  const anker = "'pregnancy', 'pregnancyEstimatedDueDate', 'wanderingRisk', 'wanderingRiskDetails']) {\n    const bereich = ipsBereich, def = feldDefFuer(bereich, feldId);\n" + gate;
   assert.ok(src.split(anker).length === 2, 'Anker des Sensibel-Gates genau einmal gefunden (sonst umbenannt)');
   const mutantSrc = src.replace(anker, anker.slice(0, -gate.length) + '    // GEPFLANZT: kein Sensibel-Gate mehr\n');
   const mutantDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kern-n2-zug2-gate-mutant-'));

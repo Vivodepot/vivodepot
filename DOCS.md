@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v1053.
+Erzeugt aus der veröffentlichten Fassung v1060.
 
 ---
 
@@ -84,11 +84,11 @@ Vorlage darin wie in der App.
 
 ## Zahlen
 
-- E2E: 971 (gezählt, nicht ausgeführt) · Wächter-Register: 162
-- Schema-Version: 96 · SCHALEN_STAND: v1053 · Build-Version: v1.0
+- E2E: 1009 (gezählt, nicht ausgeführt) · Wächter-Register: 162
+- Schema-Version: 100 · SCHALEN_STAND: v1060 · Build-Version: v1.0
 - ADR-Register: 457 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-11, Fassung v1053. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-14, Fassung v1060. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 

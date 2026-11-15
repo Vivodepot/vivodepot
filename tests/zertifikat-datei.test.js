@@ -9,7 +9,7 @@ const JWS = 'eyJhbGciOiJFZERTQSJ9.eyJ4IjoxfQ.c2lnbmF0dXI';
 const ANDERE = 'eyJhbGciOiJFZERTQSJ9.eyJ4IjoyfQ.c2lnbmF0dXI';
 
 test('[Zertifikatsdatei] alle drei Formen der Erzeuger liefern dieselbe JWS und nennen ihr Feld', () => {
-  assert.deepEqual(FELDER, ['certJws', 'proof.jws', 'providerCredentialJws']);
+  assert.deepEqual(FELDER, ['certJws', 'id', 'proof.jws', 'providerCredentialJws']);
   assert.deepEqual(zertifikatJwsAusDatei({ certJws: JWS }), { jws: JWS, feld: 'certJws' });
   assert.deepEqual(zertifikatJwsAusDatei({ issuer: 'did:web:vivodepot.de', credentialSubject: {}, proof: { type: 'JsonWebSignature2020', jws: JWS } }), { jws: JWS, feld: 'proof.jws' });
   assert.deepEqual(zertifikatJwsAusDatei({ providerCredentialJws: JWS, templateJws: ANDERE }), { jws: JWS, feld: 'providerCredentialJws' });
@@ -18,7 +18,7 @@ test('[Zertifikatsdatei] alle drei Formen der Erzeuger liefern dieselbe JWS und 
 });
 
 test('[Zertifikatsdatei·Rot-Beweis] keine JWS, eine kaputte JWS oder zwei verschiedene Zertifikate — benannter Abbruch', () => {
-  assert.throws(() => zertifikatJwsAusDatei({ anbieterId: 'x' }), /kein Zertifikat: erwartet eine JWS in „certJws", „proof\.jws"[^]*„providerCredentialJws"/);
+  assert.throws(() => zertifikatJwsAusDatei({ anbieterId: 'x' }), /kein Zertifikat: erwartet eine JWS in „certJws", „id"[^]*„proof\.jws"[^]*„providerCredentialJws"/);
   assert.throws(() => zertifikatJwsAusDatei({ proof: { jws: 'nur.zwei' } }), /gefunden, aber keine JWS: proof\.jws/);
   assert.throws(() => zertifikatJwsAusDatei({ certJws: 'a.b.c d' }), /kein Zertifikat/);
   assert.throws(() => zertifikatJwsAusDatei(null), /kein JSON-Objekt/);

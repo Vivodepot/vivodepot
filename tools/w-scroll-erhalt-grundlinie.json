@@ -2,6 +2,7 @@
  "funktionen": [
   "_setzeIntern",
   "angehoerigenBlattZurueck",
+  "ansichtAusVerlaufOeffnen",
   "oeffneAnfrage",
   "oeffneAngehoerigenBlatt",
   "oeffneEintragenUebersicht",

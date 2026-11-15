@@ -210,8 +210,10 @@ async function einmalDialogeSchliessen(page, fristMs = 10000) {
 // hier deckt beide ab, damit dieselbe Öffnen-vor-Zugriff-Falle nicht zweimal gelöst werden muss.
 // HIDDEN-SCHLAEGT-DISPLAY (01.11.2026): eine Karte ohne sichtbares Feld steht `hidden` im DOM (G-6) und ist seit der globalen
 // Regel im Gerüst auch wirklich verborgen; geöffnet werden nur Karten, die man sieht.
+// SICHTBAR (11.11.2026, Befund E2E-HELFER-KARTE-UNSICHTBAR): eine Karte ohne eigenes `hidden` kann trotzdem unsichtbar sein,
+// etwa unter einem verborgenen Eltern-Element. Der Klick darauf wartete 30 s. `:visible` nimmt nur, was man sieht.
 async function feldgruppenKartenOeffnen(page) {
-  const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary, #content .situation-block:not([open]):not([hidden]) > summary');
+  const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary:visible, #content .situation-block:not([open]):not([hidden]) > summary:visible');
   const irgendeineGeschlossen = await karten.count();
   while (await karten.count()) await karten.first().click();
   // Jeder .click() oben scrollt sein Ziel erst in den sichtbaren Bereich (Playwright-

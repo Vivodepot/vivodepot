@@ -29,7 +29,8 @@ const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 95;   // 96 → 95 am 09.11.2026 (Verschärfung): die öffentliche .gitignore steht, die Merkdatei-Probe läuft auch öffentlich. 95 → 96 am 09.11.2026 (Wort der Gegenlesung): weckung-beim-schreiben, BESTAND. 94 → 95: katalog-statt-anzeige-index, BESTAND (öffentlich nur zwei Privat-Produkte).
+const DECKEL = 98;   // 95 → 98 am 14.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 4cab66216): gestaltung-definition (ZUSCHNITT), proben-commits-im-kanon (GIT), sprachluecken-ratsche (BESTAND).
+                     // 96 → 95 am 09.11.2026 (Verschärfung): die öffentliche .gitignore steht, die Merkdatei-Probe läuft auch öffentlich. 95 → 96 am 09.11.2026 (Wort der Gegenlesung): weckung-beim-schreiben, BESTAND. 94 → 95: katalog-statt-anzeige-index, BESTAND (öffentlich nur zwei Privat-Produkte).
                      // 93 → 94 am 07.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 9be434288): shl-einmaligkeit-zusage, nur der Rot-Beweis;
                      //   er holt den Stand vor dem Fix über git log -S aus der privaten Geschichte (GIT), öffentlich hat der Klon einen Commit.
                      // 94 → 93 am 05.11.2026 (Verschärfung, öffentlicher Lauf v1040): antwort-schema fährt Pro nur, wo es gebaut wird.
@@ -88,6 +89,23 @@ const DECKEL = 95;   // 96 → 95 am 09.11.2026 (Verschärfung): die öffentlich
                      //   Der Befund ZUSCHNITT-TRAEGER-AUSSERHALB holt den Deckel auf 50 zurück.
 
 const NUR_PRIVAT = {
+  // 14.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 4cab66216): die zwei Tests lesen die ADR der Gestaltungsdefinition;
+  // sie ist noch Entwurf, und der Zuschnitt hält Entwurfs-ADRs zurück. Öffentlich: „ADR nicht gefunden (genau eine Datei erwartet)“.
+  "tests/gestaltung-definition.test.js": { grund: ZUSCHNITT, tests: [
+    "[Definition·e] die Prüfsumme der Definition steht in der ADR",
+    "[Definition·Rot-Beweis] ändert sich die Definition ohne ADR-Nachtrag, ist der Wächter rot",
+  ] },
+  // 14.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 4cab66216): beide Tests fragen, ob die genannten Commits Vorfahren des
+  // Stands sind (GIT); der öffentliche Klon hat einen Commit und kennt die private Geschichte nicht.
+  "tests/proben-commits-im-kanon.test.js": { grund: GIT, tests: [
+    "[Proben-Commits·Kanon] jeder Commit, den eine Probe am echten Repo beim Hash nennt, ist Vorfahr des Stands",
+    "[Proben-Commits·Kanon·Rot-Beweis] ein Hash aus einem lokalen Zweig oder ein erfundener wird gefunden",
+  ] },
+  // 14.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 4cab66216): die Grundlinie ist am privaten Bestand erhoben (BESTAND);
+  // öffentlich backt das Produkt mit den Ersatz-Vorlagen, deren Texte keine Kennung im Satz haben (Teil C gemessen 105 statt 26).
+  "tests/sprachluecken-ratsche.test.js": { grund: BESTAND, tests: [
+    "[Sprachlücken·Ratsche] Teil B und Teil C stehen genau auf der Grundlinie",
+  ] },
   // 07.11.2026 (Wort der Gegenlesung, öffentlicher Probelauf 9be434288): der Rot-Beweis holt den Stand vor dem Fix mit
   // git log -S und git show <sha>^ aus der privaten Geschichte (GIT); öffentlich: „invalid object name <sha>^“ im Klon mit einem Commit.
   "tests/shl-einmaligkeit-zusage.test.js": { grund: GIT, tests: [

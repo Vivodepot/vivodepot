@@ -95,11 +95,14 @@ test('[Negativprobe / Rotmachbarkeit] eine gepflanzte Versions-Drift wird gefund
   const sbomPfad = tempDatei(fs.readFileSync(ECHTE_SBOM, 'utf8'), '.json');
 
   const alteArgv = process.argv;
-  process.argv = [...alteArgv.slice(0, 2), '--html', htmlPfad, '--sbom', sbomPfad];
+  // Die Kopie im Studio gleicht dem gekippten Kern nicht: die Träger werden in einem leeren Ordner gesucht.
+  const leer = fs.mkdtempSync(path.join(os.tmpdir(), 'sbom-leer-'));
+  process.argv = [...alteArgv.slice(0, 2), '--html', htmlPfad, '--sbom', sbomPfad, '--traeger-wurzel', leer];
   delete require.cache[require.resolve('../tools/sbom-pflegen.js')];
   const mit = require('../tools/sbom-pflegen.js');
   const { drift } = mit.pruefeUndPflege();
   process.argv = alteArgv;
+  fs.rmSync(leer, { recursive: true, force: true });
 
   assert.ok(drift.some((d) => /jspdf.*Version 4\.2\.1.*4\.2\.2/.test(d)), `Drift nicht gefunden — Meldungen: ${JSON.stringify(drift)}`);
 
@@ -232,7 +235,9 @@ test('[SBOM-Pflege·xShare] die echte SBOM führt die drei Zeichen mit SHA-256 u
 test('[SBOM-Pflege·pako·Rot-Beweis] ohne pako-Kopfzeile im Bundle entfällt die Unterkomponente — die Drift zeigt es', () => {
   const html = fs.readFileSync(ECHTE_HTML, 'utf8').replace('/*! pako 2.1.0', '/*! pakx 2.1.0');
   const bisherig = JSON.parse(fs.readFileSync(ECHTE_SBOM, 'utf8'));
-  const neu = erzeugeSBOM(html, bisherig);
+  const leer = fs.mkdtempSync(path.join(os.tmpdir(), 'sbom-leer-'));   // die Studio-Kopie gleicht dem veränderten Kern nicht
+  const neu = erzeugeSBOM(html, bisherig, undefined, leer);
+  fs.rmSync(leer, { recursive: true, force: true });
   assert.equal(neu.components.find((c) => c.name === 'jspdf').components, undefined);
 });
 

@@ -621,7 +621,13 @@
         "ziel": {
           "sbl": 2
         },
-        "position": 8
+        "position": 8,
+        "ausgabe": "fhir-ips",
+        "zweckFelder": [
+          "health/chronicConditionsDiagnoses",
+          "health/allergiesMedicationFoodOther",
+          "health/medicationOngoing"
+        ]
       },
       "bloecke": [
         {

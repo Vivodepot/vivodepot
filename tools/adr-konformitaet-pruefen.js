@@ -33,6 +33,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { testTitelVon } = require('../tests/pruefstand-bindung.js');
+const { lesenMitErgaenzung } = require('./lib/mit-interner-ergaenzung.js');
 
 const REPO = path.join(__dirname, '..');
 const ADR_ORDNER = process.env.ADR_ORDNER_PATH
@@ -110,7 +111,10 @@ function yamlBloeckeAusDatei(dateiName, textVorhanden) {
       if (/^konformitaet:\s*$/.test(z)) inKonformitaet = true;
       continue;
     }
-    if (/^\s*-\s*aussage:/.test(z)) {
+    /* Ein Listeneintrag direkt unter `konformitaet:` beginnt eine Klausel, gleich mit welchem Schlüssel er anfängt (13.11.2026: ein
+       Nachtrag begann mit `- id:` statt `- aussage:`, seine Klausel blieb ungeprüft und die ADR galt als ohne Block). Einträge unter
+       `pruefung:` sind Pfade ohne Schlüssel und tiefer eingerückt. Probe: tests/adr-konformitaet-pruefen.test.js [YAML·erster Schlüssel]. */
+    if (/^\s{0,4}-\s*[a-z_]+:/.test(z)) {
       itemAbschliessen();
       itemStart = i;
       buf = [z];
@@ -323,6 +327,7 @@ function laufErgebnis() {
     adrDateienGesamt: adrDateien.length,
     adrDateienMitKlausel: mitKlausel.size,
     adrDateienOhneKlausel: adrDateien.length - mitKlausel.size,
+    mitKlauselDateien: mitKlausel,
     klauselnGeprueft: klauseln.length,
     klauselnRot: rote.length,
     pruefbarMitEchterProbe: pruefbarMitProbe.length,
@@ -331,9 +336,42 @@ function laufErgebnis() {
   };
 }
 
+/* Ratsche ADR ohne Block (U2-ADR-098): Eine ADR ab dem Tag dieses Beschlusses trägt einen Konformitäts-Block, außer sie steht in
+   tools/adr-ohne-block-grundlinie.json. Die Liste nennt Dateinamen, keine Zahl, und darf nur sinken: Wer einer ADR den Block nachträgt
+   oder sie entfernt, streicht ihre Zeile, sonst ist die Prüfung rot. REIN: nimmt Namen, liefert { neu, veraltet }. */
+const OHNE_BLOCK_STICHTAG = '2026-07-23';
+function ohneBlockPruefen(dateien, mitKlausel, liste) {
+  const gelistet = new Set(liste);
+  const istAdr = (d) => /-ADR-/.test(d);
+  const faellig = (d) => { const m = d.match(/(20\d\d-\d\d-\d\d)\.md$/); return !m || m[1] >= OHNE_BLOCK_STICHTAG; };
+  const neu = dateien.filter((d) => istAdr(d) && faellig(d) && !mitKlausel.has(d) && !gelistet.has(d));
+  const vorhanden = new Set(dateien);
+  const veraltet = liste.filter((d) => !vorhanden.has(d) || mitKlausel.has(d));
+  return { neu, veraltet };
+}
+function ohneBlockGate(ergebnisDateien) {
+  const liste = lesenMitErgaenzung(path.join(__dirname, 'adr-ohne-block-grundlinie.json')).dateien;
+  return ohneBlockPruefen(ergebnisDateien.alle, ergebnisDateien.mitKlausel, liste);
+}
+
+function ohneBlockZeilen(ohneBlock) {
+  return ohneBlock.neu.map((d) => d + ': ADR ohne Konformitäts-Block, nicht in der Liste')
+    .concat(ohneBlock.veraltet.map((d) => d + ': steht in der Liste, trägt aber einen Block oder fehlt; Zeile streichen'));
+}
+
 function main() {
   const argv = process.argv.slice(2);
   const ergebnis = laufErgebnis();
+  // Nur gegen den echten ADR-Ordner: ein Fixture-Ordner steht nicht in der Liste.
+  const ohneBlock = process.env.ADR_ORDNER_PATH ? { neu: [], veraltet: [] } : ohneBlockGate({ alle: alleAdrDateien(), mitKlausel: ergebnis.mitKlauselDateien });
+
+  // --nur-ohne-block: nur die Ratsche ADR ohne Block, ohne die Klausel-Prüfung. Die Klauseln nennen Proben, die der öffentliche
+  // Zuschnitt zurückhält; die Ratsche liest nur Dateinamen und Blöcke und gilt darum auch öffentlich.
+  if (argv.includes('--nur-ohne-block')) {
+    if (!ohneBlock.neu.length && !ohneBlock.veraltet.length) { console.log('Ohne-Block grün — keine neue ADR ohne Block, keine veraltete Zeile.'); return; }
+    for (const z of ohneBlockZeilen(ohneBlock)) console.error(z);
+    process.exit(1);
+  }
 
   if (argv.includes('--json')) {
     process.stdout.write(JSON.stringify(ergebnis, null, 1) + '\n');
@@ -348,8 +386,9 @@ function main() {
     + ' · prüfbar/geprüft mit echter Probe: ' + ergebnis.pruefbarMitEchterProbe);
 
   if (argv.includes('--gate')) {
-    if (!ergebnis.klauselnRot) { console.log('GATE grün — keine widersprüchliche Klausel.'); return; }
+    if (!ergebnis.klauselnRot && !ohneBlock.neu.length && !ohneBlock.veraltet.length) { console.log('GATE grün — keine widersprüchliche Klausel, keine neue ADR ohne Block.'); return; }
     console.error('GATE ROT:');
+    for (const z of ohneBlockZeilen(ohneBlock)) console.error('  ' + z);
     for (const r of ergebnis.rote) console.error('  ' + r.datei + ':' + r.zeile + ' [' + r.zustand + '] ' + r.grund);
     process.exit(1);
   } else if (ergebnis.klauselnRot) {
@@ -363,5 +402,5 @@ module.exports = {
   bloeckeAusDatei, yamlBloeckeAusDatei, zeilenwert, pruefeKlausel, laufErgebnis, alleAdrDateien,
   alleePruefungsZeilen, pruefeEinePruefungsZeile,
   yamlPruefungsEintraege, pruefeEineYamlPruefungsZeile,
-  BENOETIGT_PRUEFUNG, OHNE_PRUEFUNG, istBeispielBlock, KEIN_KLAUSEL_BEISPIEL,
+  BENOETIGT_PRUEFUNG, OHNE_PRUEFUNG, istBeispielBlock, KEIN_KLAUSEL_BEISPIEL, ohneBlockPruefen, ohneBlockGate, ohneBlockZeilen, OHNE_BLOCK_STICHTAG,
 };

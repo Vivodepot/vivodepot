@@ -42,6 +42,8 @@
      node tools/sbom-pflegen.js --check
      node tools/sbom-pflegen.js
      node tools/sbom-pflegen.js --check --html <pfad> --sbom <pfad> --codelisten <pfad>
+     --traeger-wurzel <ordner>: dort nach weiteren Anwendungen mit Kopien suchen (Vorgabe: das Repo). Eine Probe, die den Kern
+       im Speicher verändert, sucht in einem leeren Ordner; sonst bräche der Gleichlauf ab, bevor die gesuchte Drift erscheint.
    ════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -53,6 +55,7 @@ const arg = (n, s) => { const i = argv.indexOf('--' + n); return i >= 0 && argv[
 const HTML = arg('html', path.join(REPO, 'vivodepot.html'));
 const SBOM = arg('sbom', path.join(REPO, 'vivodepot.sbom.cdx.json'));
 const CODELISTEN = arg('codelisten', path.join(REPO, 'code-listen'));
+const TRAEGER_WURZEL = arg('traeger-wurzel', REPO);
 const CHECK = argv.includes('--check');
 
 /* ── @vd-lib-Marker lesen (unverändert aus der Vorfassung) ──────────────────
@@ -484,6 +487,25 @@ function zusaetzlicheTraeger(name, kernHtml, repo = REPO) {
   return traeger;
 }
 
+/* Studio-Schritt 5 (12.11.2026): weitere Anwendungen, die die PDF-Schrift Inter tragen (Region STUDIO-PDF-SCHRIFT, erzeugt von
+   tools/studio-pdf-schrift-bauen.js). Jeder getragene Schnitt muss byte-gleich zu einer Datei der Komponente font-inter-pdf sein;
+   eine abweichende Kopie bricht ab, wie bei zusaetzlicheTraeger. */
+function interPdfTraeger(dateinamen, repo = REPO, traegerWurzel = repo) {
+  const soll = dateinamen.map((d) => { try { return fs.readFileSync(path.join(repo, d)); } catch (e) { return null; } }).filter(Boolean);
+  const traeger = [];
+  for (const d of fs.readdirSync(traegerWurzel).filter((x) => x.endsWith('.html') && x !== 'vivodepot.html').sort()) {
+    const html = fs.readFileSync(path.join(traegerWurzel, d), 'utf8');
+    const m = /const STUDIO_PDF_SCHRIFTEN = (\[[\s\S]*?\]);\n\/\* STUDIO-PDF-SCHRIFT:END \*\//.exec(html);
+    if (!m) continue;
+    for (const s of JSON.parse(m[1])) {
+      const b = Buffer.from(String(s.ttf || ''), 'base64');
+      if (!soll.some((x) => x.equals(b))) throw new Error(`font-inter-pdf: ${d} trägt einen Schnitt (${s.art}), der keiner Datei der Komponente gleicht — node tools/studio-pdf-schrift-bauen.js`);
+    }
+    traeger.push((html.match(/<title>([^<]*)<\/title>/) || [null, d])[1].trim());
+  }
+  return traeger;
+}
+
 /* ── Die vollständige SBOM aus den Quellen erzeugen ──────────────────────── */
 /* Formatversion (Befund SBOM-CYCLONEDX-UNTER-1-6): BSI TR-03183-2 v2.1.0 §4 verlangt für eine neu erzeugte oder
    aktualisierte SBOM CycloneDX 1.6 oder höher. Die Fassung steht hier und nicht in der alten Datei — bis 23.10.2026
@@ -503,7 +525,7 @@ function annotationNach16(a, zeitpunkt) {
   };
 }
 
-function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
+function erzeugeSBOM(html, bisherigesSbom, repo = REPO, traegerWurzel = repo) {
   const libs = new Map(vdLibsInline(html).map((l) => [l.name, l]));
   const kompNamen = [];
   const komponenten = [];
@@ -528,7 +550,7 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
       licenses: [{ license: { id: lib.license } }],
       hashes: hashes(inhalt),
       properties: [...eigenschaften(name),
-        ...zusaetzlicheTraeger(name, html, repo).map((t) => ({ name: 'vivodepot:zusaetzlicher-traeger', value: t + ' (byte-gleiche Kopie)' }))],
+        ...zusaetzlicheTraeger(name, html, traegerWurzel).map((t) => ({ name: 'vivodepot:zusaetzlicher-traeger', value: t + ' (byte-gleiche Kopie)' }))],
     });
     if (name === 'jspdf') {
       const pako = pakoAusJspdf(inhalt);
@@ -712,7 +734,12 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
   for (const alt of bisherigesSbom.components || []) {
     if (erzeugt.has(alt.name)) { alle.push(erzeugt.get(alt.name)); erzeugt.delete(alt.name); continue; }
     const frischeHashes = HANDGEPFLEGT.includes(alt.name) ? hashesAusDateien(dateinamenAus(alt), repo) : null;
-    alle.push(frischeHashes && frischeHashes.length ? { ...alt, hashes: frischeHashes } : alt);
+    let k = frischeHashes && frischeHashes.length ? { ...alt, hashes: frischeHashes } : alt;
+    if (alt.name === 'font-inter-pdf') {
+      const ohne = (alt.properties || []).filter((p) => p.name !== 'vivodepot:zusaetzlicher-traeger');
+      k = { ...k, properties: ohne.concat(interPdfTraeger(dateinamenAus(alt), repo, traegerWurzel).map((t) => ({ name: 'vivodepot:zusaetzlicher-traeger', value: t + ' (byte-gleiche Kopie)' }))) };
+    }
+    alle.push(k);
   }
   for (const k of erzeugt.values()) alle.push(k);
   const alleNamen = alle.map((k) => k.name);
@@ -773,7 +800,7 @@ function pruefeUndPflege() {
   const htmlText = fs.readFileSync(HTML, 'utf8');
   const sbomText = fs.readFileSync(SBOM, 'utf8');
   const bisherig = JSON.parse(sbomText);
-  const neu = erzeugeSBOM(htmlText, bisherig);
+  const neu = erzeugeSBOM(htmlText, bisherig, REPO, TRAEGER_WURZEL);
   const drift = drifteListe(bisherig, neu);
   const neuerText = JSON.stringify(neu, null, 2) + '\n';
   return { drift, sbomText, neuerText, altTimestamp: bisherig.metadata && bisherig.metadata.timestamp, neuesObjekt: neu };
@@ -784,6 +811,13 @@ function main() {
   try {
     ergebnis = pruefeUndPflege();
   } catch (e) {
+    /* Eine weitere Anwendung trägt eine Kopie, die vom Kern abweicht: das ist Drift zwischen zwei Fassungen derselben Komponente
+       (zusaetzlicheTraeger, interPdfTraeger), kein Fehler des Werkzeugs. */
+    if (/abweichende Kopie|keiner Datei der Komponente gleicht/.test(e.message)) {
+      console.log('sbom-pflegen: Drift gefunden —');
+      console.log('  · ' + e.message);
+      process.exit(1);
+    }
     console.error('SBOM-PFLEGE FEHLGESCHLAGEN: ' + e.message);
     process.exit(2);
   }
@@ -817,5 +851,5 @@ if (require.main === module) main();
 module.exports = {
   lucideIconsBlock,
   hl7SystemeImKern, HL7_THO_CC0, HL7_THO_OFFEN, terminologieBlock, wortlisteAusModul,
-  zusaetzlicheTraeger, HANDGEPFLEGT, hashesAusDateien, vdLibsInline, ersetzeEindeutig, ersetzeAlle, pruefeUndPflege, erzeugeSBOM, skriptInhaltNachMarker, fontInterHashesUndDateien, codeListenBlockText,
+  zusaetzlicheTraeger, interPdfTraeger, HANDGEPFLEGT, hashesAusDateien, vdLibsInline, ersetzeEindeutig, ersetzeAlle, pruefeUndPflege, erzeugeSBOM, skriptInhaltNachMarker, fontInterHashesUndDateien, codeListenBlockText,
   CODE_KOMPONENTEN, codeListenKomponenten, ladeCodeListenQuellen, CYCLONEDX_VERSION, CYCLONEDX_SCHEMA, annotationNach16 };

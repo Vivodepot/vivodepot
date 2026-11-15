@@ -269,6 +269,24 @@ herkunft: gemessen, 01.09.2026 (breite Sitzung: anlegen, 4 Sektoren, PDF, Export
 pruefung: tests/e2e/sw-uebernahme-keine-same-origin-anfrage.spec.js#ein bereits geladener Tab stellt nach dem Laden keine same-origin-Anfrage mehr — über eine breite Sitzung (PDF, Export, Sub-Depot)
 ```
 
+## Nachtrag (11.11.2026) — die neue Fassung schon beim ersten Aufruf
+
+Gemessen an der ausgelieferten Fassung: Wer die Anwendung schon einmal geladen hatte, bekam nach einer Aktualisierung beim
+ersten Aufruf die alte Fassung aus der abgelegten Schale und erst beim zweiten die neue. Der neue Worker übernahm sofort,
+die geladene Seite blieb die alte.
+
+Entschieden: Übernimmt ein neuer Worker eine Seite, die schon bedient wurde, und ist kein Depot offen, kein Fenster offen
+und nichts eingetippt, lädt die Seite sich einmal selbst neu. Mit offenem Depot geschieht nichts; der nächste Aufruf kommt
+aus der neuen Schale. Es bleibt bei der Entscheidung vom 01.09.2026: kein Toast, kein Banner, keine Aufforderung „Neu
+laden“. Der Satz „kein Neu laden“ meint die Aufforderung an die Person, nicht das stille Neuladen ohne offenes Depot.
+
+```konformitaet
+aussage:  Ohne offenes Depot endet der erste Aufruf nach einer Aktualisierung auf der neuen Fassung; ein offenes Depot wird nicht neu geladen; die Übernahme zeigt keinen Hinweis.
+zustand:  geprüft
+herkunft: gemessen, 11.11.2026 (lokaler Dienst mit zwei Fassungen; mit dem Kern davor bleibt der erste Aufruf auf der alten)
+pruefung: tests/e2e/sw-neue-fassung-beim-ersten-aufruf.spec.js#ohne offenes Depot endet der erste Aufruf nach einer Aktualisierung auf der neuen Fassung
+```
+
 ---
 
 *Vivodepot GmbH · Berlin · 01.09.2026*

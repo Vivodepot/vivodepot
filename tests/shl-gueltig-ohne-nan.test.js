@@ -47,7 +47,7 @@ test('[SHL·Gültig·b] nach dem Erzeugen: das Datum der Ablaufzeit des Links; o
   assert.equal(V._shlGueltigZeile({ exp: 'morgen' }, V.STRINGS.shlGueltigBis), '', 'eine Ablaufzeit, die keine Zahl ist, gibt keine Zeile');
   // Der Knopf „Link erzeugen“ setzt die Zeile erst nach dem gebauten Link, als Text, nicht als HTML.
   const bauen = rumpf('_shlDialogZeigen');
-  const a = bauen.indexOf('_shlLinkKopierenUndQr(out, uri)');
+  const a = bauen.indexOf('_shlLinkKopierenUndQr(out, shlLinkMitAbholseite(uri))');
   const b = bauen.indexOf('_shlGueltigZeile(teile', a);
   assert.ok(a > 0 && b > a, 'die Gültig-Zeile entsteht nach dem gebauten Link');
   assert.doesNotMatch(bauen.slice(b, bauen.indexOf('\n', b)), /innerHTML/);

@@ -108,5 +108,5 @@ test('[SHL-Adresse·Oberfläche] der Host steht sichtbar da, bevor der Link ents
   // Der Dialog ruft die Bestätigung vor shlUriBauen.
   const kern = fs.readFileSync(path.join(WURZEL, 'vivodepot.html'), 'utf8');
   const i = kern.indexOf('const vorab = shlAblageUrlPruefen(url);');
-  assert.ok(i > 0 && i < kern.indexOf('try { uri = shlUriBauen(teile, url); }', i), 'Bestätigung vor dem Bauen');
+  assert.ok(i > 0 && i < kern.indexOf('try { uri = shlUriBauen(Object.assign({}, teile, { weg: _shlWegGewaehlt(box) }), url); }', i), 'Bestätigung vor dem Bauen');
 });

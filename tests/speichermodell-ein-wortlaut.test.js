@@ -110,10 +110,12 @@ test('ein Handgriff: Einstellungen-Knopf und Menüpunkt tragen dieselbe Beschrif
   const quelle = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
   assert.match(quelle, /esk\.onclick = \(\) => sicherungskopieErstellen\(\);/);
   assert.match(quelle, /sicherungskopie\.onclick = \(\) => \{ depotMenueSchliessen\(false\); sicherungskopieErstellen\(\); \};/);
-  // Drei Aufrufer desselben Handgriffs: Menüpunkt, Einstellungen und die Erinnerung „nichts liegt still nur im Browserspeicher“
-  // auf WebKit im Tab (seit c279dd5af). Ein vierter Aufrufer oder eine zweite Definition fällt hier auf.
+  // Fünf Aufrufer desselben Handgriffs: Menüpunkt, Einstellungen, die Erinnerung „nichts liegt still nur im Browserspeicher“
+  // auf WebKit im Tab (seit c279dd5af), der Knopf im Zustand hinter dem ⓘ im Kopf und die Zeile auf der Übersicht (12.11.2026).
+  // Ein weiterer Aufrufer oder eine zweite Definition fällt hier auf.
   assert.match(quelle, /onPrimaer: \(schliessen\) => \{ schliessen\(\); try \{ sicherungskopieErstellen\(\); \} catch \(_\) \{\} weiter\(\); \}/);
-  assert.equal((quelle.match(/sicherungskopieErstellen\(\);/g) || []).length, 3, 'drei Zugänge zum einen Handgriff: Menüpunkt, Einstellungen, WebKit-Erinnerung');
+  assert.equal((quelle.match(/sicherungskopieErstellen\(\);/g) || []).length, 4, 'vier Zugänge mit direktem Aufruf: Menüpunkt, Einstellungen, WebKit-Erinnerung, Zustand hinter dem ⓘ');
+  assert.equal((quelle.match(/sicherungskopieErstellen\(/g) || []).length, 6, 'dazu die Zeile auf der Übersicht und die Definition, sonst keine Stelle');
   assert.equal((quelle.match(/function sicherungskopieErstellen\(/g) || []).length, 1, 'der Handgriff ist genau einmal definiert');
 });
 
