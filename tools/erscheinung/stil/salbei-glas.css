@@ -82,8 +82,6 @@ border: 1px solid var(--vm-linie); border-left: 8px solid var(--vm-linie);
 }
 #app.modus-vollmacht .sidebar { border-left-width: 8px; }
 #app.modus-vollmacht .content-narrow { border-left: 6px solid var(--vm-linie); padding-left: var(--space-5); }
-/* Handy: der Name allein genügt, „Geöffnet:" bricht die Kopfzeile um */
-@media (max-width: 600px) { .tb-sub-praefix { display: none; } }
 /* Salbei mit Glas (Vorschau 05.10.2026, Attrappe): Salbei bleibt Markenfarbe wie vivodepot.de, Kopf und Leiste als Glas, nachts neutral. */
 html.dark-mode #app:not(.modus-vollmacht) #sidebar.sidebar { border-left-color: #d4d7d1; }
 html.dark-mode:not(.high-contrast) #app #sidebar .nav-item.aktiv { background: var(--salbei-light); border-left-color: transparent; color: var(--ink); }
@@ -201,9 +199,6 @@ html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv { background: color-mix(in srgb, var(--white) 60%, transparent); border-left-color: transparent; color: var(--ink); }
 /* Die Marke ist ausgenommen: sie behält ihre eigene helle Fläche, damit die Wortmarke lesbar bleibt (auf der getönten Kopfzeile 3,93:1). */
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .topbar .marke { background: rgba(255,255,255,.78); border-radius: var(--radius-pill); }
-/* Kopfzeile im Sub-Depot (Befund SUBDEPOT-KOPF-390): der Tonpunkt am Namen trägt einen Ring, damit er auf der getönten Kopfzeile
-   sichtbar bleibt; die Pille „Mein Depot“ behält ihren eigenen Punkt, den Ton des fremden Depots trägt nur der Punkt am Namen. */
-html.vm-akzent:not(.high-contrast) #app.modus-vollmacht .tb-sub-punkt { background: var(--akzent); box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--akzent) 45%, #1c1c1c); }
 html.vm-akzent #app.modus-vollmacht .dp-punkt { background: var(--modus-anker); }
 /* Hinweistexte, die im eigenen Depot eine Akzent- oder Zweitfarbe tragen, stehen auf der getönten Fläche in der Schriftfarbe (3,86 bzw. 4,0:1). */
 html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht :is(.doku-std-badge, .pause-erlaubnis) { color: var(--ink); }
@@ -332,7 +327,7 @@ html.dark-mode:not(.high-contrast) .karte { border-color: transparent; }
 html:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { border-color: transparent; background: rgba(255,255,255,.6); }
 html.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { border-color: transparent; background: rgba(0,0,0,.2); }
 html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { background: rgba(255,255,255,.6); color: #162517; }
-html:not(.high-contrast) .tb-sub-punkt, html:not(.high-contrast) .modus-punkt { border-color: transparent; }
+html:not(.high-contrast) .modus-punkt { border-color: transparent; }
 /* ── Seitenaufbau S4 (Zielbild S3/S4, 30.10.2026; Abnahme v979 Nr. 1–3) ──────────────────────────────────────────────────────────
    (1) Die Beschriftung steht über dem Feld, eine Spalte von höchstens 600 px; ein Feld ist so breit wie sein Inhalt (Text 22rem,
        Postleitzahl 9 ch, Hausnummer 10 ch, Jahr 8 ch), Listen und mehrzeilige Felder nehmen die Spalte.
@@ -506,3 +501,5 @@ html #app .feldgruppen-karte-inhalt { font-weight: var(--fw-regular); }
 #app .content .bereich-wege :is(.bereich-assistenten, .zusatz-aktionen) .wizard-gruppe { margin: 0; }
 #app .content .bereich-wege :is(.doku-panel, .wizard-gruppe):not([open]) > summary { display: flex; align-items: center; min-height: 44px; box-sizing: border-box; border-radius: var(--radius-pill); padding: 0 18px; margin: 0; font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); gap: var(--space-2); }
 #app .content .bereich-wege .doku-panel:not([open]) { border-radius: var(--radius-pill); padding: 0; }
+/* Sub-Depot (Umbau 13.11.2026): der Streifen der Person oben an der Kopfzeile bleibt neben dem Glasschatten sichtbar. */
+html.sub-kontext:not(.dark-mode):not(.high-contrast) .topbar { box-shadow: inset 0 3px 0 var(--person), 0 18px 50px rgba(79,101,57,.10); }

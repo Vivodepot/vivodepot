@@ -91,8 +91,8 @@ test('[Aufnahmekriterium] jede der sechs Farben setzt beim Betreten einen echten
     const e = await V.subDepotAnlegen({ bezeichnung: tok, inhaberin: 'K', verwaltungsTyp: 'verwaltet', akzent: tok }, 'pw');
     await V.subDepotVertrauenOeffnen(e.depotUUID, 'pw');
     V.subKontextBetreten(e.depotUUID);
-    const chrome = document.documentElement.style.getPropertyValue('--vm-chrome');
-    assert.equal(chrome, 'var(--' + tok + ')', tok + ': echter Override, keine Farbe bleibt „wie ohne Akzent"');
+    const person = document.documentElement.style.getPropertyValue('--person');
+    assert.equal(person, 'var(--' + tok + ')', tok + ': echte Personenfarbe, keine Farbe bleibt „wie ohne Akzent"');
     await V.subKontextVerlassen();
   }
 });

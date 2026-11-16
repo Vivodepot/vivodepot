@@ -106,12 +106,13 @@ test('§2 Sub-Akzent an der Wurzel (--akzent) vererbt; überlebt Modus-Wechsel; 
   const sub = (V.SUBDEPOT_PALETTE || [])[0];
   assert.ok(sub, 'es gibt mindestens einen Sub-Akzent in der Palette');
   V.setzeSubDepotAkzent(sub);
-  assert.equal(root.style.getPropertyValue('--akzent'), 'var(--' + sub + ')', '--akzent an der Wurzel = Sub-Akzent → Dialoge/Einstellungen erben');
-  // Der Modus-Setter läuft in der echten Sequenz NACH setzeSubDepotAkzent — darf den Sub-Akzent nicht klauen.
+  assert.equal(root.style.getPropertyValue('--person'), 'var(--' + sub + ')', '--person an der Wurzel = Personenfarbe (Umbau 13.11.2026: --akzent bleibt Salbei)');
+  // Der Modus-Setter läuft in der echten Sequenz NACH setzeSubDepotAkzent — --akzent bleibt der des Ankers, --person bleibt.
   V.Modus._setzeIntern('vollmacht');
-  assert.equal(root.style.getPropertyValue('--akzent'), 'var(--' + sub + ')', 'Sub-Akzent überlebt den Modus-Setter (Reihenfolge-robust)');
+  assert.equal(root.style.getPropertyValue('--akzent'), 'var(--modus-anker)', 'Vollmacht-Modus färbt --akzent nicht um');
+  assert.equal(root.style.getPropertyValue('--person'), 'var(--' + sub + ')', 'Personenfarbe überlebt den Modus-Setter');
   // Reset (Zug 3: eigener, farbfreier Weg) → --akzent zurück auf den aktuellen Modus-Akzent (NICHT entfernt — gehört dem Modus).
   V.entferneSubDepotAkzentOverride();
-  assert.notEqual(root.style.getPropertyValue('--akzent'), 'var(--' + sub + ')', '--akzent nicht mehr Sub-Akzent');
+  assert.equal(root.style.getPropertyValue('--person'), '', '--person entfernt');
   assert.ok(root.style.getPropertyValue('--akzent'), '--akzent gesetzt (Modus-Akzent), nicht leer');
 });

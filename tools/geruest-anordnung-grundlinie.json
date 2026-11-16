@@ -1,10 +1,10 @@
 {
- "beschreibung": "Ratsche „Anordnung im Gerüst“ (U2-ADR-473 W6): Funktionen, die Rahmen-Markup fest schreiben, und das statische Markup von Kopf und Tab-Leiste (Zahl und Folge der Elemente). Darf nur sinken; W3b senkt auf 0. `schutz`: fest gewollte Schreibwege geschützter Anzeigen, je mit Grund und eigenem Wort. Zählweg: node tools/geruest-anordnung-pruefen.js",
+ "beschreibung": "Ratsche „Anordnung im Gerüst“ (U2-ADR-473 W6): Funktionen, die Rahmen-Markup fest schreiben, und das statische Kopf-Markup. Darf nur sinken; W3b senkt auf 0. Zählweg: node tools/geruest-anordnung-pruefen.js",
  "funktionen": [
   "renderSidebar"
  ],
  "kopf": {
-  "anzahl": 54,
+  "anzahl": 50,
   "folge": [
    "header.topbar",
    "button#tb-menue.a11y-btn",
@@ -26,10 +26,6 @@
    "button#tb-depot-menue-liste.depot-menue-eintrag",
    "button#tb-depot-menue-verwaltung.depot-menue-eintrag",
    "button#tb-depot-menue-sicherungskopie.depot-menue-eintrag",
-   "span#tb-sub-hinweis.tb-sub-hinweis",
-   "span.tb-sub-punkt",
-   "span#tb-sub-praefix.tb-sub-praefix",
-   "span#tb-sub-name",
    "button#tb-pw-hinweis.tb-pw-hinweis",
    "span.ico",
    "span.tb-pw-text",

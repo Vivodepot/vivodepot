@@ -691,8 +691,8 @@ const REISE_3_ANJA = {
    ÜBER DEN URSPRÜNGLICHEN SP-BEFUND HINAUS (wie Reise 1/2 es tun): der Befund
    vom 01.08. stoppte bei „Versiegelt" — offen blieb „das erste tatsächliche
    Dokument-Eintragen im Sub-Depot" (GESAMT-Dokument). S7–S10 schließen das:
-   entsiegeln, den Sub-Kontext betreten (`#tb-sub-name` zeigt „Geöffnet: Heinrich"
-   neben der unveränderten Depot-Pille, Palettentausch Zug 2), ein echtes Feld
+   entsiegeln, den Sub-Kontext betreten (`#sub-kontext-text` nennt Heinrich,
+   der Wechsler zeigt die Person), ein echtes Feld
    eintragen. */
 const SUB_PW = 'Sub-Depot-2026!';   // ≥ 12 Zeichen (PW_MIN_EIGEN, 08.10.2026)
 const REISE_4_THOMAS = {
@@ -787,19 +787,19 @@ const REISE_4_THOMAS = {
         await seite.waitForSelector('#sub-auf', { state: 'visible', timeout: 5000 });
         await seite.fill('#sub-auf', SUB_PW, { timeout: 5000 });
         await seite.click('#m-ok', { timeout: 5000 });
-        await seite.waitForSelector('[data-betreten]', { state: 'visible', timeout: 10000 });
+        // „Mit Passwort öffnen" führt seit 30.10.2026 selbst hinein; das Betreten ist mit dem Passwort geschehen.
+        await seite.waitForSelector('#sub-kontext-text >> text=Heinrich', { state: 'visible', timeout: 10000 });
       },
       wartenMs: 500,
     },
     {
       id: 'S8-sub-kontext-betreten',
-      titel: 'Heinrichs Sub-Depot betreten („Geöffnet: Heinrich" neben der unveränderten Depot-Pille)',
+      titel: 'Heinrichs Sub-Depot betreten (die Kontextzeile nennt Heinrich, der Wechsler zeigt die Person)',
       veraendernd: false,
       aktion: async (seite) => {
-        await seite.click('[data-betreten]', { timeout: 5000 });
-        // Palettentausch Zug 2 (04.08.2026): die Depot-Pille (#tb-depot-name) zeigt jetzt IMMER
-        // „Mein Depot" — der Sub-Depot-Name steht separat daneben in #tb-sub-name.
-        await seite.waitForSelector('#tb-sub-name >> text=Heinrich', { timeout: 10000 });
+        // Kein Klick mehr: der Schritt hält fest, dass man nach dem Passwort im Depot der Person steht (Kontextzeile #sub-kontext-text,
+        // der Wechsler #tb-depot-name nennt die Person).
+        await seite.waitForSelector('#sub-kontext-text >> text=Heinrich', { timeout: 10000 });
       },
     },
     {

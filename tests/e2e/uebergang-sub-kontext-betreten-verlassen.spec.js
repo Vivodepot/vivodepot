@@ -99,8 +99,8 @@ async function subDepotAnlegenUndBetreten(page) {
   await page.fill('#sub-auf', SUB_PW);
   await page.click('#m-ok');
   await page.waitForSelector('#sub-auf', { state: 'detached' });
-  await page.click(`[data-betreten="${uuid}"]`);
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+  // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+  await page.waitForSelector('html.sub-kontext', { state: 'attached' });
   return uuid;
 }
 
@@ -129,10 +129,10 @@ test('[Übergang 3] Sub-Kontext betreten → über #vm-zurueck verlassen — Ank
 
   // ── DER ÜBERGANG: über den ECHTEN Banner-Knopf verlassen ────────────────
   await page.click('#vm-zurueck');
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'detached', timeout: 10000 });
+  await page.waitForSelector('html.sub-kontext', { state: 'detached', timeout: 10000 });
 
   // Zurück im Anker-Kontext: Banner weg, imSubKontext() falsch, Sidebar zeigt Anker-Bereiche.
-  await expect(page.locator('#vm-zurueck')).toHaveCount(0);
+  await expect(page.locator('#vm-zurueck')).toBeHidden();   // die Kontextzeile ist verborgen (Umbau 13.11.2026)
   const kontextNachVerlassen = await page.evaluate(() => ({
     imSubKontext: typeof window.__vdOeffentlich.imSubKontext === 'function' ? window.__vdOeffentlich.imSubKontext() : null,
     depotUUID: typeof window.__vdOeffentlich.aktiverSubKontext !== 'undefined' ? window.__vdOeffentlich.aktiverSubKontext : 'undefined-var',
@@ -158,7 +158,7 @@ test('[Übergang 3] Sub-Kontext betreten → über #vm-zurueck verlassen — Ank
   await page.click('#tb-depot-menue-verwaltung');
   await page.waitForSelector('[data-betreten]', { state: 'visible' });
   await page.click(`[data-betreten="${uuid}"]`);
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'attached', timeout: 10000 });
+  await page.waitForSelector('html.sub-kontext', { state: 'attached', timeout: 10000 });
   await expect(page.locator('#vm-zurueck'), 'zweites Betreten desselben Sub-Depots muss wieder den Banner zeigen').toBeVisible();
 
   expect(fehler, 'kein Absturz im Übergang Sub-Kontext betreten→verlassen→erneut betreten').toEqual([]);

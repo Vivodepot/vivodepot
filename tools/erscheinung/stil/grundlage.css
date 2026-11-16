@@ -140,8 +140,6 @@
   html.high-contrast .leer-platzhalter, html.high-contrast .deckblatt-name, html.high-contrast .wizard-frage,
   html.dark-mode .narrativ, html.dark-mode .logo, html.dark-mode .sektor-intro,
   html.dark-mode .leer-platzhalter, html.dark-mode .deckblatt-name, html.dark-mode .wizard-frage { font-weight: var(--fw-regular); }
-  /* Der Name des geöffneten Depots im Kopf steht in Nacht so stark wie in Hell (GL 05.11.2026). */
-  html.dark-mode .tb-sub-hinweis { font-weight: var(--fw-regular); }
   /* Feld-Werte (Inter) als Hervorhebung ueber dem nun 500-schweren Body/Labels halten -> 600. */
   html.high-contrast .feld-wert, html.dark-mode .feld-wert { font-weight: var(--fw-semibold); }
   * { box-sizing: border-box; }
@@ -458,8 +456,8 @@
   /* Depot-Kontext-Pille (Struktur-Spec §2.3): Bürgersprache „Mein Depot", Klick öffnet die Liste.
      Zeigt IMMER das Hauptdepot (Zug 2, Palettentausch 04.08.2026) — auch im Sub-Kontext, die
      Kopfzeile bleibt Salbei. Darum an var(--auf-akzent) gekoppelt, NICHT an --vm-chrome-text
-     (das würde mit dem Sub-Depot-Akzent mitziehen). Das eingehängte Depot zeigt sich separat
-     daneben (.tb-sub-hinweis). */
+     (das würde mit dem Sub-Depot-Akzent mitziehen). Das eingehängte Depot nennt die Kontextzeile
+     (#sub-kontextzeile). */
   .depot-pille { display: inline-flex; align-items: center; gap: var(--space-2);
     background: color-mix(in srgb, var(--auf-akzent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--auf-akzent) 25%, transparent);
     border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3);
@@ -503,9 +501,6 @@
   /* Palettentausch Zug 2 — Hinweis auf das eingehängte Depot, NEBEN der (unveränderten)
      Depot-Pille. Fest an var(--auf-akzent) (Kopfzeile bleibt Salbei), nur der Punkt selbst
      trägt den echten Sub-Depot-Akzent (var(--akzent), wie .dp-punkt/.modus-punkt). */
-  .tb-sub-hinweis { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--auf-akzent); white-space: nowrap; }
-  .tb-sub-hinweis[hidden] { display: none; }
-  .tb-sub-punkt { width: 0.7em; height: 0.7em; border-radius: 50%; background: var(--akzent); border: 1px solid var(--punkt-rand); flex: none; }
   .depot-liste-eintrag { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-md); }
   .depot-liste-eintrag.aktiv { border-color: var(--akzent); background: var(--salbei-light); }
   .dp-aktiv-tag { margin-left: auto; font-size: var(--fs-role-hilfe); color: var(--ink2); }
@@ -882,6 +877,17 @@
      breiteren Streifen als die Karten (.sektion: 1px rundum), s. Kartenrand-Vergleich unten.
      Vorbild: .vorschau-banner (s. o.) trägt seit Längerem dasselbe "Streifen statt Box"-Muster,
      dort ebenfalls auf Wunsch entstanden. */
+  /* Umbau nach dem Desktop-Dummy (13.11.2026): im Sub-Depot bleibt die Oberfläche Salbei. Die Person zeigt sich am Farbkreis des Depot-Wechslers,
+     am Streifen oben an der Kopfzeile und an der Kontextzeile darunter (Leitfaden 5.24; Farben `--person*` aus der Definition, U2-ADR-525). */
+  html.sub-kontext .topbar { box-shadow: inset 0 3px 0 var(--person); }
+  html.sub-kontext .dp-punkt { background: var(--person); }
+  .sub-kontextzeile { grid-column: 1 / 3; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-4);
+    padding: var(--space-2) var(--space-5); background: var(--cream); color: var(--ink);
+    font-size: var(--fs-role-hilfe); }
+  .sub-kontextzeile[hidden] { display: none; }
+  .sub-kontext-kreis { display: inline-flex; align-items: center; justify-content: center; width: 1.9em; height: 1.9em; flex: none;
+    border-radius: var(--radius-rund); background: var(--person); color: var(--person-text); font-weight: var(--fw-medium); }
+  .sub-kontextzeile .btn { margin-left: auto; }
   .vollmacht-banner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
     flex-wrap: wrap; background: var(--cream); color: var(--ink);
     border-left: var(--akzent-rand-modus) solid var(--vm-linie);
@@ -2564,18 +2570,6 @@
     .topbar.tb-eng-1 .tb-pw-hinweis { padding-left: 6px; padding-right: 6px; }
     .topbar.tb-eng-1 .tb-save-knopf .tb-save-knopf-text { display: none; }
     .topbar.tb-eng-1 .tb-save-knopf { min-width: 44px; justify-content: center; padding: 0; }
-    /* „Die Topbar läuft auf kleinen Telefonen über" (13.08.2026): der Sub-Kontext-
-       Hinweis (Farbpunkt + „Geöffnet: <Name>") trug bislang KEINE Eng-Stufe — bei einem
-       längeren Namen lief die Topbar im Sub-Modus weit über (98px bei 320px, gemessen), auch
-       nach der Reparatur des unbenannten Falls. Derselbe Griff wie bei der Aktions-Pille: der
-       Farbpunkt bleibt (Tap-Ziel-Größe unverändert, kein Button), nur der Namenstext weicht —
-       aria-label am Container trägt den vollen Text weiterhin vor.
-       Fund 6 (GL 05.11.2026): bei 390 px fehlte so der Name ganz, im Kopf standen zwei gleiche Tonpunkte ohne Wort. Der Name bleibt
-       jetzt einzeilig stehen, nur „Geöffnet:“ entfällt, ein langer Name endet auf „…“. Probe: Browser-Spec zur Kopfzeile */
-    .topbar.tb-eng-1 .tb-sub-hinweis { flex-shrink: 1; min-width: 0; }
-    .topbar.tb-eng-1 .tb-sub-praefix { display: none; }
-    .topbar.tb-eng-1 #tb-sub-name { min-width: 0; max-width: 9em; overflow: hidden; text-overflow: ellipsis; }
-    .topbar.tb-eng-nur-punkt #tb-sub-name { display: none; }   /* nur ein Rest wie „So…“: nur der Tonpunkt (GL 05.11.2026) */
     /* Stufe 2 (zuletzt, nur sehr eng): Status-Pille gibt nach → Fragment via Ellipse, aber mit
        Lesbarkeits-FLOOR (kalibriert am LÄNGSTEN Namen „Depot unter Vollmacht", nicht „Mein Depot"):
        der Name fällt NIE auf „0 D…", sondern zeigt mind. „Depot u…". */
@@ -2597,7 +2591,6 @@
        der Status-Fragment-Griff daneben, nicht früher: die einzige verbleibende Sub-Anzeige in
        der Topbar, erst wenn wirklich nichts mehr reicht. Der Sub-Kontext bleibt über die
        Depot-Pille (Klick → Menü) und die Sidebar erreichbar, nicht nur hier. */
-    .topbar.tb-eng-2 .tb-sub-hinweis { min-width: 0; gap: 0; }   /* der Tonpunkt bleibt auch hier; nur der Name weicht (Menü-Knopf schrumpft nicht) */
     .topbar.tb-eng-2 .tb-menue { padding-left: var(--space-2); padding-right: var(--space-2); gap: var(--space-1); }
     .topbar.tb-eng-2 .tb-menue-wort { display: none; }   /* 320 px: das Symbol bleibt, das Wort entfällt (T-CROSS-11: Kopfleiste 32 px zu breit); ab 390 px steht „Menü“ (Zielbild 04) */
     /* In den Vollbild-Modi (Angehörigen) gibt es keine Sidebar → kein Hamburger. */

@@ -89,7 +89,8 @@ test('[Fehlerpfad 1/5] Entsiegeln mit falschem Passwort — Modal bleibt offen, 
   await page.fill('#sub-auf', SUB_PW);
   await page.click('#m-ok');
   await page.waitForSelector('#sub-auf', { state: 'detached' });
-  await expect(page.locator(`[data-betreten="${uuid}"]`), 'nach dem Fehlversuch öffnet das richtige Passwort trotzdem').toBeVisible();
+  // Seit 30.10.2026 führt das richtige Passwort selbst ins Depot hinein (UX-SUBDEPOT-RUECKWEG).
+  await expect(page.locator('html.sub-kontext'), 'nach dem Fehlversuch führt das richtige Passwort trotzdem hinein').toHaveCount(1);
 
   expect(fehler, 'kein Absturz im Fehlerpfad Entsiegeln mit falschem Passwort').toEqual([]);
 });

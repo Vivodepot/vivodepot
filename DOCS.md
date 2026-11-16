@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v1060.
+Erzeugt aus der veröffentlichten Fassung v1061.
 
 ---
 
@@ -84,11 +84,11 @@ Vorlage darin wie in der App.
 
 ## Zahlen
 
-- E2E: 1009 (gezählt, nicht ausgeführt) · Wächter-Register: 162
-- Schema-Version: 100 · SCHALEN_STAND: v1060 · Build-Version: v1.0
+- E2E: 1011 (gezählt, nicht ausgeführt) · Wächter-Register: 162
+- Schema-Version: 100 · SCHALEN_STAND: v1061 · Build-Version: v1.0
 - ADR-Register: 457 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-14, Fassung v1060. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-15, Fassung v1061. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -155,6 +155,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-14, Fassung v1060. Diese Zahlen v
 - `docs/modules/` — 18 Datei(en), auch in Unterordnern, siehe [`docs/modules/README.md`](docs/modules/README.md)
 - `docs/pruefregeln/` — 3 Datei(en)
 - `docs/rechtsraum-modul/` — 1 Datei(en)
+- `docs/release-notes/` — 1 Datei(en)
 - `docs/screenshots/` — 3 Datei(en)
 - `docs/security/` — 1 Datei(en)
 - `docs/situation-modul/` — 1 Datei(en)

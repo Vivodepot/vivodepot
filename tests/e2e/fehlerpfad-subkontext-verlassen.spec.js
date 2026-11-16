@@ -70,8 +70,8 @@ async function subDepotAnlegenUndBetreten(page) {
   await page.fill('#sub-auf', SUB_PW);
   await page.click('#m-ok');
   await page.waitForSelector('#sub-auf', { state: 'detached' });
-  await page.click(`[data-betreten="${uuid}"]`);
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+  // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+  await page.waitForSelector('html.sub-kontext', { state: 'attached' });
   return uuid;
 }
 
@@ -85,16 +85,14 @@ test('[Fehlerpfad 3/5·A] Sub-Kontext verlassen über die Depot-Pille ("Zurück 
   await subDepotAnlegenUndBetreten(page);
   await expect(page.locator('#vm-zurueck')).toBeVisible();
 
-  // ── DER ANDERE WEG: Depot-Pille → "Depot"-Liste (#tb-depot-menue-liste, flowDepotListe) →
-  // zweite Aktion "Zurück zu meinem Depot" ────────────────────────────────
+  // ── DER ANDERE WEG: Depot-Pille → erster Menüeintrag „Zurück zu meinem Depot" (#tb-depot-menue-zurueck).
+  // Bis 30.10.2026 hieß er hier „Mein Depot" und öffnete die Depot-Liste (flowDepotListe) mit dem Rückweg
+  // als zweiter Aktion; seit UX-SUBDEPOT-RUECKWEG führt er im Depot einer anderen Person selbst zurück. ──
   await page.click('#tb-depot-pille');
-  await page.waitForSelector('#tb-depot-menue-liste', { state: 'visible' });
-  await page.click('#tb-depot-menue-liste');
-  await page.waitForSelector('.depot-liste-eintrag.aktiv', { state: 'visible' });
-  // zweitAktion rendert als #m-zweit (ui.modal-Konvention, wie das Notfallblatt-Angebot in
-  // helpers.js) — NICHT der Banner-Knopf #vm-zurueck, der denselben Text trägt.
-  await page.click('#m-zweit');
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'detached', timeout: 10000 });
+  await page.waitForSelector('#tb-depot-menue-zurueck', { state: 'visible' });
+  await expect(page.locator('#tb-depot-menue-zurueck')).toHaveText('Zurück zu meinem Depot');
+  await page.click('#tb-depot-menue-zurueck');
+  await page.waitForSelector('html.sub-kontext', { state: 'detached', timeout: 10000 });
 
   const nach = await page.evaluate(() => ({
     imSubKontext: window.__vdOeffentlich.imSubKontext(),
@@ -102,7 +100,7 @@ test('[Fehlerpfad 3/5·A] Sub-Kontext verlassen über die Depot-Pille ("Zurück 
   }));
   expect(nach.imSubKontext, 'der zweite Aufrufer muss denselben Übergang wie #vm-zurueck vollständig durchführen').toBe(false);
   expect(nach.depotUUID, 'aktiverSubKontext muss zurückgesetzt sein').toBeNull();
-  await expect(page.locator('#vm-zurueck')).toHaveCount(0);
+  await expect(page.locator('#vm-zurueck')).toBeHidden();   // die Kontextzeile ist verborgen (Umbau 13.11.2026)
 
   expect(fehler, 'kein Absturz beim Verlassen über den anderen Weg').toEqual([]);
 });

@@ -18,6 +18,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+/* Stellen, deren Elemente zur Laufzeit aus dem Katalog kommen: gemessen werden nur die Aufrufe, dazu ein Hinweis. */
+const LAUFZEIT = ['renderSektor', 'renderSituation', 'renderContentInner'];
 const KERN = ['renderTopbar', 'renderSidebar', 'renderWizard', 'renderContentInner', 'renderSektor', 'renderSituation',
   'renderZusammenstellen', 'flowEinlesen', 'flowEinlesenZentral', 'flowZusammenstellungHerausgeben', 'flowHerausgebenZentral'];
 /* Eingebautes Fixture (ohne Datei, damit kein neuer Eintrag unter tests/fixtures entsteht). */
@@ -55,7 +57,7 @@ function koerperLesen(text, name) {
   return null;
 }
 
-function eintraegeLesen(koerper) {
+function eintraegeLesen(koerper, selbst) {
   const raus = [];
   const seen = new Set();
   const add = (art, kennung, beschriftung) => {
@@ -65,6 +67,10 @@ function eintraegeLesen(koerper) {
     raus.push({ art, kennung, beschriftung: beschriftung || '', neuer_platz: '', zustand: 'gemessen' });
   };
   for (const m of koerper.matchAll(/\b(flow[A-Za-z]+)\s*\(/g)) add('flow', m[1]);
+  /* Verteiler (renderContentInner) und Aufbauer (renderSektor) erzeugen ihre Elemente über andere Stellen: die
+     Aufrufe der render- und verdrahte-Funktionen sind die Einträge, die sich am Quelltext ablesen lassen. Felder und
+     Knöpfe aus dem Katalog entstehen erst zur Laufzeit; das misst dieses Werkzeug nicht (Befund steht im Bericht). */
+  for (const m of koerper.matchAll(/\b((?:render|verdrahte)[A-Za-z]+)\s*\(/g)) { if (m[1] !== selbst) add('aufruf', m[1]); }
   for (const m of koerper.matchAll(/<button\b[^>]*?\bid="([^"]+)"[^>]*>([^<]*)</g)) add('knopf', m[1], m[2].trim());
   for (const m of koerper.matchAll(/<(?:input|select|textarea)\b[^>]*?\bid="([^"]+)"/g)) add('feld', m[1]);
   for (const m of koerper.matchAll(/class="[^"]*\bmenu[^"]*"[^>]*?\bid="([^"]+)"[^>]*>([^<]*)</g)) add('menue', m[1], m[2].trim());
@@ -75,8 +81,9 @@ function eintraegeLesen(koerper) {
 function messeStelle(text, name) {
   const k = koerperLesen(text, name);
   if (!k) throw new Error('Stelle nicht gefunden im Quelltext: ' + name);
-  const eintraege = eintraegeLesen(k.koerper);
-  const hinweis = eintraege.length ? undefined : 'keine Muster gefunden: die Stelle erzeugt ihre Elemente über Hilfsfunktionen oder Vorlagen; Messung unvollständig';
+  const eintraege = eintraegeLesen(k.koerper, name);
+  const hinweis = !eintraege.length ? 'keine Muster gefunden: die Stelle erzeugt ihre Elemente über Hilfsfunktionen oder Vorlagen; Messung unvollständig'
+    : (LAUFZEIT.includes(name) ? 'Felder und Knöpfe aus dem Katalog entstehen zur Laufzeit; gemessen sind nur die Aufrufe' : undefined);
   return { stelle: name, fundort_alt: String(k.zeile), eintraege, ...(hinweis ? { hinweis } : {}) };
 }
 

@@ -34,8 +34,8 @@ async function subKontextPerUiBetreten(page, { vorname, pw }) {
   await page.fill('#sub-auf', pw);
   await page.click('#m-ok');
   await page.waitForSelector('#sub-auf', { state: 'detached' });
-  await page.click(`[data-betreten="${uuid}"]`);
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });   // echter Kontextwechsel steht
+  // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+  await page.waitForSelector('html.sub-kontext', { state: 'attached' });   // echter Kontextwechsel steht
   return uuid;
 }
 
@@ -48,6 +48,10 @@ test('[Depot-Liste·Sub-Kontext] zeigt Sophies Depot als aktiv, NICHT „Mein De
   // aber jetzt kontextrichtig.
   await page.click('#tb-depot-pille');
   await page.waitForSelector('#tb-depot-menue-liste', { state: 'visible' });
+  // Umbau U-2 (UX-SUBDEPOT-RUECKWEG): im Depot einer anderen Person ist der Rückweg der erste Eintrag im Menü des Wechslers.
+  await expect(page.locator('#tb-depot-name')).toHaveText('Sophie');
+  await expect(page.locator('#tb-depot-menue [role=menuitem]').first()).toHaveText('Zurück zu meinem Depot');
+  await expect(page.locator('#tb-depot-menue-zurueck')).toBeVisible();
   await page.click('#tb-depot-menue-liste');
   await expect(page.locator('#modal-titel')).toHaveText('Depot');
 
@@ -67,5 +71,5 @@ test('[Depot-Liste·Sub-Kontext] zeigt Sophies Depot als aktiv, NICHT „Mein De
 
   // Der Kontextwechsel ist real — nicht nur der Dialog schließt, der Sub-Kontext ist tatsächlich
   // verlassen (Schieferblau-Klasse fällt weg, wie beim bestehenden #vm-zurueck-Weg).
-  await expect(page.locator('#app')).not.toHaveClass(/modus-vollmacht/);
+  await expect(page.locator('html')).not.toHaveClass(/sub-kontext/);
 });

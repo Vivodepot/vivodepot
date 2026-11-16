@@ -71,32 +71,30 @@ test('aktiverSubName liefert Inhaberin im Sub-Kontext, leer am Anker', async () 
 
 /* ── UI (Schnitt 1.1/1.2): Pille-Label + Dauer-Banner ─────────────────────── */
 
-test('Pille zeigt IMMER „Mein Depot" (Palettentausch Zug 2); der Sub-Hinweis daneben zeigt „Geöffnet: [Name]"', async () => {
+test('Pille nennt im Sub-Kontext die Person (Umbau 13.11.2026), im eigenen Depot „Mein Depot"; der Hinweis „Geöffnet: [Name]" ist durch die Kontextzeile ersetzt', async () => {
   const { V, document, e } = await ankerMitSub();
   V.subKontextBetreten(e.depotUUID);
-  assert.equal(document.getElementById('tb-depot-name').textContent, 'Mein Depot', 'Pille bleibt unverändert — die Kopfzeile ist der Anker-Rahmen');
-  assert.equal(document.getElementById('tb-sub-hinweis').hidden, false, 'Sub-Hinweis sichtbar im Sub-Kontext');
-  // Fund 6 (05.11.2026): „Geöffnet:“ steht in einer eigenen Spanne, die eng entfällt; der Name steht allein, das aria-label trägt beides.
-  assert.equal(document.getElementById('tb-sub-praefix').textContent + document.getElementById('tb-sub-name').textContent, 'Geöffnet: Oma Erna');
-  assert.equal(document.getElementById('tb-sub-name').textContent, 'Oma Erna');
+  assert.equal(document.getElementById('tb-depot-name').textContent, 'Oma Erna', 'Pille nennt die Person');
+  assert.equal(document.getElementById('tb-sub-hinweis'), null, 'kein zweiter Hinweis neben der Pille: die Kontextzeile trägt den Namen, das Markup gibt es nicht mehr');
+  /* Der Rückweg-Eintrag im Wechsler-Menü braucht das echte Menü; ihn prüft die Browser-Probe tests/e2e/sub-depot-kopfzeile-schmal.spec.js und der Weg in tests/fixtures/umbau-verzeichnis-kopfleiste.json. */
   await V.subKontextVerlassen();
   assert.equal(document.getElementById('tb-depot-name').textContent, 'Mein Depot');
-  assert.equal(document.getElementById('tb-sub-hinweis').hidden, true, 'Sub-Hinweis verschwindet am Anker');
 });
 
-test('Vollmacht-Banner sitzt über dem Inhalt im Sub-Kontext und verschwindet beim Verlassen', async () => {
+test('Kontextzeile unter der Kopfzeile trägt Namen und Rückweg im Sub-Kontext und ist beim Verlassen leer und versteckt', async () => {
   const { V, document, e } = await ankerMitSub();
   V.subKontextBetreten(e.depotUUID);
+  const zeile = document.getElementById('sub-kontextzeile');
+  assert.equal(zeile.hidden, false, 'Kontextzeile sichtbar');
+  assert.ok(document.getElementById('sub-kontext-text').textContent.includes('Oma Erna'), 'Name in der Kontextzeile');
+  assert.ok(document.getElementById('vm-zurueck'), 'Rückweg-Knopf');
+  // Der Inhalt bleibt unberührt: kein Banner mehr im Inhalt, der Sektor-Inhalt steht allein.
   const html = document.getElementById('content').innerHTML;
-  assert.ok(html.includes('vollmacht-banner'), 'Banner im Inhalt');
-  assert.ok(html.includes('Oma Erna'), 'Name im Banner');
-  assert.ok(html.includes('id="vm-zurueck"'), 'Rückweg-Knopf');
-  // Regression: der Banner wird PREPENDED (insertAdjacentHTML), er ersetzt den Inhalt NICHT —
-  // sonst gingen im Browser alle verdrahteten Klick-Handler (Bearbeiten/Fertig) verloren.
-  assert.ok(html.includes('bereich-kopf'), 'Sektor-Inhalt bleibt neben dem Banner erhalten');
-  assert.ok(V.vollmachtBannerHTML().includes('Oma Erna'), 'vollmachtBannerHTML trägt den Namen');
+  assert.ok(!html.includes('vollmacht-banner'), 'kein Banner mehr im Inhalt');
+  assert.ok(html.includes('bereich-kopf'), 'Sektor-Inhalt bleibt erhalten');
   await V.subKontextVerlassen();
-  assert.ok(!document.getElementById('content').innerHTML.includes('vollmacht-banner'), 'Banner weg am Anker');
+  assert.equal(zeile.hidden, true, 'Kontextzeile weg am Anker');
+  assert.equal(document.getElementById('sub-kontext-text').textContent, '', 'kein Name als Spur');
 });
 
 /* ── Bearbeiten im Sub-Kontext (Bugfix): Akteur „unter-vollmacht" automatisch ── */

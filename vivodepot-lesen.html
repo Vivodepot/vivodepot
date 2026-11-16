@@ -20,7 +20,7 @@
   <!-- frame-ancestors 'none' WIRKT NICHT (Nachtrag 18.09.2026, gemessen) — s. denselben Vermerk
        im Kern (vivodepot.html, an derselben CSP-Zeile) und tests/d43-etappe6-csp.test.js. -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-LAu7nZn2HONrT2wbrCy10gsxp5rPvQW0ATfKdDCwNp0=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-H1MEKwxzXGzIQbtzOg2T0QhhEElrJcpA7VK1qZsjGtA='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
+        content="default-src 'none'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-LAu7nZn2HONrT2wbrCy10gsxp5rPvQW0ATfKdDCwNp0=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-RLzP7Ef6J+PseQ4TkguJz6SRPDU5xpCKtKnPF5pHQ1M='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -2549,7 +2549,7 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:cb8b8da4abaa8dca4639eb06fbc6533f1b5ed620fa941ad28ce88e9ea5147761",
   "sha256:ceb89d099b169a98f797046a5622056acde936288a26742d7f68c9760b193622",
   "sha256:cf1df31b293f8c2053b9b42f9faee0d8c86a3c71bb4e86221405febc78d183b2",
-  "sha256:d20c9d373ac0f71f56f08cf5cd36179008b5c128a280b679bdd0d145d60d48ed",
+  "sha256:d3a54da88a433998dac72e38271fd88ef37b55e14296ebac949710e81a1378f2",
   "sha256:dc9dc446122be2193915866cbacf8c4d4b7aaa0d395a316275d7a6a54c1fff94",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
@@ -2614,7 +2614,9 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:2ed991a1f8cb66ff4c1d8fc0ac701598c78d3496f0fa92d4dfa0549ab82300fd",
   "sha256:2ffa1fee03cdb283b3d1634245b018132736607e2866d87bee7e7b9334320f94",
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
+  "sha256:30f0ec13c800461bd86ac78c9c62fc4c8a606b6a13c3b09810f00c457b92acd0",
   "sha256:32895d90e7e48d2f263858f9f5481996e35ff25dd033eb987818eee7120aeecc",
+  "sha256:32f54ea0c25858b321b3f18230ed957f47a2316d86c9827bf80921e5c48b3655",
   "sha256:334d2de2ac42ed5d410d226d0560af85d81e1c84c7ccfab9b8234ed7429949c2",
   "sha256:3366e7bd707b2fcc8f731d6d09fe373bedf261423696288789334fe5a014ba6d",
   "sha256:33dc52e9bf9051dff339b805f824ab30637ea79a303c3a5f5fdd2800b48bc21b",
@@ -2635,6 +2637,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:40d6640ae3ec9c3a888198497cbb073868cbc58c4abf75bc8b4a02c0833056e2",
   "sha256:40e63823efbdc60a36623281dd79c87de245e94ffc9f94c9eb5d35a11444bfe7",
   "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
+  "sha256:41cbca8339f3b44cb50cebd9f84835835a48cfd457827be9fd30f7779b436d09",
   "sha256:421a8ffeba3cf7b72c553cd1c7406c18f00566f6f59fa93187953b2baba2445b",
   "sha256:4222f38226c7b78ffb6ce20db9dd31cefe2d971e462d95526e6015195a77092f",
   "sha256:4308672df53e5658a326398cf18bdc0ee5c462e562232ff409074ce9f0df4a71",
@@ -2748,9 +2751,11 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:95ec50c9f948594082effa342c12f8c7053729bcfb110d78c6b4b7508cc70f4f",
   "sha256:95f9fd001c75c073b1c5ef63989987f3f988180bf5fab60d638ce3affa03a760",
   "sha256:96753ae4cad7c8fc6fb9bc9c720a4f5d95c2d13b2883c972199a2dc0a7ff4ba8",
+  "sha256:96f968dbe4f45737bef2a09003e1a36a413586c2f4f44c3beea6a00ef9547db3",
   "sha256:97789b5f126e243b09878ee5be9eda8dabe46f66d1b7c266f10486721fd2b120",
   "sha256:97842512e54c8535c1b3eebdf59fffe02457a9f0b33c6f462b322d7c266b129f",
   "sha256:9838c525bee83bef5d630269c2764a23fc57dbbcc3b375877fde0c94f5ded89d",
+  "sha256:9847ed00cb1d67e2f7208a4562bfbb50ed86a475c1f1e7d82fee6dcb11873e13",
   "sha256:986a70306763735576994ec9878dc0de545b1ea53bff13ab855a3eb6c60aef88",
   "sha256:989af3cd946d56af72c88fc1367c814310cb49b88b5d0a17fa3eb44041ebf8cc",
   "sha256:98df1da45043df597a335ee31c17c91e082871a18baed7fc22ab56a8dc798459",
@@ -2823,6 +2828,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:cff28428329d491918eebef0323034a605c8cd8d1a017865d0bf327ac3494a7f",
   "sha256:d00dbad645e2a31f6caceef876dc191c6d106a51ee00e8461932eec085fb81d5",
   "sha256:d03c8abb578c20c2594035c757be8176f4193fe7a7d2d0d2820a0991dd350464",
+  "sha256:d20c9d373ac0f71f56f08cf5cd36179008b5c128a280b679bdd0d145d60d48ed",
   "sha256:d42fa3924e205e777486ada3ee78c1671309b81ab64136ef961f962659f46baa",
   "sha256:d98aaf825628de15b59a02d83b44720c25cbf2bfd9a238fa684c5a39f81bccd8",
   "sha256:d9fb94d3337cf033dee1b1076d0a700b690f9ac898e72b3e04970a19dd001ea6",
@@ -2839,6 +2845,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:e52b2c57c2ed1cd9eb7c87d5b1d63e4105672be467f2f273579f189441c43896",
   "sha256:e5458f9a32855890b81d967ebc0a9b6e56555c88f7c3c2a889f261ed57f5cecd",
   "sha256:e596185de7a86c633ba83a0aa9d7d473d6c8437f63ba963561739b133fe64689",
+  "sha256:e6476dbf324e110581eb33c68cc3e86beb5188db6ec7c06bd5f13b2e5832f660",
   "sha256:e7ac4b0150ee13955fb75c14c58b4a545525ccf378fc1dd81ee1d3c02f013268",
   "sha256:e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
   "sha256:e8af4c9308a1cc2b3018c66b914b8f7f598007d557016bb10037ebec2fa2837c",

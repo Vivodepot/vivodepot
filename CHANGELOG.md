@@ -19,6 +19,12 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
+## [v1.0.1061] – 2026-11-15
+
+### Geändert
+- Sub-Depot: Welches Depot geöffnet ist, sehen Sie am Namen oben in der Kopfleiste. In einem Sub-Depot führt
+  „Zurück zu meinem Depot“ im Depot-Menü in Ihr eigenes Depot.
+
 ## [v1.0.1060] – 2026-11-14
 
 ### Hinzugefügt

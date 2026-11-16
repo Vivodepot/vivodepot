@@ -165,8 +165,8 @@ test('[U2-ADR-184] dasselbe gilt im Sub-Kontext — Anker-Marken UND Sub-Marken 
   await page.fill('#sub-auf', subPw);
   await page.click('#m-ok');
   await page.waitForSelector('#sub-auf', { state: 'detached' });
-  await page.click(`[data-betreten="${uuid}"]`);
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+  // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+  await page.waitForSelector('html.sub-kontext', { state: 'attached' });
 
   // Im Sub-Kontext: eine markierte Telefonnummer INS SUB-DEPOT eintragen — data zeigt jetzt auf
   // den Sub-Inhalt, _ankerData haelt den Anker mit dem Anker-Vornamen im Hintergrund.
@@ -196,7 +196,7 @@ test('[U2-ADR-184] dasselbe gilt im Sub-Kontext — Anker-Marken UND Sub-Marken 
   // (depotAnlegen), der Sperrschirm ersetzt den Erstbesucher-Schirm.
   await expect(page.locator('#co-pw')).toBeVisible();
   await expect(page.locator('#w-anlegen')).not.toBeVisible();
-  await expect(page.locator('#app')).not.toHaveClass(/modus-vollmacht/);
+  await expect(page.locator('html')).not.toHaveClass(/sub-kontext/);
 });
 
 // (01.09.2026, während der U2-ADR-184-Verifikation): zweiter Aufrufer derselben

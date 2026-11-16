@@ -190,8 +190,8 @@ test.describe('T-CROSS-15 Der durchgehende Weg der Bürgerin', () => {
     await a.fill('#sub-auf', FIX.subPasswort);
     await a.click('#m-ok');
     await a.waitForSelector('#sub-auf', { state: 'detached' });
-    await a.click(`[data-betreten="${uuid}"]`);
-    await a.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+    // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+    await a.waitForSelector('html.sub-kontext', { state: 'attached' });
 
     /* T2 + T3 — die zwei Testhaken, je mit Grund im Kopf dieser Datei. */
     const blackbox = await a.evaluate(async ({ subDaten, uuid }) => {

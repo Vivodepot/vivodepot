@@ -72,7 +72,7 @@ test('subDepotAnlegen schreibt akzent (Default ton; gewählt: kiesel; alter Name
   assert.equal(e3.akzent, 'malve', 'ein alter Name wird beim Anlegen auf den Palettenton abgebildet gespeichert');
 });
 
-test('Betreten setzt --vm-chrome auf den Akzent; Verlassen entfernt Override', async () => {
+test('Betreten setzt --person auf den Akzent, die Oberfläche (--vm-chrome) bleibt Salbei; Verlassen entfernt --person', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.betreteApp();
@@ -80,15 +80,17 @@ test('Betreten setzt --vm-chrome auf den Akzent; Verlassen entfernt Override', a
   await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
   V.subKontextBetreten(e.depotUUID);
   const style = document.documentElement.style;
-  assert.equal(style.getPropertyValue('--vm-chrome'), 'var(--ton)', 'Chrome auf Ton');
-  assert.equal(style.getPropertyValue('--vm-chrome-mid'), 'color-mix(in srgb, var(--ton) 82%, white)', 'mid abgeleitet');
-  assert.equal(style.getPropertyValue('--vm-chrome-tief'), 'color-mix(in srgb, var(--ton) 80%, black)', 'tief abgeleitet');
+  assert.equal(style.getPropertyValue('--person'), 'var(--ton)', 'Person auf Ton');
+  assert.equal(style.getPropertyValue('--person-text'), 'var(--ton-text)', 'Text auf der Personenfarbe');
+  assert.equal(style.getPropertyValue('--person-linie'), 'var(--ton-linie)', 'Linie in der Personenfarbe');
+  assert.equal(style.getPropertyValue('--vm-chrome'), '', 'keine Umfärbung der Oberfläche (Umbau 13.11.2026)');
+  assert.equal(style.getPropertyValue('--vm-chrome-tief'), '', 'keine Umfärbung der Oberfläche');
   await V.subKontextVerlassen();
-  assert.equal(style.getPropertyValue('--vm-chrome'), '', 'Override entfernt → :root-Fallback (Salbei-dunkel)');
-  assert.equal(style.getPropertyValue('--vm-chrome-tief'), '', 'tief-Override entfernt');
+  assert.equal(style.getPropertyValue('--person'), '', 'Person entfernt');
+  assert.equal(style.getPropertyValue('--person-linie'), '', 'Linie entfernt');
 });
 
-test('Jede der acht Farben setzt beim Betreten einen echten Override (Zug 3 — keine Ausnahme mehr)', async () => {
+test('Jede der acht Farben setzt beim Betreten --person (keine Ausnahme), nie --vm-chrome', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.betreteApp();
@@ -96,7 +98,8 @@ test('Jede der acht Farben setzt beim Betreten einen echten Override (Zug 3 — 
     const e = await V.subDepotAnlegen({ bezeichnung: tok, inhaberin: 'K', verwaltungsTyp: 'verwaltet', akzent: tok }, PW);
     await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
     V.subKontextBetreten(e.depotUUID);
-    assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--' + tok + ')', tok + ': echter Override');
+    assert.equal(document.documentElement.style.getPropertyValue('--person'), 'var(--' + tok + ')', tok + ': Personenfarbe');
+    assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), '', tok + ': Oberfläche bleibt Salbei');
     await V.subKontextVerlassen();
   }
 });
@@ -108,9 +111,9 @@ test('entferneSubDepotAkzentOverride ist der einzige farbfreie Weg zurück (Zug 
   const e = await V.subDepotAnlegen({ bezeichnung: 'B', inhaberin: 'J', verwaltungsTyp: 'verwaltet', akzent: 'kiesel' }, PW);
   await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
   V.subKontextBetreten(e.depotUUID);
-  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--kiesel)');
+  assert.equal(document.documentElement.style.getPropertyValue('--person'), 'var(--kiesel)');
   V.entferneSubDepotAkzentOverride();
-  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), '', 'Override vollständig entfernt');
+  assert.equal(document.documentElement.style.getPropertyValue('--person'), '', 'Override vollständig entfernt');
   assert.equal(document.documentElement.style.getPropertyValue('--vm-akzent-stark'), '');
 });
 
@@ -123,7 +126,7 @@ test('Bestands-Sub-Depot OHNE akzent fällt beim Betreten auf Ton (Read-time-Fal
   delete e.akzent;   // simuliert ein vor Commit B angelegtes Sub-Depot ohne Feld
   await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
   V.subKontextBetreten(e.depotUUID);
-  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--ton)', 'Fallback Ton (seit 09.10.2026: erster Ton der neuen Palette) → echter Override, kein Default-Nichts');
+  assert.equal(document.documentElement.style.getPropertyValue('--person'), 'var(--ton)', 'Fallback Ton (seit 09.10.2026: erster Ton der neuen Palette) → echte Personenfarbe, kein Default-Nichts');
 });
 
 test('akzent liegt in Klartext-Metadaten, NICHT im verschlüsselten Umschlag', async () => {
@@ -214,18 +217,14 @@ test('[White-Label] subDepotAkzentStark: ein freier Hex wird zur LAUFZEIT bis AA
   assert.equal(V.subDepotAkzentStark(schonDunkel), schonDunkel, 'ein bereits AA-tauglicher Wert wird nicht angerührt');
 });
 
-test('[White-Label] subDepotAkzentLinie/subDepotAkzentPapierLinie: freier Hex erreicht ≥3:1 gegen Weiß bzw. Papier', () => {
+test('[White-Label] subDepotAkzentLinie: freier Hex erreicht ≥3:1 gegen Weiß', () => {
   const { V } = ladeKern();
   const hell = '#a8c8f0';
   const linie = V.subDepotAkzentLinie(hell);
   assert.match(linie, /^#[0-9a-f]{6}$/);
   assert.ok(V._brandingKontrastVerhaeltnisHex(linie, '#ffffff') >= 3.0, linie + ' gegen Weiß hält 3:1');
-  const papierLinie = V.subDepotAkzentPapierLinie(hell);
-  assert.match(papierLinie, /^#[0-9a-f]{6}$/);
-  assert.ok(V._brandingKontrastVerhaeltnisHex(papierLinie, '#fdfbf7') >= 3.0, papierLinie + ' gegen Papier hält 3:1');
   // Positivkontrolle: die acht benannten Farben bleiben beim var()-Nachschlagewerk.
   assert.equal(V.subDepotAkzentLinie('ton'), 'var(--ton-linie)');
-  assert.equal(V.subDepotAkzentPapierLinie('ton'), 'var(--ton-papier-linie)');
 });
 
 test('[White-Label] setzeSubDepotAkzent mit freiem Hex setzt literale Werte, kein var(--#…)', async () => {
@@ -236,13 +235,11 @@ test('[White-Label] setzeSubDepotAkzent mit freiem Hex setzt literale Werte, kei
   await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
   V.subKontextBetreten(e.depotUUID);
   const style = document.documentElement.style;
-  assert.equal(style.getPropertyValue('--vm-chrome'), '#334477');
-  assert.doesNotMatch(style.getPropertyValue('--vm-chrome-text'), /var\(--#/, 'kein var(--#…) — ungültige Custom-Property');
-  assert.match(style.getPropertyValue('--vm-chrome-text'), /^#[0-9a-f]{6}$/);
-  assert.match(style.getPropertyValue('--vm-akzent-stark'), /^#[0-9a-f]{6}$/);
-  assert.match(style.getPropertyValue('--vm-linie'), /^#[0-9a-f]{6}$/);
-  assert.match(style.getPropertyValue('--akzent-papier'), /^#[0-9a-f]{6}$/);
-  assert.equal(style.getPropertyValue('--vm-chrome-mid'), 'color-mix(in srgb, #334477 82%, white)');
+  assert.equal(style.getPropertyValue('--person'), '#334477');
+  assert.doesNotMatch(style.getPropertyValue('--person-text'), /var\(--#/, 'kein var(--#…) — ungültige Custom-Property');
+  assert.match(style.getPropertyValue('--person-text'), /^#[0-9a-f]{6}$/);
+  assert.match(style.getPropertyValue('--person-linie'), /^#[0-9a-f]{6}$/);
+  assert.equal(style.getPropertyValue('--vm-chrome'), '', 'auch ein freier Hex färbt die Oberfläche nicht um');
 });
 
 test('[White-Label·Rot-Beweis] ein Wert, der wie eine Farbe aussieht, es aber nicht ist, kommt nirgends als literale Farbe an', async () => {
@@ -254,5 +251,5 @@ test('[White-Label·Rot-Beweis] ein Wert, der wie eine Farbe aussieht, es aber n
   assert.equal(e.akzent, 'ton', 'ungültige Form fällt auf ton, kein Schmuggelweg über akzent');
   await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
   V.subKontextBetreten(e.depotUUID);
-  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--ton)');
+  assert.equal(document.documentElement.style.getPropertyValue('--person'), 'var(--ton)');
 });

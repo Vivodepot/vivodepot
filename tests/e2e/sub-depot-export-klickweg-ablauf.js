@@ -56,8 +56,8 @@ async function subDepotBetreten(page, uuid) {
   await page.fill('#sub-auf', SUB_PW);
   await page.click('#m-ok');
   await page.waitForSelector('#sub-auf', { state: 'detached' });
-  await page.click(`[data-betreten="${uuid}"]`);
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+  // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+  await page.waitForSelector('html.sub-kontext', { state: 'attached' });
 }
 
 /** Der Klickweg: Karte → Dialog → Primärknopf → Datei. Liefert den Pfad der heruntergeladenen Datei. */

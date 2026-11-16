@@ -6,12 +6,12 @@
 const { test, expect } = require('@playwright/test');
 const { oeffneApp, depotAnlegen, setzeModus } = require('./helpers');
 
-test('Vollmacht-Modus setzt die Modus-Klasse; zurück zum Anker entfernt sie', async ({ page }) => {
+test('Vollmacht-Modus färbt die Fläche nicht um (keine Modus-Klasse am #app); zurück zum Anker ebenso', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
   await setzeModus(page, 'vollmacht');
-  await expect(page.locator('#app')).toHaveClass(/modus-vollmacht/);
+  await expect(page.locator('#app')).not.toHaveClass(/modus-vollmacht/);   // Umbau 13.11.2026: keine Flächenfärbung mehr
 
   await setzeModus(page, 'anker');
   await expect(page.locator('#app')).not.toHaveClass(/modus-vollmacht/);

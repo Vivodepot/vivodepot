@@ -123,7 +123,6 @@ test('[Schritt 6·Ende-zu-Ende] eine gültige, gebackene Partner-Palette wird ak
     assert.doesNotMatch(V.subDepotTextFarbe('pfirsich'), /var\(/);
     assert.match(V.subDepotAkzentStark('pfirsich'), /^#[0-9a-f]{6}$/i, 'Text ALS Akzent: verdunkelt bis AA, kein color-mix(var(--pfirsich)…)');
     assert.match(V.subDepotAkzentLinie('pfirsich'), /^#[0-9a-f]{6}$/i, 'Randlinie: verdunkelt bis AA, keine var(--pfirsich-linie)');
-    assert.match(V.subDepotAkzentPapierLinie('pfirsich'), /^#[0-9a-f]{6}$/i, 'Papier-Randlinie: verdunkelt bis AA, keine var(--pfirsich-papier-linie)');
     assert.equal(V._subDepotAkzentHexAufgeloest('pfirsich'), GUELTIGE_PARTNER_PALETTE.pfirsich, 'PDF-Pfad muss denselben Partner-Hex liefern, nicht den Haus-Ton');
     // Ein Bestandsdepot mit altem Namen (hafer → pfirsich in der Anzeige) bekommt denselben Partner-Ton.
     assert.equal(V.subDepotAkzentFarbe('hafer'), GUELTIGE_PARTNER_PALETTE.pfirsich, 'hafer wird als pfirsich angezeigt, auch mit Partner-Palette');

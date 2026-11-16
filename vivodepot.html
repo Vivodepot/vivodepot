@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <!--
-  Vivodepot — Fassung v1.0.1060. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
+  Vivodepot — Fassung v1.0.1061. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
   SPDX-License-Identifier: EUPL-1.2
   Copyright (c) 2026 Vivodepot GmbH, Berlin.
 
@@ -32,7 +32,7 @@
      Header) könnte sie je durchsetzen. Bleibt stehen, falls künftig ein Header-setzender Weg
      dazukommt; s. tests/d43-etappe6-csp.test.js für die Probe, die das festhält. -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-BgtqUFjnvtBneQTRCkb+qCyhTx6KPNb50YOMT8pmmHA=' 'sha256-NrnYGqW98bVaNv578MlwDJFzPnoPL/IJQiGRN2RVkFo=' 'sha256-RHzPusAXF3f5wlE7ivqVAI5fvPdWeTMxq/uMwXBYU4g=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-vyhqMPO9EkW2KPQTFnZq67AKOhXx1afuNvhZtX89kGY=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-fHMPWuFrETtFgwS3SLv0xAHsZ/aFPDC2hFUCG8aXGQs=' 'sha256-rPv5v5rWPoUaj0SNydo35LrX/n7vTKmlxmtYpSiMW2I=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-i0cnaQ60zsiPcXdVPxVbdmqyWQY8Y3gSQrpirOryCKQ='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; connect-src 'none'; worker-src 'self'; manifest-src 'self' data:; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
+      content="default-src 'none'; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-BgtqUFjnvtBneQTRCkb+qCyhTx6KPNb50YOMT8pmmHA=' 'sha256-NrnYGqW98bVaNv578MlwDJFzPnoPL/IJQiGRN2RVkFo=' 'sha256-RHzPusAXF3f5wlE7ivqVAI5fvPdWeTMxq/uMwXBYU4g=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-i4HN1JFrxP9IxeJlwOoa3gkd24HjR7lwsxXc86dj8UY=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-fHMPWuFrETtFgwS3SLv0xAHsZ/aFPDC2hFUCG8aXGQs=' 'sha256-rPv5v5rWPoUaj0SNydo35LrX/n7vTKmlxmtYpSiMW2I=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-i0cnaQ60zsiPcXdVPxVbdmqyWQY8Y3gSQrpirOryCKQ='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; connect-src 'none'; worker-src 'self'; manifest-src 'self' data:; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -899,8 +899,6 @@ if (typeof document !== 'undefined' && erscheinungsbildAnwenden(ERSCHEINUNGSBILD
   .depot-menue { display: flex; }
   .depot-menue[hidden] { display: none; }
   .depot-menue-eintrag { display: flex; }
-  .tb-sub-hinweis { display: inline-flex; }
-  .tb-sub-hinweis[hidden] { display: none; }
   .depot-liste-eintrag { display: flex; }
   .modus-badge { display: inline-flex; }
   .sidebar .nav-gruppe > summary { display: flex; }
@@ -928,6 +926,9 @@ if (typeof document !== 'undefined' && erscheinungsbildAnwenden(ERSCHEINUNGSBILD
   .sw-update-banner[hidden] { display: none; }
   .wiedereinstieg-banner { display: flex; }
   .wiedereinstieg-banner[hidden] { display: none; }
+  .sub-kontextzeile { display: flex; }
+  .sub-kontextzeile[hidden] { display: none; }
+  .sub-kontext-kreis { display: inline-flex; }
   .vollmacht-banner { display: flex; }
   .vorschau-banner { display: flex; }
   .vorschau-banner-text { display: inline-flex; }
@@ -1086,8 +1087,6 @@ if (typeof document !== 'undefined' && erscheinungsbildAnwenden(ERSCHEINUNGSBILD
     .topbar.tb-eng-1 .tb-pw-hinweis .ico { display: none; }
     .topbar.tb-eng-1 .tb-pw-hinweis .tb-pw-cta-kurz { display: inline; }
     .topbar.tb-eng-1 .tb-save-knopf .tb-save-knopf-text { display: none; }
-    .topbar.tb-eng-1 .tb-sub-praefix { display: none; }
-    .topbar.tb-eng-nur-punkt #tb-sub-name { display: none; }
     .topbar.tb-eng-2 .tb-menue-wort { display: none; }
     .menue-backdrop { display: block; }
   }
@@ -2069,12 +2068,6 @@ html.vm-akzent .toast.warn, html.vm-akzent .toast.warnung { background: var(--wa
         <button type="button" class="depot-menue-eintrag" id="tb-depot-menue-sicherungskopie" role="menuitem"></button>
       </div>
     </div>
-    <!-- Palettentausch Zug 2 (04.08.2026): sichtbar NUR im Sub-Kontext — Farbpunkt in der
-         Akzentfarbe des eingehängten Depots + Name, NEBEN der Depot-Pille (die weiterhin „Mein
-         Depot" zeigt). Gefüllt/ein- und ausgeblendet von renderTopbar(). -->
-    <span class="tb-sub-hinweis" id="tb-sub-hinweis" hidden>
-      <span class="tb-sub-punkt" aria-hidden="true"></span><span class="tb-sub-praefix" id="tb-sub-praefix"></span><span id="tb-sub-name"></span>
-    </span>
     <!-- D1 (Strang 2 / Commit B): persistenter Hinweis solange passwortlos (Vorschau). Gefüllt/ein-
          und ausgeblendet von renderTopbar(); Klick → flowDepotAnlegen. -->
     <button type="button" class="tb-pw-hinweis" id="tb-pw-hinweis" data-anlegen-weg data-schutz hidden>
@@ -2114,6 +2107,13 @@ html.vm-akzent .toast.warn, html.vm-akzent .toast.warnung { background: var(--wa
          #tb-save-status/#tb-save-knopf (renderSaveStatus). Im passwortlosen Vorschau-
          Zustand übernimmt #tb-pw-hinweis das Onboarding (→ flowDepotAnlegen). -->
   </header>
+  <!-- Umbau nach dem Desktop-Dummy (13.11.2026): im Sub-Depot sagt diese Zeile unter der Kopfzeile, wessen Depot offen ist.
+       Gefüllt/ein- und ausgeblendet von renderTopbar(); die Oberfläche bleibt Salbei, die Person zeigt sich nur über `--person*`. -->
+  <div class="sub-kontextzeile" id="sub-kontextzeile" hidden>
+    <span class="sub-kontext-kreis" id="sub-kontext-kreis" aria-hidden="true"></span>
+    <span class="sub-kontext-text" id="sub-kontext-text"></span>
+    <button type="button" class="btn" id="vm-zurueck"></button>
+  </div>
   <nav class="sidebar" id="sidebar"><!-- gefüllt von renderSidebar() --></nav>
   <div class="menue-backdrop" id="menue-backdrop" aria-hidden="true"></div>
   <!-- U2-ADR-174 Teilprojekt 2, Task 3: mobile Bottom-Tab-Leiste, vier Hauptaktionen.
@@ -2799,7 +2799,7 @@ const APP_VERSION = 1;
 // aus, zeigt der Fuß-Stempel den ALTEN Stand — der SW-Cache-Stale-Fehler wird in einer Sekunde
 // sichtbar (mehrfach am 12./13.07. aufgetreten). Zusammen mit dem live gelesenen SW-Cache-Namen
 // beantwortet der Stempel: welche Bytes sind geladen (SCHALEN_STAND) und was hält der SW (SW-Cache).
-const SCHALEN_STAND = 'v1060';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v1060 (Zug zug-v1062-l4-2026-11-14): Sicher weitergeben mit Wahl des Empfängers und Link mit Abholseite, geschützte Angaben im Empfängerkreis (Schema 100), Zurück im Browser bleibt im Depot. Vorige: v1059 (Zug zug-v1061-l4-2026-11-13): jeder Abschnittstitel eines Dokuments erscheint in der Anzeigesprache. Vorige: v1058 (Zug zug-v1060-l4-2026-11-13): Medikamente behalten im IPS alle Codes, PZN, Wirkstoffe, Darreichung und Einheit (Kette Medikation, Schema 99); die Vorschau-Übernahme nimmt Ablaufdaten und „ausdrücklich keine“ mit. Vorige: v1057 (Zug zug-v1057-l4-2026-11-13): eingelesene Einträge gehen im IPS mit ihrer Quelle hinaus, Wächter „Ansicht“. Vorige: v1056 (Zug zug-v1056-l4-2026-11-13): Widerruf-Kennung ungebrochen, Studio Vorlage sichern und Ausgabewege mit FHIR und PDF, Studio-Kette a, D3, Chip-Eingabe beim Speichern, Herausgabe in zwei Schritten, Meldungen B10, Arzttermin als FHIR IPS. Vorige: v1055 (Zug zug-v1055-l4-2026-11-12): Vorrang A2–A5 mit Banner und ABN-B6, ABN-B11 Ausgabe-Knöpfe am Blattende, Studio per Ziehen und Ablegen. Vorige: v1054 (Zug zug-v1054-l4-2026-11-11): Stand v1053 (3a), Signierstelle als Prozess, VC-Datum und Umschlag, Sprachlücken, Abschnittstitel in der Anzeigesprache, Erkennung xoev/FIM, Studio. Vorige: v1053 (Zug zug-v1053-l4-2026-11-10): Gestaltungskette, Identität nach Zielbild, Größen-Token. Vorige: v1052 (Zug zug-v1052-l4-2026-11-09): Dosis am Eintrag und im IPS, eindeutige Code-Zuordnung, englische Texte nach dem deutschen Stand, Pro-Texte, ruhende Bereiche werden beim Schreiben sichtbar, Rückprobe der Pod-Sicherung, Fehlerbeschreibung nach einem Migrationswurf. Vorige: v1051 (Zug zug-v1051-l4-2026-11-09): Holder-Schlüssel je Ausgabe, eine Anzeige für alle Import-Arten, Sicherung zur Probe öffnen, Auszüge unter „Für Sie persönlich“, Selbst zusammenstellen am Handy, kein Aktenzeichen im lesbaren Kopf, Vorlage bei Prüfstellen Schritt 9, Studio-Einstieg.
+const SCHALEN_STAND = 'v1061';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v1061 (Zug zug-ue-u1-l4-2026-11-15): Umbau-Erreichbarkeit (U-E), Sub-Depot ohne Umfärbung mit Streifen, Kontextzeile und Pille (U-1), Kopfleiste (U-2). Vorige: v1060 (Zug zug-v1062-l4-2026-11-14): Sicher weitergeben mit Wahl des Empfängers und Link mit Abholseite, geschützte Angaben im Empfängerkreis (Schema 100), Zurück im Browser bleibt im Depot. Vorige: v1059 (Zug zug-v1061-l4-2026-11-13): jeder Abschnittstitel eines Dokuments erscheint in der Anzeigesprache. Vorige: v1058 (Zug zug-v1060-l4-2026-11-13): Medikamente behalten im IPS alle Codes, PZN, Wirkstoffe, Darreichung und Einheit (Kette Medikation, Schema 99); die Vorschau-Übernahme nimmt Ablaufdaten und „ausdrücklich keine“ mit. Vorige: v1057 (Zug zug-v1057-l4-2026-11-13): eingelesene Einträge gehen im IPS mit ihrer Quelle hinaus, Wächter „Ansicht“. Vorige: v1056 (Zug zug-v1056-l4-2026-11-13): Widerruf-Kennung ungebrochen, Studio Vorlage sichern und Ausgabewege mit FHIR und PDF, Studio-Kette a, D3, Chip-Eingabe beim Speichern, Herausgabe in zwei Schritten, Meldungen B10, Arzttermin als FHIR IPS. Vorige: v1055 (Zug zug-v1055-l4-2026-11-12): Vorrang A2–A5 mit Banner und ABN-B6, ABN-B11 Ausgabe-Knöpfe am Blattende, Studio per Ziehen und Ablegen. Vorige: v1054 (Zug zug-v1054-l4-2026-11-11): Stand v1053 (3a), Signierstelle als Prozess, VC-Datum und Umschlag, Sprachlücken, Abschnittstitel in der Anzeigesprache, Erkennung xoev/FIM, Studio. Vorige: v1053 (Zug zug-v1053-l4-2026-11-10): Gestaltungskette, Identität nach Zielbild, Größen-Token. Vorige: v1052 (Zug zug-v1052-l4-2026-11-09): Dosis am Eintrag und im IPS, eindeutige Code-Zuordnung, englische Texte nach dem deutschen Stand, Pro-Texte, ruhende Bereiche werden beim Schreiben sichtbar, Rückprobe der Pod-Sicherung, Fehlerbeschreibung nach einem Migrationswurf. Vorige: v1051 (Zug zug-v1051-l4-2026-11-09): Holder-Schlüssel je Ausgabe, eine Anzeige für alle Import-Arten, Sicherung zur Probe öffnen, Auszüge unter „Für Sie persönlich“, Selbst zusammenstellen am Handy, kein Aktenzeichen im lesbaren Kopf, Vorlage bei Prüfstellen Schritt 9, Studio-Einstieg.
 // (18.09.2026): beide Linien brachten ihre eigene Erhöhung unabhängig voneinander (Schnitt v734,
 // Verschluss v743) — hier zur gemeinsamen v744 zusammengeführt, Zuteilung.
 // Vorige (Schnitt-Linie, v734): v731 doppelt vergeben (vdm4-lese-app-trennung-2026-09-17), hier
@@ -2906,7 +2906,7 @@ function heuteLokal(d = new Date()) {
 // Konstanten waren nie aneinander gebunden. Jetzt erzwungen: tests/build-datum-lockstep.test.js
 // vergleicht diese Zeile gegen die vorige Commit-Fassung und schlägt fehl, wenn SCHALEN_STAND
 // sich geändert hat, ohne dass BUILD_DATUM ebenfalls angefasst wurde. IMMER gemeinsam bumpen.
-const BUILD_DATUM = '2026-11-14';
+const BUILD_DATUM = '2026-11-15';
 // Schwelle (Tage), ab der der Versions-Hinweis erscheint. ~6 Monate.
 const VERSION_HINWEIS_SCHWELLE_TAGE = 183;
 /* Die Marken-Stelle des Kerns (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst nirgends —
@@ -4875,7 +4875,7 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "sha256:cb8b8da4abaa8dca4639eb06fbc6533f1b5ed620fa941ad28ce88e9ea5147761",
   "sha256:ceb89d099b169a98f797046a5622056acde936288a26742d7f68c9760b193622",
   "sha256:cf1df31b293f8c2053b9b42f9faee0d8c86a3c71bb4e86221405febc78d183b2",
-  "sha256:d20c9d373ac0f71f56f08cf5cd36179008b5c128a280b679bdd0d145d60d48ed",
+  "sha256:d3a54da88a433998dac72e38271fd88ef37b55e14296ebac949710e81a1378f2",
   "sha256:dc9dc446122be2193915866cbacf8c4d4b7aaa0d395a316275d7a6a54c1fff94",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
@@ -4940,7 +4940,9 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:2ed991a1f8cb66ff4c1d8fc0ac701598c78d3496f0fa92d4dfa0549ab82300fd",
   "sha256:2ffa1fee03cdb283b3d1634245b018132736607e2866d87bee7e7b9334320f94",
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
+  "sha256:30f0ec13c800461bd86ac78c9c62fc4c8a606b6a13c3b09810f00c457b92acd0",
   "sha256:32895d90e7e48d2f263858f9f5481996e35ff25dd033eb987818eee7120aeecc",
+  "sha256:32f54ea0c25858b321b3f18230ed957f47a2316d86c9827bf80921e5c48b3655",
   "sha256:334d2de2ac42ed5d410d226d0560af85d81e1c84c7ccfab9b8234ed7429949c2",
   "sha256:3366e7bd707b2fcc8f731d6d09fe373bedf261423696288789334fe5a014ba6d",
   "sha256:33dc52e9bf9051dff339b805f824ab30637ea79a303c3a5f5fdd2800b48bc21b",
@@ -4961,6 +4963,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:40d6640ae3ec9c3a888198497cbb073868cbc58c4abf75bc8b4a02c0833056e2",
   "sha256:40e63823efbdc60a36623281dd79c87de245e94ffc9f94c9eb5d35a11444bfe7",
   "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
+  "sha256:41cbca8339f3b44cb50cebd9f84835835a48cfd457827be9fd30f7779b436d09",
   "sha256:421a8ffeba3cf7b72c553cd1c7406c18f00566f6f59fa93187953b2baba2445b",
   "sha256:4222f38226c7b78ffb6ce20db9dd31cefe2d971e462d95526e6015195a77092f",
   "sha256:4308672df53e5658a326398cf18bdc0ee5c462e562232ff409074ce9f0df4a71",
@@ -5074,9 +5077,11 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:95ec50c9f948594082effa342c12f8c7053729bcfb110d78c6b4b7508cc70f4f",
   "sha256:95f9fd001c75c073b1c5ef63989987f3f988180bf5fab60d638ce3affa03a760",
   "sha256:96753ae4cad7c8fc6fb9bc9c720a4f5d95c2d13b2883c972199a2dc0a7ff4ba8",
+  "sha256:96f968dbe4f45737bef2a09003e1a36a413586c2f4f44c3beea6a00ef9547db3",
   "sha256:97789b5f126e243b09878ee5be9eda8dabe46f66d1b7c266f10486721fd2b120",
   "sha256:97842512e54c8535c1b3eebdf59fffe02457a9f0b33c6f462b322d7c266b129f",
   "sha256:9838c525bee83bef5d630269c2764a23fc57dbbcc3b375877fde0c94f5ded89d",
+  "sha256:9847ed00cb1d67e2f7208a4562bfbb50ed86a475c1f1e7d82fee6dcb11873e13",
   "sha256:986a70306763735576994ec9878dc0de545b1ea53bff13ab855a3eb6c60aef88",
   "sha256:989af3cd946d56af72c88fc1367c814310cb49b88b5d0a17fa3eb44041ebf8cc",
   "sha256:98df1da45043df597a335ee31c17c91e082871a18baed7fc22ab56a8dc798459",
@@ -5149,6 +5154,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:cff28428329d491918eebef0323034a605c8cd8d1a017865d0bf327ac3494a7f",
   "sha256:d00dbad645e2a31f6caceef876dc191c6d106a51ee00e8461932eec085fb81d5",
   "sha256:d03c8abb578c20c2594035c757be8176f4193fe7a7d2d0d2820a0991dd350464",
+  "sha256:d20c9d373ac0f71f56f08cf5cd36179008b5c128a280b679bdd0d145d60d48ed",
   "sha256:d42fa3924e205e777486ada3ee78c1671309b81ab64136ef961f962659f46baa",
   "sha256:d98aaf825628de15b59a02d83b44720c25cbf2bfd9a238fa684c5a39f81bccd8",
   "sha256:d9fb94d3337cf033dee1b1076d0a700b690f9ac898e72b3e04970a19dd001ea6",
@@ -5165,6 +5171,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:e52b2c57c2ed1cd9eb7c87d5b1d63e4105672be467f2f273579f189441c43896",
   "sha256:e5458f9a32855890b81d967ebc0a9b6e56555c88f7c3c2a889f261ed57f5cecd",
   "sha256:e596185de7a86c633ba83a0aa9d7d473d6c8437f63ba963561739b133fe64689",
+  "sha256:e6476dbf324e110581eb33c68cc3e86beb5188db6ec7c06bd5f13b2e5832f660",
   "sha256:e7ac4b0150ee13955fb75c14c58b4a545525ccf378fc1dd81ee1d3c02f013268",
   "sha256:e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
   "sha256:e8af4c9308a1cc2b3018c66b914b8f7f598007d557016bb10037ebec2fa2837c",
@@ -17536,14 +17543,15 @@ const MODUS_DEF = Object.freeze({
   anker:        { label: STRINGS.modusAnker,        akzent: 'var(--modus-anker)',        bearbeitung: 'voll' },
   // S7 (28.09.2026): kein eigenes 'nach-umfang' mehr — es wurde nie gelesen. Der Umfang ist das Fach: mit eigenem Schlüssel
   // voll, über ein Fach nur lesend (_subNurLesendAktiv, durchgesetzt in _bearbeitenErlaubtPruefen).
-  vollmacht:    { label: STRINGS.modusVollmacht,    akzent: 'var(--modus-vollmacht)',    bearbeitung: 'voll' },
+  // Umbau 13.11.2026: auch im Sub-Kontext bleibt die Oberfläche Salbei — der Akzent des Modus ist der des Ankers, die Person zeigt --person.
+  vollmacht:    { label: STRINGS.modusVollmacht,    akzent: 'var(--modus-anker)',        bearbeitung: 'voll' },
   notfall:      { label: STRINGS.modusNotfall,      akzent: 'var(--modus-notfall)',      bearbeitung: 'gesperrt' },
 });
 // Bruch C: Welche Flächen-Klasse trägt #app im gegebenen Modus? Nur Vollmacht
 // färbt die Fläche mit dem Sub-Depot-Akzent (dort werden Daten eingetragen);
 // Angehörigen/Notfall liefern '' und markieren sich allein über --akzent.
 function modusFlaechenKlasse(modus) {
-  return modus === 'vollmacht' ? 'modus-vollmacht' : '';
+  return '';   // Umbau 13.11.2026: keine Flächenfärbung mehr, auch nicht im Sub-Kontext
 }
 const Modus = (() => {
   let _aktiv = 'anker';                         // ← die einzige Quelle
@@ -40223,15 +40231,7 @@ function subDepotAkzentLinie(akzent) {
   if (hex) return _subDepotHexBisAAVerdunkeln(hex, '#ffffff', 3.0);
   return 'var(--' + tok + '-linie)';
 }
-// U2-ADR-236 — zweite Randfassung, kalibriert gegen --papier-bereich (heller Fall #fdfbf7)
-// statt gegen Weiß (Sidebar/Fußzeile liegen dort, nicht auf Content-Karten). Freier Hex:
-// verdunkelt bis ≥3:1 gegen #fdfbf7 — derselbe Geltungsbereich-Hinweis wie subDepotAkzentStark.
-function subDepotAkzentPapierLinie(akzent) {
-  const tok = subDepotAkzentToken(akzent);
-  const hex = _subDepotAkzentAlsHexOderNull(tok);
-  if (hex) return _subDepotHexBisAAVerdunkeln(hex, '#fdfbf7', 3.0);
-  return 'var(--' + tok + '-papier-linie)';
-}
+// Die Papier-Randfassung (`subDepotAkzentPapierLinie`, U2-ADR-236) entfällt mit dem Umbau 13.11.2026: die Oberfläche trägt keine Personenfarbe mehr.
 // D47 (2026-06-09): subDepotBalkenFarbe (6px-color-mix-Balken) ENTFÄLLT — ersetzt durch die
 // volle-Breite-Kopfleiste (rohes Token, .sd-kopf), siehe renderVerwalteteDepots/CSS.
 // Default beim Anlegen: erste freie Farbe in der Vergabe-Reihenfolge (Palettentausch:
@@ -40254,14 +40254,9 @@ var _subAkzentBasis = null;
 // (Zug 3: farbfrei, keine Palettenfarbe steht mehr dafür). Aufrufer: subKontextVerlassen.
 function entferneSubDepotAkzentOverride() {
   const root = document.documentElement;
-  const app = document.getElementById('app');
-  ['--vm-chrome', '--vm-chrome-mid', '--vm-chrome-tief', '--vm-chrome-text', '--vm-akzent-stark', '--vm-linie', '--akzent-papier']
-    .forEach(p => root.style.removeProperty(p));
-  if (app && app.classList) app.classList.remove('vm-akzent');
-  if (root.classList) root.classList.remove('vm-akzent');
+  ['--person', '--person-text', '--person-linie'].forEach(p => root.style.removeProperty(p));
+  if (root.classList) root.classList.remove('sub-kontext');
   _subAkzentBasis = null;
-  // --akzent NICHT entfernen (das gehört dem Modus) → zurück auf den aktuellen Modus-Akzent.
-  try { root.style.setProperty('--akzent', _eigenerWert(MODUS_DEF, Modus.aktuell()).akzent); } catch (_) {}
 }
 // Setzt den Akzent EINES eingehängten Depots — eine der acht benannten Farben ODER ein freier
 // White-Label-Hex (12.09.2026, Nutzer-Rückmeldung/Auftrag), immer mit vollem Override (Zug 3:
@@ -40269,22 +40264,14 @@ function entferneSubDepotAkzentOverride() {
 function setzeSubDepotAkzent(akzent) {
   const tok = subDepotAkzentToken(akzent);
   const root = document.documentElement;
-  const app = document.getElementById('app');
-  const basis = subDepotAkzentFarbe(tok);
-  root.style.setProperty('--vm-chrome', basis);
-  root.style.setProperty('--vm-chrome-mid', 'color-mix(in srgb, ' + basis + ' 82%, white)');   // Hover: leicht aufgehellt
-  root.style.setProperty('--vm-chrome-tief', 'color-mix(in srgb, ' + basis + ' 80%, black)');  // Aktiv: abgedunkelt
-  root.style.setProperty('--vm-chrome-text', subDepotTextFarbe(tok));                           // D28: AA-Text auf der Akzentfläche
-  root.style.setProperty('--vm-akzent-stark', subDepotAkzentStark(tok));                        // D28: AA-Akzenttext auf hellem Content
-  root.style.setProperty('--vm-linie', subDepotAkzentLinie(tok));                                // Fläche→Rand (27.08.2026): Karten-Rand, dieselbe ≥3:1-Fassung wie --sd-akzent-linie
-  root.style.setProperty('--akzent-papier', subDepotAkzentPapierLinie(tok));                     // U2-ADR-236: Rahmen (Sidebar/Fußzeile), auf --papier-bereich sicher
-  // §2: den generischen --akzent an der WURZEL auf den Sub-Akzent ziehen → ALLE var(--akzent)-Verbraucher
-  // (Einstellungen, Dialoge, Prompts) erben ihn ohne Stelle-für-Stelle-Nachfärbung. `vm-akzent` auch auf
-  // <html>, damit die Toast-Schicht (außerhalb #app) die Sub-Regeln greift.
-  _subAkzentBasis = basis;
-  root.style.setProperty('--akzent', basis);
-  if (app && app.classList) app.classList.add('vm-akzent');
-  if (root.classList) root.classList.add('vm-akzent');
+  /* Die Oberfläche bleibt Salbei (Entscheidung 13.11.2026, Umbau nach dem Desktop-Dummy): im Sub-Kontext wird nichts umgefärbt.
+     Die Person zeigt sich nur durch ihre Farbe an drei Stellen — Farbkreis am Depot-Wechsler, 3-px-Streifen oben an der Kopfzeile,
+     Kontextzeile unter der Kopfzeile. Dafür genügen drei Variablen (`--person*`, Gruppe `grundwerte.person` der Definition, U2-ADR-525). */
+  root.style.setProperty('--person', subDepotAkzentFarbe(tok));
+  root.style.setProperty('--person-text', subDepotTextFarbe(tok));
+  root.style.setProperty('--person-linie', subDepotAkzentLinie(tok));
+  _subAkzentBasis = null;
+  if (root.classList) root.classList.add('sub-kontext');
   return tok;
 }
 // Markup der 6 Farb-Kreise (Anlege-Dialog). Jeder Kreis zeigt „Aa" in der TATSÄCHLICHEN
@@ -40772,13 +40759,6 @@ function aktiverSubName() {
   return e ? (e.inhaberin || e.bezeichnung || '') : '';
 }
 
-// Dauer-Banner im Sub-Kontext: „Sie sehen jetzt das Depot von [Name]" + Rückweg zum Anker.
-function vollmachtBannerHTML() {
-  return '<div class="vollmacht-banner">' +
-    '<span class="vm-banner-text">' + escapeHTML(STRINGS.vmBannerVor) + escapeHTML(aktiverSubName()) + escapeHTML(STRINGS.vmBannerNach) + '</span>' +
-    '<button class="btn" id="vm-zurueck">' + escapeHTML(STRINGS.btnZurueckMeinDepot) + ' ' + svgIcon(ICONS.chevronRight) + '</button>' +
-    '</div>';
-}
 
 // Flow: ein entsiegeltes Sub-Depot als aktiven Kontext betreten (sonst erst entsiegeln).
 async function flowSubKontextBetreten(depotUUID) {
@@ -48762,10 +48742,11 @@ function _hintergrundWipeVielleicht() {
   _eingangsschirmDomAufraeumen();
   // Auflage (31.08.2026, Sub-Kontext-Probe): #content ist nicht die einzige Stelle mit
   // Sitzungs-Resten — die Topbar trägt bei Verlassen eines Sub-Kontexts den zuletzt betretenen
-  // Namen unsichtbar weiter (#tb-sub-hinweis/#tb-sub-name, s. renderTopbar()-Fund zur selben
+  // Namen unsichtbar weiter (die Kontextzeile #sub-kontext-text, s. renderTopbar()-Fund zur selben
   // Zeile). `renderTopbar()` baut sie gegen den jetzt schon zurückgesetzten Zustand neu auf —
   // `imSubKontext()` ist nach `_depotSpeicherZuruecksetzen()` oben false, der else-Zweig dort
   // räumt Name/aria-label mit ab.
+  try { entferneSubDepotAkzentOverride(); } catch (_) {}   // Umbau 13.11.2026: auch die Klasse html.sub-kontext und --person gehören zur Sitzung
   try { renderTopbar(); } catch (_) {}
   // Sichtbaren Zustand herstellen — derselbe Weg wie zeigeSchlussSicht()/vorschauVerwerfenUndZuhause(),
   // kein neuer erfunden. Ohne das bliebe #app (CSS: display:none ohne .an) unverändert sichtbar,
@@ -55796,13 +55777,12 @@ function renderTopbar() {
   // aussehend, während aria-label/title/onclick oben ausdrücklich ansagen, dass er das Depot
   // VERLÄSST (20.07.2026-Entscheidung, Grund direkt darüber im Kommentar). Zwei Versprechen auf
   // einem Bedienelement. Ersatz folgt als sichtbares Wort, Wortlaut noch nicht bestätigt.
-  // Depot-Pille zeigt IMMER „Mein Depot" (Palettentausch Zug 2, 04.08.2026 — die Kopfzeile bleibt
-  // Salbei, auch im Sub-Kontext). Das eingehängte Depot zeigt sich separat: Farbpunkt + Name in
-  // .tb-sub-hinweis, daneben.
+  // Depot-Wechsler (Umbau, Kopfleiste): im eigenen Depot „Mein Depot", im Sub-Kontext der Name der Person; die Kontextzeile
+  // darunter sagt, wessen Depot offen ist. Die Zeile „Geöffnet: <Name>“ neben dem Wechsler gibt es nicht mehr.
   // Vorschau v998, M15: in der Umschau gibt es kein Depot — die Pille sagt „Beispielansicht“ und zeigt keinen grünen Punkt
   // (tests/vorschau-v998-nachbesserung.test.js). Der Punkt wird über `hidden` verborgen, ohne eigene Klasse.
   const _umschauPille = imVorschau() && !imVorfuehrung();
-  document.getElementById('tb-depot-name').textContent = _umschauPille ? STRINGS.depotPilleBeispiel : STRINGS.depotPilleEigen;
+  document.getElementById('tb-depot-name').textContent = _umschauPille ? STRINGS.depotPilleBeispiel : ((imSubKontext() && aktiverSubName()) || STRINGS.depotPilleEigen);
   const _dpPunkt = document.querySelector('#tb-depot-pille .dp-punkt');
   if (_dpPunkt) _dpPunkt.hidden = _umschauPille;
   // U2-ADR-181-Nachtrag/Modul-Vollständigkeit (27.08.2026, Zug 1a): drei statische Hüllen-Texte,
@@ -55813,28 +55793,23 @@ function renderTopbar() {
   const swUpdateNeu = document.getElementById('sw-update-neu');
   if (swUpdateNeu) swUpdateNeu.textContent = STRINGS.swUpdateNeuLadenCta;
   depotMenueVerdrahten();   // Zug 5 — Klick auf die Pille öffnet jetzt das Zwei-Punkte-Menü, kein Direktsprung mehr
-  const subHinweis = document.getElementById('tb-sub-hinweis');
-  subHinweis.hidden = !imSubKontext();
+  const kontextzeile = document.getElementById('sub-kontextzeile');
+  kontextzeile.hidden = !imSubKontext();
+  const kontextText = document.getElementById('sub-kontext-text');
+  const kontextKreis = document.getElementById('sub-kontext-kreis');
+  const zurueckKnopf = document.getElementById('vm-zurueck');
   if (imSubKontext()) {
-    const subText = STRINGS.depotPilleVollmacht + aktiverSubName();
-    // Fund 6 (GL 05.11.2026): „Geöffnet:“ steht in einer eigenen Spanne und entfällt eng; der Name bleibt einzeilig stehen.
-    document.getElementById('tb-sub-praefix').textContent = STRINGS.depotPilleVollmacht;
-    document.getElementById('tb-sub-name').textContent = aktiverSubName();
-    // Trefferflächen-/Eng-Stufen-Fix (13.08.2026): der Name kann bei .tb-eng-1 verschwinden
-    // (s. CSS) — das aria-label am Container trägt den vollen Text unabhängig vom Kollaps.
-    subHinweis.setAttribute('aria-label', subText);
-    subHinweis.setAttribute('title', subText);
+    const subName = aktiverSubName();
+    kontextText.textContent = STRINGS.vmBannerVor + subName + STRINGS.vmBannerNach;
+    kontextKreis.textContent = (subName.trim().charAt(0) || '').toUpperCase();
+    zurueckKnopf.textContent = STRINGS.btnZurueckMeinDepot;
+    zurueckKnopf.onclick = () => flowSubKontextVerlassen();
   } else {
-    // Fund (31.08.2026, U2-ADR-184): `hidden` allein entfernt nur die SICHTBARKEIT, nicht den
-    // Textknoten/das Attribut — der zuletzt betretene Sub-Depot-Name blieb nach Verlassen als
-    // (unsichtbare) Klartext-Spur im DOM stehen (aria-label UND textContent). Ohne Bedeutung im
-    // normalen Verlassen-Weg (der nächste echte Betreten-Zug überschreibt beides sofort wieder),
-    // aber genau die Sorte Rest, die der Hintergrund-Wipe (U2-ADR-184) ausdrücklich ausschließen
-    // soll — dort wird renderTopbar() aufgerufen, NACHDEM der Sub-Kontext schon verlassen ist.
-    document.getElementById('tb-sub-praefix').textContent = '';
-    document.getElementById('tb-sub-name').textContent = '';
-    subHinweis.removeAttribute('aria-label');
-    subHinweis.removeAttribute('title');
+    // U2-ADR-184: nach dem Verlassen bleibt kein Name als Klartext-Spur im DOM stehen.
+    kontextText.textContent = '';
+    kontextKreis.textContent = '';
+    zurueckKnopf.textContent = '';
+    zurueckKnopf.onclick = null;
   }
   // A1/D46: #tb-speichern entfernt — Label/Icon-Set entfällt; das „Sichern" lebt in der
   // Status-Pille (renderSaveStatus). STRINGS.btnSpeichern bleibt für andere Save-Stellen.
@@ -55932,14 +55907,6 @@ function topbarPlatzAnpassen() {
     tb.classList.add('tb-eng-1');                                         // AKTION → Icon (zuerst)
     if (eng()) tb.classList.add('tb-eng-2');                              // STATUS → Fragment (zuletzt)
   }
-  // Sub-Depot (GL 05.11.2026): bleibt vom Namen nur ein Rest wie „So…“, steht nur der Tonpunkt. Der volle Name steht im Banner
-  // darunter und am Hinweis als aria-label/title. „Mein Depot“ bleibt voll, es ist das Ziel des Rückwegs.
-  tb.classList.remove('tb-eng-nur-punkt');
-  const subName = document.getElementById('tb-sub-name');
-  if (subName && subName.offsetParent && subName.scrollWidth > subName.clientWidth + 1) {
-    const em = parseFloat(getComputedStyle(subName).fontSize) || 14;
-    if (subName.clientWidth < 3 * em) tb.classList.add('tb-eng-nur-punkt');
-  }
 }
 
 // Mobil-Navigation (responsiver Durchgang) — die Sidebar ist auf schmalen Screens ein
@@ -56028,6 +55995,20 @@ function depotMenueVerdrahten() {
   // Rest von renderTopbar()s Verdrahtung.
   menue.hidden = true;
   btn.setAttribute('aria-expanded', 'false');
+  // Im Sub-Kontext steht der Rückweg als erster Eintrag; am eigenen Depot gibt es ihn nicht (Umbau, Kopfleiste).
+  // Der Eintrag entsteht nur im Sub-Kontext und wird sonst entfernt (kein Markup im statischen Kopf, Ratsche „Anordnung im Gerüst“).
+  const altZurueck = document.getElementById('tb-depot-menue-zurueck');
+  if (altZurueck) altZurueck.remove();
+  let zurueck = null;
+  if (imSubKontext()) {
+    zurueck = document.createElement('button');
+    zurueck.type = 'button';
+    zurueck.className = 'depot-menue-eintrag';
+    zurueck.id = 'tb-depot-menue-zurueck';
+    zurueck.setAttribute('role', 'menuitem');
+    zurueck.textContent = STRINGS.btnZurueckMeinDepot;
+    menue.insertBefore(zurueck, liste);
+  }
   liste.textContent = STRINGS.depotPilleEigen;
   liste.setAttribute('aria-label', STRINGS.depotPilleEigen);
   verwaltung.textContent = STRINGS.depotMenueVerwaltung;
@@ -56042,13 +56023,14 @@ function depotMenueVerdrahten() {
   btn.onkeydown = (e) => {
     if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); depotMenueOeffnen(); }
   };
+  if (zurueck) zurueck.onclick = () => { depotMenueSchliessen(false); flowSubKontextVerlassen(); };
   liste.onclick = () => { depotMenueSchliessen(false); flowDepotListe(); };
   verwaltung.onclick = () => { depotMenueSchliessen(false); oeffneVerwaltung(); };
   // U2-ADR-237: eigener, seltener Vorgang — bewusst depotInDateiSichern() direkt, NICHT
   // depotPersistieren() (das würde im internen Modus wieder nur intern schreiben, was hier schon
   // längst geschehen ist). Der ganze Sinn dieses Menüpunkts ist die DATEI.
   sicherungskopie.onclick = () => { depotMenueSchliessen(false); sicherungskopieErstellen(); };
-  const eintraege = [liste, verwaltung, sicherungskopie];
+  const eintraege = zurueck ? [zurueck, liste, verwaltung, sicherungskopie] : [liste, verwaltung, sicherungskopie];
   eintraege.forEach((el, i) => {
     el.onkeydown = (e) => {
       if (e.key === 'Escape') { e.preventDefault(); depotMenueSchliessen(true); }
@@ -63226,12 +63208,7 @@ function renderContent(springeNachOben) {
   // Vollmacht-Sicht (Durchbau T1): Dauer-Banner über dem Inhalt, solange ein Sub-Kontext aktiv ist.
   // WICHTIG: per insertAdjacentHTML einfügen, NICHT innerHTML neu setzen — sonst würden die im
   // Inhalts-Renderer verdrahteten Klick-Handler (Bearbeiten/Fertig/Inputs) zerstört.
-  if (imSubKontext()) {
-    const c = document.getElementById('content');
-    c.insertAdjacentHTML('afterbegin', vollmachtBannerHTML());
-    const z = document.getElementById('vm-zurueck');
-    if (z) z.onclick = () => flowSubKontextVerlassen();
-  }
+  /* Der Dauer-Banner über dem Inhalt ist seit dem Umbau (13.11.2026) die Kontextzeile unter der Kopfzeile (#sub-kontextzeile, renderTopbar). */
   // D37: Namenlos-Hinweis EINMAL pro Sitzung beim ersten Erreichen der Hauptansicht (eigener
   // Anker, ohne Vorname/Nachname). Per insertAdjacentHTML wie die anderen Banner — Inhalts-
   // Handler bleiben unberührt. Schließt sich nie von selbst über den Inhalt (nur weg-Klick).
@@ -77767,7 +77744,9 @@ function flowSubDepotEntsiegeln(depotUUID) {
         await subDepotVertrauenOeffnen(depotUUID, pw);   // wirft bei Falschpasswort (GCM/AAD)
         schliessen();
         ui.toast(STRINGS.subGeoeffnet, 'ok');
-        renderContent();
+        // UX-SUBDEPOT-RUECKWEG (30.10.2026): nach dem Passwort führt „Öffnen" ins Depot hinein. Vorher blieb man im
+        // eigenen Depot und trug dort ein, was der anderen Person gehört; hinein ging es erst mit „Dieses Depot ansehen".
+        await flowSubKontextBetreten(depotUUID);
       } catch (e) {
         ui.toast((e && e.code === 'fach-abgelaufen') ? _fachAbgelaufenText(e)
           : (e && e.vorStufe67) ? STRINGS.subVorStufe67 : STRINGS.subFalsch, 'fehler');   // U2-ADR-452; S11: Testfassung vor Stufe 67

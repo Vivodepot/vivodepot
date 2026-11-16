@@ -80,8 +80,8 @@ async function entsiegelnUndBetreten(page, uuid) {
   await page.fill('#sub-auf', SUB_PW);
   await page.click('#m-ok');
   await page.waitForSelector('#sub-auf', { state: 'detached' });
-  await page.click(`[data-betreten="${uuid}"]`);
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+  // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+  await page.waitForSelector('html.sub-kontext', { state: 'attached' });
 }
 
 // Sub-Kontext verlassen (Banner-Knopf, versiegelt die DATEI neu — s. Übergang 3), DANN den
@@ -89,7 +89,7 @@ async function entsiegelnUndBetreten(page, uuid) {
 // — erst danach zeigt der Eintrag wieder [data-entsiegeln] für einen echten zweiten Zyklus.
 async function verlassenUndWiederVersiegeln(page, uuid) {
   await page.click('#vm-zurueck');
-  await page.waitForSelector('#app.modus-vollmacht', { state: 'detached', timeout: 10000 });
+  await page.waitForSelector('html.sub-kontext', { state: 'detached', timeout: 10000 });
   await depotListeOeffnen(page);
   await page.waitForSelector(`[data-versiegeln="${uuid}"]`, { state: 'visible' });
   await page.click(`[data-versiegeln="${uuid}"]`);

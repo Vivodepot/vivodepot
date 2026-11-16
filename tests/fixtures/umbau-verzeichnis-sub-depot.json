@@ -1,0 +1,25 @@
+{
+  "stelle": "sub-depot",
+  "kanon": "49419902c",
+  "hinweis": "Funktionsverzeichnis Wagen 1 (Sub-Depot ohne Umfärbung). Format: Vorschlag Bau Div (neuer_platz: lage, weg je Breite, erwartung).",
+  "eintraege": [
+    { "kennung": "flowSubKontextVerlassen", "art": "flow", "beschriftung": "Zurück zu meinem Depot",
+      "fundort_alt": "vivodepot.html:40609 (Kanon 49419902c)",
+      "neuer_platz": { "lage": "sub-kontext",
+        "weg": { "1280": ["#sub-kontextzeile #vm-zurueck"], "375": ["#sub-kontextzeile #vm-zurueck"] },
+        "erwartung": "#tb-depot-name" },
+      "zustand": "neu platziert" },
+    { "kennung": "tb-depot-pille", "art": "menue", "beschriftung": "Depot-Wechsler (Pille mit Name der Person)",
+      "fundort_alt": "vivodepot.html:2059 (Kanon 49419902c)",
+      "neuer_platz": { "lage": "sub-kontext",
+        "weg": { "1280": ["#tb-depot-pille"], "375": ["#tb-depot-pille"] },
+        "erwartung": "#tb-depot-menue" },
+      "zustand": "neu platziert" },
+    { "kennung": "tb-sub-hinweis", "art": "feld", "beschriftung": "Geöffnet: [Name]",
+      "fundort_alt": "vivodepot.html:2074 (Kanon 49419902c)",
+      "neuer_platz": { "lage": "sub-kontext",
+        "weg": { "1280": ["#sub-kontext-kreis"], "375": ["#sub-kontext-kreis"] },
+        "erwartung": "#sub-kontext-text" },
+      "zustand": "neu platziert" }
+  ]
+}

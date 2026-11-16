@@ -1,0 +1,16 @@
+{
+  "quelle": "Rot-Beweis (gepflanzt, U-E)",
+  "eintraege": [
+    {
+      "kennung": "gepflanzterWegfall",
+      "art": "knopf",
+      "beschriftung": "Gepflanzter Weg ins Leere",
+      "fundort_alt": "gepflanzt",
+      "zustand": "neu platziert",
+      "neuer_platz": {
+        "lage": "start",
+        "weg": { "alle": ["#gibt-es-nicht-umbau-rotbeweis"] }
+      }
+    }
+  ]
+}

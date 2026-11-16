@@ -333,8 +333,8 @@ test.describe('Fläche statt Linien', () => {
     await page.fill('#sub-auf', pw);
     await page.click('#m-ok');
     await page.waitForSelector('#sub-auf', { state: 'detached' });
-    await page.click(`[data-betreten="${uuid}"]`);
-    await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+    // „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
+    await page.waitForSelector('html.sub-kontext', { state: 'attached' });
     for (let i = 0; i < 6; i++) {
       if (!(await page.locator('#modal-rueck.an').count())) break;
       await page.locator('#modal-rueck.an').locator('#m-abbr, #m-x, #m-zweit, #m-ok').first().click().catch(() => {});
@@ -363,16 +363,16 @@ test.describe('Fläche statt Linien', () => {
     });
   }
 
-  test('[Linien·Rahmen·Rot-Beweis] eine Linie unter der Kopfleiste, ein Rand an der Seitenleiste und ein Balken am Sub-Depot-Banner werden gezählt', async ({ page }) => {
+  test('[Linien·Rahmen·Rot-Beweis] eine Linie unter der Kopfleiste, ein Rand an der Seitenleiste und ein Balken an der Kontextzeile des Sub-Depots werden gezählt', async ({ page }) => {
     await oeffnen(page, h.KERN_URL_PRIVAT_DE);
     await subDepotBetreten(page, 'malve');
     const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
     const vorher = await alle();
     // Die Form vor dem 08.10.2026: Kopfleiste mit Unterkante, Seitenleiste mit Rand, Sub-Depot mit farbigem Balken.
-    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.topbar { border-bottom: 1px solid #ccd5c4 !important; } #sidebar { border-right: 1px solid #ccd5c4 !important; } .vollmacht-banner { border-left: 4px solid #B8AECB !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
+    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.topbar { border-bottom: 1px solid #ccd5c4 !important; } #sidebar { border-right: 1px solid #ccd5c4 !important; } .sub-kontextzeile { border-left: 4px solid #B8AECB !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
     await page.waitForTimeout(150);
     const nachher = await alle();
-    for (const teil of ['topbar', 'sidebar', 'vollmacht-banner']) {
+    for (const teil of ['topbar', 'sidebar', 'sub-kontextzeile']) {
       expect(nachher.filter((l) => l.includes(teil)).length, teil + ' wird gezählt').toBeGreaterThan(vorher.filter((l) => l.includes(teil)).length);
     }
   });

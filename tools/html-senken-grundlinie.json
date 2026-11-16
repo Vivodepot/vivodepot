@@ -1,6 +1,6 @@
 {
  "grund": "Jede HTML-Senke mit dem Grund, warum sie sicher ist; geprüft von tests/html-senken-grundlinie.test.js. Verglichen wird über Datei und Abdruck (umschließende Funktion + Ausdruck); Zeile und Code dienen dem Wiederfinden.",
- "ohneProbeDeckel": 74,
+ "ohneProbeDeckel": 73,
  "eintraege": [
   {
    "datei": "vivodepot-lesen.html",
@@ -713,15 +713,6 @@
    "anzahl": 1,
    "code": "if (sprachfassungLueckenAnzahl() > 0) c.insertAdjacentHTML('afterbegin', sprachfassungHinweisHTML())",
    "grund": "sprachfassungHinweisHTML (47346) gibt nur escapeHTML(STRINGS.sprachfassungUnvollstaendigHinweis) aus."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderContent",
-   "zeile": 62447,
-   "abdruck": "ab5c0c3eace6de65",
-   "anzahl": 1,
-   "code": "c.insertAdjacentHTML('afterbegin', vollmachtBannerHTML())",
-   "grund": "vollmachtBannerHTML (28462) maskiert STRINGS und aktiverSubName() mit escapeHTML; dazu kommt nur svgIcon(ICONS.chevronRight)."
   },
   {
    "datei": "vivodepot.html",

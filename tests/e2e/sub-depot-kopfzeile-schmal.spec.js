@@ -36,32 +36,74 @@ for (const breite of [390, 360, 320]) {
     expect(await page.evaluate(mehrzeilig), 'kein Text der Kopfzeile bricht um').toEqual([]);
     const hoeheSub = await page.evaluate(() => document.querySelector('.topbar').getBoundingClientRect().height);
     expect(Math.abs(hoeheSub - hoeheEigen), 'die Kopfzeile ist im Sub-Depot so hoch wie im eigenen Depot').toBeLessThanOrEqual(1);
-    const kopf = await page.evaluate(() => {
-      const name = document.getElementById('tb-sub-name');
-      const sichtbar = (el) => !!(el && el.offsetParent && el.getBoundingClientRect().width > 0);
-      const praefix = document.getElementById('tb-sub-praefix');
-      const farbe = (sel) => getComputedStyle(document.querySelector(sel)).backgroundColor;
-      return { nameSichtbar: sichtbar(name), nameBreite: name ? Math.round(name.getBoundingClientRect().width) : 0,
-        praefixSichtbar: sichtbar(praefix), innerText: name ? name.innerText : '',
-        eigenerPunkt: farbe('.dp-punkt'), subPunkt: farbe('.tb-sub-punkt'),
-        punktSichtbar: sichtbar(document.querySelector('.tb-sub-punkt')), titel: document.querySelector('.tb-sub-hinweis').getAttribute('title') || '',
-        meinDepot: document.getElementById('tb-depot-name').innerText,
-        nameSchrift: name ? parseFloat(getComputedStyle(name).fontSize) : 0, nurPunkt: document.querySelector('.topbar').classList.contains('tb-eng-nur-punkt') };
+    const kopf = await page.evaluate(() => ({
+      hinweisImDom: !!document.getElementById('tb-sub-hinweis'), subPunktImDom: !!document.querySelector('.tb-sub-punkt'),
+      wechsler: document.getElementById('tb-depot-name').textContent,
+      zurueckImMenue: !!document.getElementById('tb-depot-menue-zurueck'),
+      kontextzeile: (document.getElementById('sub-kontext-text') || {}).textContent || '',
+    }));
+    expect(kopf.hinweisImDom, 'die Zeile „Geöffnet: <Name>“ neben dem Wechsler gibt es nicht mehr (Kopfleiste, U-2)').toBe(false);
+    expect(kopf.subPunktImDom, 'kein zweiter Tonpunkt neben dem Wechsler').toBe(false);
+    expect(kopf.wechsler, 'der Wechsler nennt die Person, auch bei schmaler Kopfzeile (die Kürzung leistet die Darstellung, nicht der Text)').toBe('Sophie Beispiel');
+    expect(kopf.kontextzeile, 'die Kontextzeile sagt, wessen Depot offen ist').toContain('Sophie Beispiel');
+    expect(kopf.zurueckImMenue, 'der Rückweg steht als Eintrag im Wechsler-Menü').toBe(true);
+  });
+}
+
+/* Sub-Depot ohne Umfärbung (Umbau nach dem Desktop-Dummy, Wagen 1, Leitfaden 5.24): Im geöffneten Sub-Depot bleibt die Oberfläche Salbei.
+   Die Person zeigt sich an drei Stellen: Farbkreis am Depot-Wechsler (Pille nennt ihren Namen), 3-px-Streifen oben an der Kopfzeile,
+   Kontextzeile unter der Kopfzeile mit „Zurück zu meinem Depot“. Rot-Beweis: der Stand vor dem Wagen färbt Kopfzeile und Akzent um
+   (`--vm-chrome` ≠ Salbei) und hat keine Kontextzeile. Bilder: Umgebungsvariable UMBAU_BILDER (Ordner), sonst keine. */
+for (const [breite, hoehe] of [[1280, 800], [375, 812]]) {
+  test(`Sub-Depot bei ${breite} px: Oberfläche bleibt Salbei, Person zeigt sich an Pille, Streifen und Kontextzeile`, async ({ page }) => {
+    test.setTimeout(240000);
+    await page.setViewportSize({ width: breite, height: hoehe });
+    await oeffneApp(page);
+    await depotAnlegen(page, { pw: PW });
+    const farben = () => page.evaluate(() => {
+      const cs = getComputedStyle(document.documentElement);
+      return { chrome: cs.getPropertyValue('--vm-chrome').trim(), akzent: cs.getPropertyValue('--akzent').trim(),
+        topbar: getComputedStyle(document.querySelector('.topbar')).backgroundColor };
     });
-    expect(kopf.punktSichtbar, 'der Tonpunkt des geöffneten Depots steht im Kopf').toBe(true);
-    expect(kopf.titel, 'der volle Name steht am Hinweis als title').toContain('Sophie Beispiel');
-    expect(kopf.meinDepot, '„Mein Depot“ bleibt voll, es ist das Ziel des Rückwegs').toBe('Mein Depot');
-    // GL 05.11.2026: entweder steht der Name lesbar (mindestens 3 em, sonst bliebe nur ein Rest wie „So…“), oder nur der Tonpunkt.
-    if (kopf.nameSichtbar) {
-      expect(kopf.nameBreite, 'kein Namensrest wie „So…“ neben dem Tonpunkt').toBeGreaterThanOrEqual(3 * kopf.nameSchrift - 1);
-      expect(kopf.innerText, 'nur der Name, ohne „Geöffnet:“').toBe('Sophie Beispiel');
-    } else {
-      expect(kopf.nurPunkt, 'ohne Namen steht die Kopfzeile in der Stufe „nur der Tonpunkt“').toBe(true);
-    }
-    expect(kopf.praefixSichtbar, '„Geöffnet:“ entfällt eng').toBe(false);
-    expect(kopf.eigenerPunkt, 'die Pille „Mein Depot“ behält ihren eigenen Punkt, nicht den Ton des fremden Depots').not.toBe(kopf.subPunkt);
-    const gewicht = await page.evaluate(() => { const g = () => getComputedStyle(document.querySelector('.tb-sub-hinweis')).fontWeight;
-      const hell = g(); document.documentElement.classList.add('dark-mode'); const nacht = g(); document.documentElement.classList.remove('dark-mode'); return { hell, nacht }; });
-    expect(gewicht.nacht, 'der Name steht in Nacht so stark wie in Hell (GL 05.11.2026)').toBe(gewicht.hell);
+    const eigen = await farben();
+    await page.evaluate(async (pw) => {
+      const e = await window.__vdOeffentlich.subDepotAnlegen({ bezeichnung: 'Mama', inhaberin: 'Sophie Beispiel', verwaltungsTyp: 'verwaltet', akzent: 'malve' }, pw);
+      await window.__vdOeffentlich.subDepotVertrauenOeffnen(e.depotUUID, pw);
+      window.__vdOeffentlich.subKontextBetreten(e.depotUUID);
+    }, PW);
+    await page.waitForTimeout(500);
+    const sub = await farben();
+    expect(sub, 'keine Umfärbung: Kopfzeile, Akzent und Chrome-Variable bleiben wie im eigenen Depot').toEqual(eigen);
+    const kopf = await page.evaluate(() => {
+      const zeile = document.getElementById('sub-kontextzeile');
+      const sichtbar = (el) => !!(el && el.offsetParent && el.getBoundingClientRect().width > 0);
+      const kopfBox = document.querySelector('.topbar').getBoundingClientRect();
+      const zeileBox = zeile.getBoundingClientRect();
+      const person = getComputedStyle(document.documentElement).getPropertyValue('--person').trim();
+      return { klasse: document.documentElement.classList.contains('sub-kontext'), person, zeileSichtbar: sichtbar(zeile),
+        zeileText: zeile.textContent.replace(/\s+/g, ' ').trim(), kreis: document.getElementById('sub-kontext-kreis').textContent,
+        unterKopf: Math.round(zeileBox.top - kopfBox.bottom), pille: document.getElementById('tb-depot-name').textContent,
+        streifen: getComputedStyle(document.querySelector('.topbar')).boxShadow,
+        punkt: getComputedStyle(document.querySelector('.dp-punkt')).backgroundColor,
+        ueberlauf: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    expect(kopf.klasse, 'html trägt sub-kontext').toBe(true);
+    expect(kopf.person, '--person ist gesetzt').not.toBe('');
+    expect(kopf.zeileSichtbar, 'Kontextzeile steht unter der Kopfzeile').toBe(true);
+    expect(kopf.zeileText).toContain('Sophie Beispiel');
+    expect(kopf.zeileText).toContain('Zurück zu meinem Depot');
+    expect(kopf.kreis, 'Kreis zeigt die Initiale').toBe('S');
+    expect(Math.abs(kopf.unterKopf), 'Kontextzeile schließt an die Kopfzeile an').toBeLessThanOrEqual(1);
+    expect(kopf.pille, 'der Depot-Wechsler nennt die Person, nicht „Mein Depot“').toBe('Sophie Beispiel');
+    expect(kopf.streifen, 'Streifen oben an der Kopfzeile').toContain('inset');
+    expect(kopf.punkt, 'Farbkreis am Wechsler in der Personenfarbe').not.toBe(eigen.akzent);
+    expect(kopf.ueberlauf, 'kein waagerechter Überlauf').toBeLessThanOrEqual(0);
+    if (process.env.UMBAU_BILDER) await page.screenshot({ path: `${process.env.UMBAU_BILDER}/sub-depot-kontext-${breite}.png` });
+    await page.click('#vm-zurueck');
+    await page.waitForTimeout(600);
+    const danach = await page.evaluate(() => ({ klasse: document.documentElement.classList.contains('sub-kontext'),
+      zeileVersteckt: document.getElementById('sub-kontextzeile').hidden, text: document.getElementById('sub-kontext-text').textContent,
+      pille: document.getElementById('tb-depot-name').textContent, person: getComputedStyle(document.documentElement).getPropertyValue('--person').trim() }));
+    expect(danach, 'zurück im eigenen Depot: keine Person, keine Zeile, kein Name als Spur').toEqual({ klasse: false, zeileVersteckt: true, text: '', pille: 'Mein Depot', person: '' });
   });
 }

@@ -69,11 +69,11 @@ test.describe('T-CROSS-02 Sub-Depot-Blackbox-Datenkette', () => {
     await a.fill('#sub-auf', FIX.subPasswort);
     await a.click('#m-ok');                                   // „Öffnen" → entsiegelt
     await a.waitForSelector('#sub-auf', { state: 'detached' });
-    await a.click(`[data-betreten="${uuid}"]`);              // entsiegeltes Sub als aktiven Kontext betreten
+    // Entsiegeltes Sub als aktiven Kontext:  „Mit Passwort öffnen“ führt seit 30.10.2026 selbst hinein (UX-SUBDEPOT-RUECKWEG); kein Klick auf „Dieses Depot ansehen“ mehr.
     // Auf den AKTIVEN Sub-Kontext warten, BEVOR sektorFeldSetzen läuft: der Betreten-Flow schaltet
     // auf Modus 'vollmacht' (data → Sub-Inhalt). Ohne diese Wartebedingung liefe sektorFeldSetzen
     // evtl. vor dem Kontext-Wechsel → der Wert landet nicht im Sub („nicht hinterlegt").
-    await a.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+    await a.waitForSelector('html.sub-kontext', { state: 'attached' });
 
     // Test-Helfer (eigene Top-Level-Funktionen der App, window-global): Sub-Feld setzen, dann
     // KONTEXTRICHTIG versiegeln — subDepotNeuVersiegeln/-BlackboxExportieren brauchen den ANKER-

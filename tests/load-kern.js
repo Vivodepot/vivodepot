@@ -482,7 +482,6 @@ const EXPORT_HOOK = `
   // White-Label-Akzent (12.09.2026, Nutzer-Rückmeldung) — freier Hex neben den acht benannten Tönen
   subDepotAkzentIstHex: (typeof subDepotAkzentIstHex !== 'undefined' ? subDepotAkzentIstHex : undefined),
   subDepotAkzentFarbe: (typeof subDepotAkzentFarbe !== 'undefined' ? subDepotAkzentFarbe : undefined),
-  subDepotAkzentPapierLinie: (typeof subDepotAkzentPapierLinie !== 'undefined' ? subDepotAkzentPapierLinie : undefined),
   naechsterFreierAkzent, farbwahlAuswahlHTML,
   subDepotNeuVersiegeln, subKontextBetreten, subKontextVerlassen,
   subDepotNieBetreten: (typeof subDepotNieBetreten !== 'undefined' ? subDepotNieBetreten : undefined),
@@ -490,7 +489,8 @@ const EXPORT_HOOK = `
   podEingerichtet: (typeof podEingerichtet !== 'undefined' ? podEingerichtet : undefined),
   shlLinkMitAbholseite: (typeof shlLinkMitAbholseite !== 'undefined' ? shlLinkMitAbholseite : undefined),
   sicherungskopieToastText: (typeof sicherungskopieToastText !== 'undefined' ? sicherungskopieToastText : undefined),
-  vollmachtBannerHTML, flowSubKontextBetreten, flowSubKontextVerlassen,
+  flowSubKontextBetreten, flowSubKontextVerlassen,
+  flowSubDepotEntsiegeln: (typeof flowSubDepotEntsiegeln === 'function' ? flowSubDepotEntsiegeln : undefined),   // UX-SUBDEPOT-RUECKWEG (30.10.2026): „Mit Passwort öffnen“ führt hinein
   getAktiverSubKontext: () => aktiverSubKontext,
   setzeSitzungsAkteur, aktuellerSitzungsAkteur, akteurSelbstErklaeren,
   inhaberAkteurEtablieren, _inhaberPersonIdFinden,   // Wiedereintritts-Akteur (U2-ADR-005-Folge)
