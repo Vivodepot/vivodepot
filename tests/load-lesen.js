@@ -319,7 +319,6 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   // QR-Übergabe empfangen (b16-Wiedereinbau, Krisenvorsorge-Auftrag 24.08.2026, Zug 3c)
   EMPFAENGER_QR_HASH_PRAEFIX, _empfaengerQrHashLesen, _empfaengerQrEntschluesseln,
   EMPFAENGER_QR_AAD: (typeof EMPFAENGER_QR_AAD !== 'undefined' ? EMPFAENGER_QR_AAD : undefined),
-  EMPFAENGER_QR_V1_ANNAHME_BIS: (typeof EMPFAENGER_QR_V1_ANNAHME_BIS !== 'undefined' ? EMPFAENGER_QR_V1_ANNAHME_BIS : undefined),
   renderEmpfaengerQrPasswort, boot,
   // (10.09.2026) — Branding erreicht die Lese-App, U2-ADR-362-Interceptor gespiegelt
   _markeName, _markeDomain, _markePlatzhalterAufloesen, _markeAnzeigeAnwenden, escapeHTML, topbarHTML,

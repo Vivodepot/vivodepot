@@ -163,6 +163,12 @@ const ZUWACHS = Object.freeze([
   ...['moveInDate', 'landlordIsOwner', 'ownerName', 'landlordConfirmationCode'].map((feld) =>
     ({ bereich: 'housing', sektion: 'wohnen-haupt', feld, unterfeld: null, art: 'feld', adr: 'U2-ADR-465' })),
   { bereich: 'identity', sektion: 'person', feld: 'academicDegree', unterfeld: null, art: 'feld', adr: 'U2-ADR-465' },
+  // U2-ADR-465 Nr. 35 — die Meldebescheinigung als Datei aus den Dokumenten, an der Hauptwohnung (16.11.2026).
+  { bereich: 'housing', sektion: 'wohnen-haupt', feld: 'registrationCertificate', unterfeld: null, art: 'feld', adr: 'U2-ADR-465' },
+  // U2-ADR-527 — Nachweise für eine Ermäßigung: die Liste und ihre drei Unterfelder (16.11.2026).
+  { bereich: 'socialInsurance', sektion: 'schwerbehinderung-pflege', feld: 'reducedRateProofs', unterfeld: null, art: 'feld', adr: 'U2-ADR-527' },
+  ...['reductionPurpose', 'reductionValidUntil', 'document'].map((unterfeld) =>
+    ({ bereich: 'socialInsurance', sektion: 'schwerbehinderung-pflege', feld: 'reducedRateProofs', unterfeld, art: 'feld', adr: 'U2-ADR-527' })),
 ]);
 
 // Sicht 1 — der eingefrorene BEREICHSBESTAND: benannte Feld-Stellen, nie Array-Positionen.

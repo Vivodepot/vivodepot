@@ -4,6 +4,7 @@
   "standards": [
     {
       "id": "vcard-4",
+      "fassungAnzeige": "RFC 6350",
       "name": "vCard Format Specification (vCard 4.0)",
       "version": "RFC 6350 (August 2011)",
       "herausgeber": "IETF",
@@ -40,6 +41,7 @@
     },
     {
       "id": "icalendar-2",
+      "fassungAnzeige": "RFC 5545",
       "name": "Internet Calendaring and Scheduling Core Object Specification (iCalendar)",
       "version": "RFC 5545 (September 2009), VERSION:2.0",
       "herausgeber": "IETF",

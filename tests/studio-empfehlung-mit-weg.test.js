@@ -8,11 +8,11 @@
        MELDUNG_ZIEL. Gesammelt STATISCH aus dem Quelltext (jedes Argument von blocker.push / warnungen.push / fehler.push
        und das Rückgabe-Array) — eine neue Meldung ohne Ziel wird rot, bevor sie jemand sieht. Rot-Beweis: eine Kopie
        mit einer zusätzlichen Warnung meldet genau ein fehlendes Ziel.
-   (b) ASSISTENT: eine Frage mit Pflicht ergibt ein Feld mit pflicht: true, auch ein Standardfeld; der Schalter am Modell
-       (ASSISTENT.fragen[i].pflicht) ändert assistentFelder().
+   (b) START-BEISPIEL UND ARBEITSFLÄCHE (seit 14.11.2026, vorher der Assistent): ein Beispiel legt Felder mit pflicht: true an,
+       auch ein Standardfeld; der Schalter „Pflichtfeld“ der Feldkarte schreibt ins Feld.
    (c) SCHRITT 3: renderefPruefung baut Blocker und Warnungen über pruefZeile, und pruefZeile hängt bei einem Ziel den
        Knopf „Beheben“ an.
-   Der Weg im Browser (Assistent und Fachebene, mit Rot-Beweis) steht in tests/e2e-cross/T-CROSS-35-studio-empfehlung-beheben.spec.js.
+   Der Weg im Browser (mit Rot-Beweis) steht in tests/e2e-cross/T-CROSS-35-studio-empfehlung-beheben.spec.js.
    ═════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -114,32 +114,28 @@ test('[Empfehlung mit Weg · Ziele] die Laufzeit-Meldungen treffen das erwartete
   assert.equal(V.meldungZiel('Etwas ganz anderes.', felder), null);
 });
 
-/* ── (b) Assistent ───────────────────────────────────────────────────────── */
-test('[Empfehlung mit Weg · Assistent] Pflicht reist mit, auch bei einem Standardfeld; der Schalter am Modell ändert die Felder', () => {
+/* ── (b) Start-Beispiel und Arbeitsfläche ───────────────────────────────────────────────────────── */
+test('[Empfehlung mit Weg · Start-Beispiel] ein Beispiel legt Vorname, Nachname, E-Mail als Pflicht in die Arbeitsfläche, auch ein Standardfeld trägt Pflicht; der Schalter Pflichtfeld der Feldkarte ändert STATE.felder', () => {
   const { V } = ladeGenerator();
-  V.ASSISTENT.sprache = 'de';
-  V.assistentBeispielLaden('andere');                 // „Kontaktbogen“: drei Standardfelder, seit Wagen 1.5 als „Muss“ vorbelegt
-  assert.deepEqual(nativ(V.assistentFelder()).map((f) => f.pflicht), [true, true, true]);
-  V.ASSISTENT.fragen.forEach((f) => { f.pflicht = false; });   // abgewählt: keine Pflicht
-  assert.deepEqual(nativ(V.assistentFelder()).map((f) => f.pflicht), [false, false, false]);
-  V.ASSISTENT.fragen[0].pflicht = true;               // Standardfeld (Vorname)
-  assert.ok(V.ASSISTENT.fragen[0].reg, 'Frage 1 ist ein Standardfeld');
-  V.ASSISTENT.fragen.push({ frage: 'Ihre Nachricht', pflicht: true });
-  const felder = nativ(V.assistentFelder());
-  assert.deepEqual(felder.map((f) => f.pflicht), [true, false, false, true]);
+  const felder = nativ(V.beispielFelder('andere'));     // „Kontaktbogen“: drei Standardfelder, als „Muss“ vorbelegt
+  assert.deepEqual(felder.map((f) => f.pflicht), [true, true, true]);
   assert.equal(V.pruefeKonformitaet({ felder }, { nurInhalt: true }).warnungen.filter((w) => /keine Pflichtfelder/.test(w)).length, 0);
-  V.ASSISTENT.fragen[0].pflicht = false; V.ASSISTENT.fragen[3].pflicht = false;
-  const ohne = nativ(V.assistentFelder());
-  assert.deepEqual(ohne.map((f) => f.pflicht), [false, false, false, false]);
+  // Der Schalter der Feldkarte schreibt ins Modell der Arbeitsfläche: feldUebernehmen liest ed-pflicht und legt das Feld in STATE.felder ab.
+  const uebernehmen = rumpf(HTML, 'feldUebernehmen');
+  assert.match(uebernehmen, /pflicht: \$\('ed-pflicht'\)\.checked/);
+  assert.match(uebernehmen, /STATE\.felder\[editorIndex\] = /);
+  const ohne = felder.map((f) => Object.assign({}, f, { pflicht: false }));   // abgewählt: keine Pflicht
   assert.equal(V.pruefeKonformitaet({ felder: ohne }, { nurInhalt: true }).warnungen.filter((w) => /keine Pflichtfelder/.test(w)).length, 1);
+  ohne[0].pflicht = true;                                // ein Standardfeld (Vorname) genügt
+  assert.equal(V.pruefeKonformitaet({ felder: ohne }, { nurInhalt: true }).warnungen.filter((w) => /keine Pflichtfelder/.test(w)).length, 0);
 });
-test('[Empfehlung mit Weg · Assistent] Liste und Karte zeigen den Schalter und das Sternchen', () => {
-  const zeigen = rumpf(HTML, 'assistentZeigen');
-  assert.match(zeigen, /L\('Muss ausgefüllt werden', 'Must be filled in'\)/);
-  assert.match(zeigen, /type: 'checkbox', checked: f\.pflicht/);
-  assert.match(zeigen, /f\.pflicht = !!\(e && e\.target && e\.target\.checked\)/);
-  assert.match(rumpf(HTML, 'assistentKarte'), /assistentFrageName\(f\) \+ \(f\.pflicht \? ' \*' : ''\)/);
-  assert.match(rumpf(HTML, 'assistentEinreichen'), /fertigAusAssistent = true;/);
+test('[Empfehlung mit Weg · Arbeitsfläche] die Feldkarte zeigt das Sternchen und trägt den Schalter Pflichtfeld; die Vorschau der Anfrage nennt Pflicht oder freiwillig', () => {
+  const karten = rumpf(HTML, 'rendereFelder');
+  assert.match(karten, /if \(f\.pflicht\) kopf\.appendChild\(el\('span', \{ class: 'vk-stern'/);
+  assert.match(HTML, /<input type="checkbox" id="ed-pflicht">/);
+  const vorschau = rumpf(HTML, 'anfrageVorschauRendern');
+  assert.match(vorschau, /f\.pflicht \? L\('Pflicht', 'required'\) : L\('freiwillig', 'optional'\)/);
+  assert.match(rumpf(HTML, 'fertigOeffnen'), /fertigEinfach = STATE\.art !== 'blatt';/);
 });
 
 /* ── (c) Schritt 3 ───────────────────────────────────────────────────────── */
@@ -153,7 +149,7 @@ test('[Empfehlung mit Weg · Schritt 3] Blocker und Warnungen laufen über pruef
   assert.match(zeile, /if \(ziel\) \{[\s\S]*el\('button', \{ type: 'button', class: 'link-knopf pr-beheben'[\s\S]*text: L\('Beheben', 'Fix'\), onclick: \(\) => meldungBeheben\(ziel\)/);
   const beheben = rumpf(HTML, 'meldungBeheben');
   assert.doesNotMatch(beheben, /SCHLUESSEL_TRESOR\.verwerfen|STATE\.(anbieter|publicKeyJwk|pubDownloaded|privDownloaded)\s*=/, '„Beheben“ darf nichts verwerfen');
-  assert.match(beheben, /zeigeSchritt\('assistent'\)/);
+  assert.doesNotMatch(beheben, /zeigeSchritt\('assistent'\)/, '„Beheben“ führt in die Arbeitsfläche, nirgends in einen Assistenten');
   assert.match(beheben, /zeigeSchritt\('template'\)/);
 });
 test('[Empfehlung mit Weg · Schritt 3 · Rot-Beweis] ein Render ohne pruefZeile fällt auf', () => {

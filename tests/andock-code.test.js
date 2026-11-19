@@ -121,6 +121,10 @@ test('Keine Code-Tabelle im Kern (kein SNOMED/LOINC/ICD-System hardkodiert)', ()
   //    `codeliste:<Liste>/<Code>.anzeige` — wie der Marker in 1) benennt sie nur die andockende Liste; der Name dahinter ist
   //    Text des Textsatzes, kein Code-System im Kern. Herausgeschnitten wird nur die Kennung selbst.
   snapshot = snapshot.replace(/"codeliste:[A-Za-z0-9]+\/[^"]+\.anzeige"/g, '""');
+  // 7) STANDARDS-SEITE (17.11.2026): genau der eine Eintrag snomed-ct-gps nennt den Standard beim Namen. Er dockt an die
+  //    bestehende Code-Liste code-listen/snomedAllergen.json an (Teilliste des SNOMED CT Global Patient Set, Lizenz-Wortlaut
+  //    code-listen/wortlaut/snomed-gps-hinweis.txt) — Text über die Quelle, kein Code im Kern. Herausgeschnitten wird nur diese Zeile.
+  snapshot = snapshot.replace(/Object\.freeze\(\{"id":"snomed-ct-gps","name":"SNOMED CT Global Patient Set","herausgeber":"SNOMED International",[^\n]*\n/, '');
   // SNOMED und ICD-10 sind klinische Code-Systeme → im (übrigen) Kern weiterhin verboten (kein rc1-Ballast).
   assert.ok(!/SNOMED/i.test(snapshot), 'kein SNOMED-Code-System im Kern');
   assert.ok(!/LOINC/i.test(snapshot), 'kein LOINC außerhalb des klar abgegrenzten IPS-Exports/Code-Listen-Andocks');

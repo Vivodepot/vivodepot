@@ -58,6 +58,9 @@ test('2) das Gedächtnis der Sitzung hält eine aufgeklappte Karte offen und ein
   const schluessel = (i) => /data-karte="([^"]*)"/.exec(k[i].attrs)[1].replace(/&#124;|&vert;/g, '|');
   V._kartenZustand.set(schluessel(0), false);
   V._kartenZustand.set(schluessel(3), true);
+  // Eintragebereich (S.4c): die offene Rubrik steht immer aufgeklappt im Detail. Darum ist hier eine dritte Karte die offene Rubrik,
+  // damit das Gedächtnis der beiden geprüften Karten sichtbar bleibt.
+  V.eintragebereichRubrikSetzen('identity', schluessel(2));
   V.renderSektor('identity');
   const neu = karten(document);
   assert.equal(neu[0].offen, false, 'zugeklappte erste Karte bleibt zu');

@@ -60,11 +60,14 @@ test('Anlass-Export liefert JSON UND PDF', async ({ page }) => {
   await page.waitForTimeout(300);
   await uebersichtBestaetigen(page);
   /* B3 (12.11.2026): Nach dem Herausgeben zeigt der Ergebnis-Dialog zwei gleichrangige Wege, PDF und Datei.
-     Beide stammen aus demselben Lauf; die Probe geht beide Wege und verlangt beide Dateien. */
+     Beide stammen aus demselben Lauf; die Probe geht beide Wege und verlangt beide Dateien. Seit U-5 Rest (17.11.2026) stehen die Wege
+     auf der Seite „Fertig“ ([data-anlass-ergebnis]); [data-ergebnis-weg] sind dort die Knöpfe „Speichern“. */
   const ergebnis = page.locator('[data-anlass-ergebnis]');
   await expect(ergebnis, 'der Ergebnis-Dialog bietet die Wege an').toBeVisible();
   await ergebnis.locator('[data-ergebnis-weg="pdf"]').click();
   await page.waitForTimeout(600);
+  // Ohne Stelle fragt der erste Weg einmal nach, an wen es ging; die Probe trägt keine ein und wählt „Später“.
+  if (await page.locator('#modal-rueck.an').isVisible().catch(() => false)) await page.locator('#m-zweit').click();
   await ergebnis.locator('[data-ergebnis-weg="datei"]').click();
   await page.waitForTimeout(600);
 

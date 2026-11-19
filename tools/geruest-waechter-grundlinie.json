@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 312487
+   "bytes": 330122
   },
   "satz": {
-   "bytes": 27535
+   "bytes": 27422
   }
  },
  "fremdcode": [
@@ -171,6 +171,15 @@
     "scriptId": "zxing_DataMatrixInline"
    },
    "bytes": 9909
+  },
+  {
+   "name": "pdfjs-dist",
+   "herkunft": "pdf.js 4.10.38 (Mozilla Foundation, Apache-2.0), legacy/build/pdf.worker.min.mjs und legacy/build/pdf.min.mjs aus dem npm-Paket pdfjs-dist, gebaut mit tools/pdfjs-einbetten.js aus dem Tarball mit geprüfter Integrität (sha512 des Registry-Eintrags); nur die abschließenden export-Anweisungen sind durch nicht beschreibbare Bindungen ersetzt (pdfjsWorker, vdPdfjs), sonst unverändert. SHA-256 des Blocks in der @vd-lib-Marke, Prüfung: node tools/pdfjs-einbetten.js --pruefen. Konsument: ein PDF im Depot ansehen (mappePdfSeitenZeichnen, isEvalSupported aus). Fassung ab 4.2.67 (CVE-2024-4367), Probe tests/pdf-anzeige-richtlinie.test.js.",
+   "version": "4.10.38",
+   "erkennung": {
+    "scriptId": "pdfjs_VivodepotInline"
+   },
+   "bytes": 467917
   }
  ],
  "technischeWoerter": [
@@ -257,6 +266,12 @@
     "satz": 20,
     "grund": "Der Name der Urheberin und die Lizenzkennung am Herkunftsort: Text, den wir führen müssen — die Urheberschaft darf nicht entfernbar sein (Spezifikation 34.7), und eine falsche Lizenzkennung wäre eine falsche Aussage (25.8). Der Block ist aus tools/herkunftsort-angaben.json erzeugt und in Kern und Lese-App byte-gleich. Die Probe sichert sein VORHANDENSEIN und seine Gleichheit, nicht das Weglassen.",
     "probe": "tests/herkunftsort-angaben-gleich.test.js"
+   },
+   {
+    "name": "STANDARDS-SEITE",
+    "satz": 1819,
+    "grund": "Die Seite „Standards und Vereinbarungen“ als erzeugte Daten aus tools/standards-register: Name, Herausgeber und Fassung je Standard, den das Produkt liest oder schreibt. Kein Handtext: der Block kommt aus tools/standards-seite-erzeugen.js, die Probe vergleicht ihn mit der Ausgabe des Registers (Rot-Beweis: Handtext und geänderter Name fallen auf). Aufgenommen 16.11.2026 (U-ST) mit Einzelwort.",
+    "probe": "tests/standards-seite-erzeugt.test.js"
    },
    {
     "name": "LIZENZ-WORTLAUT",
@@ -3513,6 +3528,512 @@
    "auf": 312844,
    "daneben": {},
    "grund": "Kreis-Wagen: Unterfelder im Kreis-Zuschnitt, Kasten „Nicht mitgeschickt“, Freigabe je Kreis (aus 90b6d9370, mit B7 und Zurück im Browser zusammengeführt)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312487,
+   "auf": 312985,
+   "daneben": {},
+   "grund": "Umbau U-3 Schritt 2: die Seitenleiste bekommt die Gruppe Anlässe, die Zahl am Bereich und das Einstellungsmenü; reines Markup ohne Satz, der satzförmige Eimer wächst nicht",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312985,
+   "auf": 313093,
+   "daneben": {},
+   "grund": "Antwort als QR-Serie (16.11.2026): dritte Wahl am Ausgabeweg, Serien-Fenster mit Grenze, gemeinsamer Serien-Baustein für EUDIW und Antwort",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312985,
+   "auf": 313823,
+   "daneben": {},
+   "grund": "U-4 Eintragebereich (S.4c): Markup von Liste und Detail, reines Markup, der Satz-Eimer wächst nicht",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 313093,
+   "auf": 313931,
+   "daneben": {},
+   "grund": "Zug zug-v1063-design-l4-2026-11-16: feat(umbau): U-4 Eintragebereich Schritt 1 — Liste | Detail statt Formularseit auf dem Zugstand; Summe der Wagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 313823,
+   "auf": 314055,
+   "daneben": {},
+   "grund": "U-4 Schritt 2: Kopf des Details mit Herausgeben, Herkunftszeile bei eigener Eingabe, Meldung Gespeichert",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 314055,
+   "auf": 314103,
+   "daneben": {},
+   "grund": "U-4 Schritt 2: Zeichen-Platz im Kopf des Details, Herkunftszeile maskiert in einem Stück",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 313931,
+   "auf": 314211,
+   "daneben": {},
+   "grund": "Zug zug-v1063-design-l4-2026-11-16: feat(umbau): U-4 Eintragebereich Schritt 2 — Detail flach, Herkunft an jedem F auf dem Zugstand; Summe der Wagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312985,
+   "auf": 314869,
+   "daneben": {},
+   "grund": "U-7 Notfallkarte nach dem Dummy: Karte mit Band, sieben Schalter, Knöpfe Drucken/QR/Aufs Handy/Angaben ändern (Schema 101)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 314716,
+   "auf": 314796,
+   "daneben": {},
+   "grund": "U-7: alle Angaben offen statt eingeklappt (Zielbild 06), Karte und Raster als einzeln angehängte Bausteine",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 314211,
+   "auf": 316022,
+   "daneben": {},
+   "grund": "Zug zug-v1063-design-l4-2026-11-16: feat(notfall): Notfallkarte nach dem Dummy — Karte mit Band, sieben Schalter � auf dem Zugstand; Summe der Wagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312985,
+   "auf": 313523,
+   "daneben": {},
+   "grund": "U-10 Herausgegeben als Tabelle und Blatt Ansehen, Gültigkeit in der Dokumentliste",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 316022,
+   "auf": 316560,
+   "daneben": {},
+   "grund": "Zug zug-v1063-design-l4-2026-11-16: feat(umbau): Herausgegeben als Tabelle und Gültigkeit in der Dokumentliste nach auf dem Zugstand; Summe der Wagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312985,
+   "auf": 314102,
+   "daneben": {},
+   "grund": "U-8 16.11.2026: Suche als Palette (Gruppen Angaben, Dokumente, Erledigen; Quellen-Icon und Pfad; Leer-Zustand; Enter; Suche nach eigenen Angaben aus 00be83b6c)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 316560,
+   "auf": 317677,
+   "daneben": {},
+   "grund": "Zug zug-v1063-design-l4-2026-11-16: feat(suche): Suche als Palette — eigene Angaben mit Herkunft, Dokumente, Befeh auf dem Zugstand; Summe der Wagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 312985,
+   "auf": 313017,
+   "daneben": {},
+   "grund": "Umbau U-1 Rest (16.11.2026): Kontextzeile im Sub-Depot in drei festen Teilen (Einleitung, Name, Rolle) und die Rolle aus der Beziehung (subKontextRolle, SUB_ROLLE_TEXT)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 317677,
+   "auf": 317709,
+   "daneben": {},
+   "grund": "Zug zug-v1063-design-l4-2026-11-16: feat(sub-depot): Kontextzeile nach dem Dummy, mit Rolle aus der Beziehung auf dem Zugstand; Summe der Wagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 317709,
+   "auf": 319991,
+   "daneben": {},
+   "grund": "Zug zug-v1063-design-l4-2026-11-16 ohne die Standards-Seite (b5e5273a8 nach v1066): Stand der Wagen nach dem Neuaufsatz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 319991,
+   "auf": 320976,
+   "daneben": {},
+   "grund": "U-9 Anfrage-Ansicht nach dem Dummy: Schalter je Angabe, Antwort senden, Ablehnen, Wieder öffnen (17.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 320976,
+   "auf": 322203,
+   "daneben": {},
+   "grund": "U-6 Einlesen als Seite mit Ablagefläche, Wegen und Erkannt-Zeile, im Zug zug-v1065-l4-2026-11-17 nach der Schale v1065 (17.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 322203,
+   "auf": 322209,
+   "daneben": {},
+   "grund": "U-8-Fix: Suchtreffer zeigen bei eigenen Angaben kein Zeichen und keine Herkunftszeile, sucheHerkunft (17.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 322209,
+   "auf": 322468,
+   "daneben": {},
+   "grund": "Standards-Seite aus dem Standards-Register: Karten je Standard mit Weg, _ueberStandardKarteHTML und Marke je Karte (17.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 322468,
+   "auf": 322831,
+   "daneben": {},
+   "grund": "Barrierefreiheit als erster Abschnitt der Einstellungen (U-2 S.4a): Schalter-Gerüst, im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 322512,
+   "auf": 322783,
+   "daneben": {},
+   "grund": "fix(herkunft): eigene Angaben ohne Zeichen, Eingelesenes mit Zeichen und Stelle (A2) — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 320344,
+   "auf": 321085,
+   "daneben": {},
+   "grund": "D38/D39: Zeile für neuen Listeneintrag mit Speichern/Abbrechen und Zweitknopf am Chip-Feld der Medikamente (Markup und Selektoren)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 322783,
+   "auf": 323524,
+   "daneben": {},
+   "grund": "feat(ux): Neuer Listeneintrag als Zeile in der Liste, Zweitknopf bei den Medikamenten (D38, D39) — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 323524,
+   "auf": 324021,
+   "daneben": {},
+   "grund": "feat(ux): Depot-Wechsler nach dem Desktop-Dummy, Leitsatz im Einstieg, Bildmarke schmal, Suchfeld bei 1280 px (D04–D07 — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 324021,
+   "auf": 324022,
+   "daneben": {},
+   "grund": "feat(bereich): Foto als eigene Rubrik in der Liste des Bereichs Person (D51); Nachtrag Freigabe mit Häkchen in Gruppen  — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 324022,
+   "auf": 324166,
+   "daneben": {},
+   "grund": "feat(kern): ein PDF im Depot in der Anwendung ansehen — Seiten als Bild in der Vorschau (pdf.js 4.10.38 eingebettet) — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 324166,
+   "auf": 324393,
+   "daneben": {},
+   "grund": "feat(umbau): U-4 Eintragebereich am Handy — erst die Liste, dann das Detail — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 324158,
+   "auf": 326461,
+   "daneben": {},
+   "grund": "Umbau U-3: Übersicht nach dem Dummy, Einlesen als eine Tür, Fußpunkte der Seitenleiste (D13)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 326461,
+   "auf": 326506,
+   "daneben": {},
+   "grund": "Anlässe der Übersicht und Seitenleiste nach Benutzung und eigenen Angaben (entschieden 17.11.2026): Startauswahl als Konstante",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 326506,
+   "auf": 326764,
+   "daneben": {},
+   "grund": "feat(suche): Palette nach dem Desktop-Dummy, Lupe im Kopf bei schmaler Leiste (U-8a) — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 326764,
+   "auf": 326772,
+   "daneben": {},
+   "grund": "fix(ux): Initialen im Depot-Wechsler ohne Zerlegen des Namens; Grundlinie Zweitknopf um den Medikamenten-Text — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 326772,
+   "auf": 328603,
+   "daneben": {},
+   "grund": "feat(anlass): Seite „Fertig“, „An“ im Fenster „Herausgeben“, Blatt von unten und Anfrage-Knöpfe (U-5 Rest) — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 328603,
+   "auf": 329130,
+   "daneben": {},
+   "grund": "feat(studio, herausgegeben): Nachweise für eine Ermäßigung, Herausgegeben als Karten am Telefon, Datei-Angaben in der — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329130,
+   "auf": 329146,
+   "daneben": {},
+   "grund": "Kopf mit Lupe am Handy: topbarPlatzAnpassen misst nach dem Einblenden der Lupe noch einmal und setzt dabei die Stufen tb-eng-1 und tb-eng-2 erneut.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329146,
+   "auf": 329154,
+   "daneben": {},
+   "grund": "feat(umbau): „Zuletzt geändert“ mit Uhrzeit, eigene Zeile ohne Initiale (D32) — im Zug v1065 auf der Zugspitze gemessen (17.11.2026).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329154,
+   "auf": 329281,
+   "daneben": {},
+   "grund": "T-CROSS-11: Stufe 3 der Kopfleiste (tb-eng-3), title und aria-label der Depot-Pille, Anzeige-Mechanik",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329281,
+   "auf": 329301,
+   "daneben": {},
+   "grund": "T-CROSS-11: Stufe 3 nicht im Sub-Modus (T-CROSS-09)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329301,
+   "auf": 329315,
+   "daneben": {},
+   "grund": "Stapel v1065 auf b75de228b: Sub-Depot M07/M26 (ccd5e6c9c) bringt die Zuletzt-/Herkunftszeile am Handy, Summe der bisher gestapelten Wagen gegen b75de228b gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329315,
+   "auf": 329375,
+   "daneben": {},
+   "grund": "Stapel v1065: Pro D89/D86 (ed4c9e8fb) bringt „Herausgeben“ mit Anlass als Untertext und als Blatt von unten am Handy, gegen b75de228b gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329349,
+   "auf": 329385,
+   "daneben": {},
+   "grund": "Stapel v1065: Pro Handy-Fix (6b49242ae) öffnet am Handy mit der Rubrik des Feldes auch ihr Detail, gegen bfdb452c2 gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 329385,
+   "auf": 330044,
+   "daneben": {},
+   "grund": "Stapel v1065: Design Kopfleiste am Handy nach dem Desktop-Dummy (88e9de054), Pille 320, Darstellung-Knopf, Erscheinungsbild nach dem Anlegen; gegen 8c62a937a gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 330031,
+   "auf": 330110,
+   "daneben": {},
+   "grund": "Foto-Zeile der Rubrik Foto führt zum Upload (Knopf data-foto-waehlen), FOTO-RUNDLAUF-VERLUST",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 330110,
+   "auf": 330111,
+   "daneben": {},
+   "grund": "Abstand vor dem Knopf der Foto-Zeile (Leerzeichen), FOTO-RUNDLAUF-VERLUST",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 330111,
+   "auf": 330122,
+   "daneben": {},
+   "grund": "Verweis-Auswahl: der gespeicherte Verweis bleibt als gewählte Option stehen, auch außerhalb der Vorschläge (VERWEIS-VERLUST-PFLEGEDIENST, VERWEIS-ERSATZ-NOTFALLNACHBAR)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

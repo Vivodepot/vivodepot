@@ -6,10 +6,10 @@
    nannte die Empfehlung „keine Pflichtfelder“, aber keinen Weg dorthin; der Schalter dafür lag nur im Feld-Editor,
    und der Assistent Aufnahmebogen hatte keinen.
    Belegt im Browser:
-   (1) Assistent: Eingang → Aufnahmebogen → Name → Beispiel „Kontaktbogen“ (ohne Pflichtfrage) → Weiter: Einreichen →
-       Schritt 3 zeigt die Empfehlung mit „Beheben“ → zurück im Assistenten, Schritt 2, der Schalter „Muss ausgefüllt
-       werden“ hat den Fokus → angehakt → Weiter: Einreichen → Schritt 3 ohne die Empfehlung. DE und EN.
-   (2) Fachebene mit erzeugtem Schlüssel: „Beheben“ öffnet den Feld-Editor mit Fokus auf „Pflichtfeld“; der Dialog
+   (1) Start-Beispiel (seit 14.11.2026, vorher der Assistent): Eingang → Aufnahmebogen → Name der Stelle → Beispiel
+       „Kontaktbogen“, Pflicht abgewählt → Fertigstellen → Schritt 3 zeigt die Empfehlung mit „Beheben“ → Arbeitsfläche, der
+       Schalter „Pflichtfeld“ der Feldkarte hat den Fokus → angehakt → Fertigstellen → Schritt 3 ohne die Empfehlung. DE und EN.
+   (2) Leere Vorlage mit erzeugtem Schlüssel: „Beheben“ öffnet den Feld-Editor mit Fokus auf „Pflichtfeld“; der Dialog
        ist nur geschlossen — nach „Fertigstellen und einreichen“ steht Schritt 2 weiter auf „gesichert“ und das
        Paket lässt sich erzeugen.
    Rot-Beweis: ohne die Knöpfe „Beheben“ (per page.evaluate entfernt) gibt es aus Schritt 3 keinen Weg zur Stelle.
@@ -19,9 +19,8 @@ const { test, expect } = require('@playwright/test');
 const H = require('./support/helpers');
 const FIX = require('./fixtures/reise-4-vertrauenskette.json');
 
-const KEINE_PFLICHT = { de: /keine Pflichtfelder/, en: /no required fields/ };
-// Aus dem Assistenten nennt der Dialog dieselbe Empfehlung in Alltagswörtern (Wagen 1.5, einfachWorte).
-const KEINE_PFLICHT_EINFACH = { de: /keine Frage mit „Muss ausgefüllt werden“/, en: /no question marked “Must be filled in”/ };
+// Der Dialog nennt die Empfehlung in Alltagswörtern (Wagen 1.5, einfachWorte); seit 14.11.2026 für jede Vorlage.
+const KEINE_PFLICHT_EINFACH = { de: /kein Datenfeld mit „Pflicht“/, en: /no data field marked “required”/ };
 const BEHEBEN = { de: 'Beheben', en: 'Fix' };
 
 // Seit „Einreichen in drei Schritten“ (16.10.2026) ist offen genau ein Schritt, und nur der Kopf von ① lässt sich
@@ -40,20 +39,32 @@ async function angabenUndSicherung(p) {
   await expect(p.locator('#sk-priv-status')).toContainText(/Sicherung geprüft|Backup checked/);
 }
 
+/* Die Pflicht jedes Felds in seiner Karte abwählen, wie eine Person: Bearbeiten, Schalter „Pflichtfeld“, Fertig. */
+/* Die Karte zeigt die Pflicht als gedrückten Knopf „Pflicht“ im Schalter (Vorgabe-Dummy 14.11.2026); vorher als Stern. */
+const PFLICHT_AN = '.vk-pflicht-wahl > .vk-pflicht-knopf:first-child[aria-pressed="true"]';
+async function pflichtAbwaehlen(p) {
+  const n = await p.locator('#tpl-felder .vk').count();
+  for (let i = 0; i < n; i++) {
+    await p.locator('#tpl-felder .vk').nth(i).locator('.vk-bearbeiten').click();
+    await p.waitForSelector('#feld-editor:not([hidden])');
+    await p.uncheck('#ed-pflicht');
+    await p.click('#ed-speichern');
+  }
+}
+/* Vom Eingang über den Start (Name der Stelle, Beispiel „Kontaktbogen“) in die Arbeitsfläche und zu „Fertigstellen“. */
 async function assistentBisFertigDialog(p, sprache) {
   await p.goto(H.URLS.generator);
   await p.click(sprache === 'en' ? '#sp-en' : '#sp-de');   // die Sprache des Browsers soll nicht mitspielen
-  await p.click('#ein-aufnahme');
   await p.waitForSelector('#as-name', { state: 'visible' });
   await p.fill('#as-name', 'Musterverein Probe');
-  await p.click('#as-art [data-art="andere"]');
-  await expect(p.locator('#as-schritt-2')).toBeVisible();                  // seit Einfach-Weg Teil 2 stehen Einrichtung und Bogen auf einer Seite
-  await expect(p.locator('#as-felder .as-frage')).toHaveCount(3);          // „Kontaktbogen“: drei Fragen
-  // Seit Wagen 1.5 stehen Vorname, Nachname und E-Mail als „Muss“ vorbelegt da; abgewählt hat der Bogen keine Pflicht.
-  await expect(p.locator('#as-felder .as-frage-pflicht input:checked')).toHaveCount(3);
-  for (const k of await p.locator('#as-felder .as-frage-pflicht input').all()) await k.uncheck();
-  await expect(p.locator('#as-felder .as-frage-pflicht input:checked')).toHaveCount(0);
-  await p.click('#as-weiter-2');
+  await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+  await p.click('#as-beispiele [data-beispiel="andere"]');
+  await expect(p.locator('#tpl-felder .vk')).toHaveCount(3);              // „Kontaktbogen“: drei Felder
+  // Seit Wagen 1.5 stehen Vorname, Nachname und E-Mail als Pflicht vorbelegt da; abgewählt hat die Vorlage keine Pflicht.
+  await expect(p.locator('#tpl-felder .vk ' + PFLICHT_AN)).toHaveCount(3);
+  await pflichtAbwaehlen(p);
+  await expect(p.locator('#tpl-felder .vk ' + PFLICHT_AN)).toHaveCount(0);
+  await p.click('#fertig-oeffnen');
   await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
 }
 
@@ -64,8 +75,8 @@ async function assistentBisSchritt3(p, sprache) {
 }
 
 for (const sprache of ['de', 'en']) {
-  test.describe('T-CROSS-35 Empfehlung mit Weg · Assistent · ' + sprache.toUpperCase(), () => {
-    test('„Beheben“ führt in den Assistenten an den Schalter, danach ist die Empfehlung fort', async ({ browser }) => {
+  test.describe('T-CROSS-35 Empfehlung mit Weg · Start-Beispiel · ' + sprache.toUpperCase(), () => {
+    test('„Beheben“ führt in die Arbeitsfläche an den Schalter der Feldkarte, danach ist die Empfehlung fort', async ({ browser }) => {
       test.setTimeout(120000);
       const ctx = await browser.newContext({ acceptDownloads: true });
       const p = await ctx.newPage();
@@ -79,18 +90,17 @@ for (const sprache of ['de', 'en']) {
       await knopf.click();
 
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(0);
-      await expect(p.locator('#raum-assistent')).toBeVisible();
-      await expect(p.locator('#as-schritt-2')).toBeVisible();
-      const kasten = p.locator('#as-felder .as-frage-pflicht input').first();
-      await expect(kasten).toBeFocused();
-      await kasten.check();
-      await expect(p.locator('#as-felder .as-frage-name').first()).toContainText('*');   // Liste und Karte zeigen die Pflicht
-      await expect(p.locator('#as-k-zeilen .as-zeile').first()).toContainText('*');
+      await expect(p.locator('#raum-bau')).toBeVisible();
+      await expect(p.locator('#feld-editor')).toBeVisible();
+      await expect(p.locator('#ed-pflicht')).toBeFocused();
+      await p.check('#ed-pflicht');
+      await expect(p.locator('#tpl-felder .vk').first().locator(PFLICHT_AN)).toBeVisible();          // Karte und Vorschau zeigen die Pflicht
+      await expect(p.locator('#av-felder .as-zeile').first().locator('.av-art')).toHaveText(/Pflicht|required/);
 
-      await p.click('#as-weiter-2');                                            // ein Klick zurück zum Fertigstellen, wie bisher
+      await p.click('#fertig-oeffnen');                                         // ein Klick zurück zum Fertigstellen, wie bisher
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
-      // Seit Wagen 1.5: die Angaben stehen vollständig, ② ist erledigt, also öffnet der Dialog gleich bei ③ (assistentEinreichen
-      // übernimmt vollständige Angaben); ① steht als erledigte Zeile mit dem Namen da.
+      // Seit Wagen 1.5: die Angaben stehen vollständig, ② ist erledigt, also öffnet der Dialog gleich bei ③;
+      // ① steht als erledigte Zeile mit dem Namen da.
       await expect(p.locator('#sd-name')).toHaveValue(FIX.stammdaten.anbieterName);
       await expect(p.locator('#fs-c-rumpf')).toBeVisible();
       await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT_EINFACH[sprache] })).toHaveCount(0);
@@ -122,19 +132,19 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Fachebene mit Schlüssel', () =>
     await expect(p.locator('#fs-c-rumpf')).toBeVisible();
 
     await H.einzelheitenOeffnen(p);
-    const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT.de });
+    const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT_EINFACH.de });
     await expect(zeile).toHaveCount(1);
     await zeile.locator('.pr-beheben').click();
     await expect(p.locator('#dlg-fertig[open]')).toHaveCount(0);
     await expect(p.locator('#feld-editor')).toBeVisible();
     await expect(p.locator('#ed-pflicht')).toBeFocused();
     await p.check('#ed-pflicht');
-    await expect(p.locator('.vk').first().locator('.vk-stern')).toBeVisible();   // die Arbeitsfläche zeigt die Pflicht ohne Auswahl
+    await expect(p.locator('.vk').first().locator(PFLICHT_AN)).toBeVisible();   // die Arbeitsfläche zeigt die Pflicht ohne Auswahl
 
     await p.click('#fertig-oeffnen');                                         // Angaben und Schlüssel stehen noch → „Fertig“
     await expect(p.locator('#fs-c-rumpf')).toBeVisible();
     await expect(p.locator('#sk-priv-status')).toContainText('Sicherung geprüft');   // seit 16.10.2026: geprüft, bevor die Einreichung frei wird
-    await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT.de })).toHaveCount(0);
+    await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT_EINFACH.de })).toHaveCount(0);
     await H.einzelheitenOeffnen(p);
     await p.click('#pr-pruefen');
     await expect(p.locator('#pr-submit')).toBeEnabled();                      // der Schlüssel liegt weiter im Tresor
@@ -170,9 +180,8 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Rot-Beweis', () => {
     await expect(p.locator('.pr-beheben')).toHaveCount(0);                    // … aber nichts führt zur Stelle
     await expect(zeile.locator('button')).toHaveCount(0);
     await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
-    // Seit Wagen 1.5 steht der Dialog über dem Assistenten (Schritt 2 bleibt dahinter sichtbar); ohne „Beheben“ bekommt der
-    // Schalter „Muss ausgefüllt werden“ keinen Fokus.
-    await expect(p.locator('#as-felder .as-frage-pflicht input').first()).not.toBeFocused();
+    // Ohne „Beheben“ bekommt der Schalter „Pflichtfeld“ der Feldkarte keinen Fokus.
+    await expect(p.locator('#ed-pflicht')).not.toBeFocused();
     await ctx.close();
   });
 });

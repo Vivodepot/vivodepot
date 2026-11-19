@@ -140,10 +140,10 @@ pruefung: tests/lese-app-antwort-kopf.test.js#[Lese-App·Wert] „Notvertretung 
 ```
 
 ```konformitaet
-aussage:  Der Freigabe-Dialog einer Anfrage beschriftet wie die Lese-App, in beiden Sprachen; der Kopf der Anfrage ist Klartext; „Einzeln entscheiden, was mitgeht" ist ein Knopf.
+aussage:  Der Freigabe-Dialog einer Anfrage beschriftet wie die Lese-App, in beiden Sprachen; der Kopf der Anfrage ist Klartext; einzeln entschieden wird an den Häkchen je Angabe, ohne zweiten Weg (Nachtrag 17.11.2026, Freigabe mit Häkchen in Gruppen; vorher ein Knopf „Einzeln entscheiden, was mitgeht“).
 zustand:  geprüft
-herkunft: Nachtrag 26.09.2026
+herkunft: Nachtrag 26.09.2026, Nachtrag 17.11.2026
 pruefung: tests/anfrage-klartext.test.js#[Anfrage·Beschriftung] der Freigabe-Dialog beschriftet wie die Lese-App; die zwei Ablageorte heißen verschieden
 pruefung: tests/anfrage-klartext.test.js#[Anfrage·Kopf] „Anfrage vom … · gilt bis …" mit deutschem Datum; „offen" steht nicht als Wort da
-pruefung: tests/anfrage-klartext.test.js#[Anfrage·Einzeln] „Einzeln entscheiden, was mitgeht" ist ein Knopf, kein dezenter Link
+pruefung: tests/anfrage-klartext.test.js#[Anfrage·Einzeln] einzeln entschieden wird an den Häkchen, ohne zweiten Weg (Häkchen in Gruppen, 17.11.2026)
 ```

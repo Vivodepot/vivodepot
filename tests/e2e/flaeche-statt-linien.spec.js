@@ -30,8 +30,7 @@ const FELDREGELN = {
 };
 const FELDREGEL = FELDREGELN.unterkante;
 /* Im geöffneten Sub-Depot trägt die ganze Oberfläche die Farbe des Depots (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag): keine
-   Linie mehr, auch nicht an der Seitenleiste. Bis 09.10.2026 stand hier die Farblinie der Seitenleiste als einzige erlaubte Linie. */
-const SUB_DEPOT_FARBLINIE = [];
+   Farblinie mehr an der Seitenleiste. Seit U-G (15.11.2026, Dummy) tragen Kopfleiste, Knöpfe und Karten eine Haarlinie; die Zahlen stehen im Deckel. */
 /* Bedeutung außerhalb von Fokus und Fehler: die Warnung im Anlege-Dialog (ein vergessenes Passwort ist nicht wiederherstellbar). */
 const BEDEUTUNG = '.modal-warnung';
 
@@ -205,7 +204,7 @@ test.describe('Fläche statt Linien', () => {
     await oeffnen(page, h.KERN_URL_PRIVAT_DE);
     await bereich(page, 'finance');
     const vorher = (await page.evaluate(LINIEN)).length;
-    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.sektion { border-top: 1px solid #222 !important; } #content input, #content select { border-bottom: 1px solid rgba(0,0,0,.05) !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
+    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.sektion-titel { border-top: 1px solid #222 !important; } #content input, #content select { border-bottom: 1px solid rgba(0,0,0,.05) !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
     await page.waitForTimeout(150);
     expect((await page.evaluate(LINIEN)).length, 'die Linie über dem Abschnitt wird gezählt').toBeGreaterThan(vorher);
     expect(Math.min(...(await feldgrenzen(page)).map((x) => x.k)), 'eine blasse Unterkante fällt unter 3:1').toBeLessThan(3);
@@ -357,7 +356,7 @@ test.describe('Fläche statt Linien', () => {
         const innen = await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG });
         const alle = innen.concat(await ausserhalb(page));
         pruefe(slug + '/sub-depot-' + modus, alle);
-        if (!process.env.LINIEN_DECKEL_MESSEN) expect(alle, slug + '/sub-depot-' + modus + ': genau die Farblinie der Seitenleiste').toEqual(SUB_DEPOT_FARBLINIE);
+        if (!process.env.LINIEN_DECKEL_MESSEN) expect(alle, slug + '/sub-depot-' + modus + ': keine Farblinie an der Seitenleiste').not.toContain('nav.sidebar:Left');
       }
       messenSchreiben();
     });
@@ -369,7 +368,7 @@ test.describe('Fläche statt Linien', () => {
     const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
     const vorher = await alle();
     // Die Form vor dem 08.10.2026: Kopfleiste mit Unterkante, Seitenleiste mit Rand, Sub-Depot mit farbigem Balken.
-    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.topbar { border-bottom: 1px solid #ccd5c4 !important; } #sidebar { border-right: 1px solid #ccd5c4 !important; } .sub-kontextzeile { border-left: 4px solid #B8AECB !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
+    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.topbar { border-top: 1px solid #ccd5c4 !important; } #sidebar { border-left: 1px solid #ccd5c4 !important; } .sub-kontextzeile { border-left: 4px solid #B8AECB !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
     await page.waitForTimeout(150);
     const nachher = await alle();
     for (const teil of ['topbar', 'sidebar', 'sub-kontextzeile']) {
@@ -381,7 +380,7 @@ test.describe('Fläche statt Linien', () => {
     await oeffnen(page, h.KERN_URL_PRIVAT_DE);
     await subDepotBetreten(page, 'malve');
     const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
-    expect(await alle(), 'Voraussetzung: keine Linie').toEqual(SUB_DEPOT_FARBLINIE);
+    expect(await alle(), 'Voraussetzung: keine Farblinie an der Seitenleiste').not.toContain('nav.sidebar:Left');
     // Die Form bis 09.10.2026: die Farbe des Sub-Depots als Linie an der Seitenleiste.
     await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('#sidebar { border-left: 8px solid #7b7076 !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
     await page.waitForTimeout(150);

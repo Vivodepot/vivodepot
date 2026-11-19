@@ -5,7 +5,7 @@
    ────────────────────────────────────────────────────────────────────────────
    Die Definition `tools/erscheinung/definition.json` hat zwei Schichten:
      grundwerte  Schicht 1: Schriftgrößen (Verweis auf tools/groessenleiter.json), sechs Abstände, drei Radien,
-                 Trefferfläche, zwei Umbruchpunkte, Farben (Verweis auf Custom Properties der Stil-Dateien).
+                 Trefferfläche, optional benannte Maße des Aufbaus (--mass-…), zwei Umbruchpunkte, Farben (Verweis auf Custom Properties der Stil-Dateien).
      bedeutung   Schicht 2: Token nach der Bedeutung (Fläche, Text, Linie, Aktion, Warnung, Herkunft), je mit
                  Verweis auf einen Grundwert. Keine Zahl, kein Farbwert.
    Jede Zahl steht nur in Schicht 1.
@@ -35,6 +35,11 @@ const FIXTURES = path.join(__dirname, 'gestaltung-fixtures');
 
 const MARKE_ANFANG = 'GESTALTUNG-DEFINITION:BEGIN';
 const MARKE_ENDE = 'GESTALTUNG-DEFINITION:END';
+// Größenleiter des Stilsatzes „dummy“ (U-G): Stufen stehen in tools/groessenleiter.json unter `profile.dummy`, der Block wird erzeugt.
+const LEITER = path.join(REPO, 'tools', 'groessenleiter.json');
+const DUMMY_STIL = path.join(REPO, 'tools', 'erscheinung', 'stil', 'dummy.css');
+const LEITER_MARKE_ANFANG = 'GROESSENLEITER-DUMMY:BEGIN';
+const LEITER_MARKE_ENDE = 'GROESSENLEITER-DUMMY:END';
 // Hinter diese Zeile (Ende der Größenleiter) setzt `--schreiben` den Block, solange er noch fehlt.
 const EINSETZEN_NACH = /^[ \t]*@media \(max-width: 767px\) \{ :root \{ --fs-role-anzeige:.*$/m;
 
@@ -73,6 +78,32 @@ function definitionPruefen(def, wurzel = REPO) {
   if (rd.map((r) => r.token).join() !== RADIEN.join()) fehler.push('grundwerte.radien: erwartet ' + RADIEN.join(', '));
   if (rd.some((r) => !/^\d+(\.\d+)?px$/.test(String(r.wert)))) fehler.push('grundwerte.radien: Wert in px');
   if (!g.treffer || g.treffer.token !== '--treffer' || !/^\d+px$/.test(String(g.treffer.wert))) fehler.push('grundwerte.treffer: --treffer in px');
+  // Maße des Aufbaus (Nachtrag U-G, 15.11.2026): benannte Längen in px, Namen --mass-…; die Zahl steht nur hier
+  if (g.masse !== undefined) {
+    const ms = Array.isArray(g.masse) ? g.masse : [];
+    if (!ms.length) fehler.push('grundwerte.masse: Liste fehlt oder leer');
+    const gesehenM = new Set();
+    for (const m of ms) {
+      if (!/^--mass-[a-z-]+$/.test(String(m.token))) fehler.push('grundwerte.masse: Name ' + m.token + ' (erwartet --mass-…)');
+      if (!/^\d+px$/.test(String(m.wert))) fehler.push('grundwerte.masse: ' + m.token + ' in px');
+      if (gesehenM.has(m.token)) fehler.push('grundwerte.masse: doppelter Name ' + m.token);
+      gesehenM.add(m.token);
+    }
+  }
+  // Zeichen (Nachtrag Herkunft A2, 17.11.2026): benannte Bildzeichen als SVG-Kontur, Namen --zeichen-…; das Zeichen steht nur hier.
+  // Die Stilquelle nimmt es als Maske (mask-image), die Farbe kommt aus dem Text. Erlaubt ist nur reine Kontur: kein Skript,
+  // kein Ereignis-Attribut, kein Verweis nach außen.
+  if (g.zeichen !== undefined) {
+    const zs = Array.isArray(g.zeichen) ? g.zeichen : [];
+    if (!zs.length) fehler.push('grundwerte.zeichen: Liste fehlt oder leer');
+    const gesehenZ = new Set();
+    for (const z of zs) {
+      if (!/^--zeichen-[a-z-]+$/.test(String(z.token))) fehler.push('grundwerte.zeichen: Name ' + z.token + ' (erwartet --zeichen-…)');
+      fehler.push(...zeichenSvgPruefen(z.token, z.svg));
+      if (gesehenZ.has(z.token)) fehler.push('grundwerte.zeichen: doppelter Name ' + z.token);
+      gesehenZ.add(z.token);
+    }
+  }
   // Umbruchpunkte: zwei, lückenlos (schmal bis N, breit ab N+1)
   const u = g.umbrueche || {};
   if (!Number.isInteger(u.schmal_bis_px) || u.breit_ab_px !== u.schmal_bis_px + 1) fehler.push('grundwerte.umbrueche: schmal_bis_px und breit_ab_px = schmal_bis_px + 1');
@@ -113,6 +144,48 @@ function definitionPruefen(def, wurzel = REPO) {
   return fehler;
 }
 
+/* ── Größenleiter des Stilsatzes dummy: Block bauen, schreiben, prüfen ─────────────────────────────────────── */
+function leiterBlockBauen(leiter = JSON.parse(fs.readFileSync(LEITER, 'utf8')), profil = 'dummy') {
+  const pr = leiter.profile && leiter.profile[profil];
+  if (!pr) throw new Error('Größenleiter: Profil fehlt: ' + profil);
+  const basis = leiter.basis_px_je_rem || 16;
+  const rem = (px) => zahlText(px / basis) + 'rem';
+  const namen = leiter.stufen.map((s) => s.stufe);
+  const fehlt = namen.filter((n) => !pr.stufen[n]); if (fehlt.length) throw new Error('Größenleiter Profil ' + profil + ': Stufen fehlen: ' + fehlt.join(', '));
+  const t = (s) => (n) => `${leiter.token_praefix}${n}: ${rem(pr.stufen[n][s])};`;
+  const desktop = namen.map(t(0)).join(' ');
+  const mobil = namen.filter((n) => pr.stufen[n][1] !== pr.stufen[n][0]).map(t(1)).join(' ');
+  return [
+    `/* ${LEITER_MARKE_ANFANG} — erzeugt aus tools/groessenleiter.json (profile.${profil}) durch tools/gestaltung-definition.js; nicht von Hand ändern */`,
+    `:root { ${desktop} }`,
+    `@media (max-width: ${leiter.umbruch_px - 1}px) { :root { ${mobil} } }`,
+    `/* ${LEITER_MARKE_ENDE} */`,
+  ].join('\n');
+}
+function leiterBlockRegion(css) {
+  const a = css.indexOf(LEITER_MARKE_ANFANG); const e = css.indexOf(LEITER_MARKE_ENDE);
+  if (a < 0 || e < a) return null;
+  const von = css.lastIndexOf('\n', a) + 1; const bis = css.indexOf('\n', e) < 0 ? css.length : css.indexOf('\n', e);
+  return { von, bis };
+}
+function leiterBlockPruefen(css, leiter) {
+  const r = leiterBlockRegion(css);
+  if (!r) return ['Block ' + LEITER_MARKE_ANFANG + ' fehlt in stil/dummy.css'];
+  return css.slice(r.von, r.bis) === leiterBlockBauen(leiter) ? [] : ['Größenleiter-Block des Stilsatzes dummy weicht von tools/groessenleiter.json ab (neu erzeugen mit --schreiben)'];
+}
+
+/* ── Zeichen: Prüfung und Einbettung als data-URL ─────────────────────────────────────────────────────────── */
+function zeichenSvgPruefen(token, svg) {
+  const s = String(svg || '');
+  const f = [];
+  if (!/^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" viewBox="0 0 24 24"[^>]*>[\s\S]*<\/svg>$/.test(s)) f.push('grundwerte.zeichen: ' + token + ' ist kein SVG mit viewBox 0 0 24 24');
+  if (/<script|<foreignObject|\son[a-z]+\s*=|href\s*=|url\(|<image/i.test(s)) f.push('grundwerte.zeichen: ' + token + ' trägt Skript, Ereignis oder Verweis');
+  return f;
+}
+function zeichenDataUrl(svg) {
+  return 'url("data:image/svg+xml,' + String(svg).replace(/"/g, "'").replace(/%/g, '%25').replace(/#/g, '%23').replace(/</g, '%3C').replace(/>/g, '%3E') + '")';
+}
+
 /* ── Block bauen ──────────────────────────────────────────────────────────────────────────────────────────── */
 function zahlText(n) { return String(Math.round(n * 10000) / 10000); }
 function blockBauen(def, wurzel = REPO) {
@@ -127,6 +200,8 @@ function blockBauen(def, wurzel = REPO) {
     '    ' + abstand.join(' '),
     '    ' + radius.join(' '),
     `    ${g.treffer.token}: ${g.treffer.wert};`,
+    ...(g.masse ? ['    ' + g.masse.map((m) => `${m.token}: ${m.wert};`).join(' ')] : []),
+    ...(g.zeichen ? g.zeichen.map((z) => `    ${z.token}: ${zeichenDataUrl(z.svg)};`) : []),
     '  }',
     `  /* ${MARKE_ENDE} */`,
   ];
@@ -184,11 +259,15 @@ function main() {
     const neu = blockEinsetzen(fs.readFileSync(cssPfad, 'utf8'), blockBauen(def));
     fs.writeFileSync(cssPfad, neu);
     console.log('Block geschrieben: ' + path.relative(REPO, cssPfad));
+    if (!arg('--css') && fs.existsSync(DUMMY_STIL)) {
+      const dc = fs.readFileSync(DUMMY_STIL, 'utf8'); const r = leiterBlockRegion(dc);
+      if (r) { fs.writeFileSync(DUMMY_STIL, dc.slice(0, r.von) + leiterBlockBauen() + dc.slice(r.bis)); console.log('Größenleiter-Block geschrieben: ' + path.relative(REPO, DUMMY_STIL)); }
+    }
     return;
   }
   if (process.argv.includes('--check')) {
     const def = definitionLaden(defPfad);
-    const fehler = [...definitionPruefen(def), ...blockPruefen(fs.readFileSync(cssPfad, 'utf8'), def), ...adrPruefen(defPfad, arg('--adr') || adrDatei())];
+    const fehler = [...definitionPruefen(def), ...blockPruefen(fs.readFileSync(cssPfad, 'utf8'), def), ...(arg('--css') || !fs.existsSync(DUMMY_STIL) ? [] : leiterBlockPruefen(fs.readFileSync(DUMMY_STIL, 'utf8'))), ...adrPruefen(defPfad, arg('--adr') || adrDatei())];
     if (fehler.length) { console.error('ROT:\n' + fehler.map((x) => '  ' + x).join('\n')); process.exit(1); }
     console.log('gestaltung-definition: grün (Definition, Block, ADR-Prüfsumme)');
     return;
@@ -204,6 +283,6 @@ function main() {
   process.exit(a.length === 0 && b.length > 0 ? 0 : 1);
 }
 
-module.exports = { definitionLaden, definitionPruefen, blockBauen, blockEinsetzen, blockPruefen, blockRegion, pruefsumme, adrDatei, adrPruefsumme, adrPruefen,
+module.exports = { zeichenSvgPruefen, zeichenDataUrl, leiterBlockBauen, leiterBlockPruefen, definitionLaden, definitionPruefen, blockBauen, blockEinsetzen, blockPruefen, blockRegion, pruefsumme, adrDatei, adrPruefsumme, adrPruefen,
   DEFINITION, GRUNDLAGE, FIXTURES, MARKE_ANFANG, MARKE_ENDE };
 if (require.main === module) main();

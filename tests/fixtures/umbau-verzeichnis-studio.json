@@ -1,0 +1,3830 @@
+{
+  "quelle": "vivodepot-studio.html",
+  "stelle": "studio",
+  "eintraege": [
+    {
+      "kennung": "marke-start",
+      "art": "knopf",
+      "beschriftung": "VIVO DEPOT Studio",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "#marke-start"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kopf-hilfe",
+      "art": "knopf",
+      "beschriftung": "Hilfe",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "#kopf-hilfe"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sp-de",
+      "art": "knopf",
+      "beschriftung": "DE",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "#sp-de"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sp-en",
+      "art": "knopf",
+      "beschriftung": "EN",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "#sp-en"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ein-anfrage",
+      "art": "knopf",
+      "beschriftung": "Anfrage an Personen Sie sagen, welche Angaben Sie brauchen. Die Person entscheidet, was sie Ihnen gibt.",
+      "fundort_alt": "raum-eingang",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#ein-anfrage"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ein-aufnahme",
+      "art": "knopf",
+      "beschriftung": "Aufnahmebogen Personen füllen Ihren Bogen in Vivodepot aus und geben ihn Ihnen als Datei.",
+      "fundort_alt": "raum-eingang",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-DUMMY N03/N13 (S-1, 16.11.2026): der Eingang entfällt, das Studio beginnt im Start; die Kachel führte nur auf den Start zurück"
+    },
+    {
+      "kennung": "ein-vorlage",
+      "art": "knopf",
+      "beschriftung": "Vorlage erstellen Sie wählen die Fragen und ihre Reihenfolge. Vivodepot macht daraus eine Vorlage für Ihre Einrichtung.",
+      "fundort_alt": "raum-eingang",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-DUMMY N03/N13 (S-1, 16.11.2026): der Eingang entfällt, das Studio beginnt im Start; die Kachel führte nur auf den Start zurück"
+    },
+    {
+      "kennung": "ein-empfangen",
+      "art": "knopf",
+      "beschriftung": "Dokumente empfangen Personen geben Ihnen Unterlagen als Datei, etwa das Original aus ihrem Depot. Dafür richten Sie nichts ein: Sie öffnen die Datei mit Ihrem eigenen Programm.",
+      "fundort_alt": "raum-eingang",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#ein-empfangen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ein-bereitstellen",
+      "art": "knopf",
+      "beschriftung": "in Arbeit Daten bereitstellen Sie geben Unterlagen als Datei in offenen Formaten heraus. Die Person legt sie in ihrem Depot ab.",
+      "fundort_alt": "raum-eingang",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#ein-bereitstellen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ein-erscheinung",
+      "art": "knopf",
+      "beschriftung": "in Arbeit Eigenes Erscheinungsbild Logo, Farben und Name für Vivodepot. Wird erst angewendet, wenn es signiert und von Vivodepot bestätigt ist.",
+      "fundort_alt": "raum-eingang",
+      "zustand": "entfällt mit Befund",
+      "befund": "Kachel „Eigenes Erscheinungsbild · in Arbeit“ vom Start genommen, bis ihr Assistent fertig ist (Dummy 14.11.2026, 17.11.2026)",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#ein-erscheinung"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ein-anderes",
+      "art": "knopf",
+      "beschriftung": "Expertensicht ↗ Etwas anderes Für Fachleute: alle Einstellungen.",
+      "fundort_alt": "raum-eingang",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-DUMMY N03/N13 (S-1, 16.11.2026): der Eingang entfällt, das Studio beginnt im Start; die Kachel führte nur auf den Start zurück"
+    },
+    {
+      "kennung": "ein-antworten",
+      "art": "knopf",
+      "beschriftung": "Eingegangene Antworten öffnen →",
+      "fundort_alt": "raum-eingang",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#ein-antworten"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "an-dateien",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-antworten",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Antworten",
+        "weg": {
+          "alle": [
+            "#an-dateien"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "an-schluessel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-antworten",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Antworten",
+        "weg": {
+          "alle": [
+            "#an-schluessel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "an-passwort",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-antworten",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Antworten",
+        "weg": {
+          "alle": [
+            "#an-passwort"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "an-oeffnen",
+      "art": "knopf",
+      "beschriftung": "Antworten öffnen",
+      "fundort_alt": "raum-antworten",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Antworten",
+        "weg": {
+          "alle": [
+            "#an-oeffnen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "an-zurueck",
+      "art": "knopf",
+      "beschriftung": "Zurück zur Auswahl",
+      "fundort_alt": "raum-antworten",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Antworten",
+        "weg": {
+          "alle": [
+            "#an-zurueck"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-von",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#aa-von"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-vorgang",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben zur Anfrage",
+        "weg": {
+          "alle": [
+            "#aa-vorgang"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-weiter-1",
+      "art": "knopf",
+      "beschriftung": "Weiter →",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-zurueck-1",
+      "art": "knopf",
+      "beschriftung": "Zurück zur Auswahl",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-zweck",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage",
+        "weg": {
+          "alle": [
+            "#aa-zweck"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-suche",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Bausteine",
+        "weg": {
+          "alle": [
+            "#aa-suche"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-weiter-2",
+      "art": "knopf",
+      "beschriftung": "Weiter →",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-zurueck-2",
+      "art": "knopf",
+      "beschriftung": "Zurück",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-grundlage",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben zur Anfrage",
+        "weg": {
+          "alle": [
+            "#aa-grundlage"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-rechtsraum",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben zur Anfrage",
+        "weg": {
+          "alle": [
+            "#aa-rechtsraum"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-land-chip",
+      "art": "knopf",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben zur Anfrage",
+        "weg": {
+          "alle": [
+            "#aa-land-chip"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-gueltig",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben zur Anfrage",
+        "weg": {
+          "alle": [
+            "#aa-gueltig"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-weiter-3",
+      "art": "knopf",
+      "beschriftung": "Weiter →",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-zurueck-3",
+      "art": "knopf",
+      "beschriftung": "Zurück",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-an",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben zur Anfrage",
+        "weg": {
+          "alle": [
+            "#aa-an"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-stelle-schluessel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#aa-stelle-schluessel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-stelle-pw",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#aa-stelle-pw"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-stelle-zertifikat",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#aa-stelle-zertifikat"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-stelle-laden",
+      "art": "knopf",
+      "beschriftung": "Laden und prüfen",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#aa-stelle-laden"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-weiter-4",
+      "art": "knopf",
+      "beschriftung": "Weiter →",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-zurueck-4",
+      "art": "knopf",
+      "beschriftung": "Zurück",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-fachebene",
+      "art": "knopf",
+      "beschriftung": "Expertensicht ↗",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-weiter-5",
+      "art": "knopf",
+      "beschriftung": "Weiter: Veröffentlichen →",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-zurueck-5",
+      "art": "knopf",
+      "beschriftung": "Zurück",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "aa-pw1",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#aa-pw1"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-pw2",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#aa-pw2"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Anfrage erstellen",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#aa-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-neu",
+      "art": "knopf",
+      "beschriftung": "Neue Anfrage",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Nach dem Sichern",
+        "weg": {
+          "alle": [
+            "#aa-neu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "aa-zurueck-6",
+      "art": "knopf",
+      "beschriftung": "Zurück",
+      "fundort_alt": "raum-anfrage",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "as-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#as-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "raum-start button[data-art=\"praxis\"]",
+      "art": "knopf",
+      "beschriftung": "Praxis",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#raum-start button[data-art=\"praxis\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "raum-start button[data-art=\"kanzlei\"]",
+      "art": "knopf",
+      "beschriftung": "Kanzlei",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#raum-start button[data-art=\"kanzlei\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "raum-start button[data-art=\"verein\"]",
+      "art": "knopf",
+      "beschriftung": "Verein",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#raum-start button[data-art=\"verein\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "raum-start button[data-art=\"schule\"]",
+      "art": "knopf",
+      "beschriftung": "Schule",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#raum-start button[data-art=\"schule\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "raum-start button[data-art=\"behoerde\"]",
+      "art": "knopf",
+      "beschriftung": "Behörde",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#raum-start button[data-art=\"behoerde\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "raum-start button[data-art=\"unternehmen\"]",
+      "art": "knopf",
+      "beschriftung": "Unternehmen",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#raum-start button[data-art=\"unternehmen\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "raum-start button[data-art=\"andere\"]",
+      "art": "knopf",
+      "beschriftung": "Andere",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#raum-start button[data-art=\"andere\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-strasse",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-strasse"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-plz",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-plz"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-ort",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-ort"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-land",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-land"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-land-chip",
+      "art": "knopf",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-land-chip"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-rechtsform",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-rechtsform"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-k-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-k-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "as-k-email",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#as-k-email"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "start-leer",
+      "art": "knopf",
+      "beschriftung": "Leere Vorlage Datenfelder wählen und selbst anordnen.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-leer"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "start-blatt",
+      "art": "knopf",
+      "beschriftung": "Angehörigen-Blatt Ein Blatt für Vertrauenspersonen: was Krankenhaus, Pflegeheim oder Behörde brauchen, zusammengestellt aus den Angaben der Person.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#start-blatt"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bsp-verein",
+      "art": "knopf",
+      "beschriftung": "Mitgliedsantrag Beispiel: Verein. Laden und anpassen.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#bsp-verein"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bsp-kommune",
+      "art": "knopf",
+      "beschriftung": "Bewohnerparkausweis Beispiel: Kommune. Laden und anpassen.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#bsp-kommune"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bsp-bibliothek",
+      "art": "knopf",
+      "beschriftung": "Anmeldung Stadtbibliothek Beispiel: Bibliothek, mit einer Liste für Familien. Laden und anpassen.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#bsp-bibliothek"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bsp-arbeitgeber",
+      "art": "knopf",
+      "beschriftung": "Personalbogen Beispiel: Arbeitgeber. Laden und anpassen.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#bsp-arbeitgeber"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bsp-pflegeheim",
+      "art": "knopf",
+      "beschriftung": "Pflegeheim-Aufnahmebogen Beispiel: Gesundheit und Vorsorge. Laden und anpassen.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#bsp-pflegeheim"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bsp-anamnese",
+      "art": "knopf",
+      "beschriftung": "Anamnese-Bogen Beispiel: Gesundheit, mit medizinischen Code-Listen (LOINC, ICD-10, ATC, SNOMED).",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#bsp-anamnese"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bsp-notariat",
+      "art": "knopf",
+      "beschriftung": "Notariats-Erfassung Beispiel: Vorsorge und Finanzen. Erfassung notarieller Vorgänge.",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#bsp-notariat"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-csv",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Vorlage aus CSV",
+        "weg": {
+          "alle": [
+            "#tpl-csv"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ent-datei",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#ent-datei"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "start-module",
+      "art": "knopf",
+      "beschriftung": "Weitere Möglichkeiten zeigen",
+      "fundort_alt": "raum-start",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start: Weitere Bausteinarten",
+        "weg": {
+          "alle": [
+            "#start-weitere > summary",
+            "#start-module"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bau-start",
+      "art": "knopf",
+      "beschriftung": "‹ Studio",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Start",
+        "weg": {
+          "alle": [
+            "#bau-start"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tel-vorlage",
+      "art": "knopf",
+      "beschriftung": "Vorlage",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Arbeitsfläche, schmal (bis 760 px): Reiter Vorlage | Vorschau",
+        "weg": {
+          "375": [
+            "#start-leer",
+            "#tel-vorlage"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tel-vorschau",
+      "art": "knopf",
+      "beschriftung": "Vorschau",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Arbeitsfläche, schmal (bis 760 px): Reiter Vorlage | Vorschau",
+        "weg": {
+          "375": [
+            "#start-leer",
+            "#tel-vorschau"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ansicht-bauen",
+      "art": "knopf",
+      "beschriftung": "Vorlage",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorschau der Anfrage",
+        "weg": {
+          "alle": [
+            "#ansicht-bauen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ansicht-probieren",
+      "art": "knopf",
+      "beschriftung": "Vorschau der Anfrage",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorschau der Anfrage",
+        "weg": {
+          "alle": [
+            "#ansicht-probieren"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "entwurf-sichern",
+      "art": "knopf",
+      "beschriftung": "Entwurf sichern",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Sichern",
+        "weg": {
+          "alle": [
+            "#entwurf-sichern"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "entwurf-sichern-unten",
+      "art": "knopf",
+      "beschriftung": "Entwurf sichern",
+      "fundort_alt": "raum-bau",
+      "zustand": "entfällt mit Befund",
+      "neuer_platz": {
+        "ort": "Sichern",
+        "weg": {
+          "alle": [
+            "#entwurf-sichern-unten"
+          ]
+        }
+      },
+      "befund": "N18 (Dummy 14.11.2026): mit „Entwurf sichern“ (#entwurf-sichern) unter der Vorlage zusammengelegt; der Knopf steht auf allen Breiten dort"
+    },
+    {
+      "kennung": "vorlage-sichern",
+      "art": "knopf",
+      "beschriftung": "Vorlage sichern",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Sichern",
+        "weg": {
+          "alle": [
+            "#vorlage-sichern"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fertig-oeffnen",
+      "art": "knopf",
+      "beschriftung": "Fertigstellen und einreichen ▸",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#fertig-oeffnen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ns-einreichen",
+      "art": "knopf",
+      "beschriftung": "Einreichen ▸",
+      "fundort_alt": "neu (S-5)",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Nach dem Sichern: „Gesichert“",
+        "weg": {
+          "alle": [
+            "#start-leer",
+            "#vorlage-sichern",
+            "#ns-einreichen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ns-veroeffentlichen",
+      "art": "knopf",
+      "beschriftung": "Anfrage veröffentlichen ▸",
+      "fundort_alt": "neu (S-5)",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Nach dem Sichern: „Gesichert“",
+        "weg": {
+          "alle": [
+            "#start-leer",
+            "#vorlage-sichern",
+            "#ns-veroeffentlichen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "blatt-fertig",
+      "art": "knopf",
+      "beschriftung": "Fertigstellen ▸",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#blatt-fertig"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "wb-angaben",
+      "art": "knopf",
+      "beschriftung": "2 Angaben",
+      "fundort_alt": "raum-bau",
+      "zustand": "entfällt mit Befund",
+      "befund": "Weg-Band entfällt (Dummy 14.11.2026); Angaben und Einreichung über „Fertigstellen und einreichen“ und nach dem Sichern",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#wb-angaben"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "wb-absenden",
+      "art": "knopf",
+      "beschriftung": "3 Absenden",
+      "fundort_alt": "raum-bau",
+      "zustand": "entfällt mit Befund",
+      "befund": "Weg-Band entfällt (Dummy 14.11.2026); Absenden über „Fertigstellen und einreichen“ und nach dem Sichern",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#wb-absenden"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pal-suche",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "entfällt mit Befund",
+      "neuer_platz": {
+        "ort": "Bausteine",
+        "weg": {
+          "alle": [
+            "#pal-suche"
+          ]
+        }
+      },
+      "befund": "S-2 (Dummy 14.11.2026, N22): die Bausteinliste hat keine Gesamtsuche mehr; jede Gruppe sucht unter „Weitere in dieser Gruppe“ (input.pal-gruppen-suche, im Lauf erzeugt)"
+    },
+    {
+      "kennung": "pal-kennungen",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Bausteine: Technische Begriffe anzeigen",
+        "weg": {
+          "alle": [
+            "#pal-kennungen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pal-fertig",
+      "art": "knopf",
+      "beschriftung": "Fertig",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Bausteine (Telefon-Blatt)",
+        "weg": {
+          "alle": [
+            "#pal-fertig"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pal-auf",
+      "art": "knopf",
+      "beschriftung": "＋ Baustein hinzufügen",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage (Telefon)",
+        "weg": {
+          "alle": [
+            "#pal-auf"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pal-vorschlagen",
+      "art": "knopf",
+      "beschriftung": "Baustein vorschlagen",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Bausteine",
+        "weg": {
+          "alle": [
+            "#pal-vorschlagen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "reiter-felder",
+      "art": "knopf",
+      "beschriftung": "Datenfelder",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#reiter-felder"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "reiter-wortlaut",
+      "art": "knopf",
+      "beschriftung": "Text für ein Dokument (freiwillig)",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#reiter-wortlaut"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-rechtsraum",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-rechtsraum"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-rechtsraumname",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-rechtsraumname"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-sprache",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-sprache"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-bereich",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-bereich"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-berufsstand",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-berufsstand"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-berufsstandname",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-berufsstandname"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage",
+        "weg": {
+          "alle": [
+            "#tpl-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-zweck",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage",
+        "weg": {
+          "alle": [
+            "#tpl-zweck"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-ordnen",
+      "art": "knopf",
+      "beschriftung": "Nach Themen ordnen",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage",
+        "weg": {
+          "alle": [
+            "#tpl-ordnen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-wortlaut",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#tpl-wortlaut"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-wortlaut-behoerde",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#tpl-wortlaut-behoerde"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-wortlaut-titel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#tpl-wortlaut-titel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-wortlaut-lizenz",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#tpl-wortlaut-lizenz"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-wortlaut-broschuere-behoerde",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#tpl-wortlaut-broschuere-behoerde"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-wortlaut-broschuere-titel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#tpl-wortlaut-broschuere-titel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "tpl-wortlaut-broschuere-url",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#tpl-wortlaut-broschuere-url"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-s-titel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-s-titel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-s-icon",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-s-icon"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-s-einfuehrung",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-s-einfuehrung"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-b-titel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage: Weitere Angaben (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ab-b-titel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte",
+        "weg": {
+          "alle": [
+            "#ed-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-typ",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte",
+        "weg": {
+          "alle": [
+            "#ed-typ"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-pflicht",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte",
+        "weg": {
+          "alle": [
+            "#ed-pflicht"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-hilfetext",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte",
+        "weg": {
+          "alle": [
+            "#ed-hilfetext"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-ziel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte: Technisches (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ed-ziel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-codewert-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Wert in der Liste",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte",
+        "weg": {
+          "alle": [
+            "#ed-codewert-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-codesystem",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte: Technisches (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ed-codesystem"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-codesystem-frei",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte: Technisches (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ed-codesystem-frei"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-bereich",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte: Technisches (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ed-bereich"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-gruppe",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte: Technisches (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ed-gruppe"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-provenienz",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte: Technisches (zugeklappt)",
+        "weg": {
+          "alle": [
+            "#ed-provenienz"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-speichern",
+      "art": "knopf",
+      "beschriftung": "Fertig",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte",
+        "weg": {
+          "alle": [
+            "#ed-speichern"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ed-loeschen",
+      "art": "knopf",
+      "beschriftung": "Feld löschen",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Feldkarte",
+        "weg": {
+          "alle": [
+            "#ed-loeschen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "dlg-fertig button[data-zu=\"dlg-fertig\"]",
+      "art": "knopf",
+      "beschriftung": "×",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#dlg-fertig button[data-zu=\"dlg-fertig\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-pruefen",
+      "art": "knopf",
+      "beschriftung": "Erneut prüfen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-pruefen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fs-a-kopf",
+      "art": "knopf",
+      "beschriftung": "1 Wer reicht ein?",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#fs-a-kopf"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-strasse",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-strasse"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-plz",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-plz"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-ort",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-ort"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-land",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-land"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-rechtsform",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-rechtsform"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-k-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-k-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-k-email",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-k-email"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-rechtsraum",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-rechtsraum"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-ustid",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-ustid"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-k-telefon",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-k-telefon"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sd-weiter",
+      "art": "knopf",
+      "beschriftung": "Weiter",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Angaben der Stelle",
+        "weg": {
+          "alle": [
+            "#sd-weiter"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "es-sichern-kopf",
+      "art": "knopf",
+      "beschriftung": "2 Sicherung speichern",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#es-sichern-kopf"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-pw1",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-pw1"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-pw2",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-pw2"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-priv",
+      "art": "knopf",
+      "beschriftung": "Sicherung speichern",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-priv"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-antrag",
+      "art": "knopf",
+      "beschriftung": "Antragsdatei erstellen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-antrag"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fs-c-kopf",
+      "art": "knopf",
+      "beschriftung": "3 Einreichung speichern",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#fs-c-kopf"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-submit",
+      "art": "knopf",
+      "beschriftung": "Einreichung speichern",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-submit"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ab-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Angehörigen-Blatt erzeugen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#ab-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "dlg-fertig button[data-recht=\"einreichung\"]",
+      "art": "knopf",
+      "beschriftung": "Ansehen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#dlg-fertig button[data-recht=\"einreichung\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "absenden-kopieren",
+      "art": "knopf",
+      "beschriftung": "Adresse kopieren",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#absenden-kopieren"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "absenden-nochmal",
+      "art": "knopf",
+      "beschriftung": "Datei erneut herunterladen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#absenden-nochmal"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fs-fertig-zu",
+      "art": "knopf",
+      "beschriftung": "Schließen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#fs-fertig-zu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-pruef-datei",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-pruef-datei"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-pruef-pw",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-pruef-pw"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-pruefen-knopf",
+      "art": "knopf",
+      "beschriftung": "Gespeicherte Sicherung prüfen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-pruefen-knopf"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-erneut-laden",
+      "art": "knopf",
+      "beschriftung": "Erneut herunterladen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-erneut-laden"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-privkey",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-privkey"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-privkey-pw",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-privkey-pw"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-privkey-laden",
+      "art": "knopf",
+      "beschriftung": "Schlüsseldatei laden",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-privkey-laden"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-neu-pw1",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-neu-pw1"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-neu-pw2",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-neu-pw2"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "pr-neu-speichern",
+      "art": "knopf",
+      "beschriftung": "Jetzt verschlüsselt neu speichern",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#pr-neu-speichern"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sammlung-hinzufuegen",
+      "art": "knopf",
+      "beschriftung": "Diese Vorlage zur Sammlung hinzufügen, nächste beginnen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#sammlung-hinzufuegen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "vorab-pruefen",
+      "art": "knopf",
+      "beschriftung": "Vorab prüfen (ohne Angaben)",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen",
+        "weg": {
+          "alle": [
+            "#vorab-pruefen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "sk-verwerfen",
+      "art": "knopf",
+      "beschriftung": "Schlüssel jetzt verwerfen",
+      "fundort_alt": "dlg-fertig",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Veröffentlichen: Schlüssel und Signatur",
+        "weg": {
+          "alle": [
+            "#sk-verwerfen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "dlg-module button[data-zu=\"dlg-module\"]",
+      "art": "knopf",
+      "beschriftung": "×",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#dlg-module button[data-zu=\"dlg-module\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "mod-angaben",
+      "art": "knopf",
+      "beschriftung": "Angaben und Schlüssel eingeben",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#mod-angaben"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-zweck",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-zweck"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-grundlage",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-grundlage"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-vorgang",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-vorgang"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-gueltig",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-gueltig"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-antwort-art",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-antwort-art"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-antwort-an",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-antwort-an"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-pw1",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-pw1"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-pw2",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-pw2"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-schluessel-pub",
+      "art": "knopf",
+      "beschriftung": "Öffentlichen Teil herunterladen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-schluessel-pub"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-schluessel-priv",
+      "art": "knopf",
+      "beschriftung": "Empfangsschlüssel verschlüsselt herunterladen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-schluessel-priv"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-schluessel-fertig",
+      "art": "knopf",
+      "beschriftung": "Ich habe beide Teile gesichert; privaten Teil aus dem Speicher entfernen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-schluessel-fertig"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-suche",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-suche"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "anf-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Anfrage erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#anf-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "vb-angebot-text",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#vb-angebot-text"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "vb-annehmen",
+      "art": "knopf",
+      "beschriftung": "Gewählte Bedingung annehmen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#vb-annehmen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "vb-ablehnen",
+      "art": "knopf",
+      "beschriftung": "Ablehnen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#vb-ablehnen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kv-bereich",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#kv-bereich"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kv-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#kv-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kv-label-de",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#kv-label-de"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kv-label-en",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#kv-label-en"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kv-begruendung",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#kv-begruendung"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kv-zeile-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Zur Einreichung hinzufügen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#kv-zeile-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kv-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Vorschlag/Vorschläge einreichen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#kv-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ia-version",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#ia-version"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ia-sprache",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#ia-sprache"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ia-herkunft",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#ia-herkunft"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ia-zeile-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Art hinzufügen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#ia-zeile-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ia-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#ia-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bm-version",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bm-version"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bm-sprache",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bm-sprache"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bm-herkunft",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bm-herkunft"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bm-zeile-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Bereich hinzufügen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bm-zeile-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bm-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bm-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "wm-version",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#wm-version"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "wm-sprache",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#wm-sprache"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "wm-herkunft",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#wm-herkunft"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "wm-zeile-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Assistent hinzufügen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#wm-zeile-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "wm-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#wm-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-id",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-id"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-titel",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-titel"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-sektor",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-sektor"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-version",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-version"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-sprache",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-sprache"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-herkunft",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-herkunft"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-datenschema",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-datenschema"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-abschnitte",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-abschnitte"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-dokausgabe",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-dokausgabe"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "lm-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#lm-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ts-datei",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#ts-datei"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "ts-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul ausgeben",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#ts-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "rr-rechtsraum",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#rr-rechtsraum"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "rr-version",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#rr-version"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "rr-sprache",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#rr-sprache"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "rr-zeile-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Typ hinzufügen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#rr-zeile-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "rr-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#rr-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-format",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-format"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-version",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-version"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-richtung",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-richtung"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-sektor",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-sektor"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-label",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-label"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-sprache",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-sprache"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-akzeptiert",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-akzeptiert"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-quelle",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-quelle"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-leser",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-leser"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-erkennen-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Erkennungsmerkmal hinzufügen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-erkennen-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-zuordnung-hinzu",
+      "art": "knopf",
+      "beschriftung": "+ Zuordnung hinzufügen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-zuordnung-hinzu"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "fm-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#fm-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bd-farbe-primaer",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bd-farbe-primaer"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bd-farbe-sekundaer",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bd-farbe-sekundaer"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bd-schriftart",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bd-schriftart"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bd-name",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bd-name"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bd-herkunft",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bd-herkunft"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bd-logo",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bd-logo"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "bd-erzeugen",
+      "art": "knopf",
+      "beschriftung": "Modul erzeugen",
+      "fundort_alt": "dlg-module",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Weitere Bausteinarten (unverändert)",
+        "weg": {
+          "alle": [
+            "#bd-erzeugen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "dlg-hilfe button[data-zu=\"dlg-hilfe\"]",
+      "art": "knopf",
+      "beschriftung": "×",
+      "fundort_alt": "dlg-hilfe",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Dialoge (unverändert)",
+        "weg": {
+          "alle": [
+            "#dlg-hilfe button[data-zu=\"dlg-hilfe\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "dlg-recht button[data-zu=\"dlg-recht\"]",
+      "art": "knopf",
+      "beschriftung": "×",
+      "fundort_alt": "dlg-recht",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Dialoge (unverändert)",
+        "weg": {
+          "alle": [
+            "#dlg-recht button[data-zu=\"dlg-recht\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "dlg-verlassen button[data-zu=\"dlg-verlassen\"]",
+      "art": "knopf",
+      "beschriftung": "×",
+      "fundort_alt": "dlg-verlassen",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Dialoge (unverändert)",
+        "weg": {
+          "alle": [
+            "#dlg-verlassen button[data-zu=\"dlg-verlassen\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "vl-weiter",
+      "art": "knopf",
+      "beschriftung": "Weiter bearbeiten",
+      "fundort_alt": "dlg-verlassen",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Dialoge (unverändert)",
+        "weg": {
+          "alle": [
+            "#vl-weiter"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "vl-verwerfen",
+      "art": "knopf",
+      "beschriftung": "Verwerfen und zur Auswahl",
+      "fundort_alt": "dlg-verlassen",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Dialoge (unverändert)",
+        "weg": {
+          "alle": [
+            "#vl-verwerfen"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "button[data-recht=\"nutzung\"]",
+      "art": "knopf",
+      "beschriftung": "Nutzungsbedingungen",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "button[data-recht=\"nutzung\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "button[data-recht=\"einreichung\"]",
+      "art": "knopf",
+      "beschriftung": "Einreichungsbedingungen",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "button[data-recht=\"einreichung\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "button[data-recht=\"datenschutz\"]",
+      "art": "knopf",
+      "beschriftung": "Datenschutz",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "button[data-recht=\"datenschutz\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "button[data-recht=\"lizenz\"]",
+      "art": "knopf",
+      "beschriftung": "Lizenz",
+      "fundort_alt": "seite",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Kopf und Fuß",
+        "weg": {
+          "alle": [
+            "button[data-recht=\"lizenz\"]"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "kopf-einfach",
+      "art": "knopf",
+      "beschriftung": "Einfach",
+      "fundort_alt": "seite",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "kopf-fachebene",
+      "art": "knopf",
+      "beschriftung": "Expertensicht",
+      "fundort_alt": "seite",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "raum-assistent button[data-sprache=\"de\"]",
+      "art": "knopf",
+      "beschriftung": "Deutsch",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: die Vorlage folgt der Arbeitssprache im Kopf (sp-de, sp-en)"
+    },
+    {
+      "kennung": "raum-assistent button[data-sprache=\"en\"]",
+      "art": "knopf",
+      "beschriftung": "English",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: die Vorlage folgt der Arbeitssprache im Kopf (sp-de, sp-en)"
+    },
+    {
+      "kennung": "as-beispiel-nehmen",
+      "art": "knopf",
+      "beschriftung": "Beispiel nehmen",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: die einfachen Beispiele stehen auf dem Start und legen ihre Felder in die Arbeitsfläche"
+    },
+    {
+      "kennung": "as-pal-suche",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: zweite Bausteinliste des Assistenten; die Suche steht in der Arbeitsfläche (pal-suche)"
+    },
+    {
+      "kennung": "as-pal-vorschlagen",
+      "art": "knopf",
+      "beschriftung": "Baustein vorschlagen",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: zweite Bausteinliste des Assistenten; der Vorschlag steht in der Arbeitsfläche (pal-vorschlagen)"
+    },
+    {
+      "kennung": "as-neu-frage",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: eigene Frage und Auswahl legt „Ein eigenes Feld“ der Arbeitsfläche an; die einfache Eingabe folgt als Baustein (Posten S-2)"
+    },
+    {
+      "kennung": "as-neu-optionen",
+      "art": "feld",
+      "beschriftung": "",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: eigene Frage und Auswahl legt „Ein eigenes Feld“ der Arbeitsfläche an; die einfache Eingabe folgt als Baustein (Posten S-2)"
+    },
+    {
+      "kennung": "as-neu-ok",
+      "art": "knopf",
+      "beschriftung": "Hinzufügen",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: eigene Frage und Auswahl legt „Ein eigenes Feld“ der Arbeitsfläche an; die einfache Eingabe folgt als Baustein (Posten S-2)"
+    },
+    {
+      "kennung": "as-neu-abbrechen",
+      "art": "knopf",
+      "beschriftung": "Abbrechen",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: eigene Frage und Auswahl legt „Ein eigenes Feld“ der Arbeitsfläche an; die einfache Eingabe folgt als Baustein (Posten S-2)"
+    },
+    {
+      "kennung": "as-weiter-2",
+      "art": "knopf",
+      "beschriftung": "Weiter: Einreichen →",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "as-zurueck-1",
+      "art": "knopf",
+      "beschriftung": "Zurück zur Auswahl",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    },
+    {
+      "kennung": "as-fachebene",
+      "art": "knopf",
+      "beschriftung": "Expertensicht ↗",
+      "fundort_alt": "raum-assistent",
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-EINE-FLAECHE: Schrittwechsel und Ebenenwechsel entfallen, alles liegt auf einer Arbeitsfläche"
+    }
+  ]
+}

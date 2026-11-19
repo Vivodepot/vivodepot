@@ -1,0 +1,151 @@
+{
+  "stelle": "seitenleiste",
+  "kanon": "02f48dbbd",
+  "hinweis": "Funktionsverzeichnis Wagen 3 (Seitenleiste, U-3 Schritt 2). Format wie umbau-verzeichnis-sub-depot.json; Lage „depot“: App geöffnet, Depot angelegt. Suche, Einlesen und Herausgeben ziehen mit Schritt 3 in die Kopfleiste; Notfall und Sprache erscheinen nur in Produkten, die sie führen, und stehen darum nicht hier.",
+  "eintraege": [
+    {
+      "kennung": "data-uebersicht",
+      "art": "knopf",
+      "beschriftung": "Übersicht",
+      "fundort_alt": "neu in U-3; Kanon 02f48dbbd: renderEintragenUebersicht über den Bottom-Tab „Eintragen“",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar [data-uebersicht]"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar [data-uebersicht]"
+          ]
+        },
+        "erwartung": ".karten-raster"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-uebergabe-protokoll",
+      "art": "knopf",
+      "beschriftung": "Herausgegeben",
+      "fundort_alt": "vivodepot.html:58138 (Kanon 02f48dbbd, im Punkt „Austausch und Überblick“)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar [data-uebergabe-protokoll]"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar [data-uebergabe-protokoll]"
+          ]
+        },
+        "erwartung": "#content .bereich-kopf h2"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-anlass-auswahl",
+      "art": "knopf",
+      "beschriftung": "Was möchten Sie erledigen?",
+      "fundort_alt": "vivodepot.html:58032 (Kanon 02f48dbbd, oben unter der Suche)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar [data-anlass-auswahl]"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar [data-anlass-auswahl]"
+          ]
+        },
+        "erwartung": ".erledigen"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-mappe",
+      "art": "knopf",
+      "beschriftung": "Meine Dokumente",
+      "fundort_alt": "vivodepot.html (Kanon 02f48dbbd, Punkt „Austausch und Überblick“, heute „Mehr“)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar details.nav-gruppe-austausch > summary",
+            "#sidebar [data-mappe]"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar details.nav-gruppe-austausch > summary",
+            "#sidebar [data-mappe]"
+          ]
+        },
+        "erwartung": "#content .bereich-kopf h2"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-prueftermine",
+      "art": "knopf",
+      "beschriftung": "Prüftermine",
+      "fundort_alt": "vivodepot.html (Kanon 02f48dbbd, Punkt „Austausch und Überblick“, heute „Mehr“)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar details.nav-gruppe-austausch > summary",
+            "#sidebar [data-prueftermine]"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar details.nav-gruppe-austausch > summary",
+            "#sidebar [data-prueftermine]"
+          ]
+        },
+        "erwartung": "#content .bereich-kopf h2"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-hilfe",
+      "art": "knopf",
+      "beschriftung": "Hilfe",
+      "fundort_alt": "vivodepot.html:58042 (Kanon 02f48dbbd, oben in der Seitenleiste)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar [data-hilfe]"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar [data-hilfe]"
+          ]
+        },
+        "erwartung": "#hilfe-overlay"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-verlassen",
+      "art": "knopf",
+      "beschriftung": "Depot verlassen",
+      "fundort_alt": "vivodepot.html (Kanon 02f48dbbd, ganz unten in der Seitenleiste)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar [data-verlassen]"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar [data-verlassen]"
+          ]
+        },
+        "erwartung": "#modal-rueck.an #modal-inhalt"
+      },
+      "zustand": "neu platziert"
+    }
+  ]
+}

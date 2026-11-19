@@ -24,7 +24,7 @@ function maengel(kern) {
   const erlaubt = regeln(kern).ueberdeckenErlaubt;
   for (const s of MENUE) if (!erlaubt.includes(s)) f.push('fehlt in ueberdeckenErlaubt: ' + s);
   if (erlaubt.some((s) => /(^|[\s,>])[.#](sidebar|menue-backdrop)\b/.test(s) && !/^html\.menue-auf>body>#app>/.test(s))) f.push('Menü darf auch geschlossen überdecken');
-  if (!/<div id="app">[\s\S]*?\n  <nav class="sidebar" id="sidebar">[\s\S]*?\n  <div class="menue-backdrop" id="menue-backdrop"/.test(kern)) f.push('Seitenleiste und Hintergrund nicht direkt in #app');
+  if (!/<div id="app">[\s\S]*?\n  <nav class="sidebar" id="sidebar"(?: data-baustein="seitenleiste")?>[\s\S]*?\n  <div class="menue-backdrop" id="menue-backdrop"/.test(kern)) f.push('Seitenleiste und Hintergrund nicht direkt in #app');
   // Eine Stelle setzt und entfernt die Klasse, an #app und an <html>; Öffnen und Schließen gehen nur über sie.
   const zustand = /function menueZustand\(offen\) \{\n  for \(const el of \[document\.getElementById\('app'\), document\.documentElement\]\) \{\n    if \(el && el\.classList\) el\.classList\.toggle\('menue-auf', offen\);/;
   if (!zustand.test(kern)) f.push('menue-auf nicht an einer Stelle an #app und <html>');

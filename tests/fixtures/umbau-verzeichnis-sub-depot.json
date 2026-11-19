@@ -3,7 +3,7 @@
   "kanon": "49419902c",
   "hinweis": "Funktionsverzeichnis Wagen 1 (Sub-Depot ohne Umfärbung). Format: Vorschlag Bau Div (neuer_platz: lage, weg je Breite, erwartung).",
   "eintraege": [
-    { "kennung": "flowSubKontextVerlassen", "art": "flow", "beschriftung": "Zurück zu meinem Depot",
+    { "kennung": "flowSubKontextVerlassen", "art": "flow", "beschriftung": "Zurück zu Ihrem Depot",
       "fundort_alt": "vivodepot.html:40609 (Kanon 49419902c)",
       "neuer_platz": { "lage": "sub-kontext",
         "weg": { "1280": ["#sub-kontextzeile #vm-zurueck"], "375": ["#sub-kontextzeile #vm-zurueck"] },

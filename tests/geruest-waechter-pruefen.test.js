@@ -444,7 +444,11 @@ test('[Gerüst-Wächter·Zuwachs·Rot-Beweis] wächst struktur und sinkt satz im
   assert.deepEqual(r.zuwaechse, [{ ziel: 'struktur', von: LITERALE.eimer.struktur, auf: LITERALE.eimer.struktur + 179, daneben: { satz: -42 }, grund: GRUND, laengste: LAENGSTE() }],
     'Zuwachs +179 im Ziel, Senkung −42 unter daneben; die Summe 137 kommt nirgends vor');
   assert.deepEqual(r.aenderung, { struktur: 179, satz: -42 });
-  assert.equal(JSON.stringify(r).includes('137'), false, 'die verrechnete Zahl steht nicht im Ergebnis');
+  // Die Summe wird als eigene Zahl gesucht: eine Byte-Zahl wie 313741 enthält die Ziffernfolge 137, ohne die Summe zu sein.
+  const alsZahl = (text) => /(^|[^0-9])137([^0-9]|$)/.test(text);
+  assert.equal(alsZahl('{"auf":313741}'), false, 'Rot-Beweis der Suche: eine Byte-Zahl mit der Ziffernfolge trifft nicht');
+  assert.equal(alsZahl('{"aenderung":+137}'), true, 'Rot-Beweis der Suche: die Summe als eigene Zahl trifft');
+  assert.equal(alsZahl(JSON.stringify(r)), false, 'die verrechnete Zahl steht nicht im Ergebnis');
   assert.deepEqual(zuwaechsePruefen(alsGrundlinie(r)), []);
   assert.deepEqual(pruefen(messung, alsGrundlinie(r)).fehler, [], 'mit der neuen Grundlinie ist die Messung grün');
   // ein Fremdcode-Block, der im selben Lauf sinkt, steht unter seinem eigenen Namen
@@ -524,8 +528,11 @@ test('[Gerüst-Wächter·Regionen] die echte Grundlinie führt den Sollwert, ihr
   // Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar verlangt, jede byte-gleich gegen ihr Original unter
   // code-listen/wortlaut/ gehalten (tests/lizenz-wortlaut-im-kern.test.js) — dort kann kein anderer Satz unterkommen, und
   // CODE-LISTEN sank um dieselben Byte.
-  assert.ok(R.dauerhaft.length <= 3, 'dauerhaft über 0 darf nur die Lizenz- und Urheberhinweise stehen');
-  assert.deepEqual(R.dauerhaft.map((e) => e.name).sort(), ['CODE-LISTEN', 'HERKUNFTSORT-ANGABEN', 'LIZENZ-WORTLAUT'], 'jede dauerhafte Region ist ein Lizenz- oder Urheberhinweis, benannt');
+  // ANGEHOBEN von 3 auf 4 am 16.11.2026, mit Einzelwort: eine zweite Sorte, ebenfalls kein Handtext.
+  // STANDARDS-SEITE trägt erzeugte Daten aus tools/standards-register (Name, Herausgeber, Fassung je Standard);
+  // tests/standards-seite-erzeugt.test.js vergleicht die Region mit der Ausgabe des Registers, ein Handtext ist rot.
+  assert.ok(R.dauerhaft.length <= 4, 'dauerhaft über 0 stehen nur Lizenz- und Urheberhinweise und die erzeugte Standards-Seite');
+  assert.deepEqual(R.dauerhaft.map((e) => e.name).sort(), ['CODE-LISTEN', 'HERKUNFTSORT-ANGABEN', 'LIZENZ-WORTLAUT', 'STANDARDS-SEITE'], 'jede dauerhafte Region ist benannt: Lizenz- oder Urheberhinweis oder erzeugte Standards-Seite');
   for (const e of R.dauerhaft) assert.ok(e.satz > 0 && e.grund.length >= 40, e.name);
 });
 

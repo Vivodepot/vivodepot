@@ -4,7 +4,7 @@
    ─────────────────────────────────────────────────────────────────────────
    (1) Jede ausgelieferte Seite besteht tools/doppelte-ids-pruefen.js gegen tools/doppelte-ids-grundlinie.json; das Studio steht
        bei 0 doppelten IDs im Markup, alle anderen Seiten ebenfalls.
-   (2) Die Vorschau-Kopfzeile des Assistenten hat eine eigene ID, und assistentKarte() schreibt den Namen dorthin, nicht in das
+   (2) Die Vorschau-Kopfzeile der Anfrage hat eine eigene ID, und anfrageVorschauRendern() schreibt den Namen dorthin, nicht in das
        Eingabefeld (as-k-name).
    (3) ROT-BEWEIS: eine gepflanzte Doppelung im Markup wird gefunden; dieselbe ID im Skript nicht als Markup-Doppelung; eine
        dynamische ID wird gezählt, nicht verglichen.
@@ -38,15 +38,17 @@ test('[Doppelte IDs] das Werkzeug ohne Argument: Exit 0 auf dem Stand des Repos'
   assert.match(r.stdout, /doppelte-ids: nichts Neues/);
 });
 
-test('[Studio · Vorschau] die Kopfzeile der Vorschau hat eine eigene ID, assistentKarte schreibt den Namen dorthin', () => {
-  const kopf = STUDIO.match(/<div class="as-kopf">[\s\S]{0,400}?<b id="([^"]+)"/);
+test('[Studio · Vorschau] die Kopfzeile der Vorschau hat eine eigene ID, anfrageVorschauRendern schreibt den Namen dorthin', () => {
+  const a = STUDIO.indexOf('<div id="anfrage-vorschau"');
+  const kopf = STUDIO.slice(a).match(/<div class="as-kopf">[\s\S]{0,400}?<b id="([^"]+)"/);
   assert.ok(kopf, 'Kopfzeile .as-kopf mit <b id="…"> nicht gefunden');
   assert.notEqual(kopf[1], 'as-k-name', 'die Kopfzeile darf nicht die ID des Eingabefelds tragen');
   const eingabe = STUDIO.match(/<input[^>]*id="as-k-name"[^>]*>/);
   assert.ok(eingabe, 'das Eingabefeld as-k-name fehlt');
-  const rumpf = STUDIO.slice(STUDIO.indexOf('function assistentKarte()'), STUDIO.indexOf('function assistentKarte()') + 400);
-  assert.ok(rumpf.includes("$('" + kopf[1] + "')") && rumpf.includes('ASSISTENT.name'), 'assistentKarte schreibt nicht in die Kopfzeile der Vorschau (' + kopf[1] + ')');
-  assert.ok(!rumpf.includes("$('as-k-name')"), 'assistentKarte greift das Eingabefeld statt der Vorschau');
+  const i = STUDIO.indexOf('function anfrageVorschauRendern()');
+  const rumpf = STUDIO.slice(i, STUDIO.indexOf('\nfunction ', i + 10));
+  assert.ok(rumpf.includes("$('" + kopf[1] + "')") && rumpf.includes('ASSISTENT.name'), 'anfrageVorschauRendern schreibt nicht in die Kopfzeile der Vorschau (' + kopf[1] + ')');
+  assert.ok(!rumpf.includes("$('as-k-name')"), 'anfrageVorschauRendern greift das Eingabefeld statt der Vorschau');
 });
 
 test('[Doppelte IDs · Rot-Beweis] eine gepflanzte Doppelung im Markup wird gefunden, im Skript und bei dynamischen IDs nicht als Markup-Doppelung', () => {

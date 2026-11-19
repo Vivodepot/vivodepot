@@ -43,7 +43,7 @@ const REPO = path.join(__dirname, '..');
 const MIT_ASSISTENTEN = process.argv.includes('--mit-assistenten');
 const AUSGABEPFAD_ARG = process.argv.slice(2).find((a) => !a.startsWith('--'));
 const OUT = AUSGABEPFAD_ARG ? path.resolve(AUSGABEPFAD_ARG) : path.join(REPO, 'docs', 'lesedurchgang', 'aufnahme');
-const { oeffneApp, oeffneSektor, einstellungenAbschnittOeffnen, einmalDialogeSchliessen, feldgruppenKartenOeffnen } = require(path.join(REPO, 'tests/e2e/helpers.js'));
+const { oeffneApp, oeffneSektor, einstellungenAbschnittOeffnen, einmalDialogeSchliessen, feldgruppenKartenOeffnen, rubrikOeffnen } = require(path.join(REPO, 'tests/e2e/helpers.js'));
 const EN_MODUL = path.join(REPO, 'tools/textsatz-en-modul.json');
 const VIEWPORT = { width: 1280, height: 2200 };
 
@@ -183,6 +183,7 @@ async function reiseA(browser, { flow, ordner, enModulAndocken }) {
 
   try {
     await oeffneSektor(page, 'health');
+    await rubrikOeffnen(page, '[data-edit=\"bloodType\"]');
     await page.selectOption('[data-edit="bloodType"]', 'A+');
     await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); window.__vdOeffentlich.renderContent(); });
     await schnappschuss(page, ordner, 'a9-gesundheit', 'Gesundheit, mit gesetzter Blutgruppe');
@@ -320,6 +321,7 @@ async function reiseD(browser, { flow, ordner, enModulAndocken }) {
 
   try {
     await oeffneSektor(page, 'health');
+    await rubrikOeffnen(page, '[data-edit=\"bloodType\"]');
     await page.selectOption('[data-edit="bloodType"]', 'A+');
     await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); window.__vdOeffentlich.renderContent(); });
   } catch (e) { nichtErreicht(flow, 'd0-gesundheit-vorbereiten', e); return; }

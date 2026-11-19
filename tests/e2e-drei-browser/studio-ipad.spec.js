@@ -63,7 +63,7 @@ async function oeffnen(browser, geraet) {
   page.on('console', (m) => { if (m.type() === 'error') fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push('pageerror: ' + e.message));
   await page.goto(STUDIO_URL);
-  await page.waitForSelector('#ein-anfrage', { state: 'visible' });
+  await page.waitForSelector('#raum-start', { state: 'visible' });
   await page.tap('#sp-de');
   await expect(page.locator('#sp-de')).toHaveAttribute('aria-pressed', 'true');
   return { ctx, page, gesperrt, fehler };
@@ -104,6 +104,8 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       expect(await p.evaluate(() => window.matchMedia('(pointer: coarse)').matches), 'Positivkontrolle: grober Zeiger').toBe(true);
       await bildschirm(p, 'Eingang', s);
 
+      await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+
       await p.tap('#ein-anfrage');
       await p.locator('#aa-von').tap();
       await p.keyboard.type('Bürgerservice Beispielstadt');
@@ -141,17 +143,21 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       test.setTimeout(120000);
       const s = await oeffnen(browser, geraet);
       const p = s.page;
-      await p.tap('#ein-aufnahme');
       await p.locator('#as-name').tap();
       await p.keyboard.type('Sportverein Beispielstadt');
-      await p.locator('#as-art [data-art="verein"]').tap();
-      await bildschirm(p, 'Bogen 1', s);
-      await expect(p.locator('#as-felder li').first()).toBeVisible();
-      const vorher = await p.locator('#as-felder li').count();
-      await p.locator('#as-hinzu button', { hasText: 'Geburtsdatum' }).tap();   // steht im Beispiel schon: kein Doppel
-      await expect(p.locator('#as-felder li')).toHaveCount(vorher);
-      await bildschirm(p, 'Bogen 2', s);
-      await p.tap('#as-weiter-2');
+      await bildschirm(p, 'Start', s);
+      await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+      await p.locator('#as-beispiele [data-beispiel="verein"]').tap();
+      await expect(p.locator('#tpl-felder .vk').first()).toBeVisible();
+      const vorher = await p.locator('#tpl-felder .vk').count();
+      const geburt = await p.evaluate(() => FELDKATALOG.findIndex((k) => k.kennung === 'identity.birthDate'));
+      /* S-2 (N43): steht im Beispiel schon, also blass und ohne „+“: kein Doppel möglich */
+      await expect(p.locator('#pal-liste .pal-eintrag.verwendet[data-kat="' + geburt + '"]')).toHaveCount(1);
+      /* die Sperre gegen Doppel bleibt geprüft: derselbe Baustein auf dem Weg von „+“ ergibt keine zweite Karte */
+      await p.evaluate((i) => feldEinfuegen(feldAusKatalog(i), null), geburt);
+      await expect(p.locator('#tpl-felder .vk')).toHaveCount(vorher);
+      await bildschirm(p, 'Arbeitsfläche mit Beispiel', s);
+      await p.tap('#fertig-oeffnen');
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
       await vorabPruefenTippen(p);
       await expect(p.locator('#vorab-ergebnis')).toBeVisible();
@@ -163,7 +169,6 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       test.setTimeout(120000);
       const s = await oeffnen(browser, geraet);
       const p = s.page;
-      await p.tap('#kopf-fachebene');
       await expect(p.locator('#start-leer')).toBeVisible();
       await bildschirm(p, 'Fachebene Start', s);
       expect(await versteckteDateifelder(p)).toEqual(['tpl-csv:ok', 'ent-datei:ok']);

@@ -21,9 +21,16 @@ test('[DEMO-S1] die Rechtsform steht im Einreichen-Dialog dort, wo sie verlangt 
   assert.doesNotMatch(STUDIO, /Rechtsform \(freiwillig\)/);
 });
 
-test('[DEMO-S3] Bogen-Schritt: Bausteinliste über der Vorschau, Liste höher als 190 px, Satz nennt das Ziehen (DE und EN)', () => {
-  assert.match(STUDIO, /aside\.insertBefore\(pal, aside\.querySelector\('\.as-kleinaug'\)\)/, 'die Palette steht noch unter der Vorschau');
-  const h = STUDIO.match(/\.as-rechts \.as-palette #as-pal-liste \{ max-height: (\d+)px/);
-  assert.ok(h && Number(h[1]) >= 240, 'Bausteinliste zu niedrig: nur wenige Bausteine sichtbar');
-  assert.match(STUDIO, /data-en="Start with an example or add questions\. Change the order by dragging or with the arrows\.">[^<]*durch Ziehen oder mit den Pfeilen/);
+/* Seit S-1 trägt das Gitter genau die id für die Telefon-Reiter (aria-controls); ein anderes Attribut ist nicht vorgesehen. */
+const ERSTE_SPALTE = /<div class="bau-gitter"(?: id="bau-gitter")?>\s*<aside class="palette" id="palette"/;
+test('[DEMO-S3 · Rot-Beweis] ein anderes Attribut am Gitter oder ein Element vor der Bausteinliste fällt auf', () => {
+  assert.doesNotMatch(STUDIO.replace('<div class="bau-gitter" id="bau-gitter">', '<div class="bau-gitter" style="display:block">'), ERSTE_SPALTE);
+  assert.doesNotMatch(STUDIO.replace('<div class="bau-gitter" id="bau-gitter">', '<div class="bau-gitter" id="bau-gitter"><p>x</p>'), ERSTE_SPALTE);
+});
+test('[DEMO-S3] Arbeitsfläche: die Bausteinliste steht als erste Spalte neben der Vorlage, ihre Liste ist nicht auf unter 190 px begrenzt, der Satz nennt das Ziehen (DE und EN)', () => {
+  assert.match(STUDIO, ERSTE_SPALTE, 'die Bausteinliste steht nicht als erste Spalte der Arbeitsfläche');
+  assert.match(STUDIO, /\.bau-gitter \{ display: grid; grid-template-columns: 290px minmax\(0, 1fr\) 320px;/);
+  const h = STUDIO.match(/#pal-liste \{[^}]*max-height: (\d+)px/);
+  assert.ok(!h || Number(h[1]) >= 190, 'Bausteinliste zu niedrig: nur wenige Bausteine sichtbar');
+  assert.match(STUDIO, /data-en="Add with \+ or drag into the template\.">Mit \+ hinzufügen oder in die Vorlage ziehen\./);   // seit S-3: Vorlage statt Vorschau
 });

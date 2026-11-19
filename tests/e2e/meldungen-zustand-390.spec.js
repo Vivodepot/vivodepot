@@ -36,7 +36,7 @@ async function uebersichtOeffnen(page) {
   const nav = page.locator('[data-anlass-auswahl="1"]').first();
   // Am Telefon liegt die Seitenleiste neben dem Bild, bis das Menü sie hereinholt.
   const imBild = await nav.evaluate((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.right > 0 && r.left < window.innerWidth; });
-  if (!imBild) await page.click('#tb-menue');
+  if (!imBild) await h.schubfachOeffnen(page);
   await nav.click();
   await expect(page.locator('[data-ansicht="erledigen"]')).toBeVisible();
 }

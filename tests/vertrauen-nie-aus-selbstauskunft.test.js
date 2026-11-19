@@ -238,6 +238,7 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "vereinbarungAntwortAnwenden", "return { ergebnis: 'angenommen', grund: pruef.geprueft ? null : 'ungeprueft', frei: pruef.geprueft, kennung: eintrag.kennung };", G.ZURUECKGABEWERT],
   ["kern", "uebergabeProtokollEintragen", "function uebergabeProtokollEintragen({ empfaenger, zweck, umfang, herkunft, vereinbarung } = {}) {", G.PROTOKOLL],
   ["kern", "uebergabeProtokollZeileHTML", "const badge = ((e.herkunft === 'manuell')", G.PROTOKOLL],
+  ["kern", "uebergabeFormatText", "const h = (e && typeof e.herkunft === 'string') ? e.herkunft : '';", G.PROTOKOLL],
   ["kern", "_feldVerifiziertStaemmig", "return !!(st && st.verifiziert === true);", G.STEMPEL_EINSCHRAENKEND],
   ["kern", "EREIGNIS_ACHSE_MODUL_SCHLUESSEL", "const EREIGNIS_ACHSE_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'herkunft', 'eintraege',", G.SCHLUESSEL],
   ["kern", "EREIGNIS_ACHSE_MODUL_SCHLUESSEL", "'sprache', 'appVersion', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft']);", G.SCHLUESSEL],

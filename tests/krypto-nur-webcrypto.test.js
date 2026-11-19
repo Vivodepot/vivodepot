@@ -6,7 +6,9 @@
    ist eingebettet: noble-ed25519, in der Fassung, die Cure53 2022 geprüft hat.“ Die Herkunft der Bibliothek und ihren Pfad
    (nur getPublicKey, SHA-512 über crypto.subtle) halten schon tests/halter-schluessel-noble.test.js fest. Diese Probe ist der
    Wächter über den Rest des Kerns:
-   - Eingebettet sind genau drei fremde Blöcke: jsPDF (mit pako), noble-ed25519 und qrcode-generator. Ein vierter fällt auf.
+   - Eingebettet sind genau vier fremde Blöcke: jsPDF (mit pako), noble-ed25519, qrcode-generator und pdf.js. Ein fünfter fällt auf.
+     pdf.js (17.11.2026, PDF im Depot ansehen) trägt den Security Handler aus ISO 32000 (RC4/AES/MD5/SHA) zum Entschlüsseln
+     verschlüsselter PDFs; der Block reicht nur getDocument und version hinaus und berührt die Depot-Verschlüsselung nicht.
    - Außerhalb dieser drei steht kein Fingerabdruck einer eigenen Krypto-Umsetzung: keine Start- oder Rundenkonstanten von
      SHA-1/SHA-2/MD5, keine AES-S-Box, keine ChaCha-Konstante, keine Primzahl von Curve25519.
    - Keine PDF-Verschlüsselung über jsPDF (deren RC4/MD5 liefe an WebCrypto vorbei).
@@ -46,6 +48,7 @@ function bloecke(text) {
 function art(b) {
   if (/id="noble_ed25519_VivodepotInline"/.test(b.attr)) return 'noble';
   if (/id="qrcode_VivodepotInline"/.test(b.attr)) return 'qrcode';
+  if (/id="pdfjs_VivodepotInline"/.test(b.attr)) return 'pdfjs';
   if (/^\s*\/\*\* @license\s*\n\s*\*\s*\n\s*\* jsPDF - PDF Document creation from JavaScript/.test(b.inhalt)) return 'jspdf';
   if (/@license|\/\*!/.test(b.inhalt.slice(0, 400))) return 'fremd-unbekannt';
   return 'eigen';
@@ -53,7 +56,7 @@ function art(b) {
 
 function urteil(text) {
   const raus = [];
-  const zaehlung = { jspdf: 0, noble: 0, qrcode: 0 };
+  const zaehlung = { jspdf: 0, noble: 0, qrcode: 0, pdfjs: 0 };
   for (const b of bloecke(text)) {
     const a = art(b);
     if (a === 'fremd-unbekannt') { raus.push('eingebettete Bibliothek außerhalb der Liste'); continue; }
@@ -65,7 +68,7 @@ function urteil(text) {
   return raus;
 }
 
-test('[Krypto·nur WebCrypto·Wächter] drei benannte Bibliotheken, außerhalb kein Krypto-Fingerabdruck und keine PDF-Verschlüsselung', () => {
+test('[Krypto·nur WebCrypto·Wächter] vier benannte Bibliotheken, außerhalb kein Krypto-Fingerabdruck und keine PDF-Verschlüsselung', () => {
   assert.deepEqual(urteil(KERN), []);
 });
 

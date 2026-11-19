@@ -2,11 +2,11 @@
  "zweck": "Ausgabewege des Studios (Funktionen mit blobDownload). geschlossen: Standard und PDF, je Weg die Aufrufe, die sein Rumpf trägt. luecken: ohne Standard oder ohne PDF, je mit Grund; die Liste sinkt nur (tools/studio-ausgabewege-pruefen.js, angelegt 12.11.2026 mit Studio-Schritt 5).",
  "geschlossen": {
   "vorlageSichern": {
-   "standard": "fhir-r4-questionnaire",
+   "standard": "nach Bereich der Felder: fhir-r4-questionnaire (health, advanceCare), sd-jwt-vc (identity), vcard-4.0 (people); sonst das Vorlagenformat (S-4)",
    "pdf": true,
    "ruft": [
-    "vorlageQuestionnaire",
-    "vorlagePdfBauen"
+    "vorlageDateienNachBereich",
+    "studioStandardUndPdfAusgeben"
    ]
   },
   "entwurfSichern": {

@@ -1,0 +1,123 @@
+/* Stilsatz „dummy“ (U-G, 15.11.2026): das Aussehen des Desktop-Dummys als Überlagerung. Reihenfolge: grundlage, salbei-glas, dummy, ohne-icons
+   (tools/erscheinung/stil-reihenfolge-dummy.json). Gilt hell und nachts (Nacht ohne Glas, unten) und nicht im Sub-Depot-Modus (Vollmacht); der
+   Hochkontrast behält seine eigenen Regeln. Werte stehen im Profil tools/erscheinung/dummy.css; Längen kommen aus der Gestaltungsdefinition
+   (--abstand-N, --radius-*), hier steht keine freie Länge. Die Regeln heben das Glas auf: Papierweiß flach, Leiste Warmgrau, Karten weiß mit
+   1-px-Rand, aktiver Eintrag als weiße Karte mit Rand statt dunkler Fläche. */
+html:not(.dark-mode):not(.high-contrast) body,
+html:not(.dark-mode):not(.high-contrast) #app,
+html:not(.dark-mode):not(.high-contrast) #app .content { background: var(--cream); background-image: none; }
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .topbar {
+  background: var(--vd-branding-topbar-primaer, var(--white)); border-bottom: 1px solid var(--line); box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .sidebar {
+  background: var(--flaeche-neutral); border-right: 1px solid var(--line); -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .nav-item:hover { background: color-mix(in srgb, var(--ink) 6%, var(--flaeche-neutral)); }
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv {
+  background: var(--white); color: var(--ink); box-shadow: 0 0 0 1px var(--line); font-weight: var(--fw-semibold); border-radius: var(--radius-md);
+}
+/* H08 (Desktop-Dummy, Navigation unter 768 px): im geöffneten Menü trägt der aktive Eintrag statt der Karte die Linie links in Salbei. */
+@media (max-width: 767px) {
+  html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv {
+    background: none; box-shadow: none; border-radius: 0 var(--radius-md) var(--radius-md) 0; border-left-color: var(--akzent-papier); color: var(--salbei-dunkel);
+  }
+}
+html:not(.dark-mode):not(.high-contrast) #app .sektion,
+html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte,
+html:not(.dark-mode):not(.high-contrast) #app .karte {
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(25,30,25,.32); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal {
+  background: var(--white); border: 1px solid var(--line); box-shadow: 0 20px 60px rgba(0,0,0,.2); -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte { background: var(--white); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html:not(.dark-mode):not(.high-contrast) .topbar .btn, html:not(.dark-mode):not(.high-contrast) .topbar .a11y-btn,
+html:not(.dark-mode):not(.high-contrast) .depot-pille { border: 1px solid var(--line); background: var(--white); }
+html:not(.dark-mode):not(.high-contrast) .topbar .btn:hover, html:not(.dark-mode):not(.high-contrast) .depot-pille:hover { background: var(--flaeche-neutral); }
+
+/* Sub-Depot: der Streifen oben an der Kopfzeile trägt den kräftigen Ton der Person (wie im Dummy). */
+html.sub-kontext:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .topbar { box-shadow: inset 0 3px 0 var(--person-linie); }
+
+/* Foto-Platzhalter: die Schrift stand auf --ink3 und fiel auf der Salbei-Tönung unter 4,5:1 (Kampagne Ebene 4, hell 3,95:1). */
+html:not(.dark-mode):not(.high-contrast) .deckblatt-platzhalter { color: var(--ink2); }
+
+/* Nacht ohne Glas (15.11.2026): die dunklen Gegenstücke zu Papierweiß und Warmgrau. Gleiche Form wie oben, Farben nur aus den Nacht-Tokens
+   (--cream, --white, --line, --flaeche-neutral in tools/erscheinung/dummy.css), kein backdrop-filter, kein Verlauf. */
+html.dark-mode:not(.high-contrast) body,
+html.dark-mode:not(.high-contrast) #app,
+html.dark-mode:not(.high-contrast) #app .content { background: var(--cream); background-image: none; }
+html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .topbar {
+  background: var(--vd-branding-topbar-primaer, var(--white)); border-bottom: 1px solid var(--line); box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .sidebar {
+  background: var(--flaeche-neutral); border-right: 1px solid var(--line); -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .nav-item:hover { background: color-mix(in srgb, var(--ink) 6%, var(--flaeche-neutral)); }
+html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) #sidebar .nav-item.aktiv {
+  background: var(--white); color: var(--ink); box-shadow: 0 0 0 1px var(--line); font-weight: var(--fw-semibold); border-radius: var(--radius-md);
+}
+html.dark-mode:not(.high-contrast) #app .sektion,
+html.dark-mode:not(.high-contrast) #app .feldgruppen-karte,
+html.dark-mode:not(.high-contrast) #app .karte {
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html.dark-mode:not(.high-contrast) #modal-rueck { background: rgba(0,0,0,.55); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.dark-mode:not(.high-contrast) #modal-rueck .modal {
+  background: var(--white); border: 1px solid var(--line); box-shadow: 0 20px 60px rgba(0,0,0,.5); -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html.dark-mode:not(.high-contrast) .vorfuehrung-spalte { background: var(--white); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.dark-mode:not(.high-contrast) .topbar .btn, html.dark-mode:not(.high-contrast) .topbar .a11y-btn,
+html.dark-mode:not(.high-contrast) .depot-pille { border: 1px solid var(--line); background: var(--white); }
+html.dark-mode:not(.high-contrast) .topbar .btn:hover, html.dark-mode:not(.high-contrast) .depot-pille:hover { background: var(--flaeche-neutral); }
+html.sub-kontext.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .topbar { box-shadow: inset 0 3px 0 var(--person-linie); }
+
+/* Sub-Depot wie im Dummy (16.11.2026, U-G): Der Streifen oben trägt den kräftigen Ton der Person (--person-linie), die Kontextzeile
+   darunter liegt als Fläche in einer hellen Tönung des Personentons (Nachwagen unten); der Knopf „Zurück“ ist eine weiße Fläche ohne Rand. Der Farbkreis
+   steht weiß auf der Fläche, damit er sichtbar bleibt. Keine neue Linie (Linien-Deckel: Fläche statt Balken). Tags und nachts gleich,
+   die Personentöne sind in allen Themes dieselben. */
+/* Nachwagen (16.11.2026, Prüfung gegen den Dummy): die Fläche ist eine sehr helle Tönung des Personentons, der Text steht im kräftigen
+   Ton (60 % zur Tinte hin gemischt: auf der Fläche bei allen elf Tönen mindestens 5:1). Die 11 % sind gemessen: im Dummy (vivodepot-dummy-desktop.html) liegt --person-hell
+   im Mittel bei 11 % des kräftigen Personentons auf Weiß (beide Beispielpersonen). Die Zeile ist niedrig (etwa 44 px), der Knopf kompakt (etwa 32 px), normale Schrift,
+   Text im Personenton. Am Handy steht der Knopf links unter dem Satz. */
+html.sub-kontext:not(.high-contrast) .sub-kontextzeile {
+  background: color-mix(in srgb, var(--person-linie) 11%, var(--white)); color: color-mix(in srgb, var(--person-linie) 60%, var(--ink));
+  padding-top: var(--space-1); padding-bottom: var(--space-1); min-height: var(--ziel);
+}
+html.sub-kontext:not(.high-contrast) .sub-kontext-kreis { background: var(--white); color: var(--ink); }
+html.sub-kontext:not(.high-contrast) .sub-kontextzeile .btn {
+  background: var(--white); color: color-mix(in srgb, var(--person-linie) 60%, var(--ink)); border-color: transparent; box-shadow: none;
+  font-weight: var(--fw-regular); font-size: var(--fs-role-hilfe); padding: var(--space-1) var(--space-3); min-height: 0;
+}
+html.sub-kontext:not(.high-contrast) .sub-kontextzeile .btn:hover { background: var(--flaeche-neutral); }
+@media (max-width: 767px) {
+  html.sub-kontext:not(.high-contrast) .sub-kontextzeile .btn { margin-left: 0; }
+}
+
+/* Kopfleiste (U-3, Schritt 3): Herausgeben als gefüllter Knopf, die Suche als Feld auf Papierweiß mit dem Kürzel rechts, das Logo auf einem Quadrat mit gerundeten Ecken. */
+html:not(.high-contrast) #app:not(.modus-vollmacht) .topbar .logo-mark { border-radius: var(--radius-md); }
+html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion { border: 0; }
+html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion:not(.tb-aktion-haupt) { background: transparent; }
+html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion-haupt { background: var(--salbei-dunkel); color: var(--white); }
+html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion-haupt:hover { background: var(--salbei-dunkel); text-decoration: underline; }
+html:not(.dark-mode):not(.high-contrast) .tb-suche-platz #suche-eingabe { border: 0; border-bottom: var(--feld-rahmen-dialog); background: var(--flaeche-neutral); border-radius: var(--radius-md) var(--radius-md) 0 0; padding-right: calc(var(--abstand-6) + var(--abstand-4)); }
+html.dark-mode:not(.high-contrast) .topbar .tb-aktion { border: 0; }
+html.dark-mode:not(.high-contrast) .topbar .tb-aktion:not(.tb-aktion-haupt) { background: transparent; }
+html.dark-mode:not(.high-contrast) .topbar .tb-aktion-haupt { background: var(--salbei-dunkel); color: var(--auf-akzent); }
+html.dark-mode:not(.high-contrast) .topbar .tb-aktion-haupt:hover { background: var(--salbei-dunkel); text-decoration: underline; }
+html.dark-mode:not(.high-contrast) .tb-suche-platz #suche-eingabe { border: 0; border-bottom: var(--feld-rahmen-dialog); background: var(--flaeche-neutral); border-radius: var(--radius-md) var(--radius-md) 0 0; padding-right: calc(var(--abstand-6) + var(--abstand-4)); }
+
+/* GROESSENLEITER-DUMMY:BEGIN — erzeugt aus tools/groessenleiter.json (profile.dummy) durch tools/gestaltung-definition.js; nicht von Hand ändern */
+:root { --fs-role-anzeige: 1.375rem; --fs-role-titel: 1.375rem; --fs-role-abschnitt: 1rem; --fs-role-gruppe: 0.9375rem; --fs-role-einleitung: 0.875rem; --fs-role-text: 0.875rem; --fs-role-wert: 0.875rem; --fs-role-label: 0.875rem; --fs-role-knopf: 0.875rem; --fs-role-nav: 0.875rem; --fs-role-hilfe: 0.875rem; }
+@media (max-width: 767px) { :root { --fs-role-anzeige: 1.25rem; --fs-role-titel: 1.25rem; --fs-role-abschnitt: 1.0625rem; --fs-role-gruppe: 1rem; --fs-role-einleitung: 0.9375rem; --fs-role-text: 0.9375rem; --fs-role-wert: 1rem; --fs-role-label: 0.9375rem; --fs-role-knopf: 0.9375rem; --fs-role-nav: 0.9375rem; } }
+/* GROESSENLEITER-DUMMY:END */
+/* U-9 (16.11.2026): die Karten der Anfrage-Ansicht tragen im Dummy Innenabstand. Salbei-Glas legt Abschnitte flach und
+   ohne Seitenabstand an; oben stellt dieses Bild nur Fläche und Rahmen wieder her, hier für die Anfrage auch den Abstand. */
+html:not(.high-contrast) #app .sektion.anfrage-karte { padding: var(--space-4) var(--space-5); margin-top: var(--space-4); }
+@media (max-width: 767px) { html:not(.high-contrast) #app .sektion.anfrage-karte { padding: var(--space-3) var(--space-4); } }
+/* U-9: „Ablehnen“ ist im Dummy ein weißer, umrandeter Zweitknopf, keine graue Fläche. */
+html:not(.dark-mode):not(.high-contrast) #app .anfrage-aktionen .btn-sek:not(:disabled) { background: var(--white); border: 1px solid var(--line); color: var(--ink); }

@@ -39,7 +39,14 @@
       ],
       "bezuege": null,
       "grund": "teilweise, bis die Lizenz von inspector-core geklärt ist (s. lizenz). Gemessen ist der Lauf trotzdem: der Prüferlauf ist am offiziellen Prüfer von 1EdTech gemessen, ohne Netz. Was der Kern nach dem Verwahren herausgibt, urteilt er gleich wie die Testdatei; jede der vier Formen (JSON-LD, VC-JWT, PNG, SVG) hat einen gültigen Fall, die Testdateien im Entwurfsstand bzw. abgelaufen fallen aus dem gemessenen Grund, ein Badge ohne Aussteller wird abgelehnt. Ohne Netz bleibt nur die Warnung, die Aussteller-URL sei nicht erreichbar. Verwahren und byte-gleiches Vorzeigen belegt tests/bildung-ob3-halten.test.js; U2-ADR-445.",
-      "pruefer": "tests/ob3-1edtech-lauf.test.js"
+      "pruefer": "tests/ob3-1edtech-lauf.test.js",
+      "seite": {
+        "richtung": [
+          "empfangen",
+          "verwahren",
+          "vorzeigen"
+        ]
+      }
     },
     {
       "id": "vivodepot-vollexport",
@@ -67,7 +74,11 @@
       ],
       "bezuege": null,
       "grund": "Die verschlüsselte Depotsicherung ist das Eigenformat der App; kein fremder Standard beschreibt sie. Geschrieben wird sie über _depotBlobSpeichern, _dateizielFuerAnlegenSichern, _subSelbstDateiSichern und _kindDateiOrtWaehlen; keiner davon ist ein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer.",
-      "pruefer": "tests/a359-rundlauf-katalogbindung.test.js"
+      "pruefer": "tests/a359-rundlauf-katalogbindung.test.js",
+      "seite": {
+        "name": "{marke}-Depotsicherung ({marke}-Format)",
+        "herausgeber": "{marke}"
+      }
     },
     {
       "id": "vivodepot-beta",
@@ -94,7 +105,11 @@
       ],
       "bezuege": null,
       "grund": "Sicherungen der alten Vivodepot-App; nur Einlesen, kein fremder Standard.",
-      "pruefer": "tests/b16-migrations-knopf.test.js"
+      "pruefer": "tests/b16-migrations-knopf.test.js",
+      "seite": {
+        "name": "{marke}-Beta-Sicherung ({marke}-Format, Beta-Fassung)",
+        "herausgeber": "{marke}"
+      }
     },
     {
       "id": "provider-credential",
@@ -122,7 +137,11 @@
       ],
       "bezuege": null,
       "grund": "Signiertes Anbieter-Zertifikat im Eigenformat; der Rahmen JWS ist RFC 7515, der Inhalt eigen. Offener Posten: Prüfung am Normtext W3C VC Data Model 2.0.",
-      "pruefer": "tests/sicherheit-block-c.test.js"
+      "pruefer": "tests/sicherheit-block-c.test.js",
+      "seite": {
+        "name": "{marke}-Anbieter-Zertifikat (JWS)",
+        "herausgeber": "{marke}"
+      }
     },
     {
       "id": "vivodepot-vereinbarung-angebot",

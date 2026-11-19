@@ -18,10 +18,10 @@
          (Schnitt Glied 4, A469, U2-ADR-162 — Prüfstein 5, hier zum ersten Mal
          im echten Browser statt nur über den jsdom-Harnisch geprüft)
      4 · ein mehrwertiges Feld (Schnitt Glied 3, A448, U2-ADR-161) trägt
-         MEHRERE Werte, über den echten Eintrags-Dialog, nicht `sektorFeldSetzen`
+         MEHRERE Werte, über die echte Oberfläche (erster Eintrag im Bereich, zweiter als Zeile), nicht `sektorFeldSetzen`
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, rubrikOeffnen } = require('./helpers');
 
 test('[A497·1] ein angedocktes Bereichs-Modul erscheint als eigener Sektor in der Sidebar', async ({ page }) => {
   await oeffneApp(page);
@@ -77,7 +77,7 @@ test('[A497·3] zwei Rechtsräume bei gleicher Sprache -- derselbe Schlüssel li
   await expect(page.locator('h2')).toContainText('Selbst zusammenstellen (Standard)');
 });
 
-test('[A497·4] ein mehrwertiges Feld (Ausweis) trägt zwei Einträge, über den echten Dialog', async ({ page }) => {
+test('[A497·4] ein mehrwertiges Feld (Ausweis) trägt zwei Einträge, über die echte Oberfläche', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await oeffneSektor(page, 'identity');
@@ -85,6 +85,8 @@ test('[A497·4] ein mehrwertiges Feld (Ausweis) trägt zwei Einträge, über den
   // Erster Eintrag — bei leerer Liste stehen seine Eingaben direkt im Bereich (Hinzufügen, 07.10.2026); er entsteht, wenn der
   // Fokus die Gruppe verlässt.
   const inline = '#content [data-liste-inline="idDocuments"]';
+  // Eintragebereich (U-4): das Detail zeigt nur die gewählte Rubrik — die der Ausweise wird gewählt wie von Hand.
+  await rubrikOeffnen(page, inline);
   await page.fill(inline + ' [data-eintrag-edit="system"]', 'Personalausweis');
   await page.fill(inline + ' [data-eintrag-edit="documentNumber"]', 'E2E-AUSWEIS-1');
   await page.evaluate(() => document.activeElement && document.activeElement.blur());   // der Fokus verlässt die Gruppe
@@ -92,13 +94,16 @@ test('[A497·4] ein mehrwertiges Feld (Ausweis) trägt zwei Einträge, über den
     Array.isArray(window.__vdOeffentlich.ankerDaten().sektoren.identity && window.__vdOeffentlich.ankerDaten().sektoren.identity.idDocuments)
     && window.__vdOeffentlich.ankerDaten().sektoren.identity.idDocuments.length === 1);
 
-  // Zweiter Eintrag — über „Weiteres Ausweisdokument hinzufügen“ und den echten Dialog, ein ANDERES System.
+  // Zweiter Eintrag — über „Weiteres Ausweisdokument hinzufügen“, ein ANDERES System. Seit D38/D39 öffnet der Knopf eine Zeile unter den
+  // Einträgen statt eines Dialogs; „Speichern“ an der Zeile legt an.
+  await rubrikOeffnen(page, '[data-eintrag-hinzufuegen="idDocuments"]');
   await page.click('[data-eintrag-hinzufuegen="idDocuments"]');
-  await page.waitForSelector('#modal-inhalt [data-edit="system"]', { state: 'visible' });
-  await page.fill('#modal-inhalt [data-edit="system"]', 'Reisepass');
-  await page.fill('#modal-inhalt [data-edit="documentNumber"]', 'E2E-AUSWEIS-2');
-  await page.click('#m-ok');
-  await page.waitForSelector('#modal-inhalt', { state: 'hidden' });
+  const zeile = '#content [data-liste-neu]';
+  await page.waitForSelector(zeile + ' [data-eintrag-edit="system"]', { state: 'visible' });
+  await page.fill(zeile + ' [data-eintrag-edit="system"]', 'Reisepass');
+  await page.fill(zeile + ' [data-eintrag-edit="documentNumber"]', 'E2E-AUSWEIS-2');
+  await page.click(zeile + ' [data-liste-neu-speichern="idDocuments"]');
+  await page.waitForSelector(zeile, { state: 'detached' });
 
   const systeme = await page.evaluate(() =>
     window.__vdOeffentlich.ankerDaten().sektoren.identity.idDocuments.map((e) => e.system).sort());

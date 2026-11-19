@@ -11,6 +11,18 @@
         "lage": "start",
         "weg": { "alle": ["#gibt-es-nicht-umbau-rotbeweis"] }
       }
+    },
+    {
+      "kennung": "gepflanzterWegfallStudio",
+      "art": "knopf",
+      "beschriftung": "Gepflanzter Weg ins Leere im Studio",
+      "fundort_alt": "gepflanzt",
+      "zustand": "neu platziert",
+      "neuer_platz": {
+        "lage": "studio",
+        "ort": "gepflanzt",
+        "weg": { "alle": ["#gibt-es-nicht-umbau-rotbeweis-studio"] }
+      }
     }
   ]
 }

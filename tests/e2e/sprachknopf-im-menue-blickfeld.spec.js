@@ -9,6 +9,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { produktHtml, depotImProduktAnlegen } = require('../produkt-html-erzeugen.js');
+const h = require('./helpers.js');
 
 const PW = 'pw-a5-blickfeld-4711';
 
@@ -27,8 +28,7 @@ for (const [name, breite, hoehe] of [['390 px', 390, 844], ['1024 × 768', 1024,
     await page.waitForSelector('#app.an', { state: 'attached' });
     fs.rmSync(datei, { force: true });   // die Datei ist gelesen; kein Rest im Temp-Verzeichnis
     await page.waitForTimeout(500);
-    const menue = page.locator('#tb-menue');
-    if (await menue.isVisible() && (await menue.getAttribute('aria-expanded')) !== 'true') { await menue.click(); await page.waitForTimeout(500); }
+    if (!/\bmenue-auf\b/.test((await page.locator('#app').getAttribute('class')) || '')) { await h.schubfachOeffnen(page); await page.waitForTimeout(500); }
     const knopf = page.locator('#sb-sprache');
     await expect(knopf).toHaveCount(1);
     const r = await knopf.evaluate((e) => { const b = e.getBoundingClientRect(); return { oben: b.top, unten: b.bottom, links: b.left, rechts: b.right, h: window.innerHeight, w: window.innerWidth }; });

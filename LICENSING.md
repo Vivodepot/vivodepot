@@ -2,8 +2,8 @@
 
 Diese Seite erklärt das Lizenzmodell von Vivodepot in einfacher Sprache. Verbindlich ist der
 Lizenztext in [LICENSE](LICENSE): der amtliche Volltext der European Union Public Licence,
-Fassung 1.2 (`SPDX-License-Identifier: EUPL-1.2`). Amtliche Fassungen in allen EU-Sprachen:
-https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+Fassung 1.2 (`SPDX-License-Identifier: EUPL-1.2`). Die Europäische Kommission veröffentlicht die EUPL-1.2 in 23 Amtssprachen:
+https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
 
 **Was unter EUPL-1.2 steht:** alles, was zum offenen Projekt gehört — Anwendung, Lese-Anwendung,
 Studio, die Modul- und Vorlagen-Erzeuger, alles, womit man Signaturen und Nachweise prüft,
@@ -130,8 +130,8 @@ issuing service; it is a service, not part of the software. The
 application marks unsigned modules as unsigned.
 
 License:     European Union Public Licence, version 1.2
-Full text:   [LICENSE](LICENSE) (official text; all EU languages at
-             https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
+Full text:   [LICENSE](LICENSE) (official text; published by the European Commission in 23 official
+             languages at https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 Identifier:  SPDX-License-Identifier: EUPL-1.2
 
 You may use, copy, modify and redistribute this part, commercially or

@@ -31,8 +31,11 @@ test('urheberschaftZeileHTML (Teil 5.2): vom Anker selbst → STILL; abweichend 
   // um. telefon lässt den Snapshot-Vergleich (Akteur == Anker) für DIESEN Test unberührt — die
   // Identitäts-Namens-Kopplung selbst prüft tests/provenienz-name-bruecke.test.js.
   V.sektorFeldSetzen('identity', 'telephone', '0151');
-  // (a) Eintrag vom Anker selbst (Name == Anker) → keine Zeile (Zurückhaltung).
+  // (a) Eintrag vom Anker selbst (Name == Anker) → keine Zeile, auch nach einer weiteren Eingabe (Herkunft A2, 13.11.2026:
+  // Eigenes ohne Zeichen; nur Eingelesenes und fremd Eingetragenes tragen ihre Herkunft am Feld).
   assert.equal(V.urheberschaftZeileHTML('identity', 'telephone'), '', 'still beim Anker selbst');
+  V.sektorFeldSetzen('identity', 'telephone', '0152');
+  assert.equal(V.urheberschaftZeileHTML('identity', 'telephone'), '', 'still auch nach einer weiteren eigenen Eingabe');
 
   // (b) Abweichung erzeugen: der Anker wird später umbenannt; der Snapshot bleibt „B".
   V.getData().menschen.find(m => m.id === akteur.personId).name = 'C';

@@ -144,12 +144,15 @@ test('[Link senden·Wahl] nach „Antworten“: „Herunterladen“ und „Link 
 test('[Link senden·Wege] Antwort und Anlass-Auszug fragen nach dem Weg, die Antwort nur signiert', () => {
   const rumpf = (name) => { const a = KERN.indexOf('function ' + name + '('); return KERN.slice(a, KERN.indexOf('\n}\n', a)); };
   const antwortWeg = rumpf('_anfrageAntwortSchreiben');
-  assert.match(antwortWeg, /if \(!LINK_SENDEN_FUER_AUSZUEGE \|\| !antwortTraegtSignatur\(jwe\)\) return herunterladen\(\);/);
-  assert.match(antwortWeg, /_ausgabeWegWaehlen\(STRINGS\.anfrageAntwortenCta, name, herunterladen,/);
+  // Den Link gibt es nur signiert; die QR-Serie für jede Antwort (U2-ADR-449, Nachtrag 16.11.2026).
+  assert.match(antwortWeg, /const linkSenden = \(LINK_SENDEN_FUER_AUSZUEGE && antwortTraegtSignatur\(jwe\)\)\n\s+\? \(\) => flowLinkSenden/);
+  assert.match(antwortWeg, /: null;/);
+  assert.match(antwortWeg, /_ausgabeWegWaehlen\(STRINGS\.anfrageAntwortenCta, name, herunterladen, linkSenden, qrZeigen\)/);
   assert.match(antwortWeg, /flowLinkSenden\(\(o\) => antwortLinkTeile\(jwe, o\)/);
   const anlassWeg = rumpf('flowAnlassExport');
-  // B3 (12.11.2026): der Anlass fragt über den Ergebnis-Dialog mit zwei Wegen (PDF, Datei); „Link senden“ bleibt sein Zweitweg.
-  assert.match(anlassWeg, /_anlassErgebnisWaehlen\(def\.titel \|\| def\.id, _anlassErgebnisWege\(dateiBasis, dateiStamm\),/);
+  // B3 (12.11.2026): zwei Wege (PDF, Datei); „Link senden“ bleibt dabei. Seit U-5 Rest (17.11.2026) stehen sie auf der Seite „Fertig“.
+  assert.match(anlassWeg, /const wege = _anlassErgebnisWege\(dateiBasis, dateiStamm\);/);
+  assert.match(anlassWeg, /anlassFertigZeigen\(\{ stelle, zeit: _anlassFertigZeit\(new Date\(\)\), wege, qr: qrDa, link: LINK_SENDEN_FUER_AUSZUEGE \},/);
   assert.match(anlassWeg, /flowLinkSenden\(\(o\) => auszugLinkTeile\(blob,/);
 });
 

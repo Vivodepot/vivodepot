@@ -5,7 +5,7 @@
    Vier Stellen machen aus einem Passwort oder Code direkt einen Schlüssel, außerhalb des VdCrypto-Blocks. Für sie gab es
    Rundlauf- und Rot-Proben, aber keinen festen Vektor: ein Rundlauf bleibt grün, wenn Schreiber und Leser denselben Fehler
    teilen. Hier wird jede Stelle gegen einen Wert geprüft, den eine ZWEITE Implementierung gerechnet hat:
-     1. QR-Übergabe v1 (Kern schreibt, Lese-App öffnet), gerechnet mit node:crypto;
+     1. QR-Übergabe (Kern: Schlüsselweg gegen den Vektor qrV1; Lese-App: öffnet v2, lehnt v1 benannt ab), gerechnet mit node:crypto;
      2. Antwort v1 mit Einmalpasswort (nur Lese-App), der eingefrorene Umschlag einer ausgelieferten Fassung, mit
         node:crypto gegengerechnet;
      3. JWE PBES2-HS512+A256KW (Kern und Lese-App), der Vektor aus RFC 7520 Abschnitt 5.3;
@@ -54,12 +54,10 @@ function konstText(quelle, name) {
   return m[0];
 }
 
-/* Baut die genannten Konstanten und Funktionen aus dem Dateitext zu einem Objekt. `optional` sind Konstanten, die erst eine
-   spätere Fassung trägt; sie kommen nur mit, wenn die Datei sie hat. `kippen` ersetzt für den Rot-Beweis genau eine
+/* Baut die genannten Konstanten und Funktionen aus dem Dateitext zu einem Objekt. `kippen` ersetzt für den Rot-Beweis genau eine
    Zeichenfolge in einer Funktion; sie muss dort vorkommen, sonst wäre der Rot-Beweis leer. */
-function bauen(quelle, { konstanten = [], optional = [], funktionen }, kippen) {
-  const teile = konstanten.map((k) => konstText(quelle, k))
-    .concat(optional.filter((k) => new RegExp('^const ' + k + ' = ', 'm').test(quelle)).map((k) => konstText(quelle, k)));
+function bauen(quelle, { konstanten = [], funktionen }, kippen) {
+  const teile = konstanten.map((k) => konstText(quelle, k));
   for (const f of funktionen) {
     let t = funktionsText(quelle, f);
     if (kippen && kippen.funktion === f) {
@@ -75,10 +73,9 @@ function bauen(quelle, { konstanten = [], optional = [], funktionen }, kippen) {
 
 /* ── Stelle 1: QR-Übergabe v1 ── */
 const QR_KERN = { konstanten: ['PBKDF2_ITERATIONS'], funktionen: ['_empfaengerQrSchluesselVerschluesseln'] };
-/* Die Lese-App nimmt v1 nach dem QR-Nachtrag zu U2-ADR-156 nur bis zu einem Stichtag an; geprüft wird darum am Tag der
-   Vektoren. Fällt der v1-Zweig ganz weg, wird diese Stelle auf einen v2-Vektor umgestellt. */
-const QR_PRUEFTAG = Date.UTC(2026, 9, 7);
-const QR_LESEN = { konstanten: ['PBKDF2_ITERATIONS'], optional: ['EMPFAENGER_QR_AAD', 'EMPFAENGER_QR_V1_ANNAHME_BIS'],
+/* Die Lese-App nimmt nach dem QR-Nachtrag zu U2-ADR-156 nur noch v2 an. Der eingefrorene Vektor qrV1 bleibt und prüft die Schlüsselableitung;
+   den v2-Umschlag zum Öffnen rechnet die zweite Implementierung (node:crypto) aus denselben Werten, die AAD steht hier wörtlich. */
+const QR_LESEN = { konstanten: ['PBKDF2_ITERATIONS', 'EMPFAENGER_QR_AAD'],
   funktionen: ['base64ToBytes', '_empfaengerQrSchluesselEntschluesseln', '_empfaengerQrEntschluesseln'] };
 async function qrKernChiffrat(kippen) {
   const v = VEK.qrV1;
@@ -87,8 +84,18 @@ async function qrKernChiffrat(kippen) {
   return new Uint8Array(await webcrypto.subtle.encrypt({ name: 'AES-GCM', iv: b64(v.ivB64) }, key,
     new TextEncoder().encode(v.nutzlastJson)));
 }
+/* SHA-256 des Base64-Felds `c` im v2-Umschlag, einmal am 09.11.2026 mit node:crypto gerechnet und hier eingefroren. */
+const QR_V2_C_SHA256 = '70b4dd96c31778f69556d8cb1085ca7d6441222815fb1bbe6caae3d942e6434c';
+function qrV2Umschlag() {
+  const q = VEK.qrV1;
+  const k = nodeCrypto.pbkdf2Sync(q.testPasswort, b64(q.salzB64), q.iterationen, 32, 'sha256');
+  const c = nodeCrypto.createCipheriv('aes-256-gcm', k, b64(q.ivB64));
+  c.setAAD(Buffer.from('vivodepot/empfaenger-qr/v2', 'utf8'));
+  const ct = Buffer.concat([c.update(q.nutzlastJson, 'utf8'), c.final(), c.getAuthTag()]).toString('base64');
+  return Buffer.from(JSON.stringify({ v: 2, s: q.salzB64, i: q.ivB64, c: ct })).toString('base64url');
+}
 async function qrLesenOeffnen(kippen) {
-  return bauen(LESEN, QR_LESEN, kippen)._empfaengerQrEntschluesseln(VEK.qrV1.payloadB64u, VEK.qrV1.testPasswort, QR_PRUEFTAG);
+  return bauen(LESEN, QR_LESEN, kippen)._empfaengerQrEntschluesseln(qrV2Umschlag(), VEK.qrV1.testPasswort);
 }
 
 /* ── Stelle 2: Antwort v1 mit Einmalpasswort ── */
@@ -155,7 +162,13 @@ test('[Prüfstellen-Vektoren · Stelle 1] der Kern verschlüsselt die QR-Nutzlas
 });
 
 test('[Prüfstellen-Vektoren · Stelle 1] die Lese-App öffnet die QR-Nutzlast des Vektors', async () => {
+  const c = JSON.parse(Buffer.from(qrV2Umschlag(), 'base64url').toString('utf8')).c;
+  assert.equal(hex(nodeCrypto.createHash('sha256').update(c).digest()), QR_V2_C_SHA256, 'der v2-Umschlag weicht vom eingefrorenen Wert ab');
   assert.deepEqual(await qrLesenOeffnen(), JSON.parse(VEK.qrV1.nutzlastJson));
+});
+
+test('[Prüfstellen-Vektoren · Stelle 1] die Lese-App lehnt den eingefrorenen v1-Code benannt ab', async () => {
+  await assert.rejects(() => bauen(LESEN, QR_LESEN)._empfaengerQrEntschluesseln(VEK.qrV1.payloadB64u, VEK.qrV1.testPasswort), /qr-fassung-unbekannt/);
 });
 
 test('[Prüfstellen-Vektoren · Stelle 2] die Lese-App öffnet den eingefrorenen v1-Umschlag zum gegengerechneten Klartext', async () => {
@@ -191,6 +204,8 @@ test('[Prüfstellen-Vektoren · Rot-Beweis] ein gekipptes Zeichen im Code macht 
     .toString('base64'), VEK.qrV1.chiffratMitTagB64, 'Stelle 1 Kern');
   await assert.rejects(() => qrLesenOeffnen({ funktion: '_empfaengerQrSchluesselEntschluesseln', von: "'SHA-256'", nach: "'SHA-384'" }),
     'Stelle 1 Lese-App');
+  await assert.rejects(() => qrLesenOeffnen({ funktion: '_empfaengerQrEntschluesseln', von: 'additionalData: aad', nach: 'additionalData: new Uint8Array(0)' }),
+    'Stelle 1 Lese-App, AAD');
   await assert.rejects(() => v1Oeffnen({ funktion: '_antwortAad', von: "join('|')", nach: "join('/')" }), 'Stelle 2');
   for (const [name, quelle] of [['Kern', KERN], ['Lese-App', LESEN]]) {
     await assert.rejects(() => jweCek(quelle, { funktion: '_jwePbes2Schluessel', von: 'new Uint8Array([0])', nach: 'new Uint8Array([1])' }),

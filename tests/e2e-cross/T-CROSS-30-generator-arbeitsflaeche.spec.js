@@ -33,12 +33,13 @@ for (const sprache of ['de', 'en']) {
       if (sprache === 'en') {
         // Die Oberfläche ist englisch: kein deutsches Wort im Gehäuse des Starts, der Arbeitsfläche, der Dialoge (Daten ausgenommen).
         await p.click('#start-leer');
-        for (const sel of ['#raum-bau .bau-leiste', '#raum-bau .weg-band', '#raum-bau #eigenschaften', '#raum-bau .reiter', '#dlg-fertig .dlg-kopf']) {
+        for (const sel of ['#raum-bau .bau-leiste', '#raum-bau #eigenschaften', '#raum-bau .reiter', '#dlg-fertig .dlg-kopf']) {
           expect((await p.locator(sel).innerText()), sel).not.toMatch(DEUTSCH);
         }
         await p.click('#bau-start');
         expect(await p.locator('#raum-start').innerText()).not.toMatch(DEUTSCH);
         // Auch die Modul-Bausteine hinter „Weitere Möglichkeiten“: jede Kachel, jeder Baustein (die Trefferliste des Feldkatalogs ist Daten und ausgenommen)
+        await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // „Weitere Möglichkeiten“ steht unter „Weitere Wege“
         await p.click('#start-module');
         expect(await p.locator('#dlg-module .dlg-kopf').innerText()).not.toMatch(DEUTSCH);
         for (const k of ['anf', 'vb', 'kv', 'ia', 'bm', 'rr', 'fm', 'bd']) {
@@ -54,18 +55,31 @@ for (const sprache of ['de', 'en']) {
       await p.click('#start-leer');
       await expect(p.locator('#fertig-oeffnen')).toBeVisible();      // der Weg zur Einreichung steht von der ersten Sekunde an da
       const pal = p.locator('.pal-eintrag[data-kat]');
+      // Die Vorlage steht vor dem Ziehen ganz im Bild: rollt der Browser erst während des Ziehens, wandert die Bausteinliste
+      // (sticky) unter dem gedrückten Zeiger weiter, und ein anderer Baustein wird gezogen.
+      await p.locator('#tpl-felder').scrollIntoViewIfNeeded();
       await pal.nth(0).dragTo(p.locator('#tpl-felder'));
       await pal.nth(1).dragTo(p.locator('#tpl-felder'));
       await expect(p.locator('.vk')).toHaveCount(2);
-      const namen0 = await p.locator('.vk .vk-name').allInnerTexts();
-      await p.locator('.vk').nth(1).dragTo(p.locator('.vk').nth(0), { targetPosition: { x: 40, y: 4 } });
-      const namen1 = await p.locator('.vk .vk-name').allInnerTexts();
-      expect(namen1).toEqual([namen0[1], namen0[0]]);
+      const namen0 = await kartenNamen(p);
+      // Beide Karten stehen vor dem Ziehen mitten im Fenster: liegt die gezogene Karte am unteren Rand, rollt der Browser beim
+      // Ziehen von selbst und das Ziel wandert unter dem Zeiger weg.
+      await p.locator('#tpl-felder').evaluate((n) => n.scrollIntoView({ block: 'center' }));
+      // Gezogen wird am Griff: die Mitte der Karte trägt das Namensfeld, das selbst nicht zieht (Vorgabe-Dummy 14.11.2026).
+      {
+        const von = await p.locator('.vk').nth(1).locator('.vk-griff').boundingBox(), nach = await p.locator('.vk').nth(0).boundingBox();
+        await p.mouse.move(von.x + von.width / 2, von.y + von.height / 2);
+        await p.mouse.down();
+        await p.mouse.move(nach.x + 40, nach.y + 6, { steps: 12 });
+        await p.mouse.move(nach.x + 40, nach.y + 4, { steps: 2 });
+        await p.mouse.up();
+      }
+      await expect.poll(() => kartenNamen(p)).toEqual([namen0[1], namen0[0]]);   // die Karten werden nach dem Ablegen neu gezeichnet
       await p.click('.pal-frei > summary');
       await p.click('.pal-eintrag[data-typ="datum"] .pal-plus');
       await p.fill('#ed-name', 'Aufnahmedatum');
       await p.check('#ed-pflicht');
-      await expect(p.locator('.vk .vk-name', { hasText: 'Aufnahmedatum' })).toBeVisible();   // die Vorschau folgt dem Tippen sofort
+      await hatKarte(p, 'Aufnahmedatum');   // die Vorschau folgt dem Tippen sofort
       await expect(p.locator('#tpl-anzahl')).toContainText('3');
 
       // Vorschau: Ziehen ist aus, Eingeben geht
@@ -119,6 +133,7 @@ for (const sprache of ['de', 'en']) {
         expect(hart.map((v) => v.id + ': ' + v.nodes.slice(0, 2).map((n) => n.target.join(' ')).join(' ; ')), '[axe ' + name + ']').toEqual([]);
       };
       await scan('Start');
+      await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
       await p.click('#bsp-pflegeheim'); await p.click('.vk >> nth=1'); await scan('Arbeitsfläche');
       await p.click('#fertig-oeffnen'); await scan('Fertigstellen');
       await ctx.close();
@@ -184,7 +199,7 @@ const GRUNDREGEL_HOCH = [
   '.eingang-kachel .ek-glyph { left: 28px !important; top: 26px !important; width: 30px !important; height: 30px !important; }',
 ].join('\n');
 async function kachelnMessen(p) {
-  return p.evaluate(() => [...document.querySelectorAll('#raum-eingang .eingang-kachel')].map((k) => {
+  return p.evaluate(() => [...document.querySelectorAll('#start-weitere .eingang-kachel')].map((k) => {
     const r = k.getBoundingClientRect();
     const titel = k.querySelector('.ek-titel').getBoundingClientRect();
     const zeichen = k.querySelector('.ek-glyph').getBoundingClientRect();
@@ -201,14 +216,20 @@ function kachelBefunde(kacheln) {
   }
   return raus;
 }
+/* Die Karte trägt den Namen seit dem Vorgabe-Dummy (14.11.2026) im Eingabefeld .vk-name-eingabe (vorher als Text in .vk-name). */
+const kartenNamen = (p) => p.locator('#tpl-felder .vk .vk-name-eingabe').evaluateAll((es) => es.map((e) => e.value));
+const hatKarte = async (p, name) => expect.poll(async () => (await kartenNamen(p)).some((n) => n.includes(name))).toBe(true);
 test.describe('T-CROSS-30 Eingang · 375 px', () => {
   test('die Kacheln sind kompakt: keine Mindesthöhe, Titel oben, Zeichen daneben; mit der hohen Grundregel ist es rot', async ({ browser }) => {
     const ctx = await browser.newContext({ viewport: { width: 375, height: 812 } });
     const p = await ctx.newPage();
     await p.goto(H.URLS.generator);
-    await p.waitForSelector('#raum-eingang .eingang-kachel', { state: 'visible' });
+    await p.evaluate(() => { document.getElementById('start-weitere').open = true; });   // seit S-1 unter „Weitere Wege“
+    await p.waitForSelector('#start-weitere .eingang-kachel', { state: 'visible' });
     const kacheln = await kachelnMessen(p);
-    expect(kacheln.length).toBe(7);
+    // Drei Kacheln: „Eigenes Erscheinungsbild · in Arbeit“ steht nicht auf dem Start (Dummy 14.11.2026, Start Z. 151–160,
+    // ohne diese Kachel; Wächter [Eingang · 8] in tests/studio-eingang.test.js).
+    expect(kacheln.length).toBe(3);
     expect(kachelBefunde(kacheln)).toEqual([]);
     // Die Kachel ohne Zusatzzeile ist niedriger als die alte Mindesthöhe: das Kompakte kommt auf dem Telefon an.
     expect(kacheln.find((k) => k.id === 'ein-anfrage').hoehe).toBeLessThan(KACHEL_HOCH);

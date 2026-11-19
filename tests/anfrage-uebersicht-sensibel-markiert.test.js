@@ -16,7 +16,7 @@ const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8
 const A_LISTE = 'id="anfrage-vorhanden"';
 const E_LISTE = '// 3 · Was fehlt';
 const A_KASTEN = 'const nichtMitgeschicktHTML = () => {';
-const E_KASTEN = 'const normalwegHTML = () => {';
+const E_KASTEN = 'const wahlHTML = () => {';
 const stueck = (quelle, von, bis) => {
   const a = quelle.indexOf(von);
   const e = quelle.indexOf(bis, a);

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Die Abholseite für Anfragen und Vorlagen (16.11.2026, Befund QR-ABHOLSEITE-ANFRAGE-FEHLT): das Ziel der Codes und Links aus
+     dem Vivodepot Studio. Dieselbe Bauform wie empfangen.html, aber noch enger: diese Seite macht KEINEN Netzaufruf
+     (connect-src 'none'). Eine Anfrage reicht sie nur an die App weiter, mit dem Inhalt im Teil hinter dem Gatter, der nie zu
+     einem Server geht; eine Vorlage entpackt sie im Browser. Kein Inline-Skript, keine fremden Skripte, default-src 'none'.
+     Die Seite ist bewusst NICHT Teil der App. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Vivodepot — Anfrage oder Vorlage öffnen / open a request or template</title>
+<link rel="stylesheet" href="anfrage.css">
+</head>
+<body>
+
+<div class="sprachwahl" role="group" aria-label="Sprache / Language">
+  <button type="button" id="sprache-de" aria-pressed="true">Deutsch</button>
+  <button type="button" id="sprache-en" aria-pressed="false">English</button>
+</div>
+
+<h1 id="titel" data-t="titel-leer">Anfrage oder Vorlage öffnen</h1>
+
+<!-- Ohne Inhalt im Link: eine kurze Erklärung. -->
+<div class="kasten" id="leer">
+  <p data-t="leer-1">Diese Seite öffnet, was eine Stelle Ihnen über einen Code oder Link schickt: eine Anfrage nach Ihren Angaben oder eine Vorlage für ein Formular.</p>
+</div>
+
+<!-- Eine Anfrage: weiter in die App. -->
+<div class="kasten" id="anfrage" hidden>
+  <p data-t="anfrage-1">Sie haben eine Anfrage bekommen.</p>
+  <p class="hinweis" data-t="anfrage-2">Der Inhalt der Anfrage bleibt im Link und wird nicht an einen Server geschickt.</p>
+  <p id="anfrage-weiter-zeile"><a id="anfrage-weiter" href="#" rel="noreferrer noopener" data-t="anfrage-weiter">Weiter zu Vivodepot</a></p>
+  <p class="hinweis" data-t="anfrage-3">Geht es nicht von selbst weiter, öffnen Sie diesen Link.</p>
+</div>
+
+<!-- Eine Vorlage: lesen und als Datei speichern. -->
+<div class="kasten" id="vorlage" hidden>
+  <h2 id="vorlage-name"></h2>
+  <p id="vorlage-fassung" class="hinweis"></p>
+  <p id="vorlage-felder-titel" data-t="vorlage-felder"></p>
+  <ul id="vorlage-felder"></ul>
+  <button type="button" id="vorlage-speichern" data-t="vorlage-speichern">Als Datei speichern</button>
+  <p class="hinweis" data-t="vorlage-hinweis">Die Datei öffnen Sie danach im Vivodepot Studio.</p>
+</div>
+
+<!-- Nur die Kennung einer Vorlage: die Datei selbst liegt bei der Stelle. -->
+<div class="kasten" id="vorlage-kennung" hidden>
+  <p id="kennung-text"></p>
+  <p class="hinweis" data-t="kennung-hinweis">Die Datei dieser Vorlage bekommen Sie bei der Stelle, die Ihnen den Code geschickt hat.</p>
+</div>
+
+<!-- Etwas ging nicht. -->
+<div class="kasten" id="fehler" hidden>
+  <p id="fehler-text" class="fehler" role="alert"></p>
+</div>
+
+<p class="hinweis"><a href="https://vivodepot.de/impressum.html" rel="noreferrer noopener">Impressum</a> (legal notice) · <a href="https://vivodepot.de/datenschutz.html" rel="noreferrer noopener">Datenschutz</a> (privacy)</p>
+
+<script src="anfrage.js"></script>
+</body>
+</html>

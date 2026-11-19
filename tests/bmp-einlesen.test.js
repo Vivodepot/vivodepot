@@ -178,7 +178,8 @@ test('[BMP·Pixel] ein Bild mit zu vielen Pixeln wird vor der Leinwand geschloss
   assert.equal(kern.split(aufruf).length, 2, 'Vorbedingung: das Lesen eines Bilds geht genau einmal durch die Prüfung');
   // Wächter gegen die Klasse: jedes dekodierte Bild in Kern und Lese-App geht durch die Pixelprüfung, bevor es gezeichnet wird.
   for (const datei of ['vivodepot.html', 'vivodepot-lesen.html']) {
-    const text = fs.readFileSync(path.join(__dirname, '..', datei), 'utf8');
+    // Gemessen wird der eigene Code: gelistete Fremdbibliotheken (tools/lib/fremdbibliotheken.js) sind ausgeschnitten (17.11.2026).
+    const text = require('../tools/lib/html-senken.js').ohneFremdbloecke(fs.readFileSync(path.join(__dirname, '..', datei), 'utf8'));
     const alle = text.split('createImageBitmap(').length - 1;
     const geprueft = text.split('_bmpBildPixelPruefen(await createImageBitmap(').length - 1;
     assert.equal(alle, geprueft, datei + ': jedes createImageBitmap geht durch _bmpBildPixelPruefen');

@@ -20,6 +20,10 @@ async function depot() {
   V.akteurSelbstErklaeren('Elena Beispiel');
   V.betreteApp();
   V.sektorFeldSetzen(BEREICH, 'allergiesMedicationFoodOther', [{ text: 'MARKE-Penicillin' }]);
+  // Häkchen in Gruppen (17.11.2026): bei 0 Häkchen bleibt „Herausgeben“ gesperrt; eine Angabe, die die Person als nicht sensibel
+  // führt, ist vorausgewählt, damit der Weg zur Übergabe weitergeht.
+  V.sektorFeldSetzen(BEREICH, 'bloodType', 'A+');
+  V.sensibelFeldSetzen(BEREICH, 'bloodType', false);
   return V;
 }
 
@@ -32,7 +36,8 @@ function mitschnitt(V, fn) {
 }
 // Eine Wahl, wie sie der Schritt Angaben weitergibt: hier jede Angabe des Bereichs, auch die geschützten (von der Person mitgegeben).
 const wahl = (V) => { const m = V.exportUebersichtModell(BEREICH); return { gewaehlt: new Set(m.enthalten.concat(m.zurueckgehalten).map((e) => e.sektor + '/' + e.feld)) }; };
-const istAngabenFenster = (m) => /class="export-uebersicht-block"/.test(String(m.koerperHTML || ''));
+// Häkchen in Gruppen (17.11.2026): der Block trägt zusätzlich export-haekchen.
+const istAngabenFenster = (m) => /class="export-uebersicht-block[ "]/.test(String(m.koerperHTML || ''));
 const istUebergabe = (m) => /data-h-form="/.test(String(m.koerperHTML || ''));
 const formen = (m) => [...String(m.koerperHTML || '').matchAll(/data-h-form="([^"]+)"/g)].map((x) => x[1]);
 

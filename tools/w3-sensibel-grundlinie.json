@@ -1845,5 +1845,23 @@
   "feld": "validityDurationDeadline",
   "unterfeld": null,
   "gruppe": "A"
+ },
+ {
+  "sektor": "housing",
+  "feld": "registrationCertificate",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "reducedRateProofs",
+  "unterfeld": "reductionValidUntil",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "reducedRateProofs",
+  "unterfeld": "document",
+  "gruppe": "C"
  }
 ]

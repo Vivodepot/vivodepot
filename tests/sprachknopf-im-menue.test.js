@@ -43,7 +43,7 @@ test('[Sprache·A5] der Klick ist verdrahtet: derselbe Weg wie das Auswahlfeld d
 
 test('[Sprache·A5] die Kopfzeile bekommt keinen Sprachknopf (Entscheidung 31.10.2026 22:40: bleibt unverändert)', () => {
   const kern = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  const kopf = kern.slice(kern.indexOf('<header class="topbar">'), kern.indexOf('</header>'));
+  const kopf = kern.slice(kern.indexOf('<header class="topbar"'), kern.indexOf('</header>'));
   assert.ok(kopf.length > 500, 'die Kopfzeile ist gefunden');
   assert.doesNotMatch(kopf, /sprachwechsel|sb-sprache/);
 });

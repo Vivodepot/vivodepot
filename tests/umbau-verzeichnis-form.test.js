@@ -12,7 +12,7 @@ const ARTEN = ['knopf', 'feld', 'menue', 'flow'];
 const ZUSTAENDE = ['gemessen', 'neu platziert', 'entfällt mit Befund'];
 
 function lageBekannt(lage) {
-  return lage === 'start' || lage === 'sub-kontext' || /^bereich:.+/.test(String(lage));
+  return lage === 'start' || lage === 'depot' || lage === 'sub-kontext' || lage === 'studio' || /^bereich:.+/.test(String(lage));
 }
 
 /* Liefert die Probleme eines Verzeichnisses als Liste von Texten, je Eintrag einer. */
@@ -32,6 +32,8 @@ function probleme(verz) {
     }
     const np = e.neuer_platz;
     const hatWeg = np && typeof np === 'object' && np.weg && typeof np.weg === 'object' && Object.keys(np.weg).length > 0;
+    /* Ein Verzeichnis, das den Platz als Ort benennt (Studio), nennt ihn für jeden Eintrag, der bleibt. */
+    if (np && typeof np === 'object' && 'ort' in np && !String(np.ort || '').trim()) out.push(`${id}: ohne Ort`);
     if (e.zustand === 'neu platziert') {
       if (!hatWeg) out.push(`${id}: neu platziert ohne Weg`);
       if (np && typeof np === 'object' && np.lage !== undefined && !lageBekannt(np.lage)) out.push(`${id}: lage unbekannt (${np.lage})`);
@@ -71,4 +73,18 @@ test('[Umbau-Form] ein Befund ersetzt den Weg; ein stilles Weglassen wird gemeld
     ],
   };
   assert.deepEqual(probleme(verz), ['knopfD: ohne Weg und ohne Befund (stilles Weglassen)']);
+});
+
+test('[Umbau-Form] Lage „studio“ ist bekannt; ein Eintrag mit leerem Ort wird gemeldet', () => {
+  const verz = {
+    eintraege: [
+      { kennung: 'knopfE', art: 'knopf', beschriftung: '', fundort_alt: 'raum-bau', zustand: 'neu platziert',
+        neuer_platz: { lage: 'studio', ort: 'Feldkarte', weg: { alle: ['#e'] } } },
+      { kennung: 'feldF', art: 'feld', beschriftung: '', fundort_alt: 'raum-bau', zustand: 'gemessen',
+        neuer_platz: { ort: '', weg: { alle: ['#f'] } } },
+      { kennung: 'knopfG', art: 'knopf', beschriftung: '', fundort_alt: 'raum-bau', zustand: 'neu platziert',
+        neuer_platz: { lage: 'atelier', ort: 'Feldkarte', weg: { alle: ['#g'] } } },
+    ],
+  };
+  assert.deepEqual(probleme(verz), ['feldF: ohne Ort', 'knopfG: lage unbekannt (atelier)']);
 });

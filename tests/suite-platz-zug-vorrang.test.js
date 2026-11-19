@@ -67,7 +67,7 @@ test('[Zug-Vorrang·Zweig] ein gesetzter Ticket-Vorrang (release-) bleibt über 
   l.ziehen(l.dir, 'vor-pre-commit', l.zug);
   l.ziehen(l.dir, 'release-teil2', l.wagen);
   l.ziehen(l.dir, 'pre-push', l.wagen);
-  sp.ticketVorrangSetzen({ dir: l.dir, praefixe: 'release-', bis: new Date(Date.now() + STUNDE).toISOString(), grund: 'nacht-worte 15:20 Release zuerst' });
+  sp.ticketVorrangSetzen({ dir: l.dir, praefixe: 'release-', bis: new Date(Date.now() + STUNDE).toISOString(), grund: 'Weisung 15:20 Release zuerst' });
   assert.deepEqual(namenMitBaum(l.dir, l), ['pre-push@wagen', 'release-teil2@wagen', 'vor-pre-commit@zug']);
   assert.ok(sp.TICKET_VORRANG_STUFE < sp.ZUG_STUFE && sp.ZUG_STUFE < 1);
 });
@@ -79,7 +79,7 @@ test('[Zug-Vorrang·Zweig·Rot-Beweis] vorher: ohne Zweig im Ticket und mit abge
   // Die alte Form: das Ticket ohne Feld `zweig` (so schrieb ticketZiehen bis heute).
   const e = JSON.parse(fs.readFileSync(zug, 'utf8')); delete e.zweig; fs.writeFileSync(zug, JSON.stringify(e));
   // Der alte Weg: ein Präfix-Vorrang, dessen `bis` mitten im Zuglauf vorbei ist (heute 14:00 und 14:45).
-  fs.writeFileSync(path.join(l.dir, sp.TICKET_VORRANG_DATEI), JSON.stringify({ praefixe: ['folge-'], bis: new Date(Date.now() - MIN).toISOString(), grund: 'nacht-worte 13:55', gesetztAm: new Date(Date.now() - STUNDE).toISOString() }));
+  fs.writeFileSync(path.join(l.dir, sp.TICKET_VORRANG_DATEI), JSON.stringify({ praefixe: ['folge-'], bis: new Date(Date.now() - MIN).toISOString(), grund: 'Weisung 13:55', gesetztAm: new Date(Date.now() - STUNDE).toISOString() }));
   assert.deepEqual(namenMitBaum(l.dir, l), ['vor-pre-commit@wagen', 'vor-pre-commit@zug'], 'vorher: der Zug wartet hinter dem Wagen');
 });
 
@@ -142,10 +142,10 @@ test('[Zug-Vorrang·Präfix] vor-pre-commit, vor- und pre- werden nicht gesetzt;
   const dir = wegwerf('praefix-');
   const bis = new Date(Date.now() + STUNDE).toISOString();
   for (const p of ['vor-pre-commit', 'vor-', 'pre-', 'landung-vorbereiten', 'klein', 'release-,vor-pre-commit']) {
-    assert.throws(() => sp.ticketVorrangSetzen({ dir, praefixe: p, bis, grund: 'nacht-worte 13:55 Zugkopf' }), /den Namen trägt jeder Wagen.*Zweig/, p);
+    assert.throws(() => sp.ticketVorrangSetzen({ dir, praefixe: p, bis, grund: 'Weisung 13:55 Zugkopf' }), /den Namen trägt jeder Wagen.*Zweig/, p);
   }
-  assert.deepEqual(sp.ticketVorrangSetzen({ dir, praefixe: 'release-,folge-', bis, grund: 'nacht-worte 14:54 Folge' }).praefixe, ['release-', 'folge-']);
-  assert.deepEqual(sp.ticketVorrangSetzen({ dir, praefixe: 'landung-adr-bestand', bis, grund: 'nacht-worte 12:24 genau dieser Lauf' }).praefixe, ['landung-adr-bestand']);
+  assert.deepEqual(sp.ticketVorrangSetzen({ dir, praefixe: 'release-,folge-', bis, grund: 'Weisung 14:54 Folge' }).praefixe, ['release-', 'folge-']);
+  assert.deepEqual(sp.ticketVorrangSetzen({ dir, praefixe: 'landung-adr-bestand', bis, grund: 'Weisung 12:24 genau dieser Lauf' }).praefixe, ['landung-adr-bestand']);
 });
 
 test('[Zug-Vorrang·Präfix·Rot-Beweis] eine schon geschriebene Regel mit vor-pre-commit zieht keinen Wagen mehr vor', () => {
@@ -153,7 +153,7 @@ test('[Zug-Vorrang·Präfix·Rot-Beweis] eine schon geschriebene Regel mit vor-p
   l.ziehen(l.dir, 'xshare-vpc', l.wagen);
   l.ziehen(l.dir, 'vor-pre-commit', l.wagen);
   // So stand die Regel heute 13:55 bis 14:45 (als Datei, am Setzen vorbei).
-  fs.writeFileSync(path.join(l.dir, sp.TICKET_VORRANG_DATEI), JSON.stringify({ praefixe: ['vor-pre-commit', 'release-'], bis: new Date(Date.now() + STUNDE).toISOString(), grund: 'nacht-worte 13:55', gesetztAm: new Date().toISOString() }));
+  fs.writeFileSync(path.join(l.dir, sp.TICKET_VORRANG_DATEI), JSON.stringify({ praefixe: ['vor-pre-commit', 'release-'], bis: new Date(Date.now() + STUNDE).toISOString(), grund: 'Weisung 13:55', gesetztAm: new Date().toISOString() }));
   assert.deepEqual(namenMitBaum(l.dir, l), ['xshare-vpc@wagen', 'vor-pre-commit@wagen'], 'der Wagen-vpc überholt nicht');
   assert.deepEqual(sp.ticketVorrangLesen({ dir: l.dir }).praefixe, ['release-'], 'release- gilt weiter');
 });

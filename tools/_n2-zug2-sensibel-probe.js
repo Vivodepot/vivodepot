@@ -27,6 +27,10 @@ const { ladeKern } = require(path.join(__dirname, '..', 'tests', 'load-kern.js')
   V.sektorFeldSetzen('identity', 'birthDate', '1990-01-01');
   V.sektorFeldSetzen('health', 'allergiesMedicationFoodOther', [{ text: 'Penicillin' }]);
   V.sensibelFeldSetzen('health', 'allergiesMedicationFoodOther', true);   // "nicht angekreuzt" im Übersichts-Dialog
+  /* Häkchen in Gruppen (Entscheidung 17.11.2026): bei 0 Häkchen bleibt „Herausgeben“ gesperrt. Damit der Weg eine Datei baut, geht
+     eine zweite Angabe mit, die die Person ausdrücklich als nicht sensibel führt; geprüft wird weiter nur das nicht angehakte Feld. */
+  V.sektorFeldSetzen('health', 'bloodType', 'A+');
+  V.sensibelFeldSetzen('health', 'bloodType', false);
 
   V.flowGesundheitFhirExport();
   const okBtn = document.getElementById('m-ok');

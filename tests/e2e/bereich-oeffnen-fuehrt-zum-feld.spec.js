@@ -6,7 +6,7 @@
    trägt den Fokus und ist sichtbar markiert. Geprüft bei 390 px und am Desktop.
    ═══════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { oeffneApp, depotAnlegen, schubfachOeffnen } = require('./helpers');
 
 for (const [name, breite, hoehe] of [['390 px', 390, 844], ['Desktop 1280', 1280, 800]]) {
   test('ABN-B6: „im Bereich öffnen“ öffnet die Karte und setzt den Fokus ins Feld — ' + name, async ({ page }) => {
@@ -14,7 +14,7 @@ for (const [name, breite, hoehe] of [['390 px', 390, 844], ['Desktop 1280', 1280
     await oeffneApp(page);
     await depotAnlegen(page);
     // das Anlass-Blatt „Vor einem Arzttermin“ über den Klickweg; bei 390 px liegt die Navigation im Schubfach
-    if (await page.locator('#tb-menue').isVisible()) await page.click('#tb-menue');
+    await schubfachOeffnen(page);
     await page.click('[data-anlass-auswahl="1"]');
     await page.waitForSelector('[data-anlass="arzt"]', { state: 'visible' });
     await page.click('[data-anlass="arzt"]');

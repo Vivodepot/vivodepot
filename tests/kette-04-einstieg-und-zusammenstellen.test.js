@@ -35,7 +35,7 @@ test('[Kette 04 · Zug 1] das Anlass-Blatt trägt den zweiten Knopf — und er h
   V.oeffneSituation('geburt');
   const html = document.getElementById('content').innerHTML;
   assert.match(html, /id="b-anlass-herausgeben"/, 'der zweite Knopf steht am Blatt');
-  assert.match(html, /Diese Zusammenstellung herausgeben/, 'und sagt, was er tut');
+  assert.match(html, /Zusammenstellen und herausgeben/, 'und sagt, was er tut (U-5, Dummy D58)');
 });
 
 test('[Kette 04 · Zug 1] die Herausgeben-Tür bietet ANLÄSSE an — elf Zeilen statt 178', async () => {
@@ -83,17 +83,18 @@ test('[Kette 04 · Zug 1] die Navigationsleiste ist NICHT länger geworden', () 
      der `hilfeOeffnen()` öffnet. Angesagt wie die vorigen Fälle, nicht still gesetzt.
      13 → 14 (11.11.2026, A5, Entscheid 11.11. „der Sprachknopf kommt ins Menü“): der Sprachknopf im Menü (`depotSprachKnopfHTML()`, id sb-sprache)
      trägt class="nav-item nav-item-klein" — ein eigener Eintragstyp, der nur erscheint, wenn mindestens zwei volle Sprachen vorliegen; die Kopfzeile
-     bleibt unverändert (Entscheidung 31.10.2026 22:40). Angesagt, nicht still gesetzt. */
-  assert.equal(navZeilen, 14, 'A5: der Sprachknopf im Menü trägt ebenfalls class="nav-item" — ein neuer Menüpunkt-TYP, angesagt statt still gesetzt');
+     bleibt unverändert (Entscheidung 31.10.2026 22:40). Angesagt, nicht still gesetzt.
+     14 → 16 (15.11.2026, Umbau U-3, Schritt 2): „Übersicht“ (data-uebersicht) und die Anlässe einzeln in der Gruppe „Anlässe“ (data-anlass-nav);
+     alle drei tragen class="nav-item", bestehende Eintragstypen werden nur verschoben (Herausgegeben, Notfall, Hilfe, Sprache). Angesagt, nicht still gesetzt. */
+  assert.equal(navZeilen, 16, 'A5: der Sprachknopf im Menü trägt ebenfalls class="nav-item" — ein neuer Menüpunkt-TYP, angesagt statt still gesetzt');
 });
 
 test('[Kette 04 · Zug 1] die irreführende Beschriftung ist weg', () => {
-  // Seit S8 (U2-ADR-428) steht der deutsche Satz im Sprachmodul, nicht im Kern-Quelltext: gelesen wird der Wert der Kennung.
+  // Seit „Häkchen in Gruppen“ (17.11.2026) gibt es den Knopf zum Zurückhalten-Weg nicht mehr; die Beschriftung bleibt weg.
   const { V } = ladeKern();
-  const wert = V.TEXTSATZ_DE_QUELLE.texte['strings:exportEtwasZurueckhalten.text'];
-  assert.notEqual(wert, 'Etwas zurückhalten',
+  const texte = V.TEXTSATZ_DE_QUELLE.texte;
+  assert.ok(!Object.values(texte).includes('Etwas zurückhalten'),
     'ein Knopf, der zu einer Liste zum Zurückhalten UND Freigeben führt, darf nicht „Etwas zurückhalten" heißen');
-  assert.equal(wert, 'Einzeln entscheiden, was mitgeht');
 });
 
 /* ══ Zug 2 — das freie Zusammenstellen ════════════════════════════════════ */
@@ -232,7 +233,7 @@ test('[Kette 04 · Zug 3] „Wer hat Sie gefragt" steht NEBEN „Wem haben Sie d
 
 test('[Kette 04 · Zug 3] die drei Zustände sind benannt, und der Ort zählt sie', async () => {
   const { V } = await depot();
-  assert.deepEqual(V.ANFRAGE_ZUSTAENDE.slice(), ['offen', 'beantwortet', 'abgelaufen']);
+  assert.deepEqual(V.ANFRAGE_ZUSTAENDE.slice(), ['offen', 'beantwortet', 'abgelaufen', 'abgelehnt']);   // abgelehnt: Schema 103 (U-9, 16.11.2026)
   const leer = V.anfragenOrtModell();
   assert.equal(leer.leer, true);
   V.getData().anfragen = [{ von: 'Pflegeheim', zustand: 'offen' }, { von: 'Bank', zustand: 'abgelaufen' }];

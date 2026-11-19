@@ -106,6 +106,14 @@ async function ausloesen(page, name, aufruf, arg) {
   page.on('console', f);
   await page.evaluate(aufruf, arg);
   await page.waitForTimeout(700);
+  /* Häkchen in Gruppen (Entscheidung 17.11.2026, Punkt 4): sensible Angaben sind nie vorausgewählt. Führt der Weg nur solche (FHIR-Weg
+     mit Gesundheitsangaben), steht „0 Angaben“ und „Herausgeben“ ist gesperrt. Die Person hakt an, was mitgehen soll; hier alle, wie
+     der Verlust-Abgleich „mit Freigabe“ es verlangt. Nur dann: ein Weg mit Vorauswahl bleibt unberührt. */
+  const herausgeben = page.locator('#m-ok').first();
+  if (await herausgeben.isVisible().catch(() => false) && await herausgeben.isDisabled().catch(() => false)) {
+    await page.evaluate(() => document.querySelectorAll('#modal-inhalt input.export-haken:not(:disabled):not(:checked)').forEach((h) => h.click()));
+    await page.waitForTimeout(300);
+  }
   for (const sel of ['#m-ok', '#exp-fortfahren']) {
     if (await page.locator(sel).first().isVisible().catch(() => false)) { await page.locator(sel).first().click().catch(() => {}); await page.waitForTimeout(700); }
   }

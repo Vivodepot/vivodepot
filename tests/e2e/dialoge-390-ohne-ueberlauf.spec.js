@@ -40,6 +40,7 @@ async function modalZu(page) {
   await page.waitForSelector('#modal-rueck.an', { state: 'detached', timeout: 5000 }).catch(() => {});
 }
 async function hilfePruefen(page, name) {
+  // Umbau U-3 (D13, 17.11.2026): „Hilfe“ steht wieder sichtbar unten in der Seitenleiste, unter keinem Aufklapper.
   await klick(page, '[data-hilfe]');
   await page.waitForSelector('#hilfe-overlay .hilfe-blatt', { state: 'visible' });
   await pruefe(page, '#hilfe-overlay .hilfe-blatt', name + ' Hilfe, Übersicht', { senkrecht: false });
@@ -80,8 +81,9 @@ for (const [breite, hoehe] of [[390, 844], [1280, 800]]) {
       await pruefe(page, '#modal-inhalt', 'Herausgeben');
       await modalZu(page);
       await klick(page, '[data-einlesen-zentral]');
+      await klick(page, '#content #einlesen-shl');   // U-3: Einlesen ist eine Tür; der Dialog der Seite ist der Freigabe-Link
       await page.waitForSelector('#modal-rueck.an #modal-inhalt', { state: 'visible' });
-      await pruefe(page, '#modal-inhalt', 'Einlesen');
+      await pruefe(page, '#modal-inhalt', 'Freigabe-Link');
       await modalZu(page);
       await hilfePruefen(page, 'Depot');
     });

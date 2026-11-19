@@ -95,12 +95,12 @@ test('[Anfrage-Assistent · Zweck] kein Beispiel nimmt den Gesamtzweck als Zweck
 });
 
 /* ── (4) Der Hauptweg ───────────────────────────────────────────────────── */
-test('[Anfrage-Assistent · Hauptweg] „Anfrage an Personen“ ist die erste Kachel (dunkel ist seit 12.11. „Vorlage erstellen“) und führt in den Assistenten', () => {
-  const ein = HTML.slice(HTML.indexOf('<main id="raum-eingang"'), HTML.indexOf('</main>', HTML.indexOf('<main id="raum-eingang"')));
+test('[Anfrage-Assistent · Hauptweg] „Anfrage an Personen“ ist die erste Kachel unter „Weitere Wege“ (seit S-1, der Eingang ist entfallen) und führt in den Assistenten', () => {
+  const a = HTML.indexOf('<details class="start-weitere" id="start-weitere">');
+  const ein = HTML.slice(a, HTML.indexOf('</details>', a));
   const ids = [...ein.matchAll(/class="kachel eingang-kachel[^"]*" id="([^"]+)"/g)].map((m) => m[1]);
   assert.equal(ids[0], 'ein-anfrage');
   assert.match(ein, /class="kachel eingang-kachel" id="ein-anfrage"/);
-  assert.match(ein, /class="kachel eingang-kachel erste" id="ein-vorlage"/, '[DEMO-S5-Rest] die Hervorhebung liegt auf „Vorlage erstellen“');
   assert.ok(HTML.includes("an('ein-anfrage', 'click', () => { anfrageAssistentEintreten(); zeigeSchritt('anfrage'); });"));
 });
 

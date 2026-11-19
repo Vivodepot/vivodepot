@@ -93,11 +93,14 @@ const FILTER = {
   'renderefPruefung | (b) => !/^Es wurde noch kein Schlüsselpaar erzeugt\\./.test(b)': [K, 'Anzeige der Blocker in „Fertig“: der fehlende Schlüssel entsteht in derselben Ansicht; das Tor zählt ihn weiter'],
   'anfrageAssistentTrefferZeigen | (t) => !drin.has(t.kennung)': [K, 'Suche im Assistenten Anfrage: blendet schon gewählte Angaben aus der Trefferliste aus'],
   'paletteEintraege | (e) => e.kennung.indexOf(\'/\') < 0 && e.kennung.indexOf(\'[\') < 0': [K, 'Palette'],
-  'paletteRendern | (e) => !q || e.label.toLowerCase().indexOf(q) >= 0': [K, 'Suche in der Palette'],
-  'paletteRendern | (b) => gruppen[b]': [K, 'Palette'],
-  'paletteRendern | (b) => reihenfolge.indexOf(b) < 0': [K, 'Palette'],
+  // S-2 (Wort der Gegenlesung 16.11.2026, je Eintrag einzeln): Gruppen der Bausteinliste, Suche je Gruppe, abgelegte Bausteine — nur Anzeige
+  'katalogIndexeGenutzt | (i) => i >= 0': [K, 'Palette: abgelegte Bausteine'],
+  'paletteRendern | (e) => studioGruppeVon(e) === g.id': [K, 'Palette: Gruppe'],
+  'paletteRendern | (e) => g.haeufig.indexOf(e.kennung) < 0': [K, 'Palette: Weitere'],
+  'paletteRendern | (e) => !qq || e.label.toLowerCase().indexOf(qq) >= 0': [K, 'Suche in der Gruppe'],
   'rendereFelder | Boolean': [K, 'Vorschlagsliste der Gruppen'],
-  'vorlagePdfBauen | Boolean': [L, 'leere Teile der Kopfzeile des Vorlage-PDFs (Anbieter, Fassung, Datum; Titel, Behörde, Lizenz der Quelle)'],
+  // S-4 (16.11.2026): die Kopfzeile des Vorlage-PDFs baut jetzt studioPdfBauen (nächster Eintrag); hier bleibt die Zeile der Quelle.
+  '_vorlagePdfAbschnitte | Boolean': [L, 'leere Teile der Zeile zur Quelle des Wortlauts im Vorlage-PDF (Titel, Behörde, Lizenz)'],
   'studioPdfBauen | Boolean': [L, 'leere Teile der Kopfzeile eines Ausgabe-PDFs (Anbieter, Herkunft); die Angaben selbst stehen in den Anhängen'],
   '_studioPdfAnhang | (a) => a.spec != null': [K, 'Anhänge des PDFs: nennt im Katalog nur die schon geschriebenen Dateibeschreibungen, verwirft keine Angabe'],
   'p | function(t){return"content"!=t': [K, 'jsPDF, byte-gleiche Kopie des Kern-Blocks: Eigenschaften eines Formularfelds beim Schreiben, keine Angabe des Studios'],

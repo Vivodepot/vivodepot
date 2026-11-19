@@ -1,0 +1,106 @@
+{
+  "stelle": "einlesen",
+  "kanon": "e8beeab2e",
+  "hinweis": "Funktionsverzeichnis Wagen U-6 (Einlesen als Seite). Format wie umbau-verzeichnis-sub-depot.json; Lage „depot“: App geöffnet, Depot angelegt. Einlesen öffnet eine Seite statt des Dialogs „Wohin einlesen?“; alle Wege des Dialogs stehen als Liste auf der Seite, keiner fällt weg. Eingelesen wird nur ins geöffnete Depot.",
+  "eintraege": [
+    {
+      "kennung": "data-einlesen-zentral",
+      "art": "knopf",
+      "beschriftung": "Einlesen (Kopfleiste, am Handy die Leiste unten)",
+      "fundort_alt": "Kanon e8beeab2e: Seitenleiste, öffnete den Dialog „Wohin einlesen?“ (flowEinlesenZentral)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "375": [
+            "#bt-einlesen"
+          ],
+          "1280": [
+            "#tb-aktionen [data-einlesen-zentral]"
+          ]
+        },
+        "erwartung": "#einlesen-ablage"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-einlesen-waehlen",
+      "art": "knopf",
+      "beschriftung": "Dateien auswählen",
+      "fundort_alt": "neu in U-6; bisher nur über „Ganzes Depot“ im Dialog",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "375": [
+            "#bt-einlesen"
+          ],
+          "1280": [
+            "#tb-aktionen [data-einlesen-zentral]"
+          ]
+        },
+        "erwartung": "[data-einlesen-waehlen]"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-iz-shl-empfangen",
+      "art": "flow",
+      "beschriftung": "Freigabe-Link einer Stelle öffnen",
+      "fundort_alt": "Kanon e8beeab2e: Dialog „Wohin einlesen?“",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "375": [
+            "#bt-einlesen",
+            "#content #einlesen-shl"
+          ],
+          "1280": [
+            "#tb-aktionen [data-einlesen-zentral]",
+            "#content #einlesen-shl"
+          ]
+        },
+        "erwartung": "#modal-inhalt"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "data-einlesen-bereich",
+      "art": "flow",
+      "beschriftung": "In einen bestimmten Bereich einlesen",
+      "fundort_alt": "Kanon e8beeab2e: die Bereichsliste des Dialogs „Wohin einlesen?“",
+      "zustand": "entfällt mit Befund",
+      "befund": "EINLESEN-EINE-TUER (Konzept 31.10.2026, Fassung 3, Umbau U-3): das Ziel ändert die Person in der Vorschau („Anderen Bereich wählen“ öffnet „Wohin einlesen?“)"
+    },
+    {
+      "kennung": "data-iz-ganzes",
+      "art": "flow",
+      "beschriftung": "Ganzes Depot",
+      "fundort_alt": "Kanon e8beeab2e: Dialog „Wohin einlesen?“",
+      "zustand": "entfällt mit Befund",
+      "befund": "EINLESEN-EINE-TUER (Konzept 31.10.2026, Fassung 3, Umbau U-3): „Dateien auswählen“ führt dieselbe Inhaltserkennung; die Sicherungskopie öffnet die Startseite"
+    },
+    {
+      "kennung": "data-iz-beta",
+      "art": "flow",
+      "beschriftung": "Aus der alten Vivodepot-App übernehmen (Beta-Version)",
+      "fundort_alt": "Kanon e8beeab2e: Dialog „Wohin einlesen?“",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "375": [
+            "#bt-bereiche",
+            "#sidebar [data-einstellungen]",
+            "#modal-inhalt details[data-einst-key=\"export\"] > summary",
+            "#einst-beta-uebernehmen"
+          ],
+          "1280": [
+            "#tb-einstellungen",
+            "#modal-inhalt details[data-einst-key=\"export\"] > summary",
+            "#einst-beta-uebernehmen"
+          ]
+        },
+        "erwartung": "#modal-inhalt"
+      },
+      "zustand": "neu platziert"
+    }
+  ]
+}

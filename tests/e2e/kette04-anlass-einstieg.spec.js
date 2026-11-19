@@ -43,7 +43,7 @@ test('der Weg nach draußen: Herausgeben-Tür → Anlass → Übersicht — weni
   await page.waitForTimeout(250);
   const uebersicht = page.locator('#modal-inhalt');
   await expect(uebersicht).toBeVisible();
-  const zeilen = await uebersicht.locator('.export-geht-liste li, .export-zz').count();
+  const zeilen = await uebersicht.locator('input.export-haken').count();   // Häkchen in Gruppen (17.11.2026): je Angabe ein Häkchen
   expect(zeilen, 'die Übersicht zeigt die Felder des Anlasses, nicht das ganze Depot').toBeLessThan(40);
 
   // Es ist der OPT-OUT-Zweig, nicht die am 12.08. abgeschaffte Kästchenliste.

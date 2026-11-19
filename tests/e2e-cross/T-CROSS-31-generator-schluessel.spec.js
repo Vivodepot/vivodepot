@@ -132,6 +132,7 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     const ctx = await browser.newContext({ acceptDownloads: true });
     const p = await ctx.newPage();
     await H.generator.oeffnen(p, 'de');
+    await p.click('#start-weitere > summary');   // „Weitere Möglichkeiten“ steht unter „Weitere Wege“
     await p.click('#start-module');
     await p.click('#mod-gruppen [data-mods~="anf"]');
     await p.click('#mod-kacheln [data-mod="anf"]');
@@ -184,6 +185,7 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     const { ctx, p } = await bisZumPaketKnopf(browser);           // Angaben und Schlüssel stehen, der Schlüssel liegt im Tresor
     await p.click('#dlg-fertig .dlg-zu');
     await p.click('#bau-start');
+    await p.click('#start-weitere > summary');   // „Weitere Möglichkeiten“ steht unter „Weitere Wege“
     await p.click('#start-module');
     await p.click('#mod-gruppen [data-mods~="ia"]');
     await p.click('#mod-kacheln [data-mod="ia"]');

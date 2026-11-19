@@ -305,6 +305,8 @@ const TEXTSATZ_EN_TEXTE = {
   'housing.specialLivingSituation.label': 'Special living situation',
   'housing.ownedOrRented.label': 'Owned or rented?',
   'housing.moveInDate.label': 'Moved in on',
+  'housing.registrationCertificate.label': 'Certificate of registration',
+  'housing.registrationCertificate.hint': 'A photo or PDF of the certificate of registration from your documents.',
 
   // ── persoenliches ─────────────────────────────────────────────────────────
   'personal#bestattung-abschied.hint': 'What matters to you when you are no longer here — so your family does not have to guess.',
@@ -435,6 +437,11 @@ const TEXTSATZ_EN_TEXTE = {
   'socialInsurance.severeDisabilityCards/storageLocation.beispiel': 'Wallet · “Social affairs” folder',
   'socialInsurance.severeDisabilityCards/storageLocation.label': 'Storage location',
   'socialInsurance.severeDisabilityCards/system.label': 'Country / system',
+  'socialInsurance.reducedRateProofs.label': 'Proofs of eligibility for a reduced rate',
+  'socialInsurance.reducedRateProofs/reductionPurpose.label': 'For what',
+  'socialInsurance.reducedRateProofs/reductionPurpose.beispiel': 'Pupil ID · social pass · student ID',
+  'socialInsurance.reducedRateProofs/reductionValidUntil.label': 'Proof valid until',
+  'socialInsurance.reducedRateProofs/document.label': 'File',
 
   // ── krisenvorsorge ────────────────────────────────────────────────────────
   'emergencyPreparedness#preparedness.label': 'Supplies, equipment and emergency plan',

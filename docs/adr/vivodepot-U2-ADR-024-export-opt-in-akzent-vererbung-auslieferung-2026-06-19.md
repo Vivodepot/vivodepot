@@ -9,7 +9,7 @@
 - **Code-Stelle:** `vivodepot.html` — `flowExportUebersicht`/`exportAuswahlEphemerAnwenden` (§1), `setzeSubDepotAkzent` + `Modus._setzeIntern` + `.toast`-CSS (§2), `groesseLesbar`/`renderMappe` (§4b); `sw.js` + `pages/sw.js` Cache `vivodepot-shell-v3` (§3).
 - **Sprint-Commit:** dieser Bau (Sammel-Fix UX + Auslieferung).
 - **ADR-Bezug:** dieser ADR (U2-ADR-024).
-**Status heute:** gilt — Beleg `tests/sammelfix-ux.test.js`, Mechanismen im Kern nachweisbar (`exportAuswahlEphemerAnwenden`/`flowExportUebersicht`, `setzeSubDepotAkzent`, `groesseLesbar`); §1 laut U2-ADR-137 „unangetastet" tragend, §3 (Cache-Bump-Disziplin) inzwischen bei `vivodepot-shell-v231` fortgeführt.
+**Status heute:** gilt — Nachtrag 17.11.2026 (Freigabe mit Häkchen in Gruppen) beschlossen, Bau offen; Beleg `tests/sammelfix-ux.test.js`, Mechanismen im Kern nachweisbar (`exportAuswahlEphemerAnwenden`/`flowExportUebersicht`, `setzeSubDepotAkzent`, `groesseLesbar`); §1 laut U2-ADR-137 „unangetastet" tragend, §3 (Cache-Bump-Disziplin) inzwischen bei `vivodepot-shell-v231` fortgeführt.
 
 ---
 
@@ -88,6 +88,47 @@ persistiert über den Dialog hinaus; jeder Export beginnt wieder bei der Schema-
 Der Feldzeilen-Sensibel-Knopf (A64, 30.07.2026) entfällt (Zug 5) — die einzige verbleibende
 Bedienstelle für Sensibilität ist dieser Dialog; `feldIstSensibel`/`data.sensibelFelder` als
 Datenmodell bleiben unangetastet (Legacy-Bestandsdepots mit älteren Markierungen bleiben lesbar).
+
+## Nachtrag 17.11.2026 — Freigabe mit Häkchen in Gruppen
+
+**Ersetzt für die Herausgabe den Normalweg aus dem Nachtrag vom 12.08.2026** (Aufzählung zum Lesen, „Zurückhalten“ je Zeile).
+Entscheidung der Produktverantwortlichen am 17.11.2026, geprüft gegen die Konventionen für Auswahllisten:
+
+1. Über der Liste steht „Markierte Angaben werden an <Stelle> gesendet.“
+2. Jede Angabe hat ein Häkchen: Häkchen heißt „geht mit“, kein Häkchen „geht nicht mit“.
+3. Gruppen sind aufklappbar, mehrere dürfen offen sein. Jede Gruppe hat ein eigenes Häkchen mit Zwischenzustand
+   (`aria-checked="mixed"`) und einen Zähler „x von y“.
+4. Vorausgewählt ist nur, was der Anlass oder die Anfrage verlangt. Sensible Angaben sind nie vorausgewählt.
+5. Vor dem Senden steht eine Zusammenfassung: „N Angaben gehen mit, M nicht.“
+6. Barrierefreiheit nach WAI-ARIA Authoring Practices (Muster Checkbox und Accordion).
+
+**Anlass Arzttermin:** Beim Anlass Arzttermin sind alle Angaben vorausgewählt, die für eine Anamnese notwendig sind, auch
+sensible. Für alle anderen Anlässe gilt Punkt 4.
+
+**Was bleibt:** die Ephemer-Mechanik aus §1. Keine Auswahl persistiert über den Dialog hinaus; jeder Export beginnt wieder bei
+der Schema- und Bestandslage. `sektorId:null` (Gesamt-PDF, volles JSON) bleibt Opt-in.
+
+**Folge für die Proben:** Die Probe „kein `input[type=checkbox]` im Herausgabe-Weg“ entfällt mit dem Bau und wird durch eine Probe
+auf die sechs Punkte und den Anlass Arzttermin ersetzt.
+
+```yaml
+konformitaet:
+  - aussage: >-
+      Die Herausgabe zeigt je Angabe ein Häkchen (Häkchen heißt „geht mit“), aufklappbare Gruppen mit Gruppen-Häkchen im
+      Zwischenzustand und Zähler „x von y“, den Satz „Markierte Angaben werden an <Stelle> gesendet.“ über der Liste und vor dem
+      Senden die Zusammenfassung „N Angaben gehen mit, M nicht.“
+    zustand: offen
+    frist: 2026-11-30
+    bedingung: Probe auf die sechs Punkte im Stapel (tests/herausgabe-haekchen-gruppen.test.js), dann Prüfung eintragen und erfüllt
+    herkunft: U2-ADR-024 Nachtrag 17.11.2026 Nr. 1 bis 3, 5 und 6
+  - aussage: >-
+      Vorausgewählt ist nur, was der Anlass oder die Anfrage verlangt; sensible Angaben sind nie vorausgewählt, außer beim Anlass
+      Arzttermin die für eine Anamnese notwendigen Angaben.
+    zustand: offen
+    frist: 2026-11-30
+    bedingung: Probe auf Vorauswahl und Anlass Arzttermin im Stapel (tests/herausgabe-haekchen-gruppen.test.js), dann Prüfung eintragen und erfüllt
+    herkunft: U2-ADR-024 Nachtrag 17.11.2026 Nr. 4 und Anlass Arzttermin
+```
 
 ## Implementations-Verweis
 

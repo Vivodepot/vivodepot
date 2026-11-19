@@ -13,14 +13,14 @@
 const { test, expect } = require('@playwright/test');
 const { inLeisteKlicken, oeffneApp, depotAnlegen } = require('./helpers');
 
-test('„Austausch und Überblick“: ein eingeklappter Punkt unter den Bereichen, alle drei Lesesichten per Klick erreichbar (Navigation A, 05.10.2026)', async ({ page }) => {
+test('„Mehr“ (früher „Austausch und Überblick“): ein eingeklappter Punkt unter den Anlässen, alle drei Lesesichten per Klick erreichbar (Navigation A, 05.10.2026; Umbau U-3)', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
   // Navigation A: EIN Gruppentitel („Bereiche“), die übrigen Wege stehen im eingeklappten Punkt. Er ist zu, bis man ihn öffnet.
-  await expect(page.locator('#sidebar .gruppe-titel')).toHaveText(['Bereiche']);
+  await expect(page.locator('#sidebar .gruppe-titel')).toHaveText(['Bereiche', 'Anlässe']);
   const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
-  await expect(punkt.locator('summary')).toHaveText('Austausch und Überblick');
+  await expect(punkt.locator('summary')).toHaveText('Mehr');
   await expect(page.locator('#sidebar [data-mappe]')).toBeHidden();
 
   await inLeisteKlicken(page, '[data-mappe]');
@@ -33,15 +33,19 @@ test('„Austausch und Überblick“: ein eingeklappter Punkt unter den Bereiche
   await expect(page.locator('#content')).toContainText('Herausgegeben');
 });
 
-test('„Austausch und Überblick“: jeder Weg steht genau einmal darin, Sub-Depots per Klick erreichbar', async ({ page }) => {
+test('„Mehr“: jeder Weg steht genau einmal darin, Sub-Depots per Klick erreichbar (Herausgegeben steht oben, Umbau U-3)', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
   const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
-  for (const anker of ['data-einlesen-zentral', 'data-weitergeben-zentral', 'data-uebergabe-protokoll', 'data-mappe', 'data-prueftermine', 'data-verwaltete-depots']) {
+  // Umbau U-3 Schritt 3 (15.11.2026): Einlesen und Herausgeben stehen oben in der Kopfleiste (je einmal), in „Mehr“ nur die schmalen Einträge fürs Handy.
+  for (const anker of ['data-einlesen-zentral', 'data-weitergeben-zentral']) await expect(page.locator('.topbar [' + anker + ']')).toHaveCount(1);
+  for (const anker of ['data-einlesen-schmal', 'data-weitergeben-schmal', 'data-mappe', 'data-prueftermine', 'data-verwaltete-depots']) {
     await expect(page.locator('#sidebar [' + anker + ']')).toHaveCount(1);
     await expect(punkt.locator('[' + anker + ']')).toHaveCount(1);
   }
+  await expect(page.locator('#sidebar [data-uebergabe-protokoll]')).toHaveCount(1);
+  await expect(punkt.locator('[data-uebergabe-protokoll]')).toHaveCount(0);
 
   await inLeisteKlicken(page, '[data-verwaltete-depots]');
   await expect(page.locator('.bereich-kopf h2')).toContainText('Sub-Depots');
@@ -86,7 +90,7 @@ test('„Depot verlassen" bleibt ganz unten, ohne eigene Gruppenüberschrift', a
   // Jede Marke muss gefunden sein: ein −1 machte den Vergleich und den Schnitt unten leer grün (bis 05.10.2026 so geschehen,
   // als „Verwaltete Depots“ umbenannt wurde). Wächter der Klasse: tools/e2e-fundstelle-ungeprueft-pruefen.js.
   const verlassenPos = sidebarHtml.indexOf('data-verlassen');
-  const austauschPos = sidebarHtml.indexOf('Austausch');
+  const austauschPos = sidebarHtml.indexOf('nav-gruppe-austausch');
   const subDepotsPos = sidebarHtml.indexOf('Sub-Depots');
   expect(austauschPos, 'Austausch steht in der Leiste').toBeGreaterThanOrEqual(0);
   expect(subDepotsPos, 'Sub-Depots steht in der Leiste').toBeGreaterThanOrEqual(0);

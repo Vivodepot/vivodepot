@@ -25,7 +25,9 @@ test('[W-Scroll-Erhalt] die Grundlinie kennt genau 15 Navigations-Funktionen', (
   // 15 → 16 am 02.11.2026 (Seite „Über und Hinweise“): `oeffneUeberHinweise` öffnet die neue Seite oben
   // wie die übrigen Navigationen.
   // 16 → 17 am 12.11.2026 (Zurück im Browser: `ansichtAusVerlaufOeffnen` öffnet die Ansicht des Verlaufseintrags)
-  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 17);
+  // 17 → 18 am 16.11.2026 (Trefferseite der Suche): `oeffneSuchtreffer` öffnet die Seite „Treffer für …“ oben, wie
+  // `oeffneUeberHinweise`. 18 → 19 am 16.11.2026 (Umbau U-6, mit Einzelwort): `oeffneEinlesen` öffnet die Seite Einlesen oben wie die übrigen Navigationen.
+  assert.equal(GRUNDLINIE_DATEN.funktionen.length, 19);
 });
 
 test('[W-Scroll-Erhalt] echter Kern: kein neuer renderContent(true)-Aufruf gegen die Grundlinie', () => {

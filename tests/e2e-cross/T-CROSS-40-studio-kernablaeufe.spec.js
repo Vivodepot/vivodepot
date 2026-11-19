@@ -27,6 +27,13 @@ const FIX = require('./fixtures/reise-4-vertrauenskette.json');
 
 const ENTWURF_NAME = 'vivodepot-vorlage-entwurf.json';
 /* Die Karte der Vorschau zeigt den Namen eines Pflichtfelds mit einem Stern; der Entwurf trägt den Namen ohne ihn. */
+/* Die Karte trägt den Namen seit dem Vorgabe-Dummy (14.11.2026) im Eingabefeld .vk-name-eingabe und die Pflicht im Schalter
+   „Pflicht | Freiwillig“; die Liste liest beides, ein Pflichtfeld endet wie bisher auf „*“. */
+const kartenNamen = (p) => p.locator('#tpl-felder .vk').evaluateAll((ks) => ks.map((k) => {
+  const e = k.querySelector('.vk-name-eingabe'), an = k.querySelector('.vk-pflicht-wahl > .vk-pflicht-knopf:first-child[aria-pressed="true"]');
+  return (e ? e.value : '') + (an ? '*' : '');
+}));
+const hatKarte = async (p, name) => expect.poll(async () => (await kartenNamen(p)).some((n) => n.replace(/\*$/, '').includes(name))).toBe(true);
 const ohneStern = (namen) => namen.map((n) => n.replace(/\*$/, ''));
 const ABGEWIESEN = /Der Entwurf konnte nicht geöffnet werden/;
 
@@ -64,8 +71,8 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
     await zweiFelderAnlegen(p);
     // Bearbeiten: das zuletzt angelegte Feld ist im Editor; sein Name ändert sich, die Vorschau folgt.
     await p.fill('#ed-name', 'Aufnahmedatum geändert');
-    await expect(p.locator('.vk .vk-name', { hasText: 'Aufnahmedatum geändert' })).toBeVisible();
-    const namen = await p.locator('.vk .vk-name').allInnerTexts();
+    await hatKarte(p, 'Aufnahmedatum geändert');
+    const namen = await kartenNamen(p);
 
     const datei = await H.downloadNachTmp(p, tmp, () => p.click('#entwurf-sichern'));
     expect(path.basename(datei)).toBe(ENTWURF_NAME);
@@ -83,7 +90,7 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
     const p2 = await ctx2.newPage();
     await entwurfOeffnen(p2, datei);
     await expect(p2.locator('.vk')).toHaveCount(2);
-    expect(await p2.locator('.vk .vk-name').allInnerTexts()).toEqual(namen);
+    expect(await kartenNamen(p2)).toEqual(namen);
     await expect(p2.locator('#tpl-anzahl')).toContainText('2');
     await expect(p2.locator('#start-status')).toBeHidden();
     // Noch einmal sichern: dieselben Felder gehen wieder hinaus.

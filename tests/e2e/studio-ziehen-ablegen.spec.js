@@ -4,10 +4,10 @@
    ────────────────────────────────────────────────────────────────────────
    Mit Berührung gibt es kein verlässliches HTML-Ziehen. Das Studio bindet darum Zeigerereignisse (zeigerZiehenBinden): halten
    (320 ms), dann ziehen. Die Probe fährt echte Berührungsereignisse (Chromium, CDP Input.dispatchTouchEvent) bei 390 × 844:
-     1. Baustein aus der Palette auf eine Frage halten und ziehen: er steht davor, nicht am Ende.
-     2. Eine Frage halten und nach oben ziehen: die Reihenfolge ändert sich.
+     1. Baustein aus der Bausteinliste auf eine Karte halten und ziehen: er steht davor, nicht am Ende.
+     2. Eine Karte halten und nach oben ziehen: die Reihenfolge ändert sich; das Bearbeitungsblatt öffnet dabei nicht.
      3. Rollen ohne Halten (sofort bewegen) zieht nichts: kein Baustein kommt hinzu, die Reihenfolge bleibt.
-     4. In der Arbeitsfläche (Expertensicht): eine Karte halten und ziehen ordnet um.
+   Seit 14.11.2026 gibt es eine Arbeitsfläche; bis dahin fuhr die Probe 1 bis 3 im einfachen Weg und die Arbeitsfläche als 4.
    Rot-Beweis: STUDIO_DATEI=<Quelltext vor der Änderung> — ohne Palette im einfachen Weg und ohne Zeigerbindung rot.
    Rot-Beweis gemessen 12.11.2026 gegen dce400a33: 1 failed („Palette im einfachen Weg mit mindestens drei Bausteinen“), mit dem Bau: 1 passed.
    ════════════════════════════════════════════════════════════════════════ */
@@ -29,7 +29,7 @@ async function oeffnen(browser) {
     });
   });
   await page.goto(STUDIO_URL);
-  await page.waitForSelector('#raum-eingang', { state: 'visible' });
+  await page.waitForSelector('#raum-start', { state: 'visible' });
   return { ctx, page };
 }
 async function fingerZiehen(page, cdp, von, nach, haltenMs) {
@@ -44,7 +44,10 @@ async function fingerZiehen(page, cdp, von, nach, haltenMs) {
   await page.waitForTimeout(150);
 }
 const ereignisse = (page) => page.evaluate(() => { const c = []; (window.__ev || []).forEach((n) => { if (/^pointer(down|up|cancel)/.test(n) || c[c.length - 1] !== n) c.push(n); }); return JSON.stringify(c.slice(-14)); });
-const frageNamen = (page) => page.$$eval('#as-felder .as-frage .as-frage-name', (els) => els.map((e) => e.textContent.replace(/\s*\*\s*$/, '').trim()));
+const kartenNamen = (page) => page.$$eval('#tpl-felder .vk .vk-name', (els) => els.map((e) => (e.querySelector('.vk-name-eingabe') ? e.querySelector('.vk-name-eingabe').value : (e.firstChild ? e.firstChild.textContent : '')).trim()));
+/* Am Telefon öffnet ein neuer Baustein das Bearbeitungsblatt von unten: wie eine Person schließen, bevor es weitergeht. */
+async function blattZu(page) { if (await page.locator('#feld-editor:not([hidden])').count()) await page.locator('#ed-speichern').tap(); }
+async function zurListe(page, abstand) { await page.evaluate((a) => { const l = document.getElementById('tpl-felder'); window.scrollTo({ top: l.getBoundingClientRect().top + window.scrollY - a, behavior: 'instant' }); }, abstand); }
 async function punkt(loc, anteilY, x) {
   const b = await loc.boundingBox();
   return { x: x != null ? x : b.x + 24, y: b.y + b.height * anteilY };
@@ -55,48 +58,43 @@ test('Studio: Halten und Ziehen mit dem Finger (390 px)', async ({ browser }, te
   const { ctx, page } = await oeffnen(browser);
   try {
     const cdp = await ctx.newCDPSession(page);
-    await page.locator('#ein-vorlage').tap();
-    await expect(page.locator('#raum-assistent')).toBeVisible();
-    const pal = page.locator('#as-pal-liste details[open] .pal-eintrag[data-kat]');
-    expect(await pal.count(), 'Vorprobe: Palette im einfachen Weg mit mindestens drei Bausteinen').toBeGreaterThanOrEqual(3);
+    await expect(page.locator('#raum-start')).toBeVisible();
+    await page.locator('#start-leer').tap();
+    await expect(page.locator('#raum-bau')).toBeVisible();
+    /* S-2 (N68/N69): am Telefon öffnen die Bausteine als Blatt von unten; die häufigen Bausteine stehen offen in ihrer Gruppe */
+    await page.locator('#pal-auf').tap();
+    await expect(page.locator('#palette.an')).toBeVisible();
+    const pal = page.locator('#pal-liste > .pal-eintrag[data-kat]');
+    expect(await pal.count(), 'Vorprobe: Bausteinliste der Arbeitsfläche mit mindestens drei Bausteinen').toBeGreaterThanOrEqual(3);
     const namen = await pal.evaluateAll((els) => els.slice(0, 3).map((e) => e.querySelector('span').textContent.trim()));
-    await pal.nth(0).locator('.pal-plus').tap();
-    await pal.nth(1).locator('.pal-plus').tap();
-    expect(await frageNamen(page), 'Vorprobe: zwei Bausteine per Antippen in der Folge des Antippens').toEqual([namen[0], namen[1]]);
+    await pal.nth(0).locator('.pal-plus').tap(); await blattZu(page);
+    await pal.nth(1).locator('.pal-plus').tap(); await blattZu(page);
+    expect(await kartenNamen(page), 'Vorprobe: zwei Bausteine per Antippen in der Folge des Antippens').toEqual([namen[0], namen[1]]);
 
-    /* 1. Baustein aus der Palette vor die erste Frage ziehen */
+    /* 1. Baustein aus der Bausteinliste vor die erste Karte ziehen */
     const quelle = pal.nth(2);
-    /* Palette und Bogen zugleich im Bild: die Palette steht unter dem Bogen, der Bogen beginnt unter der Kopfzeile */
-    await page.evaluate(() => { const l = document.getElementById('as-felder'); window.scrollTo({ top: l.getBoundingClientRect().top + window.scrollY - 110, behavior: 'instant' }); });
-    const qb = await quelle.boundingBox();
-    expect(qb && qb.y > 0 && qb.y + qb.height < 844, `Vorprobe: Palette und Bogen zugleich im Bild (Eintrag bei y=${qb && qb.y})`).toBeTruthy();
-    await fingerZiehen(page, cdp, await punkt(quelle, 0.5), await punkt(page.locator('#as-felder .as-frage').nth(0), 0.2, 150), 450);
-    expect.soft(await frageNamen(page), 'Halten und Ziehen aus der Palette setzt den Baustein vor die erste Frage; Ereignisse: ' + await ereignisse(page)).toEqual([namen[2], namen[0], namen[1]]);
+    const karten = page.locator('#tpl-felder .vk');
+    /* Bausteinliste und Vorlage zugleich im Bild: die Liste steht über der Vorlage */
+    await quelle.scrollIntoViewIfNeeded();
+    await zurListe(page, 700);
+    const qb = await quelle.boundingBox(), kb = await karten.nth(0).boundingBox();
+    expect(qb && kb && qb.y > 120 && kb.y + 40 < 844, `Vorprobe: Bausteinliste und Vorlage zugleich im Bild (Eintrag bei y=${qb && qb.y}, Karte bei y=${kb && kb.y})`).toBeTruthy();
+    await fingerZiehen(page, cdp, await punkt(quelle, 0.5), await punkt(karten.nth(0), 0.12, 150), 450);
+    await blattZu(page);
+    expect.soft(await kartenNamen(page), 'Halten und Ziehen aus der Bausteinliste setzt den Baustein vor die erste Karte; Ereignisse: ' + await ereignisse(page)).toEqual([namen[2], namen[0], namen[1]]);
 
-    /* 2. Eine Frage halten und nach oben ziehen */
-    await page.evaluate(() => { const l = document.getElementById('as-felder'); window.scrollTo({ top: l.getBoundingClientRect().top + window.scrollY - 150, behavior: 'instant' }); });   // der Bogen liegt unter der Kopfzeile
-    const fragen = page.locator('#as-felder .as-frage');
-    await fingerZiehen(page, cdp, await punkt(fragen.nth(2), 0.3, 200), await punkt(fragen.nth(0), 0.2, 200), 450);
-    expect.soft(await frageNamen(page), 'Eine Frage halten und nach oben ziehen ordnet um; Ereignisse: ' + await ereignisse(page)).toEqual([namen[1], namen[2], namen[0]]);
+    /* 2. Eine Karte halten und nach oben ziehen — am Griff ⋮⋮ links; rechts in der Namenszeile stehen seit dem Nachwagen
+       (Dummy 14.11.2026) die Symbolknöpfe ✎ ↑ ↓ ✕, auf einem Knopf beginnt kein Ziehen */
+    await zurListe(page, 150);
+    await fingerZiehen(page, cdp, await punkt(karten.nth(2), 0.12), await punkt(karten.nth(0), 0.1), 450);
+    expect.soft(await kartenNamen(page), 'Eine Karte halten und nach oben ziehen ordnet um; Ereignisse: ' + await ereignisse(page)).toEqual([namen[1], namen[2], namen[0]]);
+    expect.soft(await page.locator('#eigenschaften.editor-offen').count(), 'Das Ziehen öffnet das Bearbeitungsblatt nicht').toBe(0);
 
     /* 3. ohne Halten: sofort bewegen = Rollen, nichts wird gezogen */
-    const vorher = await frageNamen(page);
-    await fingerZiehen(page, cdp, await punkt(fragen.nth(2), 0.3, 200), await punkt(fragen.nth(0), 0.2, 200), 0);
-    expect.soft(await frageNamen(page), 'Rollen ohne Halten zieht nichts').toEqual(vorher);
-
-    /* 4. Arbeitsfläche: eine Karte halten und ziehen */
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-    await page.locator('#as-fachebene').tap();
-    await expect(page.locator('#raum-bau')).toBeVisible();
-    const karten = page.locator('#tpl-felder .vk');
-    expect(await karten.count()).toBe(3);
-    const kn = () => page.$$eval('#tpl-felder .vk .vk-name', (els) => els.map((e) => (e.firstChild ? e.firstChild.textContent : '').trim()));
-    const e0 = await kn();
-    await karten.nth(2).scrollIntoViewIfNeeded();
-    await page.evaluate(() => { const l = document.getElementById('tpl-felder'); window.scrollTo({ top: l.getBoundingClientRect().top + window.scrollY - 150, behavior: 'instant' }); });
-    await fingerZiehen(page, cdp, await punkt(karten.nth(2), 0.12, 200), await punkt(karten.nth(0), 0.1, 200), 450);
-    expect.soft(await kn(), 'Arbeitsfläche: eine Karte halten und nach oben ziehen ordnet um').toEqual([e0[2], e0[0], e0[1]]);
-    expect.soft(await page.locator('#eigenschaften.editor-offen').count(), 'Das Ziehen öffnet das Bearbeitungsblatt nicht').toBe(0);
+    await zurListe(page, 150);
+    const vorher = await kartenNamen(page);
+    await fingerZiehen(page, cdp, await punkt(karten.nth(2), 0.12), await punkt(karten.nth(0), 0.1), 0);
+    expect.soft(await kartenNamen(page), 'Rollen ohne Halten zieht nichts').toEqual(vorher);
   } finally {
     await page.screenshot({ path: testInfo.outputPath('studio-ziehen-finger-390.png'), fullPage: true }).catch(() => {});
     await ctx.close();

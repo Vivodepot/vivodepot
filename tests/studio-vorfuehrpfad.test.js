@@ -304,15 +304,15 @@ test('[Vorführpfad · Feldordnung · Rot-Beweis] ohne die Prüfung entsteht ein
 /* ── (9) „Vorschau“ statt „Ausprobieren“ (15.10.2026) ─────────────────────────────────────────────────────────── */
 const OHNE_KOMMENTARE = (h) => h.replace(/<!--[\s\S]*?-->/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 const PROBIER_WORT = /Ausprobier|Probieren Sie|Try it|Try out|Try things/i;
-test('[Vorführpfad · Vorschau] der Knopf heißt „Vorschau“ / „Preview“, und kein Studio-Text sagt mehr „Ausprobieren“ oder „Try out“', () => {
-  assert.match(HTML, /<button type="button" id="ansicht-probieren" aria-pressed="false" data-en="Preview">Vorschau<\/button>/);
-  assert.match(HTML, /<button type="button" id="ansicht-bauen" aria-pressed="true" data-en="Edit">Bearbeiten<\/button>/);
+test('[Vorführpfad · Vorschau] der Schalter heißt „Vorlage“ / „Vorschau der Anfrage“ wie im Dummy (17.11.2026), und kein Studio-Text sagt mehr „Ausprobieren“ oder „Try out“', () => {
+  assert.match(HTML, /<button type="button" id="ansicht-probieren" aria-pressed="false" data-en="Preview of the request">Vorschau der Anfrage<\/button>/);
+  assert.match(HTML, /<button type="button" id="ansicht-bauen" aria-pressed="true" data-en="Template">Vorlage<\/button>/);
   assert.doesNotMatch(OHNE_KOMMENTARE(HTML), PROBIER_WORT);
 });
 test('[Vorführpfad · Vorschau · Rot-Beweis] der alte Knopftext fällt auf, deutsch und englisch', () => {
-  const alt = ersetzt('data-en="Preview">Vorschau</button>', 'data-en="Try it">Ausprobieren</button>');
+  const alt = ersetzt('data-en="Preview of the request">Vorschau der Anfrage</button>', 'data-en="Try it">Ausprobieren</button>');
   assert.match(OHNE_KOMMENTARE(alt), PROBIER_WORT);
-  assert.match(OHNE_KOMMENTARE(HTML.replace('data-en="Preview">Vorschau</button>', 'data-en="Try it out">Vorschau</button>')), PROBIER_WORT);
+  assert.match(OHNE_KOMMENTARE(HTML.replace('data-en="Preview of the request">Vorschau der Anfrage</button>', 'data-en="Try it out">Vorschau der Anfrage</button>')), PROBIER_WORT);
 });
 
 /* ── (10) Anfrage: Ergebnis in der Reihenfolge Brief, Passwort, Link; jeder Knopf sagt, für wen; Hinweis zur Signatur ─ */
@@ -339,17 +339,16 @@ test('[Vorführpfad · Anfrage · Rot-Beweis] die frühere Reihenfolge und ein K
 
 /* ── (11) Wörter für Laien, Runde 2 (15.10.2026) ──────────────────────────────────────────────────────────────── */
 const RUNDE2 = [
-  ['Für Fachleute: alle Einstellungen.', 'For specialists: all settings.'],   // seit 12.11.2026 (UX): kein „IT-Fachleute“ auf der Kachel
   ['Ihr Aktenzeichen (freiwillig)', 'Your file reference (optional)'],
   ['In welchem Land gilt das Recht, nach dem Sie fragen? (freiwillig; leer lassen, wenn Sie es nicht wissen)', 'In which country does the law apply that you are asking under? (optional; leave empty if you do not know)'],
   ['An welche E-Mail-Adresse soll die Person ihre Antwort schicken?', 'To which e-mail address should the person send the reply?'],
   ['Expertensicht: mit eigenem Schlüsselpaar', 'Expert view: with your own key pair'],   // seit Studio-Umbau Wagen 1 (09.11.2026) Chip „Expertensicht ↗“
-  ['Alle Felder ansehen (Register)', 'See all fields (register)'],
-  ['Technische Namen (Kennungen) zeigen', 'Show technical names (identifiers)'],
+  ['Technische Begriffe anzeigen', 'Show technical terms'],   // seit S-2 nach dem Dummy (16.11.2026, N22)
   ['Gespeichertes liegt im Ordner „Downloads“.', 'Saved files are in the “Downloads” folder.'],
 ];
 const RUNDE2_ALT = ['Für IT-Fachleute:', 'Kennung vorschlagen</button>', 'Nach Bereichen ordnen', 'Für Integratoren:', 'For integrators:', 'Ihr Zeichen für diesen Vorgang', 'Nach welchem Recht fragen Sie?', 'Wohin schickt die Person die Datei?',
-  'Stattdessen mit eigenem Schlüsselpaar', 'Register ansehen', '>Kennungen zeigen<', 'Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)'];
+  'Stattdessen mit eigenem Schlüsselpaar', 'Register ansehen', '>Kennungen zeigen<', 'Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)',
+  'Technische Namen (Kennungen) zeigen'];
 const runde2Befunde = (h) => RUNDE2.flat().filter((t) => !h.includes(t)).concat(RUNDE2_ALT.filter((t) => h.includes(t)));
 test('[Vorführpfad · Wörter] die Laien-Wörter stehen deutsch und englisch, die alten sind fort', () => {
   assert.deepEqual(runde2Befunde(HTML), []);

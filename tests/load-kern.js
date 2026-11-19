@@ -287,6 +287,11 @@ const EXPORT_HOOK = `
   // ältere Kern-Fassungen laden, die diese Namen noch nicht kennen (s. Regel „Neuer Kern-Export:
   // typeof absichern"). KEINE Backticks in diesem Kommentar — EXPORT_HOOK ist selbst ein
   // Template-Literal, ein Backtick hier bricht es mitten durch (Werkzeug-Falle, s. Memory).
+  anlassLetzteStelle: (typeof anlassLetzteStelle === 'function' ? anlassLetzteStelle : undefined),
+  anlassFertigHTML: (typeof anlassFertigHTML === 'function' ? anlassFertigHTML : undefined),
+  anlassAufgabenHTML: (typeof anlassAufgabenHTML === 'function' ? anlassAufgabenHTML : undefined),
+  herausgabeAnHTML: (typeof herausgabeAnHTML === 'function' ? herausgabeAnHTML : undefined),
+  _feldErwartetDokument: (typeof _feldErwartetDokument === 'function' ? _feldErwartetDokument : undefined),
   codeChipInhaltHTML: (typeof codeChipInhaltHTML === 'function' ? codeChipInhaltHTML : undefined),
   codeChipKlartext: (typeof codeChipKlartext === 'function' ? codeChipKlartext : undefined),
   anlassAusgabeStandard: (typeof anlassAusgabeStandard !== 'undefined' ? anlassAusgabeStandard : undefined),
@@ -448,7 +453,7 @@ const EXPORT_HOOK = `
   empfaengerDateiHerausgeben: (typeof empfaengerDateiHerausgeben !== 'undefined' ? empfaengerDateiHerausgeben : undefined),
     // U2-ADR-120 — eigenständig, s. Kommentar am Kern
   flowUebergabeProtokollManuellErfassen, flowUebergabeProtokollLoeschen, _uebergabeFelderHTML,
-  renderUebergabeProtokoll, oeffneUebergabeProtokoll, uebergabeProtokollZeileHTML,
+  renderUebergabeProtokoll, oeffneUebergabeProtokoll, uebergabeProtokollZeileHTML, uebergabeEintragAnsehen: (typeof uebergabeEintragAnsehen === 'function' ? uebergabeEintragAnsehen : undefined), uebergabeFormatText: (typeof uebergabeFormatText === 'function' ? uebergabeFormatText : undefined),
   // Verlauf eines Sub-Depots (25.10.2026), s. Kommentar am Kern
   subDepotVorgangText: (typeof subDepotVorgangText !== 'undefined' ? subDepotVorgangText : undefined),
   subDepotVerlaufModell: (typeof subDepotVerlaufModell !== 'undefined' ? subDepotVerlaufModell : undefined),
@@ -468,6 +473,16 @@ const EXPORT_HOOK = `
   SUCHE_QUELLE_LABEL,
   // 18.10.2026: Alltagswörter im Textsatz, Bereiche und Abschnitte in der Suche
   _sucheAlltag: (typeof _sucheAlltag !== 'undefined' ? _sucheAlltag : undefined),
+  _sucheQuelleText: (typeof _sucheQuelleText !== 'undefined' ? _sucheQuelleText : undefined),
+  _sucheAlleTreffer: (typeof _sucheAlleTreffer !== 'undefined' ? _sucheAlleTreffer : undefined),
+  herkunftKurzText: (typeof herkunftKurzText !== 'undefined' ? herkunftKurzText : undefined),
+  oeffneSuchtreffer: (typeof oeffneSuchtreffer !== 'undefined' ? oeffneSuchtreffer : undefined),
+  SUCHE_LISTE_MAX: (typeof SUCHE_LISTE_MAX !== 'undefined' ? SUCHE_LISTE_MAX : undefined),
+  // 16.11.2026 (U-8): Palette — Gruppen, Quellen-Icon und Pfad, Dokumente, Befehle, Ziel der neuen Angabe
+  herkunftInitiale: (typeof herkunftInitiale !== 'undefined' ? herkunftInitiale : undefined),
+  _sucheGruppe: (typeof _sucheGruppe !== 'undefined' ? _sucheGruppe : undefined),
+  _suchePfad: (typeof _suchePfad !== 'undefined' ? _suchePfad : undefined),
+  _sucheNeueAngabeZiel: (typeof _sucheNeueAngabeZiel !== 'undefined' ? _sucheNeueAngabeZiel : undefined),
   _sucheStamm: (typeof _sucheStamm !== 'undefined' ? _sucheStamm : undefined),
   _sucheOeffneBereich: (typeof _sucheOeffneBereich !== 'undefined' ? _sucheOeffneBereich : undefined),
   // Strang 3 / Commit B — Sub-Depot-Akzentfarbe (Palette + Laufzeit-Variabilisierung)
@@ -528,7 +543,7 @@ const EXPORT_HOOK = `
   // Export-Durchgang: Transparenz-Übersicht + Pro-Bereich-Export (PDF / maschinenlesbar / QR)
   // Topf B je Format (Befund ACADEMICDEGREE-OHNE-CLAIM, Klasse); typeof für ältere Kerne
   EXPORT_TOPF_B_FELDER: (typeof EXPORT_TOPF_B_FELDER === 'object' ? EXPORT_TOPF_B_FELDER : undefined),
-  exportUebersichtModell, exportUnstimmigeFelder, flowExportUebersicht, flowHerausgeben, flowHerausgebenZentral, exportAuswahlEphemerAnwenden,
+  exportUebersichtModell, exportUnstimmigeFelder, flowExportUebersicht, herausgabeVorausgewaehlt: (typeof herausgabeVorausgewaehlt === "function" ? herausgabeVorausgewaehlt : undefined), flowHerausgeben, flowHerausgebenZentral, exportAuswahlEphemerAnwenden,
   // Befund 2 („Die Ausgabewege, an denen die Prüfung vorbeiläuft", 12.08.2026)
   _unstimmigeFelderAusPaaren, _unstimmigWarnenMitFundenDannFortfahren, _situationUnstimmigePaare,
   // 22.09.2026: typeof-gesichert, damit ein historischer Kern (KERN_HTML_PATH) ohne diese Funktionen weiter lädt.
@@ -572,6 +587,8 @@ const EXPORT_HOOK = `
   _anfrageUmschlagAusEintrag: (typeof _anfrageUmschlagAusEintrag !== 'undefined' ? _anfrageUmschlagAusEintrag : undefined),
   anfragePruefenMitVorlagen: (typeof anfragePruefenMitVorlagen !== 'undefined' ? anfragePruefenMitVorlagen : undefined),
   anfrageZustand, anfrageMerken, anfrageBeantwortetVermerken, anfrageEinstiegSchritte,
+  anfrageAblehnen: (typeof anfrageAblehnen !== 'undefined' ? anfrageAblehnen : undefined),   // U-9 Schema 103 (16.11.2026); ältere Fassungen laden ohne sie
+  anfrageWiederOeffnen: (typeof anfrageWiederOeffnen !== 'undefined' ? anfrageWiederOeffnen : undefined),
   // Studio W3 — Endbildschirm und das einmal nachgeholte Absichern-Angebot
   anfrageEndeModell: (typeof anfrageEndeModell === 'function' ? anfrageEndeModell : undefined),
   _anfrageAbsichernNachholen: (typeof _anfrageAbsichernNachholen === 'function' ? _anfrageAbsichernNachholen : undefined),
@@ -705,6 +722,10 @@ const EXPORT_HOOK = `
   antwortTraegtSignatur: (typeof antwortTraegtSignatur !== 'undefined' ? antwortTraegtSignatur : undefined),
   antwortLinkTeile: (typeof antwortLinkTeile !== 'undefined' ? antwortLinkTeile : undefined),
   _ausgabeWegWaehlen: (typeof _ausgabeWegWaehlen !== 'undefined' ? _ausgabeWegWaehlen : undefined),
+  // Antwort als QR-Serie (tests/mit-modul/antwort-qr-rundlauf.test.js)
+  antwortQrTeile: (typeof antwortQrTeile !== 'undefined' ? antwortQrTeile : undefined),
+  qrTeileBilderHTML: (typeof qrTeileBilderHTML !== 'undefined' ? qrTeileBilderHTML : undefined),
+  _antwortQrZeigen: (typeof _antwortQrZeigen !== 'undefined' ? _antwortQrZeigen : undefined),
   _shlDialogZeigen: (typeof _shlDialogZeigen !== 'undefined' ? _shlDialogZeigen : undefined),
   _shlGueltigZeile: (typeof _shlGueltigZeile !== 'undefined' ? _shlGueltigZeile : undefined),
   // Im Pod ablegen (Nachtrag zu U2-ADR-512, Stufe 2; tests/pod-ablegen-kern.test.js): typeof-abgesichert wie oben
@@ -756,7 +777,10 @@ const EXPORT_HOOK = `
   depotGroesseBytes, groesseLesbar, oeffneMappe, renderMappe, mappeBereichLabel,
   oeffnePrueftermine, renderPrueftermine,
   prueftermineDokumente, prueftermineDokumenteOhneTermin, prueftermineSektionHTML, prueftermineSpringeZuDokument, verdrahtePrueftermine,
-  mappeListeHTML, mappeSuche, flowMappeVorschau,
+  mappeListeHTML, mappeSuche, flowMappeVorschau, mappeGueltigBis: (typeof mappeGueltigBis === 'function' ? mappeGueltigBis : undefined),
+  // PDF ansehen (17.11.2026): die Seiten eines PDF im Depot als Bild. typeof, weil ältere Kerne (opts.htmlPfad) sie nicht tragen.
+  mappePdfSeitenZeichnen: (typeof mappePdfSeitenZeichnen === 'function' ? mappePdfSeitenZeichnen : undefined),
+  PDF_ANSICHT_OPTIONEN: (typeof PDF_ANSICHT_OPTIONEN !== 'undefined' ? PDF_ANSICHT_OPTIONEN : undefined),
   // v867: Gültigkeit und Status gehaltener Nachweise.
   nachweisGueltigkeit: (typeof nachweisGueltigkeit === 'function' ? nachweisGueltigkeit : undefined),
   mappeNachweisGueltigkeit: (typeof mappeNachweisGueltigkeit === 'function' ? mappeNachweisGueltigkeit : undefined),
@@ -977,6 +1001,20 @@ const EXPORT_HOOK = `
   geburtsortAusPid: (typeof geburtsortAusPid === 'function' ? geburtsortAusPid : undefined),
   importPlan, planOhneUebernahme, importAnwenden, flowEinlesen, flowEinlesenZentral, flowImportDatei, flowImportVorschau,
   importVerwaisteEintraege, importZeileBereinigt,
+  // Umbau U-6 (16.11.2026): Einlesen als Seite; typeof für ältere Kerne
+  oeffneEinlesen: (typeof oeffneEinlesen === 'function' ? oeffneEinlesen : undefined),
+  renderEinlesen: (typeof renderEinlesen === 'function' ? renderEinlesen : undefined),
+  einlesenErkanntZeileHTML: (typeof einlesenErkanntZeileHTML === 'function' ? einlesenErkanntZeileHTML : undefined),
+  einleseStelleAusQuelle: (typeof einleseStelleAusQuelle === 'function' ? einleseStelleAusQuelle : undefined),
+  // Umbau U-3 (17.11.2026): die Übersicht nach dem Desktop-Dummy.
+  _uebersichtHTML: (typeof _uebersichtHTML === 'function' ? _uebersichtHTML : undefined),
+  _anlaesseFuerLeiste: (typeof _anlaesseFuerLeiste === 'function' ? _anlaesseFuerLeiste : undefined),
+  uebersichtOffeneAnfragen: (typeof uebersichtOffeneAnfragen === 'function' ? uebersichtOffeneAnfragen : undefined),
+  uebersichtZuletztGeaendert: (typeof uebersichtZuletztGeaendert === 'function' ? uebersichtZuletztGeaendert : undefined),
+  uebersichtZeitpunkt: (typeof uebersichtZeitpunkt === 'function' ? uebersichtZeitpunkt : undefined),
+  uebersichtHerkunft: (typeof uebersichtHerkunft === 'function' ? uebersichtHerkunft : undefined),
+  _uebersichtKuerzel: (typeof _uebersichtKuerzel === 'function' ? _uebersichtKuerzel : undefined),
+  importAutoDatei: (typeof importAutoDatei === 'function' ? importAutoDatei : undefined),
   renderSubDepotKonzept, oeffneSubKonzept, subKonzeptGrafikSVG, _depotSymbolSVG, _linkSymbolSVG,
   // Sicherheit Block C (Ebene 3a) — eingehende Provider-Zertifikat-Verifikation
   importPlanGeprueft, _planAusRoh,
@@ -1125,6 +1163,12 @@ const EXPORT_HOOK = `
   importFormatErkennen, flowImportAuto,
   // QR (Teil 3.3, U2-ADR-077: QR = Kontakte-vCard, kein Gesundheitsdatum)
   NOTFALL_KERN_FELDER, notfallKernModell, notfallKontakteVcard, flowNotfallQR,
+  // U-7 (Schema 101): typeof-abgesichert, ältere Kerne kennen die Namen nicht.
+  NOTFALL_KARTE_SCHALTER: (typeof NOTFALL_KARTE_SCHALTER !== 'undefined' ? NOTFALL_KARTE_SCHALTER : undefined),
+  NOTFALL_KARTE_VORGABE: (typeof NOTFALL_KARTE_VORGABE !== 'undefined' ? NOTFALL_KARTE_VORGABE : undefined),
+  notfallKarteAuswahl: (typeof notfallKarteAuswahl !== 'undefined' ? notfallKarteAuswahl : undefined),
+  notfallFeldGewaehlt: (typeof notfallFeldGewaehlt !== 'undefined' ? notfallFeldGewaehlt : undefined),
+  notfallKarteSchalten: (typeof notfallKarteSchalten !== 'undefined' ? notfallKarteSchalten : undefined),
   // Notfall-Dreiklang (Teil 4) — U2-ADR-078: passwortloser Stufe-1-Cache entfernt
   // (notfallCacheBauen/notfallCacheAusUmschlag/flowNotfallAusDatei/notfallStufe1 sind weg).
   renderNotfall,
@@ -1684,6 +1728,12 @@ const EXPORT_HOOK = `
   // typeof-abgesichert wie die Nachbarn: der Harnisch laedt auch aeltere Kern-Staende.
   BEREICH_QUELLEN_EINGEBAUT: (typeof BEREICH_QUELLEN_EINGEBAUT !== 'undefined' ? BEREICH_QUELLEN_EINGEBAUT : undefined),
   _bereichsModuleAusDepotAnmelden, bereicheAlle, _sektorIndexNeuBauen,
+  // typeof-abgesichert wie die Nachbarn (Seitenleiste U-3): der Harnisch laedt auch aeltere Kern-Staende ohne diese Funktion.
+  sektorAngabenZahl: (typeof sektorAngabenZahl === 'function' ? sektorAngabenZahl : undefined),
+  // Eintragebereich (S.4c): die Wahl der offenen Rubrik je Bereich; typeof-abgesichert für ältere Kern-Stände.
+  eintragebereichRubrikSetzen: (typeof eintragebereichRubrikSetzen === 'function' ? eintragebereichRubrikSetzen : undefined),
+  eintragebereichDetailSetzen: (typeof eintragebereichDetailSetzen === 'function' ? eintragebereichDetailSetzen : undefined),
+  eintragebereichHTML: (typeof eintragebereichHTML === 'function' ? eintragebereichHTML : undefined),
   // typeof-abgesichert wie die Nachbarn: der Harnisch laedt auch aeltere Kern-Staende, die
   // diese (neuere) Funktion noch nicht kennen (gefunden 17.09.2026, docx-streichung-gegenprobe
   // laedt einen historischen Kern-Stand ueber KERN_HTML_PATH).
@@ -2567,6 +2617,8 @@ function ladeKern(opts) {
   // vorher) — hier injizierbar, um den PDF+QR-Pfad ohne die echten Libs zu prüfen (Fake-doc genügt).
   if (opts.jspdf) windowStub.jspdf = opts.jspdf;
   if (opts.qrcode) windowStub.qrcode = opts.qrcode;
+  // PDF ansehen (17.11.2026): die eingebettete PDF-Anzeige ist im Kern NUR window.vdPdfjs — hier injizierbar wie jsPDF.
+  if (opts.pdfjs) windowStub.vdPdfjs = opts.pdfjs;
   const sandbox = {
     crypto: webcrypto,
     TextEncoder, TextDecoder,

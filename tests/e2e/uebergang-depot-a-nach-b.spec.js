@@ -140,8 +140,10 @@ test('[Übergang 1] Depot A schließen → Depot B öffnen, derselbe Tab, kein R
 
     // Der Fund-9-Beleg: die Sidebar MUSS rendern — genau das brach beim `delete` auf der
     // gefrorenen Sektion (Konsole: „bereiche-umschalter im DOM: 0").
-    await expect(page.locator('.bereiche-umschalter, [data-sektor]').first(), 'Sidebar muss nach dem Übergang A→B rendern (Fund 9)').toBeVisible();
-    expect(await page.locator('[data-sektor]').count(), 'mindestens ein Bereich muss in der Sidebar stehen').toBeGreaterThan(0);
+    // Seit der Übersicht als Startseite (17.11.2026) ist die Bereichsgruppe der Seitenleiste nach dem Öffnen zugeklappt;
+    // der Beleg ist darum: die Seitenleiste steht sichtbar, und ihre Bereichs-Einträge sind im DOM (Zeile darunter).
+    await expect(page.locator('.bereiche-umschalter:visible, .nav-item:visible').first(), 'Sidebar muss nach dem Übergang A→B rendern (Fund 9)').toBeVisible();
+    expect(await page.locator('.nav-item[data-sektor]').count(), 'mindestens ein Bereich muss in der Sidebar stehen').toBeGreaterThan(0);
 
     await oeffneSektor(page, 'identity');
     await expect(page.locator('[data-edit="street"]'), 'Depot B zeigt SEINEN Wert, keine Spur von A').toHaveValue(DEPOT_B.wert);

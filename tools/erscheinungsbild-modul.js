@@ -39,6 +39,13 @@ const PROFIL_SALBEI_GLAS = Object.freeze({
   stilReihenfolge: path.join(REPO, 'tools', 'erscheinung', 'stil-reihenfolge-salbei-glas.json'),
   ziel: path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-salbei-glas-modul.json'),
 });
+// Profil „Dummy“ (U-G, 15.11.2026): das Aussehen des Desktop-Dummys; Überlagerung über Salbei mit Glas (stil-reihenfolge-dummy.json), gebaut wie jedes Profil.
+const PROFIL_DUMMY = Object.freeze({
+  id: 'dummy',
+  quelle: path.join(REPO, 'tools', 'erscheinung', 'dummy.css'),
+  stilReihenfolge: path.join(REPO, 'tools', 'erscheinung', 'stil-reihenfolge-dummy.json'),
+  ziel: path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-dummy-modul.json'),
+});
 const STIL_ORDNER = path.join(REPO, 'tools', 'erscheinung', 'stil');
 const SCHRIFTEN_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'schriften.json');
 
@@ -149,6 +156,6 @@ function main(argv) {
   return 0;
 }
 
-module.exports = { cssZuModul, modulText, stilBauen, schriftenBauen, SCHRIFTEN_HEUTE, QUELLE_HEUTE, ZIEL_HEUTE, STIL_REIHENFOLGE, EBENE_JE_SELEKTOR, PROFIL_SALBEI_GLAS };
+module.exports = { cssZuModul, modulText, stilBauen, schriftenBauen, SCHRIFTEN_HEUTE, QUELLE_HEUTE, ZIEL_HEUTE, STIL_REIHENFOLGE, EBENE_JE_SELEKTOR, PROFIL_SALBEI_GLAS, PROFIL_DUMMY };
 
 if (require.main === module) process.exit(main(process.argv.slice(2)));

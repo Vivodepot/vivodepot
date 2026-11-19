@@ -71,3 +71,14 @@ test('flowMappeVorschau: Bild → <img> im Modal; PDF → Name und Größe ohne 
   m = document.getElementById('modal-inhalt').innerHTML;
   assert.ok(m.includes(V.STRINGS.mappeKeineVorschau), 'sonst dezenter Hinweis');
 });
+
+test('U-10 (Dummy D47): die Liste nennt „gültig bis …“, wenn ein Dokument-Datensatz auf die Datei verweist', async () => {
+  const { V, bild, pdf } = await mitEintraegen();
+  const d = V.getData();
+  if (!Array.isArray(d.dokumente)) d.dokumente = [];
+  d.dokumente.push({ id: 'dok-ausweis', typ: 'eigen', name: 'Ausweis', mappeRef: { ref: bild, override: null }, ablaufDatum: '2032-03-31' });
+  assert.equal(V.mappeGueltigBis(V.getData().mappe.find((e) => e.id === bild)), '2032-03-31');
+  assert.equal(V.mappeGueltigBis(V.getData().mappe.find((e) => e.id === pdf)), '', 'ohne Datensatz keine Angabe');
+  const html = V.mappeListeHTML(V.getData().mappe);
+  assert.ok(html.includes(V.STRINGS.nachweisGueltigBis + ' 31.03.2032 · '), 'die Zeile beginnt mit der Gültigkeit');
+});

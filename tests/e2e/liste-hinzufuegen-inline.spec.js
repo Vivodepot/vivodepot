@@ -7,7 +7,7 @@
    (Bedienmuster 12, weitereAngabenHTML), ohne Dialog. Die Eingaben des ersten Eintrags tragen einen eigenen Namensraum (data-eintrag-*): sie sind kein Bereichsfeld,
    werden nie als solches gespeichert und kollidieren mit keiner Kennung des Bereichs. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, rubrikOeffnen } = require('./helpers');
 
 async function bereitsicht(page, sektor) {
   await oeffneApp(page);
@@ -97,6 +97,7 @@ test('[Hinzufügen·Groß·Klasse] in keinem Bereich legt „Alle Angaben“ bei
   let geprueft = 0;
   for (const { sektor, feld } of lange) {
     await page.evaluate((s) => window.__vdOeffentlich.oeffneSektor(s), sektor);
+    await rubrikOeffnen(page, '[data-liste-inline="' + feld + '"]');
     await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
     const inline = page.locator('#content [data-liste-inline="' + feld + '"]');
     if (!(await inline.count())) continue;
@@ -155,4 +156,50 @@ test('[Hinzufügen·Inline·Karteileiche·Gegenprobe] wird der erste Eintrag üb
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
   await expect(page.locator('#content [data-feld-liste="pets"] .liste-eintraege li')).toHaveCount(1);
   expect(await registerNamen(page)).toContain(name);
+});
+
+test('[Hinzufügen·Zeile] gefüllte Liste: „Weiteres … hinzufügen“ öffnet eine Zeile unter den Einträgen, kein Dialog; Speichern legt an, Abbrechen nicht', async ({ page }) => {
+  await bereitsicht(page, 'identity');
+  const editor = page.locator('#content [data-feld-liste="idDocuments"]');
+  const inline = editor.locator('[data-liste-inline="idDocuments"]');
+  await inline.locator('[data-eintrag-edit="system"]').fill('Personalausweis');
+  await inline.locator('[data-eintrag-edit="documentNumber"]').fill('E2E-ZEILE-1');
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  await expect(editor.locator('.liste-eintraege li')).toHaveCount(1);
+  await rubrikOeffnen(page, '[data-eintrag-hinzufuegen="idDocuments"]');   // nach dem ersten Eintrag zeichnet der Bereich neu: die Rubrik der Liste öffnen
+  await editor.locator('[data-eintrag-hinzufuegen="idDocuments"]').click();
+  const zeile = editor.locator('[data-liste-neu]');
+  await expect(zeile, 'die Zeile steht unter den Einträgen').toHaveCount(1);
+  await expect(page.locator('.modal, [role="dialog"]').filter({ visible: true }), 'kein Dialog').toHaveCount(0);
+  await zeile.locator('[data-eintrag-edit="system"]').fill('Reisepass');
+  await zeile.locator('[data-eintrag-edit="documentNumber"]').fill('E2E-ZEILE-2');
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  await expect(editor.locator('.liste-eintraege li'), 'Verlassen legt nichts an').toHaveCount(1);
+  await zeile.locator('[data-liste-neu-speichern="idDocuments"]').click();
+  await expect(editor.locator('.liste-eintraege li')).toHaveCount(2);
+  await expect(editor.locator('[data-liste-neu]')).toHaveCount(0);
+  await rubrikOeffnen(page, '[data-eintrag-hinzufuegen="idDocuments"]');
+  await editor.locator('[data-eintrag-hinzufuegen="idDocuments"]').click();
+  await editor.locator('[data-liste-neu] [data-eintrag-edit="documentNumber"]').fill('E2E-ZEILE-VERWORFEN');
+  await editor.locator('[data-liste-neu-abbrechen="idDocuments"]').click();
+  await expect(editor.locator('.liste-eintraege li')).toHaveCount(2);
+  const nummern = await page.evaluate(() => window.__vdOeffentlich.ankerDaten().sektoren.identity.idDocuments.map((e) => e.documentNumber));
+  expect(nummern).toEqual(['E2E-ZEILE-1', 'E2E-ZEILE-2']);
+});
+
+test('[Hinzufügen·Chip] Medikamente: leer die Eingabe, ab einem Medikament „Weiteres Medikament hinzufügen“, der Klick zeigt die Eingabe', async ({ page }) => {
+  await bereitsicht(page, 'health');
+  const feld = page.locator('#content [data-chip-liste="medicationOngoing"]');
+  await expect(feld.locator('[data-chip-weitere]'), 'leer: kein Zweitknopf').toHaveCount(0);
+  await feld.locator('input[data-chip-eingabe]').fill('Beispielol 1-0-0');
+  await feld.locator('button[data-chip-uebernehmen]').click();
+  await oeffneSektor(page, 'identity');
+  await oeffneSektor(page, 'health');
+  await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
+  const weiter = feld.locator('[data-chip-weitere="medicationOngoing"]');
+  await expect(weiter).toHaveText('Weiteres Medikament hinzufügen');
+  await expect(feld.locator('input[data-chip-eingabe]')).toBeHidden();
+  await weiter.click();
+  await expect(feld.locator('input[data-chip-eingabe]')).toBeVisible();
+  await expect(feld.locator('input[data-chip-eingabe]')).toBeFocused();
 });

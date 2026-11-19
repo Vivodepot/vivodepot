@@ -91,7 +91,7 @@ test.describe('Kachel-Icons', () => {
   test('[Kacheln·Icon] jede Kachel der Eintragen-Übersicht: Icon-Fläche 32×32, Symbol mittig, Abstand zum Titel mindestens 8 px', async ({ page }) => {
     await oeffneApp(page);
     await depotAnlegen(page);
-    await page.click('#bt-eintragen');
+    await page.click('#bt-uebersicht');
     await expect(page.locator('.bereich-karte').first()).toBeVisible();
     const werte = await page.evaluate(() => [...document.querySelectorAll('.bereich-karte')].map((karte) => {
       const flaeche = karte.querySelector('.bereich-karte-icon').getBoundingClientRect();

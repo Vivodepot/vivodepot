@@ -139,7 +139,10 @@ function funde(texte) {
       const m = DEFINITION.exec(zeile);
       if (m) ort = m[1] || m[2] || ('<' + m[3] + '>');
       if (KOMMENTAR.test(zeile)) continue;
-      for (const [klasse, rx] of KLASSEN) if (rx.test(zeile)) { const k = datei + '|' + ort + '|' + klasse; raus.set(k, (raus.get(k) || 0) + 1); }
+      // CSP-Hashwerte ('sha256-…' im Kopf) sind base64 und ändern sich mit jedem Stand; ein zufälliges „eID“ darin öffnet keinen Weg
+      // (16.11.2026, Fund an einem Wagen). Nur der Hashwert selbst fällt weg, der Rest der Zeile wird weiter gesucht.
+      const zeileOhneHash = zeile.replace(/'sha(?:256|384|512)-[A-Za-z0-9+/=]+'/g, "''");
+      for (const [klasse, rx] of KLASSEN) if (rx.test(zeileOhneHash)) { const k = datei + '|' + ort + '|' + klasse; raus.set(k, (raus.get(k) || 0) + 1); }
     }
   }
   return raus;   // Stelle → Zahl der Fundzeilen
@@ -238,4 +241,11 @@ test('[Ohne Wallet·Spike·Rot-Beweis] ein Eintrag „Spike, Entwicklerleiste" a
     'vivodepot.html|gibtEsNicht|oid4vp': { anzahl: 1, art: 'begriff', grund: 'Spike, Entwicklerleiste: fort' },
   };
   assert.deepEqual(spikeEintraegeAusserhalb(TEXTE, falsch).sort(), Object.keys(falsch).sort());
+});
+
+test('[Ohne Wallet·CSP-Hash·Rot-Beweis] ein „eID“ im Hashwert der CSP ist kein Fund; ein „eID“ daneben in derselben Zeile bleibt einer', () => {
+  const nurHash = { 'vivodepot.html': '<meta http-equiv="Content-Security-Policy" content="script-src \'sha256-AbceIDx9+/=\'">' };
+  assert.deepEqual([...funde(nurHash).keys()], []);
+  const daneben = { 'vivodepot.html': '<meta content="script-src \'sha256-AbceIDx9+/=\' eID-Weg">' };
+  assert.deepEqual([...funde(daneben).keys()], ['vivodepot.html|(kopf)|eid']);
 });

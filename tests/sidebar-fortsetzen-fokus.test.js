@@ -61,11 +61,14 @@ describe('[renderSidebar] Navigation A (05.10.2026): Bereiche sichtbar, EIN eing
     const start = html.indexOf('<details class="nav-gruppe nav-gruppe-austausch"');
     const punkt = html.slice(start, html.indexOf('</details>', start));
     assert.ok(start >= 0, 'der Punkt fehlt im Markup');
-    for (const anker of ['data-einlesen-zentral', 'data-weitergeben-zentral', 'data-uebergabe-protokoll', 'data-mappe', 'data-prueftermine', 'data-verwaltete-depots']) {
+    for (const anker of ['data-einlesen-schmal', 'data-weitergeben-schmal', 'data-mappe', 'data-prueftermine', 'data-verwaltete-depots']) {
       assert.equal(html.split(anker + '=').length - 1, 1, anker + ' genau einmal in der Seitenleiste');
-      assert.ok(punkt.includes(anker + '='), anker + ' steht im Punkt „Austausch und Überblick“');
+      assert.ok(punkt.includes(anker + '='), anker + ' steht im Punkt „Mehr“ (früher „Austausch und Überblick“)');
     }
-    assert.equal(html.split('class="gruppe-titel"').length - 1, 1, 'nur noch EIN Gruppentitel („Bereiche“), keine Titel NACHSEHEN/AUSTAUSCH');
+    // Umbau U-3 (15.11.2026): „Herausgegeben“ steht oben, nicht im Punkt.
+    assert.equal(html.split('data-uebergabe-protokoll=').length - 1, 1, 'Herausgegeben genau einmal');
+    assert.ok(!punkt.includes('data-uebergabe-protokoll='), 'Herausgegeben steht nicht im Punkt „Mehr“');
+    assert.equal(html.split('class="gruppe-titel"').length - 1, 2, 'zwei Gruppentitel („Bereiche“ und „Anlässe“), keine Titel NACHSEHEN/AUSTAUSCH');
   });
 
   test('"Weitermachen" erscheint NIRGENDS mehr — auch nicht nach mehreren Bereichsbesuchen (Entscheidung 28.08.2026)', async () => {

@@ -3,8 +3,8 @@
    Studio per Ziehen und Ablegen (UX-RbB 12.11.2026): was am Studio-Erstnutzer-Weg hakte
    ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
    (1) Ablegen setzt an die Stelle des Ablegens: „+“ und die freie Fläche ans Ende, eine Karte davor oder dahinter; die
-       Katalog-Ordnung geschieht nur auf „Nach Themen ordnen“. Im einfachen Weg (Assistent) und in der Arbeitsfläche gleich.
-   (2) Der einfache Weg trägt dieselbe Palette (Katalog-Bausteine, „+“, Ziehen); ein Baustein steht höchstens einmal.
+       Katalog-Ordnung geschieht nur auf „Nach Themen ordnen“.
+   (2) Es gibt eine Arbeitsfläche mit einer Bausteinliste (Katalog-Bausteine, „+“, Ziehen); ein Baustein steht höchstens einmal.
    (3) Jede Karte trägt ihr Menü dauerhaft (Nach oben, Nach unten, Entfernen, Bearbeiten); das Bearbeitungsblatt öffnet nicht
        mehr beim Antippen der Karte. Ziehen mit dem Finger: zeigerZiehenBinden (Browserprobe tests/e2e/studio-ziehen-ablegen.spec.js).
    (4) Wörter: Kennung/Code-Wert/IT-Fachleute fort aus den genannten Stellen.
@@ -22,51 +22,29 @@ const ersetzt = (alt, neu) => { assert.ok(HTML.includes(alt), 'Vorbedingung: die
 const KAT = (V, kennung) => { const i = V.FELDKATALOG.findIndex((k) => k.kennung === kennung); assert.ok(i >= 0, kennung); return i; };
 const DREI = ['identity.familyName', 'identity.givenName', 'identity.birthDate'];
 
-function assistentMit(V, kennungen) {
-  V.ASSISTENT.fragen = []; V.ASSISTENT.sprache = 'de';
-  kennungen.forEach((k) => V.assistentKatHinzu(KAT(V, k), null));
-  return V.ASSISTENT.fragen.map((f) => f.kat);
+/* Bis 14.11.2026 trug der einfache Weg eine zweite Liste; seither gibt es eine Arbeitsfläche. Die Aussagen des einfachen Wegs
+   („+“ ans Ende in der Folge des Antippens, ein Baustein höchstens einmal) stehen hier an ihr. */
+function flaecheMit(V, kennungen) {
+  V.STATE.felder = [];
+  kennungen.forEach((k) => V.feldEinfuegen(V.feldAusKatalog(KAT(V, k)), null));
+  return nativ(V.STATE.felder).map((f) => f.feldname);
 }
+const NAMEN = (V, kennungen) => kennungen.map((k) => V.FELDKATALOG[KAT(V, k)].label);
 
-/* ── (1)+(2) einfacher Weg ───────────────────────────────────────────────────────────────────────────────────── */
-test('[Ziehen · einfacher Weg] „+“ setzt ans Ende, in der Folge des Antippens (nicht nach Katalog)', () => {
+/* ── (1)+(2) „+“ und Doppel ─────────────────────────────────────────────────────────────────────────────────── */
+test('[Ziehen · „+“] „+“ setzt ans Ende, in der Folge des Antippens (nicht nach Katalog); ein Baustein steht höchstens einmal', () => {
   const { V } = ladeGenerator(); V.spracheFuerProbeSetzen('de');
-  assert.deepEqual(assistentMit(V, DREI), DREI);
+  assert.deepEqual(flaecheMit(V, DREI), NAMEN(V, DREI));
+  V.feldEinfuegen(V.feldAusKatalog(KAT(V, DREI[2])), null);
+  assert.equal(V.STATE.felder.length, 3, 'zweimal derselbe Baustein');
 });
-test('[Ziehen · einfacher Weg · Rot-Beweis] ein „+“, das vorn einsetzt, fällt auf', () => {
-  const { V } = ladeGenerator({ html: ersetzt('const p = (pos == null) ? ASSISTENT.fragen.length :', 'const p = (pos == null) ? 0 :') }); V.spracheFuerProbeSetzen('de');
-  assert.notDeepEqual(assistentMit(V, DREI), DREI);
-});
-test('[Ziehen · einfacher Weg] Ablegen auf eine Frage setzt davor oder dahinter; ein Baustein steht höchstens einmal', () => {
-  const { V } = ladeGenerator(); V.spracheFuerProbeSetzen('de');
-  assistentMit(V, DREI.slice(0, 2));
-  V.assistentAblegen({ art: 'kat', idx: KAT(V, DREI[2]) }, { index: 1, karte: {}, vor: true });
-  assert.deepEqual(V.ASSISTENT.fragen.map((f) => f.kat), [DREI[0], DREI[2], DREI[1]]);
-  V.assistentKatHinzu(KAT(V, DREI[2]), null);
-  assert.equal(V.ASSISTENT.fragen.length, 3, 'zweimal derselbe Baustein');
-});
-test('[Ziehen · einfacher Weg · Rot-Beweis] ohne die Stelle landet der Baustein am Ende; ohne die Prüfung entsteht ein Doppel', () => {
-  const a = ladeGenerator({ html: ersetzt("if (d.art === 'kat') assistentKatHinzu(d.idx, z.karte ? z.index : null);", "if (d.art === 'kat') assistentKatHinzu(d.idx, null);") });
-  a.V.spracheFuerProbeSetzen('de'); assistentMit(a.V, DREI.slice(0, 2));
-  a.V.assistentAblegen({ art: 'kat', idx: KAT(a.V, DREI[2]) }, { index: 1, karte: {}, vor: true });
-  assert.deepEqual(a.V.ASSISTENT.fragen.map((f) => f.kat), [DREI[0], DREI[1], DREI[2]]);
-  const b = ladeGenerator({ html: ersetzt('if (da >= 0) { assistentMarkieren(da); return; }', '') });
-  b.V.spracheFuerProbeSetzen('de'); assistentMit(b.V, [DREI[0], DREI[0]]);
-  assert.equal(b.V.ASSISTENT.fragen.length, 2);
-});
-test('[Ziehen · einfacher Weg] eine Frage lässt sich verschieben; die Fragen werden Felder der Vorlage in genau dieser Folge', () => {
-  const { V } = ladeGenerator(); V.spracheFuerProbeSetzen('de');
-  assistentMit(V, DREI);
-  V.assistentAblegen({ art: 'feld', i: 2 }, { index: 0, karte: {}, vor: true });
-  assert.deepEqual(V.ASSISTENT.fragen.map((f) => f.kat), [DREI[2], DREI[0], DREI[1]]);
-  const namen = nativ(V.assistentFelder()).map((f) => f.feldname);
-  assert.deepEqual(namen, V.ASSISTENT.fragen.map((f) => V.assistentFrageName(f)));
-});
-test('[Ziehen · einfacher Weg · Rot-Beweis] ein Verschieben, das ans Ende hängt, fällt auf', () => {
-  const { V } = ladeGenerator({ html: ersetzt('ASSISTENT.fragen.splice(ziel, 0, f); assistentZeigen(); assistentMarkieren(ziel);', 'ASSISTENT.fragen.push(f); assistentZeigen();') });
-  V.spracheFuerProbeSetzen('de'); assistentMit(V, DREI);
-  V.assistentAblegen({ art: 'feld', i: 2 }, { index: 0, karte: {}, vor: true });
-  assert.notDeepEqual(V.ASSISTENT.fragen.map((f) => f.kat), [DREI[2], DREI[0], DREI[1]]);
+test('[Ziehen · „+“ · Rot-Beweis] ein „+“, das vorn einsetzt, fällt auf; ohne die Prüfung entsteht ein Doppel', () => {
+  const a = ladeGenerator({ html: ersetzt('  if (pos == null) pos = STATE.felder.length;\n  pos = Math.max(0, Math.min(pos, STATE.felder.length));', '  if (pos == null) pos = 0;\n  pos = Math.max(0, Math.min(pos, STATE.felder.length));') });
+  a.V.spracheFuerProbeSetzen('de');
+  assert.notDeepEqual(flaecheMit(a.V, DREI), NAMEN(a.V, DREI));
+  const b = ladeGenerator({ html: ersetzt('  const da = vorhandenesRegisterfeld(basis);\n  if (da >= 0) {', '  const da = -1;\n  if (da >= 0) {') });
+  b.V.spracheFuerProbeSetzen('de');
+  assert.equal(flaecheMit(b.V, [DREI[0], DREI[0]]).length, 2);
 });
 
 /* ── (1) Arbeitsfläche ───────────────────────────────────────────────────────────────────────────────────────── */
@@ -98,39 +76,41 @@ test('[Ziehen · Arbeitsfläche · Rot-Beweis] ein Ablegen, das die Stelle verwi
 const KARTEN_QUELLE = (h) => h.slice(h.indexOf('function rendereFelder()'), h.indexOf('function verschiebe('));
 test('[Ziehen · Karte] das Menü steht immer da und trägt Bearbeiten, Nach oben, Nach unten, Entfernen; Antippen öffnet das Blatt nicht', () => {
   const q = KARTEN_QUELLE(HTML);
-  for (const t of ["'aria-label': L('Feld bearbeiten'", "'aria-label': L('Feld nach oben'", "'aria-label': L('Feld nach unten'", "'aria-label': L('Feld löschen'"]) assert.ok(q.includes(t), t);
+  /* Dummy 14.11.2026: rechts kleine Symbolknöpfe ✎ ↑ ↓ ✕, je mit Namen für Vorlesegeräte und 44 px Fläche. */
+  for (const t of ["symbol(' vk-bearbeiten', 'Feld bearbeiten', 'Edit field', '✎'", "symbol('', 'Feld nach oben', 'Move field up', '↑'", "symbol('', 'Feld nach unten', 'Move field down', '↓'", "symbol(' gefahr', 'Feld löschen', 'Delete field', '✕'"]) assert.ok(q.includes(t), t);
+  assert.ok(q.includes("'aria-label': L(de, en)"), 'jeder Symbolknopf trägt seinen Namen');
   assert.ok(!/karte\.addEventListener\('click'/.test(q), 'ein Klick auf die Karte öffnet das Bearbeitungsblatt');
-  assert.match(HTML, /#tpl-felder \.vk > \.vk-aktionen:not\(\.bk-aktionen\) \{ position: static; display: flex;/);
-  assert.match(HTML, /#tpl-felder \.vk > \.vk-aktionen button\.mini \{ min-width: 48px; min-height: 48px;/);
+  assert.match(HTML, /#tpl-felder \.vk > \.vk-aktionen:not\(\.bk-aktionen\) \{ position: absolute;[^}]*display: flex;/);
+  assert.match(HTML, /\.vk-symbol \{ min-width: 44px; min-height: 44px;/);
 });
 test('[Ziehen · Karte · Rot-Beweis] das frühere Klick-Öffnen und ein Menü nur bei Hover fallen auf', () => {
   const alt = HTML.replace("    karte.addEventListener('keydown', (e) => {", "    karte.addEventListener('click', () => { if (!probierenAn) oeffneEditor(i); });\n    karte.addEventListener('keydown', (e) => {");
   assert.ok(/karte\.addEventListener\('click'/.test(KARTEN_QUELLE(alt)));
-  const hover = HTML.replace('#tpl-felder .vk > .vk-aktionen:not(.bk-aktionen) { position: static; display: flex;', '#tpl-felder .vk > .vk-aktionen:not(.bk-aktionen) { position: static; display: none;');
-  assert.ok(!/display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;/.test(hover.split('#tpl-felder .vk > .vk-aktionen:not(.bk-aktionen)')[1].slice(0, 80)));
+  const hover = HTML.replace('transform: translateY(-50%); display: flex; gap: 2px;', 'transform: translateY(-50%); display: none; gap: 2px;');
+  assert.doesNotMatch(hover, /#tpl-felder \.vk > \.vk-aktionen:not\(\.bk-aktionen\) \{ position: absolute;[^}]*display: flex;/);
 });
-test('[Ziehen · Finger] Halten und Ziehen ist an Palette und Karten beider Wege gebunden', () => {
+test('[Ziehen · Finger] Halten und Ziehen ist an Bausteinliste und Karten der Arbeitsfläche gebunden', () => {
   assert.match(HTML, /const ZEIGER_HALTEN_MS = \d+;/);
-  assert.match(HTML, /dndBinden\(\); dndZeigerBinden\(\); assistentDndBinden\(\);/);
+  assert.match(HTML, /dndBinden\(\); dndZeigerBinden\(\);/);
   assert.match(HTML, /e\.pointerType !== 'touch'/);
   assert.match(HTML, /document\.addEventListener\('touchmove', \(e\) => \{ if \(st && st\.aktiv && e\.cancelable\) e\.preventDefault\(\); \}, \{ passive: false \}\);/);
 });
 test('[Ziehen · Finger · Rot-Beweis] eine nicht gebundene Fingerbedienung fällt auf', () => {
-  const alt = ersetzt('dndBinden(); dndZeigerBinden(); assistentDndBinden();', 'dndBinden();');
-  assert.ok(!/dndZeigerBinden\(\); assistentDndBinden\(\);/.test(alt));
+  const alt = ersetzt('dndBinden(); dndZeigerBinden();', 'dndBinden();');
+  assert.ok(!/dndBinden\(\); dndZeigerBinden\(\);/.test(alt));
 });
 
 /* ── (4) Wörter ─────────────────────────────────────────────────────────────────────────────────────────────── */
 const WORTE = [
   ['Baustein vorschlagen', 'Suggest a building block'], ['Fehlt etwas?', 'Is something missing?'],
-  ['Werte in der Liste', 'Values in the list'], ['+ Wert in der Liste', '+ Value in the list'],
-  ['Für Fachleute: alle Einstellungen.', 'For specialists: all settings.'], ['Nach Themen ordnen', 'Sort by topic'],
+  ['Antworten zur Auswahl', 'Answers to choose from'], ['+ Wert in der Liste', '+ Value in the list'],   // seit S-3 aus Sicht der Stelle (16.11.2026)
+  ['Nach Themen ordnen', 'Sort by topic'],   // „Für Fachleute: alle Einstellungen.“ stand auf der Kachel „Etwas anderes“, die mit S-1 entfällt
 ];
-const ALT = ['>Kennung vorschlagen<', '>Code-Werte<', '>+ Code-Wert<', 'Für IT-Fachleute: Bausteine', 'Nach Bereichen ordnen'];
+const ALT = ['>Werte in der Liste<', '>Kennung vorschlagen<', '>Code-Werte<', '>+ Code-Wert<', 'Für IT-Fachleute: Bausteine', 'Nach Bereichen ordnen'];
 const wortBefunde = (h) => WORTE.flat().filter((t) => !h.includes(t)).concat(ALT.filter((t) => h.includes(t)));
 test('[Ziehen · Wörter] die neuen Wörter stehen deutsch und englisch, die alten sind fort', () => {
   assert.deepEqual(wortBefunde(HTML), []);
 });
 test('[Ziehen · Wörter · Rot-Beweis] ein altes Wort zurück fällt auf', () => {
-  assert.ok(wortBefunde(ersetzt('>Werte in der Liste<', '>Code-Werte<')).includes('>Code-Werte<'));
+  assert.ok(wortBefunde(ersetzt('>Antworten zur Auswahl<', '>Code-Werte<')).includes('>Code-Werte<'));
 });

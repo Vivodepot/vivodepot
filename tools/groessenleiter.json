@@ -120,5 +120,56 @@
     ],
     "muster_max16": "^max\\(\\s*16px\\s*,\\s*var\\((--fs-role-[a-z]+)\\)\\s*\\)$"
   },
-  "toleranz_px": 0.5
+  "toleranz_px": 0.5,
+  "profile": {
+    "dummy": {
+      "hinweis": "Größen des Desktop-Dummys (U-G, 15.11.2026): Text 14, Titel 22, Abschnitt 16, Gruppe 15, mobil Text 15 und Titel 20. Gilt nur im Stilsatz dummy; der erzeugte Block steht in tools/erscheinung/stil/dummy.css (tools/gestaltung-definition.js --schreiben). Die Stufen der Anwendung oben bleiben.",
+      "stufen": {
+        "anzeige": [
+          22,
+          20
+        ],
+        "titel": [
+          22,
+          20
+        ],
+        "abschnitt": [
+          16,
+          17
+        ],
+        "gruppe": [
+          15,
+          16
+        ],
+        "einleitung": [
+          14,
+          15
+        ],
+        "text": [
+          14,
+          15
+        ],
+        "wert": [
+          14,
+          16
+        ],
+        "label": [
+          14,
+          15
+        ],
+        "knopf": [
+          14,
+          15
+        ],
+        "nav": [
+          14,
+          15
+        ],
+        "hilfe": [
+          14,
+          14
+        ]
+      }
+    }
+  }
 }

@@ -71,10 +71,14 @@ const ZUSTAND_FUNKTIONEN_KERN = Object.freeze(['modulHerkunftSatz', 'modulHerkun
 const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
   'angehoerigenUngeprueft', 'ipsSprachwahlUngeprueft', 'anfrageAbgelaufenHinweis', 'anfrageGeprueftBadge', 'anfrageUngeprueftBadge',
   'betreuungHerkunftText', 'vollmachtHerkunftText', 'k9VorlageHerkunftText',
-  'exportZustandZurueckgehalten',
+  // Häkchen in Gruppen (17.11.2026): der Zustand „Wird nicht mitgeschickt“ je Zeile entfällt; die Aussage trägt der Kasten „Nicht mitgeschickt“.
+  'exportNichtMitgeschicktLabel',
   'herkunftLizenzhinweis', 'herkunftPoweredBy',
   // Signatursatz der Standardvorlagen (06.11.2026, TREUHAND-BEHOERDENNAME): wer signiert hat — Herkunft, nicht selbst prüfbar.
   'standardVorlageSigniertVon',
+  // Herkunftszeile je Feld (Suche U-8 und Fundort, 16.11.2026): woher ein Wert stammt — eingelesen aus einer Quelle, eingetragen von wem,
+  // oder ohne Namensvermerk. Herkunft, die die Empfängerin nicht selbst prüfen kann (herkunftKurzText).
+  'sucheHerkunftEingetragen', 'sucheHerkunftQuelle',
   // U2-ADR-400 Nachtrag 18.10.2026: „Erstellt mit Vivodepot“ auf jeder Ausgabe, ein Herkunftsort-Schlüssel wie herkunftPoweredBy.
   'ausgabeErstelltMit',
   'krisenvorsorgeBedarfHerkunftAbgeleitet', 'krisenvorsorgeBedarfHerkunftUeberschrieben',
@@ -91,6 +95,8 @@ const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
   'vorlagenAbgelaufenZusatz', 'vorlagenWiderrufenZusatz', 'zurueckgehaltenVorhanden',
   // Prüfhinweis bei fremder Signatur (v930): die Aussage „diese Anwendung prüft die Signatur nicht“ und der Text für die prüfende Stelle.
   'mappeFremdPruefHinweis', 'mappePruefKopieText',
+  // Umbau U-10 (16.11.2026): „Stand“ im Blatt einer Herausgabe beschriftet den Stand der Vereinbarung beim Empfänger — nicht selbst prüfbar.
+  'uebergabeDetailStand',
 ]);
 
 function funktionsIndex(quelle) {

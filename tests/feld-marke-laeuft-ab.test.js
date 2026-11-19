@@ -137,7 +137,8 @@ test('[M1·Zug1] wie viele der eingebauten Datumsfelder tragen die Marke — von
   // U2-ADR-465 Mietangaben). Beginn und Lebensmittelpunkt sind Ereignisdaten; das Ende eines Mietzuschusses bekommt keine Marke,
   // weil der Zuschuss keine Unterlage ist, die erneuert werden muss. mitMarke bleibt bei 10.
   // 50 → 51 (05.11.2026, U2-ADR-465 Nr. 35: Anmeldung, fünf Felder): das Einzugsdatum, ohne Marke.
-  assert.equal(datumsfelder, 51, 'von einundfünfzig Datumsfeldern insgesamt');
+  // 51 → 52 (17.11.2026, S-7b U2-ADR-527): socialInsurance.reducedRateProofs/reductionValidUntil, ohne Marke.
+  assert.equal(datumsfelder, 52, 'von zweiundfünfzig Datumsfeldern insgesamt');
   // Ein Geburtsdatum läuft nicht ab — das ist der Sinn der Marke, nicht ihr Nebeneffekt.
   assert.equal(V.feldHatMarke('identitaet', 'birthDate', 'laeuftAb'), false);
   // `ausweis_gueltig` existiert seit Glied 3 nicht mehr als Skalarfeld — kein Absturz, keine Marke.

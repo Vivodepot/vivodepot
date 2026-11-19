@@ -260,6 +260,27 @@
               ]
             },
             {
+              "id": "reducedRateProofs",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "reductionPurpose",
+                  "typ": "text"
+                },
+                {
+                  "id": "reductionValidUntil",
+                  "sensibel": true,
+                  "typ": "datum"
+                },
+                {
+                  "id": "document",
+                  "sensibel": true,
+                  "typ": "ref",
+                  "entitaet": "mappe"
+                }
+              ]
+            },
+            {
               "id": "homeCareServiceNameContact",
               "sensibel": true,
               "typ": "ref",

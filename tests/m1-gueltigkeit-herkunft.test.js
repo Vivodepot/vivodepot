@@ -95,23 +95,17 @@ test('[M1·Zug6] die Kette ist append-only: zweimal setzen, zwei Stempel, der er
   assert.deepEqual(kette[0], erster, 'der erste Eintrag ist eingefroren');
 });
 
-test('[M1·Zug6·Rot] das Prüfblatt ZEIGT den Unterschied — nicht nur das Modell kennt ihn', async () => {
+test('[M1·Zug6·A2] das Prüfblatt unterscheidet über die Stelle: die eigene Frist ohne Zusatz, die Herkunft bleibt im Stempel', async () => {
+  // Herkunft A2 (13.11.2026; Anzeige der Fristen 17.11.2026): „mitgeführt“ (18.08.2026) heißt Stempel, Daten und Ausgabe. In der Zeile
+  // trägt die selbst eingetragene Frist keinen Zusatz; eine eingelesene trägt Zeichen und Stelle (tests/herkunft-zeichen-definition.test.js).
   const V = await depotMitAkteur();
   V.feldGueltigkeitSetzen('identity', 'ausweis_gueltig', null, '2027-09-30');
   const d = V.getData();
   d.feldGueltigkeit.mobility = { passportValidUntil: { bis: '2027-09-30' } };
   V.setData(d);
   const html = V.prueftermineSektionHTML();
-  const treffer = (html.match(new RegExp(V.STRINGS.gueltigkeitSelbstEingetragen, 'g')) || []).length;
-  assert.equal(treffer, 1,
-    'genau EINE der beiden gleich lautenden Fristen trägt die Herkunftsangabe — die selbst gesetzte');
+  assert.ok(!html.includes('von Ihnen eingetragen'), 'kein Zusatz an der selbst gesetzten Frist');
+  assert.equal(V.feldGueltigkeitHerkunft('identity', 'ausweis_gueltig').selbst, true, 'die Herkunft steht weiter im Modell');
+  assert.equal(V.feldGueltigkeitHerkunft('mobility', 'passportValidUntil').selbst, false);
   assert.ok(html.includes('Ausweis') || html.includes('ausweis'), 'und beide Zeilen stehen da');
-});
-
-test('[M1·Zug6] der Wortlaut ist ein VORSCHLAG und steht im Satz, nicht im Quelltext', () => {
-  const { V, src } = ladeKern();
-  assert.equal(V.STRINGS.gueltigkeitSelbstEingetragen, 'von Ihnen eingetragen');
-  // Er darf nirgends als Literal danebenstehen — sonst gäbe es zwei Wahrheiten.
-  const treffer = (src.match(/'von Ihnen eingetragen'|"von Ihnen eingetragen"/g) || []).length;
-  assert.equal(treffer, 1, 'genau eine Fundstelle: die Tabelle selbst');
 });

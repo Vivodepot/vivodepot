@@ -23,8 +23,9 @@ const ABLAGE = 'https://share.vivodepot.de/ablage/abc123';
 const tick = (ms) => new Promise((r) => setTimeout(r, ms || 0));
 const b64u = (s) => Buffer.from(String(s), 'base64url');
 
-const zeilen = (html) => [...String(html).matchAll(/<div class="export-zz( export-zz-gehalten)?" data-sektor="([^"]+)" data-feld="([^"]+)"/g)]
-  .map((m) => ({ gehalten: !!m[1], sektor: m[2], feld: m[3] }));
+// Häkchen in Gruppen (17.11.2026): die Häkchen des Dialogs, nachgebildet (tests/helfer/haekchen-box.js).
+const { haekchenZeilen, haekchenBox, umschalten } = require('./helfer/haekchen-box.js');
+const zeilen = (html) => haekchenZeilen(html).filter((z) => z.feld);
 
 function jweEntschluesseln(jwe, key) {
   const [prot, , iv, ct, tag] = String(jwe).split('.');
@@ -58,7 +59,6 @@ async function fahre({ wahlFeld, sprache, weg, ohneGeburtsdatum, festlegung }) {
   const echt = k.document.getElementById.bind(k.document);
   const echtCreate = k.document.createElement.bind(k.document);
   k.document.createElement = (tag) => { const e = echtCreate(tag); erzeugt.push(e); return e; };
-  const knopf = (z) => ({ getAttribute: (n) => (n === 'data-sektor' ? z.sektor : n === 'data-feld' ? z.feld : null), onclick: null });
   const sprachFeld = { value: sprache };
   const linkEls = { datei: { onclick: null }, bauen: { onclick: null }, url: { value: ABLAGE }, ergebnis: echtCreate('div') };
   let uebersicht = null;
@@ -70,21 +70,18 @@ async function fahre({ wahlFeld, sprache, weg, ohneGeburtsdatum, festlegung }) {
     if (/id="shl-bauen"/.test(html)) {
       return { querySelector: (s) => (s === '#shl-datei' ? linkEls.datei : s === '#shl-bauen' ? linkEls.bauen : s === '#shl-url' ? linkEls.url : s === '#shl-ergebnis' ? linkEls.ergebnis : null), querySelectorAll: () => [] };
     }
-    const knoepfe = zeilen(html).map(knopf);
-    const link = /id="exp-zurueckhalten-weg"/.test(html) ? { onclick: null } : null;
-    uebersicht = { knoepfe, link };
-    return { querySelector: (s) => (s === '#exp-zurueckhalten-weg' ? link : null), querySelectorAll: (s) => (s === '.export-zz-btn' ? knoepfe : []) };
+    uebersicht = haekchenBox(html);
+    return uebersicht;
   };
   const warteAufModal = async (n) => { for (let i = 0; i < 300 && modale.length < n; i++) await tick(10); return modale.length >= n; };
 
   V.flowGesundheitFhirExport();
   if (ohneGeburtsdatum) { await tick(50); return { k, V, modale, ohne: true }; }
   assert.equal(modale.length, 1, 'die Übersicht öffnet sich');
-  uebersicht.link.onclick();
   for (let n = 0; n < 200; n++) {
     const z = zeilen(letztes().koerperHTML).find((x) => x.gehalten === (x.feld === wahlFeld));
     if (!z) break;
-    uebersicht.knoepfe.find((b) => b.getAttribute('data-feld') === z.feld).onclick();
+    umschalten(uebersicht, 'data-feld', z.feld, z.gehalten);
   }
   const uebersichtFertig = letztes().onPrimaer(() => {});                    // „Herausgeben“
   assert.ok(await warteAufModal(2), 'die Sprachwahl öffnet sich');

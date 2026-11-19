@@ -52,7 +52,7 @@ for (const breite of [390, 360, 320]) {
 
 /* Sub-Depot ohne Umfärbung (Umbau nach dem Desktop-Dummy, Wagen 1, Leitfaden 5.24): Im geöffneten Sub-Depot bleibt die Oberfläche Salbei.
    Die Person zeigt sich an drei Stellen: Farbkreis am Depot-Wechsler (Pille nennt ihren Namen), 3-px-Streifen oben an der Kopfzeile,
-   Kontextzeile unter der Kopfzeile mit „Zurück zu meinem Depot“. Rot-Beweis: der Stand vor dem Wagen färbt Kopfzeile und Akzent um
+   Kontextzeile unter der Kopfzeile mit „Zurück zu Ihrem Depot“. Rot-Beweis: der Stand vor dem Wagen färbt Kopfzeile und Akzent um
    (`--vm-chrome` ≠ Salbei) und hat keine Kontextzeile. Bilder: Umgebungsvariable UMBAU_BILDER (Ordner), sonst keine. */
 for (const [breite, hoehe] of [[1280, 800], [375, 812]]) {
   test(`Sub-Depot bei ${breite} px: Oberfläche bleibt Salbei, Person zeigt sich an Pille, Streifen und Kontextzeile`, async ({ page }) => {
@@ -91,7 +91,7 @@ for (const [breite, hoehe] of [[1280, 800], [375, 812]]) {
     expect(kopf.person, '--person ist gesetzt').not.toBe('');
     expect(kopf.zeileSichtbar, 'Kontextzeile steht unter der Kopfzeile').toBe(true);
     expect(kopf.zeileText).toContain('Sophie Beispiel');
-    expect(kopf.zeileText).toContain('Zurück zu meinem Depot');
+    expect(kopf.zeileText).toContain('Zurück zu Ihrem Depot');
     expect(kopf.kreis, 'Kreis zeigt die Initiale').toBe('S');
     expect(Math.abs(kopf.unterKopf), 'Kontextzeile schließt an die Kopfzeile an').toBeLessThanOrEqual(1);
     expect(kopf.pille, 'der Depot-Wechsler nennt die Person, nicht „Mein Depot“').toBe('Sophie Beispiel');

@@ -17,14 +17,18 @@ const test = require('../helfer/nur-privat.js').testMitPrivat(__filename);   // 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { externeModule, entziehtSichBeiFehlendemModul, dateien } = require('../../tools/lib/fremdparser-fehlt.js');
+const { execFileSync } = require('node:child_process');
+const os = require('node:os');
+const { ohneGitUmgebung } = require('../../tools/lib/ohne-git-umgebung.js');
+const { externeModule, entziehtSichBeiFehlendemModul, dateien, dateienImIndex } = require('../../tools/lib/fremdparser-fehlt.js');
 
 const REPO = path.join(__dirname, '..', '..');
 const PAKET = JSON.parse(fs.readFileSync(path.join(REPO, 'package.json'), 'utf8'));
 const DEKLARIERT = new Set(Object.keys(PAKET.dependencies || {}).concat(Object.keys(PAKET.devDependencies || {})));
 // Diese Datei und ihre Bibliothek enthalten gepflanzte Beispiele im Wortlaut.
 const SELBST = /fremdparser-fehlt/;
-const ALLE = dateien([path.join(REPO, 'tests'), path.join(REPO, 'tools')]).filter((p) => !SELBST.test(p));
+// Gelesen wird der Git-Index, nicht der Arbeitsbaum: Zwischendateien paralleler Proben zählen nicht (s. dateienImIndex).
+const ALLE = dateienImIndex(REPO, [path.join(REPO, 'tests'), path.join(REPO, 'tools')]).filter((p) => !SELBST.test(p));
 const NUTZER = new Map();   // Modul → [Dateien]
 for (const p of ALLE) {
   for (const n of externeModule(fs.readFileSync(p, 'utf8'))) NUTZER.set(n, (NUTZER.get(n) || []).concat(path.relative(REPO, p)));
@@ -73,4 +77,31 @@ test('[Fremdmodul·Rot-Beweis] ein nicht installiertes Modul wird von der Auflö
   let gefunden = true;
   try { require.resolve('vd-nicht-installiertes-fremdmodul-probe', { paths: [REPO] }); } catch (_) { gefunden = false; }
   assert.equal(gefunden, false, 'die Auflösung, auf die der Installiert-Test baut, muss ein fehlendes Modul melden');
+});
+
+test('[Fremdmodul·Index] gelesen wird der Git-Index: eine Zwischendatei außerhalb zählt nicht, eine gestagte neue zählt', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'fremdparser-index-'));
+  try {
+    const git = (...a) => execFileSync('git', ['-C', dir, '-c', 'user.email=probe@example.invalid', '-c', 'user.name=probe', ...a], { stdio: 'ignore', env: ohneGitUmgebung() });
+    git('init', '-q');
+    fs.mkdirSync(path.join(dir, 'tests', 'fixtures'), { recursive: true });
+    fs.writeFileSync(path.join(dir, 'tests', 'a.test.js'), "require('vcard-parser');\n");
+    fs.writeFileSync(path.join(dir, 'tests', 'fixtures', 'f.js'), "try { require('ical.js'); } catch (_) {}\n");
+    git('add', '-f', '.');
+    fs.writeFileSync(path.join(dir, 'tests', 'neu.test.js'), "require('ical.js');\n");
+    git('add', 'tests/neu.test.js');
+    fs.writeFileSync(path.join(dir, 'tests', 'zwischen.js'), "try { require('ical.js'); } catch (_) {}\n");
+    const rel = (l) => l.map((p) => path.relative(dir, p)).sort();
+    assert.deepEqual(rel(dateienImIndex(dir, [path.join(dir, 'tests')])), ['tests/a.test.js', 'tests/neu.test.js'],
+      'nur Dateien im Index, ohne fixtures; die ungestagte Zwischendatei zählt nicht');
+    fs.rmSync(path.join(dir, 'tests', 'a.test.js'));
+    assert.deepEqual(rel(dateienImIndex(dir, [path.join(dir, 'tests')])), ['tests/neu.test.js'], 'eine im Arbeitsbaum fehlende Datei wird nicht gelesen');
+    // Rot-Beweis: die alte Wanderung hätte die Zwischendatei gelesen und als „entzieht sich“ gefunden.
+    assert.ok(dateien([path.join(dir, 'tests')]).some((p) => entziehtSichBeiFehlendemModul(fs.readFileSync(p, 'utf8'))), 'Wanderung sieht die Zwischendatei');
+    // Ohne Git gilt die Wanderung.
+    const ohne = fs.mkdtempSync(path.join(os.tmpdir(), 'fremdparser-ohne-'));
+    fs.writeFileSync(path.join(ohne, 'x.js'), '');
+    assert.deepEqual(dateienImIndex(ohne, [ohne]).map((p) => path.basename(p)), ['x.js'], 'ohne Repo: Wanderung');
+    fs.rmSync(ohne, { recursive: true, force: true });
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

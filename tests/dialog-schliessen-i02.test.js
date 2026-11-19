@@ -133,6 +133,42 @@ test('[I02·Klasse] jeder Dialog ohne „Abbrechen“, der eine Zusage schuldet,
   assert.match(KERN.slice(KERN.indexOf('function flowEinstellungen('), KERN.indexOf('function flowEinstellungen(') + 400), /wendetLiveAn: true/);
 });
 
+/* Die Ausnahme „Abbrechen neben einer Eingabe“ (`abbrechenBleibt`) steht nur an benannten Stellen; „Abbrechen“ geht dort den Weg des ✕.
+   · _depotIdentitaetUndPasswortAbfragen: Zielbild 01, Fenster mit Schritten.
+   · flowAnlassExport: U-5 Rest D94, Fuß „Abbrechen / Herausgeben“ im Fenster „Herausgeben“ des Anlasses (Desktop-Dummy 13.11.2026).
+   · flowExportUebersicht reicht die Angabe nur durch (knoepfe.abbrechenBleibt). Jede weitere Stelle ist eine neue Ausnahme und braucht einen eigenen Eintrag. */
+const ABBRECHEN_BLEIBT_STELLEN = ['_depotIdentitaetUndPasswortAbfragen', 'flowAnlassExport'];
+function abbrechenBleibtStellen(kern) {
+  const aus = [];
+  const re = /\babbrechenBleibt: /g;
+  let m;
+  while ((m = re.exec(kern))) {
+    const davor = kern.slice(0, m.index);
+    const f = [...davor.matchAll(/^(?:async )?function ([A-Za-z_$][\w$]*)\(/gm)].pop();
+    aus.push(f ? f[1] : '(ohne Funktion)');
+  }
+  return aus;
+}
+
+test('[I02·Ausnahme] „Abbrechen“ neben einer Eingabe nur an den benannten Stellen; dort geht es den Weg des ✕', () => {
+  assert.deepEqual([...new Set(abbrechenBleibtStellen(KERN))].sort(), [...ABBRECHEN_BLEIBT_STELLEN].sort());
+  const { V, document } = ladeKern();
+  const abbr = mitschreiben(document.getElementById('m-abbr'));
+  V.ui.modal({ titel: 'Herausgeben', koerperHTML: '<label>Mit<input type="checkbox" id="h"></label>', primaerLabel: 'Herausgeben',
+    onPrimaer: (s) => s(), abbrechenBleibt: true });
+  assert.equal(abbr.entfernt, false, 'mit abbrechenBleibt bleibt „Abbrechen“ neben der Eingabe');
+  assert.equal(document.getElementById('m-abbr').onclick, document.getElementById('m-x').onclick, '„Abbrechen“ geht den Weg des ✕');
+});
+
+test('[I02·Ausnahme·Rot-Beweis] eine weitere Stelle mit abbrechenBleibt fällt durch', () => {
+  const gepflanzt = KERN.replace(/^function flowHerausgebenZentral\(/m, (t) => 'function _probeAusnahme() { return { abbrechenBleibt: true }; }\n' + t);
+  assert.notEqual(gepflanzt, KERN, 'Vorbedingung');
+  assert.notDeepEqual([...new Set(abbrechenBleibtStellen(gepflanzt))].sort(), [...ABBRECHEN_BLEIBT_STELLEN].sort());
+  const ohneAnlass = KERN.replace(/\n    abbrechenBleibt: true,\n    aufFortfahren: bauen,/, '\n    aufFortfahren: bauen,');
+  assert.notEqual(ohneAnlass, KERN, 'Vorbedingung: D94 steht im Kern');
+  assert.notDeepEqual([...new Set(abbrechenBleibtStellen(ohneAnlass))].sort(), [...ABBRECHEN_BLEIBT_STELLEN].sort());
+});
+
 test('[I02·Rot-Beweis] der alte Baustein ohne ✕ und ein Aufrufer ohne Angabe fallen durch', () => {
   const ohneVorlage = KERN.replace(/<template id="modal-teile">[\s\S]*?<\/template>/, '');
   assert.notEqual(ohneVorlage, KERN, 'Vorbedingung: die Vorlage steht im Kern');

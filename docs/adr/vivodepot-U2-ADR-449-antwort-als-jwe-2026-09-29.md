@@ -53,8 +53,19 @@ Entschieden am 29.09.2026, vorher unabhängig gegengelesen (drei Auflagen zur Ko
   Punkt 1.
 - Ein fremder Empfänger mit `jose` muss sie setzen.
 
-**Nicht in dieser Fassung:** Die QR-Serie der Antwort in der Bürger-App kommt mit dem Eingang im Studio, der sie liest. Heute
-geht die Antwort als Datei hinaus. Die Lese-App nimmt dieselbe JWE schon aus einer QR-Serie (Einfügen oder Kamera).
+**Nachtrag 16.11.2026: die Antwort als QR-Serie.** Die Bürger-App gibt die Antwort jetzt auch als QR-Serie aus, nicht erst mit
+dem Eingang im Studio. Nach „Antworten“ stehen drei gleichrangige Wege: Datei, Link (nur signiert) und „Als QR zeigen“ (jede
+Antwort).
+- Die Serie trägt die JWE zeichengleich in der Rahmenform `VDQR|gid|i/n|…` (`antwortQrTeile`, `qrTeilePacken`). Die Bilder
+  sind QR nach ISO/IEC 18004, Byte-Modus, Fehlerkorrektur M. Structured Append wird nicht genutzt, weil `BarcodeDetector` nur
+  den Text liefert und die Lese-App die Teile sonst nicht ordnen könnte.
+- Die Lese-App liest die Serie über Einfügen und Kamera (Punkt 6), in beliebiger Reihenfolge. Das Studio liest sie später mit.
+- Die Grenze ist dieselbe wie bei der Anlass-Serie (`ANLASS_QR_TEILE_MAX`). Darüber zeigt das Fenster kein Bild und sagt den
+  Wechsel zu Datei oder Link an.
+- Der Hinweis im Fenster nennt den Leseweg. Er sagt auch, dass eine Handykamera ohne die Lese-App den Inhalt an eine Websuche
+  geben kann. Dort käme nur das Chiffrat mit dem geschützten Kopf an, also Verfahren, zufällige Kennung und Füllung, ohne
+  Aktenzeichen (U2-ADR-520 Nr. 3).
+- Der ANTWORT-JWE-BLOCK und die Verschlüsselung bleiben unverändert. Eine Probe hält den Abdruck des Blocks fest.
 
 **Externe Krypto-Review vor Produktivschaltung**, dieselbe Auflage wie U2-ADR-047 und U2-ADR-153.
 
@@ -92,4 +103,14 @@ konformitaet:
     pruefung:
       - tests/antwort-jwe.test.js
         "[Antwort·JWE·Spiegel] der Block steht in Kern und Lese-App genau einmal und zeichengleich"
+  - aussage: >-
+      Die Bürger-App zeigt die Antwort als QR-Serie; jsQR liest jedes Bild zurück, die Lese-App setzt die Teile in beliebiger
+      Reihenfolge byte-gleich zur Datei-JWE zusammen und öffnet sie zum selben Datensatz; der ANTWORT-JWE-BLOCK bleibt unverändert.
+    zustand: erfuellt
+    herkunft: ISO/IEC 18004:2015; Nachtrag vom 16.11.2026
+    pruefung:
+      - tests/mit-modul/antwort-qr-rundlauf.test.js
+        "[Antwort·QR] Einmalpasswort: JWE → Serie → GIF → jsQR → Lese-App, gemischte Reihenfolge, byte-gleich und derselbe Datensatz"
+      - tests/mit-modul/antwort-qr-rundlauf.test.js
+        "[Antwort·QR·Krypto-unverändert] der ANTWORT-JWE-BLOCK hat seinen Abdruck"
 ```

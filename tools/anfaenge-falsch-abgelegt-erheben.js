@@ -54,6 +54,7 @@ const ENTSCHEIDUNG = {
   'education.employmentContractFixedTerm': [ENDE, 'befristet bis — ein Ende'],
   'socialInsurance.careLevelTimeLimitedUntil': [ENDE, 'befristet bis — ein Ende'],
   'socialInsurance.severeDisabilityCards/validUntil': [ENDE, 'Ausweis gültig bis — ein Ende'],
+  'socialInsurance.reducedRateProofs/reductionValidUntil': [ENDE, 'Nachweis für eine Ermäßigung gültig bis — ein Ende (U2-ADR-527)'],
   'housing.tenancyAgreementFixedTermUntil': [ENDE, 'befristet bis — ein Ende'],
   'housing.furtherHomes/tenancyAgreementFixedTermUntil': [ENDE, 'befristet bis — ein Ende'],
   'emergencyPreparedness.drinkingWaterSupplyCheckShelf': [ENDE, 'Haltbarkeit prüfen bis — ein Ende'],

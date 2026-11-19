@@ -214,6 +214,11 @@
    "cp": "U+FFFD",
    "grund": "nur-code",
    "notiz": "Nur in einem regulären Ausdruck (PNG-Signatur als Text erkannt)."
+  },
+  {
+   "cp": "U+FB05",
+   "grund": "nur-code",
+   "notiz": "In der eingebetteten Bibliothek pdf.js (Ligatur ﬅ → ſt beim Normalisieren von Text), kein angezeigter Text."
   }
  ],
  "bereiche": [

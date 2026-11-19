@@ -4,7 +4,7 @@
   "specVersion": "1.6",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-11-12T00:00:00Z",
+    "timestamp": "2026-11-18T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -610,11 +610,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "5bef7fd1935cec29367825eece292a4e449f10a9fc14fedb83c2ae20ba6b7512"
+          "content": "14bd45e0181ca69077b9e4046c110e5bdd820414a760eab6814837d3014b0636"
         },
         {
           "alg": "SHA-512",
-          "content": "f9111b01ae86f0047a5fe62abc4728bcb3277129373f4910a2fbc4fa853dd733401f33d66f7fc1b822d2e7c62b7775963b163a9efabcf1add82beba043d54b47"
+          "content": "a0c5ed1cd7f50661d5416d96fec10c78be1682859918dec702cdc0e0dbbaa16682433a424412c2bc2f5b79a43e199767d159ff9cef2c456136ebfd7efa0617c0"
         }
       ],
       "properties": [
@@ -1221,6 +1221,60 @@
           "value": "unstructured"
         }
       ]
+    },
+    {
+      "bom-ref": "pdfjs-dist",
+      "type": "library",
+      "name": "pdfjs-dist",
+      "version": "4.10.38",
+      "description": "PDF-Anzeige (pdf.js, legacy-Fassung): zeichnet die Seiten eines PDF im Depot als Bild in die Vorschau; isEvalSupported aus, kein Nachladen, Worker im Hauptfaden.",
+      "purl": "pkg:npm/pdfjs-dist@4.10.38",
+      "author": "Mozilla Foundation",
+      "supplier": {
+        "name": "Mozilla Foundation",
+        "url": [
+          "https://github.com/mozilla/pdf.js"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "76da854e9dca3ef4ea9faa6516028911b4e6f3f453d46b00092f6aa31bc3de68"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "93ac8549c7f2e7279a96f89d74c3fa74561c0c1a4e74b543d37ad5ea0d466a2327e077c8a4b9c1b25bddf1ef7c08bb9bd290182a58ff83ba9eeda91650354768"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "legacy/build/pdf.worker.min.mjs"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "legacy/build/pdf.min.mjs"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
     }
   ],
   "dependencies": [
@@ -1247,7 +1301,8 @@
         "code-liste-esco",
         "code-liste-iso4217",
         "code-liste-xoev-rollencode",
-        "zxing-library"
+        "zxing-library",
+        "pdfjs-dist"
       ]
     },
     {
@@ -1334,6 +1389,10 @@
     },
     {
       "ref": "zxing-library",
+      "dependsOn": []
+    },
+    {
+      "ref": "pdfjs-dist",
       "dependsOn": []
     },
     {

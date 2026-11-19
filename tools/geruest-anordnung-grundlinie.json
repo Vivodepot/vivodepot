@@ -62,16 +62,16 @@
   "anzahl": 13,
   "folge": [
    "nav#bottom-tabs.bottom-tabs",
-   "button#bt-eintragen.bt-tab",
+   "button#bt-uebersicht.bt-tab",
    "span.ico",
    "span.bt-label",
-   "button#bt-herausgeben.bt-tab",
+   "button#bt-bereiche.bt-tab",
    "span.ico",
    "span.bt-label",
    "button#bt-einlesen.bt-tab",
    "span.ico",
    "span.bt-label",
-   "button#bt-verwaltet.bt-tab",
+   "button#bt-herausgeben.bt-tab",
    "span.ico",
    "span.bt-label"
   ]

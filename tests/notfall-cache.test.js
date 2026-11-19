@@ -77,8 +77,10 @@ test('6) renderNotfall zeigt die Felder LIVE aus dem offenen Depot (hinter dem P
   V.sektorFeldSetzen('health', 'bloodType', 'A+');
   V.renderNotfall();
   const html = document.getElementById('content').innerHTML;
-  // Zielbild 06 (05.11.2026): der Name ist der Titel, „Notfall“ ein kleines Etikett; der allgemeine Titel nur, wenn kein Name da ist.
-  assert.match(html, /<h1 class="notfall-name">Maria<\/h1>/, 'Name als Titel');
+  // Dummy 13.11.2026 (U-7, löst Zielbild 06 im Kopf ab): „Notfall“ ist der Titel, der Name steht auf der Karte und über allen Angaben.
+  assert.ok(html.includes('<h1 class="notfall-titel">' + V.STRINGS.navNotfall + '</h1>'), 'Titel „Notfall“');
+  assert.match(html, /class="notfall-karte-liste"[\s\S]*<strong>Maria<\/strong>/, 'Name auf der Karte');
+  assert.ok(html.includes('<p class="notfall-name">Maria</p>'), 'Name über allen Angaben');
   assert.ok(html.includes('notfall-etikett--notfall">' + V.STRINGS.navNotfall + '<'), 'Etikett „Notfall“');
   assert.ok(html.includes('<p class="notfall-fuss">' + V.STRINGS.notfallSelbstEingetragen.replace('{name}', 'Maria') + '</p>'), 'Schlusssatz für Dritte mit dem Namen');
   assert.ok(html.includes('A+'), 'Blutgruppe sichtbar');
@@ -89,7 +91,7 @@ test('7) renderNotfall ohne Daten → klarer Leer-Hinweis, kein Crash', async ()
   V.renderNotfall();
   const html = document.getElementById('content').innerHTML;
   assert.ok(html.includes(V.STRINGS.notfallCacheLeer));
-  assert.ok(html.includes('<h1 class="notfall-name">' + V.STRINGS.notfallCacheTitel + '</h1>'), 'ohne Namen der allgemeine Titel');
+  assert.ok(html.includes('<p class="notfall-name">' + V.STRINGS.notfallCacheTitel + '</p>'), 'ohne Namen der allgemeine Titel über allen Angaben');
 });
 
 test('8) renderNotfall bietet Notfallkarte + QR (Live-Sicht, immer)', async () => {

@@ -1,0 +1,679 @@
+{
+ "zweck": "Grundlinie Teil B (Wort vom 15.11.2026): der gemessene Stand der 83 Commits aus der Inventur. Deckel nur sinkend. Eine Zeile fällt weg, wenn ihr Eigentümer die Zeile mit Kanon-Fundstelle belegt (Feld belegt wird dann gefüllt). Neue Fälle brauchen ein eigenes Wort.",
+ "datum": "2026-11-15",
+ "deckel": 81,
+ "zeilen": [
+  {
+   "commit": "3db196c18a57ae2891e15a89b5d7b2b02ba1b9c4",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "teilweise, kein Zeilenbeleg"
+  },
+  {
+   "commit": "09fd505432709de21d334a29a770fa2e520b2d6b",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle eine Datei ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "06e35d16bfc118c5ee51a8565de07ee88243e27b",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle eine Datei ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "7ed0dbea9d46feff520fd831acbbe345efb1ba45",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-05",
+   "stufe": 1,
+   "grund": "teilweise, kein Zeilenbeleg"
+  },
+  {
+   "commit": "e04049b515ed503a2d9d6778020100235ec9d8d5",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle eine Datei ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "75abc082c1e1d0d12bee429e4bc63e50f765f38a",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "803965d3da32c70172151e393026a7954e8856d0",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "08759cb2165ee3a5bce715fd4d1a90391173a793",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-05",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "d46edfcec965d1e56d436344ac13f648a3b7abc6",
+   "status": "offen",
+   "eigentuemer": "Krypto",
+   "datum": "2026-11-05",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "11ec8c86114c63aafb06a58a8851301cd02df328",
+   "status": "offen",
+   "eigentuemer": "Sub-Depot",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "27b3426fc49b1edebe5503b8937ee10efcd6bc75",
+   "status": "offen",
+   "eigentuemer": "Marketing",
+   "datum": "2026-11-03",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "c9ca7a7d5944df484c4fdc516b3efa090bfb6a31",
+   "status": "offen",
+   "eigentuemer": "Pro",
+   "datum": "2026-10-30",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "a0d9b9d99e4ef2cd8170710c7802e246704958c7",
+   "status": "offen",
+   "eigentuemer": "Pro",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "bf215560a6f15e51e70c8bfaf5da1db28ea1115a",
+   "status": "offen",
+   "eigentuemer": "Pro",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "1d48feb2ee31303ce6d9257d4038887512d62749",
+   "status": "offen",
+   "eigentuemer": "Pro",
+   "datum": "2026-11-05",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "022ead14dcfc8347988319e48c662473828fdb25",
+   "status": "offen",
+   "eigentuemer": "Pro",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "c3b430bdb2b5854ddaec09953e52a7a4ed9d2a08",
+   "status": "offen",
+   "eigentuemer": "Pro",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "81053bca7544c1f863f71a82976ad58ce6bc4d6c",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "e576af9ec695a2db2aa7800af3675b6a17e4efe3",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "0ae80d5e2499f1b2da3af6e2788e092b5a878040",
+   "status": "offen",
+   "eigentuemer": "xShare",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "5ecf3beef9c78ec8294426940dced204e6026a09",
+   "status": "offen",
+   "eigentuemer": "xShare",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "4f2af40b5af79735fbf5c5ae5a5cbaa25d7d703e",
+   "status": "offen",
+   "eigentuemer": "Rechtsraum",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "61720437288f3c81bfaf9e27b957f9a0f8056211",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-04",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "eed53ae2c8141cc235bfe937149e115d3c1005e6",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-10-29",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "7e47f3c8b1beb9df2241c72150906e3ac437e6b9",
+   "status": "offen",
+   "eigentuemer": "Sub-Depot",
+   "datum": "2026-11-06",
+   "stufe": 1,
+   "grund": "offen"
+  },
+  {
+   "commit": "136b821ef38a07699654b9090364d103a274f35c",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "4f18d5342cd0879483bc925ad5ae14dd4ed86773",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle vivodepot.html ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "549b1e80a3f97881daf91461d4b700087c4b9deb",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "54cf2f14d93af369060bd4e916e565e7f13690a8",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "6a2d4bb613ad8e1664bdcdc7cb7425dd55f118f3",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "721f4b7bdb5703445045344f213b2b7210e7bbca",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "76326a308c9ec2fac52b6c070cb1eaf60fef88d2",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "76a0add808c0ad2f94a983114317b0b8ba7827c3",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle eine Datei ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "24d7c805deb3d290a98b666260c9f2789b0c4611",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-10-31",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "a62512f49caf5b49945bd1ece8ac7193b49b5aad",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "cb28549dee5de328dad15c9a6073245abafc5ad4",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "teilweise, kein Zeilenbeleg"
+  },
+  {
+   "commit": "c290a1d946746bc18b2b0d866601e9acbadc6754",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-04",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "cd016e7abc573ec029fab38c9ba353b575c030b0",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "cf700e1309e597ea8ceef62c1d12974d8efa60dc",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "d5bed98a39f56cee949394b43557667e5a1c29eb",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-04",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "f611b3945946a8e07b496cd1df99c2b278cf04c2",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-03",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "1f5f23c1d80dcc60376d12c72ccb9c340560e1e3",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-04",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "3dc65ea8789bb95f2dba2c5debdaae2128c6e88e",
+   "status": "offen",
+   "eigentuemer": "xShare",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "7d1f49793726e9c1d99b9c25e718ce5579df22b0",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-10-26",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "a187c001678269c6f95f107f2e43def3bc23c3e8",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "18d63b7aada7d2b27d48e857ccf94c47ba07938e",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-03",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "5a4a2396934254d2329446b0afdcd47af3cfe2f4",
+   "status": "offen",
+   "eigentuemer": "xShare",
+   "datum": "2026-11-02",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "873a6d967f4f074d4bbd0071920a3d0cac8d97ad",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "b87099f113c4ad74693abb590d7e90dc96fe652e",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "4aa52d8860f5906b648e0beae94254c5aad6e861",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-04",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "f512dc42494b40a4c9239fd5aca28eb25faee2fc",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-10-31",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "e573aed4821589468eca8f6dce7a4958918eec25",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "a812b630351a1351412eb10a95a78c7e4be39a20",
+   "status": "offen",
+   "eigentuemer": "xShare",
+   "datum": "2026-11-05",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "fa471c5c7060a20dd88e269b1ce22279a7fd4f0a",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 2,
+   "grund": "offen"
+  },
+  {
+   "commit": "019dfc3142cf711a6618e1e1775f5cf74096d712",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "07241bdb79f63b9b05a7a14bac87b72f18f5abb0",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "1715e6dd73e37413f0b6fbde2f2a93446e4c5d63",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "1aaca6922059abf3eccec08cbb374b65275ecd4d",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle eine Datei ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "2547821f99c96c8505f40a8953c7e97db0fbca26",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-04",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "53f1a48418647aef38ab9f74eb15a2712ab7f7c9",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "55a3f45752c98e955a37df8b194a2c076616ff07",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-02",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "5615efa552f9107847548c662b96c56e3cb7fee4",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "735a9312709091a0dc97561c8edeba2874f6202c",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "7b1c5469ec5a5f5772de1c1ae6d906c160fc90b1",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "82cc282da29103445940001aea9cd4a754edd81c",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "861acd694937c8231f7796039c85ce4e73d0656d",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "98459912cd25d11340e16e48bb7d8903d4c0f5a6",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "aae21c3ea3f291db43398cd839d34638590454ad",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "b172b1babf88a4efbb824c7e206968164678259f",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "b5ab5b23b72e29be2851985f5067dc1f233adad6",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "b9741c11ce93c512ca1a7fde3ec195a873c2b9ad",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-05",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "c3d2a30662e8bfeec97ad3d388b50a815bb7e0a6",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle eine Datei ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "cf98b80c3d438b8839af23cfdaac0a4252db8ea2",
+   "status": "offen",
+   "eigentuemer": "Folge",
+   "datum": "2026-11-04",
+   "stufe": 3,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle in der Nummern-Reservierung ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "d365129b29d825da785b2a364d196e131b722871",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-04",
+   "stufe": 3,
+   "grund": "teilweise, kein Zeilenbeleg"
+  },
+  {
+   "commit": "db7969c44eb22a7b50e550067fdec624ca276b8d",
+   "status": "offen",
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "abgelöst ohne Zeilenbeleg (Fundstelle eine Datei ohne wörtliche Zeile am Kanon)"
+  },
+  {
+   "commit": "dfa00aaad99c40c2b6f16d05c777270656f9b79e",
+   "status": "offen",
+   "eigentuemer": "xShare",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "e50c1636b0c9d32d78611e4c1afc689d3d40e270",
+   "status": "offen",
+   "eigentuemer": "xShare",
+   "datum": "2026-11-03",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "f44ad5293d172bf512cfd536c25efe4401f5d840",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-05",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "f8135c5dfcb729008cac00700ca20fb758376c50",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-06",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "f9bafa85e54f0250fd66a204cff60bd00b18844e",
+   "status": "offen",
+   "eigentuemer": "Design",
+   "datum": "2026-11-04",
+   "stufe": 3,
+   "grund": "offen"
+  },
+  {
+   "commit": "8937e82870168e68df1a5bcd60ff33cf692070ae",
+   "status": "offen",
+   "eigentuemer": "Prüfregeln",
+   "datum": "2026-11-05",
+   "stufe": 3,
+   "grund": "Fundstelle ohne Beleg: eine generische Zeile, im Kanon nicht eindeutig (Regel vom 15.11.2026)"
+  }
+ ],
+ "belegt": [
+  {
+   "commit": "a24df59419addd0db3b18d695668ef51bc63463b",
+   "status": "abgelöst",
+   "fundstelle": {
+    "datei": "tests/kartentitel-ohne-silbentrennung.test.js",
+    "zeile": "/* Kartentitel neben einem Status-Chip trennen keine Silben (Gestaltungsleitung, 04.11.2026, MITTEL KARTENTITEL-SILBENBRUCH)."
+   },
+   "eigentuemer": "Design",
+   "datum": "2026-11-04",
+   "stufe": 2
+  },
+  {
+   "commit": "c5dc66095b97d739163af784a6d3781ab96e2147",
+   "status": "abgelöst",
+   "fundstelle": {
+    "datei": "tests/bezuege-name-nicht-titel.test.js",
+    "zeile": "/* BEZUG-NAME-ALS-TITEL (04.11.2026). Drei Pro-Felder „Name\" (wer von diesem Depot weiß, Administration intern/extern, wem eine"
+   },
+   "eigentuemer": "Bau Div",
+   "datum": "2026-11-04",
+   "stufe": 2
+  }
+ ]
+}

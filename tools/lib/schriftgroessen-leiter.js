@@ -66,7 +66,8 @@ function deklarationPruefen(wert, leiter) {
   return 'fester Wert';
 }
 function dateiPruefen(text, leiter) {
-  const deklarationen = deklarationenLesen(text);
+  // Gemessen wird der eigene Code: gelistete Fremdbibliotheken (tools/lib/fremdbibliotheken.js) sind ausgeschnitten (17.11.2026).
+  const deklarationen = deklarationenLesen(require('./html-senken.js').ohneFremdbloecke(text));
   const verstoesse = [];
   for (const d of deklarationen) { const grund = deklarationPruefen(d.wert, leiter); if (grund) verstoesse.push({ ...d, grund }); }
   return { deklarationen: deklarationen.length, verstoesse };

@@ -16,11 +16,11 @@
       "grund": "Feld oder Sektion, die die Lese-App nicht führt"
     },
     "hinweis-beispiel": {
-      "anzahl": 590,
+      "anzahl": 591,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "unterfeld-beschriftung": {
-      "anzahl": 111,
+      "anzahl": 113,
       "grund": "Beschriftung eines sensiblen Listen-Unterfelds (selbst oder über sein Trägerfeld); die Lese-App zeigt den Wert nie, also auch nicht seine Beschriftung. Alle übrigen Unterfelder tragen ihre Beschriftung seit 05.10.2026"
     },
     "feldgruppen": {
@@ -44,7 +44,7 @@
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
     },
     "eingabe-zweitknopf": {
-      "anzahl": 127,
+      "anzahl": 129,
       "grund": "Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe"
     },
     "suche-alltag": {

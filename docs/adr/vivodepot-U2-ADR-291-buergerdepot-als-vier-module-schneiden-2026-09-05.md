@@ -190,3 +190,9 @@ allein wäre ein Beleg für den falschen Gegenstand.
   die noch Text trägt. Die Proben fielen darüber, bevor es jemand benutzte.
 - `tools/buergermodul-erzeugen.js` schreibt **keine** Datei mehr ohne ausdrücklichen Pfad: seine
   1,6-MB-Ausgabe verbrauchte niemand. Sein Ergebnis ist das Urteil, nicht das Erzeugnis.
+
+---
+
+## Nachtrag 15.11.2026 — Namen der Achsen
+
+Seit der Entscheidung vom 21.09.2026 (§24.2 des Papiers) heißen die Achsen **Sprache, Rechtsraum, Bereich und Erscheinungsbild**. Die Liste bleibt offen. Zuordnung zu den Bezeichnungen dieses ADR: Struktur = Bereich, Recht = Rechtsraum, Marke = Erscheinungsbild. Der Wortlaut oben bleibt stehen; dieser Nachtrag gilt daneben.

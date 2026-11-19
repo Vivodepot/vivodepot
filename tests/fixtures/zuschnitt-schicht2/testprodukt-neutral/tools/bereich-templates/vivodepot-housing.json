@@ -63,6 +63,12 @@
               "ebene": "modul"
             },
             {
+              "id": "registrationCertificate",
+              "sensibel": true,
+              "typ": "ref",
+              "entitaet": "mappe"
+            },
+            {
               "id": "ownedOrRented",
               "typ": "auswahl",
               "optionen": [

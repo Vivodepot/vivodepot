@@ -191,7 +191,7 @@ const RECHTSRAUM_BAUPLAN_PFADE = Object.freeze(rechtsraumBauplanPfade());
 const ERSCHEINUNGSBILD_HEUTE_PFAD = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-heute-modul.json');
 /* Ab Werk (U2-ADR-473 W5a, 06.10.2026): das Profil „Salbei mit Glas“ (Produktentscheidung 06.10.2026). „heute“ bleibt ein tauschbares Profil.
    Ein anderes Ab-Werk-Bild ist genau diese eine Zeile: das Gerüst kennt keinen Profilnamen. */
-const ERSCHEINUNGSBILD_AB_WERK_PFAD = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-salbei-glas-modul.json');
+const ERSCHEINUNGSBILD_AB_WERK_PFAD = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-dummy-modul.json');   // U-G 15.11.2026: Ab Werk das Aussehen des Dummys (vorher Salbei mit Glas, Profil bleibt)
 // Gerüst-Schnitt S7: die dreizehn nativen Bereichs-Definitionen (Grundlage der ruhenden Bereiche, B12), erzeugt aus den 13 Bereichs-Templates
 // (ein nicht öffentliches Werkzeug). Produktunabhängig: dieselbe Datei in jedem der vier Produkte.
 const BEREICHE_NATIV_KATALOG_PFAD = path.join(REPO, 'tools', 'bereiche-nativ-katalog-modul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)

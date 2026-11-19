@@ -12,6 +12,11 @@
    Eine Ausnahme, benannt: die Auswahl für das ganze Depot ohne Bereich. Die Entscheidung vom 12.08.2026 führt sie
    unter „Was offen bleibt“; sie trägt bis zu einer Entscheidung darüber Kästchen. Die Probe hält fest, dass es
    genau diese eine ist, und schlägt an, sobald sie entfällt oder eine zweite dazukommt.
+
+   Seit 17.11.2026 (Entscheidung „Freigabe mit Häkchen in Gruppen“, ersetzt die vom 12.08.2026 für die Herausgabe) trägt
+   der eine Herausgabe-Dialog Häkchen je Angabe. Er steht in einem Block `data-herausgabe-haekchen` und wird wie der
+   Nachtrag-Editor herausgenommen; seine sechs Punkte prüft tests/herausgabe-haekchen-gruppen.test.js. Jedes Kästchen
+   außerhalb dieses Blocks schlägt weiter an.
    ═══════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -35,11 +40,12 @@ async function depot() {
 /* Ein Kästchen, mit dem die Person eine fehlende Angabe an Ort und Stelle einträgt (Ja/Nein-Feld im Nachtrag-Editor),
    ist eine Eingabe, keine Auswahl dessen, was hinausgeht. Der Editor steht in einem Block `zus-fuellen`; die Probe
    nimmt genau diese Blöcke heraus und nichts sonst. */
+const AUSGENOMMEN = ['<div class="zus-fuellen"', '<div class="export-uebersicht-block export-haekchen" data-herausgabe-haekchen>'];
 function ohneNachtragEditor(html) {
   let aus = '', i = 0;
   for (;;) {
-    const a = html.indexOf('<div class="zus-fuellen"', i);
-    if (a < 0) return aus + html.slice(i);
+    const a = Math.min(...AUSGENOMMEN.map((s) => { const x = html.indexOf(s, i); return x < 0 ? Infinity : x; }));
+    if (a === Infinity) return aus + html.slice(i);
     aus += html.slice(i, a);
     let tiefe = 0, p = a;
     const re = /<div\b|<\/div>/g;
@@ -106,4 +112,8 @@ test('[Austausch·Rot-Beweis] ein Kästchen in einem Fenster des Wegs schlägt d
   const editor = '<div class="zus-fuellen" role="group"><div><input type="checkbox"></div></div>';
   assert.equal(hatKaestchen(editor), false, 'die Eingabe im Nachtrag-Editor ist keine Auswahl');
   assert.equal(hatKaestchen(editor + '<input type="checkbox">'), true, 'ein Kästchen hinter dem Editor fällt auf');
+  // Gegenprobe zum Häkchen-Dialog: seine Häkchen zählen nicht, eines hinter dem Block zählt.
+  const haekchen = '<div class="export-uebersicht-block export-haekchen" data-herausgabe-haekchen><input type="checkbox" class="export-haken"></div>';
+  assert.equal(hatKaestchen(haekchen), false, 'der entschiedene Häkchen-Dialog ist ausgenommen');
+  assert.equal(hatKaestchen(haekchen + '<input type="checkbox">'), true, 'ein Kästchen hinter dem Häkchen-Dialog fällt auf');
 });

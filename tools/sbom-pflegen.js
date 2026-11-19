@@ -250,6 +250,14 @@ const REFERENZ = {
     dateinamen: ['esm/core/datamatrix/DataMatrixReader.js'],
     klasse: { executable: 'executable', archive: 'no archive', structured: 'unstructured' },
   },
+  'pdfjs-dist': {
+    author: 'Mozilla Foundation', // Copyright-Kopf jeder Bündeldatei („Copyright 2024 Mozilla Foundation“), github.com/mozilla/pdf.js
+    supplier: { name: 'Mozilla Foundation', url: ['https://github.com/mozilla/pdf.js'] },
+    // legacy/build aus dem npm-Paket pdfjs-dist 4.10.38, gebaut mit tools/pdfjs-einbetten.js (Integrität des Tarballs geprüft);
+    // nur die export-Anweisungen sind ersetzt. Prüfung: node tools/pdfjs-einbetten.js --pruefen.
+    dateinamen: ['legacy/build/pdf.worker.min.mjs', 'legacy/build/pdf.min.mjs'],
+    klasse: { executable: 'executable', archive: 'no archive', structured: 'unstructured' },
+  },
   'font-inter': {
     author: 'The Inter Project Authors', // OFL.txt-Lizenzkopf, github.com/rsms/inter
     supplier: { name: 'The Inter Project Authors', url: ['https://github.com/rsms/inter'] },
@@ -532,7 +540,7 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO, traegerWurzel = repo) {
 
   // jspdf, qrcode-generator — Version/purl/Lizenz aus dem @vd-lib-Marker, Hash aus dem
   // tatsächlichen Skriptblock (nicht aus dem Marker — der trägt keinen verlässlichen Hash).
-  for (const name of ['jspdf', 'qrcode-generator', 'noble-ed25519', 'zxing-library']) {
+  for (const name of ['jspdf', 'qrcode-generator', 'noble-ed25519', 'zxing-library', 'pdfjs-dist']) {
     const lib = libs.get(name);
     if (!lib) throw new Error(`Kein @vd-lib status="inline"-Marker für „${name}" gefunden.`);
     const markerIdx = html.indexOf(`@vd-lib name="${name}"`);

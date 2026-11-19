@@ -26,12 +26,19 @@ async function mitDialog(page) {
 test('[Glas] Kopf, Leiste, Dialog und Abdunklung sind Glas, tags und nachts', async ({ page }) => {
   await h.oeffneApp(page);
   await h.depotAnlegen(page, { name: 'Elisabeth Muster', pw: 'e2e-passwort-123' });
+  // Das Profil bestimmt die Erwartung: mit Glas Deckkraft < 1 und backdrop-filter, ohne Glas (--dialog-deckkraft 1, Dummy 15.11.2026) deckend und ohne Filter.
+  const glas = await h.profilTraegtGlas(page);
   await mitDialog(page);
   for (const [modus, knopf] of [['tag', null], ['nacht', '#tb-nacht']]) {
     if (knopf) { await page.evaluate(() => document.getElementById('tb-nacht').click()); await page.waitForTimeout(300); }
     const w = await wirkt(page);
     for (const s of FLAECHEN) {
       expect(w[s], modus + ' ' + s + ' fehlt').not.toBeNull();
+      if (!glas) {   // tags und nachts: Nacht ohne Glas (15.11.2026)
+        if (s !== '#modal-rueck') expect(w[s].alpha, modus + ' ' + s + ': Profil ohne Glas, Fläche deckend').toBe(1);   // die Abdunklung bleibt ein Schleier, nachts ohne Weichzeichner
+        expect(w[s].blur, modus + ' ' + s + ': Profil ohne Glas, kein backdrop-filter').toBe(false);
+        continue;
+      }
       if (s === '#modal-rueck' && modus === 'nacht') continue;   // die Abdunklung ist nachts der Schleier des Kerns
       expect(w[s].alpha, modus + ' ' + s + ': Fläche deckend — eine spezifischere Regel schlägt das Glas').toBeLessThan(1);
       expect(w[s].blur, modus + ' ' + s + ': kein backdrop-filter').toBe(true);

@@ -78,7 +78,7 @@ test('§1 ephemer: eine VORHER gesetzte Sensibel-Markierung überlebt den Export
 // + „Nicht mitgeschickt"-Satz + „Etwas zurückhalten"-Zweitweg. `sektorId:null` (Gesamt-PDF/
 // volles JSON, hier NICHT geprüft) bleibt unverändert Opt-in mit Kästchen — s.
 // export-durchgang.test.js.
-test('§1 Dialog rendert Opt-out (sektorId gesetzt): kein Kästchen, Leseliste, „Etwas zurückhalten"', async () => {
+test('§1 Dialog rendert mit Häkchen (sektorId gesetzt): Häkchen je Angabe, Satz, Zusammenfassung', async () => {
   const { V, document } = await frischMitDepot();
   V.sektorFeldSetzen('identity', 'givenName', 'Maria');
   V.betreteApp();
@@ -86,9 +86,9 @@ test('§1 Dialog rendert Opt-out (sektorId gesetzt): kein Kästchen, Leseliste, 
   const modal = document.getElementById('modal-inhalt');
   assert.ok(modal, 'Modal gerendert');
   const html = modal.innerHTML;
-  assert.ok(!html.includes('type="checkbox"'), 'kein Kästchen mehr im Normalweg');
-  assert.ok(html.includes('exp-zurueckhalten-weg') && html.includes(V.STRINGS.exportEtwasZurueckhalten),
-    '„Etwas zurückhalten"-Zweitweg vorhanden');
+  // Häkchen in Gruppen (17.11.2026): je Angabe ein Häkchen, der Satz über der Liste, die Zusammenfassung.
+  assert.ok(html.includes('class="export-haken"'), 'je Angabe ein Häkchen');
+  assert.ok(html.includes(V.STRINGS.exportHaekchenSatz) && html.includes('id="export-zusammenfassung"'), 'Satz und Zusammenfassung');
   assert.ok(html.includes('Maria') || html.includes('Vorname'), 'das gefüllte Feld steht in der Geht-mit-Liste');
 });
 

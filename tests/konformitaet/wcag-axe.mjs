@@ -167,8 +167,8 @@ test('[Konformität] axe-core WCAG 2.2 AA über alle V1-Sichten', async (t) => {
     // Seit Befund UX-DOKUMENT-ABLEGEN (30.10.2026) öffnet „Was hier hineingehört“ als Dialog über „Meine Dokumente“; der Name bleibt.
     await klickVersuch('bestand-auswahl',      [AUSTAUSCH, '[data-mappe]', '#mappe-bestand-link']);
     await klickVersuch('depot-liste',          ['#tb-depot-pille', '#tb-depot-menue-liste']);
-    // Der Bottom-Tab „Eintragen" steht nur in schmaler Ansicht (.bottom-tabs ab der Mobil-Breite), dort öffnet ihn eine Person.
-    await klickVersuch('eintragen-uebersicht', ['#bt-eintragen'], { breite: 390 });
+    // Der Bottom-Tab „Übersicht" steht nur in schmaler Ansicht (.bottom-tabs ab der Mobil-Breite), dort öffnet ihn eine Person.
+    await klickVersuch('eintragen-uebersicht', ['#bt-uebersicht'], { breite: 390 });
     // Ein frisch angelegtes Sub-Depot ist versiegelt (istEntsiegelt: kein Sub-Schlüssel im RAM) — der Normalzustand der
     // Karten-Übersicht, und der Knopf „Entsiegeln“ darauf öffnet den Passwort-Dialog.
     await page.evaluate(() => window.__vdOeffentlich.subDepotAnlegen({ bezeichnung: 'S2', inhaberin: 'I2', verwaltungsTyp: 'verwaltet', akzent: 'sand' }, 'pw2'));

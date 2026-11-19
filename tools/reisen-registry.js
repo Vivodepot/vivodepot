@@ -29,7 +29,7 @@
    Sammelfunktion.
    ════════════════════════════════════════════════════════════════════════════ */
 const path = require('node:path');
-const { einmalDialogeSchliessen, feldgruppenKartenOeffnen } = require('../tests/e2e/helpers.js');
+const { einmalDialogeSchliessen, feldgruppenKartenOeffnen, rubrikOeffnen, eintragDetailOeffnenMobil } = require('../tests/e2e/helpers.js');
 
 const PW = 'Reise-2026!!';   // ≥ 12 Zeichen (PW_MIN_EIGEN, 08.10.2026)
 
@@ -41,6 +41,20 @@ const PW = 'Reise-2026!!';   // ≥ 12 Zeichen (PW_MIN_EIGEN, 08.10.2026)
    Kern-Felder hat, unter einem <details class="mehr-block">, geschlossen, solange nichts
    darin steht. Ein Klick auf ein Kind eines geschlossenen <details> trifft nichts (gemessen
    02.08. bei 390px: „element is not visible"). Erst das <summary> öffnen, wie eine Bürgerin. */
+/* Die Seitenleiste am Handy öffnen: über den Menü-Knopf im Kopf, wo er sichtbar ist, sonst über den Tab „Bereiche“ unten
+   (seit der Kopfleiste nach dem Desktop-Dummy, 17.11.2026, steht bis 767 px kein Menü-Knopf im Kopf). Ist beides verborgen
+   (Schreibtisch), steht die Seitenleiste schon offen. Derselbe Weg wie schubfachOeffnen in tests/e2e/helpers.js. */
+async function seitenleisteOeffnenMobil(seite) {
+  for (const knopf of ['#tb-menue', '#bt-bereiche']) {
+    const k = seite.locator(knopf);
+    if (await k.isVisible().catch(() => false)) {
+      await k.click({ timeout: 5000 });
+      await seite.waitForSelector('#app.menue-auf', { timeout: 5000 });
+      return;
+    }
+  }
+}
+
 async function oeffneMehrBlockFuer(seite, feldId) {
   const block = seite.locator('details.mehr-block:has([data-feld-liste="' + feldId + '"])');
   if (!(await block.count())) return;
@@ -49,11 +63,7 @@ async function oeffneMehrBlockFuer(seite, feldId) {
 }
 
 async function oeffneSektorMobil(seite, sektorId) {
-  const hamburger = seite.locator('#tb-menue');
-  if (await hamburger.isVisible().catch(() => false)) {
-    await hamburger.click({ timeout: 5000 });
-    await seite.waitForSelector('#app.menue-auf', { timeout: 5000 });
-  }
+  await seitenleisteOeffnenMobil(seite);
   // U2-ADR-171 (25.08.2026): der Bereichs-Knopf steckt seit heute in einem kollabierbaren
   // <details class="nav-gruppe"> — derselbe Fix wie in tests/e2e/helpers.js oeffneSektor().
   // Navigation A (05.10.2026): Umschalter „Alle Bereiche zeigen“ entfallen, die Cluster stehen direkt in der
@@ -67,6 +77,7 @@ async function oeffneSektorMobil(seite, sektorId) {
   }
   await knopf.click({ timeout: 5000 });
   await seite.waitForSelector('#content .bereich-kopf', { timeout: 5000 });
+  await eintragDetailOeffnenMobil(seite);
   // Statuskarten (Task B.1ff., 26.08.2026): dieselbe Öffnen-vor-Zugriff-Falle wie beim
   // nav-gruppe-Klick oben, eine Ebene tiefer — s. tests/e2e/helpers.js feldgruppenKartenOeffnen.
   await feldgruppenKartenOeffnen(seite);
@@ -77,11 +88,7 @@ async function oeffneSektorMobil(seite, sektorId) {
    sie NACH dem Passwort-Setzen zum Erbfall-Blatt zurück muss (betreteApp() landet auf einem
    Sektor, nicht auf dem vorher offenen Situationsblatt). */
 async function oeffneAnlassAuswahlMobil(seite) {
-  const hamburger = seite.locator('#tb-menue');
-  if (await hamburger.isVisible().catch(() => false)) {
-    await hamburger.click({ timeout: 5000 });
-    await seite.waitForSelector('#app.menue-auf', { timeout: 5000 });
-  }
+  await seitenleisteOeffnenMobil(seite);
   await seite.click('[data-anlass-auswahl]', { timeout: 5000 });
 }
 
@@ -315,7 +322,7 @@ const REISE_2_PETRA = {
       titel: 'Blutgruppe eintragen (Akutdatum, speist die Notfall-Sicht)',
       veraendernd: true,
       aktion: async (seite) => {
-        await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 });
+        await rubrikOeffnen(seite, '[data-edit="bloodType"]'); await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 });
       },
       // Auftrag Sektorfeld-Autosave-Rückmeldung (03.08.2026): die aria-live-Ansage ist mit
       // 600ms entprellt (vivodepot.html, _feldAutosaveSignalisieren) — unter dem Standard-Wartezeit
@@ -328,11 +335,7 @@ const REISE_2_PETRA = {
       titel: 'Notfall-Sicht über die Seitenleiste öffnen (Wortlaut + Reihenfolge, DOM-Protokoll)',
       veraendernd: false,
       aktion: async (seite) => {
-        const hamburger = seite.locator('#tb-menue');
-        if (await hamburger.isVisible().catch(() => false)) {
-          await hamburger.click({ timeout: 5000 });
-          await seite.waitForSelector('#app.menue-auf', { timeout: 5000 });
-        }
+        await seitenleisteOeffnenMobil(seite);
         await seite.click('[data-notfall="1"]', { timeout: 5000 });
         await seite.waitForSelector('#n-karte', { state: 'visible', timeout: 10000 });
       },
@@ -522,7 +525,7 @@ const REISE_3_ANJA = {
       id: 'S6-blutgruppe-eintragen',
       titel: 'Blutgruppe eintragen (Allowlist-Feld — muss Anja später sichtbar sein)',
       veraendernd: true,
-      aktion: async (seite) => { await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 }); },
+      aktion: async (seite) => { await rubrikOeffnen(seite, '[data-edit="bloodType"]'); await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 }); },
       wartenMs: 800,   // Autosave-Ansage entprellt bei 600ms, s. Reise-2-Kopfkommentar
     },
     {
@@ -563,7 +566,9 @@ const REISE_3_ANJA = {
       titel: 'Einstellungen über das Zahnrad in der Kopfzeile öffnen',
       veraendernd: false,
       aktion: async (seite) => {
-        await seite.click('#tb-einstellungen', { timeout: 5000 });
+        // Seit der Kopfleiste nach dem Desktop-Dummy (17.11.2026) steht das Zahnrad bis 767 px nicht mehr im Kopf, sondern in der Seitenleiste.
+        if (await seite.locator('#tb-einstellungen').isVisible().catch(() => false)) await seite.click('#tb-einstellungen', { timeout: 5000 });
+        else { await seitenleisteOeffnenMobil(seite); await seite.click('#sidebar [data-einstellungen]', { timeout: 5000 }); }
         /* D.4 (Rest-Sichten, 26.08.2026): Empfängerkreise liegt jetzt hinter <details>
            (Abschnitte kollabiert, kurzer Klartext-Status statt vollem Erklärsatz) — die
            summary muss einmal aufgeklappt werden, bevor „Personen hinzufügen" sichtbar wird.
@@ -812,7 +817,7 @@ const REISE_4_THOMAS = {
       id: 'S10-blutgruppe-eintragen',
       titel: 'Erstes echtes Feld für Heinrich eintragen (schließt die im GESAMT-Dokument offene Lücke)',
       veraendernd: true,
-      aktion: async (seite) => { await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 }); },
+      aktion: async (seite) => { await rubrikOeffnen(seite, '[data-edit="bloodType"]'); await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 }); },
       wartenMs: 800,
     },
   ],
@@ -943,7 +948,7 @@ const REISE_5_RENATE = {
       titel: '„Konten & Vermögen" — Konten & Depots eintragen',
       veraendernd: true,
       aktion: async (seite) => {
-        await seite.fill('[data-edit="erb_konten"]', 'Sparkasse Musterstadt, IBAN endet auf 4711', { timeout: 5000 });
+        await rubrikOeffnen(seite, '[data-edit="erb_konten"]'); await seite.fill('[data-edit="erb_konten"]', 'Sparkasse Musterstadt, IBAN endet auf 4711', { timeout: 5000 });
         await seite.locator('[data-edit="erb_konten"]').blur();
       },
       wartenMs: 800,
@@ -953,7 +958,7 @@ const REISE_5_RENATE = {
       titel: '„Verträge & laufende Zahlungen" — zu kündigende Verträge eintragen',
       veraendernd: true,
       aktion: async (seite) => {
-        await seite.fill('[data-edit="erb_vertraege_kuendigen"]', 'Zeitschriften-Abo, Fitnessstudio', { timeout: 5000 });
+        await rubrikOeffnen(seite, '[data-edit="erb_vertraege_kuendigen"]'); await seite.fill('[data-edit="erb_vertraege_kuendigen"]', 'Zeitschriften-Abo, Fitnessstudio', { timeout: 5000 });
         await seite.locator('[data-edit="erb_vertraege_kuendigen"]').blur();
       },
       wartenMs: 800,
@@ -963,7 +968,7 @@ const REISE_5_RENATE = {
       titel: '„Kontakte fürs Erbe" — wer zu informieren ist eintragen',
       veraendernd: true,
       aktion: async (seite) => {
-        await seite.fill('[data-edit="erb_zu_informieren"]', 'Steuerberater, Vermieter', { timeout: 5000 });
+        await rubrikOeffnen(seite, '[data-edit="erb_zu_informieren"]'); await seite.fill('[data-edit="erb_zu_informieren"]', 'Steuerberater, Vermieter', { timeout: 5000 });
         await seite.locator('[data-edit="erb_zu_informieren"]').blur();
       },
       wartenMs: 800,
@@ -979,6 +984,8 @@ const REISE_5_RENATE = {
       titel: 'Einen Erben eintragen (Chip-Input: Name tippen, Enter bestätigt, „Hinzufügen“ in der Maske legt an)',
       veraendernd: true,
       aktion: async (seite) => {
+        await seite.waitForSelector('[data-edit-refm-override="heirsBriefOverview"]', { state: 'attached', timeout: 5000 });
+        await rubrikOeffnen(seite, '[data-edit-refm-override="heirsBriefOverview"]');
         await seite.waitForSelector('[data-edit-refm-override="heirsBriefOverview"]', { state: 'visible', timeout: 5000 });
         await seite.fill('[data-edit-refm-override="heirsBriefOverview"]', 'Katrin Beispiel', { timeout: 5000 });
         await seite.press('[data-edit-refm-override="heirsBriefOverview"]', 'Enter', { timeout: 5000 });
@@ -1011,4 +1018,4 @@ const REISE_5_RENATE = {
 
 const REISEN = [REISE_1_MARLIES, REISE_2_PETRA, REISE_3_ANJA, REISE_4_THOMAS, REISE_5_RENATE];
 
-module.exports = { REISEN, PW, oeffneSektorMobil };
+module.exports = { REISEN, PW, oeffneSektorMobil, seitenleisteOeffnenMobil };

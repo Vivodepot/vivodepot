@@ -194,8 +194,25 @@ test('Zug 5 — Liste zeigt Empfänger, Zweck, Datum und je eine Zurücknehmen-/
   const html = dok.getElementById('content').innerHTML;
   assert.ok(html.includes('Dr. Müller'));
   assert.ok(html.includes('Behandlung'));
-  assert.ok(html.includes('data-uebergabe-zuruecknehmen="' + e.kennung + '"'), 'Rücknahme-Weg AM Eintrag (kein eigener Menüpunkt)');
-  assert.ok(html.includes('data-uebergabe-loeschen="' + e.kennung + '"'));
+  // U-10 (Dummy D64): die Zeile trägt „Ansehen“; das Blatt dahinter trägt die Wege am Eintrag.
+  assert.ok(html.includes('<table class="uebergabe-tabelle">'), 'Herausgegeben ist eine Tabelle');
+  for (const k of ['uebergabeSpalteWann', 'uebergabeSpalteAn', 'uebergabeSpalteWas', 'uebergabeSpalteFormat']) assert.ok(html.includes(V.STRINGS[k]), k + ' fehlt im Kopf');
+  assert.ok(html.includes('data-uebergabe-ansehen="' + e.kennung + '"'), 'Ansehen am Eintrag');
+  V.uebergabeEintragAnsehen(e.kennung);
+  const blatt = dok.getElementById('modal-inhalt').innerHTML;
+  assert.ok(blatt.includes('Kopie Patientenverfügung'), 'das Blatt nennt den Umfang');
+  assert.ok(blatt.includes('data-uebergabe-zuruecknehmen="' + e.kennung + '"'), 'Rücknahme-Weg AM Eintrag (kein eigener Menüpunkt)');
+  assert.ok(blatt.includes('data-uebergabe-loeschen="' + e.kennung + '"'));
+});
+
+test('U-10 — Format aus der Herkunft: Bezeichnung des Exportformats, von Hand nachgetragen ohne Format', async () => {
+  const { V } = ladeKern();
+  await V.depotAnlegen(PW);
+  const ex = V.uebergabeProtokollEintragen({ empfaenger: 'Dr. Müller', zweck: 'Behandlung', umfang: 'Kopie', herkunft: 'export:fhir-ips' });
+  const ma = V.uebergabeProtokollEintragen({ empfaenger: 'Frau Kohl', zweck: 'Ausdruck', umfang: 'Ausdruck', herkunft: 'manuell' });
+  assert.equal(V.uebergabeFormatText(ex), V.STRINGS.fhirExportLabel);
+  assert.equal(V.uebergabeFormatText(ma), '');
+  assert.ok(V.uebergabeProtokollZeileHTML(ex).includes(V.STRINGS.fhirExportLabel));
 });
 
 test('Zug 5 — oeffneUebergabeProtokoll setzt die Ansicht (kein eigener Menüpunkt „Widerruf" nötig, gleicher Ort)', async () => {
@@ -351,4 +368,17 @@ test('[anfragenOrtHTML] mindestens eine Anfrage vorhanden (auch beantwortet/nich
   const details = html.match(/<details class="anfragen-ort"[^>]*>/);
   assert.ok(details);
   assert.ok(details[0].includes(' open'), 'muss bei JEDER vorhandenen Anfrage offen sein, nicht nur bei Zustand "offen"');
+});
+
+test('U-10 — Format nur aus der festen Liste bekannter Formate: gepflanzte Herkunft ergibt neutralen Text, nie den rohen Wert', async () => {
+  const { V } = ladeKern();
+  await V.depotAnlegen(PW);
+  const faelle = ['export:<script>alert(1)</script>', 'geprueft:qualifiziert', 'export:geprueft@1', 'export:', 'export:unbekannt@9'];
+  for (const herkunft of faelle) {
+    const e = V.uebergabeProtokollEintragen({ empfaenger: 'Gepflanzt', zweck: 'Probe', umfang: 'x', herkunft });
+    assert.equal(V.uebergabeFormatText(e), '', 'Herkunft „' + herkunft + '“ ergibt neutralen Text');
+    const zeile = V.uebergabeProtokollZeileHTML(e);
+    assert.ok(!zeile.includes('<script'), 'kein Markup aus der Herkunft in der Zeile');
+    assert.ok(!/geprueft|unbekannt/.test(zeile), 'kein roher Herkunftswert in der Zeile: ' + herkunft);
+  }
 });

@@ -5,6 +5,8 @@
    „übersprungen": ein übersprungener Test sieht in der Zusammenfassung aus wie ein bestandener. */
 const fs = require('node:fs');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
+const { ohneGitUmgebung } = require('./ohne-git-umgebung.js');
 const { builtinModules } = require('node:module');
 
 const PAKETNAME = /^(@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/;
@@ -59,4 +61,23 @@ function dateien(wurzeln) {
   return aus;
 }
 
-module.exports = { externeModule, entziehtSichBeiFehlendemModul, dateien, paketName };
+/* DATEIEN IM INDEX (17.11.2026, Wackler-Befund Folge: [Fremdmodul] „keine Datei entzieht sich“ war in der Wagenstufe zweimal rot,
+   allein grün). Die Wanderung oben liest den ganzen Arbeitsbaum — auch Zwischendateien, die parallel laufende Proben unter tests/
+   oder tools/ kurz anlegen und wieder löschen: verschwindet eine zwischen Auflisten und Lesen, wirft readFileSync, und eine
+   Zwischendatei mit eigenem try/require wäre ein Fund, der nie landet. Geprüft wird, was landet: die Dateien im Git-Index
+   (`git ls-files -c`, also auch gestagte neue), unter denselben Regeln (node_modules, fixtures, .js/.mjs/.cjs). Ungestagte neue
+   Dateien zählen erst mit `git add`, wie in jeder Wagenstufe. Ohne Git (kein Repo) gilt die Wanderung oben.
+   Probe: tests/mit-modul/fremdparser-fehlt-wird-rot.test.js [Fremdmodul·Index]. */
+function dateienImIndex(repo, wurzeln) {
+  let liste;
+  try {
+    liste = execFileSync('git', ['-C', repo, 'ls-files', '-c', '-z', '--', ...wurzeln.map((w) => path.relative(repo, w) || '.')],
+      { encoding: 'utf8', env: ohneGitUmgebung(), stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 64 * 1024 * 1024 });
+  } catch (_) { return dateien(wurzeln); }
+  return liste.split('\0').filter(Boolean)
+    .filter((rel) => /\.(js|mjs|cjs)$/.test(rel) && !rel.split('/').some((t) => t === 'node_modules' || t === 'fixtures'))
+    .map((rel) => path.join(repo, rel))
+    .filter((p) => fs.existsSync(p));
+}
+
+module.exports = { externeModule, entziehtSichBeiFehlendemModul, dateien, dateienImIndex, paketName };

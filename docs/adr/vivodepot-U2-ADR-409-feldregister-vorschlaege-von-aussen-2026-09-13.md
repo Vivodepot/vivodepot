@@ -638,3 +638,11 @@ Versionsgeschichte und internen Dokumenten gab es davon kein Wort.
 **Und: „im Projekt nicht gefunden" ist keine Aussage über den Bestand, sondern über den
 Suchraum.** Diese Datei wäre um ein Haar mit dem Satz „das Feldregister existiert nirgends"
 begonnen worden.
+
+---
+
+## Nachtrag 15.11.2026 — Tor und Holen aus dem Register
+
+**1 · Tor (Punkt 1).** Der Satz „Die Prüfung bleibt ein geschlossenes Tor: ein Modul erfindet kein Feld (`grund: 'feld-unbekannt'`)“ gilt in dieser Form nicht mehr. Nach der späteren Vorgabe vom 16.09.2026 (Register-Katalog-Plan §6 Schritt 8, Nachtrag 16.09.2026) werden unbekannte Kennungen angeglichen: sie werden abgestreift und gemeldet, und kein Bündel wird deswegen abgewiesen. Eigene Angaben der Person werden nicht abgewiesen; ihre Herkunft bleibt erkennbar. Fundstelle im Kanon: `tests/feldkennung-katalog-vorlagefeld.test.js`, Kopf.
+
+**2 · Holen aus dem Register (Punkt 9, Weg B).** Entschieden: Der Generator soll den Feldkatalog aus dem veröffentlichten Register holen, nicht als eingebettete Region lesen. **Nicht gebaut.** Heute liest der Generator den Katalog eingebettet. Die Umsetzung folgt nach dem Umbau mit eigenem Auftrag (Stand 15.11.2026).

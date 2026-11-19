@@ -71,6 +71,16 @@ const FREMD_ODER_DATEN = (attr, inhalt) =>
   /\bid\s*=\s*["'][^"']*_VivodepotInline["']/.test(attr) ||
   /^\s*\/\*\*?\s*@license/.test(inhalt);
 
+/* ohneFremdbloecke (17.11.2026): die HTML-Datei, in der der Inhalt jeder gelisteten Fremdbibliothek (tools/lib/fremdbibliotheken.js:
+   erkannt UND mit passendem sha256) durch ebenso viele Zeilenumbrüche ersetzt ist. Kern-Scanner, die den eigenen Code messen,
+   lesen diese Fassung; Zeilennummern bleiben gleich. Ein Block mit _VivodepotInline-Kennung oder Lizenzkopf, dessen Inhalt nicht
+   genau der gelisteten Prüfsumme entspricht, bleibt stehen und wird gemessen wie eigener Code. */
+function ohneFremdbloecke(html) {
+  const { fremdbibliothek } = require('./fremdbibliotheken.js');
+  return String(html).replace(/(<script(?![^>]*\bsrc=)([^>]*)>)([\s\S]*?)(<\/script>)/gi, (ganz, auf, attr, inhalt, zu) => (
+    FREMD_ODER_DATEN(attr, inhalt) && fremdbibliothek(attr, inhalt) ? auf + inhalt.replace(/[^\n]/g, '') + zu : ganz));
+}
+
 /** Die eigenen Skriptblöcke einer HTML-Datei, mit der Zeile, an der jeder beginnt. */
 function skripte(html) {
   const re = /<script([^>]*)>([\s\S]*?)<\/script>/g;
@@ -165,4 +175,4 @@ function abgleichen(ist, grundlinie) {
   return { neu, weg, ohneGrund };
 }
 
-module.exports = { senken, senkenIn, skripte, abdruck, normal, ohneKommentare, regexEnde, grundlinieLesen, abgleichen, schluessel, OFFEN };
+module.exports = { senken, senkenIn, skripte, ohneFremdbloecke, abdruck, normal, ohneKommentare, regexEnde, grundlinieLesen, abgleichen, schluessel, OFFEN };

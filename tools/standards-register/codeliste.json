@@ -58,7 +58,16 @@
       ],
       "bezuege": null,
       "grund": "Der Kern verwahrt Europass-Nachweise samt EQF-Kennung, wertet sie aber nicht aus. tools/codelisten-amtlich-abgleich.js prüft jede EQF-Kennung in den verwahrten Beispielen und im Kern gegen die acht Stufen der amtlichen Liste.",
-      "pruefer": "tools/codelisten-amtlich-abgleich.js"
+      "pruefer": "tools/codelisten-amtlich-abgleich.js",
+      "seite": {
+        "richtung": [
+          "empfangen",
+          "verwahren"
+        ],
+        "importwege": [
+          "edci-europass-extern"
+        ]
+      }
     },
     {
       "id": "dqr",
@@ -87,7 +96,17 @@
       ],
       "bezuege": null,
       "grund": "Wie eqf: verwahrt, nicht ausgewertet. Der Abgleich prüft DQR-Kennungen gegen die acht Stufen und dass jede Stufe n der EQF-Stufe n entspricht; Kennungen fremder nationaler Rahmen werden gezählt, nicht bewertet.",
-      "pruefer": "tools/codelisten-amtlich-abgleich.js"
+      "pruefer": "tools/codelisten-amtlich-abgleich.js",
+      "seite": {
+        "herausgeber": "Bund und Länder (Bundesbildungsministerium, Bundeswirtschaftsministerium, KMK, WMK)",
+        "richtung": [
+          "empfangen",
+          "verwahren"
+        ],
+        "importwege": [
+          "edci-europass-extern"
+        ]
+      }
     },
     {
       "id": "iso-4217",

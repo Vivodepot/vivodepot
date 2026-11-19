@@ -216,6 +216,10 @@
     "bereichFelder": {
       "art": "fund",
       "grund": "Geschwister-Felder für feldSichtbar (SICHTBARKEIT-KASKADE, 03.11.2026) aus dem Anzeige-Index; in Pro liefert ein ruhender Bereich keine Felder. Richtig wäre der Katalog (_sektorAusKatalog)."
+    },
+    "einlesenErkanntZeileHTML": {
+      "art": "anzeige",
+      "grund": "Erkannt-Zeile beim Einlesen (U-6, 17.11.2026): liest nur die Beschriftung des Zielbereichs, zuerst aus dem Katalog; keine Daten."
     }
   }
 }

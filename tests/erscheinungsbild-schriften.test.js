@@ -26,7 +26,8 @@ const pdfInter = () => HEUTE.schriften.filter((s) => s.pdf);
 const bild = () => HEUTE.schriften.filter((s) => !s.pdf);
 
 test('das Gerüst trägt keine Schrift; das Erscheinungsbild „heute“ trägt 4 Bildschirm- und 3 PDF-Schnitte und besteht', () => {
-  assert.equal(/@font-face|data:font\//.test(KERN), false);
+  // Gemessen wird der eigene Code: gelistete Fremdbibliotheken (tools/lib/fremdbibliotheken.js) sind ausgeschnitten (17.11.2026).
+  assert.equal(/@font-face|data:font\//.test(require('../tools/lib/html-senken.js').ohneFremdbloecke(KERN)), false);
   assert.equal(bild().length, 4);
   assert.equal(pdfInter().length, 3);
   assert.doesNotThrow(backen(HEUTE.schriften));

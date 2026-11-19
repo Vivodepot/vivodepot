@@ -195,7 +195,11 @@ test('[PKA·Freigabe] der Klickweg führt zuerst über die Freigabe-Übersicht; 
   V.ui.toast = (t) => gesagt.push(t);
   await V.flowKbvPkaExport();
   assert.equal(modale.length, 1, 'zuerst die Übersicht, kein Weg an ihr vorbei');
-  assert.ok(!/ checked/.test(modale[0].koerperHTML), 'keine Angabe ist vorab angehakt');
+  /* Häkchen in Gruppen (Entscheidung 17.11.2026): vorausgewählt ist, was der Weg verlangt; sensible Angaben nicht. Darum prüft die
+     Probe jedes vorab gesetzte Häkchen gegen die zurückgehaltenen (sensiblen) Felder des Bereichs. */
+  const sensibel = new Set(V.exportUebersichtModell('advanceCare').zurueckgehalten.map((e) => e.sektor + '/' + e.feld));
+  const vorab = [...modale[0].koerperHTML.matchAll(/<input[^>]*class="export-haken"[^>]*data-sektor="([^"]+)" data-feld="([^"]+)"[^>]* checked/g)].map((x) => x[1] + '/' + x[2]);
+  assert.ok(vorab.every((k) => !sensibel.has(k)), 'keine sensible Angabe ist vorab angehakt: ' + vorab.filter((k) => sensibel.has(k)).join(', '));
   await modale[0].onPrimaer(() => {});
   await new Promise((r) => setTimeout(r, 50));
   assert.equal(dateien.length, 0, 'ohne einzelne Freigabe bleiben die sensiblen Angaben und mit ihnen die Anschrift des Ablageorts zurück: keine Datei');

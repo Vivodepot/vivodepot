@@ -8,10 +8,11 @@
    Handgriffe = Klicks + Eingaben. Höchstens KLICKS_HOECHSTENS Klicks und höchstens HANDGRIFFE_DECKEL Handgriffe (gemessener Ist-Wert,
    nur sinkend). Die Zahlen stehen als Anmerkung am Test (Reporter „list“: `--reporter=json`).
    Dazu, was eine Person ohne Fachwissen sonst raten müsste:
-     d · Der Dialog „Einreichen“ steht über dem Assistenten (Schritt 4 leuchtet), nicht über der Arbeitsfläche der
-         Expertensicht; der Kopf-Schalter zeigt „Einfach“.
+     d · Der Dialog „Einreichen“ steht über der einen Arbeitsfläche und zeigt die einfache Darstellung (seit 14.11.2026; vorher
+         stand er über dem Assistenten, mit Kopf-Schalter „Einfach“).
      e · Vor dem ersten Fehler steht kein roter Kasten zu den Angaben der Einrichtung.
-     f · Der Dialog nennt in der Einfach-Sicht keine Fachwörter; die Expertensicht behält sie.
+     f · Der Dialog und die Hilfe nennen keine Fachwörter; das Angehörigen-Blatt behält die Fachwörter in Dialog
+         und Hilfe.
    ROT-BEWEIS: GENERATOR_HTML_PATH=<kopie von dbf1c70b4:vivodepot-studio.html> → alle drei Tests rot (9 Klicks; Dialog über
    der Arbeitsfläche; roter Kasten „Anbieter-Stammdaten unvollständig“; Fachwörter sichtbar).
    ═════════════════════════════════════════════════ */
@@ -83,19 +84,19 @@ async function landEintragen(p) {
 
 /* Der Weg, wie ihn eine Person geht: was die Seite zeigt, wird ausgefüllt, der Hauptknopf gedrückt. Er läuft auf jedem Stand
    (auch auf dem vor Wagen 1.5), damit die Zählung vergleichbar bleibt. */
-async function bisZumDialog(p, angabenImAssistenten) {
-  await p.click('#ein-vorlage');
+async function bisZumDialog(p, angabenAmStart) {
   await p.fill('#as-name', SD.name);
-  await p.click('#as-art [data-art="verein"]');
-  if (angabenImAssistenten && await sichtbar(p, '#as-strasse')) {
+  if (angabenAmStart) {                              // mit dem Namen stehen die Angaben der Stelle offen da, ohne weiteren Klick
+    await expect(p.locator('#as-strasse')).toBeVisible();
     await p.fill('#as-strasse', SD.strasse); await p.fill('#as-plz', SD.plz); await p.fill('#as-ort', SD.ort);
     await landEintragen(p);
     await p.fill('#as-k-email', SD.email);          // die Ansprechperson (Name) ist freiwillig und bleibt leer (S-C)
-    await expect(p.locator('#as-rechtsform')).toHaveValue('e.V.');           // aus Land und Art vorgeschlagen, kein Handgriff
   }
-  if (await sichtbar(p, '#as-weiter-1')) await p.click('#as-weiter-1');   // bis Teil 2 ein eigener Schritt; seither stehen Einrichtung und Bogen auf einer Seite
-  await expect(p.locator('#as-felder .as-frage').first()).toBeVisible();
-  await p.click('#as-weiter-2');
+  await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+  await p.click('#as-beispiele [data-beispiel="verein"]');                  // das Beispiel nennt die Art, seine Felder liegen in der Arbeitsfläche
+  await expect(p.locator('#tpl-felder .vk').first()).toBeVisible();
+  if (angabenAmStart) await expect(p.locator('#as-rechtsform')).toHaveValue('e.V.');   // aus Land und Art vorgeschlagen, kein Handgriff
+  await p.click('#fertig-oeffnen');
   await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
 }
 
@@ -104,17 +105,15 @@ test.describe('T-CROSS-42 Studio · Einfach-Weg', () => {
   test.beforeAll(() => { tmp = H.frischerTmp('studio-einfach-weg'); });
   test.afterAll(() => H.tmpAufraeumen(tmp));
 
-  test('Kachel bis eingereichte Vorlage: höchstens 7 Klicks, Dialog über dem Assistenten', async ({ browser }) => {
+  test('Kachel bis eingereichte Vorlage: höchstens 7 Klicks, Dialog in der einfachen Darstellung über der Arbeitsfläche', async ({ browser }) => {
     test.setTimeout(240000);
     const { ctx, p } = await seiteOeffnen(browser);
     await bisZumDialog(p, true);
 
-    // d · der Dialog steht über dem Assistenten, Schritt 4 leuchtet, der Schalter zeigt „Einfach“
-    // (weich: die Zählung läuft auch auf einem Stand ohne diese Muster zu Ende, für den Vergleich vorher/nachher)
-    await expect.soft(p.locator('#raum-assistent')).toBeVisible({ timeout: 3000 });
-    await expect.soft(p.locator('#raum-bau')).toBeHidden({ timeout: 3000 });
-    await expect.soft(p.locator('#as-sl-4')).toHaveClass(/\ban\b/, { timeout: 3000 });
-    await expect.soft(p.locator('#kopf-einfach')).toHaveAttribute('aria-pressed', 'true', { timeout: 3000 });
+    // d · der Dialog steht über der einen Arbeitsfläche und zeigt die einfache Darstellung; es gibt keinen Kopf-Schalter
+    await expect(p.locator('#raum-bau')).toBeVisible();
+    await expect(p.locator('#dlg-fertig')).toHaveClass(/\beinfach\b/);
+    await expect(p.locator('#kopf-einfach, #kopf-fachebene')).toHaveCount(0);
 
     if (await sichtbar(p, '#sd-weiter')) {      // „Wer reicht ein?“ offen: ausfüllen, was fehlt (die Antragsdatei braucht die Rechtsform)
       if (!(await p.inputValue('#sd-rechtsform'))) { await H.weitereAngabenOeffnen(p); await p.fill('#sd-rechtsform', 'e.V.'); }
@@ -159,38 +158,43 @@ test.describe('T-CROSS-42 Studio · Einfach-Weg', () => {
     await ctx.close();
   });
 
-  test('f · der Dialog nennt in der Einfach-Sicht keine Fachwörter, die Expertensicht behält sie', async ({ browser }) => {
+  test('f · Dialog und Hilfe nennen keine Fachwörter; das Angehörigen-Blatt behält die technischen Begriffe in Dialog und Hilfe', async ({ browser }) => {
     test.setTimeout(60000);
     const { ctx, p } = await seiteOeffnen(browser);
-    // Die Hilfe folgt der Sicht: Einfach zeigt keine Fachwörter und keine Zahl von Bereichen
+    // Die Hilfe zeigt zuerst keine Fachwörter und keine Zahl von Bereichen
     await p.click('#kopf-hilfe');
     const hilfeEinfach = await p.locator('#dlg-hilfe').innerText();
-    expect(hilfeEinfach, 'Hilfe in der Einfach-Sicht ist nicht leer').toContain('Bereich');
-    expect(hilfeEinfach.match(FACHWORT), 'Fachwort in der Hilfe der Einfach-Sicht').toBeNull();
+    expect(hilfeEinfach, 'die Hilfe ist nicht leer').toContain('Bereich');
+    expect(hilfeEinfach.match(FACHWORT), 'Fachwort in der Hilfe').toBeNull();
     expect(hilfeEinfach.match(ZAHL_BEREICHE), 'Zahl von Bereichen in der Hilfe').toBeNull();
     await p.click('#dlg-hilfe .dlg-zu');
-    await p.click('#ein-vorlage');
     await p.fill('#as-name', SD.name);
-    await p.click('#as-art [data-art="andere"]');
-    if (await sichtbar(p, '#as-weiter-1')) await p.click('#as-weiter-1');   // bis Teil 2 ein eigener Schritt
-    for (const k of await p.locator('#as-felder .as-frage-pflicht input').all()) await k.uncheck();   // ohne Muss: die Empfehlung erscheint
-    await p.click('#as-weiter-2');
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+    await p.click('#as-beispiele [data-beispiel="andere"]');
+    for (let i = 0, n = await p.locator('#tpl-felder .vk').count(); i < n; i++) {   // ohne Pflicht: die Empfehlung erscheint
+      await p.locator('#tpl-felder .vk').nth(i).locator('.vk-bearbeiten').click();
+      await p.waitForSelector('#feld-editor:not([hidden])');
+      await p.uncheck('#ed-pflicht');
+      await p.click('#ed-speichern');
+    }
+    await p.click('#fertig-oeffnen');
     await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
     await p.evaluate(() => document.querySelectorAll('#dlg-fertig details').forEach((d) => { d.open = true; }));
     const text = await p.locator('#dlg-fertig').innerText();
     await expect(p.locator('#pr-warnungen li').first()).toBeVisible();        // Gegenprobe: die Empfehlung steht da
-    expect(text.match(FACHWORT), 'Fachwort in der Einfach-Sicht').toBeNull();
-    // Expertensicht: dieselben Beschriftungen tragen ihr Fachwort (der Dialog ist modal: erst schließen, dann der Kopf-Schalter)
+    expect(text.match(FACHWORT), 'Fachwort im Dialog').toBeNull();
     await p.click('#dlg-fertig .dlg-zu');
-    await expect(p.locator('#as-schritt-2')).toBeVisible();                   // geschlossen: zurück im Assistenten
-    await p.click('#kopf-fachebene');
-    await p.click('#kopf-hilfe');                                             // die Expertensicht behält die Fachwörter in der Hilfe
+    await expect(p.locator('#raum-bau')).toBeVisible();                       // geschlossen: zurück in der Arbeitsfläche
+    // Das Angehörigen-Blatt (für Fachleute) behält die Fachwörter im Dialog.
+    await p.click('#marke-start');
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+    await p.click('#start-blatt');
+    await p.click('#kopf-hilfe');                                             // das Blatt behält die Fachwörter in der Hilfe
     const hilfeFach = await p.locator('#dlg-hilfe').innerText();
     expect(hilfeFach).toContain('Trust-Authority'); expect(hilfeFach).toContain('FHIR'); expect(hilfeFach).toContain('Code-System');
     expect(hilfeFach.match(ZAHL_BEREICHE), 'Zahl von Bereichen in der Hilfe').toBeNull();
     await p.click('#dlg-hilfe .dlg-zu');
-    await p.click('#start-leer');
-    await p.click('#fertig-oeffnen');
+    await p.click('#blatt-fertig');
     await p.evaluate(() => document.querySelectorAll('#dlg-fertig details').forEach((d) => { d.open = true; }));
     await expect(p.locator('label[for="sd-rechtsraum"]')).toContainText('Rechtsraum');
     await expect(p.locator('label[for="pr-privkey"]')).toContainText('.vdkey');

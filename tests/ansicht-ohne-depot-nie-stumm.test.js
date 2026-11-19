@@ -24,6 +24,8 @@ const OEFFNEN = {
   situation: (V) => V.oeffneSituation(Object.keys(V.SITUATION_BY_ID)[0]),
   sektor: (V) => V.oeffneSektor('identity'),
   'ueber-hinweise': (V) => V.oeffneUeberHinweise(),
+  suchtreffer: (V) => V.oeffneSuchtreffer('Pflege'),
+  einlesen: (V) => V.oeffneEinlesen(),
 };
 // Zweige, die ohne Depot nicht erreichbar sind, je mit Grund.
 const OHNE_DEPOT_UNERREICHBAR = {

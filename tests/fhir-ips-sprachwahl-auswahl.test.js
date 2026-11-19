@@ -16,8 +16,9 @@ const GEWAEHLT = { feld: 'chronicConditionsDiagnoses', marke: 'MARKE-Asthma' };
 const ANDERES = { feld: 'allergiesMedicationFoodOther', marke: 'MARKE-Penicillin' };
 
 // Aus dem HTML des zuletzt geöffneten Fensters: die Zeilen der Rückhalte-Liste (data-feld, gehalten ja/nein).
-const zeilen = (html) => [...String(html).matchAll(/<div class="export-zz( export-zz-gehalten)?" data-sektor="([^"]+)" data-feld="([^"]+)"/g)]
-  .map((m) => ({ gehalten: !!m[1], sektor: m[2], feld: m[3] }));
+// Häkchen in Gruppen (17.11.2026): die Häkchen des Dialogs, nachgebildet (tests/helfer/haekchen-box.js).
+const { haekchenZeilen, haekchenBox, umschalten } = require('./helfer/haekchen-box.js');
+const zeilen = (html) => haekchenZeilen(html).filter((z) => z.feld);
 
 async function exportFahren(wahlFeld, sprache, vorab) {
   const k = ladeMitAusgabe();
@@ -37,13 +38,10 @@ async function exportFahren(wahlFeld, sprache, vorab) {
   const letztes = () => modale[modale.length - 1];
   // Die Übersicht verdrahtet ihre Knöpfe über #modal-inhalt; hier aus dem HTML des letzten Fensters nachgebildet.
   const echt = k.document.getElementById.bind(k.document);
-  const knopf = (z) => ({ getAttribute: (n) => (n === 'data-sektor' ? z.sektor : n === 'data-feld' ? z.feld : null), onclick: null });
   let box = null;
   const boxBauen = () => {
     const html = letztes().koerperHTML;
-    const knoepfe = zeilen(html).map(knopf);
-    const link = /id="exp-zurueckhalten-weg"/.test(html) ? { onclick: null } : null;
-    box = { knoepfe, link, querySelector: (s) => (s === '#exp-zurueckhalten-weg' ? link : null), querySelectorAll: (s) => (s === '.export-zz-btn' ? knoepfe : []) };
+    box = haekchenBox(html);
     return box;
   };
   const sprachFeld = { value: sprache };
@@ -52,11 +50,10 @@ async function exportFahren(wahlFeld, sprache, vorab) {
   V.flowGesundheitFhirExport();
   assert.equal(modale.length, 1, 'die Übersicht öffnet sich');
   // „Etwas zurückhalten“ öffnen, dann jede Zeile auf den gewünschten Zustand klicken: nur wahlFeld geht mit.
-  box.link.onclick();
   for (let n = 0; n < 200; n++) {
     const z = zeilen(letztes().koerperHTML).find((x) => x.gehalten === (x.feld === wahlFeld));
     if (!z) break;
-    box.knoepfe.find((b) => b.getAttribute('data-feld') === z.feld).onclick();
+    umschalten(box, 'data-feld', z.feld, z.gehalten);
   }
   const rest = zeilen(letztes().koerperHTML);
   assert.ok(rest.find((x) => x.feld === wahlFeld && !x.gehalten), 'Voraussetzung: das gewählte Feld ist angekreuzt (geht mit)');
@@ -180,15 +177,12 @@ async function bisZweitesModal({ vorbereiten, start }) {
   V.ui.modal = (o) => { modale.push(o); return () => {}; };
   const letztes = () => modale[modale.length - 1];
   const echt = k.document.getElementById.bind(k.document);
-  const knopf = (z) => ({ getAttribute: (n) => (n === 'data-sektor' ? z.sektor : n === 'data-feld' ? z.feld : null), onclick: null });
   let box = null;
   const feldAttrappe = () => new Proxy({ value: 'Probe', textContent: '', classList: { add() {}, remove() {}, contains: () => false }, style: {} }, { get: (t, p) => (p in t ? t[p] : () => null), set: (t, p, v) => { t[p] = v; return true; } });
   k.document.getElementById = (id) => {
     if (id === 'modal-inhalt' && modale.length) {
       const html = letztes().koerperHTML;
-      const knoepfe = zeilen(html).map(knopf);
-      const link = /id="exp-zurueckhalten-weg"/.test(html) ? { onclick: null } : null;
-      box = { knoepfe, link, querySelector: (s) => (s === '#exp-zurueckhalten-weg' ? link : null), querySelectorAll: (s) => (s === '.export-zz-btn' ? knoepfe : []) };
+      box = haekchenBox(html);
       return box;
     }
     if (/^up-/.test(id)) return feldAttrappe();
@@ -199,7 +193,6 @@ async function bisZweitesModal({ vorbereiten, start }) {
   let zeile = null;
   const ergebnis = start(V);
   assert.equal(modale.length, 1, 'die Übersicht öffnet sich');
-  box.link.onclick();
   const alle = zeilen(letztes().koerperHTML);
   assert.ok(alle.length >= 2, 'mindestens zwei Zeilen in der Übersicht, sonst ist die Auswahl nicht prüfbar');
   const W = alle.find((x) => x.feld === GEWAEHLT.feld) || alle[0];
@@ -207,7 +200,8 @@ async function bisZweitesModal({ vorbereiten, start }) {
   for (let n = 0; n < 300; n++) {
     const z = zeilen(letztes().koerperHTML).find((x) => x.gehalten === (x.feld === W.feld && x.sektor === W.sektor));
     if (!z) break;
-    box.knoepfe.find((b) => b.getAttribute('data-feld') === z.feld && b.getAttribute('data-sektor') === z.sektor).onclick();
+    const b = box.knoepfe.find((x) => x.getAttribute('data-feld') === z.feld && x.getAttribute('data-sektor') === z.sektor);
+    b.checked = z.gehalten; b.onchange();
   }
   const uebersichtFertig = letztes().onPrimaer(() => {});
   for (let n = 0; n < 100 && modale.length < 2; n++) await tick(10);

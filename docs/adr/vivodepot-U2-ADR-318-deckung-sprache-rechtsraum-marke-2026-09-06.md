@@ -163,3 +163,9 @@ gegen den lebenden Kern, nicht das Ergebnis eines konkreten Docking-Vorgangs mit
 Institutionsdaten.
 
 *Vivodepot GmbH · Berlin · 06.09.2026*
+
+---
+
+## Nachtrag 15.11.2026 — Achsenbezeichnung
+
+Die Achsenbezeichnung „Struktur ∪ Sprache ∪ Recht ∪ Marke“ (oben, Z. 15–16) gilt seit der Entscheidung vom 21.09.2026 in der Fassung **Bereich ∪ Sprache ∪ Rechtsraum ∪ Erscheinungsbild** (§24.2 des Papiers). Zuordnung wie im Nachtrag zu U2-ADR-291.

@@ -215,10 +215,9 @@ const EXPORT_HOOK = `
   ANFRAGE_KOMPAKT_PRAEFIX, KURZLINK_MAX_ZEICHEN, anfrageKompakt, kurzlinkGueltig, kurzlinkQrDataUrl, anfrageQrTeilAnhaengen,
   // E1 (05.10.2026) — Vorprüfung in Klartext
   STUDIO_EINLASS_PRUEFEN, einlassUrteil, einlassZeileText, vorabUrteilVorlage,
-  // Neugestaltung A+ mit Glas, S2 (08.10.2026) — der Assistent Aufnahmebogen
-  ASSISTENT, ASSISTENT_BEISPIELE, ASSISTENT_REGISTER, assistentFelder, assistentBeispielLaden, feldAusBasisBauen, feldAusKatalog,
-  // iPad-Prüfung (14.10.2026) — „Frage hinzufügen“ ohne Doppel
-  ASSISTENT_HINZU, assistentHinzu,
+  // Start der einen Arbeitsfläche (14.11.2026): Angaben der Stelle und einfache Beispiele
+  ASSISTENT, ASSISTENT_BEISPIELE, ASSISTENT_REGISTER, beispielFelder, startBeispielLaden, startAngabenUebernehmen, feldAusBasisBauen, feldAusKatalog,
+  vorhandenesRegisterfeld,
   // W1 (09.10.2026) — der Assistent Anfrage
   ANF_AS, ANF_AS_BEISPIELE, anfrageUmschlag, anfrageAssistentNeu, anfrageAssistentBeispiel, anfrageAssistentHinzu, anfrageAssistentState, anfrageAssistentLuecken,
   // W2 (09.10.2026) — Einmalpasswort und Brief
@@ -234,10 +233,12 @@ const EXPORT_HOOK = `
   paletteKennungenSetzen: (w) => { paletteKennungenZeigen = !!w; }, paletteKennungenAbWerk: () => paletteKennungenZeigen,
   feldUebernehmen, editorIndexSetzen: (i) => { editorIndex = i; },
   // Studio per Ziehen und Ablegen (12.11.2026)
-  assistentKatHinzu, assistentAblegen, dndAblegen, verschiebe, loescheFeld, assistentFrageName,
+  dndAblegen, verschiebe, loescheFeld, assistentFrageName,
   // Hauptweg der Anfrage mit dem Zertifikat der Stelle (18.10.2026): Ladeweg, Vorauswahl beim Erstellen, Bindung beim Öffnen.
   ANF_STELLE, zertifikatAusText, stelleZertifikatPruefen, anfrageAssistentHauptweg, anfrageAssistentWegZeigen, anfrageBriefTextOhnePasswort,
   verifiziereProviderCredential, schluesselAnfrageBindung,
+  // S-2 Bausteine nach Anlass (16.11.2026)
+  STUDIO_GRUPPEN, studioGruppeVon, ANSCHRIFT_KENNUNGEN, FREIWILLIGE_KENNUNGEN, EIGENE_BAUSTEINE, anschriftEinfuegen, feldAusTyp, paletteZiehDaten,
 };
 `;
 

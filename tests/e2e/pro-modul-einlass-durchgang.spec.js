@@ -94,7 +94,7 @@ test('[Pro-Modul·1] Datei einlassen — der Bereich erscheint in der Sidebar', 
   await depotAnlegen(page, { pw: PW });
   await moduleDateiEinlassen(page, tempModulDatei());
   await page.locator('#m-ok').click();   // Einstellungen-Modal schließen, um die Sidebar zu sehen
-  await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toContainText('Betriebsübergabe (Test)');
+  await expect(page.locator('.nav-item[data-sektor="' + BEREICH_ID + '"]')).toContainText('Betriebsübergabe (Test)');
 });
 
 test('[Pro-Modul·2] der Ungeprüft-Hinweis steht in den Einstellungen, mit Typ und Wortlaut für Menschen', async ({ page }) => {
@@ -115,7 +115,7 @@ test('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder �
   await depotAnlegen(page, { pw: PW });
   await moduleDateiEinlassen(page, tempModulDatei());
   await page.locator('#m-ok').click();
-  await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toHaveCount(1, 'Vorbedingung: der Bereich ist da, bevor gesichert wird');
+  await expect(page.locator('.nav-item[data-sektor="' + BEREICH_ID + '"]')).toHaveCount(1, 'Vorbedingung: der Bereich ist da, bevor gesichert wird');
 
   await sichernUndSchliessen(page);
   const bytes = await page.evaluate(() => window.__proModulBytes);
@@ -131,7 +131,7 @@ test('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder �
     await page.waitForSelector('#app.an', { state: 'attached' });
     // Wahl beim Öffnen (Schutz-Wagen, E1): das selbst eingelassene Modul steht zur Wahl, die Bürgerin wählt es.
     await erweiterungenWaehlen(page);
-    await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toContainText('Betriebsübergabe (Test)');
+    await expect(page.locator('.nav-item[data-sektor="' + BEREICH_ID + '"]')).toContainText('Betriebsübergabe (Test)');
   } finally {
     fs.rmSync(dateiPfad, { force: true });
   }
@@ -143,7 +143,7 @@ test('[Pro-Modul·4] dieselbe Datei ein zweites Mal einlassen — kein zweiter, 
   const dateipfad = tempModulDatei();
   await moduleDateiEinlassen(page, dateipfad);
   await page.locator('#m-ok').click();
-  await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toHaveCount(1);
+  await expect(page.locator('.nav-item[data-sektor="' + BEREICH_ID + '"]')).toHaveCount(1);
 
   // Zweiter Einlass derselben Datei, ohne das Depot zu schließen.
   await moduleDateiEinlassen(page, dateipfad);
@@ -153,5 +153,5 @@ test('[Pro-Modul·4] dieselbe Datei ein zweites Mal einlassen — kein zweiter, 
   // entdoppelt über die ID; der zweite Einlass-VORGANG selbst wird nicht zurückgewiesen
   // (zwei Einträge könnten in `data.bereichsModule[]` stehen), aber die SICHTBARE
   // Wirkung bleibt EIN Bereich.
-  await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toHaveCount(1);
+  await expect(page.locator('.nav-item[data-sektor="' + BEREICH_ID + '"]')).toHaveCount(1);
 });

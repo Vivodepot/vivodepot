@@ -4,7 +4,7 @@ THIRD-PARTY LICENSES — vivodepot.html
 Die Vivodepot Bürger-App ist EUPL-1.2 lizenziert (siehe LICENSE / SPDX-Header in
 der HTML-Datei). Sie bettet Drittsoftware INLINE und OFFLINE ein. Diese Datei führt
 den TATSÄCHLICHEN Stand: aktuell sind jsPDF (mit pako als Bestandteil), qrcode-generator, der
-Data-Matrix-Auszug aus @zxing/library und noble-ed25519 wirklich eingebettet. Der SBOM
+Data-Matrix-Auszug aus @zxing/library, noble-ed25519 und pdf.js (pdfjs-dist) wirklich eingebettet. Der SBOM
 (vivodepot.sbom.cdx.json, CycloneDX 1.6) spiegelt denselben Stand.
 
 -------------------------------------------------------------------------------
@@ -555,6 +555,22 @@ strings:passwortWortliste.text)
    You acknowledge that this software is not designed or intended for
    use in the design, construction, operation or maintenance of any
    nuclear facility.
+
+-------------------------------------------------------------------------------
+8) pdf.js (pdfjs-dist) 4.10.38 — STATUS: inline (ES-Modul-Block id=pdfjs_VivodepotInline)
+   Autor: Mozilla Foundation (Copyright-Kopf jeder Bündeldatei: „Copyright 2024 Mozilla Foundation“)
+   Bezug: https://github.com/mozilla/pdf.js
+   purl:  pkg:npm/pdfjs-dist@4.10.38
+   SPDX-License-Identifier: Apache-2.0 (Volltext wie unter 7) oben, Apache License 2.0)
+   SHA-256 (inline-Block): in der @vd-lib-Marke im Kern und im SBOM-Eintrag pdfjs-dist.
+   Eingebettet: legacy/build/pdf.worker.min.mjs und legacy/build/pdf.min.mjs, gebaut mit tools/pdfjs-einbetten.js
+   aus dem Tarball pdfjs-dist-4.10.38.tgz, nur bei dessen Integrität
+   sha512-/Y3fcFrXEAsMjJXeL9J8+ZG9U01LbuWaYypvDW2ycW1jL269L3js3DVBjDJ0Up9Np1uqDXsDrRihHANhZOlwdQ== (Registry-Eintrag);
+   prüfen: node tools/pdfjs-einbetten.js --pruefen --paket <tarball> (Nachbau byte-gleich).
+   Das Paket trägt keine NOTICE-Datei; der Lizenzkopf jeder Datei bleibt erhalten.
+   GEÄNDERT gegenüber dem Paket: je Datei ist die abschließende export-Anweisung durch eine nicht beschreibbare
+   Bindung ersetzt (pdfjsWorker, vdPdfjs), und jede Datei steht in einer eigenen Funktion. Alles Übrige ist unverändert.
+   Konsument: ein PDF im Depot ansehen (mappePdfSeitenZeichnen), Seiten als Bild in der Vorschau.
 
 -------------------------------------------------------------------------------
 CODE-LISTEN (Paket 3 — text+code-Andock)

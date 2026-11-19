@@ -111,6 +111,8 @@ html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte { background: rgba(
 html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar { background: rgba(26,28,31,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
 html.dark-mode:not(.high-contrast) body, html.dark-mode:not(.high-contrast) #app { background: radial-gradient(1200px 500px at 15% 0%, #262b27 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #23262d 0%, transparent 55%), var(--cream); background-attachment: fixed; }
 html.dark-mode:not(.high-contrast) #modal-rueck .modal { background: rgba(30,32,35,.82); border: 1px solid rgba(255,255,255,.08); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-radius: var(--radius-fenster); }
+/* D86/H06: das Glas rundet jedes Fenster mit höherer Spezifität; ein Blatt (schmal, unten angedockt) bleibt unten eckig wie in grundlage.css. */
+@media (max-width: 767px) { html:not(.high-contrast) #modal-rueck .modal.modal-blatt { border-radius: var(--radius-blatt) var(--radius-blatt) 0 0; } }
 @media (prefers-reduced-transparency: reduce) {
 /* Dieselben Selektoren wie das Glas oben (gleiche Spezifität, später = gewinnt): sonst bliebe das Glas stehen (Probe glas-flaechen). */
 html:not(.dark-mode):not(.high-contrast) .topbar, html:not(.dark-mode):not(.high-contrast) #app .sidebar, html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal, html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte, html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: #f7f8f4; -webkit-backdrop-filter: none; backdrop-filter: none; }

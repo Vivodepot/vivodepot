@@ -110,6 +110,48 @@ kommen weiter aus dem Textsatz der App; Nr. 4 gilt für sie unverändert, für d
 **Status:** Angenommen (10.11.2026). **Bezug:** Abgrenzung oben (S4). S4 erfüllt: eine Schlüsseldatei je Einreichung, Namen und Chips;
 Belege: die drei Proben im Block unten. Gateway-Punkte 8/9 und Betriebsablauf 10 liegen bei Krypto.
 
+## Nachtrag 14.11.2026 — Eine Arbeitsfläche
+
+**Status:** Angenommen (14.11.2026). **Bezug:** Nr. 1, 3 und 4; Nachtrag 14.10.2026; Nachtrag 10.11.2026 (Vorschaukarte);
+U2-ADR-495. Der Assistent „Aufnahmebogen“ hielt eine zweite Feldliste, eine zweite Bausteinliste und eine zweite Vorschau, die
+nur in eine Richtung in die Arbeitsfläche übergingen; der Kopf-Schalter „Einfach | Expertensicht“ teilte dasselbe Werkzeug in zwei.
+
+1. **Es gibt eine Arbeitsfläche.** Der Kopf-Schalter und der Assistent „Aufnahmebogen“ entfallen. Nr. 1 gilt für den Eingang
+   weiter (Kacheln nach dem Ziel, ohne Fachbegriffe); „Vorlage erstellen“, „Aufnahmebogen“ und „Etwas anderes“ führen auf den
+   Start der Arbeitsfläche.
+2. **Der Start** trägt den Namen der Stelle, ihre Angaben (zugeklappt; sie klappen auf, sobald der Name steht), die einfachen
+   Beispiele und darunter die bisherigen Wege (leere Vorlage, Beispiele, CSV-Datei, Entwurf, Angehörigen-Blatt, weitere
+   Möglichkeiten). Der Vorschlag zum Land und die Rechtsform nach Art (U2-ADR-495) bleiben, wie sie sind.
+3. **Die Arbeitsfläche** hat drei Teile: die Bausteinliste, die Vorlage mit Name und Zweck, rechts die „Vorschau der Anfrage“
+   (Stelle, Titel, Zweck, Datenfelder mit Pflicht oder freiwillig; keine Beispielperson, keine Beispieldaten). Bearbeitet wird in
+   der Karte des Felds, auf schmalen Bildschirmen im Blatt von unten; die technischen Angaben (Code-System, Bereich, Gruppe,
+   Herkunft) liegen dort zugeklappt.
+4. **Nr. 3 gilt fort** in dieser Form: ein Beispiel vom Start legt seine Felder über denselben Weg an wie ein Baustein der
+   Liste; es gibt eine Feldliste und einen Einreichweg.
+5. **Nr. 4 und der Nachtrag vom 10.11.2026** gelten für die „Vorschau der Anfrage“: sie heißt Vorschau und trägt kein „Geprüft“.
+6. **Wörter.** „Fertigstellen“ zeigt für jede Vorlage die Alltagswörter; das Angehörigen-Blatt behält die Fachwörter. Die
+   Hilfe folgt derselben Regel; ein Weg von einer Vorlage zu den technischen Begriffen der Hilfe ist ein eigener Schritt. Dem Fachpublikum geht keine Funktion verloren: jedes
+   Bedienelement des Studios hat im Verzeichnis `tests/fixtures/umbau-verzeichnis-studio.json` einen Platz oder einen Befund.
+
+Nicht Teil dieses Nachtrags: der Assistent „Anfrage an Personen“ bleibt; die Bausteine „Eigene Frage“ und „Auswahl“ folgen als
+eigener Wagen. Kein Schema, keine Signatur, kein Kern.
+
+## Nachtrag 16.11.2026 — Der Start ist der Anfang (Vorgabe-Dummy, S-1)
+
+**Status:** Angenommen (16.11.2026). **Bezug:** Nr. 1; Nachtrag 14.11.2026. Der Vorgabe-Dummy vom 14.11.2026 beginnt im Start;
+drei Kacheln des Eingangs („Vorlage erstellen“, „Aufnahmebogen“, „Etwas anderes“) führten nur dorthin zurück.
+
+1. **Der Eingang entfällt.** Das Studio beginnt im Start: Überschrift, ein Satz, was eine Stelle hier tut, der Name der Stelle,
+   dann „Neu beginnen“ (leere Vorlage, CSV-Datei) und „Mit einem Beispiel beginnen“ (drei Beispiele, je mit den ersten Feldern).
+2. **„Weitere Wege“** (zugeklappt) trägt alles Übrige: die einfachen Beispiele, die übrigen Beispiele, das Angehörigen-Blatt,
+   den Entwurf, die Ziel-Kacheln des bisherigen Eingangs („Anfrage an Personen“, „Dokumente empfangen“, „Daten bereitstellen“,
+   „Eigenes Erscheinungsbild“), „So läuft es ab“, „Weitere Möglichkeiten zeigen“ und den Herkunftssatz. Nr. 1 gilt für diese
+   Kacheln weiter (nach dem Ziel, ohne Fachbegriffe, ohne Direktübertragung).
+3. **„Antworten“** steht im Kopf. Die Arbeitsfläche nennt im Kopf den Namen der Vorlage; die Feldkarte trägt Name und
+   Pflicht/Freiwillig zum direkten Ändern; auf schmalen Bildschirmen schalten zwei Reiter zwischen Vorlage und Vorschau.
+
+Die Zeilen des Dummys stehen je mit Kennung in `tests/studio-dummy-zeilen.test.js`. Kein Schema, keine Signatur, kein Kern.
+
 ```yaml
 konformitaet:
   - aussage: >-
@@ -122,31 +164,32 @@ konformitaet:
       - tests/studio-glas-wie-app.test.js "[Glas] bei „Transparenz reduzieren“ und im Hochkontrast fällt jede Glasfläche deckend und ohne backdrop-filter zurück"
       - tests/studio-glas-wie-app.test.js "[Glas · Rot-Beweis] eine von Hand veränderte Region macht --check rot"
   - aussage: >-
-      Der Eingang fragt nach dem Ziel, ohne Fachbegriffe und ohne Direktübertragung; die Fachebene liegt einen Klick dahinter;
-      eine Kachel ohne tragende Funktion ist ein Hinweis ohne Ziel.
+      Das Studio beginnt im Start; die Ziel-Kacheln unter „Weitere Wege“ fragen nach dem Ziel, ohne Fachbegriffe und ohne
+      Direktübertragung; die Fachebene liegt einen Klick dahinter, ohne Kopf-Schalter; eine Kachel ohne tragende Funktion ist ein
+      Hinweis ohne Ziel.
     zustand: erfuellt
-    herkunft: U2-ADR-493 (08.10.2026)
+    herkunft: U2-ADR-493 (08.10.2026), Nachträge 14.11.2026 und 16.11.2026
     pruefung:
       - tests/studio-eingang.test.js "[Eingang · 1] keine Fachbegriffe im Eingang, deutsch und englisch"
       - tests/studio-eingang.test.js "[Eingang · 2] kein Kacheltext verspricht eine Direktübertragung"
-      - tests/studio-eingang.test.js "[Eingang · 6] der Eingang ist der Start; die Fachebene (sichtbar „Expertensicht“) liegt einen Klick dahinter, zurück ebenso über den Kopf-Schalter"
+      - tests/studio-eingang.test.js "[Eingang · 6] der Start ist der Anfang; die Fachebene liegt einen Klick dahinter („Weitere Möglichkeiten zeigen“), ohne Kopf-Schalter"
       - tests/studio-eingang.test.js "[Eingang · 6 · Rot-Beweis] ein Studio-Ziel an „Dokumente empfangen“ fiele auf"
   - aussage: >-
-      Der Assistent legt Felder über denselben Weg an wie die Arbeitsfläche und übergibt an den bestehenden Einreichweg; eine
-      Auswahl nur mit Antworttexten kommt vollständig im Paket an.
+      Ein Beispiel vom Start legt Felder über denselben Weg an wie die Bausteinliste der Arbeitsfläche und übergibt an den
+      bestehenden Einreichweg; eine Auswahl nur mit Antworttexten kommt vollständig im Paket an.
     zustand: erfuellt
-    herkunft: U2-ADR-493 (08.10.2026)
+    herkunft: U2-ADR-493 (08.10.2026), Nachtrag 14.11.2026
     pruefung:
-      - tests/studio-assistent.test.js "[Assistent · Gleichlauf] ein Register-Feld aus dem Assistenten ist dasselbe Feld wie aus der Palette"
+      - tests/studio-assistent.test.js "[Assistent · Gleichlauf] ein Register-Feld aus dem Beispiel ist dasselbe Feld wie aus der Bausteinliste"
       - tests/studio-assistent.test.js "[Assistent · B1] „Anliegen“ mit drei Antworttexten kommt mit allen drei im Paket an, jede mit Code"
-      - tests/studio-assistent.test.js "[Assistent · Übergabe] „Weiter: Einreichen“ legt die Felder an, belegt den Namen vor und öffnet die Angaben; Rechtsform nur bei Behörde"
+      - tests/studio-assistent.test.js "[Assistent · Übergabe] ein Beispiel legt die Felder an; „Fertigstellen“ belegt den Namen vor; Rechtsform nur, wo das Modul sie der Art zuordnet"
   - aussage: >-
-      Die Vorschaukarte trägt den Chip „Vorschau“ und Wortlaut und Fußzeile der App aus deren Textsatz, keine Aussage, die die App nicht trägt.
+      Die „Vorschau der Anfrage“ heißt Vorschau und trägt kein „Geprüft“ und keine Aussage, die die App nicht trägt.
     zustand: erfuellt
-    herkunft: U2-ADR-493 (08.10.2026)
+    herkunft: U2-ADR-493 (08.10.2026), Nachträge 10.11.2026 und 14.11.2026
     pruefung:
       - tests/studio-assistent.test.js "[Assistent · Karte · Rot-Beweis] ein „Geprüft“-Siegel, ein erfundenes Siegel und eine erfundene Fußzeile werden gefunden"
-      - tests/studio-sd.test.js "[S-D · Karte] die Vorschau trägt den Chip „Vorschau“, nirgends „Geprüft“"
+      - tests/studio-sd.test.js "[S-D · Karte] die Karte heißt „Vorschau der Anfrage“, nirgends „Geprüft“"
   - aussage: >-
       Die Fehlerliste der Angaben erreicht Bildschirmleser und setzt den Fokus ins erste fehlerhafte Feld.
     zustand: erfuellt
@@ -218,4 +261,18 @@ konformitaet:
       - tests/studio-dateinamen-einreichung.test.js "[Inhalt] Antragsdatei, Einreichung und Umschlag tragen auf keiner Ebene ein Feld `d` und kein vivodepotProtectedKey"
       - tests/studio-dateinamen-einreichung.test.js "[Inhalt·Rot-Beweis] das Suchwerkzeug findet `d` und das Kennfeld auf jeder Ebene"
       - tests/studio-dateinamen-einreichung.test.js "[Dateinamen] die Tabelle: Warnung vorn, Endung .vdkey nur bei Schlüsseldateien, DE und EN"
+  - aussage: >-
+      Es gibt eine Arbeitsfläche: kein Kopf-Schalter, kein zweiter Raum; der Start trägt Name der Stelle, zugeklappte Angaben und
+      Beispiele; rechts steht die Vorschau der Anfrage, die technischen Angaben liegen zugeklappt in der Feldkarte; jedes
+      Bedienelement des Studios hat einen Platz oder einen Befund.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 14.11.2026
+    pruefung:
+      - tests/studio-eine-flaeche.test.js "[Eine Fläche] Vorschau der Anfrage rechts, Name und Zweck über der Feldliste, Technisches zugeklappt in der Feldkarte"
+      - tests/studio-eine-flaeche.test.js "[Eine Fläche · Start] Name der Stelle, Beispiele und leere Vorlage stehen offen da, die Angaben der Stelle zugeklappt; kein zweiter Raum, kein Kopf-Schalter"
+      - tests/studio-eine-flaeche.test.js "[Eine Fläche · Start · Rot-Beweis] ein zurückgekehrter Kopf-Schalter, ein zweiter Raum und Angaben außerhalb der Klappe werden gemeldet"
+      - tests/studio-einstieg-endet-im-einstieg.test.js "[Einstieg] der Start ist die erste Ebene: keine Kacheln, die nur auf ihn zurückführten („Vorlage erstellen“, „Aufnahmebogen“, „Etwas anderes“); kein Kopf-Schalter"
+      - tests/studio-dummy-zeilen.test.js "[Studio·Dummy] alle Zeilen von S-1 stehen im Studio"
+      - tests/studio-dummy-zeilen.test.js "[Studio·Dummy·Rot-Beweis] ein zurückgekehrter Eingang, ein fehlender Kopf-Ort und eine Karte ohne Pflicht-Schalter werden rot"
+      - tests/umbau-verzeichnis-studio-deckung.test.js "[Umbau-Studio] jede Funktion der Fachebene hat einen Platz"
 ```

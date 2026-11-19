@@ -13,10 +13,9 @@ test('die Vorschau nennt das Medikament, das nicht übernommen wird', async ({ p
   await oeffneApp(page);
   await depotAnlegen(page);
   await inLeisteKlicken(page, '[data-einlesen-zentral]');
-  await page.click('[data-iz-sektor="health"]');
-  await page.click('[data-i-auto="health"]');
-  await page.setInputFiles('#i-datei-auto', { name: 'ips.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(BUNDLE)) });
-  await page.click('#m-ok');
+  // U-3 (Fassung 3, eine Tür): die Datei geht über „Dateien auswählen“ der Seite Einlesen in die Inhaltserkennung.
+  const [wahl] = await Promise.all([page.waitForEvent('filechooser'), page.click('#einlesen-waehlen')]);
+  await wahl.setFiles({ name: 'ips.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(BUNDLE)) });
   const zeile = page.locator('#modal-rueck.an .export-uebersicht-zurueck');
   await expect(zeile).toHaveCount(1);
   await expect(zeile).toContainText('Nicht übernommen:');

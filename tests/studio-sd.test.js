@@ -3,9 +3,10 @@
    Studio · Wagen S-D (10.11.2026): Hilfe ohne Zahl von Bereichen, Hilfe nach Sicht, Vorschau-Chip statt „Geprüft“
    (Umbauplan studio-umbauplan-vergleich-2026-11-10.md, Zeilen 20 und 23).
    (1) Im sichtbaren Studio-Text steht keine Zahl von Bereichen, Kategorien, Sektoren oder Einrichtungsarten (modular, wechselt je Ausgabe).
-   (2) Die Hilfe folgt der Sicht des Kopf-Schalters: Einfach zeigt Alltagswörter, die Expertensicht behält Trust-Authority, FHIR, Code-System,
+   (2) Die Hilfe zeigt an einer Vorlage Alltagswörter; am Angehörigen-Blatt zeigt sie die technischen Begriffe (seit 14.11.2026,
+       vorher der Kopf-Schalter) und behält Trust-Authority, FHIR, Code-System,
        öffentlichen und privaten Schlüssel. Im Dialog „Einreichen“ gilt dasselbe für die Hinweise zu den Schlüsseln.
-   (3) Die Karte „So sieht die Person es in ihrem Depot“ trägt den Chip „Vorschau“; „Geprüft“ behauptete eine Prüfung, die vor dem Einreichen
+   (3) Die Karte (seit 14.11.2026 die „Vorschau der Anfrage“ der Arbeitsfläche) heißt Vorschau; „Geprüft“ behauptete eine Prüfung, die vor dem Einreichen
        nicht stattgefunden hat. (Das Siegel „Geprüft“ gehört in der App zur geprüften Anfrage, a.geprueft, siehe vivodepot.html.)
    Rot-Beweis: je Probe gegen den Rückbau (die alten Texte wieder eingesetzt) im selben Lauf. Gegen den Stand davor, dessen HTML
    über VD_STUDIO_HTML eingesetzt wird, sind die Inhaltsproben rot.
@@ -51,11 +52,13 @@ function schluesselBefunde(html) {
   if (!/ebeneIstEinfach\(\)\s*\?\s*L\('Das Passwort passt nicht[^']*Sicherungsdatei erneut herunterladen/.test(html)) f.push('Meldung der Sicherungsprüfung nennt in der Einfach-Sicht den privaten Schlüssel');
   return f;
 }
+/* Seit 14.11.2026 (eine Arbeitsfläche) ist die Karte die „Vorschau der Anfrage“ der Arbeitsfläche; ihr Name steht als Überschrift. */
 function siegelBefunde(html) {
-  const f = [], k = html.slice(html.indexOf('<aside class="as-rechts"'), html.indexOf('</aside>', html.indexOf('<aside class="as-rechts"')));
-  const m = k.match(/<span class="as-siegel" data-en="([^"]*)">([^<]*)<\/span>/);
-  if (!m) f.push('kein Chip auf der Karte');
-  else { if (m[2] !== 'Vorschau') f.push('Chip DE „' + m[2] + '“'); if (m[1] !== 'Preview') f.push('Chip EN „' + m[1] + '“'); }
+  const a = html.indexOf('<div id="anfrage-vorschau"');
+  const f = [], k = a < 0 ? '' : html.slice(a, html.indexOf('<div id="eig-leer"', a));
+  const m = k.match(/<h2 data-en="([^"]*)">([^<]*)<\/h2>/);
+  if (!m) f.push('keine Überschrift auf der Karte');
+  else { if (m[2] !== 'Vorschau der Anfrage') f.push('Überschrift DE „' + m[2] + '“'); if (m[1] !== 'Preview of the request') f.push('Überschrift EN „' + m[1] + '“'); }
   if (/Geprüft|Verified/.test(k)) f.push('„Geprüft“ auf der Karte');
   return f;
 }
@@ -65,7 +68,7 @@ const ALT = {
   hilfeBereich: ['<dd data-en="A topic in the depot, for example health, finance or advance care.">Ein Themenfeld im Depot, zum Beispiel Gesundheit, Finanzen oder Vorsorge.</dd>',
     '<dd data-en="One of the fourteen Vivodepot categories (for example health, finance, advance care).">Eine der vierzehn Vivodepot-Kategorien (z. B. Gesundheit, Finanzen, Vorsorge).</dd>'],
   fhir: ['<dt class="nur-fach">FHIR</dt><dd class="nur-fach"', '<dt>FHIR</dt><dd'],
-  siegel: ['<span class="as-siegel" data-en="Preview">Vorschau</span>', '<span class="as-siegel" data-en="Verified">Geprüft</span>'],
+  siegel: ['<h2 data-en="Preview of the request">Vorschau der Anfrage</h2>', '<h2 data-en="Verified">Geprüft</h2>'],
   hint: ['<span class="nur-fach" data-en="Your public key goes to Vivodepot with the submission.">', '<span data-en="Your public key goes to Vivodepot with the submission.">'],
   meldung: ['(ebeneIstEinfach()\n      ? L(', '(L('],
   institution: ['Vivodepot bringt eingebaute Institutions-Arten mit', 'Vivodepot kennt zwölf eingebaute Institutions-Arten'],
@@ -100,9 +103,9 @@ test('[S-D · Einreichen · Rot-Beweis] ein Schlüssel-Hinweis ohne nur-fach-Kla
   assert.equal(schluesselBefunde(rueckbau(HTML, 'meldung')).length, 1);
 });
 
-test('[S-D · Karte] die Vorschau trägt den Chip „Vorschau“, nirgends „Geprüft“', () => {
+test('[S-D · Karte] die Karte heißt „Vorschau der Anfrage“, nirgends „Geprüft“', () => {
   assert.deepEqual(siegelBefunde(HTML), []);
 });
-test('[S-D · Karte · Rot-Beweis] der Chip „Geprüft“ wird gefunden', () => {
+test('[S-D · Karte · Rot-Beweis] ein „Geprüft“ auf der Karte wird gefunden', () => {
   assert.equal(siegelBefunde(rueckbau(HTML, 'siegel')).length, 3);
 });

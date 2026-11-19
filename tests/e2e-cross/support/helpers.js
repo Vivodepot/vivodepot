@@ -92,6 +92,19 @@ function jsonDatei(name, obj) {
 /* ════════════════════════════════════════════════════════════════════════
    BÜRGER-APP (Kern) — Selektoren wie tests/e2e/helpers.js
    ════════════════════════════════════════════════════════════════════════ */
+/* Eintragebereich Liste | Detail (U-4, 16.11.2026): im Detail steht nur die gewählte Rubrik. Wie das Aufklappen aller Karten
+   ist das Zeigen aller Rubriken ein Test-Artefakt, nur hier im Helfer, kein Schalter im Produkt (Gegenstück zu
+   feldgruppenKartenOeffnen in tests/e2e/helpers.js, hier nachgebaut, damit die Datei eigenständig bleibt). */
+async function alleRubrikenZeigen(page) {
+  await page.evaluate(() => {
+    for (const el of document.querySelectorAll('#content .bereich-detail > .sektion, #content .bereich-detail .feldgruppen-karte')) {
+      el.setAttribute('data-rubrik-offen', '');
+    }
+  });
+  const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary');
+  while (await karten.count()) await karten.first().click();
+}
+
 const kern = {
   // `url` (Fund, 19.09.2026): optionaler Override von `URLS.kern` — die Cross-Suite
   // selbst öffnet weiterhin unverändert die rohe vivodepot.html (kein Verhaltenswechsel für
@@ -205,8 +218,11 @@ const kern = {
   // (dieselbe Falle wie in tests/e2e/helpers.js).
   // Navigation A (05.10.2026): Wege im eingeklappten Punkt „Austausch und Überblick“ erst aufklappen, dann klicken.
   async inLeisteKlicken(page, selektor) {
-    const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
-    if (await punkt.count() && !(await punkt.evaluate((el) => el.open))) await punkt.locator('summary').click();
+    // Umbau U-3 (15.11.2026): „Mehr“ (früher „Austausch und Überblick“) ist ein eingeklappter Punkt; geöffnet wird er, wenn er das Ziel trägt (D13, 17.11.2026: der Aufklapper „Einstellungen“ entfällt).
+    for (const klasse of ['nav-gruppe-austausch']) {
+      const punkt = page.locator('#sidebar details.' + klasse, { has: page.locator(selektor) });
+      if (await punkt.count() && !(await punkt.evaluate((el) => el.open))) await punkt.locator('summary').click();
+    }
     await page.click('#sidebar ' + selektor);
   },
   async oeffneSektor(page, sektorId) {
@@ -228,8 +244,7 @@ const kern = {
     // nav-gruppe-Klick oben, eine Ebene tiefer — s. tests/e2e/helpers.js feldgruppenKartenOeffnen()
     // (inline nachgebaut statt requiriert, damit diese Datei wie im Kopfkommentar beschrieben
     // eigenständig bleibt).
-    const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary');
-    while (await karten.count()) await karten.first().click();
+    await alleRubrikenZeigen(page);
   },
   // Typ-bewusst: ein Sektor-Feld rendert je nach Definition als
   //   • skalares  [data-edit]        (text/textarea/datum/zahl) → tippen
@@ -257,10 +272,7 @@ const kern = {
     // renderContent() baut die Sektion neu auf — jede zuvor geöffnete Statuskarte kommt darum
     // wieder eingeklappt zurück (s. Kommentar an oeffneSektor). Ein Aufrufer, der mehrere Felder
     // derselben Karte hintereinander setzt, fände das zweite sonst wieder unsichtbar.
-    {
-      const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary');
-      while (await karten.count()) await karten.first().click();
-    }
+    await alleRubrikenZeigen(page);
   },
   // Datum in drei Feldern: gleicher Helfer wie in den Proben unter tests/e2e (Teile füllen, Jahr verlassen).
   async datumSetzen(page, selektor, iso) {
@@ -269,10 +281,7 @@ const kern = {
   async setzeAuswahl(page, feldId, wert) {
     await page.selectOption(`[data-edit="${feldId}"]`, wert);
     await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); window.__vdOeffentlich.renderContent(); });
-    {
-      const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary');
-      while (await karten.count()) await karten.first().click();
-    }
+    await alleRubrikenZeigen(page);
   },
   async setzeModus(page, modus) {
     // Demo-Umschalter (#tb-modus-select in .dev-leiste) ist normal ausgeblendet (nur ?dev=1);
@@ -399,7 +408,6 @@ const SCHLUESSEL_PASSWORT_E2E = 'e2e-probe-passwort-77';
 const generator = {
   async oeffnen(page, sprache) {
     await page.goto(URLS.generator);
-    await page.click('#kopf-fachebene');                  // seit S1 (08.10.2026) steht der Eingang davor; die Proben arbeiten in der Fachebene
     await page.waitForSelector('#start-leer', { state: 'visible' });
     await page.click(sprache === 'en' ? '#sp-en' : '#sp-de');   // die Sprache des Browsers soll nicht mitspielen
   },
@@ -480,6 +488,7 @@ async function mehrOeffnen(page) {
    (per Ziehen) und das Register der Menschen (per Ziehen). Liefert { datei, umschlag, publicJwk }. */
 generator.blattBauenUndErzeugen = async function blattBauenUndErzeugen(page, tmp, blatt, sd) {
   const fs = require('node:fs');
+  await page.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
   await page.click('#start-blatt');
   await page.click('.bk-kopf >> nth=0');
   await page.fill('#ab-s-titel', blatt.titel);

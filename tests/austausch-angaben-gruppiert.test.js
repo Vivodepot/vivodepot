@@ -89,8 +89,8 @@ test('[Austausch·Rot-Beweis] eine flache Liste und zwei offene Gruppen schlagen
   assert.deepEqual(pruefe(gut, 2), [], 'die gegliederte Fassung besteht');
 });
 
-/* Derselbe Maßstab im Fenster vor der Herausgabe: reichen die Angaben über mehrere Bereiche, stehen sie gegliedert.
-   Der Weg „Etwas zurückhalten“ im selben Fenster braucht einen Klick und wird im Browser geprüft. */
+/* Im Fenster vor der Herausgabe gilt seit „Häkchen in Gruppen“ (17.11.2026, P3): jede Angabe steht in einer Gruppe, auch bei
+   einem einzigen Bereich; beim Öffnen ist eine Gruppe offen, weitere darf die Person dazu öffnen. */
 function fensterKoerper(V, fn) {
   const modale = [], echt = V.ui.modal;
   V.ui.modal = (o) => { modale.push(o); return () => {}; };
@@ -99,7 +99,7 @@ function fensterKoerper(V, fn) {
 }
 function pruefeFenster(html) {
   const { gruppen, ausserhalb } = gruppenSchneiden(html, 'data-export-gruppe');
-  const depotZeilen = (h) => (h.match(/<li data-sektor="/g) || []).length;
+  const depotZeilen = (h) => (h.match(/<input type="checkbox" class="export-haken" id="[^"]+" data-sektor="/g) || []).length;
   return { gruppen: gruppen.length, offen: gruppen.filter(istOffen).length, ausserhalb: depotZeilen(ausserhalb), innen: gruppen.reduce((n, g) => n + depotZeilen(g), 0) };
 }
 
@@ -112,9 +112,9 @@ test('[Austausch·Angaben gruppiert] das Fenster vor der Herausgabe gliedert Ang
   assert.deepEqual({ gruppen: b.gruppen, offen: b.offen, ausserhalb: b.ausserhalb }, { gruppen: 2, offen: 1, ausserhalb: 0 });
 });
 
-test('[Austausch·Angaben gruppiert] Angaben aus einem einzigen Bereich stehen ohne Gruppe', async () => {
+test('[Austausch·Angaben gruppiert] Angaben aus einem einzigen Bereich stehen in einer offenen Gruppe (Häkchen P3)', async () => {
   const { V } = await ansicht();
   const [koerper] = fensterKoerper(V, () => V.flowZusammenstellungHerausgeben(['education.occupationRole'], 'Probe'));
   const b = pruefeFenster(koerper);
-  assert.deepEqual(b, { gruppen: 0, offen: 0, ausserhalb: 1, innen: 0 });
+  assert.deepEqual(b, { gruppen: 1, offen: 1, ausserhalb: 0, innen: 1 });
 });

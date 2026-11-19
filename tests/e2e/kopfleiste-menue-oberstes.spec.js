@@ -38,6 +38,16 @@ async function verdeckte(page, eintraege = MENUE + ' [role=menuitem]') {
     }).filter(Boolean), eintraege);
 }
 
+/* Wie verdeckte(), aber nur für Einträge der Suchliste, die ganz im sichtbaren Teil der Liste stehen. */
+async function sichtbarVerdeckte(page) {
+  await page.evaluate(() => {
+    const l = document.getElementById('suche-vorschlaege');
+    const kasten = l.getBoundingClientRect();
+    l.querySelectorAll('li').forEach((li) => { const r = li.getBoundingClientRect(); li.toggleAttribute('data-probe-sichtbar', r.top >= kasten.top && r.bottom <= kasten.bottom); });
+  });
+  return verdeckte(page, '#suche-vorschlaege li[data-probe-sichtbar]');
+}
+
 /* Eine Inhaltskarte unter das Menü schieben — so lag es im Fund (div.feld-zeile in details.feldgruppen-karte). */
 async function karteUnterMenue(page) {
   await page.evaluate(() => {
@@ -85,7 +95,11 @@ test('[Leiste·Suchvorschläge oben] die Vorschläge der Suche liegen am Klickpu
   await karteUnterMenue(page);
   await page.fill('#suche-eingabe', 'Pflege');
   await expect(page.locator('#suche-vorschlaege li').first()).toBeVisible();
-  expect(await verdeckte(page, '#suche-vorschlaege li'), 'verdeckte Suchvorschläge').toEqual([]);
+  // Die Liste endet im Bildschirm und rollt selbst (16.11.2026): mit Gruppen und Pfaden (U-8) ist sie länger als der Bildschirm.
+  // Geprüft werden darum die Einträge, die im sichtbaren Teil der Liste stehen; was unter ihrem Rand liegt, erreicht man durch Rollen.
+  const unten = await page.evaluate(() => document.getElementById('suche-vorschlaege').getBoundingClientRect().bottom);
+  expect(unten, 'die Vorschlagsliste endet im Bildschirm').toBeLessThanOrEqual(800);
+  expect(await sichtbarVerdeckte(page), 'verdeckte Suchvorschläge').toEqual([]);
 });
 
 /* Aufklapp-Elemente (fixed/absolute) mit einem Glas-Vorfahren, je Bereich. Jedes muss hier eine eigene Probe haben. */
@@ -110,6 +124,7 @@ for (const [slug, url] of PRODUKTE) {
     await page.setViewportSize({ width: 1280, height: 800 });
     await h.oeffneApp(page, { url });
     await h.depotAnlegen(page, { name: 'Elisabeth Muster', pw: 'e2e-passwort-123' });
+    const glas = await h.profilTraegtGlas(page);   // das Profil bestimmt die Erwartung (Dummy ohne Glas, 15.11.2026)
     const ids = await page.evaluate(() => [...new Set([...document.querySelectorAll('[data-sektor]')].map((e) => e.getAttribute('data-sektor')))]);
     expect(ids.length, 'Voraussetzung: Bereiche gefunden').toBeGreaterThan(5);
     const gefunden = new Set();
@@ -118,6 +133,7 @@ for (const [slug, url] of PRODUKTE) {
       await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
       for (const k of await aufklappImGlas(page)) gefunden.add(k);
     }
+    if (!glas) { expect([...gefunden], 'Profil ohne Glas: kein Aufklapp-Element liegt in einem Glas-Vorfahren').toEqual([]); return; }
     expect([...gefunden].filter((k) => !GEPRUEFT.includes(k)), 'neues Aufklapp-Element in Glas ohne eigene Probe').toEqual([]);
     expect(gefunden.has('depot-menue'), 'Positivkontrolle: das Depot-Menü liegt in Glas').toBe(true);
     // Die Personen-Auswahl gibt es in den Privat-Produkten (Vorsorge, Gesundheit); Pro führt diese Bereiche nicht.
@@ -127,6 +143,7 @@ for (const [slug, url] of PRODUKTE) {
 
 async function personenAuswahlOeffnen(page) {
   await page.evaluate(() => { window.__vdOeffentlich.personHinzufuegen({ name: 'Anna Beispiel' }); window.__vdOeffentlich.bearbeitungSpeichern(); window.__vdOeffentlich.oeffneSektor('health'); });
+  await h.rubrikOeffnen(page, 'input.refm-name');
   await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
   const eingabe = page.locator('#content input.refm-name').first();
   await eingabe.scrollIntoViewIfNeeded();
@@ -159,8 +176,14 @@ test('[Glas·Personen-Auswahl·Rot-Beweis] mit der Fensterrechnung allein läge 
   await page.setViewportSize({ width: 1280, height: 800 });
   await h.oeffneApp(page, { url: h.KERN_URL_PRIVAT_DE });
   await h.depotAnlegen(page, { name: 'Elisabeth Muster', pw: 'e2e-passwort-123' });
+  const glas = await h.profilTraegtGlas(page);
   const { eingabe, liste } = await personenAuswahlOeffnen(page);
   const e = await eingabe.boundingBox();
+  if (!glas) {   // ohne Glas gibt es keinen verschobenen Bezugsrahmen: die Fensterrechnung allein trifft
+    const l0 = await liste.boundingBox();
+    expect(Math.abs(l0.x - e.x) + Math.abs(l0.y - (e.y + e.height + 3)), 'Profil ohne Glas: die Liste liegt am Feld').toBeLessThanOrEqual(4);
+    return;
+  }
   await liste.evaluate((l, e) => { l.style.left = Math.round(e.x) + 'px'; l.style.top = Math.round(e.y + e.height + 3) + 'px'; }, e);   // ohne Abzug des Bezugsrahmens
   const l = await liste.boundingBox();
   expect(Math.abs(l.x - e.x) + Math.abs(l.y - (e.y + e.height + 3)), 'ohne Abzug muss die Lage abweichen').toBeGreaterThan(20);
@@ -170,8 +193,10 @@ test('[Kopfleiste·Menü oben·Rot-Beweis] ohne eigene Ebene der Kopfleiste lieg
   await page.setViewportSize({ width: 1280, height: 800 });
   await h.oeffneApp(page, { url: h.KERN_URL_PRIVAT_DE });
   await h.depotAnlegen(page, { name: 'Elisabeth Muster', pw: 'e2e-passwort-123' });
+  const glas = await h.profilTraegtGlas(page);
   await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('html body .topbar { z-index: auto !important; position: static !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
   await karteUnterMenue(page);
   await menueOeffnen(page);
+  if (!glas) { expect(await verdeckte(page), 'Profil ohne Glas: auch ohne eigene Ebene der Kopfleiste deckt keine Karte das Menü').toEqual([]); return; }
   expect(await verdeckte(page), 'ohne die Ebene muss die Messung den verdeckten Eintrag finden').toContainEqual(expect.stringContaining('tb-depot-menue-sicherungskopie @'));
 });

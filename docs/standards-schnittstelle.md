@@ -43,6 +43,8 @@ Je Familie eine Datei `tools/standards-register/<familie>.json`:
 | `richtung` | `lesen` · `schreiben` · `verwahren` · `empfangen` · `pruefen` · `vorzeigen` · `selbstauskunft-ausgeben` |
 | `bereich` | `gesundheit` · `verwaltung` · `identitaet` · `finanzen` · `bildung` · `dokumente` · `querschnitt` |
 | `exportwege` / `importwege` | Kennungen aus `EXPORT_FORMATE` / `IMPORT_FORMATE` des Kerns; dürfen leer sein |
+| `fassungAnzeige` | optional: die Fassung, wie sie auf der Seite „Standards und Vereinbarungen“ steht; fehlt sie, zeigt die Seite `version`, wenn das eine kurze Kennung ist (`tools/standards-seite-erzeugen.js`) |
+| `seite` | optional: Objekt mit `name`, `herausgeber`, `richtung`, `exportwege`, `importwege` für die Seite „Standards und Vereinbarungen“, wo das Produkt den Standard anders trägt als der Registereintrag; bei Status `fehlt` muss der Name dort „{marke}-Format“ tragen (`{marke}` setzt die Seite als Namen der aktiven Marke ein), bei `orientiert` muss `seite.name` gesetzt sein (`tools/standards-seite-erzeugen.js`) |
 | `bezuege` | `null` oder eine Liste von Datensatz-Kennungen aus `bereiche/bezuege-quellen.json` |
 | `pruefer` | optional: Pfad einer Prüfdatei im Repo, die über diesen Standard urteilt (ein gemessener Lauf, der etwa nur wegen der Lizenz `teilweise` bleibt) |
 | `kandidat` | `{ werkzeug, quelle }`: der Prüfer existiert, ist aber noch nicht eingehängt; `quelle` ist https |

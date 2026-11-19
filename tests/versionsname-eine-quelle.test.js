@@ -105,5 +105,6 @@ test('[Versionsname·Verträglichkeit] ein Klartext-Export mit „v1.0-rc“ und
   // Kein Leser: außer dem Schreiben in vollExportJSON kommt `_version` im Kern nicht vor. Ausgenommen ist das FHIR-Element
   // `coding._version` (Erweiterung am primitiven Coding.version, data-absent-reason, seit Schema 90) — ein anderes Ding
   // mit gleichem Namen, das den Fassungsnamen des Depots nicht liest.
-  assert.equal((KERN.match(/(?<!coding\.)_version\b/g) || []).length, 1);
+  // Gemessen wird der eigene Code: gelistete Fremdbibliotheken (tools/lib/fremdbibliotheken.js) sind ausgeschnitten (17.11.2026).
+  assert.equal((require('../tools/lib/html-senken.js').ohneFremdbloecke(KERN).match(/(?<!coding\.)_version\b/g) || []).length, 1);
 });

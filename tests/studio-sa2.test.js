@@ -5,9 +5,9 @@
      Z.16 · Schritt 1 und der Dialog „Einreichen“ zeigen die nötigen Felder mit Stern (.muss) und aria-required; die Felder im
             Dialog bekommen bei fehlender Eingabe denselben roten Rahmen wie .as-eingabe[aria-invalid]. Vor dem ersten Fehler
             steht kein roter Kasten (Meldungen sind hidden).
-     Z.18 · „Weiter: Einreichen“ bleibt ohne Namen oder Fragen nicht stumm: Rahmen und kurze Meldung am Namensfeld, bei leerer
-            Liste ein Leerzustand mit Knopf „Beispiel nehmen“; Enter im Fragefeld fügt hinzu.
-     Z.19 · Schritt 3 („Aussehen“) trägt den Chip „später“.
+     Z.18 · „Fertigstellen“ bleibt ohne Namen oder Felder nicht stumm: Rahmen und Meldung am Namensfeld in „Wer reicht ein?“, bei
+            leerer Vorlage ein Leerzustand und der Weg zur Bausteinliste. (Enter im Feld „Eigene Frage“ kehrt mit dem Baustein zurück.)
+     Z.19 · entfallen mit der Schrittleiste (14.11.2026): es wird kein späterer Schritt mehr angekündigt.
      Z.22 · „Standardfeld“ steht nirgends als sichtbarer Text oder Beschriftung, nur in Code-Kommentaren.
    ROT-BEWEIS: `git show 50daa495d:vivodepot-studio.html > <kopie>; GENERATOR_HTML_PATH=<kopie> node --test tests/studio-sa2.test.js`
    → Z.16, Z.18, Z.19 rot; Z.22: `git show 7cb49ed99^:vivodepot-studio.html` → rot.
@@ -67,75 +67,37 @@ test('[S-A2 · Z.16] fehlende Eingabe setzt aria-invalid an den Feldern des Dial
   assert.match(fs.readFileSync(PFAD, 'utf8'), /STAMMDATEN_FEHLER_FELD\)\.forEach\(\(id\) => \{ const f = \$\(id\); if \(f\) f\.addEventListener\('input', \(\) => f\.removeAttribute\('aria-invalid'\)\)/);
 });
 test('[S-A2 · Z.16] vor dem ersten Fehler steht kein roter Kasten: die Meldungen sind verborgen', () => {
-  for (const id of ['sd-fehler', 'as-name-meldung', 'as-fragen-meldung']) assert.match(tag(HTML, id), /\bhidden\b/, id + ' ist von Anfang an sichtbar');
+  for (const id of ['sd-fehler']) assert.match(tag(HTML, id), /\bhidden\b/, id + ' ist von Anfang an sichtbar');
 });
 
-/* ── Z.18 ──────────────────────────────────────────────────────────────────── */
-function gebunden() {
+/* ── Z.18 (seit 14.11.2026 an der einen Arbeitsfläche) ─────────────────────── */
+test('[S-A2 · Z.18] „Fertigstellen“ ohne Namen ist nicht stumm: es öffnet „Wer reicht ein?“, das Namensfeld bekommt Rahmen und Meldung', () => {
   const g = ladeGenerator();
   const { V, sandbox, document } = g;
   V.spracheFuerProbeSetzen('de');
-  V.ASSISTENT.name = ''; V.ASSISTENT.fragen = []; V.ASSISTENT.art = null;
-  const handler = {};
-  sandbox.assistentBinden((id, ev, fn) => { handler[id + ':' + ev] = fn; });
-  const attr = {};
-  const name = document.getElementById('as-name');
-  name.setAttribute = (k, v) => { attr[k] = v; }; name.removeAttribute = (k) => { delete attr[k]; };
-  name.focus = () => { attr.__fokus = 'as-name'; };
-  return Object.assign(g, { handler, attr, name });
-}
-test('[S-A2 · Z.18] „Weiter: Einreichen“ ohne Namen ist nicht stumm: Rahmen und Meldung am Feld; die erste Eingabe nimmt beides zurück', () => {
-  const { V, document, handler, attr, name } = gebunden();
-  assert.ok(handler['as-weiter-2:click'], 'Knopf nicht gebunden');
-  assert.ok(handler['as-name:input'], 'Namensfeld nicht gebunden');
-  const meldung = document.getElementById('as-name-meldung');
-  meldung.hidden = true;
-  handler['as-weiter-2:click']();
-  assert.equal(attr['aria-invalid'], 'true', 'kein roter Rahmen am Namensfeld');
-  assert.equal(meldung.hidden, false, 'keine sichtbare Meldung');
-  assert.equal(attr.__fokus, 'as-name');
-  name.value = 'Sportverein'; V.ASSISTENT.name = 'Sportverein';
-  handler['as-name:input']();
-  assert.equal(attr['aria-invalid'], undefined, 'Rahmen bleibt stehen');
-  assert.equal(meldung.hidden, true, 'Meldung bleibt stehen');
+  V.ASSISTENT.name = ''; V.ASSISTENT.art = '';
+  V.startBeispielLaden('verein');
+  sandbox.fertigOeffnen();
+  assert.equal(V.STATE.anbieter, null);
+  assert.equal(sandbox.naechsterFertigSchritt(), 'stammdaten');
+  const fehler = JSON.parse(JSON.stringify(V.validiereStammdaten(sandbox.leseStammdatenForm())));
+  assert.ok(fehler.some((f) => V.STAMMDATEN_FEHLER_FELD[f] === 'sd-name'), 'der fehlende Name wird gemeldet');
+  const gesetzt = {};
+  const name = document.getElementById('sd-name'); name.setAttribute = (k, v) => { gesetzt[k] = v; };
+  const box = document.getElementById('sd-fehler'); box.hidden = true;
+  sandbox.stammdatenFehlerZeigen(fehler);
+  assert.equal(gesetzt['aria-invalid'], 'true', 'kein roter Rahmen am Namensfeld');
+  assert.equal(box.hidden, false, 'keine sichtbare Meldung');
 });
-test('[S-A2 · Z.18] „Weiter: Einreichen“ ohne Fragen zeigt einen Leerzustand mit Knopf „Beispiel nehmen“, der ein Beispiel lädt', () => {
-  const { V, sandbox, document, handler } = gebunden();
-  V.ASSISTENT.name = 'Sportverein Beispielstadt';
-  const leer = document.getElementById('as-fragen-meldung'); leer.hidden = true;
-  handler['as-weiter-2:click']();
-  assert.equal(leer.hidden, false, 'kein Leerzustand');
-  assert.equal(V.ASSISTENT.fragen.length, 0);
-  assert.ok(handler['as-beispiel-nehmen:click'], 'der Knopf „Beispiel nehmen“ ist nicht gebunden');
-  handler['as-beispiel-nehmen:click']();
-  assert.ok(V.ASSISTENT.fragen.length > 0, 'das Beispiel wurde nicht geladen');
-  assert.equal(leer.hidden, true, 'der Leerzustand bleibt trotz Fragen stehen');
-  assert.match(tag(HTML, 'as-beispiel-nehmen'), /data-en="Use an example"/);
-  assert.match(HTML, /id="as-fragen-meldung"[^>]*hidden><span data-en="No question yet\.">Noch keine Frage\.<\/span>/);
-  assert.match(HTML, /id="as-name-meldung"[^>]*data-en="Please enter a name\.">Bitte tragen Sie einen Namen ein\./);
-  void sandbox;
-});
-test('[S-A2 · Z.18] Enter im Fragefeld fügt die Frage hinzu', () => {
-  const { V, document, handler } = gebunden();
-  assert.ok(handler['as-neu-frage:keydown'], 'Enter im Fragefeld ist nicht gebunden');
-  V.ASSISTENT.fragen = [];
-  document.getElementById('as-neu').dataset = { art: 'text' };
-  document.getElementById('as-neu-frage').value = 'Wie heißt Ihr Haustier?';
-  let verhindert = false;
-  handler['as-neu-frage:keydown']({ key: 'Enter', preventDefault: () => { verhindert = true; } });
-  assert.equal(V.ASSISTENT.fragen.length, 1);
-  assert.equal(V.ASSISTENT.fragen[0].frage, 'Wie heißt Ihr Haustier?');
-  assert.equal(verhindert, true);
-  handler['as-neu-frage:keydown']({ key: 'a', preventDefault: () => {} });
-  assert.equal(V.ASSISTENT.fragen.length, 1, 'eine andere Taste fügt nichts hinzu');
-});
-
-/* ── Z.19 ──────────────────────────────────────────────────────────────────── */
-test('[S-A2 · Z.19] Schritt 3 trägt den Chip „später“ (DE und EN)', () => {
-  const a = HTML.indexOf('id="as-sl-3"');
-  const li = HTML.slice(a, HTML.indexOf('</li>', a));
-  assert.match(li, /<span class="as-chip as-chip-klein" data-en="later">später<\/span>/);
-  assert.match(HTML, /\.as-chip\.as-chip-klein\s*\{/);
+test('[S-A2 · Z.18] ohne Felder ist die Arbeitsfläche nicht stumm: „Noch keine Felder“, in der Vorschau „Noch kein Datenfeld.“, und die Prüfung nennt den Weg zur Bausteinliste', () => {
+  assert.match(HTML, /chip\.textContent = L\('Noch keine Felder', 'No fields yet'\)/);
+  assert.match(HTML, /class: 'av-leer', text: L\('Hier erscheinen die Datenfelder Ihrer Vorlage\.', 'The data fields of your template appear here\.'\)/);   // Wortlaut seit S-1 nach dem Dummy (N64)
+  const { V } = ladeGenerator();
+  const res = V.pruefeKonformitaet({ felder: [] }, { nurInhalt: true });
+  const leer = res.blocker.find((b) => /^Es ist noch kein Feld definiert\./.test(b));
+  assert.ok(leer, 'kein Blocker zum fehlenden Feld');
+  const ziel = JSON.parse(JSON.stringify(V.meldungZiel(leer, [])));
+  assert.equal(ziel.fokus, 'palette', 'der Weg führt zur Bausteinliste');   // seit S-2 ohne Gesamtsuche
 });
 
 /* ── Z.22 ──────────────────────────────────────────────────────────────────── */

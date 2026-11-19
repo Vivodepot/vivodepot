@@ -1,14 +1,14 @@
 'use strict';
 /* ═════════════════════════════════════════════════════════════════════════════
-   Studio · Einfach-Weg „Vorlage einreichen“ (Studio-Umbau, Wagen 1.5, 09.11.2026)
+   Studio · Einfach-Weg „Vorlage einreichen“ (Studio-Umbau, Wagen 1.5, 09.11.2026; seit 14.11.2026 Start und eine Arbeitsfläche)
    ─────────────────────────────────────────────────────────────────────────────
    Der Weg einer Person ohne Fachwissen von der Kachel bis zur eingereichten Vorlage: wenige Handgriffe, Unklarheiten mit
    einem Muster gelöst (Kopfzeile, Haken, Schrittzeichen), nicht mit einem weiteren Satz. Gehalten wird, ohne Browser:
-     1 · Kopfzeile je Kachel: „Aufnahmebogen“ und „Vorlage erstellen“ öffnen denselben Assistenten, die Kopfzeile trägt den
-         Titel der gewählten Kachel (DE und EN wortgleich mit der Kachel).
-     2 · Unter einer Frage steht kein „Standardfeld“.
+     1 · „Aufnahmebogen“ und „Vorlage erstellen“ führen auf denselben Start mit einer Überschrift (bis 14.11.2026: ein
+         Assistent mit der Kopfzeile der Kachel).
+     2 · „Standardfeld“ steht nirgends sichtbar: tests/studio-sa2.test.js, Z.22.
      3 · Vorname, Nachname und E-Mail stehen als „Muss ausgefüllt werden“ vorbelegt da und lassen sich abwählen.
-     4 · Anschrift und Ansprechperson stehen im ersten Schritt des Assistenten; das Land ist eine Eingabe mit Vorschlägen
+     4 · Anschrift und Ansprechperson stehen am Start unter „Angaben der Stelle“; das Land ist eine Eingabe mit Vorschlägen
          aus den Rechtsraum-Modulen, ohne Vorbelegung (U2-ADR-495).
      5 · „Weiter: Einreichen“ übernimmt vollständige Angaben in die Einreichung: der Dialog beginnt bei der Sicherung.
          Unvollständige Angaben öffnen den Dialog wie bisher bei „Wer reicht ein?“.
@@ -22,7 +22,7 @@
     10 · Das Land bleibt leer (U2-ADR-495 Nr. 4); aus der Region der ersten Browser-Sprache schlägt das Studio es als Chip vor,
          der Klick trägt den Namen aus dem Rechtsraum-Modul ein. Kein Ländername steht im Code.
     11 · Das Mailprogramm öffnet im selben Zug wie die Einreichung, wenn der Klick noch als Nutzeraktivierung gilt, sonst bleibt der Knopf.
-   Den Klickpfad und den Dialog über dem Assistenten zählt und sieht tests/e2e-cross/T-CROSS-42-studio-einfach-weg.spec.js.
+   Den Klickpfad und den Dialog zählt und sieht tests/e2e-cross/T-CROSS-42-studio-einfach-weg.spec.js.
    ROT-BEWEIS: `git show dbf1c70b4:vivodepot-studio.html > <kopie>; GENERATOR_HTML_PATH=<kopie> node --test
    tests/studio-einfach-weg-einreichen.test.js` → jede Probe rot.
    ═════════════════════════════════════════════════════════════════════════════ */
@@ -55,45 +55,37 @@ function kachelTitel(html, id) {
 }
 const FACHWORT = /Anbieter-Stammdaten|Template|Pflichtfeld|Rechtsraum|USt-ID|\.vdkey|\.jwk|Stammdaten/;
 
-/* ── 1 · Kopfzeile je Kachel ───────────────────────────────────────────────── */
-test('[Einfach-Weg · Kopfzeile] beide Kacheln öffnen denselben Assistenten, die Kopfzeile trägt den Titel der gewählten Kachel', () => {
-  const g = ladeGenerator();
-  assert.equal(typeof g.sandbox.assistentKopf, 'function', 'keine Kopfzeile je Kachel (assistentKopf)');
-  for (const [kachel, id] of [['aufnahme', 'ein-aufnahme'], ['vorlage', 'ein-vorlage']]) {
-    assert.ok(HTML.includes("an('" + id + "', 'click', () => { assistentEintreten('" + kachel + "'); zeigeSchritt('assistent'); });"), id + ': Bindung ohne Kachel');
-    assert.deepEqual(nativ(g.sandbox.assistentKopf(kachel)), kachelTitel(HTML, id));
-  }
-  assert.match(block(HTML, '<main id="raum-assistent"', '</main>'), /<p class="eingang-aug" id="as-aug"/);
-});
-
-/* ── 2 · kein „Standardfeld“ ───────────────────────────────────────────────── */
-test('[Einfach-Weg · Standardfeld] unter einer Frage steht kein „Standardfeld“', () => {
-  assert.doesNotMatch(rumpf(HTML, 'assistentZeigen'), /Standardfeld|Standard field/);
+/* ── 1 · beide Kacheln, ein Start ──────────────────────────────────────────── */
+test('[Einfach-Weg · Start] der Anfang ist der Start mit einer Überschrift (seit S-1 ohne die Kacheln „Aufnahmebogen“ und „Vorlage erstellen“ davor); kein zweiter Raum', () => {
+  assert.ok(HTML.includes("if (id === 'willkommen') { dlgZu('dlg-fertig'); raumZeigen('start');"), 'der Anfang ist der Start');
+  assert.ok(!/id="ein-aufnahme"|id="ein-vorlage"/.test(HTML), 'keine Kachel, die nur auf den Start zurückführt');
+  const start = block(HTML, '<main id="raum-start"', '</main>');
+  assert.equal(start.split('<h1 ').length - 1, 1, 'eine Überschrift');
+  assert.match(start, /<h1 data-en="Create a template">Vorlage erstellen<\/h1>/);
+  assert.doesNotMatch(HTML, /id="raum-assistent"/);
 });
 
 /* ── 3 · Muss vorbelegt ────────────────────────────────────────────────────── */
-test('[Einfach-Weg · Muss] Vorname, Nachname und E-Mail stehen als „Muss ausgefüllt werden“ da, abwählbar; andere Fragen nicht', () => {
+test('[Einfach-Weg · Muss] Vorname, Nachname und E-Mail stehen als Pflicht da, abwählbar; die übrigen Standardfelder nicht', () => {
   const { V } = ladeGenerator();
-  V.ASSISTENT.sprache = 'de';
-  V.assistentBeispielLaden('behoerde');
+  V.spracheFuerProbeSetzen('de');
+  const fragen = nativ(V.ASSISTENT_BEISPIELE.behoerde.fragen);
+  const felder = nativ(V.beispielFelder('behoerde'));
   const pflicht = {};
-  V.ASSISTENT.fragen.forEach((f) => { if (f.reg) pflicht[f.reg] = !!f.pflicht; });
+  fragen.forEach((f, i) => { if (f.reg) pflicht[f.reg] = felder[i].pflicht; });
   assert.deepEqual(pflicht, { vorname: true, nachname: true, strasse: false, hausnummer: false, plz: false, ort: false, email: true });
-  const felder = nativ(V.assistentFelder());
   assert.equal(felder.filter((f) => f.pflicht).length, 4, 'Vorname, Nachname, E-Mail und „Anliegen“');
-  V.ASSISTENT.fragen.forEach((f) => { f.pflicht = false; });   // der Haken ist abwählbar: ohne ihn ist die Frage frei
-  assert.equal(nativ(V.assistentFelder()).filter((f) => f.pflicht).length, 0);
-  V.ASSISTENT.fragen.length = 0;
-  V.assistentHinzu('email'); V.assistentHinzu('telefon');
-  assert.deepEqual(nativ(V.ASSISTENT.fragen.map((f) => !!f.pflicht)), [true, false], 'auch „Frage hinzufügen“ belegt E-Mail vor');
+  // abwählbar: der Schalter „Pflichtfeld“ der Feldkarte schreibt ins Feld (Probe studio-empfehlung-mit-weg, Start-Beispiel)
+  assert.match(HTML, /<input type="checkbox" id="ed-pflicht">/);
+  assert.match(rumpf(HTML, 'feldUebernehmen'), /pflicht: \$\('ed-pflicht'\)\.checked/);
 });
 
-/* ── 4 · Anschrift und Ansprechperson im Assistenten ──────────────────────── */
+/* ── 4 · Anschrift und Ansprechperson am Start ─────────────────────────────── */
 const AS_KONTAKT = ['as-strasse', 'as-plz', 'as-ort', 'as-land', 'as-rechtsform', 'as-k-name', 'as-k-email'];
-test('[Einfach-Weg · Angaben] Anschrift und Ansprechperson stehen im ersten Schritt, jede mit Beschriftung DE/EN; das Land ohne Vorbelegung', () => {
-  const s1 = block(HTML, '<div id="as-schritt-1">', '<div id="as-schritt-2"');
+test('[Einfach-Weg · Angaben] Anschrift und Ansprechperson stehen am Start unter „Angaben der Stelle“, jede mit Beschriftung DE/EN; das Land ohne Vorbelegung', () => {
+  const s1 = block(HTML, '<details class="start-angaben" id="start-angaben">', '</details>');
   for (const id of AS_KONTAKT) {
-    assert.match(s1, new RegExp('<input [^>]*id="' + id + '"'), id + ' fehlt im ersten Schritt');
+    assert.match(s1, new RegExp('<input [^>]*id="' + id + '"'), id + ' fehlt am Start');
     assert.match(s1, new RegExp('<label class="as-feld" for="' + id + '"><span(?: class="muss")? data-en="[^"]+">[^<]+</span></label>'), id + ' ohne Beschriftung');
   }
   const land = s1.match(/<input [^>]*id="as-land"[^>]*>/)[0];
@@ -101,33 +93,39 @@ test('[Einfach-Weg · Angaben] Anschrift und Ansprechperson stehen im ersten Sch
   assert.doesNotMatch(land, /value=/, 'kein Land vorbelegt (U2-ADR-495)');
 });
 
-/* ── 9 · Einrichtung und Bogen auf einer Seite (K3) ─────────────────────────
-   ROT-BEWEIS: `git show dbf1c70b4:vivodepot-studio.html` → „kein Knopf Weiter: Bogen gestalten“ und „Schritt 2 sichtbar“ rot. */
-test('[Einfach-Weg · eine Seite] Schritt 2 steht neben Schritt 1, ohne eigenen Weiter-Knopf; „Zurück zur Auswahl“ steht unten', () => {
-  const raum = block(HTML, '<main id="raum-assistent"', '</main>');
-  assert.doesNotMatch(raum, /id="as-weiter-1"/, 'kein Knopf „Weiter: Bogen gestalten“');
-  assert.doesNotMatch(raum, /id="as-zurueck-2"/);
-  assert.match(raum, /<div id="as-schritt-2">/, 'Schritt 2 ist nicht versteckt');
-  assert.equal(raum.split('id="as-zurueck-1"').length - 1, 1, 'ein „Zurück zur Auswahl“');
-  assert.ok(raum.indexOf('id="as-zurueck-1"') > raum.indexOf('id="as-weiter-2"'), '„Zurück zur Auswahl“ steht beim letzten Knopf');
-  assert.doesNotMatch(rumpf(HTML, 'assistentZeigen'), /ASSISTENT\.schritt/, 'kein Schritt mehr, den die Seite verstecken müsste');
+/* ── 9 · ein Start, eine Arbeitsfläche (K3; seit 14.11.2026 ohne zweiten Raum) ── */
+test('[Einfach-Weg · eine Seite] es gibt keinen zweiten Raum und keine Schritte: Start und Arbeitsfläche', () => {
+  assert.doesNotMatch(HTML, /id="raum-assistent"|id="as-weiter-1"|id="as-weiter-2"|id="as-zurueck-2"|id="as-schritt-\d"/);
   assert.doesNotMatch(HTML, /ASSISTENT\.schritt\b/);
+  assert.doesNotMatch(HTML, /zeigeSchritt\('assistent'\)/);
 });
-test('[Einfach-Weg · eine Seite] mit der Art erscheint das Beispiel sofort; eine geänderte Frageliste bleibt beim Wechsel der Art', () => {
+test('[Einfach-Weg · eine Seite] die Art stellt ihr Beispiel an die erste Stelle; geladen wird erst auf Klick; der Wechsel der Art ändert die Felder der Vorlage nicht', () => {
   const { V, sandbox } = ladeGenerator();
   V.spracheFuerProbeSetzen('de');
-  V.ASSISTENT.sprache = 'de';
+  const alle = Object.keys(V.ASSISTENT_BEISPIELE);
+  assert.deepEqual(nativ(sandbox.startBeispielArten()), alle, 'ohne Art: alle Beispiele');
+  V.STATE.felder = [];
   sandbox.assistentArtWaehlen('verein');
   assert.equal(V.ASSISTENT.art, 'verein');
-  const verein = nativ(V.ASSISTENT.fragen.map((f) => f.reg || f.frage));
-  assert.ok(verein.length >= 3, 'das Beispiel steht da');
-  sandbox.assistentArtWaehlen('kanzlei');   // nichts geändert: das andere Beispiel ersetzt es
-  assert.notDeepEqual(nativ(V.ASSISTENT.fragen.map((f) => f.reg || f.frage)), verein);
-  V.assistentHinzu('geburtsdatum');   // die Person ändert die Fragen (das Beispiel „Kanzlei“ hat es nicht)
-  const geaendert = nativ(V.ASSISTENT.fragen);
+  const mitArt = nativ(sandbox.startBeispielArten());
+  assert.equal(mitArt[0], 'verein', 'mit Art: ihr Beispiel zuerst');
+  assert.deepEqual(mitArt.slice().sort(), alle.slice().sort(), 'die übrigen bleiben wählbar');
+  assert.equal(V.STATE.felder.length, 0, 'die Art lädt nichts');
+  V.startBeispielLaden('verein');
+  const geladen = nativ(V.STATE.felder);
+  assert.ok(geladen.length >= 3, 'das Beispiel steht in der Arbeitsfläche');
   sandbox.assistentArtWaehlen('schule');
   assert.equal(V.ASSISTENT.art, 'schule');
-  assert.deepEqual(nativ(V.ASSISTENT.fragen), geaendert, 'ihre Fragen bleiben');
+  assert.deepEqual(nativ(V.STATE.felder), geladen, 'die Felder der Vorlage bleiben');
+});
+test('[Einfach-Weg · eine Seite] ein Beispiel nennt die Art, solange keine gewählt ist; eine gewählte Art bleibt', () => {
+  const { V } = ladeGenerator();
+  V.spracheFuerProbeSetzen('de');
+  V.ASSISTENT.art = '';
+  V.startBeispielLaden('verein');
+  assert.equal(V.ASSISTENT.art, 'verein');
+  V.startBeispielLaden('schule');
+  assert.equal(V.ASSISTENT.art, 'verein');
 });
 
 /* ── 10 · Land: Vorschlag als Chip, kein Voreintrag (U2-ADR-495 Nr. 4) ─────── */
@@ -189,14 +187,14 @@ test('[Einfach-Weg · Mail] im Einfach-Weg öffnet das Mailprogramm im selben Zu
   const ohne = mailProbe({}, true);
   assert.equal(ohne.klicks(), 0, 'ein Browser ohne userActivation: der Knopf bleibt der Weg');
   const fach = mailProbe({ userActivation: { isActive: true } }, false);
-  assert.equal(fach.klicks(), 0, 'in der Expertensicht bleibt es beim Knopf');
+  assert.equal(fach.klicks(), 0, 'außerhalb der einfachen Darstellung (Angehörigen-Blatt) bleibt es beim Knopf');
   assert.match(HTML, /fertigKarteZeigen\(paket\);\s*mailNachSpeichernOeffnen\(\);/, 'die Mail öffnet nach der Erfolgskarte, im selben Lauf wie der Download');
 });
 
 test('[Einfach-Weg · Rechtsform] die Rechtsform kommt aus dem Modul des eingetragenen Landes und der Art; ohne Land keine, eine eigene Eingabe bleibt', () => {
   const g = ladeGenerator();
   const { V, sandbox, document } = g;
-  assert.equal(typeof sandbox.assistentRechtsformVorschlagen, 'function', 'kein Vorschlag der Rechtsform im Assistenten');
+  assert.equal(typeof sandbox.assistentRechtsformVorschlagen, 'function', 'kein Vorschlag der Rechtsform am Start');
   V.spracheFuerProbeSetzen('de');
   const land = document.getElementById('as-land'), form = document.getElementById('as-rechtsform');
   V.ASSISTENT.art = 'verein';
@@ -214,12 +212,11 @@ function assistentMitAngaben(werte) {
   const g = ladeGenerator();
   const { V, sandbox } = g;
   V.spracheFuerProbeSetzen('de');
-  V.ASSISTENT.sprache = 'de';
   V.ASSISTENT.name = 'Sportverein Beispielstadt';
   V.ASSISTENT.art = 'verein';
-  V.assistentBeispielLaden('verein');
+  V.startBeispielLaden('verein');
   for (const [id, wert] of Object.entries(werte)) { const e = g.document.getElementById(id); assert.ok(e, id + ' gibt es nicht'); e.value = wert; }
-  sandbox.assistentEinreichen();
+  sandbox.fertigOeffnen();
   return g;
 }
 const VOLLSTAENDIG = { 'as-strasse': 'Am Sportplatz 3', 'as-plz': '12345', 'as-ort': 'Beispielstadt', 'as-land': 'Deutschland', 'as-rechtsform': 'e.V.', 'as-k-name': 'Erika Beispiel', 'as-k-email': 'verein@beispiel.example' };
@@ -243,7 +240,7 @@ test('[Einfach-Weg · Übergabe] unvollständige Angaben öffnen „Wer reicht e
 });
 
 /* ── 5b · Anzeige ist nicht Tor ─────────────────────────────────────────────
-   Aus dem Assistenten blendet renderefPruefung die Zeile „Anbieter-Stammdaten unvollständig“ aus, solange „Wer reicht
+   In der einfachen Darstellung blendet renderefPruefung die Zeile „Anbieter-Stammdaten unvollständig“ aus, solange „Wer reicht
    ein?“ offen ist. Das ist nur die Anzeige: res.blocker bleibt unverändert, der Knopf „Einreichung speichern“ bleibt
    gesperrt und submissionErzeugen gibt nichts hinaus, auch wenn der Schlüssel bereit wäre.
    ROT-BEWEIS: in einer Kopie `$('pr-submit').disabled = res.blocker.length > 0` → `gezeigt.length > 0` (renderefPruefung)
@@ -252,7 +249,7 @@ test('[Einfach-Weg · Tor] die ausgeblendete Zeile zu den Angaben sperrt weiter:
   const g = assistentMitAngaben({ 'as-strasse': 'Am Sportplatz 3' });
   const { V, sandbox, document } = g;
   assert.equal(V.STATE.anbieter, null, 'Vorbedingung: Angaben unvollständig');
-  assert.equal(require('node:vm').runInContext('fertigAusAssistent', sandbox), true, 'Vorbedingung: aus dem Assistenten');
+  assert.equal(require('node:vm').runInContext('fertigEinfach', sandbox), true, 'Vorbedingung: einfache Darstellung');
   sandbox.einreichungFrei = () => true;                      // der Schlüssel wäre bereit: nur die Angaben fehlen
   const res = sandbox.pruefeKonformitaet(sandbox.aktuellerState());
   assert.ok(res.blocker.some((b) => /^Anbieter-Stammdaten unvollständig: /.test(b)), 'res.blocker trägt die fehlenden Angaben');

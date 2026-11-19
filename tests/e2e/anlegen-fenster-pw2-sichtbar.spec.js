@@ -52,6 +52,7 @@ async function ankerFenster(page) {
   await page.waitForSelector('#app.an', { state: 'attached' });
   // Rot-Beweis: die Erwartung beschrieb die frühere Gestalt (alle Karten offen, ein Klick auf die erste Kopfzeile öffnete sie nicht, sondern
   // schloss sie jetzt: die ersten Gruppenkarten stehen ab Werk offen, der Rest zu). Geöffnet wird, was zu ist, nie umgeschaltet.
+  await h.eintragDetailOeffnenMobil(page);   // U-4 (HANDY.md Z. 7): bei 390 px erst die Liste, die Felder nach dem Tipp auf eine Zeile
   await h.feldgruppenKartenOeffnen(page);
   await page.locator('#content [data-umschau-eintragen][data-umschau-feld]').first().click();
   await expect(page.locator('#modal-rueck [data-anlegen-grund]')).toBeVisible();

@@ -48,7 +48,7 @@ test('[Anfrage·Kopf] „Anfrage vom … · gilt bis …" mit deutschem Datum; �
   assert.equal(produkt()._datumDeutsch('2027-12-31'), '31.12.2027');
 });
 
-test('[Anfrage·Einzeln] „Einzeln entscheiden, was mitgeht" ist ein Knopf, kein dezenter Link', () => {
-  assert.match(KERN, /<button type="button" class="btn btn-sek" id="exp-zurueckhalten-weg">/);
-  assert.doesNotMatch(KERN, /class="btn-dezent" id="exp-zurueckhalten-weg"/);
+test('[Anfrage·Einzeln] einzeln entschieden wird an den Häkchen, ohne zweiten Weg (Häkchen in Gruppen, 17.11.2026)', () => {
+  assert.match(KERN, /<input type="checkbox" class="export-haken" id="' \+ escapeAttr\(id\) \+ '"' \+ attr/);
+  assert.doesNotMatch(KERN, /id="exp-zurueckhalten-weg"/);
 });

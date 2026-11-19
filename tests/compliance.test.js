@@ -70,7 +70,11 @@ test('4) SBOM ist CycloneDX 1.6; jsPDF, noble-ed25519, qrcode-generator + Data-M
   assert.equal(SBOM.bomFormat, 'CycloneDX');
   assert.equal(SBOM.specVersion, '1.6');
   const libs = (SBOM.components || []).filter(c => c.type === 'library').map(c => c.name);
-  assert.deepEqual(libs.slice().sort(), ['jspdf', 'noble-ed25519', 'qrcode-generator', 'zxing-library'], 'jsPDF, noble-ed25519 (v865, U2-ADR-457), qrcode-generator + Data-Matrix-Auszug (Medikationsplan einlesen) als eingebettete Libraries');
+  assert.deepEqual(libs.slice().sort(), ['jspdf', 'noble-ed25519', 'pdfjs-dist', 'qrcode-generator', 'zxing-library'], 'jsPDF, noble-ed25519 (v865, U2-ADR-457), pdf.js (PDF im Depot ansehen), qrcode-generator + Data-Matrix-Auszug (Medikationsplan einlesen) als eingebettete Libraries');
+  const pdfjs = SBOM.components.find(c => c.name === 'pdfjs-dist');
+  assert.equal(pdfjs.version, '4.10.38');
+  assert.equal(pdfjs.licenses[0].license.id, 'Apache-2.0');
+  assert.ok(pdfjs.hashes.some(h => h.alg === 'SHA-256' && /^[0-9a-f]{64}$/.test(h.content)), 'pdf.js SHA-256 gesetzt');
   const dm = SBOM.components.find(c => c.name === 'zxing-library');
   assert.equal(dm.version, '0.23.0');
   assert.equal(dm.licenses[0].license.id, 'Apache-2.0');

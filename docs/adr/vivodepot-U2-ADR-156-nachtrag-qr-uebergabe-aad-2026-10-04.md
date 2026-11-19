@@ -38,7 +38,8 @@ am Empfängergerät in NFD-Form ankommt, öffnet den QR deshalb nicht.
    v1-Codes, deshalb nimmt die Lese-App v1 **bis einschließlich `2026-11-15`** an (`EMPFAENGER_QR_V1_ANNAHME_BIS`). Eine
    Entfall-Probe wird rot, sobald `BUILD_DATUM` nach diesem Tag liegt und der v1-Zweig noch existiert. Ist die Kern-Fassung mit
    v2 am `2026-11-14` noch nicht ausgeliefert, verschiebt ein Nachtrag mit Wort der Gegenlesung den Tag. Still verschoben wird
-   er nicht.
+   er nicht. **Vollzug:** Die Kern-Fassung mit v2 ist seit v923 ausgeliefert (09.10.2026), ein Verschieben war nicht nötig. Der v1-Zweig entfällt
+   im ersten Zug mit `BUILD_DATUM` ab `2026-11-16`; v1 wird danach wie jede unbekannte Version benannt abgelehnt.
 4. **Die Lese-App normalisiert das Passwort vor der Ableitung auf NFC**, wie der Kern.
 5. **Was gleich bleibt:** PBKDF2-Parameter (`PBKDF2_ITERATIONS`), Salz- und IV-Längen, 24 Stunden Ablauf im Chiffrat, Größengrenze,
    Zuschnitt (`empfaengerZuschnittModell`). Ein externer Krypto-Review ist für diesen Pfad weiter nötig; er steht im Review-Umfang, gleichrangig
@@ -63,12 +64,12 @@ konformitaet:
       - tests/empfaenger-qr-aad.test.js "[QR-AAD·Rot] v2 mit falscher AAD scheitert"
       - tests/empfaenger-qr-aad.test.js "[QR-AAD·Rot] v2 auf v1 umgeschrieben scheitert"
   - aussage: >-
-      Die Lese-App nimmt v1 nur bis EMPFAENGER_QR_V1_ANNAHME_BIS an; danach ist der v1-Zweig entfernt.
+      Die Lese-App nimmt v1 nicht mehr an; der v1-Zweig ist entfernt.
     zustand: erfuellt
     herkunft: U2-ADR-156-Nachtrag (04.10.2026)
     pruefung:
       - tests/empfaenger-qr-aad.test.js "[QR-AAD·Entfall] nach dem Stichtag existiert kein v1-Zweig mehr"
-      - tests/empfaenger-qr-aad.test.js "[QR-AAD·Rot] v1 nach dem Stichtag scheitert"
+      - tests/empfaenger-qr-aad.test.js "[QR-AAD·Rot] v1 wird benannt abgelehnt"
   - aussage: >-
       Die Lese-App normalisiert das QR-Passwort auf NFC, bevor sie ableitet.
     zustand: erfuellt

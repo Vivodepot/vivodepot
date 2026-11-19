@@ -363,7 +363,9 @@ function styleForm(s) {
 function modulAlsSkript(quelle) {
   return quelle
     .replace(/^export\s*\{[^}]*\};?[ \t]*$/gm, '')
-    .replace(/^export\s+(?=(?:async\s+)?function\b|const\b|let\b|class\b)/gm, '');
+    .replace(/^export\s+(?=(?:async\s+)?function\b|const\b|let\b|class\b)/gm, '')
+    // import.meta gibt es nur im Modul; zum bloßen Übersetzen genügt ein Name an seiner Stelle (pdf.js, 17.11.2026).
+    .replace(/\bimport\.meta\b/g, 'IMPORT_META');
 }
 
 function eimerVon(s, technischeWoerter) {

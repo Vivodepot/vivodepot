@@ -10,10 +10,8 @@
    · [A1·Vorauswahl] Die Felder, für die ein Anlass da ist (`anlass.zweckFelder` am Anlass im Katalog), stehen beim Öffnen unter „geht mit“.
      Die Wahl des Anlasses ist die Entscheidung der Person (U2-ADR-137: Voreinstellung, keine Sperre); jedes Feld lässt sich
      weiter zurückhalten.
-   · [A1·Untergrenze] Hält der Dialog etwas zurück und geht nichts mit, gibt es nicht nur den einen Knopf: ein zweiter
-     Knopf steht daneben, ein Knopf gibt mit den zurückgehaltenen Angaben heraus, der andere ohne sie.
-   · [A1·Klasse] Die Untergrenze gilt für jeden Weg in `flowExportUebersicht` mit Bereich oder Kennungen, im Normalweg und
-     im Zurückhalten-Weg.
+   · Die Untergrenze mit zwei Knöpfen und „kein Kästchen“ sind am 17.11.2026 durch die Entscheidung „Häkchen in Gruppen“ ersetzt
+     (Entscheidung 17.11.2026): bei „0 gehen mit“ ist „Herausgeben“ gesperrt. Probe: tests/herausgabe-haekchen-gruppen.test.js [Häkchen·P5].
    ═══════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -30,11 +28,9 @@ const MARKEN = {
 };
 const ZWECK = Object.keys(MARKEN).map((f) => 'health/' + f);
 
-// Die Zeilen der Liste „geht mit“ im Normalweg (data-sektor/data-feld je <li>).
-const gehtMit = (html) => {
-  const liste = (/<ul class="export-geht-liste">([\s\S]*?)<\/ul>/.exec(String(html)) || [, ''])[1];
-  return [...liste.matchAll(/<li data-sektor="([^"]+)" data-feld="([^"]+)"/g)].map((m) => m[1] + '/' + m[2]);
-};
+// Die angehakten Zeilen (Häkchen in Gruppen, 17.11.2026): je Angabe ein Häkchen mit data-sektor/data-feld.
+const gehtMit = (html) => [...String(html).matchAll(/<input type="checkbox" class="export-haken" id="[^"]+" data-sektor="([^"]+)" data-feld="([^"]+)" checked>/g)]
+  .map((m) => m[1] + '/' + m[2]);
 
 async function depot(V) {
   await V.depotAnlegen(PW);
@@ -70,7 +66,8 @@ test('[A1·Vorauswahl] die Herausgabe trägt die drei Angaben, ohne dass die Per
   const kennungen = V.anlassKennungen('arzt');
   let ds = null;
   // Derselbe Dialog wie beim Anlass, mit der Vorauswahl des Anlasses; gebaut wird der Datensatz dieser Kennungen.
-  const f = fenster(V, () => V.flowExportUebersicht({ kennungen, titel: 'Probe', vorauswahl: V.anlassZweckFelder('arzt'),
+  // Häkchen P4 (17.11.2026): Sensibles ist nur beim Arzttermin vorausgewählt — der Weg nennt den Anlass.
+  const f = fenster(V, () => V.flowExportUebersicht({ kennungen, titel: 'Probe', vorauswahl: V.anlassZweckFelder('arzt'), vorauswahlAnlassId: 'arzt',
     aufFortfahren: (o) => { ds = V.zusammenstellungDatensatz(kennungen, null, o); } }));
   await f.onPrimaer(() => {});
   assert.ok(ds, 'die Herausgabe lief');
@@ -80,58 +77,10 @@ test('[A1·Vorauswahl] die Herausgabe trägt die drei Angaben, ohne dass die Per
 test('[A1·Vorauswahl] weiterhin zurückzuhalten: ein Klick nimmt ein vorausgewähltes Feld zurück', async () => {
   const V = await depot(ladeKern().V);
   const f = fenster(V, () => V.flowAnlassExport('arzt'));
-  assert.ok(/id="exp-zurueckhalten-weg"/.test(f.koerperHTML), 'der Knopf „Etwas zurückhalten“ steht da');
-});
-
-// Untergrenze: alle Felder geschützt und zurückgehalten, nichts geht mit.
-async function untergrenze(V, aufruf, tag) {
-  let ds = null;
-  const kennungen = Object.keys(MARKEN).map((f) => V.anlassKennungen('arzt').find((k) => V.kennungZuSelektor(k).feldId === f));
-  const fort = (o) => { ds = V.zusammenstellungDatensatz(kennungen, null, o); };
-  const oeffnen = () => fenster(V, () => aufruf(kennungen, fort));
-  let f = oeffnen();
-  assert.ok(f.zweitAktion && typeof f.zweitAktion.handler === 'function', tag + ': neben „Herausgeben“ steht ein zweiter Knopf');
-  await f.onPrimaer(() => {});
-  const ersteWahl = marken(ds);
-  ds = null;
-  f = oeffnen();
-  await f.zweitAktion.handler(() => {});
-  const zweiteWahl = marken(ds);
-  const ergebnisse = [ersteWahl.length, zweiteWahl.length].sort();
-  assert.deepEqual(ergebnisse, [0, 3], tag + ': ein Knopf gibt mit den Angaben heraus, der andere ohne sie: ' + JSON.stringify({ ersteWahl, zweiteWahl }));
-}
-
-test('[A1·Untergrenze] nichts geht mit, etwas ist zurückgehalten: zwei Knöpfe statt eines', async () => {
-  const V = await depot(ladeKern().V);
-  await untergrenze(V, (kennungen, fort) => V.flowExportUebersicht({ kennungen, titel: 'Probe', aufFortfahren: fort }), 'Kennungen');
-});
-
-test('[A1·Untergrenze] Beschriftung nach UX: eigener Hauptknopf (nicht der Zeilenknopf), Stilmarke für 48 px und schmal untereinander', async () => {
-  const V = await depot(ladeKern().V);
-  const kennungen = Object.keys(MARKEN).map((f) => V.anlassKennungen('arzt').find((k) => V.kennungZuSelektor(k).feldId === f));
-  const f = fenster(V, () => V.flowExportUebersicht({ kennungen, titel: 'Probe', aufFortfahren: () => {} }));
-  const S = V.STRINGS;
-  assert.ok(S.exportAlleMitgebenKnopf && S.exportOhneSieHerausgebenKnopf && S.exportAlleMitgebenAria && S.exportOhneSieHerausgebenAria, 'die vier Texte sind geladen');
-  assert.equal(f.primaerLabel, S.exportAlleMitgebenKnopf);
-  assert.notEqual(f.primaerLabel, S.exportDochMitgebenKnopf, 'der Hauptknopf ist nicht der Zeilenknopf');
-  assert.equal(f.zweitAktion.label, S.exportOhneSieHerausgebenKnopf);
-  assert.ok(/data-herausgabe-zwei-wege/.test(f.koerperHTML), 'die Stilmarke steht im Fenster');
-  const css = fs.readFileSync(path.join(__dirname, '..', 'tools', 'erscheinung', 'stil', 'grundlage.css'), 'utf8');
-  assert.ok(/\.modal:has\(\[data-herausgabe-zwei-wege\]\) \.modal-aktionen \.btn \{ min-height: var\(--ziel-gross\); white-space: nowrap; \}/.test(css), 'beide Knöpfe mit der großen Zielfläche (48 px), kein Umbruch im Knopf (X3)');
-  assert.ok(/\.modal:has\(\[data-herausgabe-zwei-wege\]\) \.modal-aktionen \{ flex-wrap: wrap; \}/.test(css), 'passt die Zeile nicht, rückt sie um (X3)');
-  assert.ok(/\.modal:has\(\[data-herausgabe-zwei-wege\]\) \.modal-aktionen \{ flex-direction: column-reverse;/.test(css), 'schmal untereinander, Hauptknopf zuerst');
-  // Mit einem mitgehenden Feld bleibt alles wie bisher: ein Knopf, keine Marke.
-  const g = fenster(V, () => V.flowExportUebersicht({ kennungen, vorauswahl: ['health/medicationOngoing'], titel: 'Probe', aufFortfahren: () => {} }));
-  assert.equal(g.primaerLabel, S.herausgebenKnopf);
-  assert.ok(!g.zweitAktion && !/data-herausgabe-zwei-wege/.test(g.koerperHTML));
-});
-
-test('[A1·Klasse] die Untergrenze gilt auch im Bereichs-Weg (sektorId)', async () => {
-  const V = await depot(ladeKern().V);
-  const f = fenster(V, () => V.flowExportUebersicht({ sektorId: 'health', titel: 'Probe', aufFortfahren: () => {} }));
-  const mit = gehtMit(f.koerperHTML);
-  if (mit.length === 0) assert.ok(f.zweitAktion && typeof f.zweitAktion.handler === 'function', 'Bereich Gesundheit ohne mitgehendes Feld: zweiter Knopf');
-  else assert.ok(!mit.some((z) => ZWECK.includes(z)), 'Voraussetzung: im Bereichs-Weg starten die geschützten Felder zurückgehalten');
+  for (const z of ZWECK) {
+    const [s, feld] = z.split('/');
+    assert.ok(new RegExp('<input type="checkbox" class="export-haken" id="[^"]+" data-sektor="' + s + '" data-feld="' + feld + '"').test(f.koerperHTML), z + ' hat ein Häkchen zum Abwählen');
+  }
 });
 
 /* ── Rot-Beweise: der alte Zustand, in eine Kopie des Kerns gepflanzt ── */
@@ -148,44 +97,16 @@ async function erkennbar(V) {
 test('[A1·Erkennbar] der Chip nennt den Anlass und die Zahl der vorausgewählten Zeilen', async () => {
   const V = await depot(ladeKern().V);
   const { f, text } = await erkennbar(V);
-  assert.ok(text.includes(f.titel), 'Anlass im Chip: ' + text + ' / ' + f.titel);
+  // D89 (17.11.2026): der Titel heißt „Herausgeben“, der Anlass steht darunter; der Chip nennt den Anlass.
+  const anlass = V.anlassDef('arzt').titel;
+  assert.ok(text.includes(anlass), 'Anlass im Chip: ' + text + ' / ' + anlass);
   assert.ok(/\b3\b/.test(text), 'drei Zeilen gezählt: ' + text);
   // Ohne Vorauswahl kein Chip; die Zahl folgt dem, was wirklich mitgeht.
   const kennungen = V.anlassKennungen('arzt');
   const ohne = fenster(V, () => V.flowExportUebersicht({ kennungen, titel: 'Probe', aufFortfahren: () => {} }));
   assert.equal(chip(ohne.koerperHTML), null);
-  const eins = fenster(V, () => V.flowExportUebersicht({ kennungen, vorauswahl: ['health/medicationOngoing'], vorauswahlAnlass: 'Probe', titel: 'Probe', aufFortfahren: () => {} }));
+  const eins = fenster(V, () => V.flowExportUebersicht({ kennungen, vorauswahl: ['health/medicationOngoing'], vorauswahlAnlass: 'Probe', vorauswahlAnlassId: 'arzt', titel: 'Probe', aufFortfahren: () => {} }));
   assert.ok(/\b1\b/.test(chip(eins.koerperHTML)), 'eine Zeile: ' + chip(eins.koerperHTML));
-});
-
-/* Entscheidung Austausch 11.11.2026: die Herausgabe kommt ohne Kästchen aus (Variante A, 12.08.); abgewählt wird über
-   „Zurückhalten“/„Doch mitgeben“. Probe gegen die Klasse für die Wege mit Bereich, Kennungen oder Anlass, im Normal- und im
-   Zurückhalten-Weg. Der Ganzes-Depot-Zweig (sektorId null ohne Kennungen) trägt noch die Kästchenliste; sein Umbau ist eigener Bau. */
-const KAESTCHEN = /type="checkbox"/;
-function ohneKaestchen(V, tag) {
-  const funde = [];
-  let geoeffnet = 0;
-  // Ein Weg ohne Angaben öffnet kein Fenster; gezählt wird, dass genug Wege eines öffnen.
-  const pruefe = (name, fn) => {
-    const modale = [], echt = V.ui.modal;
-    V.ui.modal = (o) => { modale.push(o); return () => {}; };
-    try { fn(); } finally { V.ui.modal = echt; }
-    for (const f of modale) { geoeffnet++; if (KAESTCHEN.test(f.koerperHTML)) funde.push(name); }
-  };
-  for (const b of V.bereicheAlle()) pruefe('bereich:' + b.id, () => V.flowExportUebersicht({ sektorId: b.id, titel: 'Probe', aufFortfahren: () => {} }));
-  for (const a of V.ANLAESSE) pruefe('anlass:' + a.id, () => V.flowAnlassExport(a.id));
-  pruefe('kennungen', () => V.flowExportUebersicht({ kennungen: V.anlassKennungen('arzt'), titel: 'Probe', aufFortfahren: () => {} }));
-  assert.ok(geoeffnet >= 3, tag + ': Vorbedingung, mindestens drei Wege öffnen ein Fenster (' + geoeffnet + ')');
-  assert.deepEqual(funde, [], tag + ': kein Kästchen im Herausgabe-Weg');
-}
-
-test('[A1·Kein Kästchen] Bereich, Anlass und Kennungen zeigen kein Kästchen, auch nicht im Zurückhalten-Weg', async () => {
-  const V = await depot(ladeKern().V);
-  ohneKaestchen(V, 'Normalweg');
-  const quelle = fs.readFileSync(HTML, 'utf8');
-  const von = quelle.indexOf('  const nichtMitgeschicktHTML = () => {'), bis = quelle.indexOf('  const _herausgabeKnoepfe = () => {');
-  assert.ok(von > 0 && bis > von, 'Vorbedingung: der Opt-out-Zweig ist zu finden');
-  assert.ok(!KAESTCHEN.test(quelle.slice(von, bis)), 'Normal- und Zurückhalten-Weg bauen kein Kästchen');
 });
 
 /* X1 (Review 11.11.2026): ein leeres Depot gab beim Arzttermin über einen aktiven „Herausgeben“ eine Datei ohne Angaben heraus.
@@ -217,14 +138,14 @@ const HTML = path.join(__dirname, '..', 'vivodepot.html');
 const PFLANZEN = {
   // ohne Vorauswahl: kein Anlass nennt Zweck-Felder, alles Geschützte startet zurückgehalten (Stand v1052)
   ohneVorauswahl: ['function anlassZweckFelder(anlassId) {\n', (a) => a + '  return [];\n'],
-  // ohne Untergrenze: immer nur der eine Knopf „Herausgeben“ (Stand v1052)
-  // ohne Leer-Fall: ein leeres Depot behält den aktiven „Herausgeben“ (Stand v1052)
+  // ohne Leer-Fall: ein leeres Depot behält den aktiven „Herausgeben“ (Stand v1052); seit den Häkchen (17.11.2026) hält zusätzlich
+  // „bei 0 gesperrt“ (P5) — der alte Zustand braucht darum beide Stellen entfernt.
   // ohne Auflage: der Anlass-Weg nennt seinen Anlass nicht, die Vorauswahl ist nicht als solche erkennbar
   ohneErkennbar: ['    vorauswahlAnlass: def.titel || def.id,   // A1-Auflage: die Vorauswahl nennt ihren Anlass\n', () => ''],
-  // mit Kästchen: der Normalweg zeigt eine Kästchenzeile
-  mitKaestchen: ['    h += nichtMitgeschicktHTML();\n', (a) => a + '    h += \x27<input type="checkbox">\x27;\n'],
-  ohneLeer: ['    if (toggelbar.length === 0 && zusatz.length === 0) return { primaerLabel: STRINGS.btnSchliessen, onPrimaer: (schliessen) => schliessen(), ohneAbbrechen: true };\n', () => ''],
-  ohneUntergrenze: ['  const _herausgabeKnoepfe = () => {\n', (a) => a + '    return { primaerLabel: STRINGS.herausgebenKnopf, onPrimaer: ausgeben };\n'],
+  ohneLeer: ['    if (toggelbar.length === 0 && zusatz.length === 0) return { primaerLabel: STRINGS.btnSchliessen, onPrimaer: (schliessen) => schliessen(), ohneAbbrechen: true };\n' +
+    '    return { primaerLabel: (opt && opt.nurAuswahl) ? STRINGS.wizWeiter : STRINGS.herausgebenKnopf,\n' +
+    '      onPrimaer: (schliessen) => (mitZahl() > 0 ? ausgeben(schliessen) : undefined) };\n',
+  () => '    return { primaerLabel: STRINGS.herausgebenKnopf, onPrimaer: (schliessen) => ausgeben(schliessen) };\n'],
 };
 function gepflanzterKern(art) {
   const original = fs.readFileSync(HTML, 'utf8');
@@ -242,20 +163,9 @@ test('[A1·Rot-Beweis] ohne Zweck-Felder fällt die Vorauswahl: beim Arzttermin 
   assert.ok(!ZWECK.some((z) => mit.includes(z)), 'alter Zustand: nichts Geschütztes unter „geht mit“, gesehen: ' + JSON.stringify(mit));
 });
 
-test('[A1·Rot-Beweis] ohne Untergrenze: bei „0 von 3“ nur ein Knopf, und er gibt die Datei ohne Angaben heraus', async () => {
-  const V = await depot(gepflanzterKern('ohneUntergrenze'));
-  await assert.rejects(() => untergrenze(V, (kennungen, fort) => V.flowExportUebersicht({ kennungen, titel: 'Probe', aufFortfahren: fort }), 'alt'),
-    /zweiter Knopf/);
-});
-
 test('[A1·Rot-Beweis] ohne Auflage: beim Arzttermin steht kein Vorauswahl-Chip', async () => {
   const V = await depot(gepflanzterKern('ohneErkennbar'));
   await assert.rejects(() => erkennbar(V), /Vorauswahl-Chip/);
-});
-
-test('[A1·Rot-Beweis] mit Kästchen im Normalweg schlägt die Klassenprobe an', async () => {
-  const V = await depot(gepflanzterKern('mitKaestchen'));
-  assert.throws(() => ohneKaestchen(V, 'alt'), /kein Kästchen im Herausgabe-Weg/);
 });
 
 test('[A1·Rot-Beweis] ohne Leer-Fall: im leeren Depot gibt „Herausgeben“ eine Datei ohne Angaben heraus', async () => {
@@ -271,6 +181,6 @@ test('[A1·Klasse] jeder Aufruf von flowExportUebersicht im Kern geht durch dies
   // Jedes Fenster des Opt-out-Zweigs bekommt seine Knöpfe aus einer Stelle, die die Untergrenze kennt.
   const fensterAufrufe = (koerper.match(/ui\.modal\(/g) || []).length;
   const mitUntergrenze = (koerper.match(/_herausgabeKnoepfe\(/g) || []).length;
-  assert.ok(mitUntergrenze >= 1, 'die Knöpfe des Opt-out-Zweigs entstehen in _herausgabeKnoepfe');
+  assert.ok(mitUntergrenze >= 1, 'die Knöpfe des Häkchen-Zweigs entstehen in _herausgabeKnoepfe');
   assert.equal(fensterAufrufe - 1, mitUntergrenze, 'jedes Fenster außer dem Ganzes-Depot-Zweig nimmt _herausgabeKnoepfe');
 });

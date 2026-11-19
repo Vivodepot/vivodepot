@@ -1,9 +1,8 @@
 'use strict';
 /* QR-Übergabe eines Empfängerkreises, Format v2 (U2-ADR-156-Nachtrag QR-Übergabe, 05.10.2026).
-   Der Kern schreibt `v: 2` und verschlüsselt mit der AAD `vivodepot/empfaenger-qr/v2`; die Lese-App liest `v` und wählt danach
-   den Zweig. Ein umgeschriebenes `v` scheitert in beide Richtungen an GCM. v1 (ohne AAD) nimmt die Lese-App nur bis
-   EMPFAENGER_QR_V1_ANNAHME_BIS an; die Entfall-Probe wird rot, sobald BUILD_DATUM des Kerns danach liegt und der v1-Zweig noch
-   steht. Die Lese-App normalisiert das Passwort auf NFC wie der Kern.
+   Der Kern schreibt `v: 2` und verschlüsselt mit der AAD `vivodepot/empfaenger-qr/v2`; die Lese-App öffnet nur
+   v2. v1 (ohne AAD) ist zum Stichtag 2026-11-15 entfallen und wird benannt abgelehnt; die Entfall-Probe wird rot, sobald
+   BUILD_DATUM des Kerns danach liegt und der v1-Zweig wieder steht. Die Lese-App normalisiert das Passwort auf NFC wie der Kern.
    Die v1-Codes baut die Probe selbst, genau in der Form, die der Kern bis 05.10.2026 schrieb (PBKDF2 600 000, SHA-256, 16 Byte
    Salz, AES-256-GCM ohne AAD); der Kern schreibt sie nicht mehr. Alle Passwörter sind Testwerte dieser Probe. */
 const { test } = require('node:test');
@@ -15,8 +14,7 @@ const { nurCode } = require('../tools/anzeige-index-leser.js');
 
 const KERN_PW = 'kern-passwort-1234!!';
 const TEST_PW = 'empfaenger-pw-12';
-const VOR_STICHTAG = Date.parse('2026-10-05T12:00:00Z');
-const NACH_STICHTAG = Date.parse('2026-11-16T00:00:01Z');
+const V1_ERZEUGT = Date.parse('2026-10-05T12:00:00Z');
 
 const b64u = (bytes) => Buffer.from(bytes).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 const ausB64u = (s) => JSON.parse(Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8'));
@@ -42,7 +40,7 @@ async function schluessel(pw, salt, nutzung) {
 async function v1Payload(pw) {
   const salt = webcrypto.getRandomValues(new Uint8Array(16));
   const iv = webcrypto.getRandomValues(new Uint8Array(12));
-  const nutzlast = { v: 1, kreis: 'Tochter', erzeugt: VOR_STICHTAG, ablauf: VOR_STICHTAG + 86400000, inhalt: { sektoren: { identity: { givenName: 'Anna' } } } };
+  const nutzlast = { v: 1, kreis: 'Tochter', erzeugt: V1_ERZEUGT, ablauf: V1_ERZEUGT + 86400000, inhalt: { sektoren: { identity: { givenName: 'Anna' } } } };
   const ct = await webcrypto.subtle.encrypt({ name: 'AES-GCM', iv }, await schluessel(pw.normalize('NFC'), salt, 'encrypt'),
     new TextEncoder().encode(JSON.stringify(nutzlast)));
   return b64u(Buffer.from(JSON.stringify({ v: 1, s: Buffer.from(salt).toString('base64'), i: Buffer.from(iv).toString('base64'),
@@ -76,23 +74,19 @@ test('[QR-AAD·Rot] v2 mit falscher AAD scheitert', async () => {
 test('[QR-AAD·Rot] v2 auf v1 umgeschrieben scheitert', async () => {
   const { payloadB64 } = await kernPayload();
   const L = ladeLesen().V;
-  await assert.rejects(() => L._empfaengerQrEntschluesseln(umschreiben(payloadB64, (u) => { u.v = 1; }), TEST_PW, VOR_STICHTAG));
+  await assert.rejects(() => L._empfaengerQrEntschluesseln(umschreiben(payloadB64, (u) => { u.v = 1; }), TEST_PW), /qr-fassung-unbekannt/);
 });
 
-test('[QR-AAD·Rot] v1 auf v2 umgeschrieben scheitert; v1 vor dem Stichtag öffnet', async () => {
+test('[QR-AAD·Rot] v1 auf v2 umgeschrieben scheitert an GCM', async () => {
   const L = ladeLesen().V;
   const v1 = await v1Payload(TEST_PW);
-  const n = await L._empfaengerQrEntschluesseln(v1, TEST_PW, VOR_STICHTAG);
-  assert.equal(n.inhalt.sektoren.identity.givenName, 'Anna');
-  await assert.rejects(() => L._empfaengerQrEntschluesseln(umschreiben(v1, (u) => { u.v = 2; }), TEST_PW, VOR_STICHTAG));
+  await assert.rejects(() => L._empfaengerQrEntschluesseln(umschreiben(v1, (u) => { u.v = 2; }), TEST_PW), (e) => e.name === 'OperationError');
 });
 
-test('[QR-AAD·Rot] v1 nach dem Stichtag scheitert', async () => {
+test('[QR-AAD·Rot] v1 wird benannt abgelehnt', async () => {
   const L = ladeLesen().V;
-  assert.equal(L.EMPFAENGER_QR_V1_ANNAHME_BIS, '2026-11-15');
   const v1 = await v1Payload(TEST_PW);
-  await L._empfaengerQrEntschluesseln(v1, TEST_PW, Date.parse('2026-11-15T23:59:59Z'));   // der Tag selbst gilt noch
-  await assert.rejects(() => L._empfaengerQrEntschluesseln(v1, TEST_PW, NACH_STICHTAG), /qr-fassung-entfallen/);
+  await assert.rejects(() => L._empfaengerQrEntschluesseln(v1, TEST_PW), /qr-fassung-unbekannt/);
 });
 
 test('[QR-AAD] eine unbekannte Version wird benannt abgelehnt, nicht geraten', async () => {
@@ -132,9 +126,24 @@ test('[QR-AAD] ein NFD-Passwort öffnet einen mit NFC erzeugten Code', async () 
 });
 
 /* Entfall: liegt BUILD_DATUM des Kerns nach dem Stichtag, darf die Lese-App keinen v1-Zweig mehr tragen. */
+function funktionsKoerper(code, name) {
+  const start = code.search(new RegExp('function ' + name + '\\s*\\('));
+  if (start < 0) return null;
+  const auf = code.indexOf('{', code.indexOf(')', start));
+  if (auf < 0) return null;
+  for (let i = auf, tiefe = 0; i < code.length; i++) {
+    if (code[i] === '{') tiefe++;
+    else if (code[i] === '}' && --tiefe === 0) return code.slice(auf, i + 1);
+  }
+  return null;
+}
 function entfallVerletzung(buildDatum, leseHtml, bis) {
   if (!(buildDatum > bis)) return null;
-  return /EMPFAENGER_QR_V1_ANNAHME_BIS|\.v\s*===\s*1\b/.test(nurCode(leseHtml)) ? 'v1-zweig-nach-stichtag' : null;
+  const code = nurCode(leseHtml);
+  if (/EMPFAENGER_QR_V1_ANNAHME_BIS/.test(code)) return 'v1-zweig-nach-stichtag';
+  const koerper = funktionsKoerper(code, '_empfaengerQrEntschluesseln');   // andere Formate tragen eigene `obj.v === 1`-Prüfungen
+  if (koerper === null || !koerper.includes('new TextDecoder')) return 'funktion-nicht-gefunden';   // der Schnitt muss bis zum Funktionsende reichen
+  return /\.v\s*===\s*1\b/.test(koerper) ? 'v1-zweig-nach-stichtag' : null;
 }
 test('[QR-AAD·Entfall] nach dem Stichtag existiert kein v1-Zweig mehr', () => {
   const kern = fs.readFileSync(HTML_PATH, 'utf8');
@@ -142,10 +151,19 @@ test('[QR-AAD·Entfall] nach dem Stichtag existiert kein v1-Zweig mehr', () => {
   assert.ok(m, 'Vorbedingung: BUILD_DATUM im Kern gefunden');
   const lesen = fs.readFileSync(LESEN_PATH, 'utf8');
   assert.equal(entfallVerletzung(m[1], lesen, '2026-11-15'), null,
-    'BUILD_DATUM ' + m[1] + ' liegt nach dem Stichtag, und die Lese-App nimmt v1 noch an: v1-Zweig entfernen oder den Tag per Nachtrag verschieben');
+    'BUILD_DATUM ' + m[1] + ' liegt nach dem Stichtag, und die Lese-App nimmt v1 wieder an: v1-Zweig entfernen');
+  assert.equal(entfallVerletzung('2026-11-16', lesen, '2026-11-15'), null, 'auch unabhängig vom heutigen BUILD_DATUM');
 });
-test('[QR-AAD·Entfall·Rot] ein BUILD_DATUM nach dem Stichtag mit stehendem v1-Zweig wird gemeldet', () => {
+test('[QR-AAD·Entfall·Rot] ein stehender v1-Zweig, die Konstante oder eine fehlende Funktion wird gemeldet, ein fremdes obj.v === 1 nicht', () => {
   const lesen = fs.readFileSync(LESEN_PATH, 'utf8');
-  assert.equal(entfallVerletzung('2026-11-16', lesen, '2026-11-15'), 'v1-zweig-nach-stichtag');
-  assert.equal(entfallVerletzung('2026-11-15', lesen, '2026-11-15'), null, 'am Stichtag selbst noch nicht');
+  const anker = 'if (!umschlag || umschlag.v !== 2)';
+  assert.ok(lesen.includes(anker), 'Vorbedingung: Versionsprüfung gefunden');
+  assert.ok(/obj\.v === 1/.test(lesen), 'Vorbedingung: fremde Format-Prüfung steht in der Lese-App');
+  assert.equal(entfallVerletzung('2026-11-16', lesen, '2026-11-15'), null, 'die fremde Format-Prüfung zählt nicht');
+  assert.equal(entfallVerletzung('2026-11-16', lesen.replace(anker, 'if (a / 8 > 1) { b = c / 2; }\n  ' + anker), '2026-11-15'), 'funktion-nicht-gefunden', 'ein zu kurzer Schnitt wird rot');
+  const mitZweig = lesen.replace(anker, 'if (umschlag && umschlag.v === 1) return null;\n  ' + anker);
+  assert.equal(entfallVerletzung('2026-11-16', mitZweig, '2026-11-15'), 'v1-zweig-nach-stichtag');
+  assert.equal(entfallVerletzung('2026-11-15', mitZweig, '2026-11-15'), null, 'am Stichtag selbst noch nicht');
+  assert.equal(entfallVerletzung('2026-11-16', lesen + "\nconst EMPFAENGER_QR_V1_ANNAHME_BIS = '2026-11-15';\n", '2026-11-15'), 'v1-zweig-nach-stichtag');
+  assert.equal(entfallVerletzung('2026-11-16', lesen.replace('function _empfaengerQrEntschluesseln(', 'function _umbenannt('), '2026-11-15'), 'funktion-nicht-gefunden');
 });

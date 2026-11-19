@@ -51,7 +51,8 @@ test('2) Ziele = genau die Bereiche mit DATEN (datenlage-adaptiv)', async () => 
 test('3) Kein fixes Gesundheits-Routing mehr aus der zentralen Tür', async () => {
   const { V, document } = await frischMitDepot();
   V.renderSidebar();
-  const sb = document.getElementById('sidebar').innerHTML;
+  // Umbau U-3 Schritt 3 (15.11.2026): die beiden Türen stehen oben in der Kopfleiste.
+  const sb = document.getElementById('sidebar').innerHTML + document.getElementById('tb-aktionen').innerHTML;
   assert.ok(!sb.includes('data-weitergeben-zentral="health"'), 'zentrale Tür nicht mehr fix Gesundheit');
   assert.ok(sb.includes('data-weitergeben-zentral="1"'), 'neutraler Marker');
 });

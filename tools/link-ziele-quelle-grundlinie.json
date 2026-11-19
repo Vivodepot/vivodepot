@@ -1,0 +1,15 @@
+{
+ "gegenstand": "Adressen unter vivodepot.de und vivodepot.org in vivodepot.html und vivodepot-studio.html, deren Seite nicht als Datei in diesem Repo liegt. Je Eintrag der Grund. Die Liste darf nur sinken: ein Eintrag, der in keiner der Dateien mehr vorkommt oder dessen Quelle ins Repo kommt, wird gestrichen (tests/link-ziele-quelle-pruefen.test.js). Prüfwerkzeug: tools/link-ziele-quelle-pruefen.js.",
+ "deckel": 9,
+ "ohneQuelle": [
+  { "adresse": "vivodepot.de/", "grund": "Website der Marke, eigener Auftritt außerhalb dieses Repos", "datum": "2026-11-16" },
+  { "adresse": "vivodepot.de/impressum.html", "grund": "Website der Marke, eigener Auftritt außerhalb dieses Repos", "datum": "2026-11-16" },
+  { "adresse": "vivodepot.de/datenschutz.html", "grund": "Website der Marke, eigener Auftritt außerhalb dieses Repos", "datum": "2026-11-16" },
+  { "adresse": "vivodepot.de/institutionen.html", "grund": "Website der Marke, eigener Auftritt außerhalb dieses Repos", "datum": "2026-11-16" },
+  { "adresse": "register.vivodepot.de/", "grund": "Register der Stellen, eigene Auslieferung außerhalb dieses Repos", "datum": "2026-11-16" },
+  { "adresse": "register.vivodepot.de/lesen/", "grund": "Lese-Seite des Registers, eigene Auslieferung außerhalb dieses Repos", "datum": "2026-11-16" },
+  { "adresse": "privat-de.vivodepot.org/", "grund": "ausgelieferte Privatfassung der App (deutsch): die App selbst, kein eigenes Verzeichnis", "datum": "2026-11-16" },
+  { "adresse": "privat-en.vivodepot.org/", "grund": "ausgelieferte Privatfassung der App (englisch): die App selbst, kein eigenes Verzeichnis", "datum": "2026-11-16" },
+  { "adresse": "share.vivodepot.de/", "grund": "Ablage-Seite der Freigaben (index.html samt Hochlade-Skript) liegt nur auf dem Webhost, nicht in share/; erst eine Quelle im Repo streicht den Eintrag", "datum": "2026-11-16" }
+ ]
+}

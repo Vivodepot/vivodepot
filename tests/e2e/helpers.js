@@ -213,6 +213,16 @@ async function einmalDialogeSchliessen(page, fristMs = 10000) {
 // SICHTBAR (11.11.2026, Befund E2E-HELFER-KARTE-UNSICHTBAR): eine Karte ohne eigenes `hidden` kann trotzdem unsichtbar sein,
 // etwa unter einem verborgenen Eltern-Element. Der Klick darauf wartete 30 s. `:visible` nimmt nur, was man sieht.
 async function feldgruppenKartenOeffnen(page) {
+  /* Eintragebereich Liste | Detail (U-4, 16.11.2026): im Detail steht nur die offene Rubrik. Wie das Aufklappen ALLER Karten
+     unten ist das Zeigen ALLER Rubriken ein Test-Artefakt, nur hier im Helfer, kein Schalter im Produkt: Proben, deren
+     Gegenstand ein Feld ist, erreichen es so in jeder Rubrik. Die Bedienung der Rubriken selbst (Zeile wählen, Detail
+     wechselt) prüft tests/e2e/s4c-eintragebereich.spec.js; wer Auf/Zu oder Scrollen prüft, wählt die Rubrik mit
+     rubrikOeffnen wie von Hand. Neu gezeichnet zeigt der Bereich wieder nur die gewählte Rubrik. */
+  await page.evaluate(() => {
+    for (const el of document.querySelectorAll('#content .bereich-detail > .sektion, #content .bereich-detail .feldgruppen-karte')) {
+      el.setAttribute('data-rubrik-offen', '');
+    }
+  });
   const karten = page.locator('#content .feldgruppen-karte:not([open]):not([hidden]) > summary:visible, #content .situation-block:not([open]):not([hidden]) > summary:visible');
   const irgendeineGeschlossen = await karten.count();
   while (await karten.count()) await karten.first().click();
@@ -270,11 +280,56 @@ async function einstellungenAbschnittOeffnen(page, zielSelektor) {
 // stehen im EINEN eingeklappten Punkt „Austausch und Überblick“. Der Test geht denselben Weg wie die Nutzerin: erst
 // aufklappen, dann klicken — kein Klick auf ein unsichtbares Element.
 async function inLeisteKlicken(page, selektor) {
-  const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
-  if (await punkt.count() && !(await punkt.evaluate((el) => el.open))) await punkt.locator('summary').click();
+  // Umbau U-3 Schritt 3 (15.11.2026): „Einlesen“ und „Herausgeben“ stehen oben in der Kopfleiste; auf dem Handy (bis 767 px) unter „Mehr“ in der Seitenleiste.
+  const kopf = page.locator('.topbar ' + selektor);
+  if (await kopf.count() && await kopf.first().isVisible()) { await kopf.first().click(); return; }
+  const schmal = { '[data-einlesen-zentral]': '[data-einlesen-schmal]', '[data-weitergeben-zentral]': '[data-weitergeben-schmal]' }[selektor];
+  if (schmal) selektor = schmal;
+  // Umbau U-3 (15.11.2026): „Mehr“ (früher „Austausch und Überblick“) ist ein eingeklappter Punkt; geöffnet wird er, wenn er das Ziel trägt (D13, 17.11.2026: der Aufklapper „Einstellungen“ entfällt).
+  for (const klasse of ['nav-gruppe-austausch']) {
+    const punkt = page.locator('#sidebar details.' + klasse, { has: page.locator(selektor) });
+    if (await punkt.count() && !(await punkt.evaluate((el) => el.open))) await punkt.locator('summary').click();
+  }
   await page.click('#sidebar ' + selektor);
 }
 
+/* U-4 (D46/H04): am Handy zeigt ein Eintragebereich erst die Liste der Rubriken; die Felder stehen erst nach dem
+   Tipp auf eine Zeile. Wie eine Person tippt die Reise auf die offene (sonst die erste) Zeile. Ab 768 px steht das
+   Detail schon da, dann tut die Funktion nichts. */
+async function eintragDetailOeffnenMobil(seite) {
+  const verborgen = await seite.evaluate(() => {
+    const eb = document.querySelector('#content .eintragebereich:not([data-detail-offen])');
+    const d = eb && eb.querySelector('.bereich-detail');
+    return !!(d && getComputedStyle(d).display === 'none');
+  });
+  if (!verborgen) return;
+  // Der Klick geht an die Zeile selbst (derselbe Handler wie der Tipp); die Leiste am unteren Rand kann sie sonst verdecken.
+  await seite.evaluate(() => {
+    const z = document.querySelector('#content .bereich-liste-zeile[aria-current="true"]') || document.querySelector('#content .bereich-liste-zeile');
+    z.scrollIntoView({ block: 'center' });
+    z.click();
+  });
+  await seite.waitForSelector('#content .eintragebereich[data-detail-offen]', { timeout: 5000 });
+}
+
+/* U-4 (D46/H04, HANDY.md Z. 7 „eine Spalte nach der anderen, ‹ Gesundheit führt zurück zur Liste“): die Zeile i der Rubrikenliste
+   tippen. Unter 768 px ist die Liste verborgen, solange das Detail offen ist — dann erst „‹ Bereich“, wie von Hand. */
+async function rubrikZeileTippen(page, i) {
+  const zeile = page.locator('#content .bereich-liste-zeile').nth(i);
+  if (!(await zeile.isVisible())) {
+    const zurueck = page.locator('#content [data-eintrag-zurueck]').first();
+    if (await zurueck.isVisible()) await zurueck.click();
+  }
+  await zeile.click();
+}
+
+// Die Seitenleiste am Handy öffnen. Seit der Kopfleiste nach dem Desktop-Dummy (17.11.2026, Z. 199–212) steht bis 767 px kein Menü-Knopf
+// im Kopf; die Seitenleiste öffnet der Tab „Bereiche“ unten. Wo der Menü-Knopf sichtbar ist, geht es über ihn; ist beides verborgen
+// (Schreibtisch), steht die Seitenleiste schon offen.
+async function schubfachOeffnen(page) {
+  if (await page.locator('#tb-menue').isVisible()) { await page.locator('#tb-menue').click(); return; }
+  if (await page.locator('#bt-bereiche').isVisible()) await page.locator('#bt-bereiche').click();
+}
 async function oeffneSektor(page, sektorId) {
   const umschalter = page.locator('details.bereiche-umschalter');
   if (await umschalter.count()) {
@@ -292,6 +347,8 @@ async function oeffneSektor(page, sektorId) {
   const knopf = page.locator(`#sidebar [data-sektor="${sektorId}"]`);
   await knopf.click();
   await page.waitForSelector('#content .bereich-kopf');
+  // U-4 (D46/H04): unter 768 px erst die Liste; der Tipp auf eine Zeile zeigt die Felder (ab 768 px ohne Wirkung).
+  await eintragDetailOeffnenMobil(page);
   await feldgruppenKartenOeffnen(page);
 }
 
@@ -315,7 +372,36 @@ async function datumSetzen(page, selektor, iso) {
 //   • Code-Liste [data-edit-code]   → Anzeige-Name tippen (codeWertAus löst den Code auf)
 //   • Ref        [data-edit-ref]/[data-edit-override] → Freitext-Override (legitimer Eingabeweg)
 // Commit via bearbeitungSpeichern()+renderContent() — sektorweit speichern + Stempel mit aktuellem Akteur.
+/* Eintragebereich Liste | Detail (U-4, 16.11.2026): im Detail steht nur die offene Rubrik. Wie von Hand wird die Zeile der
+   Rubrik gewählt, in der das Feld steht (Karte über data-rubrik, sonst der Abschnitt über data-rubrik-sektion). Gemessen
+   wird an der Liste (aria-current), nicht am Detail: zeigt der Testhelfer gerade alle Rubriken, wählt der Klick trotzdem
+   die richtige, und danach steht der Bereich so da wie bei der Person, die ihn bedient. Steht das Feld ausserhalb des
+   Eintragebereichs oder ist seine Rubrik schon gewählt, geschieht nichts. */
+async function rubrikOeffnen(page, selektor) {
+  const zeile = await page.evaluate((sel) => {
+    const el = document.querySelector('#content ' + sel);
+    if (!el || !el.closest('.bereich-detail')) return null;
+    const karte = el.closest('.feldgruppen-karte[data-karte]');
+    const sek = el.closest('.sektion[id^="sek-"]');
+    const z = karte ? '.bereich-liste-zeile[data-rubrik="' + CSS.escape(karte.getAttribute('data-karte')) + '"]'
+      : sek ? '.bereich-liste-zeile[data-rubrik-sektion="' + CSS.escape(sek.id.slice(4)) + '"]' : null;
+    const knopf = z && document.querySelector('#content ' + z);
+    return knopf && knopf.getAttribute('aria-current') !== 'true' ? z : null;
+  }, selektor);
+  if (!zeile) return;
+  // U-4 (D46/H04): unter 768 px ist die Liste verborgen, solange das Detail offen ist — erst zurück zur Liste, wie von Hand.
+  const knopf = page.locator('#content ' + zeile).first();
+  if (!(await knopf.isVisible())) {
+    const zurueck = page.locator('#content [data-eintrag-zurueck]').first();
+    if (await zurueck.isVisible()) await zurueck.click();
+  }
+  await knopf.click();
+}
+
 async function setzeFeld(page, feldId, wert) {
+  for (const sel of [`[data-edit-code="${feldId}"]`, `[data-edit-ref="${feldId}"]`, `[data-edit="${feldId}"]`]) {
+    if (await page.locator(sel).count()) { await rubrikOeffnen(page, sel); break; }
+  }
   if (await page.locator(`[data-edit-code="${feldId}"]`).count()) {
     await page.fill(`[data-edit-code="${feldId}"]`, wert);
   } else if (await page.locator(`[data-edit-ref="${feldId}"]`).count()) {
@@ -499,7 +585,9 @@ async function streifenUeberdeckt(seite) {
 async function listenDialogOeffnen(page, feldId, { bereich = '', sektor = null, vorbelegen = null } = {}) {
   const vor = bereich ? bereich + ' ' : '';
   let knopf = page.locator(vor + '[data-eintrag-hinzufuegen="' + feldId + '"]');
+  let angelegt = false;   // hat der Helfer den Eintrag schon angelegt (dann öffnet er ihn, statt einen zweiten anzulegen)
   if (!(await knopf.count()) && sektor && vorbelegen) {
+    angelegt = true;
     await page.evaluate(({ sektor, feldId, vorbelegen }) => {
       window.__vdOeffentlich.listenEintragHinzufuegen(sektor, feldId, vorbelegen);
       window.__vdOeffentlich.oeffneSektor(sektor);
@@ -513,6 +601,7 @@ async function listenDialogOeffnen(page, feldId, { bereich = '', sektor = null, 
       const b = window.__vdOeffentlich.bereicheAlle().find((x) => [].concat(...(x.sektionen || []).map((s) => s.felder || []), x.felder || []).some((f) => f && f.id === fid));
       return b && b.id;
     }, feldId);
+    angelegt = true;
     await page.evaluate(({ sektorId, feldId, vorbelegen }) => {
       window.__vdOeffentlich.listenEintragHinzufuegen(sektorId, feldId, vorbelegen || {});
       window.__vdOeffentlich.oeffneSektor(sektorId);
@@ -523,6 +612,23 @@ async function listenDialogOeffnen(page, feldId, { bereich = '', sektor = null, 
     if (!vorbelegen) knopf = page.locator(vor + '[data-feld-liste="' + feldId + '"] [data-eintrag-bearbeiten]').last();
   }
   if (!(await knopf.count())) throw new Error('listenDialogOeffnen: kein Einstieg in den Dialog für ' + feldId + ' (leere kurze Liste ohne vorbelegen?)');
+  // D39 (Konvention „Hinzufügen“): in einer gefüllten Liste eines Bereichs öffnet „Weitere … hinzufügen“ eine Zeile, keinen Dialog. Der Dialog
+  // bleibt über „Bearbeiten“: der Helfer legt den Eintrag an (vorbelegen, sonst leer) und öffnet ihn, wie oben bei der langen leeren Liste.
+  if (await knopf.first().evaluate((el) => el.classList.contains('liste-weitere'))) {
+    if (!angelegt) {
+    const sektorId = sektor || await page.evaluate((fid) => {
+      const b = window.__vdOeffentlich.bereicheAlle().find((x) => [].concat(...(x.sektionen || []).map((s) => s.felder || []), x.felder || []).some((f) => f && f.id === fid));
+      return b && b.id;
+    }, feldId);
+    await page.evaluate(({ sektorId, feldId, vorbelegen }) => {
+      window.__vdOeffentlich.listenEintragHinzufuegen(sektorId, feldId, vorbelegen || {});
+      window.__vdOeffentlich.oeffneSektor(sektorId);
+    }, { sektorId, feldId, vorbelegen });
+    }
+    knopf = page.locator(vor + '[data-feld-liste="' + feldId + '"] [data-eintrag-bearbeiten]').last();
+  }
+  // Liste | Detail (U-4): im Detail steht nur die gewählte Rubrik. Wie von Hand erst die Rubrik der Liste wählen, dann der Einstieg.
+  await rubrikOeffnen(page, '[data-feld-liste="' + feldId + '"]');
   await knopf.first().click();
 }
 
@@ -561,11 +667,17 @@ async function ausgabeWegHerunterladen(page, opt = {}) {
   return true;
 }
 
-module.exports = { baubar, inLeisteKlicken, listenDialogOeffnen, ausgabeWegHerunterladen,
+/* Trägt das Erscheinungsbild Glas? Ein Profil nennt seine Deckkraft in --dialog-deckkraft (1 = keine Durchsicht, kein Glas). Die
+   Glas-Proben prüfen die Klasse „eine spezifischere Regel schlägt das Glas“ und gelten nur dort, wo das Profil Glas trägt. */
+async function profilTraegtGlas(page) {
+  return page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--dialog-deckkraft')) < 1);
+}
+
+module.exports = { schubfachOeffnen, eintragDetailOeffnenMobil, rubrikZeileTippen, profilTraegtGlas, baubar, inLeisteKlicken, listenDialogOeffnen, ausgabeWegHerunterladen,
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
   oeffneApp, depotAnlegen, eigenesPasswortWaehlen, datumSetzen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
-  fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, einstellungenAbschnittOeffnen,
+  fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, rubrikOeffnen, einstellungenAbschnittOeffnen,
   erweiterungEinlesenBestaetigen, erweiterungenWaehlen,
   starteLokalenServer,
   browserEd25519SchluesselpaarErzeugen, browserJwsSignieren,

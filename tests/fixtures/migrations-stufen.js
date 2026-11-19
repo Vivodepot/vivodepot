@@ -1170,6 +1170,16 @@ const STUFEN = [
     baue: () => basis(99, {}, { empfaengerkreise: [{ id: 'k1', name: 'Hausbank', bausteine: ['bereich:finance'], ausnahmen: [] }] }),
     vorher:  (d) => !('freigaben' in d.empfaengerkreise[0]),
     nachher: (d) => d.schemaVersion >= 100 && !('freigaben' in d.empfaengerkreise[0]) && d.empfaengerkreise[0].name === 'Hausbank' },
+  { nach: 101, was: 'Feld notfallKarte.auswahl (16.11.2026, U-7): die Stufe ändert keinen Wert; ein Depot ohne Auswahl behält den Kartenumfang von '
+                 + 'vorher, ein älterer Kern öffnet die Datei nur lesend. Ausführlich: tests/notfall-karte-auswahl.test.js [Notfallkarte · Auswahl · alt→neu].',
+    baue: () => basis(100, {}, {}),
+    vorher:  (d) => !('notfallKarte' in d),
+    nachher: (d) => d.schemaVersion >= 101 && !('notfallKarte' in d) },
+  { nach: 102, was: 'Feld abgelehntAm an einer Anfrage (16.11.2026, U-9): die Stufe ändert keinen Wert; eine offene Anfrage bleibt ohne das Feld, '
+                 + 'ein älterer Kern öffnet die Datei nur lesend. Ausführlich: tests/anfrage-schalter-je-angabe.test.js [U-9·Ablehnen].',
+    baue: () => basis(101, {}, { anfragen: [{ id: 'q1', vorgang: 'A-7', von: 'Stadtbibliothek Beispielstadt', anbieterId: null, empfangenAm: '2026-11-01T09:00:00.000Z', beantwortetAm: null }] }),
+    vorher:  (d) => !('abgelehntAm' in d.anfragen[0]),
+    nachher: (d) => d.schemaVersion >= 102 && !('abgelehntAm' in d.anfragen[0]) && d.anfragen[0].vorgang === 'A-7' },
 ];
 
 module.exports = { STUFEN, basis };

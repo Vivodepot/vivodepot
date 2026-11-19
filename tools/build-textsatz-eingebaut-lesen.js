@@ -62,6 +62,9 @@
    wäre angenommen und wirkungslos (dieselbe Zurückhaltung wie bei
    `_istModulfeldKennung`s Rollen-Liste im Kern). Kommt ein Konsument dazu,
    wird die Art hier ergänzt — nicht vorsorglich.
+   ERGÄNZT 16.11.2026: `feldZeileHTML` zeigt den Hinweis eines Verweises auf eine
+   Datei der Mappe (typ ref, entitaet mappe) unter dem Wert. Nur diese `.hint`-Zeilen
+   stehen darum in der Tabelle, keine anderen.
 
    Aufruf:
      node tools/build-textsatz-eingebaut-lesen.js            → schreibt die Region
@@ -104,6 +107,8 @@ function kennungenAusKern() {
         raus[kennung + '.label'] = f.label;
         // Die kurze Beschriftung für Ausgaben (Nachtrag U2-ADR-497, 01.11.2026) steht neben der Eingabe-Beschriftung; die Notfall-Sicht liest sie.
         if (typeof f.ausgabeLabel === 'string' && f.ausgabeLabel) raus[kennung + '.ausgabeLabel'] = f.ausgabeLabel;
+        // Der Hinweis eines Verweises auf eine Datei der Mappe (16.11.2026): die Lese-App zeigt ihn unter dem Wert (feldZeileHTML).
+        if (f.typ === 'ref' && f.entitaet === 'mappe' && typeof f.hint === 'string' && f.hint) raus[kennung + '.hint'] = f.hint;
         /* Optionen und Listen-Unterfelder (Lese-App zeigt Auswahlwerte als Klartext-Label, `_optionLabelLesen`).
            Sensibilität entscheidet die Lese-App zur Laufzeit (Nutzer-Markierung), darum steht jede Option hier.
            Seit 05.10.2026 (Befund LESE-APP-UNTERFELD-OHNE-BESCHRIFTUNG) trägt jedes Unterfeld eines Listeneintrags seine

@@ -14,7 +14,7 @@
    Der interaktive Rückhalte-Weg (Knopf-Klick, `.export-zz-format-fest` ohne Umschalt-Knopf)
    ist Playwright-Boden — der Node-DOM-Stub kann `box.querySelector()`-Verdrahtung nicht
    nachstellen (`querySelector` liefert dort immer ein frisches Phantom-Element, kein echtes
-   Ziel) — s. `tests/e2e/export-ohne-kaestchen.spec.js`. Die Zusicherung, die den ganzen
+   Ziel) — s. `tests/e2e/herausgabe-haekchen-gruppen.spec.js`. Die Zusicherung, die den ganzen
    W-10-Befund verhindert hätte, bleibt: sie wird rot, wenn ein Topf-B-Feld je wieder im
    erzeugten Export landet (letzter Test, unverändert).
    ════════════════════════════════════════════════════════════════════════ */

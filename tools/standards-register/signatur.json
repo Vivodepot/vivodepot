@@ -40,6 +40,12 @@
       "suche": {
         "quelle": "https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/",
         "ergebnis": "Gesucht: ein offizieller Validator oder eine Konformitätssuite für SD-JWT VC. Von der IETF nicht gefunden (Draft, Revision 19, noch kein RFC). Die Organisation github.com/eu-digital-identity-wallet hat kein eigenständiges Konformitätswerkzeug für PID- oder SD-JWT-VC-Ausgaben (eudi-doc-testing-application testet die Oberfläche der Wallet-App, eudi-srv-trust-validator und eudi-srv-status-validator-py prüfen Vertrauens- bzw. Statuslisten); eudi-app-web-wallet-tester-py und eudi-srv-verifier-endpoint sind nicht inhaltlich geprüft. Suche 16.10.2026."
+      },
+      "seite": {
+        "richtung": [
+          "selbstauskunft-ausgeben",
+          "lesen"
+        ]
       }
     }
   ]

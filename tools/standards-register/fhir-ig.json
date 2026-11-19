@@ -96,6 +96,7 @@
     },
     {
       "id": "eu-lab",
+      "fassungAnzeige": "2.0.0",
       "name": "HL7 Europe Laboratory Report",
       "version": "hl7.fhir.eu.laboratory#2.0.0 (FHIR R4 4.0.1)",
       "herausgeber": "HL7 Europe",
@@ -124,6 +125,7 @@
     },
     {
       "id": "isik-dokumente",
+      "fassungAnzeige": "6.0.0",
       "name": "ISiK Basismodul Stufe 6, Profil ISiKDokumentenMetadaten (DocumentReference)",
       "version": "de.gematik.isik#6.0.0 (FHIR R4 4.0.1)",
       "herausgeber": "gematik GmbH",

@@ -50,6 +50,11 @@
   html.dark-mode .regal-karte-titel,
   html.dark-mode .deckblatt-name,
   html.dark-mode .anlass .ico,
+  /* Übersicht als Startseite (17.11.2026): Kürzel, Herkunft und Marke tragen salbei-dunkel als Text
+     auf salbei-light, derselbe Fall wie .anlass .ico, darum derselbe Handgriff. */
+  html.dark-mode .uebersicht-av,
+  html.dark-mode .uebersicht-quelle,
+  html.dark-mode .uebersicht-marke,
   /* Zug 2 desselben Auftrags: neues Kennzeichen, von Anfang an in der Liste — nicht erst
      nachgezogen, nachdem eine Messung es fand. */
   html.dark-mode .export-schema-badge,
@@ -210,6 +215,7 @@
   .datei-waehler { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
   .datei-waehler-name { font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .welcome-sub { color: var(--ink3); font-size: var(--fs-role-text); margin: var(--space-1) 0 0; line-height: 1.5; }
+  #w-leitsatz { color: var(--ink); font-size: var(--fs-role-abschnitt); font-weight: var(--fw-medium); line-height: 1.3; }
   /* Hinweis im Fluss (kein Toast): steht zwischen Kopf und Knöpfen, bricht um, überlagert nichts (Browserlauf 13.10.2026, 390 px). */
   .welcome-hinweis { margin: var(--space-3) 0 0; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); font-size: var(--fs-role-hilfe); line-height: 1.5; overflow-wrap: anywhere; }
   /* Dezenter Web-App-Hinweis am Fuß der Willkommens-Karte. */
@@ -284,27 +290,121 @@
      nicht an `pointer:coarse` gebunden — die Sidebar wächst einmalig und überall, kleinstes
      Risiko dieser fünf Klassen. */
   #suche-eingabe { min-height: 44px; }
+  /* Lupe im Suchfeld (Umbau U-3, Desktop-Dummy): links im Feld, leise, nimmt keine Klicks. */
+  .suche-lupe { position: absolute; left: var(--space-3); top: 22px; transform: translateY(-50%); color: var(--ink2); pointer-events: none; }
+  .suche-feld #suche-eingabe { padding-left: calc(var(--space-3) + var(--space-5)); }
   .suche-vorschlaege {
     position: absolute; z-index: 60; left: 0; right: 0; top: calc(100% + 3px);
-    margin: 0; list-style: none; background: var(--white); border: 1px solid var(--line);
+    margin: 0; padding: 0; list-style: none; background: var(--white); border: 1px solid var(--line);
     border-radius: var(--radius-sm); box-shadow: var(--schatten-aufklapp); overflow: hidden;
+    /* Mit Gruppen und Pfaden (U-8) wird die Liste länger als der Bildschirm; sie endet darin und rollt selbst (16.11.2026). */
+    max-height: 70vh; overflow-y: auto;
   }
   .suche-vorschlaege[hidden] { display: none; }
   .suche-vorschlaege li[data-idx] {
-    min-height: 44px; display: flex; align-items: center; justify-content: space-between;
-    gap: var(--space-3); padding: var(--space-2) var(--space-3); cursor: pointer;
+    min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: var(--space-1) var(--space-3); padding: var(--space-2) var(--space-3); cursor: pointer;
   }
   .suche-vorschlaege li[data-idx] + li[data-idx] { border-top: 1px solid var(--line-feiner); }
   .suche-vorschlaege li.suche-aktiv, .suche-vorschlaege li[data-idx]:hover { background: var(--salbei-light); }
-  .suche-treffer-label { color: var(--ink); font-size: var(--fs-role-text); }
+  .suche-treffer-label { min-width: 0; overflow-wrap: anywhere; color: var(--ink); font-size: var(--fs-role-text); }
+  /* Die Herkunft ist die Aussage des Treffers (14.11.2026): sie bricht um und wird nie gekürzt. */
   .suche-treffer-quelle {
-    flex: 0 0 auto; font-size: var(--fs-role-hilfe); color: var(--ink3); text-transform: var(--label-schreibung);
+    flex: 0 1 auto; max-width: 100%; overflow-wrap: anywhere; font-size: var(--fs-role-hilfe); color: var(--ink3); text-transform: var(--label-schreibung);
     letter-spacing: var(--ls-label-quelle); background: var(--salbei-light); border-radius: var(--radius-sm);
     padding: 1px 6px;
   }
   .suche-leer { padding: var(--space-3); color: var(--ink2); font-size: var(--fs-role-hilfe); }
+  /* Palette (U-8, 16.11.2026, Dummy „Suche“): Gruppenkopf wie die Gruppen der Seitenleiste, je Treffer ein rundes Quellen-Icon
+     vorn (Initiale der Herkunft, Dokument oder Pfeil), der Pfad leise am Ende; im Leer-Zustand der Weg zur neuen Angabe als Link. */
+  .suche-vorschlaege li.suche-gruppe {
+    font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); text-transform: var(--label-schreibung);
+    letter-spacing: var(--ls-label-nav); color: var(--ink3); padding: var(--space-3) var(--space-3) var(--space-1);
+  }
+  .suche-vorschlaege li.suche-gruppe + li[data-idx] { border-top: 0; }
+  .suche-vorschlaege li[data-idx] > .suche-treffer-label { flex: 1 1 auto; }
+  .suche-quelle-i {
+    flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: var(--space-5); height: var(--space-5);
+    border-radius: var(--radius-rund); background: var(--salbei-light); color: var(--salbei-dunkel);
+    font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold);
+  }
+  .suche-vorschlaege .suche-quelle-i ~ .suche-treffer-quelle { background: none; padding: 0; text-transform: none; letter-spacing: normal; }
+  .suche-leer-neu {
+    background: none; border: 0; padding: 0; font: inherit; color: var(--salbei-dunkel); text-decoration: underline; cursor: pointer;
+  }
+  html.dark-mode .suche-leer-neu { color: var(--salbei-nacht); }
+  html.dark-mode .suche-quelle-i { background: var(--schleier-quelle-nacht); color: var(--white); }
+  /* Zeile „Alle N Treffer zeigen“ (14.11.2026): ein Pfeil statt einer Quellen-Marke. */
+  .suche-vorschlaege .suche-alle-pfeil { background: none; padding: 0; display: inline-flex; color: var(--salbei-dunkel); }
+  html.dark-mode .suche-vorschlaege .suche-alle-pfeil { background: none; color: var(--salbei-nacht); }
+  /* Trefferseite der Suche: je Gruppe eine Liste, jeder Treffer eine volle Zeile mit Pfeil. */
+  .suchtreffer-gruppe + .suchtreffer-gruppe { margin-top: var(--space-4); }
+  .suchtreffer-liste { list-style: none; margin: 0; padding: 0; }
+  .suchtreffer-eintrag {
+    width: 100%; min-height: var(--treffer); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3);
+    padding: var(--space-2) var(--space-3); background: none; border: 0; border-bottom: 1px solid var(--line-feiner);
+    text-align: left; color: inherit; font: inherit; cursor: pointer;
+  }
+  .suchtreffer-eintrag:hover { background: var(--salbei-light); }
+  .suchtreffer-eintrag > svg { margin-left: auto; flex: 0 0 auto; }
   html.dark-mode .suche-vorschlaege { background: var(--ink); }
   html.dark-mode .suche-treffer-quelle { background: var(--schleier-quelle-nacht); }
+  /* Palette nach dem Desktop-Dummy (U-8a, 16.11.2026): ab 768 px rückt das Suchfeld der Kopfleiste beim Öffnen samt Liste als
+     zentrierte, breite Palette über einen Schleier — die Eingabe oben, die Treffer darunter, je Zeile der Pfad rechts. Ein Klick auf
+     den Schleier nimmt den Fokus und schließt die Palette, ohne etwas darunter auszulösen. Unter 768 px bleibt die Suche in der
+     Seitenleiste wie bisher. Probe: tests/suche-palette-u8a.test.js. */
+  @media (min-width: 768px) {
+    .tb-suche-platz .suche-feld.suche-offen {
+      position: fixed; z-index: 160; top: calc(var(--space-5) * 3); left: 0; right: 0; margin: 0 auto;
+      width: min(40rem, calc(100vw - 2 * var(--space-5)));
+      border-radius: var(--radius-kachel); background: var(--white); box-shadow: var(--schatten-aufklapp);
+    }
+    .tb-suche-platz .suche-feld.suche-offen::before {
+      content: ""; position: fixed; inset: 0; z-index: -1; background: var(--schleier-modal);
+    }
+    .tb-suche-platz .suche-feld.suche-offen input {
+      position: relative; border: 0; border-bottom: 1px solid var(--line); border-radius: var(--radius-kachel) var(--radius-kachel) 0 0;
+      padding: var(--space-4) var(--space-5); font-size: var(--fs-role-gruppe); background: var(--white); box-shadow: none;
+    }
+    .tb-suche-platz .suche-feld.suche-offen .suche-kurz { display: none; }
+    .tb-suche-platz .suche-feld.suche-offen .suche-vorschlaege {
+      position: relative; top: 0; border: 0; box-shadow: none; border-radius: 0 0 var(--radius-kachel) var(--radius-kachel);
+      max-height: 60vh; overflow-y: auto;
+    }
+    .tb-suche-platz .suche-vorschlaege li[data-idx] { flex-wrap: nowrap; padding: var(--space-2) var(--space-5); }
+    .tb-suche-platz .suche-vorschlaege li.suche-gruppe { padding: var(--space-3) var(--space-5) var(--space-1); }
+    .tb-suche-platz .suche-vorschlaege .suche-treffer-quelle { margin-left: auto; max-width: 50%; text-align: right; }
+    html.dark-mode .tb-suche-platz .suche-feld.suche-offen,
+    html.dark-mode .tb-suche-platz .suche-feld.suche-offen input { background: var(--ink); }
+  }
+  /* Die Lupe im Kopf (U-8a, 17.11.2026, Desktop-Dummy D87, Handy M06): ist die Kopfleiste schmal (Handy oder tb-eng), steht statt des Felds
+     eine Lupe im Kopf. Sie holt das Suchfeld in den Kopf und öffnet es als dieselbe Palette über dem Schleier (html.suche-lupe-auf,
+     sucheLupeOeffnen); mit dem Fokus geht das Feld zurück in die Seitenleiste. Probe: tests/suche-lupe-u8a.test.js. */
+  .topbar .tb-lupe { display: none; }
+  .topbar.tb-suche-lupe .tb-lupe {
+    display: inline-flex; align-items: center; justify-content: center; flex: none;
+    width: 44px; height: 44px; padding: 0; border-radius: var(--radius-pill);
+  }
+  html.suche-lupe-auf .topbar .tb-suche-platz { display: block; flex: none; width: 0; min-width: 0; }
+  html.suche-lupe-auf .tb-suche-platz .suche-feld.suche-offen {
+    position: fixed; z-index: 160; top: var(--space-5); left: 0; right: 0; margin: 0 auto;
+    width: min(40rem, calc(100vw - 2 * var(--space-4)));
+    border-radius: var(--radius-kachel); background: var(--white); box-shadow: var(--schatten-aufklapp);
+  }
+  html.suche-lupe-auf .tb-suche-platz .suche-feld.suche-offen::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; background: var(--schleier-modal);
+  }
+  html.suche-lupe-auf .tb-suche-platz .suche-feld.suche-offen input {
+    position: relative; border: 0; border-bottom: 1px solid var(--line); border-radius: var(--radius-kachel) var(--radius-kachel) 0 0;
+    padding: var(--space-4) var(--space-5); font-size: var(--fs-role-gruppe); background: var(--white); box-shadow: none;
+  }
+  html.suche-lupe-auf .tb-suche-platz .suche-feld.suche-offen .suche-kurz { display: none; }
+  html.suche-lupe-auf .tb-suche-platz .suche-feld.suche-offen .suche-vorschlaege {
+    position: relative; top: 0; border: 0; box-shadow: none; border-radius: 0 0 var(--radius-kachel) var(--radius-kachel);
+    max-height: 60vh; overflow-y: auto;
+  }
+  html.dark-mode.suche-lupe-auf .tb-suche-platz .suche-feld.suche-offen,
+  html.dark-mode.suche-lupe-auf .tb-suche-platz .suche-feld.suche-offen input { background: var(--ink); }
   /* Mobil: Knöpfe voll breit gestapelt (eine Spalte). */
   @media (max-width: 560px) {
     .welcome-primaer, .welcome-sekundaer { flex-direction: column; }
@@ -494,10 +594,14 @@
     color: var(--ink); font-size: var(--fs-role-text); text-align: left; width: 100%;
   }
   .depot-menue-eintrag + .depot-menue-eintrag { border-top: 1px solid var(--line-feiner); }
+  /* Trenner unter dem Depot-Wechsler (D05–D07): in der Flex-Spalte über die volle Breite, sonst schrumpft die Linie zum Punkt. */
+  #tb-depot-menue hr { align-self: stretch; width: auto; margin: var(--space-1) 0; border: 0; border-top: 1px solid var(--line); }
   
   
   html.dark-mode .depot-menue { background: var(--ink); }
   html.dark-mode .depot-menue-eintrag { color: var(--white); }
+  /* Nachts ist der Menügrund var(--ink) hell; Titel und Unterzeile der Einträge trügen sonst var(--ink3) (2,19:1). Wie die Einträge: var(--white). Probe: tests/e2e/ebenen-kontrast.spec.js, Depot-Menü. */
+  html.dark-mode #tb-depot-menue-titel, html.dark-mode .depot-menue-eintrag small { color: var(--white); }
   /* Palettentausch Zug 2 — Hinweis auf das eingehängte Depot, NEBEN der (unveränderten)
      Depot-Pille. Fest an var(--auf-akzent) (Kopfzeile bleibt Salbei), nur der Punkt selbst
      trägt den echten Sub-Depot-Akzent (var(--akzent), wie .dp-punkt/.modus-punkt). */
@@ -505,6 +609,55 @@
   .depot-liste-eintrag.aktiv { border-color: var(--akzent); background: var(--salbei-light); }
   .dp-aktiv-tag { margin-left: auto; font-size: var(--fs-role-hilfe); color: var(--ink2); }
   .topbar .spacer { flex: 1; }
+  /* Umbau nach dem Desktop-Dummy (U-3, Schritt 3, 15.11.2026): Suche, Einlesen und Herausgeben oben in der Kopfleiste. Bis 767 px sitzt die Suche in der
+     Seitenleiste (_kopfSucheOrdnen), die beiden Handlungen stehen dort unter „Mehr“ (.nur-schmal). */
+  .tb-suche-platz { flex: 3 40 240px; max-width: 520px; min-width: 120px; }   /* schrumpft vor dem Speicher-Status */
+  .tb-suche-platz .suche-feld { margin: 0; }
+  .suche-kurz { display: none; }
+  .tb-suche-platz .suche-kurz { display: inline-block; position: absolute; right: var(--space-3); top: 50%; transform: translateY(-50%);
+    font: inherit; font-size: var(--fs-role-hilfe); padding: 0 var(--space-1); border: 0; border-radius: var(--radius-sm);
+    background: var(--flaeche-neutral); color: var(--ink2); pointer-events: none; }
+  @media (pointer: coarse) { .tb-suche-platz .suche-kurz { display: none; } }   /* ohne Tastatur kein Tastenhinweis */
+  .tb-aktionen { display: flex; align-items: center; gap: var(--space-2); flex: none; }
+  .tb-aktionen .tb-aktion { white-space: nowrap; }
+  .nur-schmal { display: none; }
+  @media (max-width: 767px) { .tb-aktionen { display: none; } .tb-suche-platz { display: none; } .nur-schmal { display: flex; } }
+  /* Kopfleiste am Handy (Desktop-Dummy Z. 199–212, 17.11.2026): bis 767 px stehen im Kopf die Marke als Zeichen ohne Wort, das Depot mit flex:1,
+     die Lupe, der Speicher-Status (U2-ADR-211, bei Enge nur das Symbol) und der Knopf „Darstellung“, der Schriftgröße, Kontrast und Nacht
+     unter dem Kopf zeigt. Kein Menü-Knopf: die Seitenleiste öffnet der Tab „Bereiche“ unten. Einstellungen und „Depot verlassen“ stehen unten
+     in der Seitenleiste (D13). Der Anlege-Hinweis der Vorschau steht in .kopf-unterzeile (_kopfUnterzeileOrdnen). Probe:
+     tests/e2e/kopfleiste-handy.spec.js. */
+  /* In der engsten Stufe auch am Schreibtisch (768 px mit Lupe, drei Schaltern, Einstellungen und Schließen) steht die Marke als Zeichen ohne
+     Wort, wie am Handy; sonst lief der Kopf 13 px über. Probe: tests/e2e/gruppenkarte-titel-ganz.spec.js bei 768 px. */
+  .topbar.tb-eng-2 .logo-wort { display: none; }
+  .kopf-unterzeile, .topbar .tb-darstellung { display: none; }   /* .topbar davor: sticht .a11y-btn, das weiter unten display setzt */
+  @media (max-width: 767px) {
+    .topbar { position: relative; }
+    .topbar .tb-menue, .topbar #tb-einstellungen, .topbar #tb-schliessen, .topbar .logo-wort, .topbar .spacer { display: none; }
+    .topbar .depot-pille-wrap { flex: 1 1 auto; min-width: 0; }
+    .topbar .depot-pille { flex-shrink: 1; max-width: 100%; min-width: var(--treffer); }
+    .topbar #tb-depot-name { max-width: none; }
+    .topbar .tb-darstellung { display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: var(--treffer); min-height: var(--treffer); margin-left: auto; }
+    .topbar.darstellung-auf .a11y-leiste { display: flex; position: absolute; top: 100%; right: var(--space-2); z-index: 170; gap: var(--space-2);
+      padding: var(--space-2); background: var(--papier-bereich); border: 1px solid var(--line); border-radius: var(--radius-karte-schmal);
+      box-shadow: var(--shadow-strong); }
+    /* #app.an ist bis 767 px ein Raster mit einer Spalte, Kopf und Kontextzeilen spannen 1 / 3 (wie .sub-kontextzeile); steht die Zeile da,
+       bekommt sie eine eigene Zeile „auto“, sonst nähme sie die Zeile „1fr“ des Inhalts und schöbe ihn in eine zweite Spalte. */
+    #app.an.mit-kopf-unterzeile { grid-template-rows: auto auto 1fr; }
+    .kopf-unterzeile { grid-column: 1 / 3; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2);
+      padding: var(--space-2) var(--space-3); background: var(--cream); }   /* Fläche statt Linie (flaeche-statt-linien) */
+    .kopf-unterzeile[hidden] { display: none; }
+  }
+  /* Wird die Kopfleiste zu eng (topbarPlatzAnpassen setzt tb-eng-1), stehen Einlesen und Herausgeben unter „Mehr“, wie am Handy. */
+  .topbar.tb-eng-0 .tb-suche-platz { display: none; }
+  .topbar.tb-eng-1 .tb-aktionen { display: none; }
+  #app:has(.topbar.tb-eng-1) .nur-schmal { display: flex; }
+  /* Auch der Sichern-Knopf weicht in jeder Breite auf sein Symbol, nicht nur am Handy: bei 768 px (iPad hoch) lief „Jetzt als Datei
+     sichern“ sonst unter die Darstellungs-Gruppe, die Erscheinungsbild-Probe meldete ihn verdeckt, und die Gestaltung fiel zurück.
+     Probe: tests/e2e/erscheinungsbild-klasse.spec.js. */
+  .topbar.tb-eng-1 .tb-save-knopf .tb-save-knopf-text { display: none; }
+  .topbar.tb-eng-1 .tb-save-knopf { min-width: var(--treffer); justify-content: center; padding: 0; }
+  html.high-contrast .topbar .tb-aktion { color: var(--ink); background: var(--white); }
   .modus-badge {
     display: inline-flex; align-items: center; gap: var(--space-2);
     /* B3: Schleier koppelt an var(--auf-akzent), nicht --vm-chrome-text (s. .depot-pille, Zug 2). */
@@ -685,6 +838,60 @@
      nur Rand/Fläche tragen den Kontext-Akzent). */
   .nav-item.aktiv { border-left-color: var(--akzent-papier); color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
   .nav-item .ico { flex: 0 0 auto; opacity: 0.9; }
+  /* Zahl am Bereich in der Seitenleiste (U-3, Umbau nach dem Desktop-Dummy): rechtsbündig, leise. */
+  .nav-item .z { margin-left: auto; font-size: var(--fs-role-hilfe); color: var(--ink2); font-variant-numeric: tabular-nums; }
+  .nav-item.aktiv .z { color: inherit; }
+  .sidebar .nav-unten { margin-top: var(--space-2); }
+  /* Label über Notfall und Einstellungen (LABEL_ANZEIGE): Bild in der Breite der Leiste, das Info-Zeichen daneben, das Blatt im Fluss darunter. */
+  .sidebar .nav-label { margin: var(--space-3) var(--space-4) 0; }
+  .sidebar .nav-label .feld-mit-info { align-items: center; gap: var(--space-2); }
+  .sidebar .nav-label-bild { min-width: 0; max-width: 100%; height: auto; }
+  .sidebar .nav-label .nav-label-wer { color: var(--fuss-schrift); font-size: var(--fs-role-hilfe); }
+  /* Seite „Einlesen“ (Umbau U-6): Ablagefläche mit gestricheltem Rand; Erkannt-Zeile über der Vorschau. */
+  .einlesen-ablage { margin: var(--space-4) 0; padding: var(--space-5) var(--space-4); border: 2px dashed var(--line); border-radius: var(--radius-md); text-align: center; }
+  .einlesen-ablage.ueber { border-color: var(--akzent); }
+  .einlesen-zeile { margin: 0 0 var(--space-4); }
+  .einlesen-erkannt { margin: 0 0 var(--space-3); padding: 0 0 var(--space-3); border-bottom: 1px solid var(--line); }
+  /* Übersicht (Umbau U-3): Abschnitte mit Kopf, Karten mit Zeilen, Anlass-Kacheln im Raster, unten „Zuletzt geändert“ neben der Karte für den Ernstfall; Punkt an „Übersicht“. */
+  .uebersicht-abschnitt { margin: var(--space-5) 0 0; }
+  .uebersicht-kopf { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2); }
+  .uebersicht-kopf h2 { margin: 0; font-size: var(--fs-role-abschnitt); }
+  .uebersicht-kopf .btn-text { margin-left: auto; }
+  .uebersicht-karte { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); }
+  .uebersicht-zeile { display: flex; align-items: center; gap: var(--space-3); width: 100%; padding: var(--space-3) var(--space-4); border: 0; border-top: 1px solid var(--line); background: none; color: var(--ink); text-align: left; font: inherit; }
+  .uebersicht-zeile:first-child { border-top: 0; }
+  button.uebersicht-zeile:hover { background: var(--flaeche-hover); }
+  .uebersicht-zeile-text { flex: 1 1 auto; min-width: 0; }
+  /* Der Knopf einer Zeile („Ansehen“) behält seine Breite; der Text daneben bricht um (Bildabgleich 375, M07). */
+  .uebersicht-zeile > .btn { flex: 0 0 auto; }
+  .uebersicht-leise { display: block; color: var(--ink2); font-size: var(--fs-role-hilfe); }
+  .uebersicht-zeile-text .uebersicht-leise { display: inline; }
+  .uebersicht-zeile-text div.uebersicht-leise { display: block; }
+  .uebersicht-rechts { flex: 0 0 auto; color: var(--ink2); font-size: var(--fs-role-hilfe); }
+  .uebersicht-av, .uebersicht-quelle { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-rund); background: var(--salbei-light); color: var(--salbei-dunkel); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); }
+  .uebersicht-quelle { width: 24px; height: 24px; border-radius: var(--radius-sm); }
+  /* Eigene Angabe: das Feld bleibt für die Bündigkeit, ohne Zeichen und ohne Fläche (Entscheidung 17.11.2026). */
+  .uebersicht-quelle:empty { background: transparent; }
+  .uebersicht-marke { display: inline-flex; align-items: center; padding: 0 var(--space-2); border-radius: var(--radius-pill); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); background: var(--salbei-light); color: var(--salbei-dunkel); }
+  .uebersicht-marke.warten { background: var(--flaeche-hinweis); color: var(--ink); }
+  .uebersicht-anlaesse { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-3); }
+  .uebersicht-kachel { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); color: var(--ink); text-align: left; font: inherit; }
+  .uebersicht-kachel:hover { background: var(--flaeche-hover); }
+  .uebersicht-unten { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-5); }
+  .uebersicht-unten > .uebersicht-abschnitt:only-child { grid-column: 1 / -1; }
+  .uebersicht-akut { padding: var(--space-3) var(--space-4); }
+  .uebersicht-akut-kopf { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); }
+  .uebersicht-akut .btn { margin-top: var(--space-3); }
+  [data-ansicht="uebersicht"] .karten-raster:first-of-type, [data-ansicht="uebersicht"] .gruppe-titel-karten:first-of-type { margin-top: var(--space-5); }
+  @media (max-width: 767px) { .uebersicht-unten { grid-template-columns: 1fr; } }
+  /* Unter 768 px steht Zeitpunkt und Herkunft einer Zeile („heute, 18:20 · eingelesen von …“) in einer eigenen Zeile darunter,
+     wie im Desktop-Dummy Z. 227–228 (.zeile flex-wrap, .rechts flex-basis 100 %); sonst lief sie bei 375 px über den Rand. */
+  @media (max-width: 767px) {
+    button.uebersicht-zeile { flex-wrap: wrap; }
+    button.uebersicht-zeile > .uebersicht-zeile-text { flex: 1 1 0; }
+    button.uebersicht-zeile > .uebersicht-rechts { flex: 1 1 100%; min-width: 0; padding-left: calc(var(--space-5) + var(--space-3)); }
+  }
+  .nav-item .punkt { width: 7px; height: 7px; margin-left: auto; border-radius: var(--radius-rund); background: var(--gold); flex: 0 0 auto; }
   /* Zweizeiliger Nav-Eintrag (Label + dezenter Untertitel, z. B. „Prüftermine / Was wann erneuern"). */
   .nav-item-text { display: flex; flex-direction: column; line-height: 1.25; }
   /* 0.86 Deckkraft auf --ink (jetzt Basisfarbe statt vorher rgba(255,255,255,0.9)) auf
@@ -888,6 +1095,10 @@
   .sub-kontext-kreis { display: inline-flex; align-items: center; justify-content: center; width: 1.9em; height: 1.9em; flex: none;
     border-radius: var(--radius-rund); background: var(--person); color: var(--person-text); font-weight: var(--fw-medium); }
   .sub-kontextzeile .btn { margin-left: auto; }
+  #tb-depot-menue-titel { font-size: var(--fs-role-hilfe); color: var(--ink3); padding: var(--space-2) var(--space-3) var(--space-1); }
+  .depot-menue-eintrag small { display: block; font-size: var(--fs-role-hilfe); color: var(--ink3); }
+  .depot-menue-eintrag .sub-kontext-kreis { margin-right: var(--space-2); }
+  #tb-depot-pille .sub-kontext-kreis { width: 1.6em; height: 1.6em; font-size: var(--fs-role-hilfe); }
   .vollmacht-banner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
     flex-wrap: wrap; background: var(--cream); color: var(--ink);
     border-left: var(--akzent-rand-modus) solid var(--vm-linie);
@@ -940,6 +1151,9 @@
   .mappe-liste-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line); flex: 0 0 auto; }
   .mappe-suche { width: 100%; padding: var(--space-3); border: var(--feld-rahmen-dialog); border-radius: var(--radius-feld); font-size: var(--fs-role-text); margin: 0 0 var(--space-3); }
   .mappe-vorschau-bild { display: block; max-width: 100%; max-height: 70vh; margin: 0 auto; border-radius: var(--radius-md); }
+  /* PDF im Depot ansehen (17.11.2026): die Seiten untereinander, auf die Breite der Vorschau eingepasst. */
+  .mappe-pdf-seiten { margin: var(--abstand-2) 0; }
+  .mappe-pdf-seite { width: 100%; height: auto; vertical-align: top; margin: 0 0 var(--abstand-2); border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--line); }
   /* xShare Yellow Button am Knopf der Funktion (U2-ADR-400 Nachtrag 16.09.2026) — eigene Kachel mit Hintergrund, darum ohne Farbanpassung in hell/dunkel lesbar. */
   .yb-zeichen { height: 40px; width: auto; flex: none; vertical-align: middle; border-radius: var(--radius-logo); }
   .mappe-vorschau-pdf { width: 100%; height: 70vh; border: 1px solid var(--line); border-radius: var(--radius-md); }
@@ -956,6 +1170,34 @@
   .mappe-narrativ th { background: var(--salbei-light); font-weight: var(--fw-semibold); }
   .mappe-narrativ caption { text-align: left; font-weight: var(--fw-semibold); color: var(--ink2); padding: 2px 0; }
   .mappe-narrativ .mappe-narrativ-defekt { margin: 0 0 var(--space-3); }   /* U2-ADR-076: Defekt-Hinweis über den Messwerten */
+  /* Herausgegeben (U-10, Dummy D64): eine Tabelle Wann | An | Was | Format | Ansehen. Am Telefon läuft sie quer im eigenen Kasten. */
+  #uebergabe-liste-host { overflow-x: auto; }
+  .uebergabe-tabelle { border-collapse: collapse; width: 100%; font-size: var(--fs-role-text); }
+  .uebergabe-tabelle th { text-align: left; font-size: var(--fs-role-label); font-weight: var(--fw-semibold); color: var(--ink2); padding: var(--abstand-2) var(--abstand-3); border-bottom: 1px solid var(--line); }
+  .uebergabe-tabelle td { padding: var(--abstand-3); border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--ink); }
+  .uebergabe-tabelle .uebergabe-wann, .uebergabe-tabelle .uebergabe-format { color: var(--ink2); white-space: nowrap; }
+  .uebergabe-tabelle .uebergabe-ansehen { text-align: right; }
+  /* S-7c: im schmalen Umbruch (bis 767 px) wird jede Zeile eine Karte. Der Spaltenname steht als eigenes Element über dem Wert (die Stil-Regeln
+     des Kerns erlauben keinen Inhalt aus einem Attribut), eine Zelle ohne Wert (uebergabe-leer) entfällt, „Ansehen“ steht unten in der Karte. Kein Querscrollen mehr. */
+  .uebergabe-tabelle .uebergabe-spalte-name { display: none; }
+  @media (max-width: 767px) {
+    .uebergabe-tabelle thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .uebergabe-tabelle, .uebergabe-tabelle tbody, .uebergabe-tabelle tr, .uebergabe-tabelle td { display: block; width: 100%; }
+    .uebergabe-tabelle tr { border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--abstand-2) var(--abstand-3); margin: 0 0 var(--abstand-3); }
+    .uebergabe-tabelle td { border-bottom: 0; padding: var(--abstand-1) 0; }
+    .uebergabe-tabelle td.uebergabe-leer { display: none; }
+    .uebergabe-tabelle .uebergabe-spalte-name { display: block; font-size: var(--fs-role-label); color: var(--ink2); }
+    .uebergabe-tabelle .uebergabe-wann, .uebergabe-tabelle .uebergabe-format { white-space: normal; }
+    .uebergabe-tabelle .uebergabe-ansehen { text-align: left; padding-top: var(--abstand-2); }
+  }
+  .uebergabe-detail { margin: 0 0 var(--abstand-4); }
+  /* D49 (17.11.2026): die Angaben eines Dokuments in seiner Vorschau, Bezeichnung links, Wert rechts. */
+  .mappe-detail-angaben { margin: 0 0 var(--abstand-3); }
+  .mappe-detail-felder { display: grid; grid-template-columns: max-content 1fr; gap: var(--abstand-1) var(--abstand-3); margin: 0; }
+  .mappe-detail-felder dt { color: var(--ink2); }
+  .mappe-detail-felder dd { margin: 0; }
+  .uebergabe-detail dt { color: var(--ink2); font-size: var(--fs-role-label); margin: var(--abstand-2) 0 0; }
+  .uebergabe-detail dd { margin: 0; }
   /* Upload-Modal (Schritt 3) */
   .mappe-vorschau { display: block; max-width: 100%; max-height: 220px; border-radius: var(--radius-md); border: 1px solid var(--line); margin: 0 0 var(--space-4); object-fit: contain; }
   .mappe-bereich-wahl { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-4); }
@@ -1008,6 +1250,76 @@
   .bereich-format { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   /* UX-Spec VII: Inhaltsverzeichnis ab drei Sektionen — dezent über dem Bereich. */
   .toc { font-size: var(--fs-role-hilfe); color: var(--ink2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin: 0 0 var(--space-4); }
+  /* Eintragebereich (S.4c): links die Liste der Rubriken, rechts das Detail der offenen Rubrik. Das Detail zeigt nur die offene Rubrik
+     (Karte und Abschnitt mit `data-rubrik-offen`); schmal steht die Liste über dem Detail. */
+  .content-narrow:has(> .eintragebereich) { max-width: none; }
+  .eintragebereich { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--space-5); align-items: start; }
+  .bereich-liste { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+  .bereich-liste-kopf { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--line); font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); color: var(--ink); }
+  .bereich-liste-zahl { font-weight: var(--fw-regular); color: var(--ink2); font-variant-numeric: tabular-nums; }
+  .bereich-liste-zeilen { list-style: none; margin: 0; padding: 0; }
+  .bereich-liste-zeilen li + li { border-top: 1px solid var(--line); }
+  .bereich-liste-zeile { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); width: 100%; text-align: left; background: none; border: 0; padding: var(--space-3) var(--space-4); font: inherit; color: var(--ink); cursor: pointer; }
+  .bereich-liste-zeile:hover { background: var(--flaeche-neutral); }
+  .bereich-liste-zeile[aria-current="true"] { background: var(--salbei-light); }
+  .bereich-liste-titel { font-size: var(--fs-role-text); font-weight: var(--fw-semibold); }
+  .bereich-liste-inhalt { font-size: var(--fs-role-hilfe); color: var(--ink2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+  .bereich-detail > .sektion:not([data-rubrik-offen]) { display: none; }
+  .bereich-detail .feldgruppen-karte:not([data-rubrik-offen]) { display: none; }
+  /* U-4 Zusatz (Desktop-Dummy Z. 465–474): steht die offene Rubrik als Karte, trägt die Karte den Titel; der Abschnittstitel darüber (etwa „Person“ über „Name & Geburt“) entfällt. */
+  .bereich-detail > .sektion:has(.feldgruppen-karte[data-rubrik-offen]) > .sektion-titel { display: none; }
+  /* Dazu fällt der Rahmen des Abschnitts um die Karte weg — auch gegen den Profil-Rahmen `#app .sektion` (dummy.css), der die Abflachung unten gleich stark und später überschreibt. */
+  html #app .eintragebereich .bereich-detail > .sektion:has(.feldgruppen-karte[data-rubrik-offen]) { background: none; border: 0; box-shadow: none; padding: 0; margin-top: 0; }
+  @media (max-width: 767px) { .eintragebereich { grid-template-columns: minmax(0, 1fr); } }
+  /* U-4 (D46/H04): am Handy erst die Liste, dann das Detail mit Zurück */
+  .bereich-detail-zurueck { display: none; }
+  .bereich-detail-zurueck .ico svg { transform: scaleX(-1); }
+  @media (max-width: 767px) {
+    .eintragebereich:not([data-detail-offen]) > .bereich-detail { display: none; }
+    .eintragebereich[data-detail-offen] > .bereich-liste { display: none; }
+    .bereich-liste-zeile { min-height: calc(var(--treffer) + var(--space-2)); flex-direction: row; align-items: center; gap: var(--space-3); }
+    .bereich-liste-titel { flex-shrink: 0; }
+    .bereich-liste-inhalt { margin-left: auto; text-align: right; color: var(--ink2); min-width: 0; }
+    .bereich-detail-zurueck { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--treffer); border: 0; background: none; color: var(--ink); padding: 0 var(--space-2) 0 0; font: inherit; font-weight: var(--fw-semibold); cursor: pointer; margin: 0 0 var(--space-2); }
+  }
+  /* U-4 Schritt 2 (Dummy): das Detail ist flach. Der Abschnitt um die offene Rubrik trägt keinen eigenen Rand und keinen Schatten,
+     die Karte der Rubrik einen Rand von 1px ohne Schatten: kein Rand im Rand. Die Selektoren sind schärfer als die der Stilprofile
+     (#app .sektion, #app .feldgruppen-karte). Hoher Kontrast behält seinen eigenen Rand an der Karte. Die Probe zum flachen Eintragebereich hält das fest. */
+  .bereich-detail-kopf { display: flex; justify-content: flex-end; margin: 0 0 var(--space-3); }
+  html #app .eintragebereich .bereich-detail > .sektion { background: none; border: 0; box-shadow: none; padding: 0; margin-top: 0; }
+  html:not(.high-contrast) #app .eintragebereich .bereich-detail .feldgruppen-karte { border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: none; }
+  html.high-contrast #app .eintragebereich .bereich-detail .feldgruppen-karte { box-shadow: none; }
+  /* Anlass als Aufgabenliste (U-5 Schritt 1): links „Dazu gehört“ mit Haken, rechts der Kasten „Herausgeben“; schmal untereinander. */
+  .anlass-brotkrumen { margin: 0 0 var(--space-2); }
+  .anlass-raster { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; margin: 0 0 var(--space-5); }
+  .anlass-teil-titel { margin-top: 0; }
+  .anlass-aufgaben { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); }
+  .aufgabe { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) 0; }
+  .aufgabe + .aufgabe { border-top: 1px solid var(--line); }
+  .aufgabe .haken { display: inline-flex; align-items: center; justify-content: center; width: 1.4em; height: 1.4em; border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--ink2); flex: none; }
+  .aufgabe .haken.ja { background: var(--salbei-light); }
+  .aufgabe-titel { flex: 1 1 auto; font-weight: var(--fw-semibold); }
+  .aufgabe-stand { font-size: var(--fs-role-hilfe); color: var(--ink2); }
+  .anlass-herausgeben { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); }
+  .anlass-herausgeben dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-1) var(--space-3); margin: 0 0 var(--space-3); }
+  .anlass-herausgeben dt { color: var(--ink2); }
+  .anlass-herausgeben dd { margin: 0; }
+  @media (max-width: 767px) { .anlass-raster { grid-template-columns: minmax(0, 1fr); } .anlass-herausgeben { order: -1; } }
+  /* U-5 Rest (17.11.2026, Dummy 13.11.): „An“ im Fenster „Herausgeben“ und „Fertig“ nach dem Herausgeben. */
+  .herausgabe-an { margin: 0 0 var(--space-3); }
+  .herausgabe-an-zeile { display: flex; align-items: center; gap: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); }
+  .herausgabe-an-av { display: inline-flex; align-items: center; justify-content: center; width: 2.2em; height: 2.2em; border-radius: var(--radius-pill); background: var(--salbei-light); color: var(--ink2); font-weight: var(--fw-semibold); flex: none; }
+  .herausgabe-an-name { flex: 1 1 auto; min-width: 0; }
+  .anlass-fertig-hinweis { display: flex; align-items: flex-start; gap: var(--space-3); background: var(--salbei-light); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin: 0 0 var(--space-4); }
+  html.dark-mode .anlass-fertig-hinweis, html.dark-mode .herausgabe-an-av { background: var(--flaeche-hinweis); }
+  .anlass-fertig-haken { display: inline-flex; align-items: center; justify-content: center; width: 1.4em; height: 1.4em; border: 1px solid var(--line); border-radius: var(--radius-pill); flex: none; }
+  .anlass-fertig-unter { font-size: var(--fs-role-hilfe); color: var(--ink2); }
+  .anlass-fertig-dateien { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-1) var(--space-4); }
+  .anlass-fertig-datei { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) 0; }
+  .anlass-fertig-datei + .anlass-fertig-datei { border-top: 1px solid var(--line); }
+  .anlass-fertig-name { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+  .anlass-fertig-knoepfe { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .anlass-fertig-wege { margin-top: var(--space-4); }
   .toc-titel { color: var(--ink3); font-size: var(--fs-role-hilfe); margin-bottom: var(--space-2); text-transform: var(--label-schreibung); letter-spacing: var(--ls-label-klein); }
   /* Bild C — Regal (Karten-Überblick pro Sektor) + Cross-Sektor-Verweis-Karten (Weg β, U2-Auftrag 11.07.). */
   .regal { margin: 0 0 var(--space-4); }
@@ -1077,7 +1389,7 @@
   @media (pointer: coarse) { .feld-hint-mehr > summary { min-height: 44px; } }
   /* Urheberschaft-Zeile (U2-ADR-005) — sehr klein und zurückhaltend; der Stempel
      ist eine Fußnote am Feld, nicht der Inhalt. (Volle Sicht später im Export/Druck.) */
-  .feld-urheber { color: var(--ink3); font-size: var(--fs-role-hilfe); opacity: 0.8; margin-top: 2px; line-height: 1.3; }
+  .feld-urheber { color: var(--ink3); font-size: var(--fs-role-hilfe); margin-top: 2px; line-height: 1.3; }
   /* „Ausdrücklich keine" (12.08.2026) — dezente Zeile, gleiche Familie wie .feld-urheber,
      aber mit eigenem Knopf (.btn-mini, bereits 44px-Trefferfläche-konform, K4/F2 09/10.08.). */
   .ausdruecklich-keine-zeile { grid-column: -2 / -1; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--fs-role-hilfe); color: var(--ink2); }
@@ -1193,7 +1505,7 @@
   .liste-eintrag-wert { color: var(--ink); font-weight: var(--fw-regular); overflow-wrap: break-word; }
   html.high-contrast .liste-eintrag-label, html.high-contrast .liste-eintrag-wert,
   html.dark-mode .liste-eintrag-label, html.dark-mode .liste-eintrag-wert { font-weight: var(--fw-regular); }
-  .btn-mini { font-size: var(--fs-role-hilfe); padding: var(--space-1) var(--space-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm, 4px); color: var(--ink2); cursor: pointer; }
+  .btn-mini { font-size: var(--fs-role-hilfe); padding: var(--space-1) var(--space-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-klein); color: var(--ink2); cursor: pointer; }
   .btn-mini:hover { background: var(--flaeche-hover); }
   /* Gerätetest v76 (F3): ein Knopf, der nichts tut, darf nicht bedienbar aussehen. Betrifft die
      ↑/↓-Ränder (erste/letzte Zeile); `.btn-mini` hatte bisher gar keinen Aus-Zustand.
@@ -1585,14 +1897,27 @@
   .export-zusatz-titel { font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--ink2); padding: var(--space-3) 0 var(--space-1); border-bottom: 1px solid var(--line); }
   .export-geht-liste li.export-zusatz-titel { font-size: var(--fs-role-hilfe); padding-top: var(--space-3); }
   .export-zz-fehlt .export-zz-lab, .export-zusatz-fehlt { color: var(--ink3); }
+  /* Häkchen in Gruppen (Entscheidung 17.11.2026): Satz, Gruppen mit Gruppen-Häkchen und „x von y“, je Angabe ein Häkchen, Zusammenfassung. */
+  .export-haekchen-satz { font-weight: var(--fw-semibold); margin: 0 0 var(--space-3); }
+  .export-gruppe { border-bottom: 1px solid var(--line); }
+  .export-gruppe-kopf { display: flex; align-items: center; gap: var(--space-2); min-height: var(--treffer); cursor: pointer; }
+  .export-gruppe-titel { flex: 1; min-width: 0; font-weight: var(--fw-semibold); }
+  .export-gruppe-zahl { font-size: var(--fs-role-hilfe); color: var(--ink3); white-space: nowrap; }
+  .export-gruppe-fehlt .export-gruppe-titel { color: var(--ink3); font-weight: var(--fw-regular); }
+  .export-gruppen-haken { flex: none; width: 1.25rem; height: 1.25rem; border: 2px solid var(--ink3); border-radius: var(--radius-klein); position: relative; }
+  .export-gruppen-haken[aria-checked="true"], .export-gruppen-haken[aria-checked="mixed"] { background: var(--salbei-dunkel); border-color: var(--salbei-dunkel); }
+  .export-gruppen-haken[aria-checked="true"]::after { content: ""; position: absolute; left: 0.3rem; top: 0.05rem; width: 0.35rem; height: 0.7rem; border: solid var(--white); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  .export-gruppen-haken[aria-checked="mixed"]::after { content: ""; position: absolute; left: 0.2rem; right: 0.2rem; top: calc(50% - 1px); height: 2px; background: var(--white); }
+  .export-gruppen-haken[aria-disabled="true"] { opacity: 0.4; }
+  .export-gruppe-koerper { padding: 0 0 var(--space-2) var(--space-5); }
+  .export-wahl { display: flex; align-items: flex-start; gap: var(--space-2); padding: var(--space-1) 0; font-size: var(--fs-role-text); }
+  .export-wahl label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .export-haken { flex: none; width: 1.25rem; height: 1.25rem; margin: 0; accent-color: var(--salbei-dunkel); }
+  .export-zusammenfassung { margin: var(--space-3) 0 0; font-weight: var(--fw-semibold); }
   .export-chip-fehlt { display: inline-block; margin-left: var(--space-2); padding: 0 var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-sm);
     font-size: var(--fs-role-hilfe); color: var(--ink3); background: none; }
   .export-vorauswahl { margin: 0 0 var(--space-2); }
   .export-vorauswahl-chip { display: inline-block; padding: 0 var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-sm); font-weight: var(--fw-semibold); }
-  /* B3: nach dem Herausgeben eines Anlasses zwei gleichrangige Wege, je mit dem Dateinamen in der zweiten Zeile. */
-  .anlass-ergebnis-wege { display: flex; flex-direction: column; gap: var(--space-2); }
-  .anlass-ergebnis-weg { display: flex; flex-direction: column; align-items: flex-start; min-height: var(--treffer); text-align: left; }
-  .anlass-ergebnis-datei { font-size: var(--fs-role-hilfe); color: var(--ink3); }
   .export-gehalten-liste { margin: 0 0 var(--space-2); }
   .herausgeben-chooser { display: flex; flex-direction: column; gap: var(--space-2); }
   .herausgeben-chooser .btn { justify-content: flex-start; text-align: left; font-size: var(--fs-role-hilfe); }   /* U2-ADR-046 ② — Chooser-Knöpfe kleiner (waren --fs-base, wirkten zu groß) */
@@ -1680,7 +2005,9 @@
      Titel, Hauptknöpfe als Pille. Kein Gold, nur vorhandene Tokens. */
   /* Kopf des Anlegen-Fensters (Gestaltungsleitung 01.11.2026): Zeichen und Titel in einer Zeile, „Schritt 1 von 2“ klein darunter. Die Schrittzeile
      steht im Quelltext vorn (Lesereihenfolge), die Reihenfolge im Bild kommt über order. */
-  .modal h3:has(> .modal-schritt) { flex-wrap: wrap; }
+  /* D89 (Desktop-Dummy, Kopf „Herausgeben“): die Unterzeile mit dem Anlass steht wie der Schritt leise unter dem Namen des Fensters. */
+  .modal h3:has(> .modal-schritt), .modal h3:has(> .modal-unterzeile) { flex-wrap: wrap; }
+  .modal-unterzeile { font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink3); margin: 0; flex-basis: 100%; }
   .modal-schritt { display: block; font-size: var(--fs-role-hilfe); font-weight: var(--fw-medium); color: var(--ink3); margin: 0; order: 1; flex-basis: 100%; }
   .pw-satz { font-size: var(--fs-role-text); line-height: 1.5; color: var(--ink); margin: 0 0 var(--space-5); }
   .pw-eigen-weg { margin: calc(-1 * var(--space-4)) 0 var(--space-5); }
@@ -1692,9 +2019,6 @@
   .pw-trenner { color: var(--ink3); }
   .modal-zweit-text { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); margin-right: auto; }
   .btn-pille, .modal:has([data-zwei-schritte]) .modal-aktionen .btn { border-radius: var(--radius-pill); }
-  /* A1-Untergrenze (UX 11.11.2026): zwei Wege „Mit ihnen herausgeben“ / „Ohne sie herausgeben“, beide mindestens 48 px hoch, im Knopf kein Umbruch (X3). */
-  .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen { flex-wrap: wrap; }
-  .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen .btn { min-height: var(--ziel-gross); white-space: nowrap; }
   .pw-staerke .pw-staerke-balken { display: inline-flex; gap: 3px; flex: 0 0 auto; }
   .pw-staerke .pw-staerke-balken i { width: 20px; height: 5px; border-radius: var(--radius-balken); background: var(--line); display: inline-block; }
   .pw-staerke-schwach .pw-staerke-balken i:nth-child(1) { background: var(--warning); }
@@ -2481,7 +2805,10 @@
       background: var(--papier-bereich); border-top: 1px solid var(--line);
       padding: var(--space-2) var(--space-1); padding-bottom: max(var(--space-2), env(safe-area-inset-bottom)); }
     .bt-tab { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 2px;
-      background: none; border: none; color: var(--ink3); font-size: var(--fs-role-hilfe); padding: var(--space-1); }
+      background: none; border: none; color: var(--ink3); font-size: var(--fs-role-hilfe); padding: var(--space-1);
+      /* Feste Tab-Höhe (74px minus padding-top und 1px Oberkante): die Leiste ist so hoch, wie #app.an, .banner-stapel und
+         #toast-host unten mit 74px rechnen, egal ob eine Beschriftung ein- oder zweizeilig steht. Probe: feldhinweis-und-meldung. */
+      min-height: calc(74px - var(--space-2) - 1px); justify-content: center; }
     .bt-tab.aktiv { color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
     /* Code-Review 25.08.2026 (Fund 1): der reservierte Content-Abstand stand als blanke „64px" da,
        ohne Herleitung — und traf nicht einmal die tatsächliche Balkenhöhe ohne Inset (per Playwright
@@ -2496,6 +2823,11 @@
        env(safe-area-inset-bottom))) — dadurch trifft der reservierte Abstand die reale Balkenhöhe
        exakt, egal ob Inset 0 ist (Android, ältere iPhones) oder ~34px (Home-Indicator). */
     #app.an { padding-bottom: calc(74px + max(var(--space-2), env(safe-area-inset-bottom))); }
+    /* Befund Studio 17.11.2026 (375): ein ins Bild gerolltes Ziel (Fokus mit der Tastatur, Vorlesen, scrollIntoView) landete an der
+       Unterkante und lag unter der festen Leiste; die Leiste fing den Klick ab. scroll-padding-bottom hält beim Rollen genau die Höhe
+       der Leiste frei (derselbe Ausdruck wie #app.an) und 8 px Luft; den Abstand am Seitenende trägt #app.an.
+       Probe: tests/e2e/leiste-unten-verdeckt-kein-ziel.spec.js. */
+    html:has(#app.an) { scroll-padding-bottom: calc(74px + max(var(--space-2), env(safe-area-inset-bottom)) + var(--space-2)); }
     /* Code-Review 25.08.2026 (Fund 2): .banner-stapel (Zeile ~883, z-index:200, fixed bottom:0)
        lag GENAU auf derselben Kante wie .bottom-tabs (z-index:150, ebenfalls fixed bottom:0) —
        beide sind volle Breite an derselben Position, ein sichtbares Banner deckte die
@@ -2578,7 +2910,18 @@
        dev-leiste). In der engsten Stufe darum 1px statt --space-1; die Tap-Ziele bleiben 44px. */
     .topbar.tb-eng-2 { gap: 1px; }
     .topbar.tb-eng-2 .depot-pille { flex-shrink: 1; padding-left: var(--space-1); padding-right: var(--space-1); gap: 2px; }
-    .topbar.tb-eng-2 #tb-depot-name { min-width: 5.5em; }
+    /* T-CROSS-11 nach der Lupe (17.11.2026, Desktop-Dummy Z. 205–206: bis 767 px „.depot{flex:1;min-width:0}“, der Name mit Ellipse):
+       der Name kappt mit Ellipse, mindestens vier Zeichen; die Pille trägt ihren Inhalt ganz, nichts ragt über ihren Rahmen. Vorher
+       5.5em: seit der Lupe (U-8a) reichte der Platz bei 375 px dafür nicht, der Inhalt ragte über die Pille. Probe:
+       T-CROSS-11 (Lesbarkeit am Handy). */
+    .topbar.tb-eng-2 #tb-depot-name { min-width: 3.2em; }
+    /* Stufe 3 (nur wenn auch vier Zeichen nicht passen, gemessen bei 320 px): der Name weicht ganz, die Pille bleibt Wechsler mit
+       Punkt und ▾; der volle Name steht im Titel der Pille und im Menü. Nie ein Rest wie „0 D…“. */
+    .topbar.tb-eng-3 #tb-depot-name { display: none; }
+    /* Befund Reise 5 (17.11.2026, 390 px, Beispielansicht): seit U-3 sitzt die Pille in .depot-pille-wrap. Der Rahmen hielt
+       min-width:auto, die Pille schrumpfte in tb-eng-2 nicht, und mit der Lupe (U-8a) lief die Kopfleiste 20 px über. Die Seite wurde
+       410 px breit, die feste Leiste unten ebenso, und ein Tippen traf daneben. Probe: tests/e2e/leiste-unten-verdeckt-kein-ziel.spec.js. */
+    .topbar.tb-eng-2 .depot-pille-wrap { min-width: 0; flex-shrink: 1; }
     /* T-CROSS-09-A2-Nachtrag (19.09.2026, Rot-Beweis am echten Lauf gefunden, nicht am kaputten
        Beispiel): im Sub-Modus (Vollmacht) blieb #tb-depot-name bei 320px auf seinem max-width:30vw
        (96px) stehen, statt auf den min-width-Floor (5.5em ≈ 77px) zu schrumpfen — 15px Overflow,
@@ -2586,7 +2929,7 @@
        die eng-2-Regel (eine ID) beim max-width, das min-width also nie zum Zug kommt. Hier auf
        dieselbe Höhe gehoben (zwei IDs + drei Klassen) und auf denselben Wert wie der Floor gedeckelt
        — der Name schrumpft dann tatsächlich bis dorthin, Overflow gemessen 0. */
-    #app.modus-vollmacht .topbar.tb-eng-2 #tb-depot-name { max-width: 5.5em; }
+    #app.modus-vollmacht .topbar.tb-eng-2 #tb-depot-name { max-width: 5.5em; min-width: 5.5em; }   /* der Lesbarkeits-Floor des Sub-Namens bleibt (T-CROSS-09, „Depot u…“) */
     /* Sub-Kontext-Punkt weicht zuletzt (12px, gemessen am 320px-Sub-Fall) — dieselbe Stufe wie
        der Status-Fragment-Griff daneben, nicht früher: die einzige verbleibende Sub-Anzeige in
        der Topbar, erst wenn wirklich nichts mehr reicht. Der Sub-Kontext bleibt über die
@@ -2706,9 +3049,6 @@
     /* Drei Knöpfe passen in einem Dialog nicht in eine Zeile (L1b „Link senden“, Vorschau vom 19.10.2026: „Herunterladen“
        war bei 390 px abgeschnitten). Die Knopfleiste bricht um; der Hauptknopf bleibt rechts. */
     .modal-aktionen { flex-wrap: wrap; }
-    /* A1-Untergrenze: die zwei Wege untereinander, voll breit, der Hauptknopf zuerst (im DOM steht er zuletzt). */
-    .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen { flex-direction: column-reverse; align-items: stretch; }
-    .modal:has([data-herausgabe-zwei-wege]) .modal-aktionen .btn { min-height: var(--ziel-gross); width: 100%; }
     .content { padding: var(--space-4); }
     /* Wortmarke weicht auf sehr schmalen Screens — die Bildmarke bleibt als Home-Klick. */
     .topbar .logo-wort { display: none; }
@@ -2719,7 +3059,7 @@
        jeder Breite, s. renderSidebar). Kein zweiter Weg entfällt — nur ein redundanter dritter
        Tap-Ziel-Pfad neben Hamburger UND Sidebar-Eintrag. Reduziert die Topbar um 46px + einen
        Gap, ohne ein 44px-Trefferflächen-Ziel anzutasten. */
-    .topbar #tb-marke { display: none; }
+    /* H01 (Desktop-Dummy, Kopf: Marke und Wechsler): die Bildmarke bleibt auch hier stehen, nur die Wortmarke weicht (Regel darüber). */
     /* Enger Gap/Padding auf denselben schmalen Screens — reine Raumgewinnung, keine neue
        Eng-Stufe: dieselbe Idee wie der bereits vorhandene Gap-Wechsel im 760px-Block, nur
        einen Schritt enger, weil hier zwei zusätzliche 44px-Zahnrad-/Schließen-Knöpfe stehen,
@@ -2744,6 +3084,9 @@
        ruhig. Höhere Spezifität (beide Klassen) gewinnt unabhängig von der Quell-Reihenfolge. */
     .bereich-aktionen.bereich-aktionen--fertig { flex-direction: row; align-items: center; justify-content: flex-end; }
     .bereich-aktionen.bereich-aktionen--fertig .btn { flex: 0 0 auto; width: auto; min-width: 0; }
+    /* U-9 (Desktop-Dummy): die Antwort auf eine Anfrage — beide Knöpfe nebeneinander links, der Hinweis daneben, auch schmal. */
+    .bereich-aktionen.anfrage-aktionen { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-start; }
+    .bereich-aktionen.anfrage-aktionen .btn { flex: 0 0 auto; width: auto; min-width: 0; }
     /* Deckblatt bricht um (Foto über Name). */
     .deckblatt { flex-wrap: wrap; }
   }
@@ -2753,7 +3096,7 @@
      ════════════════════════════════════════════════════════════════════════ */
   /* Teil 1 — ruhigere Optik: Provenienz/Quelle/Sensibel-Marker treten zurück (dezent,
      klein), damit die Oberfläche standardmäßig ruhig wirkt — Detail erst auf Tipp. */
-  .feld-urheber { opacity: 0.7; }
+  .feld-urheber { opacity: 1; }  /* 17.11.2026: volle Deckkraft für den Kontrast der Herkunftszeile */
   /* WCAG-Kontrast-Fix (15.07.2026): .quelle-tag lief bisher mit derselben opacity:0.7 wie
      .feld-urheber — var(--ink3) blendete auf 2.78:1 (Pflicht 4.5:1). Entkoppelt: eigene
      volle Deckkraft, Farbe (--ink3) unverändert (voll deckend erreicht 4.91:1). */
@@ -3007,6 +3350,16 @@
   .vorfuehrung-leiste .btn { min-height: 44px; }
   /* Anfrage: die Angabe und darunter, leiser, wozu sie gefragt ist — sichtbar getrennt, in jeder Ansicht, nicht nur in der Demo. */
   .anfrage-wozu { display: block; color: var(--ink2); margin-top: 2px; }
+  /* U-9 (Desktop-Dummy, 16.11.2026): je Angabe Name, Wert und Zweck links, der Schalter rechts; die Brotkrume leise über dem Titel. */
+  .anfrage-zeile { display: flex; align-items: center; gap: var(--space-3); }
+  .anfrage-zeile-text { display: block; flex: 1; min-width: 0; }
+  .anfrage-angabe { display: block; font-weight: var(--fw-semibold); }
+  .anfrage-wert { display: block; color: var(--ink2); }
+  .anfrage-zeile .anfrage-haken { flex: none; }
+  .anfrage-brotkrume { display: block; margin-bottom: var(--space-1); }
+  #app .anfrage-brotkrume .btn-mini { background: none; border: none; box-shadow: none; padding: 0; color: var(--ink2); font-size: var(--fs-role-hilfe); }
+  #app .anfrage-brotkrume .btn-mini:hover { color: var(--ink); text-decoration: underline; }
+  .bereich-aktionen.anfrage-aktionen { justify-content: flex-start; align-items: center; flex-wrap: wrap; }
   .vorfuehrung-leiste .btn:disabled { opacity: 0.45; cursor: default; }
   .vorfuehrung-leiste .vorfuehrung-selbst { margin-left: auto; }
   /* Auf dem Handy nimmt die Karte weniger Höhe: kleinerer Titel, knapper Rand, eine Zeile Knöpfe. */
@@ -3222,6 +3575,8 @@
     --abstand-1: 0.25rem; --abstand-2: 0.5rem; --abstand-3: 0.75rem; --abstand-4: 1rem; --abstand-5: 1.5rem; --abstand-6: 2rem;
     --radius-klein: 10px; --radius-gross: 16px; --radius-rund: 999px;
     --treffer: 48px;
+    --mass-kopfleiste: 52px; --mass-seitenleiste: 248px; --mass-textspalte: 280px; --mass-inhalt-max: 1180px;
+    --zeichen-herkunft-eingelesen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 21V9l9-5 9 5v12'/%3E%3Cpath d='M8 21v-7h8v7'/%3E%3Cpath d='M2 21h20'/%3E%3C/svg%3E");
   }
   /* GESTALTUNG-DEFINITION:END */
 
@@ -3286,6 +3641,15 @@
   html.dark-mode #modal-rueck .modal:has(#whc-angebot) #whc-fehler { color: var(--feld-fehler-schrift); }
   #modal-rueck .modal:has(#whc-angebot) #whc-kontrolle-hinweis:has(~ #whc-fehler:not([hidden])) { display: none; }
   #modal-rueck .modal:has(#whc-angebot) #whc-kontrolle:has(~ #whc-fehler:not([hidden])) { border-bottom: 2px solid var(--error); }
+  /* Dummy 11.11.2026, D86 (17.11.2026): ein Fenster mit `blatt: true` steht schmal als Blatt unten: angedockt, volle Breite, nur die oberen Ecken gerundet. */
+  @media (max-width: 767px) {
+    #modal-rueck:has(.modal-blatt) { padding: 0; align-items: flex-end; }
+    #modal-rueck .modal.modal-blatt { max-width: none; width: 100%; padding: var(--space-5) var(--space-4) var(--space-4); border-radius: var(--radius-blatt) var(--radius-blatt) 0 0; max-height: 88dvh; }
+    /* In der Vorführung endet der Rücken unter ihrer Spalte: ein Blatt, höher als der Rücken, ragte oben unter die Spalte, und die Notiz
+       an seinem Kopf war verdeckt. Es wird nie höher als der Rücken (wie jedes Fenster der Vorführung) und rollt in sich. */
+    html.vorfuehrung-band #modal-rueck .modal.modal-blatt, html.vorfuehrung-band #modal-rueck .modal:has([data-zwei-schritte]) {
+      max-height: calc(100vh - var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)) - var(--vorfuehrung-band, 0px) - var(--vorfuehrung-unten, 0px)); }
+  }
   @media (max-width: 767px) {
     #modal-rueck:has([data-zwei-schritte]) { padding: var(--space-6) 0 0; align-items: flex-end; }
     #modal-rueck .modal:has([data-zwei-schritte]) { max-width: none; width: 100%; padding: var(--space-5) var(--space-4) var(--space-4); border-radius: var(--radius-blatt) var(--radius-blatt) 0 0; max-height: calc(100dvh - var(--space-6)); }

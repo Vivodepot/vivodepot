@@ -2,7 +2,7 @@
 /* ═════════════════════════════════════════════════
    T-CROSS-44 — Studio, Wagen S-G (10.11.2026): der Stand eines Wegs bleibt, „Zurück zur Auswahl“ fragt, „Weiter“ rollt in den Blick
    ─────────────────────────────────────────────────
-   S1: Weg „Anfrage an Personen“ ausfüllen → Expertensicht → zurück zum Weg (Einfach) und über die Marke zur Kachel: der Stand ist da.
+   S1: Weg „Anfrage an Personen“ ausfüllen → über die Marke im Kopf hinaus → mit der Kachel zurück: der Stand ist da.
        „Zurück zur Auswahl“ fragt einmal; „Weiter bearbeiten“ behält, „Verwerfen und zur Auswahl“ leert.
    S3: Nach „Weiter“ liegt die Überschrift des neuen Schritts im Fenster und trägt den Fokus (die Seite war vorher weit unten).
    ROT-BEWEIS: GENERATOR_HTML_PATH=<Kopie von 569c0b1cc:vivodepot-studio.html> → alle Tests rot.
@@ -21,6 +21,7 @@ async function oeffnen(browser) {
   return { ctx, p };
 }
 async function anfrageBeginnen(p) {
+  await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
   await p.click('#ein-anfrage');
   await p.fill('#aa-von', 'Bürgerservice Musterstadt');
   await p.fill('#aa-vorgang', 'Anfrage-2026-11-10');
@@ -29,12 +30,12 @@ async function anfrageBeginnen(p) {
 }
 
 test.describe('T-CROSS-44 Studio · Stand halten', () => {
-  test('Expertensicht und zurück: der Stand der Anfrage ist da', async ({ browser }) => {
+  test('Marke und zurück: der Stand der Anfrage ist da', async ({ browser }) => {
     const { ctx, p } = await oeffnen(browser);
     await anfrageBeginnen(p);
-    await p.click('#kopf-fachebene');
-    await expect(p.locator('#raum-anfrage')).toBeHidden();
     await p.click('#marke-start');
+    await expect(p.locator('#raum-anfrage')).toBeHidden();
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
     await p.click('#ein-anfrage');
     await expect(p.locator('#aa-schritt-2')).toBeVisible();
     await expect(p.locator('#aa-zweck')).toHaveValue('Termin im Bürgerservice vereinbaren');
@@ -43,10 +44,12 @@ test.describe('T-CROSS-44 Studio · Stand halten', () => {
 
   test('„Zurück zur Auswahl“ fragt einmal; Weiter bearbeiten behält, Verwerfen leert', async ({ browser }) => {
     const { ctx, p } = await oeffnen(browser);
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
     await p.click('#ein-anfrage');
     await p.fill('#aa-von', 'Bürgerservice Musterstadt');
-    await p.click('#kopf-fachebene');
-    await p.click('#kopf-einfach');
+    await p.click('#marke-start');
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+    await p.click('#ein-anfrage');
     await expect(p.locator('#aa-von')).toHaveValue('Bürgerservice Musterstadt');
     await p.click('#aa-zurueck-1');
     const dlg = p.locator('#dlg-verlassen');
@@ -59,18 +62,20 @@ test.describe('T-CROSS-44 Studio · Stand halten', () => {
     await expect(p.locator('#aa-von')).toHaveValue('Bürgerservice Musterstadt');
     await p.click('#aa-zurueck-1');
     await p.click('#vl-verwerfen');
-    await expect(p.locator('#raum-eingang')).toBeVisible();
+    await expect(p.locator('#raum-start')).toBeVisible();
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
     await p.click('#ein-anfrage');
     await expect(p.locator('#aa-von')).toHaveValue('');
     await p.click('#aa-zurueck-1');
     await expect(p.locator('#dlg-verlassen')).toBeHidden();   // leerer Weg: keine Frage
-    await expect(p.locator('#raum-eingang')).toBeVisible();
+    await expect(p.locator('#raum-start')).toBeVisible();
     await ctx.close();
   });
 
   test('Schrittwechsel: die Überschrift liegt im Fenster und trägt den Fokus', async ({ browser }) => {
     const { ctx, p } = await oeffnen(browser);
     await p.setViewportSize({ width: 1280, height: 720 });
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
     await p.click('#ein-anfrage');
     await p.fill('#aa-von', 'Bürgerservice Musterstadt');
     await p.evaluate(() => { document.body.style.minHeight = '3000px'; window.scrollTo({ top: 400, behavior: 'instant' }); });

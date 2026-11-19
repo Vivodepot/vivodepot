@@ -20,7 +20,7 @@ For citizens, Vivodepot Private is free of charge.
   it up in the background.
 - **No account, no app store, no login.** Nothing stands between the user and her file.
 - **Passwords belong in a password manager.** Vivodepot records where they are kept and who has access.
-- **EUPL-1.2.** Open source, under European law.
+- **EUPL-1.2.** Open source, under the European Union Public Licence, published by the European Commission.
 - **Five years of security updates per version**, from the day it is released; every update stays
   retrievable for at least ten years after that (see [`SECURITY.md`](SECURITY.md)).
 
@@ -83,4 +83,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Version
 
-Version v1061.
+Version v1065.

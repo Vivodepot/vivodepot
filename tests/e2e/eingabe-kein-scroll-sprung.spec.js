@@ -24,7 +24,7 @@
    Offener Anschluss: Firefox-Reproduktion, s. Folgeauftrag/Bericht.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, datumSetzen } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, datumSetzen, rubrikOeffnen } = require('./helpers');
 const { scrollSprungMessen } = require('../../tools/eingabe-scroll-messen.js');
 
 const PW = 'e2e-passwort-123';
@@ -102,6 +102,8 @@ test('[Befund-1·Listen-Unterfeld] idDocuments.validUntil (identity, erster Eint
   const { delta } = await scrollSprungMessen(page, {
     vor: async (p) => {
       await oeffneSektor(p, 'identity');
+      // Liste | Detail (U-4): die Rubrik der Liste wie von Hand wählen; danach zeigt der Bereich nur sie, wie bei der Person.
+      await rubrikOeffnen(p, '[data-liste-inline="idDocuments"]');
       // Hinzufügen (07.10.2026): bei leerer Liste steht der erste Eintrag inline; das Übernehmen zeichnet den Bereich neu — genau
       // dort darf kein Sprung entstehen (vorher prüfte diese Probe den Dialog, der für den ersten Eintrag entfallen ist).
       await p.waitForSelector('#content [data-liste-inline="idDocuments"] .datum-dreifeld:has([data-eintrag-edit="validUntil"]) [data-datum-teil="t"]');

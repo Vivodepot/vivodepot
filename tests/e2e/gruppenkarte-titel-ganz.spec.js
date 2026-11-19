@@ -52,7 +52,7 @@ function KOPFZEILEN() {
 
 /* Ein Bereich über die Oberfläche öffnen: bei schmaler Breite liegt die Seitenleiste hinter dem Menü-Knopf. */
 async function bereichOeffnen(page, sektor) {
-  if ((page.viewportSize() || { width: 1280 }).width < 768) await page.locator('#tb-menue').click();
+  if ((page.viewportSize() || { width: 1280 }).width < 768) await h.schubfachOeffnen(page);
   await h.oeffneSektor(page, sektor);
 }
 

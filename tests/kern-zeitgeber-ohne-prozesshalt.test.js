@@ -13,6 +13,8 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
 const KERN = path.join(__dirname, '..', 'vivodepot.html');
+// Gemessen wird der eigene Code: gelistete Fremdbibliotheken (tools/lib/fremdbibliotheken.js) sind ausgeschnitten (17.11.2026).
+const kernEigen = () => require('../tools/lib/html-senken.js').ohneFremdbloecke(fs.readFileSync(KERN, 'utf8'));
 
 // Zeitgeber, die den Prozess halten DÜRFEN, mit Grund. Ein Eintrag gilt für die Zeile, die `zeile` enthält.
 const ERLAUBT = Object.freeze([
@@ -43,12 +45,12 @@ function funde(quelle) {
 }
 
 test('[Kern·Zeitgeber] jeder setTimeout über 1 s läuft durch _ohneProzessHalt oder steht mit Grund auf der Liste', () => {
-  assert.deepEqual(funde(fs.readFileSync(KERN, 'utf8')), []);
+  assert.deepEqual(funde(kernEigen()), []);
   assert.ok(ERLAUBT.every((e) => e.grund.length > 10), 'jeder Eintrag nennt einen Grund');
 });
 
 test('[Kern·Zeitgeber·Rot-Beweis] ein neuer ungeschützter Zeitgeber über 1 s fällt, ein kurzer oder geschützter nicht', () => {
-  const q = fs.readFileSync(KERN, 'utf8');
+  const q = kernEigen();
   assert.equal(funde(q + '\nsetTimeout(() => neu(), 5000);\n').length, 1);
   assert.equal(funde(q + '\nsetTimeout(() => neu(), 200);\n').length, 0);
   assert.equal(funde(q + '\n_ohneProzessHalt(setTimeout(() => neu(), 5000));\n').length, 0);

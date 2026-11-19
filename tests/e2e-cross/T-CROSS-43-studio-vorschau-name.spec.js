@@ -1,8 +1,8 @@
 'use strict';
 /* ═════════════════════════════════════════════════
-   T-CROSS-43 — Studio, Assistent: die Vorschau zeigt den Namen der Einrichtung (Befund: doppelte ID as-k-name, 10.11.2026)
+   T-CROSS-43 — Studio, Vorschau der Anfrage: sie zeigt den Namen der Stelle (Befund: doppelte ID as-k-name, 10.11.2026)
    ─────────────────────────────────────────────────
-   Die Person tippt den Namen der Einrichtung; die Karte „von <Einrichtung>“ in der Vorschau zeigt ihn sofort. Vor dem Fix trug
+   Die Person tippt am Start den Namen der Stelle; die Karte „von <Stelle>“ in der Vorschau der Anfrage zeigt ihn. Vor dem Fix trug
    die Kopfzeile der Vorschau dieselbe ID wie das Eingabefeld „Ansprechperson“ (as-k-name); getElementById griff das Eingabefeld,
    die Vorschau blieb bei „Ihre Einrichtung“. Dazu: keine ID kommt im geladenen Dokument zweimal vor, und der Name der
    Ansprechperson landet nicht in der Vorschau.
@@ -20,22 +20,24 @@ async function assistentOeffnen(browser) {
   const p = await ctx.newPage();
   await p.goto(URL);
   await p.click('#sp-de');
-  await p.click('#ein-vorlage');
   return { ctx, p };
 }
 
 test.describe('T-CROSS-43 Studio · Vorschau zeigt den Namen', () => {
-  test('nach der Eingabe steht der Name der Einrichtung in der Vorschau, die Ansprechperson nicht', async ({ browser }) => {
+  test('nach der Eingabe steht der Name der Stelle in der Vorschau der Anfrage, die Ansprechperson nicht', async ({ browser }) => {
     const { ctx, p } = await assistentOeffnen(browser);
-    const kopf = p.locator('.as-kopf b').first();
-    await expect(kopf).toHaveText('Ihre Einrichtung');
+    await p.setViewportSize({ width: 1280, height: 900 });
+    const kopf = p.locator('#anfrage-vorschau .as-kopf b').first();
+    await p.click('#start-leer');
+    await expect(kopf).toHaveText('Ihre Stelle');
+    await p.click('#marke-start');
     await p.fill('#as-name', NAME);
+    await expect(p.locator('#start-angaben')).toHaveAttribute('open', '');   // mit dem Namen stehen die Angaben der Stelle offen da
+    await p.fill('#as-k-name', 'Erika Beispiel');
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
+    await p.click('#as-beispiele [data-beispiel="andere"]');
     await expect(kopf).toHaveText(NAME);
-    if (await p.locator('#as-k-name').isVisible()) {
-      await p.fill('#as-k-name', 'Erika Beispiel');
-      await expect(kopf).toHaveText(NAME);
-      await expect(p.locator('#as-k-name')).toHaveValue('Erika Beispiel');
-    }
+    await expect(p.locator('#as-k-name')).toHaveValue('Erika Beispiel');
     await ctx.close();
   });
 

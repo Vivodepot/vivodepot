@@ -86,7 +86,7 @@ test('Kontextzeile unter der Kopfzeile trägt Namen und Rückweg im Sub-Kontext 
   V.subKontextBetreten(e.depotUUID);
   const zeile = document.getElementById('sub-kontextzeile');
   assert.equal(zeile.hidden, false, 'Kontextzeile sichtbar');
-  assert.ok(document.getElementById('sub-kontext-text').textContent.includes('Oma Erna'), 'Name in der Kontextzeile');
+  assert.ok(document.getElementById('sub-kontext-name').textContent.includes('Oma Erna'), 'Name in der Kontextzeile');
   assert.ok(document.getElementById('vm-zurueck'), 'Rückweg-Knopf');
   // Der Inhalt bleibt unberührt: kein Banner mehr im Inhalt, der Sektor-Inhalt steht allein.
   const html = document.getElementById('content').innerHTML;
@@ -94,7 +94,7 @@ test('Kontextzeile unter der Kopfzeile trägt Namen und Rückweg im Sub-Kontext 
   assert.ok(html.includes('bereich-kopf'), 'Sektor-Inhalt bleibt erhalten');
   await V.subKontextVerlassen();
   assert.equal(zeile.hidden, true, 'Kontextzeile weg am Anker');
-  assert.equal(document.getElementById('sub-kontext-text').textContent, '', 'kein Name als Spur');
+  assert.equal(document.getElementById('sub-kontext-name').textContent, '', 'kein Name als Spur');
 });
 
 /* ── Bearbeiten im Sub-Kontext (Bugfix): Akteur „unter-vollmacht" automatisch ── */

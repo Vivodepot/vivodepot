@@ -1,6 +1,6 @@
 {
   "zweck": "Die Gestaltungsdefinition: die eine Quelle für Grundwerte (Schicht 1) und Bedeutungs-Token (Schicht 2). Jede Zahl steht nur in Schicht 1; Schicht 2 verweist. Erzeuger und Prüfer: tools/gestaltung-definition.js, Wächter für freie Werte: tools/gestaltung-freie-werte.js. Änderung nur mit Nachtrag in der zugehörigen ADR und neuer Prüfsumme.",
-  "version": 1,
+  "version": 2,
   "grundwerte": {
     "schriftgroessen": {
       "verweis": "tools/groessenleiter.json",
@@ -24,6 +24,17 @@
       { "token": "--radius-rund", "wert": "999px" }
     ],
     "treffer": { "token": "--treffer", "wert": "48px" },
+    "masse": [
+      { "token": "--mass-kopfleiste", "wert": "52px" },
+      { "token": "--mass-seitenleiste", "wert": "248px" },
+      { "token": "--mass-textspalte", "wert": "280px" },
+      { "token": "--mass-inhalt-max", "wert": "1180px" }
+    ],
+    "zeichen": [
+      { "token": "--zeichen-herkunft-eingelesen",
+        "hinweis": "Herkunft A2 (13.11.2026): Eingelesenes trägt dieses Zeichen und dahinter die Stelle im Wort. Stelle/Gebäude, einfache Kontur.",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 21V9l9-5 9 5v12\"/><path d=\"M8 21v-7h8v7\"/><path d=\"M2 21h20\"/></svg>" }
+    ],
     "person": {
       "hinweis": "Die Personenfarbe im Sub-Depot: acht benannte Töne, je mit Text- und Linienfassung. Die Oberfläche bleibt Salbei; die Person zeigt sich nur im Depot-Wechsler, im 3-px-Streifen oben und in der Kontextzeile. Werte bleiben in den Stil-Dateien, hier stehen nur Namen.",
       "toene": ["ton", "altrose", "nebel", "kiesel", "malve", "pfirsich", "hellblau", "rose"],
@@ -34,7 +45,7 @@
       "breit_ab_px": 768
     },
     "farben": {
-      "quellen": ["tools/erscheinung/heute.css", "tools/erscheinung/salbei-glas.css"],
+      "quellen": ["tools/erscheinung/heute.css", "tools/erscheinung/salbei-glas.css", "tools/erscheinung/dummy.css"],
       "hinweis": "Verweis auf bestehende Custom Properties der Stil-Dateien; jeder Name muss in jeder Quelle deklariert sein. Die Werte bleiben dort (je Erscheinungsbild, hell, dunkel, hoher Kontrast).",
       "namen": [
         "--ink", "--ink2", "--ink3", "--line", "--line-feiner",

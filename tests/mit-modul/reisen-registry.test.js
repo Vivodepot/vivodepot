@@ -27,8 +27,8 @@ const {
   ermittleRueckmeldung, harteFundeAusZustand, vergleicheProtokolle, reiseAusfuehren,
   pdfTjTexteAuslesen, maskiereFluechtigeWerte, dateiExportPruefen, harteFundeAusDateiExport,
 } = require('../../tools/lib/reisen-kern.js');
-const { REISEN, PW } = require('../../tools/reisen-registry.js');
-const { einmalDialogeSchliessen, feldgruppenKartenOeffnen } = require('../e2e/helpers.js');
+const { REISEN, PW, seitenleisteOeffnenMobil } = require('../../tools/reisen-registry.js');
+const { einmalDialogeSchliessen, feldgruppenKartenOeffnen, rubrikOeffnen } = require('../e2e/helpers.js');
 
 const REISE_1 = REISEN.find((r) => r.id === 'reise-1-marlies');
 /* Schnitt-Nachtrag (18.09.2026): mit BUERGERMODUL_BUENDEL entfernt ist AB_WERK_BEREICH_QUELLEN
@@ -557,11 +557,7 @@ function reiseNotfallkartePdfProbe() {
       {
         id: 'S5', titel: 'Gesundheit öffnen', veraendernd: false,
         aktion: async (seite) => {
-          const hamburger = seite.locator('#tb-menue');
-          if (await hamburger.isVisible().catch(() => false)) {
-            await hamburger.click({ timeout: 5000 });
-            await seite.waitForSelector('#app.menue-auf', { timeout: 5000 });
-          }
+          await seitenleisteOeffnenMobil(seite);   // Menü-Knopf im Kopf oder, seit der Kopfleiste nach dem Dummy, der Tab „Bereiche“
           // U2-ADR-171 (25.08.2026): der Bereichs-Knopf steckt seit heute in einem
           // kollabierbaren <details class="nav-gruppe"> — dasselbe Muster wie der
           // hamburger-Schritt zwei Zeilen darüber, nur eine Ebene tiefer.
@@ -581,16 +577,12 @@ function reiseNotfallkartePdfProbe() {
       },
       {
         id: 'S6', titel: 'Blutgruppe eintragen', veraendernd: true,
-        aktion: async (seite) => { await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 }); },
+        aktion: async (seite) => { await rubrikOeffnen(seite, '[data-edit="bloodType"]'); await seite.selectOption('[data-edit="bloodType"]', 'A+', { timeout: 5000 }); },
       },
       {
         id: 'S7', titel: 'Notfall-Sicht öffnen', veraendernd: false,
         aktion: async (seite) => {
-          const hamburger = seite.locator('#tb-menue');
-          if (await hamburger.isVisible().catch(() => false)) {
-            await hamburger.click({ timeout: 5000 });
-            await seite.waitForSelector('#app.menue-auf', { timeout: 5000 });
-          }
+          await seitenleisteOeffnenMobil(seite);   // Menü-Knopf im Kopf oder, seit der Kopfleiste nach dem Dummy, der Tab „Bereiche“
           await seite.click('[data-notfall="1"]', { timeout: 5000 });
           await seite.waitForSelector('#n-karte', { state: 'visible', timeout: 10000 });
         },

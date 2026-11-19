@@ -33,14 +33,17 @@ test('2) stempelName: Snapshot bevorzugt; Fallback akteurName bei altem Stempel'
   assert.equal(V.stempelName({ akteur: 'gibtsnicht' }), '');
 });
 
-test('3) Anzeige still, solange der Anker selbst einträgt', async () => {
+test('3) Anzeige still, solange der Anker selbst einträgt (Herkunft A2, 13.11.2026)', async () => {
+  // Eigenes ohne Zeichen: was die Person selbst einträgt, trägt am Feld keine Zeile, weder „Eingetragen“ noch „Geändert“.
+  // Nur Eingelesenes und fremd Eingetragenes zeigen ihre Herkunft (Test 4 ff.). Die Namensfelder bleiben nach U2-ADR-017 still.
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Maria');
   V.sektorFeldSetzen('identity', 'givenName', 'Maria');
   V.sektorFeldSetzen('health', 'bloodType', 'A+');
+  V.sektorFeldSetzen('health', 'bloodType', 'B+');
   assert.equal(V.urheberschaftZeileHTML('identity', 'givenName'), '');
-  assert.equal(V.urheberschaftZeileHTML('health', 'bloodType'), '');
+  assert.equal(V.urheberschaftZeileHTML('health', 'bloodType'), '', 'auch nach einer weiteren eigenen Eingabe still');
 });
 
 test('4) Anzeige erscheint, sobald der Snapshot vom aktuellen Anker abweicht', async () => {

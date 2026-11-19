@@ -28,7 +28,8 @@ test('[Zug5] Klick auf die Depot-Pille öffnet das Menü mit zwei Einträgen, fo
   await menueOeffnenPerKlick(page);
   await expect(page.locator('#tb-depot-menue-liste')).toBeVisible();
   await expect(page.locator('#tb-depot-menue-verwaltung')).toBeVisible();
-  await expect(page.locator('#tb-depot-menue-liste')).toBeFocused();
+  // D05 (Desktop-Dummy): oben steht der Wechsler, der erste Eintrag ist das eigene Depot.
+  await expect(page.locator('#tb-depot-menue-eigen')).toBeFocused();
 });
 
 test('[Zug5] ArrowDown/ArrowUp bewegen den Fokus zwischen den Einträgen (wrap-around)', async ({ page }) => {
@@ -37,15 +38,20 @@ test('[Zug5] ArrowDown/ArrowUp bewegen den Fokus zwischen den Einträgen (wrap-a
   // Wrap-Zyklus geht jetzt über alle drei.
   await oeffneApp(page);
   await depotAnlegen(page);
+  // D04–D07: der Wechsler (eigenes Depot, „Sub-Depot anlegen“) steht vor den drei bisherigen Einträgen, die Reihe geht über alle.
   await menueOeffnenPerKlick(page);
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('#tb-depot-menue-anlegen')).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('#tb-depot-menue-liste')).toBeFocused();
   await page.keyboard.press('ArrowDown');
   await expect(page.locator('#tb-depot-menue-verwaltung')).toBeFocused();
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('#tb-depot-menue-sicherungskopie')).toBeFocused('dritter Eintrag');
+  await expect(page.locator('#tb-depot-menue-sicherungskopie')).toBeFocused('letzter Eintrag');
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('#tb-depot-menue-liste')).toBeFocused('wrap-around zurück zum ersten Eintrag');
+  await expect(page.locator('#tb-depot-menue-eigen')).toBeFocused('wrap-around zurück zum ersten Eintrag');
   await page.keyboard.press('ArrowUp');
-  await expect(page.locator('#tb-depot-menue-sicherungskopie')).toBeFocused('wrap-around rückwärts zum letzten (jetzt dritten) Eintrag');
+  await expect(page.locator('#tb-depot-menue-sicherungskopie')).toBeFocused('wrap-around rückwärts zum letzten Eintrag');
 });
 
 test('[Zug5] Escape schließt das Menü und gibt den Fokus an die Pille zurück', async ({ page }) => {
@@ -66,7 +72,7 @@ test('[Zug5] Enter auf der fokussierten Pille öffnet das Menü — bleibt offen
   // depotMenueOeffnen() zusätzlich seinen eigenen synthetischen Klick aus — depotMenueToggle()
   // sah das Menü bereits offen und schloss es im selben Augenblick wieder.
   await expect(page.locator('#tb-depot-menue')).toBeVisible();
-  await expect(page.locator('#tb-depot-menue-liste')).toBeFocused();
+  await expect(page.locator('#tb-depot-menue-eigen')).toBeFocused();   // erster Eintrag seit D04–D07
 });
 
 test('[Zug5] Klick außerhalb schließt das Menü (focusout)', async ({ page }) => {
@@ -123,10 +129,10 @@ test('[U2-ADR-238·Rot-Beweis] Fokus-Verlust ins Leere (kein neues Fokus-Ziel, w
   await oeffneApp(page);
   await depotAnlegen(page);
   await menueOeffnenPerKlick(page);
-  await expect(page.locator('#tb-depot-menue-liste')).toBeFocused();
+  await expect(page.locator('#tb-depot-menue-eigen')).toBeFocused();
 
   const aktivesElementTag = await page.evaluate(async () => {
-    document.getElementById('tb-depot-menue-liste').blur();
+    document.getElementById('tb-depot-menue-eigen').blur();
     document.body.focus && document.body.focus();
     await new Promise(requestAnimationFrame);
     return document.activeElement ? document.activeElement.tagName : null;
@@ -160,13 +166,29 @@ test('[U2-ADR-238] Klick ausserhalb schliesst das Menü weiterhin (Maus/Touch, j
 
 test('[U2-ADR-238] Tab aus dem letzten Eintrag heraus schliesst das Menü weiterhin (Tastatur, jetzt über focusin statt focusout)', async ({ page }) => {
   // U2-ADR-237-Nachzug (04.09.2026): „Sicherungskopie erstellen" ist jetzt der letzte Eintrag,
-  // nicht mehr „verwaltung" — zwei ArrowDown statt eines.
+  // nicht mehr „verwaltung"; seit D04–D07 erreicht ArrowUp vom ersten Eintrag den letzten direkt.
   await oeffneApp(page);
   await depotAnlegen(page);
   await menueOeffnenPerKlick(page);
-  await page.keyboard.press('ArrowDown');
-  await page.keyboard.press('ArrowDown');   // fokussiert "sicherungskopie", jetzt den letzten Eintrag
+  await page.keyboard.press('ArrowUp');   // D04–D07: rückwärts vom ersten Eintrag auf „sicherungskopie“, den letzten
   await expect(page.locator('#tb-depot-menue-sicherungskopie')).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(page.locator('#tb-depot-menue')).toBeHidden();
+});
+
+/* Trenner unter dem Depot-Wechsler (D05–D07): die Linie läuft über die Breite des Menüs. Im Bildlauf stand sie als Punkt da
+   (hr mit seitlichem margin:auto in der Flex-Spalte). Rot-Beweis: mit margin:auto schrumpft sie wieder. */
+test('[Depot-Wechsler·Trenner] die Linie unter „Sub-Depot anlegen“ läuft über die Menübreite, mit Rot-Beweis', async ({ page }) => {
+  await oeffneApp(page);
+  await depotAnlegen(page);
+  await menueOeffnenPerKlick(page);
+  const breite = () => page.evaluate(() => {
+    const m = document.getElementById('tb-depot-menue'); const hr = m && m.querySelector('hr');
+    return hr ? [Math.round(hr.getBoundingClientRect().width), Math.round(m.clientWidth)] : [0, 0];
+  });
+  const [linie, menue] = await breite();
+  expect(linie, 'Trenner ' + linie + ' px bei Menübreite ' + menue + ' px').toBeGreaterThan(menue * 0.9);
+  await page.addStyleTag({ content: '#tb-depot-menue hr { margin: 0 auto !important; width: auto !important; align-self: auto !important; }' });
+  const [rot] = await breite();
+  expect(rot, 'Rot-Beweis: mit margin:auto schrumpft die Linie').toBeLessThan(menue * 0.5);
 });

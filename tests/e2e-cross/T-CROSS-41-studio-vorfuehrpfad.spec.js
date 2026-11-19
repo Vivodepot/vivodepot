@@ -17,6 +17,7 @@ test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
   test('(1) „Ihr Aktenzeichen“: der Vorschlag ist Platzhalter, Getipptes ersetzt ihn', async ({ page: p }) => {
     await p.goto(H.URLS.generator);
     await p.click('#sp-de');
+    await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
     await p.click('#ein-anfrage');
     await expect(p.locator('#aa-vorgang')).toHaveValue('');
     await expect(p.locator('#aa-vorgang')).toHaveAttribute('placeholder', /^Anfrage-\d{4}-\d{2}-\d{2}$/);
@@ -33,8 +34,9 @@ test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
   test('(2) Liste mit Unterfeldern: „+ Eintrag hinzufügen“ wirkt unter „Vorschau“', async ({ page: p }) => {
     await H.generator.oeffnen(p, 'de');
     await p.click('#bsp-bibliothek');
-    await expect(p.locator('.vk')).toHaveCount(7);
-    const liste = p.locator('.vk', { has: p.locator('.vk-name', { hasText: 'Weitere Personen im Familienausweis' }) });
+    await expect(p.locator('.vk')).toHaveCount(12);   // 7 → 12 (17.11.2026): Anschrift (vier Felder) und Nachweis für eine Ermäßigung wie im Dummy
+    const liste = p.locator('.vk', { has: p.locator('.vk-name-eingabe[value="Weitere Personen im Familienausweis"]')
+      .or(p.locator('.vk-name', { hasText: 'Weitere Personen im Familienausweis' })) });
     await p.click('#ansicht-probieren');
     await expect(liste.locator('.vk-eintrag')).toHaveCount(0);
     await liste.locator('.vk-eintrag-hinzu').click();
@@ -45,10 +47,10 @@ test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
     await expect(liste.locator('.vk-eintrag')).toHaveCount(2);
     await liste.locator('.vk-eintrag-weg').first().click();
     await expect(liste.locator('.vk-eintrag')).toHaveCount(1);
-    await expect(p.locator('.vk')).toHaveCount(7);   // die Vorlage behält ihre Felder
+    await expect(p.locator('.vk')).toHaveCount(12);   // die Vorlage behält ihre Felder
     // Gegenprobe: unter „Bearbeiten“ legt der Knopf nichts an.
     await p.click('#ansicht-bauen');
-    await liste.locator('.vk-eintrag-hinzu').click({ force: true });
+    await expect(liste.locator('.vk-eintrag-hinzu')).toHaveCount(0);   // der Knopf steht nur in der Vorschau (Dummy 14.11.2026)
     await expect(liste.locator('.vk-eintrag')).toHaveCount(0);
   });
 

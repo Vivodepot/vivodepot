@@ -293,7 +293,8 @@ function _mitStilQuellen(roh, pfad) {
 }
 
 function messen(pfad = KERN, { stellen = false } = {}) {
-  const roh = _mitStilQuellen(fs.readFileSync(pfad, 'utf8'), pfad);
+  // Gemessen wird der eigene Code: gelistete Fremdbibliotheken (tools/lib/fremdbibliotheken.js) sind ausgeschnitten (17.11.2026).
+  const roh = require('./lib/html-senken.js').ohneFremdbloecke(_mitStilQuellen(fs.readFileSync(pfad, 'utf8'), pfad));
   const zeile = zeilenIndex(roh);
   const liste = stellen ? [] : null;
   const teile = zerlegen(roh);

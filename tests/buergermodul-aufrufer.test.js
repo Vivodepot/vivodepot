@@ -100,14 +100,17 @@ test('[Aufrufer·E4] Slot tot, Funktion lebt — der Boot-Aufruf verarbeitet wei
   // 322 → 335 (04.11.2026, U2-ADR-465: Mietangaben der Hauptwohnung)
   // 321 → 322 (02.11.2026, U2-ADR-518: health.researchDecisions)
   // 335 → 340 (05.11.2026, U2-ADR-465 Nr. 35: Anmeldung, fünf Felder)
-  assert.equal(z.top, 340, 'Top-Level-Felder unverändert');
+  // 340 → 341 (16.11.2026, S-7a 79bee6b34: housing.registrationCertificate, Meldebescheinigung an der Hauptwohnung)
+  // 341 → 342 (17.11.2026, S-7b U2-ADR-527: socialInsurance.reducedRateProofs, Nachweise für eine Ermäßigung)
+  assert.equal(z.top, 342, 'Top-Level-Felder unverändert');
   // 13.09.2026: +3 (ZVR-Abschrift, U2-ADR-410) — der gemessene Stand.
   // 20.09.2026: 270/187 → 271/194 (U2-ADR-424: finance.privateInsurancePolicies +1 Top-Level, sechs
   // Unterfelder daran, dazu garnishmentProtection an finance.accounts) — gemessen, nicht addiert.
   // 198 → 199 (31.10.2026, Nachtrag U2-ADR-013: attachedDocument am Vorsorge-Instrument, gemessen). 194 → 198 (05.10.2026, U2-ADR-471: storageStreet/-HouseNumber/-PostalCode/-City am Vorsorge-Instrument, gemessen).
   // 212 → 217 (04.11.2026, U2-ADR-465: fünf Unterfelder der Mitbewohner und Untermieter).
+  // 217 → 220 (17.11.2026, S-7b U2-ADR-527: drei Unterfelder der Nachweise für eine Ermäßigung).
   // 199 → 212 (02.11.2026, U2-ADR-518: acht Unterfelder der Forschungsentscheidungen, fünf der Datenspende nach dem Tod, gemessen).
-  assert.equal(z.unter, 217, 'UnterFelder unverändert');
+  assert.equal(z.unter, 220, 'UnterFelder unverändert');
 });
 
 test('[Aufrufer·RUNDWEG] der eigene Bestand als Bündel ergibt denselben Bestand', () => {
@@ -125,8 +128,8 @@ test('[Aufrufer·RUNDWEG] der eigene Bestand als Bündel ergibt denselben Bestan
      über das Bündel. */
   assert.equal(bericht.bereiche, V.bereicheAlle().length,
     'der Rundweg führt jeden Bereich des laufenden Bestands zurück');
-  assert.equal(bericht.felder, 340, 'alle Top-Level-Felder angenommen');   // 335 → 340 (U2-ADR-465 Nr. 35)   // 322 → 335 (U2-ADR-465)   // 321 → 322 (U2-ADR-518)   // 320 → 321 (U2-ADR-459)   // 316 → 320 (U2-ADR-467)   // 312 → 316 (U2-ADR-455)   // 283 → 312 (U2-ADR-440)   // 278 → 283 (U2-ADR-438)   // 275 → 278 (U2-ADR-439)
-  assert.equal(bericht.unterFelder, 217, 'alle UnterFelder angenommen');   // 212 → 217 (04.11.2026, U2-ADR-465); 199 → 212 (02.11.2026, U2-ADR-518); 198 → 199 (31.10.2026, Nachtrag U2-ADR-013); 194 → 198 (05.10.2026, U2-ADR-471)
+  assert.equal(bericht.felder, 342, 'alle Top-Level-Felder angenommen');   // 341 → 342 (S-7b U2-ADR-527: socialInsurance.reducedRateProofs)   // 340 → 341 (S-7a 79bee6b34: housing.registrationCertificate)   // 335 → 340 (U2-ADR-465 Nr. 35)   // 322 → 335 (U2-ADR-465)   // 321 → 322 (U2-ADR-518)   // 320 → 321 (U2-ADR-459)   // 316 → 320 (U2-ADR-467)   // 312 → 316 (U2-ADR-455)   // 283 → 312 (U2-ADR-440)   // 278 → 283 (U2-ADR-438)   // 275 → 278 (U2-ADR-439)
+  assert.equal(bericht.unterFelder, 220, 'alle UnterFelder angenommen');   // 217 → 220 (17.11.2026, S-7b U2-ADR-527); 212 → 217 (04.11.2026, U2-ADR-465); 199 → 212 (02.11.2026, U2-ADR-518); 198 → 199 (31.10.2026, Nachtrag U2-ADR-013); 194 → 198 (05.10.2026, U2-ADR-471)
   // 13.09.2026: +3, 20.09.2026: +7, s. o.
   assert.deepEqual(bericht.verworfen, [], 'nichts verworfen — die Kennungen stammen aus dem Bestand selbst');
   const nachher = JSON.stringify(V.SEKTOREN.map((s) => ({ id: s.id, sektionen: s.sektionen })));
@@ -146,13 +149,13 @@ test('[Aufrufer·Positivkontrolle] der Rundweg-Vergleich erkennt eine echte Abwe
   assert.notEqual(nachher, vorher, 'ein fehlendes Feld bleibt unbemerkt — der Rundweg-Vergleich misst nichts');
 });
 
-test('[Aufrufer·UnterFelder] die 217 UnterFelder landen an ihrem Träger, nicht als Geschwister', () => {
+test('[Aufrufer·UnterFelder] die 220 UnterFelder landen an ihrem Träger, nicht als Geschwister', () => {
   const { V } = ladeKern();
   V.buergermodulBuendelAnwenden(buendelAusBestand(V));
   let top = 0, unter = 0;
   for (const s of V.bereicheAlle()) { const z = feldZahl(s); top += z.top; unter += z.unter; }
-  assert.equal(top, 340, 'landeten UnterFelder flach, stünden hier 557 statt 340 — die Bürgerin sähe 217 Felder zu viel');   // 335 → 340 (U2-ADR-465 Nr. 35)   // 322 → 335 (U2-ADR-465)   // 321 → 322 (U2-ADR-518)   // 320 → 321 (U2-ADR-459)   // 316 → 320 (U2-ADR-467)   // 312 → 316 (U2-ADR-455)   // 283 → 312 (U2-ADR-440)   // 275 → 278 (U2-ADR-439)
-  assert.equal(unter, 217, 'die UnterFelder hängen an ihrem Trägerfeld');   // 212 → 217 (04.11.2026, U2-ADR-465); 199 → 212 (02.11.2026, U2-ADR-518); 198 → 199 (31.10.2026, Nachtrag U2-ADR-013); 194 → 198 (05.10.2026, U2-ADR-471)
+  assert.equal(top, 342, 'landeten UnterFelder flach, stünden hier 562 statt 342 — die Bürgerin sähe 220 Felder zu viel');   // 341 → 342 (S-7b U2-ADR-527: socialInsurance.reducedRateProofs)   // 340 → 341 (S-7a 79bee6b34: housing.registrationCertificate)   // 335 → 340 (U2-ADR-465 Nr. 35)   // 322 → 335 (U2-ADR-465)   // 321 → 322 (U2-ADR-518)   // 320 → 321 (U2-ADR-459)   // 316 → 320 (U2-ADR-467)   // 312 → 316 (U2-ADR-455)   // 283 → 312 (U2-ADR-440)   // 275 → 278 (U2-ADR-439)
+  assert.equal(unter, 220, 'die UnterFelder hängen an ihrem Trägerfeld');   // 217 → 220 (17.11.2026, S-7b U2-ADR-527: drei Unterfelder der Nachweise); 212 → 217 (04.11.2026, U2-ADR-465); 199 → 212 (02.11.2026, U2-ADR-518); 198 → 199 (31.10.2026, Nachtrag U2-ADR-013); 194 → 198 (05.10.2026, U2-ADR-471)
 });
 
 test('[Aufrufer·Teil-Bündel] ein Bündel ohne einen Bereich leert ihn NICHT', () => {

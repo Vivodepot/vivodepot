@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-11-15 · **Fassung:** v1061 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-11-18 · **Fassung:** v1065 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -52,7 +52,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**14 Sektoren, 340 Felder, 217 Unterfelder gesamt.**
+**14 Sektoren, 342 Felder, 220 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
@@ -63,10 +63,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `assets` | Vermögen und Einkommen | 11 | 0 |
 | `health` | Gesundheit | 33 | 18 |
 | `education` | Bildung & Beruf | 31 | 0 |
-| `socialInsurance` | Sozialversicherung | 22 | 7 |
+| `socialInsurance` | Sozialversicherung | 23 | 10 |
 | `advanceCare` | Vorsorge & Recht | 49 | 85 |
 | `administration` | Verwaltung & Behörden | 27 | 18 |
-| `housing` | Wohnen & Eigentum | 32 | 16 |
+| `housing` | Wohnen & Eigentum | 33 | 16 |
 | `emergencyPreparedness` | Krisenvorsorge | 33 | 0 |
 | `pets` | Tiere | 1 | 5 |
 | `personal` | Persönliches | 22 | 4 |
@@ -87,13 +87,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-10-25, d90eeb9d7 Stand Kanon)
-- E2E (Playwright): 770 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 241 aus Schleifen über CPU-Drosselungen = **1011 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- E2E (Playwright): 815 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 247 aus Schleifen über CPU-Drosselungen = **1062 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
 - Wächter-Register (intern): 162
-- Schema-Version: 100 · SCHALEN_STAND: v1061 · Build-Version: v1.0
+- Schema-Version: 102 · SCHALEN_STAND: v1065 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (457)
+## ADR-Register (458)
 
 | Nummer | Titel |
 |---|---|
@@ -554,6 +554,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-520 | Bei einem Dritten liegt nur Chiffrat, auch das Verzeichnis |
 | U2-ADR-523 | Fragen am Eintrag und das Blatt für ein Gespräch |
 | U2-ADR-524 | Bundeseinheitlichen Medikationsplan einlesen, Data-Matrix-Auszug im Kern |
+| U2-ADR-527 | Nachweise für eine Ermäßigung im Bereich Soziales |
 
 ---
 
@@ -563,18 +564,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 50 | 279 |
-| `.btn-sek` | 15 | 134 |
-| `.btn-dezent` | 9 | 18 |
-| `.btn-klein` | 3 | 22 |
+| `.btn` | 51 | 303 |
+| `.btn-sek` | 15 | 145 |
+| `.btn-dezent` | 9 | 19 |
+| `.btn-klein` | 3 | 25 |
 | `.btn-notfall` | 2 | 0 |
-| `.btn-mini` | 10 | 36 |
-| `.karte` | 8 | 84 |
-| `.modal` | 70 | 211 |
-| `.toast` | 9 | 335 |
+| `.btn-mini` | 12 | 46 |
+| `.karte` | 8 | 94 |
+| `.modal` | 68 | 214 |
+| `.toast` | 9 | 336 |
 | `.banner-stapel` | 4 | 2 |
-| `.topbar` | 38 | 4 |
-| `.sidebar` | 14 | 6 |
-| `.leer` | 3 | 416 |
+| `.topbar` | 59 | 10 |
+| `.sidebar` | 19 | 7 |
+| `.leer` | 3 | 445 |
 | `.pause-erlaubnis` | 2 | 2 |
-| `.hinweis-box` | 7 | 34 |
+| `.hinweis-box` | 7 | 35 |

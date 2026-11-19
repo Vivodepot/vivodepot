@@ -3,11 +3,47 @@
   "kanon": "49419902c",
   "hinweis": "Funktionsverzeichnis Wagen 2 (Kopfleiste, U-2). Format wie umbau-verzeichnis-sub-depot.json (neuer_platz: lage, weg je Breite, erwartung). Suche, Einlesen und Herausgeben ziehen mit Wagen 3 in die Kopfleiste und stehen dort.",
   "eintraege": [
-    { "kennung": "tb-depot-menue-zurueck", "art": "menue", "beschriftung": "Zurück zu meinem Depot (erster Eintrag des Depot-Wechslers im Sub-Depot)",
+    {
+      "kennung": "tb-depot-menue-zurueck",
+      "art": "menue",
+      "beschriftung": "Zurück zu Ihrem Depot (erster Eintrag des Depot-Wechslers im Sub-Depot)",
       "fundort_alt": "neu in U-2; der Rückweg stand bisher nur in der Kontextzeile",
-      "neuer_platz": { "lage": "sub-kontext",
-        "weg": { "1280": ["#tb-depot-pille", "#tb-depot-menue-zurueck"], "375": ["#tb-depot-pille", "#tb-depot-menue-zurueck"] },
-        "erwartung": "#tb-depot-name" },
-      "zustand": "neu platziert" }
+      "neuer_platz": {
+        "lage": "sub-kontext",
+        "weg": {
+          "1280": [
+            "#tb-depot-pille",
+            "#tb-depot-menue-zurueck"
+          ],
+          "375": [
+            "#tb-depot-pille",
+            "#tb-depot-menue-zurueck"
+          ]
+        },
+        "erwartung": "#tb-depot-name"
+      },
+      "zustand": "neu platziert"
+    },
+    {
+      "kennung": "bt-verwaltet",
+      "art": "knopf",
+      "beschriftung": "Verwaltet (Handy: früher vierter Tab der unteren Leiste)",
+      "fundort_alt": "untere Leiste, Tab „Verwaltet“ (#bt-verwaltet); die Leiste führt seit 17.11.2026 Übersicht, Bereiche, Einlesen, Herausgeben",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "375": [
+            "#tb-depot-pille",
+            "#tb-depot-menue-verwaltung"
+          ],
+          "1280": [
+            "#tb-depot-pille",
+            "#tb-depot-menue-verwaltung"
+          ]
+        },
+        "erwartung": "#content"
+      },
+      "zustand": "neu platziert"
+    }
   ]
 }

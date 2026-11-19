@@ -126,7 +126,7 @@ test('C4) Beide zentrale Türen sind bereich-neutral (U2-ADR-056 Einlesen / U2-A
   const { V, document } = await frischMitDepot();
   V.oeffneSektor('identity');   // irgendein Bereich → Sidebar wird gerendert
   V.renderSidebar();
-  const sb = document.getElementById('sidebar').innerHTML;
+  const sb = document.getElementById('sidebar').innerHTML + document.getElementById('tb-aktionen').innerHTML;   // Umbau U-3 Schritt 3: die Türen stehen oben in der Kopfleiste
   assert.ok(sb.includes('data-einlesen-zentral="1"'), 'Einlese-Tür neutral (kein fester Bereich)');
   assert.ok(sb.includes('data-weitergeben-zentral="1"'), 'Herausgeben-Tür neutral (kein fester Bereich)');
   assert.ok(!sb.includes('-zentral="health"'), 'keine Tür mehr fix auf Gesundheit');

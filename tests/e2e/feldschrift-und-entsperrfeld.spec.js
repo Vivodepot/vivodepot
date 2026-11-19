@@ -6,7 +6,7 @@
    verlangt 3:1), 36 px Höhe und einen eigenen Radius.
    Gemessen am gebackenen Produkt, in allen vier Produkten:
    1 · Jede sichtbare Eingabe im Anlege-Dialog und das Entsperrfeld: erste Schriftfamilie wie die Seite (Inter), Farbe wie die Seite.
-   2 · „Schrift größer“: die Eingabe wächst im selben Verhältnis wie ihre Beschriftung; am Rechner 15 px (Rolle Wert, Zielbild),
+   2 · „Schrift größer“: die Eingabe wächst im selben Verhältnis wie ihre Beschriftung; am Rechner 14 px (Rolle Wert, Dummy 15.11.2026; vorher 15 px, Zielbild),
        bei 390 px nie unter 16 px (Zoom-Schutz in iOS).
    3 · Entsperrfeld: Unterkante ≥ 3:1 gegen die Fläche darunter, am Bild gemessen, tags und nachts; mindestens 44 px hoch; derselbe
        Radius wie das Feld im Anlege-Dialog.
@@ -190,6 +190,9 @@ async function rangAlleBereiche(page, zusatzCss) {
     await page.evaluate((s) => { const el = document.querySelector('.nav-item[data-sektor="' + s + '"]'); if (el) el.click(); }, id);
     await page.waitForTimeout(150);
     if (zusatzCss) await page.addStyleTag({ content: zusatzCss });
+    // U-4-Zusatz (Desktop-Dummy Z. 465–474): über einer offenen Karte entfällt der Abschnittstitel. Gemessen wird die Rangfolge der
+    // Schriftgrößen, nicht die Sichtbarkeit — der Titel wird für die Messung gezeigt, seine Größe kommt unverändert aus dem Stil.
+    await page.addStyleTag({ content: '#content .bereich-detail > .sektion > .sektion-titel { display: block !important; }' });
     const r = await page.evaluate(RANG);
     if (r.abschnitt !== null) gemessen++;
     fehler.push(...rangFehler(id, r));
@@ -212,7 +215,7 @@ test.describe('Feldschrift und Entsperrfeld', () => {
       expect(schriftFehler(felder), slug + ': Dialogfelder').toEqual([]);
       const normal = await groessen(page, '#id-vorname', 'label[for="id-vorname"]', '');
       const gross = await groessen(page, '#id-vorname', 'label[for="id-vorname"]', 'fs-large');
-      expect(normal.eingabe, slug + ': Eingabe am Rechner 15 px (Rolle Wert)').toBe(15);
+      expect(normal.eingabe, slug + ': Eingabe am Rechner 14 px (Rolle Wert, Dummy 15.11.2026)').toBe(14);
       expect(gross.eingabe / normal.eingabe, slug + ': Eingabe wächst wie die Beschriftung (' + JSON.stringify({ normal, gross }) + ')').toBeCloseTo(gross.label / normal.label, 2);
       await page.setViewportSize({ width: 390, height: 844 });
       await page.evaluate(() => document.documentElement.classList.remove('fs-medium', 'fs-large'));

@@ -9,7 +9,7 @@
    ────────────────────────────────────────────────────────────────────────
    Fall A — der andere Weg: `flowSubKontextVerlassen()` hat ZWEI Aufrufer
    (vivodepot.html, nachgesehen): der Banner-Knopf `#vm-zurueck`
-   (renderContent, ~42979) UND eine zweite Aktion „Zurück zu meinem Depot"
+   (renderContent, ~42979) UND eine zweite Aktion „Zurück zu Ihrem Depot"
    im Depot-Pillen-Dialog (~32474, Screenshot-Befund 
    26.08.2026 — derselbe Dialog zeigte vorher fälschlich „Mein Depot —
    aktiv"). Übergang 3 fuhr bisher AUSSCHLIESSLICH den Banner-Knopf. Fall A
@@ -75,7 +75,7 @@ async function subDepotAnlegenUndBetreten(page) {
   return uuid;
 }
 
-test('[Fehlerpfad 3/5·A] Sub-Kontext verlassen über die Depot-Pille ("Zurück zu meinem Depot"), NICHT über #vm-zurueck', async ({ page }) => {
+test('[Fehlerpfad 3/5·A] Sub-Kontext verlassen über die Depot-Pille ("Zurück zu Ihrem Depot"), NICHT über #vm-zurueck', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));
@@ -85,12 +85,12 @@ test('[Fehlerpfad 3/5·A] Sub-Kontext verlassen über die Depot-Pille ("Zurück 
   await subDepotAnlegenUndBetreten(page);
   await expect(page.locator('#vm-zurueck')).toBeVisible();
 
-  // ── DER ANDERE WEG: Depot-Pille → erster Menüeintrag „Zurück zu meinem Depot" (#tb-depot-menue-zurueck).
+  // ── DER ANDERE WEG: Depot-Pille → erster Menüeintrag „Zurück zu Ihrem Depot" (#tb-depot-menue-zurueck).
   // Bis 30.10.2026 hieß er hier „Mein Depot" und öffnete die Depot-Liste (flowDepotListe) mit dem Rückweg
   // als zweiter Aktion; seit UX-SUBDEPOT-RUECKWEG führt er im Depot einer anderen Person selbst zurück. ──
   await page.click('#tb-depot-pille');
   await page.waitForSelector('#tb-depot-menue-zurueck', { state: 'visible' });
-  await expect(page.locator('#tb-depot-menue-zurueck')).toHaveText('Zurück zu meinem Depot');
+  await expect(page.locator('#tb-depot-menue-zurueck')).toHaveText('Zurück zu Ihrem Depot');
   await page.click('#tb-depot-menue-zurueck');
   await page.waitForSelector('html.sub-kontext', { state: 'detached', timeout: 10000 });
 

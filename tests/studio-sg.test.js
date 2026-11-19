@@ -2,7 +2,7 @@
 /* ═════════════════════════════════════════════════════════════════════════════════════════════
    Studio · Wagen S-G (10.11.2026): Eingaben nicht ohne Warnung verlieren (S1), Schrittwechsel in den Blick (S3)
    ─────────────────────────────────────────────────────────────────────────────────────────────
-   (S1) Der Stand der Wege (Anfrage, Aufnahmebogen, Vorlage) bleibt im Fenster gehalten, wenn man ihn über die Kopfzeile verlässt, und
+   (S1) Der Stand der Wege (Anfrage, Aufnahmebogen, Vorlage) bleibt im Fenster gehalten, wenn man ihn über die Marke im Kopf verlässt, und
         kommt mit der Kachel zurück. „Zurück zur Auswahl“ eines BEGONNENEN Wegs fragt einmal; ein leerer Weg fragt nicht. Verwerfen
         leert. Der gehaltene Stand trägt keine Passwörter. Das Schließen des Reiters warnt auch bei einem begonnenen Weg.
    (S3) Nach „Weiter“ liegt die Schrittleiste im Fenster (sofort, nicht gleitend), die Überschrift trägt den Fokus.
@@ -52,16 +52,15 @@ function studio() {
 const schritt = (S) => S.run('aktiverSchritt');
 
 /* ── S1 · Anfrage ───────────────────────────────────────────────────────────────────────── */
-test('[S1 · Anfrage] der Stand bleibt nach Kopfzeile Expertensicht und Kachel erhalten', () => {
+test('[S1 · Anfrage] der Stand bleibt nach dem Verlassen über die Marke im Kopf und der Kachel erhalten', () => {
   const S = studio();
   S.klick('ein-anfrage');
   S.tippe('aa-von', 'Bürgerservice Musterstadt');
   S.tippe('aa-zweck', 'Termin im Bürgerservice vereinbaren');
   S.run("anfrageAssistentHinzu('vorname', 'Damit wir Sie ansprechen können')");
   S.run('ANF_AS.schritt = 2');
-  S.klick('kopf-fachebene');
-  assert.equal(schritt(S), 'fachebene');
   S.klick('marke-start');
+  assert.equal(schritt(S), 'willkommen');
   S.klick('ein-anfrage');
   assert.equal(S.run('ANF_AS.zweck'), 'Termin im Bürgerservice vereinbaren', 'Zweck geht nicht verloren');
   assert.equal(S.run('ANF_AS.von'), 'Bürgerservice Musterstadt');
@@ -104,7 +103,7 @@ test('[S1 · Anfrage] der gehaltene Stand trägt kein Passwort und kein Schlüss
   S.klick('ein-anfrage');
   S.tippe('aa-zweck', 'Termin vereinbaren');
   ['aa-pw1', 'aa-pw2', 'aa-stelle-pw'].forEach((id) => { S.el(id).value = 'Geheimes-Passwort-4711'; });
-  S.klick('kopf-fachebene');
+  S.klick('marke-start');
   const gehalten = S.run('typeof ANF_GEHALTEN === "undefined" ? null : ANF_GEHALTEN');
   assert.ok(gehalten, 'es gibt einen gehaltenen Stand');
   const text = JSON.stringify(gehalten);
@@ -112,27 +111,20 @@ test('[S1 · Anfrage] der gehaltene Stand trägt kein Passwort und kein Schlüss
   ['aa-pw1', 'aa-pw2', 'aa-stelle-pw'].forEach((id) => assert.equal(S.el(id).value, '', id + ' ist geleert'));
 });
 
-/* ── S1 · Vorlagen-Assistent ────────────────────────────────────────────────────────────── */
-test('[S1 · Vorlage] Name und Angaben bleiben nach der Kopfzeile erhalten; Verwerfen leert sie', () => {
+/* ── S1 · Start der Vorlage ─────────────────────────────────────────────────────────────── */
+test('[S1 · Vorlage] Name und Angaben des Starts bleiben nach dem Verlassen über die Marke stehen; das Schließen des Reiters warnt', () => {
   const S = studio();
-  const dlg = S.dialog('dlg-verlassen');
-  S.klick('ein-vorlage');
+  const warnt = () => { let verhindert = false; S.spiele.beforeunload({ preventDefault: () => { verhindert = true; } }); return verhindert; };
+  S.klick('marke-start');   // seit S-1 ist der Anfang der Start selbst, ohne Kachel davor
+  assert.equal(schritt(S), 'willkommen');
   S.tippe('as-name', 'Sportverein Beispielstadt');
   S.tippe('as-strasse', 'Hauptstraße 1');
-  S.klick('kopf-fachebene');
   S.klick('marke-start');
-  S.klick('ein-vorlage');
-  assert.equal(S.run('ASSISTENT.name'), 'Sportverein Beispielstadt');
-  assert.equal(S.el('as-strasse').value, 'Hauptstraße 1');
-  S.klick('as-zurueck-1');
-  assert.equal(dlg.offen, 1, 'begonnener Weg fragt');
-  S.klick('vl-verwerfen');
   assert.equal(schritt(S), 'willkommen');
-  S.klick('ein-vorlage');
-  assert.equal(S.run('ASSISTENT.name'), '');
-  assert.equal(S.el('as-strasse').value, '');
-  S.klick('as-zurueck-1');
-  assert.equal(dlg.offen, 1, 'leer: keine neue Frage');
+  assert.equal(warnt(), true, 'ein begonnener Start warnt beim Schließen');
+  assert.equal(S.run('ASSISTENT.name'), 'Sportverein Beispielstadt');
+  assert.equal(S.el('as-name').value, 'Sportverein Beispielstadt');
+  assert.equal(S.el('as-strasse').value, 'Hauptstraße 1');
 });
 
 /* ── S1 · Schließen des Reiters ─────────────────────────────────────────────────────────── */
@@ -144,7 +136,7 @@ test('[S1 · Reiter] beforeunload warnt auch bei begonnener Anfrage und bei geha
   S.klick('ein-anfrage');
   S.tippe('aa-zweck', 'Termin vereinbaren');
   assert.equal(warnt(), true, 'begonnene Anfrage');
-  S.klick('kopf-fachebene');
+  S.klick('marke-start');
   assert.equal(warnt(), true, 'gehaltene Anfrage');
 });
 

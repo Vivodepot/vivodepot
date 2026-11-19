@@ -8,7 +8,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
-const { oeffneApp, depotAnlegen, setzeFeld } = require('./helpers');
+const { oeffneApp, depotAnlegen, setzeFeld, schubfachOeffnen } = require('./helpers');
 const { GEBACKENE_PRODUKT_PFADE } = require('./global-setup.js');
 
 test('[Nr.1] Anlege-Dialog zeigt den Speicherort-Hinweis vor dem Datei-Dialog', async ({ page }) => {
@@ -39,7 +39,10 @@ test('[Nr.2] Schließen-Dialog: drei Wege mit Folgen sichtbar, auf 375px OHNE Sc
   // Identität ist der Landing-Sektor nach dem Anlegen (kein Sidebar-Klick nötig — bei 375px
   // liegt die Sidebar off-canvas hinter dem Hamburger-Menü, s. tb-menue).
   await setzeFeld(page, 'street', 'Mobilweg 1');
-  await page.click('#tb-schliessen');
+  // Seit der Kopfleiste nach dem Dummy (17.11.2026) steht bis 767 px kein Schließen-Knopf im Kopf; die Person schließt über
+  // „Depot verlassen“ in der Seitenleiste, derselbe Schutz-Dialog (flowSchliessenWarnungEchteSitzung). Ab 768 px bleibt es der Knopf im Kopf.
+  if (await page.locator('#tb-schliessen').isVisible()) await page.click('#tb-schliessen');
+  else { await schubfachOeffnen(page); await page.click('#sidebar [data-verlassen]'); }
   await page.waitForSelector('#m-ok', { state: 'visible' });
 
   const body = page.locator('#modal-inhalt');

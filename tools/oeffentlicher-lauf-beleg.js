@@ -53,13 +53,13 @@ function belegLesen(klon, baum) {
   try { return JSON.parse(fs.readFileSync(belegPfad(klon, baum), 'utf8')); } catch (e) { return fehlt(e) ? null : { unlesbar: grundVon(e) }; }
 }
 
-/* Rein: die Namen der roten Proben aus der Ausgabe von `node --test` (Abschnitt „failing tests“). */
+/* Rein: die Namen der roten Proben aus der Ausgabe von `node --test`. Jede ✖-Zeile des ganzen Laufs zählt (14.11.2026,
+   OEFFENTLICH-BELEG-NUR-ERSTES-ROT): die Zeilen einer roten Suite und ihrer roten Subtests stehen im Protokoll vor dem
+   Abschnitt „failing tests“, nicht nur darin. Nur der Abschnitt zu lesen ließ rote Zeilen aus. */
 function roteUnitProben(ausgabe) {
   const t = String(ausgabe || '');
-  const ab = t.indexOf('✖ failing tests:');
-  if (ab < 0) return [];
   const namen = new Set();
-  for (const m of t.slice(ab).matchAll(/^✖ (.+?) \([0-9.]+ms\)$/gm)) namen.add(m[1]);
+  for (const m of t.matchAll(/^\s*✖ (.+?) \([0-9.]+ms\)$/gm)) namen.add(m[1]);
   return [...namen].sort();
 }
 

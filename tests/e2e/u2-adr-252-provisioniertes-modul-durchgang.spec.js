@@ -112,7 +112,7 @@ test('[U2-ADR-252·Abnahme] ein provisioniertes Modul erscheint im frisch angele
   await depotAnlegen(page, { pw: PW });
 
   // 1 · Schicht B, sofort sichtbar: der provisionierte Bereich steht in der Sidebar.
-  await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toContainText(BEREICH_LABEL);
+  await expect(page.locator('.nav-item[data-sektor="' + BEREICH_ID + '"]')).toContainText(BEREICH_LABEL);
 
   const dateiText = await page.evaluate(() => window.__adr252Datei);
   expect(dateiText, 'die Attrappe muss den echten Dateiinhalt abgefangen haben — sonst testet Schritt 2 nichts').toBeTruthy();
@@ -150,5 +150,5 @@ test('[U2-ADR-252·Abnahme] ein provisioniertes Modul erscheint im frisch angele
   // 3 · Der eigentliche Beweis: nach dem Neuladen+Wiederöffnen ist der provisionierte Bereich
   // immer noch da — nicht nur im ursprünglichen Boot-Moment sichtbar, sondern tatsächlich in
   // der Datei gelandet.
-  await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toContainText(BEREICH_LABEL);
+  await expect(page.locator('.nav-item[data-sektor="' + BEREICH_ID + '"]')).toContainText(BEREICH_LABEL);
 });

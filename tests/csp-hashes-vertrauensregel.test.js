@@ -33,19 +33,9 @@ const NETZ_MUSTER = [/\bfetch\s*\(/, /\bXMLHttpRequest\b/, /\bWebSocket\b/, /nav
 /* Ausnahmeliste (entschieden 06.11.2026): je Eintrag Fassung laut SBOM und SHA-256 des Skriptinhalts. Eine
    Ausnahme gilt nur für genau diesen Inhalt; ein anderer Inhalt fällt unter das Netz-Code-Verbot, und die Prüfung „jede
    Ausnahme trifft einen Block“ wird rot. Deckel: höchstens so viele Einträge, er sinkt nur (Register gegenlesung-zaehler). */
-const FREMD_DECKEL = 3;
-const sha256 = (t) => require('node:crypto').createHash('sha256').update(t).digest('hex');
-const FREMDBIBLIOTHEKEN = [
-  { name: 'jsPDF', fassung: '4.2.1', pruefsumme: '2a6e2849becf9f71dde408e1d7980734dec040787fc3c8a27326bee2a2a23fc0',
-    grund: 'GET-Download der Bibliothek, durch connect-src none gesperrt',
-    trifft: (attr, inhalt) => /^\s*\/\*\* @license[\s\S]{0,600}jsPDF/.test(inhalt) },
-  { name: 'noble-ed25519', fassung: 'fa14496', pruefsumme: 'acfbf9bf9ad63e851a8f448dc9da37e4bad7fe7eef4ca9a5c66b58a5288c5b62',
-    grund: 'kein Netz-Code gefunden; Bibliothek, nicht eigener Code',
-    trifft: (attr) => /id="noble_ed25519_VivodepotInline"/.test(attr) },
-  { name: 'qrcode', fassung: '1.4.4', pruefsumme: '5acc9afb7b602986a62f79e46956cde71716d019816f44b7b3f93039c8b6b345',
-    grund: 'kein Netz-Code gefunden; Bibliothek, nicht eigener Code',
-    trifft: (attr) => /id="qrcode_VivodepotInline"/.test(attr) },
-];
+const FREMD_DECKEL = 4;
+// Die Liste selbst steht seit 17.11.2026 in tools/lib/fremdbibliotheken.js (eine Quelle auch für ohneFremdbloecke der Kern-Scanner).
+const { FREMDBIBLIOTHEKEN, fremdbibliothek } = require('../tools/lib/fremdbibliotheken.js');
 function netzwegPruefen(html, gesehen) {
   const { ohneKommentareUndStrings } = require('../tools/g11-js-code-ohne-kommentare-strings.js');
   const funde = [];
@@ -54,7 +44,7 @@ function netzwegPruefen(html, gesehen) {
   else if (!/connect-src\s+'none'(?:;|")/.test(metas[0][0])) funde.push("connect-src 'none' fehlt oder ist geöffnet");
   for (const m of html.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/gi)) {
     if (/type=["']application\/(ld\+)?json["']/i.test(m[1])) continue;
-    const fremd = FREMDBIBLIOTHEKEN.find((f) => f.trifft(m[1], m[2]) && sha256(m[2]) === f.pruefsumme);
+    const fremd = fremdbibliothek(m[1], m[2]);
     if (fremd) { if (gesehen) gesehen.add(fremd.name); continue; }
     const code = ohneKommentareUndStrings(m[2]);
     for (const muster of NETZ_MUSTER) if (muster.test(code)) funde.push('Netz-Code ' + muster.source + ' in <script' + m[1] + '>');
@@ -176,6 +166,17 @@ test('[CSP·Bauwege] konfektionieren, Pages (beide Wege), Stick und Vorführung:
     assert.notDeepEqual(netzwegPruefen(pro.replace(/(\/\*\* @license)/, '$1 '), new Set()), [], 'Rot-Beweis: geänderte Fremdbibliothek');
     assert.notDeepEqual(netzwegPruefen(pro.replace("connect-src 'none';", "connect-src 'self';")), [], 'Rot-Beweis: connect-src geöffnet');
     assert.notDeepEqual(netzwegPruefen(pro.replace('<script>', '<script>fetch("https://x.example/");')), [], 'Rot-Beweis: Netzaufruf eingesetzt');
+    // pdf.js (17.11.2026): die Ausnahme gilt nur für genau den eingebetteten Inhalt; ein Byte anders und sein Netz-Code fällt auf.
+    const pdfjsGeaendert = pro.replace(/(<script type="module" id="pdfjs_VivodepotInline">)/, '$1 ');
+    assert.notEqual(pdfjsGeaendert, pro, 'Vorbedingung: der pdf.js-Block steht im Produkt');
+    assert.notDeepEqual(netzwegPruefen(pdfjsGeaendert, new Set()), [], 'Rot-Beweis: geänderte pdf.js');
+    // Der Kern übergibt pdf.js nur Bytes: genau ein getDocument-Aufruf, mit { data } und den Optionen, keine Adresse, kein Abruf im Worker.
+    const kernCode = lies('vivodepot.html');
+    const aufrufe = kernCode.match(/pdfjs\.getDocument\([^)]*\)/g) || [];
+    assert.deepEqual(aufrufe, ['pdfjs.getDocument(Object.assign({ data }, PDF_ANSICHT_OPTIONEN)'], 'getDocument nur mit Bytes');
+    const optionen = /const PDF_ANSICHT_OPTIONEN = Object\.freeze\((\{[^}]*\})\)/.exec(kernCode);
+    assert.ok(optionen && /useWorkerFetch: false/.test(optionen[1]) && !/Url\b|url:/.test(optionen[1]), 'PDF_ANSICHT_OPTIONEN: kein Abruf, keine Adresse');
+    for (const p of VP.PRODUKTE) assert.match(erzeugnisse['konfektionieren ' + p.slug], /connect-src\s+'none'/, p.slug + ': connect-src none am gebauten Stand');
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });
 

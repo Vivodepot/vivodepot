@@ -3,8 +3,8 @@
    Studio · der Weg eines Menschen ohne Fachwissen (Erstnutzer), Telefon und Schreibtisch
    ────────────────────────────────────────────────────────────────────────
    Anlass: Wer das Studio zum ersten Mal öffnet, soll ohne Vorwissen eine Vorlage aus Bausteinen zusammenstellen können.
-   Die Probe geht diesen Weg nach, wie eine Person ihn geht: Studio öffnen, den einfachen Weg wählen („Vorlage erstellen“),
-   aus der Palette „Felder“ drei Bausteine in die Vorlage bringen, das Ergebnis ansehen. Zwei Breiten, je ein Test:
+   Die Probe geht diesen Weg nach, wie eine Person ihn geht: Studio öffnen, „Vorlage erstellen“ und „Leere Vorlage“ wählen,
+   aus der Bausteinliste „Felder“ drei Bausteine in die Vorlage bringen, das Ergebnis ansehen. Zwei Breiten, je ein Test:
    390 × 844 mit Berührung (kein HTML5-Ziehen mit dem Finger: dort muss ein Antipp-Weg tragen) und 1280 × 800 mit Maus
    (echtes Ziehen, `locator.dragTo`).
 
@@ -21,12 +21,12 @@
         verständlicher Beschriftung.
    Wo das Studio etwas nicht hat, bleibt die Zusicherung stehen und wird rot; sie wird nicht angepasst.
 
-   STAND 12.11.2026 (Studio per Ziehen und Ablegen): b) ist auf den EINFACHEN Weg umgestellt (schärfer): die Palette steht im
-   Assistenten (#as-palette), dort werden die drei Bausteine abgelegt (1280: Ziehen auf #as-felder; 390: Antippen von „+“), dort
-   wird umsortiert und entfernt (Menü immer sichtbar, ohne vorher zu wählen). Danach führt „Expertensicht ↗“ in die Arbeitsfläche:
-   dieselben drei Bausteine in derselben Folge, Menü der Karten ohne Wählen, Ergebnis über einen Knopf (f). Zusicherung d) gilt
-   im einfachen Weg ohne Ausnahme; in der Expertensicht steht „Technische Namen (Kennungen) zeigen“ (Klasse .pal-kennungen) zu
-   Recht und wird dort ausgenommen. Rot-Beweis: STUDIO_DATEI=<Quelltext vor der Änderung> npx playwright test <diese Datei>.
+   STAND 14.11.2026 (eine Arbeitsfläche): „Vorlage erstellen“ führt auf den Start, „Leere Vorlage“ in die Arbeitsfläche. Dort
+   steht die Bausteinliste (#palette), dort werden die drei Bausteine abgelegt (1280: Ziehen auf #tpl-felder; 390: Antippen von
+   „+“), umsortiert und entfernt (Menü immer sichtbar, ohne vorher zu wählen), dort steht das Ergebnis über einen Knopf (f).
+   Bis 14.11.2026 lief b) und c) in einem eigenen einfachen Weg und danach noch einmal in der Expertensicht. Zusicherung d)
+   gilt am Start ohne Ausnahme; in der Arbeitsfläche ist „Technische Namen (Kennungen) zeigen“ (Klasse .pal-kennungen) wie
+   bisher ausgenommen. Rot-Beweis: STUDIO_DATEI=<Quelltext vor der Änderung> npx playwright test <diese Datei>.
    Rot-Beweis gemessen 12.11.2026 gegen den Stand dce400a33 (git show HEAD:vivodepot-studio.html): 2 failed (390 und 1280; b) „keine Palette im
    einfachen Weg“), gegen den Stand mit dem Bau: 2 passed.
 
@@ -71,6 +71,15 @@ const FACHWOERTER = [
   ['Signatur-Kette', /\bSignatur-Kette\b/i],
   ['Kennung', /\bKennung(en)?\b/i],
   ['Technische Namen', /\bTechnische Namen\b/i],
+  /* S-3 (16.11.2026): die Wörter, die die Durchgänge als Fachwörter benannt haben (RbB S-3, Abschnitt 3.1) */
+  ['Code-Wert', /\bCode-Werte?\b/i],
+  ['Code-System', /\bCode-System\w*/i],
+  ['Register', /\bRegister\b/i],
+  ['Rechtsraum', /\bRechtsr(a|ä)um\w*/i],
+  ['Schlüsselpaar', /\bSchlüsselpaar\w*/i],
+  ['Sektion', /\bSektion(en)?\b/i],
+  ['Feldtyp', /\bFeldtyp\w*/i],
+  ['Kürzel', /\bKürzel\b/i],
 ];
 
 /* Die Beschriftung eines Knopfes für das Ergebnis (f): „Vorschau“ oder Sichern/Herunterladen der Vorlage. */
@@ -93,7 +102,7 @@ async function oeffnen(browser, b) {
   });
   const page = await ctx.newPage();
   await page.goto(STUDIO_URL);
-  await page.waitForSelector('#raum-eingang', { state: 'visible' });
+  await page.waitForSelector('#raum-start', { state: 'visible' });
   return { ctx, page };
 }
 
@@ -106,9 +115,12 @@ async function versuche(meldung, aktion) {
   }
 }
 
-async function fachwoerterPruefen(page, ansicht, ausnahmen) {
+/* Ausnahme S-3 Nr. 5 (Wort der Gegenlesung 16.11.2026): nur der Link mit dem Text „Register ↗“ und dem Ziel register.vivodepot.de, ein Name.
+   Geprüft werden Text und Ziel; ein „Register“ ohne diesen Link schlägt an (Rot-Beweis unten). */
+async function fachwortTreffer(page, ausnahmen) {
   const text = await page.evaluate((aus) => {
-    const weg = aus ? Array.from(document.querySelectorAll(aus)) : [];
+    const weg = (aus ? Array.from(document.querySelectorAll(aus)) : []).concat(Array.from(document.querySelectorAll('a')).filter((a) =>
+      a.textContent.trim() === 'Register ↗' && /^https:\/\/register\.vivodepot\.de(\/|$)/.test(a.href)));
     const alt = weg.map((n) => n.style.display);
     weg.forEach((n) => { n.style.display = 'none'; });
     const t = document.body.innerText;
@@ -124,6 +136,10 @@ async function fachwoerterPruefen(page, ansicht, ausnahmen) {
       treffer.push(`${name}: „…${ausschnitt}…“`);
     }
   }
+  return treffer;
+}
+async function fachwoerterPruefen(page, ansicht, ausnahmen) {
+  const treffer = await fachwortTreffer(page, ausnahmen);
   expect.soft(treffer.length, `d) Ansicht „${ansicht}“: ${treffer.length} Fachwort-Treffer im sichtbaren Text:\n  ${treffer.join('\n  ')}`).toBe(0);
 }
 
@@ -137,12 +153,8 @@ async function ueberlaufPruefen(page, ansicht) {
 }
 
 async function kartenNamen(page) {
-  return page.$$eval('#tpl-felder .vk .vk-name', (els) => els.map((e) => (e.firstChild ? e.firstChild.textContent : '').trim()));
+  return page.$$eval('#tpl-felder .vk .vk-name', (els) => els.map((e) => (e.querySelector('.vk-name-eingabe') ? e.querySelector('.vk-name-eingabe').value : (e.firstChild ? e.firstChild.textContent : '')).trim()));
 }
-async function frageNamen(page) {
-  return page.$$eval('#as-felder .as-frage .as-frage-name', (els) => els.map((e) => e.textContent.replace(/\s*\*\s*$/, '').trim()));
-}
-
 for (const b of BREITEN) {
   test(`Studio-Erstnutzer-Weg, ${b.name} px${b.beruehrung ? ' mit Berührung' : ''}`, async ({ browser }, testInfo) => {
     test.setTimeout(120000);
@@ -151,57 +163,63 @@ for (const b of BREITEN) {
     try {
       /* ── a) Öffnen: erster Schritt ohne Scrollen ── */
       const erster = await page.evaluate(() => {
-        const k = document.getElementById('ein-vorlage'); if (!k) return null;
+        const k = document.getElementById('start-leer'); if (!k) return null;
         const r = k.getBoundingClientRect();
         return { oben: r.top, unten: r.bottom, links: r.left, rechts: r.right, vh: window.innerHeight, vw: window.innerWidth, scrollY: window.scrollY };
       });
       expect.soft(erster && erster.scrollY === 0 && erster.oben >= 0 && erster.unten <= erster.vh && erster.links >= 0 && erster.rechts <= erster.vw,
-        `a) Ohne Scrollen ist der erste Schritt („Vorlage erstellen“, #ein-vorlage) nicht vollständig sichtbar: ${JSON.stringify(erster)}`).toBe(true);
+        `a) Ohne Scrollen ist der erste Schritt („Leere Vorlage“, #start-leer; seit S-1 ist der Start der Anfang) nicht vollständig sichtbar: ${JSON.stringify(erster)}`).toBe(true);
       await fachwoerterPruefen(page, 'Eingang');
       await ueberlaufPruefen(page, 'Eingang');
 
-      /* ── den einfachen Weg wählen ── */
-      await antippen(page.locator('#ein-vorlage'));
-      await expect(page.locator('#raum-assistent')).toBeVisible();
-      await fachwoerterPruefen(page, 'Einfacher Weg (Assistent)');
-      await ueberlaufPruefen(page, 'Einfacher Weg (Assistent)');
-      const paletteImEinfachen = await page.locator('#as-palette .pal-eintrag:visible').count();
-      expect.soft(paletteImEinfachen > 0,
-        'b) Im einfachen Weg (Assistent) gibt es keine Palette mit Bausteinen zum Ziehen oder Antippen (#as-palette)').toBe(true);
+      /* ── der Start der einen Arbeitsfläche (seit S-1 der Anfang), dann die leere Vorlage ── */
+      await expect(page.locator('#raum-start')).toBeVisible();
+      await fachwoerterPruefen(page, 'Start');
+      await ueberlaufPruefen(page, 'Start');
+      await antippen(page.locator('#start-leer'));
+      await expect(page.locator('#raum-bau')).toBeVisible();
+      await fachwoerterPruefen(page, 'Arbeitsfläche, leer', '.pal-kennungen');
+      await ueberlaufPruefen(page, 'Arbeitsfläche, leer');
+      /* S-2 (N68/N69): am Telefon öffnen die Bausteine als Blatt von unten („＋ Baustein hinzufügen“) */
+      if (await page.locator('#pal-auf').isVisible()) await antippen(page.locator('#pal-auf'));
+      const bausteine = await page.locator('#palette .pal-eintrag:visible').count();
+      expect.soft(bausteine > 0,
+        'b) In der Arbeitsfläche gibt es keine Bausteinliste zum Ziehen oder Antippen (#palette)').toBe(true);
 
-      /* ── Gegenprobe: der Bogen ist leer, die Palette hat Einträge ── */
-      expect.soft(await page.locator('#as-felder .as-frage').count(), 'Vorprobe: der Bogen ist vor dem Ablegen nicht leer').toBe(0);
-      const eintraege = page.locator('#as-pal-liste details[open] .pal-eintrag[data-kat]');
-      expect(await eintraege.count(), 'Vorprobe: die Palette hat weniger als drei Bausteine in der offenen Gruppe').toBeGreaterThanOrEqual(3);
+      /* ── Gegenprobe: die Vorlage ist leer, die Bausteinliste hat Einträge ── */
+      expect.soft(await page.locator('#tpl-felder .vk').count(), 'Vorprobe: die Vorlage ist vor dem Ablegen nicht leer').toBe(0);
+      const eintraege = page.locator('#pal-liste > .pal-eintrag[data-kat]');   // S-2: die häufigen Bausteine stehen offen
+      expect(await eintraege.count(), 'Vorprobe: die Bausteinliste hat weniger als drei Bausteine in der offenen Gruppe').toBeGreaterThanOrEqual(3);
       const kats = await eintraege.evaluateAll((els) => els.slice(0, 3).map((e) => ({ kat: e.getAttribute('data-kat'), name: (e.querySelector('span') ? e.querySelector('span').textContent : '').trim() })));
-      /* Ablege-Reihenfolge: 3., 1., 2. Eintrag der Palette */
+      /* Ablege-Reihenfolge: 3., 1., 2. Eintrag der Bausteinliste */
       const ablage = [kats[2], kats[0], kats[1]];
-      await ueberlaufPruefen(page, 'Einfacher Weg mit Palette, leer');
 
-      /* ── b) drei Bausteine ablegen (im einfachen Weg) ── */
+      /* ── b) drei Bausteine ablegen ── */
       for (const k of ablage) {
-        const zeile = page.locator(`#as-pal-liste .pal-eintrag[data-kat="${k.kat}"]`);
+        const zeile = page.locator(`#pal-liste .pal-eintrag[data-kat="${k.kat}"]`);
         if (b.beruehrung) {
-          await versuche(`b) „${k.name}“ lässt sich bei Berührung nicht aus der Palette hinzufügen (Antippen von „+“, .pal-plus)`,
+          await versuche(`b) „${k.name}“ lässt sich bei Berührung nicht aus der Bausteinliste hinzufügen (Antippen von „+“, .pal-plus)`,
             () => zeile.locator('.pal-plus').tap({ timeout: 5000 }));
         } else {
-          await versuche(`b) „${k.name}“ lässt sich nicht aus der Palette in den Bogen ziehen (dragTo auf #as-felder)`,
+          await versuche(`b) „${k.name}“ lässt sich nicht aus der Bausteinliste in die Vorlage ziehen (dragTo auf #tpl-felder)`,
             async () => {
-              /* auf den unteren Rand der Liste ablegen: hinter die letzte Frage (bei leerer Liste auf die Ablagefläche) */
-              await page.locator('#as-felder').scrollIntoViewIfNeeded();
-              const lb = await page.locator('#as-felder').boundingBox();
-              await zeile.dragTo(page.locator('#as-felder'), { timeout: 5000, steps: 10, targetPosition: { x: lb.width / 2, y: Math.max(2, lb.height - 3) } });
+              /* auf den unteren Rand der Liste ablegen: hinter die letzte Karte (bei leerer Liste auf die Ablagefläche) */
+              await page.locator('#tpl-felder').scrollIntoViewIfNeeded();
+              const lb = await page.locator('#tpl-felder').boundingBox();
+              await zeile.dragTo(page.locator('#tpl-felder'), { timeout: 5000, steps: 10, targetPosition: { x: lb.width / 2, y: Math.max(2, lb.height - 3) } });
             });
         }
       }
 
+      /* S-2 (N68/N69, wie im Dummy): das Blatt bleibt nach „+“ offen, damit man mehrere Bausteine wählt; „Fertig“ schließt es */
+      if (await page.locator('#pal-fertig').isVisible()) await antippen(page.locator('#pal-fertig'));
       /* ── c) genau diese drei, in Ablege-Reihenfolge ── */
       const erwartet = ablage.map((k) => k.name);
-      const da = await frageNamen(page);
-      expect.soft(da.length, `c) Der Bogen zeigt ${da.length} statt 3 Bausteine: ${JSON.stringify(da)}`).toBe(3);
-      expect.soft(da, `c) Reihenfolge des Bogens weicht von der Reihenfolge des Ablegens ab (erwartet ${JSON.stringify(erwartet)})`).toEqual(erwartet);
-      await fachwoerterPruefen(page, 'Einfacher Weg mit drei Bausteinen');
-      await ueberlaufPruefen(page, 'Einfacher Weg mit drei Bausteinen');
+      const da = await kartenNamen(page);
+      expect.soft(da.length, `c) Die Vorlage zeigt ${da.length} statt 3 Bausteine: ${JSON.stringify(da)}`).toBe(3);
+      expect.soft(da, `c) Reihenfolge der Vorlage weicht von der Reihenfolge des Ablegens ab (erwartet ${JSON.stringify(erwartet)})`).toEqual(erwartet);
+      await fachwoerterPruefen(page, 'Arbeitsfläche mit drei Bausteinen', '.pal-kennungen');
+      await ueberlaufPruefen(page, 'Arbeitsfläche mit drei Bausteinen');
 
       /* ── e) Trefferflächen (bei Berührung) und Überstand ── */
       if (b.beruehrung) {
@@ -230,39 +248,12 @@ for (const b of BREITEN) {
         const rausragend = messung.alle.filter((m) => m.rechts > messung.vw);
         expect.soft(rausragend.length, `e) ${wo}: ${rausragend.length} Elemente ragen rechts über den Bildschirm (${messung.vw} px): ${rausragend.map((m) => `${m.was} (${m.rechts})`).join(', ')}`).toBe(0);
       };
-      flaechenPruefen(await messen('#as-palette, #as-felder'), 'Palette und Bogen im einfachen Weg');
+      flaechenPruefen(await messen('#palette, #tpl-felder'), 'Bausteinliste und Vorlage');
 
-      /* ── c) umsortieren und entfernen im einfachen Weg: das Menü steht an jeder Frage, ohne vorher zu wählen ── */
-      const vorher = await frageNamen(page);
-      if (vorher.length >= 2) {
-        await versuche('c) Eine Frage lässt sich nicht umsortieren („Nach unten“ an der ersten Frage)', async () => {
-          await antippen(page.locator('#as-felder .as-frage').nth(0).getByRole('button', { name: 'Nach unten' }));
-          expect.soft(await frageNamen(page), 'c) Nach „Nach unten“ steht die Reihenfolge nicht wie erwartet').toEqual([vorher[1], vorher[0], ...vorher.slice(2)]);
-        });
-      }
-      const mitte = await frageNamen(page);
-      if (mitte.length >= 1) {
-        const letzter = mitte.length - 1;
-        await versuche('c) Eine Frage lässt sich nicht wieder entfernen („Entfernen“ an der letzten Frage)', async () => {
-          await antippen(page.locator('#as-felder .as-frage').nth(letzter).getByRole('button', { name: 'Entfernen' }));
-          expect.soft(await frageNamen(page), 'c) Nach „Entfernen“ ist die Frage nicht entfernt').toEqual(mitte.slice(0, letzter));
-        });
-      }
-      /* wieder drei: die entfernte kommt per „+“ zurück, damit die Expertensicht drei Bausteine zeigt */
-      await versuche('c) Die entfernte Frage lässt sich nicht wieder hinzufügen',
-        () => antippen(page.locator(`#as-pal-liste .pal-eintrag[data-kat="${ablage[ablage.length - 1].kat}"] .pal-plus`)));
-      const vorExperte = await frageNamen(page);
-
-      /* ── Expertensicht: dieselben Bausteine in derselben Folge, Menü der Karten ohne Wählen ── */
-      await antippen(page.locator('#as-fachebene'));
-      await expect(page.locator('#raum-bau')).toBeVisible();
-      await fachwoerterPruefen(page, 'Expertensicht (Arbeitsfläche)', '.pal-kennungen');
-      await ueberlaufPruefen(page, 'Expertensicht (Arbeitsfläche)');
+      /* ── c) umsortieren und entfernen: das Menü steht an jeder Karte, ohne vorher zu wählen ── */
       const imExperten = await kartenNamen(page);
-      expect.soft(imExperten, 'c) Die Expertensicht zeigt nicht dieselben Bausteine in derselben Folge wie der einfache Weg').toEqual(vorExperte);
-      flaechenPruefen(await messen('#palette, #tpl-felder'), 'Palette und Vorlage der Expertensicht');
       if (imExperten.length >= 2) {
-        await versuche('c) Ein Baustein der Expertensicht lässt sich nicht umsortieren („Feld nach unten“ ohne vorher zu wählen)', async () => {
+        await versuche('c) Ein Baustein lässt sich nicht umsortieren („Feld nach unten“ ohne vorher zu wählen)', async () => {
           await antippen(page.locator('#tpl-felder .vk[data-i="0"] button[aria-label="Feld nach unten"]'));
           expect.soft(await kartenNamen(page), 'c) Nach „Feld nach unten“ steht die Reihenfolge nicht wie erwartet').toEqual([imExperten[1], imExperten[0], ...imExperten.slice(2)]);
         });
@@ -270,7 +261,7 @@ for (const b of BREITEN) {
       const mitteE = await kartenNamen(page);
       if (mitteE.length >= 1) {
         const letzterE = mitteE.length - 1;
-        await versuche('c) Ein Baustein der Expertensicht lässt sich nicht entfernen („Feld löschen“ ohne vorher zu wählen)', async () => {
+        await versuche('c) Ein Baustein lässt sich nicht entfernen („Feld löschen“ ohne vorher zu wählen)', async () => {
           await antippen(page.locator(`#tpl-felder .vk[data-i="${letzterE}"] button[aria-label="Feld löschen"]`));
           expect.soft(await kartenNamen(page), 'c) Nach „Feld löschen“ ist der Baustein nicht entfernt').toEqual(mitteE.slice(0, letzterE));
         });
@@ -285,26 +276,30 @@ for (const b of BREITEN) {
       }
       expect.soft(knoepfe.some((k) => ERGEBNIS_BESCHRIFTUNG.test(k.text)),
         `f) Kein sichtbarer Knopf mit verständlicher Beschriftung für das Ergebnis (Vorschau oder Vorlage sichern); gefunden: ${JSON.stringify(knoepfe)}`).toBe(true);
-      /* Studio-Schritt 5 (12.11.2026): „Vorlage sichern“ gibt drei Dateien aus — die Vorlage, die Vorlage als FHIR-Questionnaire
-         und die lesbare Fassung als PDF. */
-      await versuche('f) „Vorlage sichern“ gibt nicht die drei Dateien aus (Vorlage, Questionnaire, PDF)', async () => {
+      /* S-4 (16.11.2026): „Vorlage sichern“ verlangt nur den Namen und gibt die Vorlage, je Bereich der Felder eine Datei im Standard,
+         das PDF und den QR-Code aus. Die Anzahl hängt vom Bereich der Felder ab; verlangt wird: Vorlage, PDF und QR-Code.
+         Die Entwurfsdatei (-entwurf.json, 17.11.2026) geht daneben hinaus und zählt nicht als Vorlage.
+         Seit 17.11.2026 verlangt es wie der Dummy zuerst den Namen der Vorlage; die leere Vorlage hat noch keinen. */
+      await page.evaluate(() => { const f = document.getElementById('sd-name'); if (f) f.value = 'Probe-Einrichtung'; });
+      await page.evaluate(() => { const t = document.getElementById('tpl-name'); if (t) { t.value = 'Probe-Vorlage'; t.dispatchEvent(new Event('input', { bubbles: true })); } });
+      await versuche('f) „Vorlage sichern“ gibt nicht Vorlage, PDF und QR-Code aus', async () => {
         const namen = [];
         const hoeren = (d) => namen.push(d.suggestedFilename());
         page.on('download', hoeren);
         try {
           await antippen(page.locator('#vorlage-sichern'));
-          await expect.poll(() => namen.length, { timeout: 20000, message: 'f) Nach „Vorlage sichern“ kamen nicht drei Dateien' }).toBe(3);
+          await expect.poll(() => namen.length, { timeout: 20000, message: 'f) Nach „Vorlage sichern“ kamen nicht mindestens drei Dateien' }).toBeGreaterThanOrEqual(3);
         } finally { page.off('download', hoeren); }
         expect.soft(namen.filter((n) => /\.pdf$/.test(n)).length, 'f) kein PDF: ' + namen.join(', ')).toBe(1);
-        expect.soft(namen.filter((n) => /questionnaire\.json$/.test(n)).length, 'f) kein Questionnaire: ' + namen.join(', ')).toBe(1);
-        expect.soft(namen.filter((n) => /\.json$/.test(n) && !/questionnaire\.json$/.test(n)).length, 'f) keine Vorlage: ' + namen.join(', ')).toBe(1);
+        expect.soft(namen.filter((n) => /-qr\.(png|gif)$/.test(n)).length, 'f) kein QR-Code: ' + namen.join(', ')).toBe(1);
+        expect.soft(namen.filter((n) => /\.json$/.test(n) && !/-(questionnaire|sd-jwt-vc|entwurf)\.json$/.test(n)).length, 'f) keine Vorlage: ' + namen.join(', ')).toBe(1);
       });
       await versuche('f) Die Vorschau der Vorlage lässt sich nicht öffnen (#ansicht-probieren, „Vorschau“)', async () => {
         await antippen(page.locator('#ansicht-probieren'));
         await expect(page.locator('#raum-bau')).toHaveClass(/probieren/, { timeout: 3000 });
         expect.soft(await page.locator('#tpl-felder .vk:visible').count(), 'f) In der Vorschau ist kein Baustein der Vorlage zu sehen').toBeGreaterThan(0);
       });
-      await fachwoerterPruefen(page, 'Vorschau (Expertensicht)', '.pal-kennungen');
+      await fachwoerterPruefen(page, 'Vorschau', '.pal-kennungen');
       await ueberlaufPruefen(page, 'Vorschau');
     } finally {
       await page.screenshot({ path: testInfo.outputPath(`studio-erstnutzer-${b.name}.png`), fullPage: true }).catch(() => {});
@@ -312,3 +307,19 @@ for (const b of BREITEN) {
     }
   });
 }
+
+/* Rot-Beweis zur Ausnahme S-3 Nr. 5: „Register“ als Text und ein Link „Register ↗“ mit anderem Ziel schlagen an; der echte Link nicht. */
+test('Studio-Erstnutzer-Weg · Ausnahme „Register ↗“ prüft Text und Ziel (Rot-Beweis)', async ({ browser }) => {
+  const { ctx, page } = await oeffnen(browser, BREITEN[1]);
+  try {
+    await expect(page.locator('#raum-start')).toBeVisible();
+    expect((await fachwortTreffer(page)).filter((t) => t.startsWith('Register:')), 'der echte Link ist ausgenommen').toEqual([]);
+    await page.evaluate(() => {
+      const p = document.createElement('p'); p.textContent = 'Alle Felder im Register'; document.body.appendChild(p);
+      const a = document.createElement('a'); a.href = 'https://example.org/'; a.textContent = 'Register ↗'; document.body.appendChild(a);
+    });
+    expect((await fachwortTreffer(page)).filter((t) => t.startsWith('Register:')).length, 'Text und fremder Link schlagen an').toBe(2);
+  } finally {
+    await ctx.close();
+  }
+});

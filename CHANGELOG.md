@@ -19,6 +19,37 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
+## [v1.0.1065] – 2026-11-17
+
+### Hinzugefügt
+- Einlesen: Einlesen ist eine eigene Seite mit Ablagefläche, den Wegen zum Einlesen und einer Zeile, die nennt, was erkannt wurde.
+- Suche: Die Suche öffnet als Palette. Sie findet eigene Angaben, Dokumente, Befehle und Gruppen an einer Stelle, jeweils mit Pfad; eingelesene Angaben tragen ein Quellen-Zeichen und nennen die Stelle. Mit Enter öffnen Sie den Treffer.
+- Handy: Am Handy führt eine Leiste mit vier Reitern durch die Anwendung: Übersicht, Bereiche, Einlesen, Herausgeben.
+- Einstellungen: Barrierefreiheit steht als erster Abschnitt der Einstellungen. Das Vorlesen bleibt in der Leiste im Kopf.
+- Über Vivodepot: Die Seite „Standards und Vereinbarungen“ listet die Standards aus dem Standards-Register.
+- Anfragen: In einer Anfrage schalten Sie jede Angabe einzeln. Sie senden die Antwort, lehnen die Anfrage ab oder öffnen sie wieder. Anfragen und Vorlagen haben eine eigene Abholseite unter `share/anfrage.html`.
+- Notfallkarte: Die Notfallkarte ist eine Karte mit Band. Unter „Was auf der Karte steht“ schalten Sie jede Angabe einzeln an oder aus.
+- Studio: Beim Start wählen Sie in einer Liste, was Sie anlegen; die Beispiele sind aus Sicht der Stelle geschrieben. Neben der Vorlage steht die Vorschau.
+- Studio: Bausteine sind nach Anlass geordnet. Die Anschrift ist ein Baustein, ebenso die Meldebescheinigung an der Hauptwohnung. Am Telefon gibt es ein eigenes Blatt.
+- Studio: „Vorlage sichern“ gibt je Bereich die Datei im anwendbaren Standard aus, dazu ein PDF und einen QR-Code, und legt die Entwurfsdatei bei. Die gesicherte Vorlage öffnet wieder zum Ändern. Ein Schalter wechselt zwischen „Vorlage“ und „Vorschau der Anfrage“.
+- Studio: Nach dem Sichern zeigt die Seite „Gesichert“ die Knöpfe „Einreichen“ und „Anfrage veröffentlichen“ und darunter den Ablauf der Einreichung in vier Schritten. Die gesicherte Vorlage geben Sie an Personen (Link kopieren, QR-Code) oder bewahren sie auf (als Datei, als PDF).
+- Eintragen: Ein neuer Listeneintrag erscheint als Zeile in der Liste. Bei den Medikamenten gibt es dafür einen zweiten Knopf.
+- Rundgang: Der Rundgang zeigt die Ansichten des Studios.
+
+### Geändert
+- Eintragen: Liste und Detail stehen nebeneinander statt auf einer Formularseite. Eingelesenes und von anderen Eingetragenes zeigt seine Herkunft am Feld; der Knopf „Herausgeben“ steht im Kopf des Details.
+- Herkunft: Eigene Angaben tragen kein Zeichen. Eingelesenes trägt ein Zeichen und nennt die Stelle. Die Suche führt keine Zeile „Eingetragen ohne Namensvermerk“ mehr.
+- Herausgeben: Ein Anlass erscheint als Aufgabenliste mit dem Kasten „Herausgeben“.
+- Herausgegeben: Das Herausgegebene steht als Tabelle, die Gültigkeit in der Dokumentliste.
+- Kopfleiste: Die Suche trägt ein Kürzel, Einlesen und Herausgeben stehen oben, das Logo steht auf einem Quadrat mit gerundeten Ecken; auf sehr schmalen Bildschirmen weicht nur der Schriftzug, das Zeichen bleibt. Bei 1280 Pixel Breite steht das Suchfeld in der Kopfleiste; dafür blendet die Leiste zuerst den Text des Speicherstatus aus, der Haken bleibt. Wird es enger, wechselt die Suche in die Seitenleiste, und Einlesen und Herausgeben rücken unter „Mehr“. Der Leitsatz steht im Einstieg.
+- Depot-Wechsler: Die Pille oben zeigt die Initialen des offenen Depots. Das Menü beginnt mit „Depot wechseln“, Ihrem Depot und jedem Depot, das Sie verwalten, jeweils mit Ihrer Rolle, darunter „Sub-Depot anlegen“.
+- Sub-Depot: Ein Streifen im kräftigen Ton und eine Kontextzeile mit der Rolle der Person aus der Beziehung zeigen, in wessen Depot Sie sind.
+- Studio: Die Arbeitsfläche hat auf allen Breiten einen Hauptknopf im Kopf; der Schalter „Vorlage | Vorschau der Anfrage“ steht unter den Reitern; das Band mit den Schritten zur Einreichung entfällt, Einreichen bleibt über „Fertigstellen und einreichen“ und nach dem Sichern. Am Telefon sitzt der Hauptknopf im Kopf, der Entwurf unter der Vorlage, eine Meldung ersetzt die Statuszeile. Die Datenfeld-Zeile ist neu gefasst, Beschriftungen sind gekürzt.
+- Anfrage: Der Schutztext der Zeile zum Antwort-Passwort sagt „etwa“.
+
+### Behoben
+- Verweise: Haben Sie einen Bereich oder einen Listeneintrag wie ein Konto zum Bearbeiten geöffnet und ohne Änderung gesichert, konnte ein gespeicherter Verweis verloren gehen oder durch einen anderen ersetzt werden, wenn er nicht unter den Vorschlägen der Auswahl stand, etwa weil die Person, die Einrichtung, das Dokument oder die Vollmacht nicht mehr vorhanden war oder einer anderen Art zugeordnet war. Aufgefallen ist das beim ambulanten Pflegedienst, beim Nachbarn für den Notfall, bei der Meldebescheinigung und bei den Bankvollmachten eines Kontos. Die Auswahl zeigt einen gespeicherten Verweis jetzt auch dann an und behält ihn, wenn er nicht unter den Vorschlägen steht; ist das Ziel nicht mehr vorhanden, steht dort „unbekannt“. Verloren gehen konnte ein Verweis schon in früheren Fassungen; dass stattdessen ein anderer Eintrag gewählt wurde – eine andere Person, eine andere Einrichtung derselben Art oder ein anderes Dokument –, trat seit v1.0.1053 auf.
+
 ## [v1.0.1061] – 2026-11-15
 
 ### Geändert

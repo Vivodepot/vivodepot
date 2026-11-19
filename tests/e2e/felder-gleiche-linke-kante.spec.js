@@ -35,14 +35,24 @@ async function oeffneBereich(page, id) {
   }, id);
   await page.waitForSelector('#content .bereich-kopf', { timeout: 8000 }).catch(() => {});
 }
+// Seit U-4 (Liste | Detail) zeigt ein Bereich nur die gewählte Rubrik: gemessen wird jede Rubrik über ihre Zeile in der Liste.
+async function messenAlleRubriken(page) {
+  const funde = [];
+  const n = await page.locator('#content .bereich-liste-zeile').count();
+  for (let i = 0; i < Math.max(n, 1); i++) {
+    if (n) await h.rubrikZeileTippen(page, i);   // am Handy erst „‹ Bereich“ zurück zur Liste (HANDY.md Z. 7)
+    await page.evaluate(() => document.querySelectorAll('#app details').forEach((d) => { d.open = true; }));
+    await page.waitForTimeout(120);
+    funde.push(...await messen(page));
+  }
+  return funde;
+}
 async function alleBereicheMessen(page) {
   const ids = await page.evaluate(() => [...new Set([...document.querySelectorAll('#sidebar [data-sektor]')].map((e) => e.getAttribute('data-sektor')))]);
   const alle = [];
   for (const id of ids) {
     await oeffneBereich(page, id);
-    await page.evaluate(() => document.querySelectorAll('#app details').forEach((d) => { d.open = true; }));
-    await page.waitForTimeout(120);
-    for (const f of await messen(page)) alle.push(Object.assign({ bereich: id }, f));
+    for (const f of await messenAlleRubriken(page)) alle.push(Object.assign({ bereich: id }, f));
   }
   return { ids, alle };
 }
@@ -75,9 +85,7 @@ test('[Feldzeile · gleiche linke Kante · Rot-Beweis] die alte Regel lässt gen
   await oeffnen(page, 1280);
   await page.addStyleTag({ content: '.gueltigkeit-zeile--eingebettet { grid-column: 1 !important; margin-left: var(--space-3) !important; padding-left: var(--space-2) !important; }' });
   await oeffneBereich(page, 'mobility');
-  await page.evaluate(() => document.querySelectorAll('#app details').forEach((d) => { d.open = true; }));
-  await page.waitForTimeout(200);
-  const funde = await messen(page);
+  const funde = await messenAlleRubriken(page);
   expect(funde.map((f) => f.feld)).toContain('passportIssuedOn');
   expect(funde.every((f) => f.kind === 'gueltigkeit-zeile'), JSON.stringify(funde)).toBe(true);
 });

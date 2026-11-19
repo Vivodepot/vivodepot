@@ -23,6 +23,10 @@ test('K7: Daten einlesen → Bereich wählen → Zurück → wieder hinein, ohne
 
   // Zentrale Tür (Sidebar) öffnen.
   await inLeisteKlicken(page, '[data-einlesen-zentral]');
+  // U-3 (Fassung 3, eine Tür): „Wohin einlesen?“ öffnet nur die Vorschau über „Anderen Bereich wählen“. Eine kleine Datei führt dorthin.
+  const [wahl] = await Promise.all([page.waitForEvent('filechooser'), page.click('#content #einlesen-waehlen')]);
+  await wahl.setFiles({ name: 'k7.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ resourceType: 'Bundle', type: 'collection', entry: [{ resource: { resourceType: 'Condition', code: { text: 'Beispielose' } } }] })) });
+  await page.click('#modal-inhalt [data-i-anderer-bereich]');
   await expect(page.locator('#modal-titel')).toHaveText('Wohin einlesen?');
   await expect(page.locator('[data-iz-sektor="identity"]')).toBeVisible();
 

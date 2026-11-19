@@ -23,11 +23,10 @@ test('vcard-identitaet: unverändert korrekt — Auswahl greift, wie vor diesem 
 
   await page.evaluate(() => window.__vdOeffentlich.flowFormatExport('vcard-identitaet'));
   const modal = page.locator('#modal-inhalt');
-  await expect(modal.locator('li[data-feld="telephone"]')).toBeVisible();
+  await expect(modal.locator('input.export-haken[data-feld="telephone"]')).toBeVisible();
   await page.screenshot({ path: path.join(ARTIFACTS, 'herausgabe-vcard-identitaet-dialog.png'), fullPage: true });
 
-  await page.click('#exp-zurueckhalten-weg');
-  await page.locator('.export-zz[data-feld="telephone"] .export-zz-btn').click();   // Telefon zurückhalten
+  await modal.locator('input.export-haken[data-feld="telephone"]').uncheck();   // Telefon abhaken (Häkchen in Gruppen, 17.11.2026)
 
   const [download] = await Promise.all([
     page.waitForEvent('download'),

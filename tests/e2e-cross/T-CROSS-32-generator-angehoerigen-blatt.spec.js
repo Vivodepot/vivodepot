@@ -26,6 +26,7 @@ for (const sprache of ['de', 'en']) {
       const ctx = await browser.newContext({ acceptDownloads: true });
       const p = await ctx.newPage();
       await H.generator.oeffnen(p, sprache);
+      await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
       await p.click('#start-blatt');
       await expect(p.locator('#blatt-meta')).toBeVisible();
       await expect(p.locator('#blatt-eig')).toBeVisible();

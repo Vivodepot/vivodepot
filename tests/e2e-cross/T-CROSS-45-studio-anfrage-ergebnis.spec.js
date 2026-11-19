@@ -23,6 +23,7 @@ async function oeffnen(browser, breite) {
   return { ctx, p };
 }
 async function bisSchritt3(p) {
+  await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
   await p.click('#ein-anfrage');
   await p.fill('#aa-von', 'Bürgerservice Musterstadt');
   await p.click('#aa-weiter-1');

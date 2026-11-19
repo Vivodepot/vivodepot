@@ -11,6 +11,10 @@
    (5) sechs gleich gebaute Kacheln, die erste dunkel; Überschrift V2 und die Frage;
    (6) die Fachebene ist vom Eingang in einem Klick erreichbar (Kopf und „Etwas anderes“), zurück ebenso; der Eingang ist der Start.
    Rot-Beweise je Prüfung an einer veränderten Kopie.
+   Seit dem Vorgabe-Dummy (S-1, 16.11.2026, Zeilen N03/N13 in tests/studio-dummy-zeilen.test.js) gibt es keinen eigenen Eingang
+   mehr: Das Studio beginnt im Start, und die Ziel-Kacheln, die nicht auf den Start zurückführten, stehen unter „Weitere Wege“
+   (#start-weitere). Die Prüfungen 1–4 und 8 gelten dort weiter; 5 und 6 prüfen die neue Ordnung; die Farbflächen hinter dem
+   Glas sind mit dem Eingang entfallen.
    ═════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -20,8 +24,13 @@ const path = require('node:path');
 const HTML = fs.readFileSync(path.join(__dirname, '..', 'vivodepot-studio.html'), 'utf8');
 
 function eingangVon(html) {
-  const a = html.indexOf('<main id="raum-eingang"');
-  assert.ok(a > 0, 'kein Eingang (#raum-eingang)');
+  const a = html.indexOf('<details class="start-weitere" id="start-weitere">');
+  assert.ok(a > 0, 'keine Weiteren Wege (#start-weitere)');
+  return html.slice(a, html.indexOf('</details>', a));
+}
+function startVon(html) {
+  const a = html.indexOf('<main id="raum-start"');
+  assert.ok(a > 0, 'kein Start (#raum-start)');
   return html.slice(a, html.indexOf('</main>', a));
 }
 /* Sichtbare Texte beider Sprachen: Textknoten und data-en. */
@@ -31,7 +40,7 @@ function texte(block) {
   return { de, en, beide: de + ' ' + en };
 }
 function kacheln(block) {
-  return [...block.matchAll(/<button type="button" role="listitem" class="([^"]*)" id="([^"]+)"[^>]*>([\s\S]*?)<\/button>/g)]
+  return [...block.matchAll(/<button type="button" class="(kachel eingang-kachel[^"]*)" id="([^"]+)"[^>]*>([\s\S]*?)<\/button>/g)]
     .map((m) => ({ klasse: m[1], id: m[2], text: texte(m[3]) }));
 }
 
@@ -42,13 +51,6 @@ const DIREKT = /direkt in (ihr|das) Depot|kommt direkt|automatisch (an|in)\b|dir
 const GESUNDHEIT = /Gesundheit|Pflege|Patient|Arzt|Ärzt|Klinik|Kranken|Praxis|Hebamme|health|care home|patient|medical|clinic|doctor/i;
 const SATZ_DE = 'Vivodepot bestätigt, von wem die Vorlage kommt, nicht ob ihr Inhalt richtig ist.';
 const SATZ_EN = 'Vivodepot confirms who the template comes from, not whether its content is correct.';
-/* Die Kachel „Eigenes Erscheinungsbild“ (iPad-Prüfung 14.10.2026): Ein Erscheinungsbild geht nur signiert ein (Branding nur
-   geprüft). Die Kachel nennt darum die Folge der Signatur; ein Hinweis ohne Folge läse sich wie „wirkt sofort“. „Anordnung“
-   verspricht sie nicht, solange das Studio sie nicht anbietet (U2-ADR-493 §2). */
-const ERSCHEINUNG_DE = 'Logo, Farben und Name für Vivodepot. Wird erst angewendet, wenn es signiert und von Vivodepot bestätigt ist.';
-const ERSCHEINUNG_FOLGE_DE = /erst angewendet, wenn es signiert/;
-const ERSCHEINUNG_FOLGE_EN = /only once it is signed/i;
-const ERSCHEINUNG_ZU_VIEL = /Anordnung|layout|arrangement/i;
 
 const befundeFachbegriffe = (html) => { const t = texte(eingangVon(html)); return [t.beide.match(FACHBEGRIFFE), t.de.match(FACHBEGRIFFE_DE)].filter(Boolean).map((m) => m[0]); };
 const befundeDirekt = (html) => kacheln(eingangVon(html)).filter((k) => DIREKT.test(k.text.beide)).map((k) => k.id);
@@ -58,7 +60,7 @@ test('[Eingang · 1] keine Fachbegriffe im Eingang, deutsch und englisch', () =>
   assert.deepEqual(befundeFachbegriffe(HTML), []);
 });
 test('[Eingang · 1 · Rot-Beweis] ein Fachbegriff an einer Kachel wird gefunden', () => {
-  const kopie = HTML.replace('Für Fachleute: alle Einstellungen.', 'Für IT-Fachleute: FHIR, JSON und Prüfwerkzeuge.');
+  const kopie = HTML.replace('Sie sagen, welche Angaben Sie brauchen.', 'Für IT-Fachleute: FHIR, JSON und Prüfwerkzeuge.');
   assert.notEqual(kopie, HTML);
   assert.ok(befundeFachbegriffe(kopie).length);
 });
@@ -72,49 +74,47 @@ test('[Eingang · 2 · Rot-Beweis] „direkt in ihr Depot“ (der Entwurfstext v
   assert.deepEqual(befundeDirekt(kopie), ['ein-bereitstellen']);
 });
 
-test('[Eingang · 3] der Herkunftssatz steht wörtlich, deutsch und englisch', () => {
-  const t = texte(eingangVon(HTML));
+test('[Eingang · 3] der Herkunftssatz steht wörtlich im Start, deutsch und englisch', () => {
+  const t = texte(startVon(HTML));
   assert.ok(t.de.includes(SATZ_DE), 'DE fehlt');
   assert.ok(t.en.includes(SATZ_EN), 'EN fehlt');
 });
 test('[Eingang · 3 · Rot-Beweis] eine abgeschwächte oder verstärkte Fassung zählt nicht', () => {
   const kopie = HTML.replace(SATZ_DE, 'Vivodepot bestätigt offiziell, dass die Vorlage echt und richtig ist.');
-  assert.ok(!texte(eingangVon(kopie)).de.includes(SATZ_DE));
+  assert.ok(!texte(startVon(kopie)).de.includes(SATZ_DE));
 });
 
-test('[Eingang · 4] höchstens eine der sechs Kacheln spricht von Gesundheit oder Pflege (Hängestelle 1, B5)', () => {
+test('[Eingang · 4] höchstens eine der Ziel-Kacheln spricht von Gesundheit oder Pflege (Hängestelle 1, B5)', () => {
   assert.ok(gesundheitsKacheln(HTML).length <= 1, gesundheitsKacheln(HTML).join(', '));
 });
 test('[Eingang · 4 · Rot-Beweis] zwei Gesundheitskacheln fallen auf', () => {
-  const kopie = HTML.replace(ERSCHEINUNG_DE, 'Für Ihre Praxis: Anamnese und Pflegeplan.')
-    .replace('Für Fachleute: alle Einstellungen.', 'Für Kliniken: Aufnahme ins Krankenhaus.');
+  const kopie = HTML.replace('Sie geben Unterlagen als Datei in offenen Formaten heraus.', 'Für Ihre Praxis: Anamnese und Pflegeplan.')
+    .replace('Sie sagen, welche Angaben Sie brauchen.', 'Für Kliniken: Aufnahme ins Krankenhaus.');
   assert.ok(gesundheitsKacheln(kopie).length >= 2);
 });
 
-test('[Eingang · 5] Überschrift V2, die Frage, sieben gleich gebaute Kacheln, die erste dunkel (seit Studio-Umbau Wagen 1: „Vorlage erstellen“, zwei „in Arbeit“)', () => {
+test('[Eingang · 5] kein eigener Eingang mehr; die drei Ziel-Kacheln stehen unter „Weitere Wege“, gleich gebaut, die „in Arbeit“ zuletzt', () => {
+  assert.doesNotMatch(HTML, /id="raum-eingang"|class="eingang-titel"|id="eingang-frage"/, 'der Eingang ist mit dem Dummy entfallen (N03)');
   const e = eingangVon(HTML);
-  assert.match(e, /<h1 class="eingang-titel"[^>]*>Richten Sie Vivodepot für Ihre Einrichtung ein<\/h1>/);
-  assert.match(e, /<h2 class="eingang-frage"[^>]*>Was möchten Sie anbieten\?<\/h2>/);
   const k = kacheln(e);
-  assert.equal(k.length, 7);
-  assert.deepEqual(k.map((x) => x.klasse), ['kachel eingang-kachel', 'kachel eingang-kachel', 'kachel eingang-kachel erste', 'kachel eingang-kachel eingang-hinweis',
-    'kachel eingang-kachel eingang-hinweis eingang-folgt', 'kachel eingang-kachel eingang-hinweis eingang-folgt', 'kachel eingang-kachel']);
+  assert.deepEqual(k.map((x) => x.id), ['ein-anfrage', 'ein-empfangen', 'ein-bereitstellen']);
+  assert.deepEqual(k.map((x) => x.klasse), ['kachel eingang-kachel', 'kachel eingang-kachel eingang-hinweis',
+    'kachel eingang-kachel eingang-hinweis eingang-folgt']);
   for (const x of k) {
     const roh = e.slice(e.indexOf('id="' + x.id + '"'));
     assert.match(roh, /^[^]*?<span class="ek-titel" data-en="[^"]+">[^<]+<\/span>\s*<span class="ek-text" data-en="[^"]+">[^<]+<\/span>(\s*<span class="ek-hinweis"[^>]*>[^<]+<\/span>)?<\/button>/, x.id + ': Titel und Text');
   }
-  assert.ok(!/<p class="lead"/.test(e), 'kein Fließtext im Eingang');
+});
+test('[Eingang · 5 · Rot-Beweis] ein zurückgekehrter Eingang fiele auf', () => {
+  const kopie = HTML.replace('<main id="raum-start" class="raum">', '<main id="raum-eingang" class="raum"></main>\n<main id="raum-start" class="raum">');
+  assert.match(kopie, /id="raum-eingang"/);
 });
 
-test('[Eingang · 6] der Eingang ist der Start; die Fachebene (sichtbar „Expertensicht“) liegt einen Klick dahinter, zurück ebenso über den Kopf-Schalter', () => {
-  assert.match(HTML, /<main id="raum-start" class="raum" hidden>/, 'die Fachebene ist beim Laden verborgen');
-  assert.match(HTML, /if \(id === 'willkommen'\) \{ dlgZu\('dlg-fertig'\); raumZeigen\('eingang'\); \}/);
-  assert.ok(HTML.includes("an('ein-anderes', 'click', () => zeigeSchritt('fachebene'));"), 'ein-anderes → fachebene');
-  assert.ok(HTML.includes("an('kopf-fachebene', 'click', () => { if (ebeneIstEinfach()) zeigeSchritt('fachebene'); });"), 'Schalter Expertensicht → fachebene');
-  assert.ok(HTML.includes("an('kopf-einfach', 'click', () => { if (!ebeneIstEinfach()) zeigeSchritt(letzterEinfachSchritt); });"), 'Schalter Einfach → zurück');
-  assert.match(HTML, /let letzterEinfachSchritt = 'willkommen';/);
-  assert.match(HTML, /<button type="button" id="kopf-einfach" aria-pressed="true" data-en="Simple">Einfach<\/button><button type="button" id="kopf-fachebene" aria-pressed="false" data-en="Expert view">Expertensicht<\/button>/);
-  assert.match(HTML, /if \(e\) e\.hidden = \(welcher !== 'eingang'\);/);
+test('[Eingang · 6] der Start ist der Anfang; die Fachebene liegt einen Klick dahinter („Weitere Möglichkeiten zeigen“), ohne Kopf-Schalter', () => {
+  assert.match(HTML, /<main id="raum-start" class="raum">/, 'der Start ist beim Laden sichtbar');
+  assert.match(HTML, /if \(id === 'willkommen'\) \{ dlgZu\('dlg-fertig'\); raumZeigen\('start'\);/);
+  assert.ok(HTML.includes("an('start-module', 'click', () => modulOeffnen());"), 'start-module → Fachebene');
+  assert.doesNotMatch(HTML, /id="kopf-einfach"|id="kopf-fachebene"|letzterEinfachSchritt/, 'kein Kopf-Schalter: es gibt eine Arbeitsfläche');
 });
 test('[Eingang · 6] „Dokumente empfangen“ ist ein wahrer Hinweis ohne Studio-Ziel (erwartet bis „Unterlagen in der Antwort“): kein Modul, kein Raum; ⓘ statt Pfeil, aria-expanded', () => {
   const i = HTML.indexOf("an('ein-empfangen', 'click'");
@@ -130,14 +130,12 @@ test('[Eingang · 6 · Rot-Beweis] ein Studio-Ziel an „Dokumente empfangen“ 
   const i = kopie.indexOf("an('ein-empfangen', 'click'");
   assert.match(kopie.slice(i, kopie.indexOf('});', i) + 3), /modulOeffnen/);
 });
-test('[Eingang · 6 · Rot-Beweis] ohne Bindung von „Etwas anderes“ fiele die Prüfung', () => {
-  const kopie = HTML.replace("an('ein-anderes', 'click', () => zeigeSchritt('fachebene'));", '');
-  assert.ok(!kopie.includes("an('ein-anderes', 'click', () => zeigeSchritt('fachebene'));"));
+test('[Eingang · 6 · Rot-Beweis] ohne Bindung von „Weitere Möglichkeiten zeigen“ fiele die Prüfung', () => {
+  const kopie = HTML.replace("an('start-module', 'click', () => modulOeffnen());", '');
+  assert.ok(!kopie.includes("an('start-module', 'click', () => modulOeffnen());"));
 });
 
-test('[Eingang · Glas] die Kacheln sind Glasflächen (Region STUDIO-ERSCHEINUNG), hinter ihnen liegen die drei Farbflächen', () => {
-  const e = eingangVon(HTML);
-  assert.equal((e.match(/<span class="ef ef-\d"><\/span>/g) || []).length, 3);
+test('[Eingang · Glas] die Kacheln sind Glasflächen (Region STUDIO-ERSCHEINUNG)', () => {
   const region = HTML.slice(HTML.indexOf('/* STUDIO-ERSCHEINUNG:BEGIN'), HTML.indexOf('/* STUDIO-ERSCHEINUNG:END */'));
   assert.match(region, /\n\.kachel, [^{]*\{ background: rgba\(255,255,255,\.62\); -webkit-backdrop-filter: blur\(10px\); backdrop-filter: blur\(10px\); \}/);
 });
@@ -224,25 +222,11 @@ test('[Eingang · 7 · Gegenprobe] dieselbe hohe Grundregel mit Regeln für schm
   assert.equal(angabe(mitSchmal, '.eingang-kachel', 'min-height', 1280), '196px');
 });
 
-function erscheinungsKachel(html) {
-  const k = kacheln(eingangVon(html)).find((x) => x.id === 'ein-erscheinung');
-  assert.ok(k, 'keine Kachel ein-erscheinung');
-  return k.text;
-}
-const erscheinungsBefunde = (html) => {
-  const t = erscheinungsKachel(html), raus = [];
-  if (!ERSCHEINUNG_FOLGE_DE.test(t.de)) raus.push('DE nennt die Folge der Signatur nicht');
-  if (!ERSCHEINUNG_FOLGE_EN.test(t.en)) raus.push('EN nennt die Folge der Signatur nicht');
-  if (ERSCHEINUNG_ZU_VIEL.test(t.beide)) raus.push('verspricht eine Anordnung');
-  return raus;
-};
-test('[Eingang · 8] „Eigenes Erscheinungsbild“ nennt die Folge der Signatur und verspricht keine Anordnung, deutsch und englisch', () => {
-  assert.deepEqual(erscheinungsBefunde(HTML), []);
-  assert.ok(erscheinungsKachel(HTML).de.includes(ERSCHEINUNG_DE));
+test('[Eingang · 8] die Kachel „Eigenes Erscheinungsbild · in Arbeit“ steht nicht auf dem Start, bis sie fertig ist (Dummy 14.11.2026, 17.11.2026)', () => {
+  assert.ok(!kacheln(eingangVon(HTML)).some((x) => x.id === 'ein-erscheinung'), 'die Kachel ein-erscheinung steht wieder da');
 });
-test('[Eingang · 8 · Rot-Beweis] der frühere Kacheltext ohne Folge und mit „Anordnung“ fällt auf, beide Sprachen', () => {
-  const kopie = HTML.replace(ERSCHEINUNG_DE, 'Logo, Farben und Anordnung: Vivodepot im Gesicht Ihrer Einrichtung.')
-    .replace('Logo, colours and name for Vivodepot. Applied only once it is signed and confirmed by Vivodepot.', 'Logo, colours and layout: Vivodepot with the face of your organisation.');
+test('[Eingang · 8 · Rot-Beweis] eine zurückgekehrte Kachel ein-erscheinung fiele auf', () => {
+  const kopie = HTML.replace('id="ein-bereitstellen"', 'id="ein-erscheinung"');
   assert.notEqual(kopie, HTML);
-  assert.deepEqual(erscheinungsBefunde(kopie), ['DE nennt die Folge der Signatur nicht', 'EN nennt die Folge der Signatur nicht', 'verspricht eine Anordnung']);
+  assert.ok(kacheln(eingangVon(kopie)).some((x) => x.id === 'ein-erscheinung'));
 });

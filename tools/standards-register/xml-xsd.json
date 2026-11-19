@@ -60,7 +60,10 @@
         "fim-baukasten"
       ],
       "grund": "Bezug je Depot-Feld auf Kennung, Fassung und Freigabestatus des Baukastens, geprüft gegen die gepinnten XDF-Fassungen (tools/bezuege-erheben.js --quelle) und im Export (tools/fim-export-pruefen.js). Noch kein Datenschema je Leistung und keine Prüfung gegen dessen XSD.",
-      "pruefer": "tools/fim-export-pruefen.js"
+      "pruefer": "tools/fim-export-pruefen.js",
+      "seite": {
+        "name": "FIM-Baustein Datenfelder (XDatenfelder 3; Bezug je Angabe auf Kennung und Fassung des Datenfelds)"
+      }
     },
     {
       "id": "fim-leistungsschema",
@@ -93,6 +96,7 @@
     },
     {
       "id": "camt-053",
+      "fassungAnzeige": "camt.053.001",
       "name": "ISO 20022 camt.053 BankToCustomerStatement",
       "version": "camt.053.001 (der Kern liest versionsoffen; Testdatei camt.053.001.08; neueste im Katalog .14)",
       "herausgeber": "ISO 20022 Registration Authority (SWIFT)",
@@ -149,6 +153,9 @@
       "kandidat": {
         "werkzeug": "Offizielle XMeld-Schemata und Testsuite der KoSIT, geprüft mit dem KoSIT-Validator 1.6.3 (Apache-2.0)",
         "quelle": "https://www1.osci.de/meldewesen/xmeld-2827"
+      },
+      "seite": {
+        "name": "XMeld (Fachmodul Meldewesen in XInneres), Personendaten"
       }
     },
     {
@@ -179,6 +186,10 @@
       "suche": {
         "quelle": "https://www.elster.de/eportal/infoseite/entwickler",
         "ergebnis": "Entwicklerbereich und Schnittstellenbeschreibungen nur mit Anmeldung; kein öffentlicher Validator und kein frei verfügbares Schema gefunden (Suche 01.10.2026)."
+      },
+      "seite": {
+        "name": "Steuerdaten ({marke}-Format, JSON)",
+        "herausgeber": "{marke}"
       }
     },
     {
@@ -212,6 +223,10 @@
       "kandidat": {
         "werkzeug": "KoSIT-Validator 1.6.3 (Apache-2.0) mit eigenem Szenario aus dem FIM-Stammdatenschema (XSD, Schematron falls geliefert)",
         "quelle": "https://github.com/itplr-kosit/validator"
+      },
+      "seite": {
+        "name": "Verwaltungs-Stammdaten ({marke}-Format, JSON)",
+        "herausgeber": "{marke}"
       }
     },
     {

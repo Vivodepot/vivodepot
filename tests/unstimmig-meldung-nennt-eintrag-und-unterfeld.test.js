@@ -85,7 +85,8 @@ test('[Meldung·4] ein Fund OHNE Eintragsangabe (ein flaches Feld) bleibt beim F
 test('[Meldung·5] alle Stellen, die die Meldung bauen, nehmen den Text aus EINER Funktion (keine mehr, die nur das Label zeigt)', () => {
   const kern = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
   const stellen = [...kern.matchAll(/STRINGS\.exportUnstimmigHinweis/g)];
-  assert.ok(stellen.length >= 4, 'Vorbedingung: die vier Stellen werden gefunden (Positivkontrolle)');
+  // Seit den Häkchen in Gruppen (17.11.2026) zeichnet EIN Dialogweg die Liste (vorher Normal- und Rückhalteweg): drei Stellen.
+  assert.equal(stellen.length, 3, 'Vorbedingung: die drei Stellen werden gefunden (Positivkontrolle)');
   for (const m of stellen) {
     const nach = kern.slice(m.index, m.index + 260);
     assert.ok(nach.includes('_unstimmigFundeText('), 'Stelle ohne den gemeinsamen Text: ' + nach.replace(/\s+/g, ' ').slice(0, 160));

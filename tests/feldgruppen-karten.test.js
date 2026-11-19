@@ -128,8 +128,9 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
     const karten = html.match(/<details class="feldgruppen-karte"/g) || [];
-    // Abnahme v998 (M07): fünf Karten im Abschnitt „Person“ und die Karte „Personenstandsurkunden“ (jeder Abschnitt trägt Karten).
-    assert.equal(karten.length, 6, 'erwartet fünf Statuskarten für person und die Karte Personenstandsurkunden');
+    // Abnahme v998 (M07): fünf Karten im Abschnitt „Person“ und die Karte „Personenstandsurkunden“ (jeder Abschnitt trägt Karten);
+    // dazu die Rubrik „Foto“ (D51, Desktop-Dummy: das Foto steht als eigene Rubrik in der Liste, 17.11.2026).
+    assert.equal(karten.length, 7, 'erwartet fünf Statuskarten für person, die Rubrik Foto und die Karte Personenstandsurkunden');
     assert.match(html, /Name (&amp;|&) Geburt/);   // vorher „Kernidentität“ (Zielbild S4, 31.10.2026)
     assert.match(html, /Kontakt/);
   });
@@ -139,7 +140,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
     const kartenBloecke = html.split('<details class="feldgruppen-karte"').slice(1);
-    assert.equal(kartenBloecke.length, 6);
+    assert.equal(kartenBloecke.length, 7);   // mit der Rubrik „Foto“ (D51)
     for (const block of kartenBloecke) {
       assert.match(block.split('</summary>')[0], new RegExp(V.STRINGS.statuskarteLeer));
     }
@@ -150,7 +151,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.sektorFeldSetzen('identity', 'givenName', 'Erika');
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
-    const kernidentitaetKarte = html.split('<details class="feldgruppen-karte"')
+    const kernidentitaetKarte = html.split('<details class="feldgruppen-karte"').slice(1)   // ohne das Stück davor: dort nennt die Liste des Eintragebereichs dieselben Titel
       .find(b => /Name (&amp;|&) Geburt/.test(b));
     assert.match(kernidentitaetKarte.split('</summary>')[0], new RegExp(V.STRINGS.statuskarteTeilweise));
   });
@@ -168,7 +169,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.sektorFeldSetzen('identity', 'taxClassEarlierEntry', 'II');
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
-    const karte = html.split('<details class="feldgruppen-karte"')
+    const karte = html.split('<details class="feldgruppen-karte"').slice(1)   // ohne das Stück davor: dort nennt die Liste des Eintragebereichs dieselben Titel
       .find(b => b.includes('Familienstand'));
     // gueterstand/trennungsdatum sind bei familienstand='ledig' ausgeblendet (sichtbarWenn) — die
     // drei SICHTBAREN Felder des Clusters (familienstand, steuerklasse, steuerklasse_frueher)
@@ -451,7 +452,7 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] fahrzeuge-fuehrerschein', () => {
 describe('[SEKTION_STATUSKARTEN_CLUSTER] sozialversicherung', () => {
   test('drei Sektionen mit Cluster-Eintrag, jedes ihrer Felder genau einmal zugeordnet', () => {
     const { V } = ladeKern();
-    const erwarteteFelderZahl = { 'renten-pflege-soz': 11, 'schwerbehinderung-pflege': 7, 'unemployment': 4 };
+    const erwarteteFelderZahl = { 'renten-pflege-soz': 11, 'schwerbehinderung-pflege': 8, 'unemployment': 4 };
     for (const sektionId of Object.keys(erwarteteFelderZahl)) {
       const cluster = V.SEKTION_STATUSKARTEN_CLUSTER[sektionId];
       assert.ok(Array.isArray(cluster), '[' + sektionId + '] fehlt in SEKTION_STATUSKARTEN_CLUSTER');
@@ -528,7 +529,7 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] vorsorge', () => {
 describe('[SEKTION_STATUSKARTEN_CLUSTER] wohnen', () => {
   test('zwei Sektionen mit Cluster-Eintrag, jedes ihrer Felder genau einmal zugeordnet', () => {
     const { V } = ladeKern();
-    const erwarteteFelderZahl = { 'wohnen-haupt': 31, 'wohnen-zweit': 1 };   // 27 → 31 (05.11.2026, U2-ADR-465 Nr. 35 Anmeldung); 14 → 27 (04.11.2026, U2-ADR-465 Mietangaben)
+    const erwarteteFelderZahl = { 'wohnen-haupt': 32, 'wohnen-zweit': 1 };   // 31 → 32 (16.11.2026, U2-ADR-465 Nr. 35 Meldebescheinigung); 27 → 31 (05.11.2026, U2-ADR-465 Nr. 35 Anmeldung); 14 → 27 (04.11.2026, U2-ADR-465 Mietangaben)
     for (const sektionId of Object.keys(erwarteteFelderZahl)) {
       const cluster = V.SEKTION_STATUSKARTEN_CLUSTER[sektionId];
       assert.ok(Array.isArray(cluster), '[' + sektionId + '] fehlt in SEKTION_STATUSKARTEN_CLUSTER');

@@ -1,0 +1,31 @@
+{
+  "stelle": "bereich",
+  "kanon": "943e97d19",
+  "hinweis": "Funktionsverzeichnis Posten U-4 (Eintragebereich nach dem Desktop-Dummy, Liste | Detail). Format wie umbau-verzeichnis-seitenleiste.json; Lage „depot“: App geöffnet, Depot angelegt. Die Einträge wachsen mit den Schritten des Postens (Detail-Kopf, Eingabezeile, Handy-Zurück).",
+  "eintraege": [
+    {
+      "kennung": "data-rubrik",
+      "art": "knopf",
+      "beschriftung": "Zeile einer Rubrik in der Liste des Bereichs",
+      "fundort_alt": "neu in U-4; Kanon 943e97d19: jede Gruppe als aufklappbare Karte untereinander (feldgruppenKarteHTML, renderSektor)",
+      "neuer_platz": {
+        "lage": "depot",
+        "weg": {
+          "1280": [
+            "#sidebar details.nav-gruppe:has([data-sektor=\"health\"]) > summary",
+            "#sidebar [data-sektor=\"health\"]",
+            ".bereich-liste-zeilen li:nth-child(2) .bereich-liste-zeile"
+          ],
+          "375": [
+            "#bt-bereiche",
+            "#sidebar details.nav-gruppe:has([data-sektor=\"health\"]) > summary",
+            "#sidebar [data-sektor=\"health\"]",
+            ".bereich-liste-zeilen li:nth-child(2) .bereich-liste-zeile"
+          ]
+        },
+        "erwartung": ".bereich-detail .feldgruppen-karte[data-rubrik-offen]"
+      },
+      "zustand": "neu platziert"
+    }
+  ]
+}

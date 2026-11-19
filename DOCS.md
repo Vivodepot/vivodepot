@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v1061.
+Erzeugt aus der veröffentlichten Fassung v1065.
 
 ---
 
@@ -84,11 +84,11 @@ Vorlage darin wie in der App.
 
 ## Zahlen
 
-- E2E: 1011 (gezählt, nicht ausgeführt) · Wächter-Register: 162
-- Schema-Version: 100 · SCHALEN_STAND: v1061 · Build-Version: v1.0
-- ADR-Register: 457 Einträge
+- E2E: 1062 (gezählt, nicht ausgeführt) · Wächter-Register: 162
+- Schema-Version: 102 · SCHALEN_STAND: v1065 · Build-Version: v1.0
+- ADR-Register: 458 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-15, Fassung v1061. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-18, Fassung v1065. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -133,7 +133,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-15, Fassung v1061. Diese Zahlen v
 
 ## Unterordner von `docs/`
 
-- `docs/adr/` — 494 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 495 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)

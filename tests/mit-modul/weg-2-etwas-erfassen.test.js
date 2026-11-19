@@ -101,7 +101,11 @@ async function wegGehen(seite, { probe = PROBE } = {}) {
   };
 
   await schritt('einen Bereich oeffnen',
-    async () => { await seite.evaluate(() => window.__vdOeffentlich.oeffneSektor('identity')); await seite.waitForTimeout(150); },
+    async () => {
+      await seite.evaluate(() => window.__vdOeffentlich.oeffneSektor('identity')); await seite.waitForTimeout(150);
+      // U-4 (D46/H04): am Handy erst die Liste, die Felder nach dem Tipp auf eine Zeile — wie eine Person.
+      await require('../e2e/helpers.js').eintragDetailOeffnenMobil(seite);
+    },
     () => {
       const sicht = (e) => e.getBoundingClientRect().width > 0;
       return [...document.querySelectorAll('#content input, #content textarea')].filter(sicht).length > 0;
@@ -112,7 +116,8 @@ async function wegGehen(seite, { probe = PROBE } = {}) {
     async () => {
       await seite.evaluate((wert) => {
         const sicht = (e) => e.getBoundingClientRect().width > 0;
-        const f = [...document.querySelectorAll('#content input[type=text], #content input:not([type])')].filter(sicht)[0];
+        // Ein Depotfeld (data-edit), nicht irgendein Eingabefeld der Seite (U-4: am Handy stand sonst das Namensfeld der Dokument-Ablage vorn).
+        const f = [...document.querySelectorAll('#content input[type=text][data-edit], #content input:not([type])[data-edit]')].filter(sicht)[0];
         if (!f) throw new Error('kein Textfeld gefunden');
         f.focus();
         f.value = wert;
@@ -141,6 +146,7 @@ async function wegGehen(seite, { probe = PROBE } = {}) {
       await seite.waitForTimeout(150);
       await seite.evaluate(() => window.__vdOeffentlich.oeffneSektor('identity'));
       await seite.waitForTimeout(200);
+      await require('../e2e/helpers.js').eintragDetailOeffnenMobil(seite);   // U-4: am Handy wieder erst die Liste
     },
     () => {
       const sicht = (e) => e.getBoundingClientRect().width > 0;
@@ -174,7 +180,7 @@ test('[Weg 2·Positivkontrolle] ohne Eingabefelder bricht der Weg mit der erwart
     assert.ok(await eingerichtet(seite));
     // Genau der Zustand, der eine leere Messung erzeugt: Felder weg.
     // oeffneSektor unbrauchbar machen: dann findet Schritt 1 keine Felder.
-    await seite.evaluate(() => { window.__vdOeffentlich.oeffneSektor = () => {}; document.querySelectorAll('#content input, #content textarea').forEach((e) => e.remove()); });
+    await seite.evaluate(() => { window.__vdOeffentlich.oeffneSektor = () => {}; document.querySelectorAll('#content input, #content textarea, #content .bereich-liste-zeile').forEach((e) => e.remove()); });   // U-4: auch die Zeilen, deren Tipp den Bereich neu zeichnet
     await assert.rejects(() => wegGehen(seite), (e) => {
       assert.equal(e.name, 'WegBruch');
       assert.match(e.message, /WEG 2 BRICHT BEI: einen Bereich oeffnen/);

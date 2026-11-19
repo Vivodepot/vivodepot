@@ -9,11 +9,13 @@ const path = require('node:path');
 const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers.js');
 
 const BREITEN = [375, 1280];
+const STUDIO_URL = 'file://' + (process.env.STUDIO_DATEI || path.join(__dirname, '..', '..', 'vivodepot-studio.html'));
 const ROTBEWEIS = process.env.VD_UMBAU_ROTBEWEIS === '1';
 
 /* Die Fälle im Baum: ein Positivfall (muss grün sein) und der gepflanzte Rot-Beweis (nur mit VD_UMBAU_ROTBEWEIS=1). */
 const FAELLE_EIGEN = [
   { quelle: 'inline', kennung: 'gutStart', lage: 'start', weg: { alle: ['#w-anlegen'] }, erwartung: '#id-vorname' },
+  { quelle: 'inline', kennung: 'gutStudio', lage: 'studio', weg: { alle: ['#start-leer'] }, erwartung: '#raum-bau' },
 ];
 
 /* Echte Verzeichnisse einlesen; nur „neu platziert“ mit Weg zählt. */
@@ -32,12 +34,18 @@ function faelleAusVerzeichnissen() {
 
 /* Die Lage herstellen, die der Eintrag verlangt. */
 async function lageHerstellen(page, lage) {
+  if (lage === 'studio') {
+    await page.goto(STUDIO_URL);
+    await page.waitForSelector('#raum-start', { state: 'visible' });
+    return;
+  }
   if (lage === 'start') {
     await oeffneApp(page);
     return;
   }
   await oeffneApp(page);
   await depotAnlegen(page);
+  if (lage === 'depot') return;
   if (lage === 'sub-kontext') {
     /* Über die Oberfläche: Pille → Verwaltung → Sub-Depot neu → entsiegeln → betreten. */
     const pw = 'e2e-sub-pw-123';

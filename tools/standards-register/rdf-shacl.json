@@ -41,6 +41,13 @@
         "werkzeug": "isaitb/shacl-validator@sha256:877d7e696a19c215b1104a6c69bb4e0744365f8eed906c3f6cf52f4ff70c2eea",
         "probe": "tests/edc-itb-shacl-lauf.test.js",
         "beschaffen": "node tools/itb-shacl-beschaffen.mjs"
+      },
+      "seite": {
+        "richtung": [
+          "empfangen",
+          "verwahren",
+          "vorzeigen"
+        ]
       }
     },
     {
@@ -74,6 +81,10 @@
       "kandidat": {
         "werkzeug": "ITB SHACL Validator 1.13.0 (EU-Kommission, EUPL-1.2, offline) mit den ELM-Shapes",
         "quelle": "https://github.com/ISAITB/shacl-validator"
+      },
+      "seite": {
+        "name": "Bildungsangaben ({marke}-Format, JSON; Felder mit dem European Learning Model abgeglichen)",
+        "herausgeber": "{marke}"
       }
     }
   ]

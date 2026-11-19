@@ -4,6 +4,7 @@
   "moduleVersion": 1,
   "anbieterId": "vivodepot",
   "texte": {
+    "strings:welcomeLeitsatz.text": "One place for the data of a whole life",
     "strings:appTagline.text": "Everything important in one place: from family and finances to housing, work and health.",
     "strings:welcomeUnterzeile.text": "Offline, encrypted, no account. For the doctor's appointment, the move, the emergency: put together what is needed right now.",
     "strings:welcomeWeiter.text": "What would you like to do?",

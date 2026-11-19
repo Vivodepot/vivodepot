@@ -27,7 +27,8 @@ async function istOffen(page, offen) {
   for (const sel of ['#app', 'html']) await expect(page.locator(sel)).toHaveClass(offen ? /\bmenue-auf\b/ : /^(?!.*\bmenue-auf\b)/);
 }
 async function menue(page, offen) {
-  await page.locator('#tb-menue').click();
+  // Kopfleiste nach dem Desktop-Dummy (17.11.2026): am Handy öffnet der Tab „Bereiche“ die Seitenleiste, Escape schließt sie.
+  if (offen) await page.locator('#bt-bereiche').click(); else await page.keyboard.press('Escape');
   await istOffen(page, offen);
   await page.waitForTimeout(600);   // Schublade eingefahren, Laufzeitprobe (250 ms gebündelt) gelaufen
 }
@@ -67,7 +68,9 @@ test('Menü über Notfall-Ansicht und Dialog lässt das Erscheinungsbild stehen,
     expect(await zustand(page), produkt + ': nach Notfall, Menü auf und zu').toEqual({ rueckfall: false, verstoesse: null });
 
     // 2 · Offener Dialog, dann Menü.
-    await page.locator('#tb-einstellungen').click();
+    // Am Handy stehen die Einstellungen seit der Kopfleiste nach dem Desktop-Dummy (17.11.2026) unten in der Seitenleiste.
+    await page.locator('#bt-bereiche').click();
+    await page.locator('#sidebar [data-einstellungen]').click();
     await expect(page.locator('[role=dialog]:visible, [aria-modal=true]:visible').first()).toBeVisible();
     await page.waitForTimeout(600);
     expect(await zustand(page), produkt + ': Dialog offen').toEqual({ rueckfall: false, verstoesse: null });

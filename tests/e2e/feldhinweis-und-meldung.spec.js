@@ -58,6 +58,7 @@ test('Feldhinweis in der Rolle Hilfe, Meldung 8 px über der Tab-Leiste, mit Rot
       for (let k = 0; k < 3; k++) { await page.keyboard.press('Escape').catch(() => {}); await page.waitForTimeout(150); }
       await page.evaluate(() => { const el = document.querySelector('.nav-item[data-sektor]'); el && el.click(); });
       await page.waitForTimeout(500);
+      await h.eintragDetailOeffnenMobil(page);   // U-4 (HANDY.md Z. 7): bei 390 px erst die Liste, die Felder nach dem Tipp auf eine Zeile
       const ort = produkt + ' ' + breite;
       expect(hinweisFehler(await hinweisMessen(page), schmal), ort + ': Feldhinweis').toEqual([]);
       if (schmal) expect(await meldungAbstand(page), ort + ': Abstand Meldung zur Tab-Leiste').toBe(8);

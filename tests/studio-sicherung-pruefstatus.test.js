@@ -53,9 +53,14 @@ function wortlautVerletzungen(html) {
   if (probier.indexOf(SATZ) < 0) v.push('ausprobieren-ohne-herkunftssatz');
   if (probier.indexOf('data-en="Vivodepot confirms who the template comes from, not whether its content is correct."') < 0) v.push('ausprobieren-ohne-herkunftssatz-en');
   if (html.indexOf('<div id="tpl-felder"') < 0 || html.indexOf('id="probier-herkunft"') < html.indexOf('<div id="tpl-felder"')) v.push('herkunftssatz-nicht-unter-der-vorschau');
+  // Der Satz steht überall, wo eine Vorlage geöffnet oder bearbeitet wird: im Start (seit S-1 der Anfang, der Eingang ist
+  // entfallen) und an der Arbeitsfläche (oben geprüft).
+  const a = html.indexOf('<main id="raum-start"');
+  const start = a < 0 ? '' : html.slice(a, html.indexOf('</main>', a));
+  if (start.indexOf('<p class="herkunft-satz">') < 0 || start.indexOf(SATZ) < 0) v.push('start-ohne-herkunftssatz');
   // Der Satz hat überall denselben Wortlaut: jede Stelle, die mit „Vivodepot bestätigt, von wem“ anfängt, sagt den ganzen Satz.
   const saetze = html.match(/Vivodepot bestätigt, von wem[^.<]*\./g) || [];
-  if (saetze.length < 3 || saetze.some((s) => s !== SATZ)) v.push('herkunftssatz-in-abweichendem-wortlaut');
+  if (saetze.length < 2 || saetze.some((s) => s !== SATZ)) v.push('herkunftssatz-in-abweichendem-wortlaut');
   return v;
 }
 
@@ -100,6 +105,7 @@ test('[Studio·Sicherung·Rot-Beweis] die Messung meldet jede verschlechterte Fa
     ['schritt3-sagt-alle-pruefungen-bestanden', (h) => h.replace('✓ Aufbau und Vollständigkeit geprüft.', '✓ Alle blockierenden Prüfungen bestanden.')],
     ['schritt3-ohne-inhaltssatz', (h) => h.replace('Ob der Inhalt fachlich und rechtlich stimmt, prüft das Studio nicht.', 'Fertig.')],
     ['ausprobieren-ohne-herkunftssatz', (h) => h.replace(/<p class="herkunft-satz probier-satz" id="probier-herkunft">.*?<\/p>/s, '')],
+    ['start-ohne-herkunftssatz', (h) => h.replace(/(<main id="raum-start"[\s\S]*?)<p class="herkunft-satz">.*?<\/p>/, '$1')],
     ['herkunftssatz-in-abweichendem-wortlaut', (h) => h.replace(/(id="probier-herkunft">.*?)nicht ob ihr Inhalt richtig ist\./s, '$1nicht ob ihr Inhalt stimmt.')],
   ];
   for (const [kennung, verschlechtern] of faelle) {

@@ -111,7 +111,7 @@ test('[Sub-Rückweg] der Name steht in Pille und Kontextzeile, der Rückweg ist 
   const knopf = document.getElementById('vm-zurueck');
   const b = {
     kopfHinweis: false,
-    bandMitName: document.getElementById('sub-kontext-text').textContent.includes('Hildegard Musterfrau'),
+    bandMitName: document.getElementById('sub-kontext-name').textContent.includes('Hildegard Musterfrau'),
     bandKnopf: knopf.textContent === V.STRINGS.btnZurueckMeinDepot && typeof knopf.onclick === 'function',
     erster: 'zurueck',
   };

@@ -13,6 +13,8 @@ const BREITEN = [[1280, 800], [390, 844]];
 async function umschauFeldKlicken(page) {
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
+  // U-4 (HANDY.md Z. 7): am Handy steht erst die Liste der Rubriken, die Felder nach dem Tipp auf eine Zeile (ab 768 px ohne Wirkung).
+  await h.eintragDetailOeffnenMobil(page);
   // Die ersten Karten eines Bereichs stehen ab Werk offen (Ruhezustand, tests/feldgruppen-ruhezustand.test.js): nur eine zugeklappte öffnen.
   const karte = page.locator('#content details').first();
   if (await karte.count() && !(await karte.evaluate((d) => d.open))) await karte.locator('summary').first().click();
@@ -57,6 +59,8 @@ test('[Umschau → Einrichten] Fokus auch in ein Auswahlfeld: Familienstand (pri
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
   await page.evaluate(() => document.querySelectorAll('#content details').forEach((d) => { d.open = true; }));
+  // Eintragebereich (U-4): das Detail zeigt nur die gewählte Rubrik — die des Familienstands wird gewählt wie von Hand.
+  await h.rubrikOeffnen(page, '[data-umschau-eintragen][data-umschau-feld="maritalStatus"]');
   await page.click('#content [data-umschau-eintragen][data-umschau-feld="maritalStatus"]');
   await page.fill('#id-vorname', 'Erika'); await page.fill('#id-nachname', 'Probe');
   if (await page.isVisible('#id-pw-eigen-weg')) await page.click('#id-pw-eigen-weg');   // Zielbild 01: Passwort-Feld erst beim eigenen Passwort

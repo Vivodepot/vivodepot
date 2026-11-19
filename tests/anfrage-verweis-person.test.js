@@ -16,6 +16,7 @@
    Rot-Beweise je Punkt.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
+const { haekchenBox, umschalten } = require('./helfer/haekchen-box.js');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
@@ -91,21 +92,15 @@ test('[Verweis·Person·2] die Übersicht hat je Person und verlangtes Feld eine
   k.document.getElementById = (id) => {
     if (id !== 'modal-inhalt' || !modale.length) return echt(id);
     const html = letztes().koerperHTML;
-    const knoepfe = [...html.matchAll(/<button type="button" class="btn-mini export-zz-btn[^"]*"([^>]*)>/g)].map((m) => {
-      const attr = (n) => { const x = new RegExp(n + '="([^"]*)"').exec(m[1]); return x ? x[1].replace(/&#39;/g, "'").replace(/&amp;/g, '&') : null; };
-      return { getAttribute: attr, onclick: null };
-    });
-    const link = /id="exp-zurueckhalten-weg"/.test(html) ? { onclick: null } : null;
-    box = { knoepfe, link, querySelector: (s) => (s === '#exp-zurueckhalten-weg' ? link : null), querySelectorAll: (s) => (s === '.export-zz-btn' ? knoepfe : []) };
+    box = haekchenBox(html);
     return box;
   };
   let bekommen = null;
   V.flowExportUebersicht({ kennungen: [EHE], zusatzZeilen: zeilen, titel: 'Probe', aufFortfahren: async (o) => { bekommen = o; } });
   for (const z of zeilen) assert.ok(letztes().koerperHTML.includes('data-zusatz="' + z.schluessel + '"'), 'Zeile in der Übersicht: ' + z.label);
   assert.equal(letztes().koerperHTML.split('class="export-zusatz-titel"').length - 1, 1, 'ein Zwischentitel für die eine Person');
-  box.link.onclick();
-  box.knoepfe.find((b) => b.getAttribute('data-zusatz') === EHE + '|people.person/street|p-1').onclick();
-  assert.match(letztes().koerperHTML, /export-zz-gehalten" data-zusatz="people\.spouseOrCivilPartner\|people\.person\/street\|p-1"/);
+  umschalten(box, 'data-zusatz', EHE + '|people.person/street|p-1', false);
+  assert.match(letztes().koerperHTML, /data-zusatz="people\.spouseOrCivilPartner\|people\.person\/street\|p-1">/, 'abgehakt: ohne checked');
   await letztes().onPrimaer(() => {});
   assert.deepEqual(bekommen.personFelderAus, [EHE + '|people.person/street|p-1']);
   const ohneStrasse = person(antwort(V, a, { personFelderAus: bekommen.personFelderAus }));
@@ -252,7 +247,8 @@ test('[Verweis·Person·8] eine fehlende Angabe steht in der Übersicht mit dem 
   V.ui.modal = (o) => { modale.push(o); return () => {}; };
   V.flowExportUebersicht({ kennungen: [EHE], zusatzZeilen: zeilen, titel: 'Probe', aufFortfahren: async () => {} });
   const html = modale[modale.length - 1].koerperHTML;
-  assert.match(html, /class="export-zusatz-fehlt">[^<]+<span class="export-chip-fehlt">fehlt<\/span>/);
+  // Häkchen in Gruppen (17.11.2026): die fehlende Angabe steht mit gesperrtem Häkchen und dem Chip „fehlt“.
+  assert.match(html, /class="export-wahl export-zz-fehlt"><input type="checkbox" class="export-haken" disabled[^>]*><span>[^<]+<span class="export-chip-fehlt">fehlt<\/span>/);
   assert.ok(!html.includes('data-zusatz="' + zeilen[1].schluessel + '"'), 'Rot-Beweis: eine fehlende Angabe ist nicht abwählbar');
   // Fehlt alles, stehen unter dem Zwischentitel nur Chips, kein Erklärsatz.
   const nichts = V.anfragePersonZeilen(anfrage([feld(['people.person/birthDate', 'people.person/birthPlace'])]), [EHE]);

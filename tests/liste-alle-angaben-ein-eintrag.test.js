@@ -85,7 +85,8 @@ test('[Alle-Angaben·Klasse] kein Dialog schreibt einen Listeneintrag vor dem Sp
   }
   assert.ok(dialoge >= 2, 'Vorbedingung: die Dialoge zum Hinzufügen und Bearbeiten sind gefunden (' + dialoge + ')');
   const aufrufer = KERN.match(/[^\w]_listeInlineUebernehmen\(/g) || [];
-  assert.equal(aufrufer.length, 2, 'Deklaration und genau ein Aufrufer (das Verlassen des ersten Eintrags)');
+  // D39: die neue Zeile einer gefüllten Liste legt über denselben Weg an, aber nur mit „Speichern“ (tests/liste-neuer-eintrag-zeile.test.js).
+  assert.equal(aufrufer.length, 3, 'Deklaration und genau zwei Aufrufer (das Verlassen des ersten Eintrags, „Speichern“ der neuen Zeile)');
 });
 
 test('[Alle-Angaben] Kopf und Aufklapper stehen in einem Behälter, nicht in zweien', () => {

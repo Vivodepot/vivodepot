@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von einem nicht öffentlichen Werkzeug aus vivodepot.html SEKTOREN und den nicht öffentlichen Bereichs-Vorlagen. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 1050,
+  "anzahl": 1055,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -2204,6 +2204,12 @@
       "kennung": "housing.moveInDate",
       "bereich": "housing",
       "label": "Eingezogen am",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.registrationCertificate",
+      "bereich": "housing",
+      "label": "Meldebescheinigung",
       "template": "vivodepot-housing.json"
     },
     {
@@ -6299,6 +6305,30 @@
       "kennung": "socialInsurance.severeDisabilityCards/validUntil",
       "bereich": "socialInsurance",
       "label": "Gültig bis",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.reducedRateProofs",
+      "bereich": "socialInsurance",
+      "label": "Nachweise für eine Ermäßigung",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.reducedRateProofs/reductionPurpose",
+      "bereich": "socialInsurance",
+      "label": "Wofür",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.reducedRateProofs/reductionValidUntil",
+      "bereich": "socialInsurance",
+      "label": "Nachweis gilt bis",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.reducedRateProofs/document",
+      "bereich": "socialInsurance",
+      "label": "Datei",
       "template": "vivodepot-socialInsurance.json"
     },
     {

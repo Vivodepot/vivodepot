@@ -85,7 +85,8 @@ test('[Prüftermine] Rückweg-Eintrag heißt „Depot verlassen" (nicht „Zuhau
   V.renderSidebar();
   const html = document.getElementById('sidebar').innerHTML;
   assert.ok(html.includes('data-verlassen'), 'Rückweg-Eintrag (data-verlassen)');
-  assert.ok(!html.includes('>Übersicht<'), 'kein sichtbarer „Übersicht"-Eintrag mehr');
+  // Umbau U-3 (15.11.2026): „Übersicht“ ist wieder ein Eintrag der Leiste, nach dem Dummy — er öffnet die Eintragen-Übersicht (data-uebersicht), nicht das Willkommen.
+  assert.ok(html.includes('data-uebersicht'), 'Übersicht-Eintrag (data-uebersicht) steht oben');
   assert.ok(!html.includes('>Zuhause<'), 'kein sichtbarer „Zuhause"-Eintrag mehr');
 });
 

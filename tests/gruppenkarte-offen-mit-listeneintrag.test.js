@@ -35,6 +35,11 @@ async function karteDerListe(opt, feldId) {
   const schluessel = /data-karte="([^"]*)"/.exec(finde());
   assert.ok(schluessel && V._kartenZustand, 'Karte trägt ihren Schlüssel');
   V._kartenZustand.set(schluessel[1], false);
+  /* Eintragebereich (S.4c): die offene Rubrik steht immer aufgeklappt im Detail. Damit allein der leere Eintrag die Karte offen hält,
+     ist eine andere Rubrik des Bereichs die offene. */
+  const andere = [...String(document.getElementById('content').innerHTML).matchAll(/data-rubrik="([^"]*)"/g)].map((m) => m[1]).find((r) => r !== schluessel[1]);
+  assert.ok(andere, 'der Bereich hat eine zweite Rubrik');
+  V.eintragebereichRubrikSetzen(b.id, andere.replace(/&#124;|&vert;/g, '|'));
   return finde();
 }
 

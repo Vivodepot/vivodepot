@@ -17,14 +17,15 @@ async function bereitsicht(page, sektor) {
 
 test('[Dialog·Fokus] der Dialog nimmt den Fokus ins erste Feld und gibt ihn beim Abbrechen an den Auslöser zurück', async ({ page }) => {
   await bereitsicht(page, 'pets');
-  // Konvention „Hinzufügen“: bei leerer Liste steht der erste Eintrag inline; der Dialog öffnet über „Weiteres Tier hinzufügen“.
+  // Konvention „Hinzufügen“: bei leerer Liste steht der erste Eintrag inline. Seit D38/D39 kommt auch der weitere Eintrag als Zeile
+  // in der Liste; der Dialog öffnet über „Bearbeiten“ an dieser Zeile (Helfer listenDialogOeffnen), und dorthin kehrt der Fokus zurück.
   await listenDialogOeffnen(page, 'pets', { sektor: 'pets', vorbelegen: { petNameSpecies: 'Mira, Katze' } });
   await expect(page.locator('#modal-rueck.an')).toBeVisible();
   const imDialog = await page.evaluate(() => !!(document.activeElement && document.activeElement.closest && document.activeElement.closest('#modal-inhalt .liste-eintrag-form')));
   expect(imDialog, 'Fokus im ersten Feld des Dialogs').toBe(true);
   await dialogAbbrechen(page);
   await expect(page.locator('#modal-rueck.an')).toHaveCount(0);
-  await expect(page.locator('#content [data-eintrag-hinzufuegen="pets"]')).toBeFocused();
+  await expect(page.locator('#content [data-feld-liste="pets"] [data-eintrag-bearbeiten]').last()).toBeFocused();
 });
 
 test('[Dialog·Fokus·Person] nach dem Anlegen einer Person im Dialog steht der Fokus in der Auswahl', async ({ page }) => {

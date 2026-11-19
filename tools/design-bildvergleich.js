@@ -173,6 +173,12 @@ async function szenenAufnehmen(browser, geraet, url, filter) {
       // (Befund v898, 02.10.2026: sonst „element is outside of the viewport", TimeoutError).
       if (geraet === 'handy') await jsKlick(seite, '#tb-menue');
       await helfer.oeffneSektor(seite, 'identity');
+      /* Eintragebereich Liste | Detail (U-4, 16.11.2026): oeffneSektor zeigt als Test-Artefakt alle Rubriken. Das Bild zeigt den
+         Bereich, wie ihn ein Mensch sieht: die offene Zeile noch einmal wählen, das Produkt zeichnet neu, nur ihre Rubrik steht im Detail. */
+      if (await seite.locator('#content .bereich-liste-zeile[aria-current="true"]').count()) {
+        await jsKlick(seite, '#content .bereich-liste-zeile[aria-current="true"]');
+        await seite.evaluate(() => { const a = document.activeElement; if (a && a.blur) a.blur(); const c = document.getElementById('content'); if (c) c.scrollTop = 0; });
+      }
       if (geraet === 'handy') await seite.keyboard.press('Escape');
       raus.push(['bereich', await bild(seite)]);
       await jsKlick(seite, '#tb-nacht'); raus.push(['bereich-nacht', await bild(seite)]); await jsKlick(seite, '#tb-nacht');

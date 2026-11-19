@@ -17,7 +17,7 @@ rechnet die Werte bei jedem Lauf mit node:crypto nach und prüft danach das Prod
    - Schlüssel = PBKDF2-HMAC-SHA-256(`testPasswort`, `salzB64`, 600000 Iterationen, 32 Byte).
    - `chiffratMitTagB64` = AES-256-GCM(Schlüssel, `ivB64`, ohne AAD, Klartext = `nutzlastJson` als UTF-8), Chiffrat ‖ 16-Byte-Tag.
    - `payloadB64u` = base64url ohne Auffüllung von JSON `{"v":1,"s":Salz,"i":IV,"c":Chiffrat‖Tag}`; die drei Werte stehen darin in Standard-Base64.
-   - Geprüft wird: Der Kern (`_empfaengerQrSchluesselVerschluesseln`) verschlüsselt genau zu diesem Chiffrat. Die Lese-App (`_empfaengerQrEntschluesseln`) öffnet `payloadB64u`.
+   - Geprüft wird: Der Kern (`_empfaengerQrSchluesselVerschluesseln`) verschlüsselt genau zu diesem Chiffrat. Die Lese-App (`_empfaengerQrEntschluesseln`) nimmt seit dem Entfall von v1 (U2-ADR-156-Nachtrag) nur noch v2 an: Sie öffnet einen v2-Umschlag, den die Probe bei jedem Lauf mit node:crypto aus denselben Werten rechnet (AES-256-GCM mit AAD = UTF-8 von `vivodepot/empfaenger-qr/v2`; SHA-256 seines Felds `c` ist in der Probe eingefroren). Den eingefrorenen v1-Code `payloadB64u` lehnt sie benannt ab.
 
 2. **`antwortV1Einmalpasswort` — Antwort v1 mit Einmalpasswort**
    - Der Umschlag ist der eingefrorene aus `tests/fixtures/antwort-v1-umschlaege.json` (Feld `einmalpasswort`); er wird hier nicht neu erzeugt.

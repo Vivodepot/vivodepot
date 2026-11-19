@@ -50,7 +50,7 @@ test('[Depot-Liste·Sub-Kontext] zeigt Sophies Depot als aktiv, NICHT „Mein De
   await page.waitForSelector('#tb-depot-menue-liste', { state: 'visible' });
   // Umbau U-2 (UX-SUBDEPOT-RUECKWEG): im Depot einer anderen Person ist der Rückweg der erste Eintrag im Menü des Wechslers.
   await expect(page.locator('#tb-depot-name')).toHaveText('Sophie');
-  await expect(page.locator('#tb-depot-menue [role=menuitem]').first()).toHaveText('Zurück zu meinem Depot');
+  await expect(page.locator('#tb-depot-menue [role=menuitem]').first()).toHaveText('Zurück zu Ihrem Depot');
   await expect(page.locator('#tb-depot-menue-zurueck')).toBeVisible();
   await page.click('#tb-depot-menue-liste');
   await expect(page.locator('#modal-titel')).toHaveText('Depot');
