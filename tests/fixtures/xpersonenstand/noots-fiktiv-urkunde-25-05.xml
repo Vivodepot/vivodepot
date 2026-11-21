@@ -1,0 +1,129 @@
+<!-- Herkunft: OpenCoDE, Projekt noots/public/ad-noots/Architektur, Datei SAK-APIs-Arbeitsstand/Beispieldaten/xpersonenstand_25_05/fiktiv-Urkunde.xml
+     (Stand Commit 821ce81e3906, 03.12.2025), Lizenz EUPL 1.2 (LICENSE im Projekt). Unverändert bis auf diesen Kopf. Die Probe
+     tests/xpersonenstand-geburt-einlesen.test.js zeigt daran, dass eine frei interpretierte Datei ohne XPersonenstand-Nachrichtenelement
+     mit Grund abgewiesen wird. -->
+<!-- Möglicher digitaler Nachweis einer Geburtsurkunde in xml Format
+    gemäß XPersonenstand v 25.05
+
+    Kapitel 14.2.8 Anforderung von Urkunden und Bescheinigungen und Kapitel 14.6.12 "Lieferung von
+    elektronischen Personenstandsbescheinigungen aus dem Geburtenregister" bietet keine Grundlage, da die Nachricht
+    portal2StA.Geburt.081033 die Geburtsurkunde komplett base64 encoded im Feld anhang beinhaltet.
+
+    Diese Variante ist frei interpretiert nach Kapitel 4.6.2 "Antwort aus einem Eintrag im Geburtenregister"
+    (Weglassen des Nachrichtenkopfes).
+-->
+<fiktiv:DE.Urkunde
+        produkt="OnlinePortal NRW"
+        produkthersteller="Musterfirma"
+        produktversion="1.2.9"
+        standard="XPersonenstand"
+        version="25.05"
+        id="urn:uuid:a17b5209-4eb8-4930-8453-d323ef4cb22x"
+        xmlns:xps="http://xpsw.domap.de/xpsw2505"
+        xmlns:xpersonenstand="http://xpsw.domap.de/xpsw2505"
+        xmlns:fiktiv="http://fiktiverNamensraum"
+>
+    <xps:zuordnung>
+        <nachrichtenUUID>a17b5209-4eb8-4930-8453-d323ef4cb22x</nachrichtenUUID>
+        <xps:vorgangsidentifikation>
+            <ereignis.zeitpunkt>2024-07-17T05:00:00Z</ereignis.zeitpunkt>
+            <ereignis.zeichen>2024-07-17-Müller</ereignis.zeichen>
+        </xps:vorgangsidentifikation>
+    </xps:zuordnung>
+    <xps:abrufzweck>Nachweis</xps:abrufzweck>
+
+    <xps:identifikation>
+        <xps:suchdaten>
+            <xps:namen>
+                <xps:familienname>
+                    <name>Müller</name>
+                </xps:familienname>
+                <xps:vornamen>
+                    <name>Max</name>
+                </xps:vornamen>
+            </xps:namen>
+            <xps:geburtstag>1980-01-01+02:00</xps:geburtstag>
+            <!--Optional:-->
+            <xps:geburtsort>Flensburg</xps:geburtsort>
+        </xps:suchdaten>
+    </xps:identifikation>
+
+    <xps:registernummer>
+        <xps:standesamtsnummer>
+            <xps:nichtGelisteterWert>FlensburgFiktiv</xps:nichtGelisteterWert>
+        </xps:standesamtsnummer>
+        <xps:registerart listURI="urn:xpersonenstand:schluesseltabelle:registerart" listVersionID="1">
+            <code>E</code>
+        </xps:registerart>
+        <xps:erstbeurkundungsjahr>1980+02:00Z</xps:erstbeurkundungsjahr>
+        <xps:eintragsnummer>001/1980</xps:eintragsnummer>
+    </xps:registernummer>
+
+    <xps:geburt>
+        <xps:geburtstag>
+            <jahrMonatTag>1980-01-01</jahrMonatTag>
+        </xps:geburtstag>
+        <xps:geburtsort>Flensburg</xps:geburtsort>
+    </xps:geburt>
+
+    <xps:kind>
+        <xps:kindNamen>
+            <xps:familienname>
+                <name>Müller</name>
+            </xps:familienname>
+            <!--Optional:-->
+            <xps:geburtsname>
+                <name>Schneider</name>
+            </xps:geburtsname>
+            <xps:vornamen>
+                <name>Max</name>
+            </xps:vornamen>
+        </xps:kindNamen>
+        <xps:kindGeschlecht listURI="urn:xoev-de:xinneres:codeliste:geschlecht" listVersionID="1">
+            <code>m</code>
+        </xps:kindGeschlecht>
+    </xps:kind>
+
+    <xps:eltern>
+        <xps:namen>
+            <xps:familienname>
+                <name>Schneider</name>
+            </xps:familienname>
+            <!--Optional:-->
+            <xps:geburtsname>
+                <name>Fischer</name>
+            </xps:geburtsname>
+            <xps:vornamen>
+                <name>Wilma</name>
+            </xps:vornamen>
+        </xps:namen>
+        <xps:familienrechtlicheBezeichnung>
+            <xps:code listURI="urn:xoev-de:xpersonenstand:codeliste:familienrechtlichebezeichnunggeburtenregister"
+                      listVersionID="1">
+                <code>M</code>
+            </xps:code>
+        </xps:familienrechtlicheBezeichnung>
+    </xps:eltern>
+
+    <xps:eltern>
+        <xps:namen>
+            <xps:familienname>
+                <name>Schneider</name>
+            </xps:familienname>
+            <!--Optional:-->
+            <xps:geburtsname>
+                <name>Schneider</name>
+            </xps:geburtsname>
+            <xps:vornamen>
+                <name>Ray</name>
+            </xps:vornamen>
+        </xps:namen>
+        <xps:familienrechtlicheBezeichnung>
+            <xps:code listURI="urn:xoev-de:xpersonenstand:codeliste:familienrechtlichebezeichnunggeburtenregister"
+                      listVersionID="1">
+                <code>V</code>
+            </xps:code>
+        </xps:familienrechtlicheBezeichnung>
+    </xps:eltern>
+
+</fiktiv:DE.Urkunde>

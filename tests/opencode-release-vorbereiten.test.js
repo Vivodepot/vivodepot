@@ -152,3 +152,16 @@ test('[openCoDE-Release·GitHub] der Befehl holt die Anhänge aus dem Tag-Baum u
     + R.ANHAENGE.join(' ') + ' SHA256SUMS');
   assert.deepEqual(R.GITHUB_ANHAENGE, R.ANHAENGE.concat(['SHA256SUMS']));
 });
+
+/* RELEASE-NOTES-AUSNAHME-JE-FASSUNG (19.11.2026): ab v1.0.931 fällt das Werkzeug nicht mehr still auf den CHANGELOG zurück.
+   ROT-BEWEIS: vor dem Fix nannte es für v1.0.931 ohne Notes nur den fehlenden CHANGELOG-Abschnitt, mit Abschnitt gar nichts. */
+test('[Release·Notes·openCoDE] ab v1.0.931 ohne Notes-Datei: Fehler mit Pfad; vor 931 bleibt der Rückfall', () => {
+  mitKopie((q) => {
+    const p = path.join(q, 'CHANGELOG.md');
+    fs.writeFileSync(p, fs.readFileSync(p, 'utf8').replace('## [v1.0.1]', '## [v1.0.931]'));
+  }, (q) => {
+    const r = R.releaseVorbereiten({ quelle: q, fassung: 'v1.0.931' });
+    assert.ok(r.fehler.some((f) => /Release-Notes fehlen: docs\/release-notes\/v1\.0\.931\.md/.test(f)), JSON.stringify(r.fehler));
+  });
+  assert.equal(R.releaseVorbereiten({ quelle: R.FIXTURE, fassung: 'v1.0.1' }).fehler.length, 0, 'vor 931 bleibt der CHANGELOG-Rückfall');
+});

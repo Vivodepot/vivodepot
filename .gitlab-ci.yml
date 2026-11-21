@@ -45,13 +45,21 @@ publiccode:
 # Dieselben Vorbereitungen wie der GitHub-Job schicht1-unit (.github/workflows/e2e.yml), seit 16.10.2026 (Befund
 # OPENCODE-PIPELINE-ROT: bis dahin fuhr dieser Job nur npm ci && npm test und war in jeder Pipeline rot — kein Chromium, kein
 # pdftotext, flacher Klon). Die Probe in tests/pflichtdateien-oeffentliches-repo.test.js hält beide Jobs gleich.
+# In Teilen seit 19.11.2026 (Rückfall desselben Befunds): ein Job endet auf dem geteilten Runner nach einer Stunde, die volle
+# Suite braucht länger. `parallel` fährt sie in Teilen nebeneinander, jede Probe genau einmal (tools/test-teil.js, die Zahl
+# steht dort und hier gleich); jeder Teil hat eine eigene Frist. Die Suite läuft je Fassung einmal, auf dem Standard-Branch;
+# die Pipeline des Fassungs-Tags am selben Commit fährt publiccode und die Abhängigkeitsanalyse (Schonung des geteilten Runners).
 tests:
   stage: pruefen
   image: node:24
+  parallel: 10
+  timeout: 50 minutes
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   variables:
     GIT_DEPTH: "0"
   script:
     - apt-get update -q && apt-get install -y -q poppler-utils libxml2-utils
     - npm ci
     - npx playwright install --with-deps chromium
-    - npm test
+    - node tools/test-teil.js

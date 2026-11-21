@@ -1,8 +1,8 @@
 'use strict';
 /* ═════════════════════════════════════════════════════════════════
-   Studio wie die freigegebenen Dummies: Beispiel „Anmeldung Stadtbibliothek“, Brief als PDF, „Link öffnen“
+   Studio wie die freigegebenen Dummies: Beispiel „Bibliotheksausweis“, Brief als PDF, „Link öffnen“
    ─────────────────────────────────────────────────────────────────
-   (1) Das Beispiel „Anmeldung Stadtbibliothek“ trägt die Felder des Dummy-Beispiels „Bibliotheksausweis“ (Dummy 14.11.2026,
+   (1) Das Beispiel „Bibliotheksausweis“ trägt die Felder des Dummy-Beispiels „Bibliotheksausweis“ (Dummy 14.11.2026,
        Z. 248): Vorname, Nachname, Geburtsdatum, Anschrift (Straße, Hausnummer, Postleitzahl, Ort) und „Nachweise für eine
        Ermäßigung“ freiwillig. Die Liste mit Unterfeldern bleibt; das Beispiel wird nicht kleiner. Die Prüfung meldet kein Feld.
    (2) Im Ergebnis der Anfrage speichert „Brief mit dem Link speichern (PDF)“ den Brief als PDF (Dummy 13.11.2026, Z. 124);

@@ -5,7 +5,7 @@
    Belegt im Browser, was die Node-Probe tests/studio-vorfuehrpfad.test.js nur ohne DOM sehen kann:
    (1) „Ihr Aktenzeichen (freiwillig)“: das Feld ist leer, der Vorschlag steht als Platzhalter; Getipptes ersetzt ihn, die Vorschau zeigt nur
        das Getippte. Ein leeres Feld nimmt den Vorschlag.
-   (2) Beispiel „Anmeldung Stadtbibliothek“ (Liste mit drei Unterfeldern): unter „Vorschau“ legt „+ Eintrag hinzufügen“
+   (2) Beispiel „Bibliotheksausweis“ (Liste mit drei Unterfeldern): unter „Vorschau“ legt „+ Eintrag hinzufügen“
        eine Zeile mit drei Eingaben an, „Entfernen“ nimmt sie weg; die Vorlage behält ihre Felder.
    (3) Feldliste: ab Werk keine Kennung zu sehen, jede Zeile trägt sie im title; der Schalter „Technische Namen (Kennungen) zeigen“ blendet sie ein.
    Rot-Beweise je Prüfung in tests/studio-vorfuehrpfad.test.js (an veränderten Fassungen). Hier Gegenproben im Lauf.
@@ -34,7 +34,7 @@ test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
   test('(2) Liste mit Unterfeldern: „+ Eintrag hinzufügen“ wirkt unter „Vorschau“', async ({ page: p }) => {
     await H.generator.oeffnen(p, 'de');
     await p.click('#bsp-bibliothek');
-    await expect(p.locator('.vk')).toHaveCount(12);   // 7 → 12 (17.11.2026): Anschrift (vier Felder) und Nachweis für eine Ermäßigung wie im Dummy
+    await expect(p.locator('.vk')).toHaveCount(9);   // 12 → 9 (18.11.2026): Bausteine wie im Dummy (Z. 248) und die Liste der Vorführung
     const liste = p.locator('.vk', { has: p.locator('.vk-name-eingabe[value="Weitere Personen im Familienausweis"]')
       .or(p.locator('.vk-name', { hasText: 'Weitere Personen im Familienausweis' })) });
     await p.click('#ansicht-probieren');
@@ -47,7 +47,7 @@ test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
     await expect(liste.locator('.vk-eintrag')).toHaveCount(2);
     await liste.locator('.vk-eintrag-weg').first().click();
     await expect(liste.locator('.vk-eintrag')).toHaveCount(1);
-    await expect(p.locator('.vk')).toHaveCount(12);   // die Vorlage behält ihre Felder
+    await expect(p.locator('.vk')).toHaveCount(9);   // die Vorlage behält ihre Felder
     // Gegenprobe: unter „Bearbeiten“ legt der Knopf nichts an.
     await p.click('#ansicht-bauen');
     await expect(liste.locator('.vk-eintrag-hinzu')).toHaveCount(0);   // der Knopf steht nur in der Vorschau (Dummy 14.11.2026)

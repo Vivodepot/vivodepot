@@ -86,4 +86,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Stand
 
-Fassung v1065.
+Fassung v1069.

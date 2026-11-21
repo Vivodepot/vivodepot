@@ -53,6 +53,10 @@ test('[A348·Zug4] der echte Bestand ist grün — jede Probe ausserhalb der Gru
     'Diese Probendatei(en) sind neu und bringen keinen Rot-Beweis mit. Eine Probe ohne Rot-Beweis '
     + 'ist eine Zusage, keine Messung — sie war in A336, A338 und A345 dreimal grün, während ihr '
     + 'Gegenstand kaputt war:\n' + r.neuOhneRot.join('\n'));
+  // 18.11.2026: auch die Ratsche am echten Bestand. Zwei nachgerüstete Dateien standen am Kanon 7c2563f32b weiter in der
+  // Grundlinie, und kein Gate sah es, weil nur das Werkzeug von Hand GRUNDLINIE-ZU-GROSS meldete.
+  assert.deepEqual(r.grundlinieZuGross, [],
+    'Diese Datei(en) tragen inzwischen einen Rot-Beweis und gehören aus tools/rot-beweis-grundlinie.json:\n' + r.grundlinieZuGross.join('\n'));
 });
 
 test('[A348·Zug4·Rot-Beweis] eine NEUE Datei ohne Marke wird gefunden', () => {

@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-11-18 · **Fassung:** v1065 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-11-19 · **Fassung:** v1069 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -25,7 +25,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ---
 
-## Import-Formate (18)
+## Import-Formate (20)
 
 | Kennung | Erzeuger | Sektor | Flags | Versions-/Profil-Belege im Code |
 |---|---|---|---|---|
@@ -44,6 +44,8 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `vcard-menschen` | `parseVCards` | people | — | kein Versions-/Profil-Marker im Code gefunden |
 | `camt053` | `parseCamt053` | finance | nurImport | kein Versions-/Profil-Marker im Code gefunden |
 | `xmeld` | `parseXMeld` | identity | nurImport | kein Versions-/Profil-Marker im Code gefunden |
+| `xpersonenstand-geburt` | `parseXpsGeburt` | identity | nurImport | kein Versions-/Profil-Marker im Code gefunden |
+| `xpersonenstand-geburt-kind` | `parseXpsGeburt` | people | nurImport | kein Versions-/Profil-Marker im Code gefunden |
 | `elster` | `_jsonParse` | finance | nurImport | kein Versions-/Profil-Marker im Code gefunden |
 | `vivodepot-beta` | `parseVivodepotBeta` | — | nurImport | kein Versions-/Profil-Marker im Code gefunden |
 | `provider-credential` | `felderAusClaims (fachpfad — kein `parse`, geprüfte Nutzlast wird direkt auf Felder abgebildet, s. Kommentar in vivodepot.html)` | — | nurImport | kein Versions-/Profil-Marker im Code gefunden |
@@ -86,10 +88,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Prüfebene
 
-- Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-10-25, d90eeb9d7 Stand Kanon)
-- E2E (Playwright): 815 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 247 aus Schleifen über CPU-Drosselungen = **1062 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
-- Wächter-Register (intern): 162
-- Schema-Version: 102 · SCHALEN_STAND: v1065 · Build-Version: v1.0
+- Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-11-19, 1489be63b Basis Kanon)
+- E2E (Playwright): 817 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 248 aus Schleifen über CPU-Drosselungen = **1065 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 163
+- Schema-Version: 102 · SCHALEN_STAND: v1069 · Build-Version: v1.0
 
 ---
 
@@ -572,10 +574,10 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 | `.btn-mini` | 12 | 46 |
 | `.karte` | 8 | 94 |
 | `.modal` | 68 | 214 |
-| `.toast` | 9 | 336 |
+| `.toast` | 9 | 339 |
 | `.banner-stapel` | 4 | 2 |
 | `.topbar` | 59 | 10 |
 | `.sidebar` | 19 | 7 |
-| `.leer` | 3 | 445 |
+| `.leer` | 3 | 446 |
 | `.pause-erlaubnis` | 2 | 2 |
-| `.hinweis-box` | 7 | 35 |
+| `.hinweis-box` | 7 | 36 |

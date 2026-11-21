@@ -291,10 +291,14 @@ for (const b of BREITEN) {
           await expect.poll(() => namen.length, { timeout: 20000, message: 'f) Nach „Vorlage sichern“ kamen nicht mindestens drei Dateien' }).toBeGreaterThanOrEqual(3);
         } finally { page.off('download', hoeren); }
         expect.soft(namen.filter((n) => /\.pdf$/.test(n)).length, 'f) kein PDF: ' + namen.join(', ')).toBe(1);
-        expect.soft(namen.filter((n) => /-qr\.(png|gif)$/.test(n)).length, 'f) kein QR-Code: ' + namen.join(', ')).toBe(1);
+        /* Die QR-Datei der Vorlage gibt es erst mit hochgeladener Abholseite (Schalter ABHOLSEITE_LIVE im Studio); bis dahin keine. */
+        const abholseiteLive = await page.evaluate(() => (typeof ABHOLSEITE_LIVE === 'undefined' ? true : ABHOLSEITE_LIVE));
+        expect.soft(namen.filter((n) => /-qr\.(png|gif)$/.test(n)).length, 'f) QR-Code nur mit Abholseite: ' + namen.join(', ')).toBe(abholseiteLive ? 1 : 0);
         expect.soft(namen.filter((n) => /\.json$/.test(n) && !/-(questionnaire|sd-jwt-vc|entwurf)\.json$/.test(n)).length, 'f) keine Vorlage: ' + namen.join(', ')).toBe(1);
       });
       await versuche('f) Die Vorschau der Vorlage lässt sich nicht öffnen (#ansicht-probieren, „Vorschau“)', async () => {
+        /* Nach dem Sichern steht „Vorlage gesichert“ als eigener Bildschirm; zurück zur Vorlage über „Weiter bearbeiten“. */
+        if (await page.locator('#ns-weiter-bearbeiten').isVisible()) await antippen(page.locator('#ns-weiter-bearbeiten'));
         await antippen(page.locator('#ansicht-probieren'));
         await expect(page.locator('#raum-bau')).toHaveClass(/probieren/, { timeout: 3000 });
         expect.soft(await page.locator('#tpl-felder .vk:visible').count(), 'f) In der Vorschau ist kein Baustein der Vorlage zu sehen').toBeGreaterThan(0);

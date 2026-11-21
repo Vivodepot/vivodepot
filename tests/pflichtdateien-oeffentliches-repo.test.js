@@ -36,7 +36,7 @@ test('[Pflichtdateien·.gitlab-ci.yml] dieselbe Parser-Fassung wie auf GitHub, u
   assert.equal(parserFassung(gitlab), parserFassung(github));
   assert.match(gitlab, /publiccode-parser (?:-no-network )?publiccode\.yml/);
   assert.match(gitlab, /^\s*- npm ci$/m);
-  assert.match(gitlab, /^\s*- npm test$/m);
+  assert.match(gitlab, /^\s*- node tools\/test-teil\.js$/m);
 });
 
 /* openCoDE-Pipeline gleich der GitHub-Suite (16.10.2026, Befund OPENCODE-PIPELINE-ROT): der GitLab-Job `tests` fuhr nur
@@ -99,4 +99,35 @@ test('[Pflichtdateien·Rot-Beweis] eine abweichende Parser-Fassung fällt auf', 
   const gitlab = fs.readFileSync(path.join(REPO, '.gitlab-ci.yml'), 'utf8');
   const geaendert = gitlab.replace(/publiccode-parser@v[\d.]+/, 'publiccode-parser@v0.0.1');
   assert.notEqual(parserFassung(geaendert), parserFassung(fs.readFileSync(path.join(REPO, '.github', 'workflows', 'publiccode-pruefen.yml'), 'utf8')));
+});
+
+/* Die Suite in Teilen (19.11.2026, Befund OPENCODE-PIPELINE-ROT, Rückfall): jede Pipeline auf openCoDE endete an der Zeitgrenze
+   des geteilten Runners (job_execution_timeout nach 3601 s); die volle Suite braucht schon auf GitHub über eine Stunde. Der Job
+   `tests` fährt sie in TEILE Teilen (tools/test-teil.js), jeder Teil mit eigener Frist unter der Stunde, und nur auf dem
+   Standard-Branch: die Tag-Pipeline am selben Commit fährt die Suite nicht ein zweites Mal. */
+const { TEILE } = require('../tools/test-teil.js');
+function testsJob(text) {
+  const job = text.slice(text.search(/^tests:$/m));
+  const parallel = /^\s+parallel: (\d+)$/m.exec(job);
+  const frist = /^\s+timeout: (\d+) minutes$/m.exec(job);
+  const regeln = (job.match(/^\s+- if: .*$/gm) || []).map((z) => z.trim());
+  return {
+    teile: parallel ? Number(parallel[1]) : null,
+    frist: frist ? Number(frist[1]) : null,
+    nurMain: regeln.length === 1 && regeln[0] === '- if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH',
+    geteilt: /^\s+- node tools\/test-teil\.js$/m.test(job) && !/^\s+- npm test$/m.test(job),
+  };
+}
+test('[Pflichtdateien·.gitlab-ci.yml·Teile] die Suite läuft in Teilen mit Frist unter der Stunde, nur auf dem Standard-Branch', () => {
+  const gitlab = fs.readFileSync(path.join(REPO, '.gitlab-ci.yml'), 'utf8');
+  assert.deepEqual(testsJob(gitlab), { teile: TEILE, frist: testsJob(gitlab).frist, nurMain: true, geteilt: true });
+  assert.ok(TEILE >= 8, 'mindestens acht Teile (gemessen 19.11.2026: bei acht rund 32 Minuten Prozesszeit im längsten Teil)');
+  assert.ok(testsJob(gitlab).frist > 0 && testsJob(gitlab).frist < 60, 'eine eigene Frist je Teil unter der Stunde des Runners');
+});
+
+test('[Pflichtdateien·.gitlab-ci.yml·Teile·Rot-Beweis] der Job bis 19.11.2026 (ungeteilt, ohne Frist, auch auf Tags) fällt', () => {
+  const alt = ['tests:', '  stage: pruefen', '  image: node:24', '  variables:', '    GIT_DEPTH: "0"', '  script:', '    - npm ci', '    - npm test', ''].join('\n');
+  assert.deepEqual(testsJob(alt), { teile: null, frist: null, nurMain: false, geteilt: false });
+  const gitlab = fs.readFileSync(path.join(REPO, '.gitlab-ci.yml'), 'utf8');
+  assert.equal(testsJob(gitlab.replace('$CI_DEFAULT_BRANCH\n  variables:', '$CI_DEFAULT_BRANCH\n    - if: $CI_COMMIT_TAG =~ /^v/\n  variables:')).nurMain, false, 'eine Tag-Regel am Job fällt');
 });

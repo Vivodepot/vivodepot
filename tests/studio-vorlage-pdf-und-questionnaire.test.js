@@ -27,6 +27,8 @@ function mitQr(geladen) {
   const a = html.indexOf('<script id="qrcode_VivodepotInline">');
   const b = html.indexOf('</script>', a);
   vm.runInContext(html.slice(html.indexOf('>', a) + 1, b), geladen.sandbox);
+  /* Gemessen wird die Ausgabe in drei Wegen, wie sie mit hochgeladener Abholseite gilt (Schalter ABHOLSEITE_LIVE im Studio). */
+  vm.runInContext('ABHOLSEITE_LIVE = true', geladen.sandbox);
   return geladen;
 }
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Erfunden für die Probe tests/xpersonenstand-geburt-einlesen.test.js: Namen, Standesamt und Nummern stammen aus keinem
+     echten Register. Aufbau nach XPersonenstand 26.11, Nachricht datenabruf2StA.AntwortGeburtSynchron.018011
+     (Spezifikation Kap. 4.6.2: „Der Datenumfang entspricht dem der Geburtsurkunde"); Nachrichtenkopf gekürzt. -->
+<xpersonenstand:datenabruf2StA.AntwortGeburtSynchron.018011 xmlns:xpersonenstand="http://xpsw.domap.de/xpsw2611"
+    produkt="Beispielprodukt" produkthersteller="Beispielhersteller" produktversion="1.0" standard="XPersonenstand" version="26.11">
+  <nachrichtenkopf.g2g>
+    <identifikation.nachricht>
+      <nachrichtenUUID>00000000-0000-4000-8000-000000000001</nachrichtenUUID>
+      <nachrichtentyp><code>018011</code></nachrichtentyp>
+      <erstellungszeitpunkt>2026-11-13T10:00:00Z</erstellungszeitpunkt>
+    </identifikation.nachricht>
+  </nachrichtenkopf.g2g>
+  <abrufzweck>Nachweis</abrufzweck>
+  <registernummer>
+    <standesamtsnummer><code><code>99999</code></code></standesamtsnummer>
+    <standesamtsname>Standesamt Beispielstadt</standesamtsname>
+    <registerart><code>G</code></registerart>
+    <erstbeurkundungsjahr>2026</erstbeurkundungsjahr>
+    <eintragsnummer>123</eintragsnummer>
+  </registernummer>
+  <geburt>
+    <geburtstag><jahrMonatTag>2026-10-01</jahrMonatTag></geburtstag>
+    <geburtsort>Beispielstadt</geburtsort>
+  </geburt>
+  <kind>
+    <kindNamen>
+      <familienname><name>Musterkind</name></familienname>
+      <vornamen><name>Lina Marie</name></vornamen>
+    </kindNamen>
+    <kindGeschlecht><code>w</code></kindGeschlecht>
+  </kind>
+  <eltern>
+    <namen>
+      <familienname><name>Musterkind</name></familienname>
+      <vornamen><name>Erika</name></vornamen>
+    </namen>
+    <familienrechtlicheBezeichnung><code>1</code></familienrechtlicheBezeichnung>
+  </eltern>
+</xpersonenstand:datenabruf2StA.AntwortGeburtSynchron.018011>

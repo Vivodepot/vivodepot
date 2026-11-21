@@ -75,8 +75,8 @@ test('[Speichergrenzen] die drei Aufrufer von mappeEintragHinzufuegen teilen sic
   const treffer = [...quelle.matchAll(/mappeEintragHinzufuegen\(/g)];
   // 1x Funktionsdefinition + 4 Aufrufer = 5 Vorkommen des Bezeichners gefolgt von „(" — der vierte ist das
   // Bildungsnachweis-Original (_edcOriginalAblegen, U2-ADR-443), das denselben Prüfpunkt durchläuft; der fünfte der
-  // Open Badge (_ob3OriginalAblegen, U2-ADR-445), ebenso.
-  assert.equal(treffer.length, 6, 'unerwartete Zahl an mappeEintragHinzufuegen-Vorkommen — Prüfung ggf. umgangen worden');
+  // Open Badge (_ob3OriginalAblegen, U2-ADR-445), ebenso; der sechste die Geburtsurkunde als Unterlage (xpsGeburtAlsUnterlage, 13.11.2026).
+  assert.equal(treffer.length, 7, 'unerwartete Zahl an mappeEintragHinzufuegen-Vorkommen — Prüfung ggf. umgangen worden');
   const projizierteGroesse = quelle.match(/projizierteGroesse = depotGroesseBytes\(\) \+/g) || [];
   assert.equal(projizierteGroesse.length, 1, 'die harte-Grenze-Prüfung sollte genau EINMAL im Quelltext stehen (ein Prüfpunkt, keine drei)');
 });

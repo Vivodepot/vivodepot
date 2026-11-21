@@ -19,6 +19,21 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
+## [v1.0.1069] – 2026-11-19
+
+### Hinzugefügt
+- Studio: Die Seite „Vorlage gesichert“ ist neu aufgebaut. Oben steht „Teilen mit Personen“ mit „Anfrage für Personen erstellen“. Ist die Anfrage signiert, steht dort „Link kopieren“. Darunter steht „Weitergeben an andere Stellen“ mit der Vorlage als Datei und dem Link zur Vorlage. Danach folgt „Speichern“ mit „Als Datei speichern“ und „Als PDF“.
+- Einlesen: Eine Geburtsurkunde (Antwort des Geburtenregisters nach XPersonenstand) lässt sich ins geöffnete Depot einlesen. Stehen auf der Urkunde Ihr Name und Ihr Geburtsdatum, zeigt die Anwendung „Name auf der Urkunde: … ✓“ und übernimmt die Angaben. Steht eine andere Person darauf, kommt die Urkunde mit „Als Unterlage übernehmen“ in Ihr Depot. Verwalten Sie ein Depot für diese Person, können Sie mit „In … Depot einlesen“ dorthin wechseln und die Urkunde dort einlesen.
+- Suche: Felder sind über ihren Namen auffindbar, in der Sprache der Oberfläche. Der Treffer nennt Bereich und Feld und öffnet den passenden Abschnitt.
+
+### Geändert
+- Studio: Die Wege nach dem Sichern („Link kopieren“, „Als Datei speichern“, „Als PDF“) sind ganze Listenzeilen mit dem Aktionswort rechts. Die ganze Zeile ist der Knopf. „Kopieren“ wird zu „Kopiert ✓“. „Als Datei speichern“ und „Als PDF“ zeigen „Gespeichert ✓“ und speichern auf Druck noch einmal.
+- Studio: Der QR-Code der Vorlage steht nicht mehr auf der Seite „Vorlage gesichert“; er geht beim Sichern weiter als Bilddatei hinaus, und sein Link steht im PDF. Unter „Teilen mit Personen“ steht noch kein QR-Code der Anfrage zum Aushängen; geben Sie dort den Link der Anfrage weiter.
+
+### Behoben
+- Einhängen eines Sub-Depots: Wird eine Datei abgewiesen, nennt die Anwendung jetzt in jedem Fall den Grund, neu zum Beispiel „Dieses Depot ist schon in Ihrer Verwaltung. Sie finden es unter Ihren Sub-Depots.“ Vorher stand in einigen Fällen ein technischer Fehlertext.
+- Englische Oberfläche: Beim Anlegen eines Depots für eine andere Person und beim Weitergeben des Depots steht die Auswahl der Beziehung zur Person auf Englisch, zum Beispiel „I am this person's child“.
+
 ## [v1.0.1065] – 2026-11-17
 
 ### Hinzugefügt

@@ -9,9 +9,9 @@
        (bei einem Feld „Ein Datenfeld, für <Stelle>“).
    (3) Oben „‹ Weiter bearbeiten“: die Seite nach dem Sichern schließt sich, die Felder bleiben.
    (4) Unten „Weitere Vorlage beginnen“: zurück auf den Start.
-   (5) Wortlaut der Wege: QR-Code „Zum Aushängen oder Vorzeigen am Schalter“, „Als Datei speichern“ mit
+   (5) Wortlaut der Wege: QR-Zeile „Den QR-Code zum Aushängen gibt es noch nicht. Bis dahin geben Sie den Link weiter.“, „Als Datei speichern“ mit
        „Zum späteren Öffnen und Ändern im Studio“, „Als PDF“ mit „Die Vorlage zum Lesen und Ablegen“.
-       Den QR-Code zeigt seit N75 erst „QR-Code zeigen“ (Probe tests/studio-nach-sichern-qr-zeigen.test.js).
+       Oben steht seit 18.11.2026 die Anfrage für Personen, den QR-Code der Vorlage zeigt die Seite nicht (Probe tests/studio-nach-sichern-anfrage-oben.test.js).
    ROT-BEWEIS: GENERATOR_HTML_PATH=<Fassung vor diesem Wagen> node --test tests/studio-nach-sichern-weiter-und-neu.test.js → alle rot.
    ═════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
@@ -101,8 +101,8 @@ test('[Nach Sichern · 3/4] oben „‹ Weiter bearbeiten“, unten „Weitere V
 
 test('[Nach Sichern · 5] Wortlaut der Wege wie im Dummy', () => {
   const f = funktion('vorlageErgebnisZeigen');
-  assert.match(f, /'Zum Aushängen oder Vorzeigen am Schalter'/);
+  assert.match(f, /'Den QR-Code zum Aushängen gibt es noch nicht\. Bis dahin geben Sie den Link weiter\.'/);
   assert.match(f, /L\('Als Datei speichern'/);
-  assert.match(f, /Zum späteren Öffnen und Ändern im Studio\./);
-  assert.match(f, /'Die Vorlage zum Lesen und Ablegen, mit den Dateien als Anhang'/);
+  assert.match(f, /L\('Zum späteren Öffnen und Ändern im Studio', /);   // wortgleich zum Dummy Z. 209 (18.11.2026)
+  assert.match(f, /L\('Die Vorlage zum Lesen und Ablegen', /);   // wortgleich zum Dummy Z. 210
 });

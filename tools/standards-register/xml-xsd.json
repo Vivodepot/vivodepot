@@ -159,6 +159,41 @@
       }
     },
     {
+      "id": "xpersonenstand",
+      "name": "XPersonenstand (XInneres-Fachmodul Personenstandswesen)",
+      "version": "26.11 (urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11, gültig ab 01.11.2026)",
+      "herausgeber": "Koordinierungsstelle für IT-Standards (KoSIT)",
+      "quelle": {
+        "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11",
+        "abgerufen": "2026-11-13"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Nutzungsbedingungen des XRepository (Impressum): Speicherung auf anderen Servern zur Nutzung durch Dritte nur mit vorheriger schriftlicher Genehmigung des Herausgebers. Genehmigung für die Schemadateien angefragt; bis dahin kein XSD im Repo."
+      },
+      "richtung": [
+        "lesen"
+      ],
+      "bereich": "identitaet",
+      "status": "orientiert",
+      "fassungAnzeige": "26.11",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "xpersonenstand-geburt",
+        "xpersonenstand-geburt-kind"
+      ],
+      "bezuege": null,
+      "grund": "Der Einleser erkennt die Antwort aus dem Geburtenregister (datenabruf2StA.AntwortGeburtSynchron.018011 oder datenabruf2StA.AntwortGeburtAsynchron.018012) am Wurzelelement und am Namensraum http://xpsw.domap.de/xpsw… (26.11: xpsw2611) und liest daraus Vornamen, Geburtsnamen, Geburtsdatum, Geburtsort und Geschlecht (beim Kind ohne Geschlecht), mit Standesamt und Registereintrag als Herkunft; keine Schemaprüfung der eingehenden Datei. Bedingung: sobald die schriftliche Genehmigung der KoSIT vorliegt, wird der Prüfer angeschlossen und der Deckel in tools/standards-register-deckung-grundlinie.json geht zurück auf 8.",
+      "kandidat": {
+        "werkzeug": "Offizielle XSD XPersonenstand 26.11 (xpersonenstand-nachrichten-datenabrufe.xsd mit Baukasten und XInneres-Basismodul), Prüfung mit xmllint, sobald die Genehmigung der KoSIT vorliegt",
+        "quelle": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11"
+      },
+      "seite": {
+        "name": "XPersonenstand (Fachmodul von XInneres), Antwort des Geburtenregisters lesen"
+      }
+    },
+    {
       "id": "elster",
       "name": "ELSTER (Steuerdaten der Finanzverwaltung)",
       "version": "keine: gelesen wird eine eigene JSON-Projektion, kein amtliches ELSTER-XML",

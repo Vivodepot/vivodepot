@@ -68,6 +68,8 @@ function studioGeladen() {
   const html = fsm.readFileSync(GEN_PATH, 'utf8');
   const a = html.indexOf('<script id="qrcode_VivodepotInline">');
   vm.runInContext(html.slice(html.indexOf('>', a) + 1, html.indexOf('</script>', a)), g.sandbox);
+  /* Gemessen wird die Ausgabe in drei Wegen, wie sie mit hochgeladener Abholseite gilt (Schalter ABHOLSEITE_LIVE im Studio). */
+  vm.runInContext('ABHOLSEITE_LIVE = true', g.sandbox);
   return g;
 }
 const F = (feldname, bereich) => ({ feldname, feldtyp: 'text', pflicht: false, bereich, gruppe: 'Angaben' });

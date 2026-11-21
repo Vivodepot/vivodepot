@@ -145,13 +145,13 @@ test('[Versions-Belege] keine Marker im Code → leere Liste, nicht erfunden', (
   assert.deepEqual(versionsBelegeAusFunktion(fn), []);
 });
 
-test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 12 Export- und 18 Import-Formate', () => {
+test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 12 Export- und 20 Import-Formate', () => {
   const f = erzeugeFaktenbasis();
   assert.ok(f.adrZahl > 130, `zu wenige ADR-Einträge erkannt: ${f.adrZahl}`);
   assert.ok(!f.adr.some((a) => a.titel.startsWith('(kein Titel')), 'unlesbare ADR-Titel im echten Lauf');
   // 11 -> 10 (U2-ADR-508, 18.09.2026): der offene JSON-Vollexport ist aus EXPORT_FORMATE entfernt.
   assert.equal(f.exportFormateZahl, 12);   // 11 -> 12 (05.10.2026: kbv-pka, U2-ADR-471); 10 -> 11 (01.10.2026, v863: isik, U2-ADR-468)
-  assert.equal(f.importFormateZahl, 18);   // 17 → 18 (30.09.2026, v836: openbadges-3-extern, U2-ADR-445)
+  assert.equal(f.importFormateZahl, 20);   // 18 → 20 (13.11.2026: XPersonenstand Geburtsurkunde, eigene und eines Kindes); 17 → 18 (30.09.2026, v836: openbadges-3-extern, U2-ADR-445)
 });
 
 test('[--check] normalisiertFuerVergleich blendet Kopfzeile UND Suite-Zeile aus, sonst nichts', () => {

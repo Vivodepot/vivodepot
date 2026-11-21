@@ -503,6 +503,10 @@ const EXPORT_HOOK = `
   aktiverSubName, imSubKontext, ankerDaten,
   podEingerichtet: (typeof podEingerichtet !== 'undefined' ? podEingerichtet : undefined),
   shlLinkMitAbholseite: (typeof shlLinkMitAbholseite !== 'undefined' ? shlLinkMitAbholseite : undefined),
+  // Geburtsurkunde, Depots autark (13.11.2026); typeof, damit ältere Fassungen (Migrationsproben) weiter laden.
+  xpsGeburtVorschauModell: (typeof xpsGeburtVorschauModell !== 'undefined' ? xpsGeburtVorschauModell : undefined),
+  flowXpsGeburtVorschau: (typeof flowXpsGeburtVorschau !== 'undefined' ? flowXpsGeburtVorschau : undefined),
+  xpsGeburtAlsUnterlage: (typeof xpsGeburtAlsUnterlage !== 'undefined' ? xpsGeburtAlsUnterlage : undefined),
   sicherungskopieToastText: (typeof sicherungskopieToastText !== 'undefined' ? sicherungskopieToastText : undefined),
   flowSubKontextBetreten, flowSubKontextVerlassen,
   flowSubDepotEntsiegeln: (typeof flowSubDepotEntsiegeln === 'function' ? flowSubDepotEntsiegeln : undefined),   // UX-SUBDEPOT-RUECKWEG (30.10.2026): „Mit Passwort öffnen“ führt hinein
@@ -575,6 +579,7 @@ const EXPORT_HOOK = `
   // v929 — Anzeige-Modell für Importe, Grund einer abgelehnten Anfrage, Leser der Vorlagen-Formatfassung
   importAnzeigeModell: (typeof importAnzeigeModell !== 'undefined' ? importAnzeigeModell : undefined),
   importAnzeigeText: (typeof importAnzeigeText !== 'undefined' ? importAnzeigeText : undefined),
+  einhaengenAbweisungText: (typeof einhaengenAbweisungText === 'function' ? einhaengenAbweisungText : undefined),   // Einhängen über das Anzeige-Modell (seit 18.11.2026; ältere Kerne kennen sie nicht)
   importAnzeigeZeigen: (typeof importAnzeigeZeigen !== 'undefined' ? importAnzeigeZeigen : undefined),
   IMPORT_ANZEIGE_ARTEN: (typeof IMPORT_ANZEIGE_ARTEN !== 'undefined' ? IMPORT_ANZEIGE_ARTEN : undefined),
   anfrageAblehnungsGrund: (typeof anfrageAblehnungsGrund !== 'undefined' ? anfrageAblehnungsGrund : undefined),
@@ -1405,6 +1410,7 @@ const EXPORT_HOOK = `
   _beziehungZuLesen: (typeof _beziehungZuLesen === 'function' ? _beziehungZuLesen : undefined),
   subDepotBeziehungSetzen: (typeof subDepotBeziehungSetzen === 'function' ? subDepotBeziehungSetzen : undefined),
   _beziehungsAuswahlFuellen: (typeof _beziehungsAuswahlFuellen === 'function' ? _beziehungsAuswahlFuellen : undefined),
+  _beziehungsText: (typeof _beziehungsText === 'function' ? _beziehungsText : undefined),   // EN-BEZIEHUNGSLISTE-DEUTSCH (18.11.2026)
   // Benannte Vollmacht im Sub-Depot (05.11.2026)
   _vertretungsVollmachtLesen: (typeof _vertretungsVollmachtLesen === 'function' ? _vertretungsVollmachtLesen : undefined),
   subDepotVollmachtSetzen: (typeof subDepotVollmachtSetzen === 'function' ? subDepotVollmachtSetzen : undefined),

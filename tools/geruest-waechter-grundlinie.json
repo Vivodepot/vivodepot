@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 330122
+   "bytes": 331401
   },
   "satz": {
-   "bytes": 27422
+   "bytes": 26798
   }
  },
  "fremdcode": [
@@ -269,8 +269,8 @@
    },
    {
     "name": "STANDARDS-SEITE",
-    "satz": 1819,
-    "grund": "Die Seite „Standards und Vereinbarungen“ als erzeugte Daten aus tools/standards-register: Name, Herausgeber und Fassung je Standard, den das Produkt liest oder schreibt. Kein Handtext: der Block kommt aus tools/standards-seite-erzeugen.js, die Probe vergleicht ihn mit der Ausgabe des Registers (Rot-Beweis: Handtext und geänderter Name fallen auf). Aufgenommen 16.11.2026 (U-ST) mit Einzelwort.",
+    "satz": 1941,
+    "grund": "Die Seite „Standards und Vereinbarungen“ als erzeugte Daten aus tools/standards-register: Name, Herausgeber und Fassung je Standard, den das Produkt liest oder schreibt. Kein Handtext: der Block kommt aus tools/standards-seite-erzeugen.js, die Probe vergleicht ihn mit der Ausgabe des Registers (Rot-Beweis: Handtext und geänderter Name fallen auf). Aufgenommen 16.11.2026 (U-ST) mit Einzelwort. Angehoben 1819 → 1941 am 17.11.2026 um genau die Zeile XPersonenstand (Antwort des Geburtenregisters lesen).",
     "probe": "tests/standards-seite-erzeugt.test.js"
    },
    {
@@ -4034,6 +4034,39 @@
    "auf": 330122,
    "daneben": {},
    "grund": "Verweis-Auswahl: der gespeicherte Verweis bleibt als gewählte Option stehen, auch außerhalb der Vorschläge (VERWEIS-VERLUST-PFLEGEDIENST, VERWEIS-ERSATZ-NOTFALLNACHBAR)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 330122,
+   "auf": 330365,
+   "daneben": {},
+   "grund": "Import-Anzeige: Einhängen und Sub-Depot-Fehler zeigen ihren Grund (IMPORT-VERWIRFT-OHNE-ANZEIGE)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 330365,
+   "auf": 331376,
+   "daneben": {},
+   "grund": "Geburtsurkunde XPersonenstand einlesen (D74–D76): Einleser, Hinweis bei anderer Person, Knöpfe In Depot einlesen und Als Unterlage übernehmen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 331376,
+   "auf": 331401,
+   "daneben": {},
+   "grund": "Suche findet Felder über ihren Namen (SUCHE-OHNE-FELDNAMEN, 18.11.2026)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

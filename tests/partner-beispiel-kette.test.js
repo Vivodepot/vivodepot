@@ -2,7 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    Partner-Beispiel: die ganze Kette einer Einrichtung, die eine eigene Vorlage herausgibt (08.11.2026)
    ────────────────────────────────────────────────────────────────────────
-   Studio (Beispiel „Anmeldung Stadtbibliothek“) → Partner signiert die Vorlage → Zertifikat aus einem
+   Studio (Beispiel „Bibliotheksausweis“) → Partner signiert die Vorlage → Zertifikat aus einem
    Test-Anker → Einlesen im Kern über den Fachpfad `provider-credential` → Ausfüllen → Ausgabe als Blatt
    mit Herkunftszeile. Die Einrichtung ist erfunden (Fixture `fixtures/partner-beispiel/`).
 

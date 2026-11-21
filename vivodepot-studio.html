@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-5MiKQ36aZGgLRFgWclUoBZ5S1vNPJfB1tMoWgV3OjDA=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-NYMntYU1omERPsdXe1d/nBgyieCcj3jUD+8B+Lk3gIs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-fpnMzUcdZN6ERVxKzC+q5PJbHeDr07C/R8j/xVoBbS8=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-NYMntYU1omERPsdXe1d/nBgyieCcj3jUD+8B+Lk3gIs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -267,6 +267,13 @@
   .ergebnis-name { font-size: var(--fs-role-gruppe); font-weight: 700; margin: 6px 0 0; }
   .ergebnis-zahl { color: var(--grau); margin: 2px 0 6px; }
   .gruppe-kopf { font-size: var(--fs-role-hilfe); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--grau); margin: 14px 0 4px; }
+  /* Wege nach dem Sichern als ganze Listenzeile, das Aktionswort rechts (Dummy 14.11.2026 Z. 202–211, Zeile .liste). */
+  /* Die Linie wie --linie im Dummy; --rand ist in der Arbeitsfläche durchsichtig (Gestaltung ohne Ränder). */
+  .ns-liste { --ns-linie: color-mix(in srgb, var(--salbei-dunkel) 18%, transparent); background: var(--karte); border: 1px solid var(--ns-linie); border-radius: 12px; margin: 0 0 12px; color: var(--text); }
+  .ns-liste .ns-weg { display: flex; width: 100%; text-align: left; gap: 10px; align-items: center; padding: 14px 16px; min-height: 54px; margin: 0; border: 0; border-top: 1px solid var(--ns-linie); border-radius: 0; background: none; color: inherit; font: inherit; filter: none; }
+  .ns-liste .ns-weg:first-child { border-top: 0; }
+  .ns-liste .ns-weg .t { display: block; color: var(--grau); font-size: var(--fs-role-hilfe); }
+  .ns-liste .ns-weg .w { margin-left: auto; color: var(--akzent-dunkel); font-size: var(--fs-role-hilfe); font-weight: 600; white-space: nowrap; }
   .leer-hinweis { color: var(--grau); font-style: italic; }
   .cw-zeile { display: grid; grid-template-columns: 1fr 1.4fr 1fr auto; gap: 8px; margin: 6px 0; }
   .cw-zeile input { padding: 6px 8px; }
@@ -354,6 +361,9 @@
   .mehr { padding-bottom: 24px; }
 
   .raum-bau { padding-top: 14px; }
+  /* Nach dem Sichern ein eigener Bildschirm wie im Dummy (Z. 195–214): nur das Ergebnis und „Wie geht es weiter“, die Arbeitsfläche
+     ruht bis „‹ Weiter bearbeiten“. Probe: tests/studio-dummy-fertig-seite.test.js. */
+  .raum-bau.gesichert > :not(#sichern-ergebnis):not(#nach-sichern) { display: none; }
   .bau-leiste { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   /* Kopf auf allen Breiten wie im Vorgabe-Dummy: „‹ Studio“ und „Vorlage sichern“. Schalter und Wegband stehen unter den Reitern,
      „Entwurf sichern“ und „Fertigstellen und einreichen“ unter der Vorlage. Probe: tests/studio-telefon-kopf-s3r.test.js. */
@@ -1831,7 +1841,7 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
     <div class="kacheln kacheln-beispiel">
       <button type="button" class="kachel" id="bsp-bibliothek">
         <span class="kachel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 19V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM8 7h6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
-        <span class="kachel-titel" data-en="City library registration">Anmeldung Stadtbibliothek</span>
+        <span class="kachel-titel" data-en="Library card">Bibliotheksausweis</span>
         <span class="kachel-text" data-en="Name, date of birth, address, proof for the reduced fee">Name, Geburtsdatum, Anschrift, Nachweis für die Ermäßigung</span>
       </button>
       <button type="button" class="kachel" id="bsp-verein">
@@ -1986,7 +1996,7 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
         <div id="tpl-angleich" class="meldung warn" role="status" aria-live="polite" hidden></div>
         <div class="vorlage-kopf" id="vorlage-kopf">
           <label for="tpl-name" data-en="Name of the template">Name der Vorlage</label>
-          <input type="text" id="tpl-name" autocomplete="off" maxlength="120" placeholder="z. B. Anmeldung Stadtbibliothek" data-en-ph="e.g. City library registration">
+          <input type="text" id="tpl-name" autocomplete="off" maxlength="120" placeholder="z. B. Bibliotheksausweis" data-en-ph="e.g. Library card">
           <p class="meldung fehler" id="tpl-name-meldung" role="alert" hidden data-en="Give the template a name.">Geben Sie der Vorlage einen Namen.</p>
           <label for="tpl-zweck" data-en="Purpose of the data transfer (the person reads this)">Zweck der Datenübernahme (liest die Person)</label>
           <textarea id="tpl-zweck" rows="2" maxlength="400" placeholder="z. B. Wir brauchen diese Daten, um Ihren Ausweis auszustellen." data-en-ph="e.g. We need these details to issue your card."></textarea>
@@ -11785,6 +11795,9 @@ const MARKEN_ADRESSEN = Object.freeze({
   anfrageZiel: Object.freeze({ de: 'https://privat-de.vivodepot.org/', en: 'https://privat-en.vivodepot.org/' }),
   anfrageAblage: Object.freeze({ de: 'https://share.vivodepot.de/anfrage.html', en: 'https://share.vivodepot.de/anfrage.html' }),
 });
+/* Die Abholseite (MARKEN_ADRESSEN.anfrageAblage) ist seit 19.11.2026 live. Steht sie einmal nicht, schaltet dieser Schalter Link und
+   QR-Code der Vorlage ab, damit kein Code auf eine Fehlerseite führt (Probe tests/qr-abholseite-quelle.test.js für die Quelle). */
+let ABHOLSEITE_LIVE = true;
 function markeAdresse(schluessel) {
   const e = MARKEN_ADRESSEN[schluessel];
   return e ? (e[LANG] || e.de) : '#';
@@ -12545,23 +12558,24 @@ const BEISPIEL_TEMPLATES = Object.freeze({
     ],
   },
   bibliothek: {
-    titel: 'Anmeldung Stadtbibliothek', titelEn: 'City library registration',
-    beschreibung: 'Leseausweis, auch für Familien (Stadtbibliothek).',
+    /* Wie das Beispiel „Bibliotheksausweis“ im freigegebenen Dummy vom 14.11.2026 (Z. 158, 248): Name, Zweck und die Bausteine
+       Vorname, Nachname, Geburtsdatum, Anschrift und der Nachweis für eine Ermäßigung (freiwillig). Der Feldname des Nachweises
+       ist der des Kernfelds socialInsurance.reducedRateProofs (U2-ADR-527, eine Liste); nur so findet das Depot das Feld.
+       Probe: tests/studio-dummy-nachweise.test.js. */
+    titel: 'Bibliotheksausweis', titelEn: 'Library card',
+    zweck: 'Ausstellen eines Bibliotheksausweises', zweckEn: 'Issuing a library card',
+    kachel: 'Name, Geburtsdatum, Anschrift, Nachweis für die Ermäßigung', kachelEn: 'Name, date of birth, address, proof for the reduced fee',
+    beschreibung: 'Ausstellen eines Bibliotheksausweises (Stadtbibliothek).',
     felder: [
       { feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
       { feldname: 'Nachname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
       { feldname: 'Geburtsdatum', feldtyp: 'datum', pflicht: true, bereich: 'identity', gruppe: 'Person' },
-      /* Wie das Beispiel „Bibliotheksausweis“ im freigegebenen Dummy vom 14.11.2026 (Z. 248): Anschrift und der Nachweis für eine
-         Ermäßigung (freiwillig). Die übrigen Felder bleiben; die Liste mit Unterfeldern zeigt das Beispiel weiter. */
       { feldname: 'Straße', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
       { feldname: 'Hausnummer', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
       { feldname: 'Postleitzahl', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
       { feldname: 'Ort', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
       { feldname: 'Nachweise für eine Ermäßigung', feldtyp: 'text', pflicht: false, bereich: 'socialInsurance', gruppe: 'Ermäßigung' },
-      { feldname: 'E-Mail', feldtyp: 'text', pflicht: false, bereich: 'identity', gruppe: 'Person', hilfetext: 'Für die Erinnerung vor Ablauf der Leihfrist.' },
-      { feldname: 'Art des Ausweises', feldtyp: 'auswahl', pflicht: true, bereich: 'administration', gruppe: 'Leseausweis',
-        codeWerte: [{ code: 'erwachsene', anzeige: 'Erwachsene' }, { code: 'ermaessigt', anzeige: 'Ermäßigt' }, { code: 'familie', anzeige: 'Familienausweis' }] },
-      { feldname: 'Erinnerung vor Ablauf der Leihfrist', feldtyp: 'jaNein', pflicht: false, bereich: 'administration', gruppe: 'Leseausweis' },
+      /* Die Liste mit Unterfeldern bleibt über den Dummy hinaus: sie zeigt die Vorführung (Nachtrag U2-ADR-493, T-CROSS-41). */
       { feldname: 'Weitere Personen im Familienausweis', feldtyp: 'liste', pflicht: false, bereich: 'administration', gruppe: 'Leseausweis',
         unterFelder: [{ feldname: 'Vorname', feldtyp: 'text' }, { feldname: 'Nachname', feldtyp: 'text' }, { feldname: 'Geburtsdatum', feldtyp: 'datum' }] },
     ],
@@ -13243,6 +13257,7 @@ function vorlageKopfLesen() {
 function vorlageKopfFuellen() {
   const n = $('tpl-name'), z = $('tpl-zweck');
   if (n) n.value = STATE.vorlageName || ''; if (z) z.value = STATE.vorlageZweck || '';
+  anfrageVorschauRendern();   // die Vorschau zeigt Name und Zweck gleich mit, auch wenn ein Beispiel sie einträgt (18.11.2026)
 }
 
 /* A351, Zug 2 — die Anzeige. Getrennt vom Satzbau (`angleichSatz`), damit die Probe den
@@ -13820,9 +13835,8 @@ async function anfrageQrTeilAnhaengen(ergBox, umschlag, state) {
     ergBox.appendChild(teil);
     return;
   }
-  teil.appendChild(el('p', { text: L('1. Legen Sie diese kompakte Form ab — auf Ihrem eigenen Webspace oder hier: ', '1. Publish this compact form — on your own web space or here: ') },
-    [el('a', { href: markeAdresse('anfrageAblage'), target: '_blank', rel: 'noopener noreferrer', text: markeAdresse('anfrageAblage') }),
-     L('. Sie bekommen eine kurze Adresse. Wer den QR-Code scannt, braucht für diese Adresse ein Netz; Vivodepot selbst lädt dabei nichts.',
+  teil.appendChild(el('p', { text: L('1. Legen Sie diese kompakte Form auf Ihrem eigenen Webspace ab', '1. Publish this compact form on your own web space') },
+    [L('. Sie bekommen eine kurze Adresse. Wer den QR-Code scannt, braucht für diese Adresse ein Netz; Vivodepot selbst lädt dabei nichts.',
        '. You get a short address. Whoever scans the QR code needs a network for that address; Vivodepot itself loads nothing.')]));
   teil.appendChild(el('code', { class: 'sub-id', id: 'anf-kompakt', text: kompakt }));
   teil.appendChild(el('button', { type: 'button', class: 'btn-sekundaer', text: L('Kompakte Form herunterladen', 'Download compact form'),
@@ -14875,6 +14889,7 @@ async function submissionErzeugen(ev) {
 const BEISPIEL_KACHEL_FELDER_MAX = 5;
 function beispielKachelText(id) {
   const b = BEISPIEL_TEMPLATES[id]; if (!b || !Array.isArray(b.felder)) return '';
+  if (b.kachel) return L(b.kachel, b.kachelEn || b.kachel);   // Wortlaut des Dummys, wo er die Bausteine zusammenfasst (Anschrift, Name)
   const namen = [];
   for (const f of b.felder) if (f && f.feldname) namen.push(f.feldname);
   const kurz = namen.slice(0, BEISPIEL_KACHEL_FELDER_MAX).join(', ');
@@ -14899,6 +14914,8 @@ function ladeBeispiel(id) {
   /* Wie im Dummy trägt ein Beispiel seinen Namen ins Feld „Name der Vorlage“, wenn dort noch keiner steht; sonst verlangte
      „Vorlage sichern“ einen Namen, den das Beispiel schon hat. */
   if (!String(STATE.vorlageName || '').trim()) { STATE.vorlageName = L(b.titel, titelEn); vorlageKopfFuellen(); vorlageTitelHinweis(false); }
+  /* Wie im Dummy trägt das Beispiel auch den Zweck ein, wenn dort noch keiner steht (Dummy Z. 248 „wofuer“). */
+  if (b.zweck && !String(STATE.vorlageZweck || '').trim()) { STATE.vorlageZweck = L(b.zweck, b.zweckEn || b.zweck); vorlageKopfFuellen(); }
   status.className = 'meldung ok';
   status.textContent = L('Beispiel „' + b.titel + '“ geladen — bitte an Ihren Bedarf anpassen.', 'Example “' + titelEn + '” loaded. Adapt it to your needs; the field names stay in German.');
   status.hidden = false;
@@ -15341,6 +15358,8 @@ function dlgZu(id) {
    Probe: tests/studio-einreichen-nach-sichern.test.js. */
 let nachSichernStand = null;
 let nachSichernAnfrage = null;
+/* Das zuletzt gezeigte Ergebnis von „Vorlage sichern“: entsteht danach die signierte Anfrage, stehen Link und QR-Zeile oben auf der Seite. */
+let letztesVorlageErgebnis = null;
 function nachSichernZeigen() {
   const p = $('nach-sichern'); if (!p) return;
   nachSichernStand = JSON.stringify(STATE.felder);
@@ -15369,6 +15388,7 @@ function nachSichernAnfrageMerken(umschlag, state) {
   if (!umschlag || !umschlag.anfrageJws) return;
   nachSichernAnfrage = { umschlag, state: { anbieter: state && state.anbieter ? { anbieterId: state.anbieter.anbieterId } : null } };
   const p = $('nach-sichern'); if (p && !p.hidden) nachSichernAnfrageRendern();
+  if (letztesVorlageErgebnis) vorlageErgebnisZeigen(letztesVorlageErgebnis);
 }
 
 /* ── Räume und der Weg zur Einreichung ──────────────────────────────────── */
@@ -15398,6 +15418,7 @@ function zeigeSchritt(id) {
   if (aktiverSchritt !== id) wegHalten(aktiverSchritt);   // S-G: was in einem Weg steht, bleibt im Fenster gehalten (Arbeitsspeicher)
   aktiverSchritt = id;
   if (id === 'willkommen' || id === 'fachebene' || id === 'template' || id === 'blatt') fertigEinfach = false;
+  if (id === 'willkommen' || id === 'fachebene') nachSichernSchliessen();   // zurück auf dem Start beginnt eine neue Vorlage; die Seite „Vorlage gesichert“ geht zu
   if (id === 'blatt') { blattModusSetzen(true); dlgZu('dlg-fertig'); raumZeigen('bau'); blattIconsBefuellen(); rendereFelder(); blattEigenschaftenFuellen(); wegAktualisieren(); return; }
   if ((id === 'willkommen' || id === 'fachebene' || id === 'template') && STATE.art === 'blatt') blattModusSetzen(false);
   if (id === 'willkommen') { dlgZu('dlg-fertig'); raumZeigen('start'); assistentZeigen(); }   // Studio öffnet auf dem Start (Dummy 14.11., N03)
@@ -15481,7 +15502,8 @@ const STUDIO_GRUPPEN = Object.freeze([
   { id: 'nachweise', de: 'Nachweise und Dokumente', en: 'Proofs and documents',
     bereiche: ['mobility', 'assets', 'advanceCare', 'emergencyPreparedness', 'socialInsurance', 'pro-aufbewahrung-ordnung', 'pro-vertretung-vollmachten',
       'pro-gesellschaft-nachfolge', 'pro-kontakte-vertretungsplan', 'pro-betrieb-zugaenge'],
-    haeufig: ['identity.idDocuments', 'identity.profilePhotoCoverPage'] },
+    /* Wie der Dummy (Z. 229–233): Ausweis, Meldebescheinigung, Nachweis für eine Ermäßigung, Foto. Probe: tests/studio-dummy-nachweise.test.js. */
+    haeufig: ['identity.idDocuments', 'housing.registrationCertificate', 'socialInsurance.reducedRateProofs', 'identity.profilePhotoCoverPage'] },
   { id: 'gesundheit', de: 'Gesundheit', en: 'Health', bereiche: ['health'],
     haeufig: ['health.healthInsurance', 'health.medicationOngoing', 'health.allergiesMedicationFoodOther'] },
   { id: 'zahlung', de: 'Zahlung', en: 'Payment', bereiche: ['finance', 'pro-finanzen-verbindlichkeiten'], haeufig: ['finance.accounts'] },
@@ -15490,7 +15512,8 @@ const STUDIO_GRUPPEN = Object.freeze([
 /* N28: „Anschrift“ ist ein Baustein und legt die vier Kernfelder zusammen ab (Gruppe „Anschrift“); die Ausgabe trägt weiter vier Felder. */
 const ANSCHRIFT_KENNUNGEN = Object.freeze(['identity.street', 'identity.houseNumber', 'identity.postalCode', 'identity.city']);
 /* N56: ein Katalogbaustein wird als Pflicht abgelegt; freiwillig sind E-Mail, Telefon, Allergien, Foto (D14:252, 257) und alle eigenen Felder. */
-const FREIWILLIGE_KENNUNGEN = Object.freeze(['identity.email', 'identity.telephone', 'health.allergiesMedicationFoodOther', 'identity.profilePhotoCoverPage']);
+const FREIWILLIGE_KENNUNGEN = Object.freeze(['identity.email', 'identity.telephone', 'health.allergiesMedicationFoodOther', 'identity.profilePhotoCoverPage',
+  'socialInsurance.reducedRateProofs']);   // Dummy Z. 253: auch der Nachweis für eine Ermäßigung ist freiwillig
 /* N39/N40: offen in „Eigene Felder“, mehrfach ablegbar; die übrigen Feldarten stehen unter „Weitere Feldarten“ und über „Bearbeiten“. */
 const EIGENE_BAUSTEINE = Object.freeze([
   { typ: 'text', de: 'Eigenes Textfeld', en: 'Own text field' },
@@ -16104,6 +16127,7 @@ function statusAlsMeldung() {
   let uhr = null;
   new MutationObserver(() => {
     if (!chip.textContent.trim()) { chip.classList.remove('toast-an'); return; }
+    if (chip.hasAttribute('data-ohne-hinweis')) { chip.removeAttribute('data-ohne-hinweis'); chip.classList.remove('toast-an'); clearTimeout(uhr); return; }
     chip.classList.add('toast-an'); clearTimeout(uhr);
     uhr = setTimeout(() => chip.classList.remove('toast-an'), STATUS_MELDUNG_MS);
   }).observe(chip, { childList: true, characterData: true, subtree: true });
@@ -16413,6 +16437,8 @@ function vorlageErgebnisZeigen(erg) {
   if (!box) return;
   leeren(box);
   box.hidden = false; box.className = 'meldung ok';
+  const raum = $('raum-bau'); if (raum && raum.classList) raum.classList.add('gesichert');
+  if (typeof window !== 'undefined' && window.scrollTo) window.scrollTo(0, 0);
   const zeile = (titel, text) => el('p', {}, [el('strong', { text: titel + ': ' }), text]);
   const gruppe = (text) => el('p', { class: 'gruppe-kopf', text });
   /* Oben zurück in die Vorlage, unten eine weitere beginnen: Wortlaut wie im freigegebenen Dummy vom 14.11.2026.
@@ -16422,50 +16448,73 @@ function vorlageErgebnisZeigen(erg) {
   box.appendChild(el('strong', { text: L('Vorlage gesichert', 'Template saved') }));
   if (erg.name) box.appendChild(el('p', { class: 'ergebnis-name', id: 'ns-vorlage-name', text: erg.name }));
   if (erg.stelle) box.appendChild(el('p', { class: 'ergebnis-zahl', id: 'ns-vorlage-zahl', text: vorlageZahlZeile(erg.zahl || 0, erg.stelle) }));
-  /* Gruppen wie der freigegebene Dummy vom 14.11.2026: erst an Personen geben, dann aufbewahren.
-     „Link kopieren“ kopiert den Link, den der QR-Code trägt. Probe: tests/studio-wie-dummy-start-und-sichern.test.js. */
-  box.appendChild(gruppe(L('Vorlage an Personen geben', 'Give the template to people')));
-  if (!erg.qr) box.appendChild(zeile(L('QR-Code', 'QR code'), L('konnte nicht erstellt werden', 'could not be created')));
-  else {
-    box.appendChild(el('p', {}, [el('strong', { text: L('Link kopieren', 'Copy link') + ': ' }),
-      L('Für E-Mail, Brief oder Ihre Website', 'For e-mail, letter or your website') + ' ',
-      ergebnisKopierKnopf('vorlage-link', () => erg.qr.link, L('Link kopieren', 'Copy link'))]));
-    /* Der QR-Code steht erst nach „QR-Code zeigen“ da, wie im freigegebenen Dummy vom 14.11.2026 (Z. 204–206, N75);
-       derselbe Knopf verbirgt ihn wieder. Die Datei des QR-Codes geht unverändert beim Sichern hinaus.
-       Probe: tests/studio-nach-sichern-qr-zeigen.test.js. */
-    const qrBlock = el('div', { class: 'ns-qr', id: 'ns-qr' }, [
-      el('img', { src: erg.qr.qr.dataUrl, alt: L('QR-Code zur Vorlage: ', 'QR code for the template: ') + erg.qr.link, class: 'anfrage-qr-bild' }),
-      el('p', { class: 'sub-id', 'data-qr-adresse': '1', text: erg.qr.link })]);
-    qrBlock.hidden = true;
-    const qrKnopf = el('button', { type: 'button', class: 'as-knopf klein', id: 'ns-qr-zeigen', 'aria-controls': 'ns-qr', 'aria-expanded': 'false',
-      onclick: () => qrZeigenUmschalten(qrKnopf, qrBlock) }, [L('Zeigen', 'Show')]);
-    box.appendChild(el('p', {}, [el('strong', { text: L('QR-Code zeigen', 'Show QR code') + ': ' }), (erg.qr.art === 'inhalt'
-      ? L('Zum Aushängen oder Vorzeigen am Schalter', 'For posting up or showing at the counter')
-      : L('Der Inhalt ist zu groß für den Code. Er führt auf die Abholseite; legen Sie die Datei dort ab.',
-        'The content is too large for the code. It leads to the pick-up page; place the file there.')) + ' ', qrKnopf]));
-    box.appendChild(qrBlock);
+  /* Oben die Anfrage für die Person am Schalter, darunter die Vorlage für andere Stellen, dann Speichern (Produktverantwortung 18.11.2026: „Die Idee
+     war, dass die Person am Schalter den QR-Code scannt“; Dummy 14.11.2026 Z. 201). Wege als ganze Listenzeilen mit dem Aktionswort
+     rechts (Dummy Z. 202–211). Der Link der Anfrage führt direkt in die Anwendung der Person. Einen QR-Code der Anfrage gibt es erst mit
+     der kurzen Adresse der Ablage (U2-ADR-460); bis dahin steht kein Code da, der ins Leere führt.
+     Probe: tests/studio-nach-sichern-anfrage-oben.test.js. */
+  letztesVorlageErgebnis = erg;
+  const gespeichert = L('Gespeichert ✓', 'Saved ✓');
+  const kopieren = (text) => async () => {
+    let ok = false;
+    try { ok = await textKopieren(text); } catch (_) { ok = false; }
+    return ok ? L('Kopiert ✓', 'Copied ✓') : L('Nicht möglich', 'Not possible');
+  };
+  box.appendChild(gruppe(L('Teilen mit Personen', 'Share with people')));
+  const personen = el('div', { class: 'ns-liste', id: 'ns-liste-personen' });
+  box.appendChild(personen);
+  const anfrage = nachSichernAnfrage && nachSichernAnfrage.umschlag;
+  if (!anfrage) {
+    personen.appendChild(nsWegZeile({ id: 'ns-weg-anfrage-erstellen', titel: L('Anfrage für Personen erstellen', 'Create a request for people'),
+      text: L('Dafür braucht es die Angaben Ihrer Stelle und Ihren Schlüssel. Danach stehen hier Link und QR-Code.',
+        'This needs your organisation’s details and your key. The link and QR code then appear here.'),
+      wort: L('Erstellen', 'Create'), tat: () => { anfrageAssistentEintreten(); zeigeSchritt('anfrage'); } }));
+  } else {
+    personen.appendChild(nsWegZeile({ id: 'ns-weg-anfrage-link', titel: L('Link kopieren', 'Copy link'),
+      text: L('Für E-Mail, Brief oder Ihre Website. Wer den Link öffnet, sieht, welche Angaben Sie erfragen, und antwortet aus dem eigenen Depot.',
+        'For e-mail, letter or your website. Whoever opens the link sees which details you ask for and answers from their own depot.'),
+      wort: L('Kopieren', 'Copy'), tat: kopieren(anfrageAlsLink(anfrage)) }));
+    personen.appendChild(nsWegZeile({ id: 'ns-weg-anfrage-qr', titel: L('QR-Code zum Aushängen', 'QR code for a notice'),
+      text: L('Den QR-Code zum Aushängen gibt es noch nicht. Bis dahin geben Sie den Link weiter.', 'The QR code for a notice is not available yet. Until then, please pass on the link.') }));
   }
-  box.appendChild(gruppe(L('Vorlage aufbewahren', 'Keep the template')));
-  box.appendChild(zeile(L('Als Datei speichern', 'Save as a file'), L('Zum späteren Öffnen und Ändern im Studio. Im Standard, der zum Thema passt.',
-    'To open and change later in the Studio. In the standard that fits the topic.')));
-  box.appendChild(zeile(L('Als PDF', 'As a PDF'), erg.pdf ? L('Die Vorlage zum Lesen und Ablegen, mit den Dateien als Anhang', 'The template to read and file, with the files attached')
-    : L('konnte nicht erstellt werden: ', 'could not be created: ') + erg.pdfFehler));
+  box.appendChild(gruppe(L('Weitergeben an andere Stellen', 'Pass on to other organisations')));
+  const stellen = el('div', { class: 'ns-liste', id: 'ns-liste-stellen' });
+  box.appendChild(stellen);
+  stellen.appendChild(nsWegZeile({ id: 'ns-weg-vorlage-datei', titel: L('Vorlage als Datei weitergeben', 'Pass on the template as a file'),
+    text: L('Eine andere Stelle öffnet die Datei im Studio und baut daraus ihre eigene Anfrage.', 'Another organisation opens the file in the Studio and builds its own request from it.'),
+    wort: L('Speichern', 'Save'), tat: erg.dateiSpeichern ? () => { erg.dateiSpeichern(); return gespeichert; } : null }));
+  /* Der Link zeigt die Vorlage auf der Abholseite (share/anfrage.html): Name, Angaben und „Als Datei speichern“ fürs eigene Studio. */
+  if (erg.qr) stellen.appendChild(nsWegZeile({ id: 'ns-weg-vorlage-link', titel: L('Link zur Vorlage kopieren', 'Copy link to the template'),
+    text: L('Der Link zeigt, welche Angaben die Vorlage erfragt; eine andere Stelle speichert sie dort für ihr Studio.',
+      'The link shows which details the template asks for; another organisation saves it there for its Studio.'),
+    wort: L('Kopieren', 'Copy'), tat: kopieren(erg.qr.link) }));
+  box.appendChild(gruppe(L('Speichern', 'Save')));
+  const aufbewahren = el('div', { class: 'ns-liste', id: 'ns-liste-aufbewahren' });
+  box.appendChild(aufbewahren);
+  aufbewahren.appendChild(nsWegZeile({ id: 'ns-weg-datei', titel: L('Als Datei speichern', 'Save as a file'), text: L('Zum späteren Öffnen und Ändern im Studio', 'To open and change later in the Studio'), wort: gespeichert,
+    attrs: { 'aria-label': L('Noch einmal als Datei speichern', 'Save as a file again') }, tat: erg.dateiSpeichern ? () => { erg.dateiSpeichern(); return gespeichert; } : null }));
+  aufbewahren.appendChild(nsWegZeile({ id: 'ns-weg-pdf', titel: L('Als PDF', 'As a PDF'), text: erg.pdf ? L('Die Vorlage zum Lesen und Ablegen', 'The template to read and file')
+    : L('konnte nicht erstellt werden: ', 'could not be created: ') + erg.pdfFehler, wort: gespeichert,
+    attrs: { 'aria-label': L('Noch einmal als PDF speichern', 'Save as a PDF again') }, tat: erg.pdf && erg.pdfSpeichern ? () => { erg.pdfSpeichern(); return gespeichert; } : null }));
   box.appendChild(el('button', { type: 'button', class: 'sekundaer ns-weitere', id: 'ns-weitere-vorlage', onclick: weitereVorlageBeginnen },
     [L('Weitere Vorlage beginnen', 'Start another template')]));
 }
-/* „QR-Code zeigen“ wie im Dummy: zeigt den Code oder verbirgt ihn wieder; der Knopf heißt dann „Verbergen“. */
-function qrZeigenUmschalten(knopf, block) {
-  const an = !!block.hidden;
-  block.hidden = !an;
-  knopf.textContent = an ? L('Verbergen', 'Hide') : L('Zeigen', 'Show');
-  knopf.setAttribute('aria-expanded', an ? 'true' : 'false');
-  return an;
+/* Ein Weg nach dem Sichern als ganze Listenzeile: Titel, Untertext, rechts das Aktionswort (Dummy 14.11.2026 Z. 202–211).
+   Die ganze Zeile ist der Knopf; was tat zurückgibt, wird das neue Aktionswort. Ohne tat steht die Zeile ohne Knopf da. */
+function nsWegZeile(o) {
+  const kopf = el('span', {}, [el('strong', { text: o.titel }), el('span', { class: 't', text: o.text })]);
+  if (!o.tat) return el('div', { class: 'ns-weg', id: o.id }, [kopf]);
+  const wort = el('span', { class: 'w', text: o.wort });
+  const zeile = el('button', Object.assign({ type: 'button', class: 'ns-weg', id: o.id,
+    onclick: async () => { const neu = await o.tat(); if (typeof neu === 'string') wort.textContent = neu; } }, o.attrs || {}), [kopf, wort]);
+  return zeile;
 }
 /* Die Seite nach dem Sichern schließt sich; die Felder stehen unverändert zum Weiterbauen da. */
 function nachSichernSchliessen() {
-  const box = $('sichern-ergebnis'), p = $('nach-sichern');
+  const box = $('sichern-ergebnis'), p = $('nach-sichern'), raum = $('raum-bau');
   if (box) box.hidden = true;
   if (p) { p.hidden = true; nachSichernStand = null; }
+  if (raum && raum.classList) raum.classList.remove('gesichert');
 }
 function vorlageWeiterBearbeiten() {
   nachSichernSchliessen();
@@ -16502,18 +16551,26 @@ async function vorlageSichern() {
   const template = baueTemplateObjekt(state).template;
   const vorlageText = JSON.stringify(template, null, 2);
   const basis = _vorlageDateiBasis(state, template);
-  blobDownload(basis + '.json', vorlageText, 'application/json');
   /* Die Entwurfsdatei geht mit (17.11.2026): sie trägt Name, Zweck und Stelle, die das Vorlagenformat nicht trägt, und öffnet
-     über „Entwurf fortsetzen“ wieder zum Ändern. Ohne Schlüssel. */
-  blobDownload(basis + '-entwurf.json', JSON.stringify(Object.assign(entwurfBauen(), { anbieter: state.anbieter }), null, 2), 'application/json');
-  const qr = await vorlageQr(template);
+     über „Entwurf fortsetzen“ wieder zum Ändern. Ohne Schlüssel. „Als Datei speichern“ gibt beide noch einmal aus. */
+  const entwurfText = JSON.stringify(Object.assign(entwurfBauen(), { anbieter: state.anbieter }), null, 2);
+  const dateiSpeichern = () => {
+    blobDownload(basis + '.json', vorlageText, 'application/json');
+    blobDownload(basis + '-entwurf.json', entwurfText, 'application/json');
+  };
+  dateiSpeichern();
+  const qr = ABHOLSEITE_LIVE ? await vorlageQr(template) : null;
   if (qr) blobDownload(basis + (qr.aushang ? '-qr.png' : '-qr.gif'), _dataUrlBytes((qr.aushang || qr.qr).dataUrl), qr.aushang ? 'image/png' : 'image/gif');
   const abschnitte = _vorlagePdfAbschnitte(template);
   if (qr) abschnitte.push({ titel: L('QR-Code', 'QR code'), text: qr.link });
   const r = await studioStandardUndPdfAusgeben({ originalName: basis + '.json', originalText: vorlageText,
     standard: vorlageDateienNachBereich(state, template, basis),
     titel: _vorlageTitel(state, template), kopf: _vorlagePdfKopf(state, template), abschnitte });
-  vorlageErgebnisZeigen({ pdf: r.pdf, pdfFehler: r.fehler, qr, name: titel, stelle: name, zahl: (state.felder || []).length });
+  vorlageErgebnisZeigen({ pdf: r.pdf, pdfFehler: r.fehler, qr, name: titel, stelle: name, zahl: (state.felder || []).length, dateiSpeichern,
+    pdfSpeichern: r.pdf ? () => blobDownload(r.dateiname, r.bytes, 'application/pdf') : null });
+  /* Die Seite sagt „Vorlage gesichert“ selbst; der Hinweis unten bliebe bei 375 über „Speichern“ stehen. Der Text
+     bleibt für Vorleser in der Statuszeile, erscheint aber nicht als Hinweis. Probe: tests/studio-nach-sichern-wege-liste.test.js. */
+  if (c) c.setAttribute('data-ohne-hinweis', '1');
   if (c) c.textContent = r.pdf ? L('Vorlage gesichert: Als Datei, als PDF, QR-Code', 'Template saved: as a file, as a PDF, QR code')
     : L('Vorlage gesichert, das PDF konnte nicht erstellt werden: ', 'Template saved, the PDF could not be created: ') + r.fehler;
 }
@@ -16571,8 +16628,9 @@ async function studioStandardUndPdfAusgeben(o) {
     const bytes = await studioPdfBauen({ titel: o.titel, kopf: o.kopf, abschnitte: o.abschnitte,
       anhaenge: standard.map((s) => ({ inhalt: s.text, dateiname: s.dateiname, beziehung: 'Data', subtype: s.mime }))
         .concat([{ inhalt: o.originalText, dateiname: o.originalName, beziehung: 'Source', subtype: o.originalMime || 'application/json' }]) });
-    blobDownload(String(o.originalName).replace(/\.[a-z]+$/i, '') + '.pdf', bytes, 'application/pdf');
-    return { pdf: true };
+    const dateiname = String(o.originalName).replace(/\.[a-z]+$/i, '') + '.pdf';
+    blobDownload(dateiname, bytes, 'application/pdf');
+    return { pdf: true, bytes, dateiname };
   } catch (e) {
     return { pdf: false, fehler: (e && e.message) || String(e) };
   }

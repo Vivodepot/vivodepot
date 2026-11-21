@@ -6,24 +6,39 @@
    Bildschirms. Ein langer Name der Stelle bricht um, statt den Knopf zu schmälern.
    Rot-Beweis: ohne die Regel, die den Knopf in seiner Breite hält, fällt die Probe. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { oeffneApp, depotAnlegen, inLeisteKlicken, oeffneSektor, schubfachOeffnen } = require('./helpers');
 
-async function mitAnfrage(page) {
-  await page.evaluate(() => {
-    const morgen = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
-    // Über die öffentliche Prüfschnittstelle: ankerDaten() ist im eigenen Depot dessen Inhalt (kein Sub-Depot betreten).
-    const V = window.__vdOeffentlich;
-    V.ankerDaten().anfragen = [{ id: 'anf-schmal', von: 'Pflegeheim Sonnenhof gGmbH', zweck: 'Aufnahme in die vollstationäre Pflege ab 01.10.2026',
-      empfangenAm: new Date().toISOString(), beantwortetAm: null, gueltigBis: morgen }];
-  });
+// Die Anfrage kommt über die Oberfläche an (Einfügen am Ort der Anfragen, wie kette07-anfrage.spec.js), nicht über die Prüfschnittstelle.
+const ANFRAGE = {
+  modulTyp: 'anfrage', anfrageVersion: 1,
+  von: 'Pflegeheim Sonnenhof gGmbH', zweck: 'Aufnahme in die vollstationäre Pflege ab 01.10.2026',
+  grundlage: '§ 630f BGB und der von Ihnen unterzeichnete Heimvertrag', vorgang: 'AUF-2026-0815', gueltigBis: '2099-12-31',
+  felder: [{ kennung: 'identity.givenName', zweck: 'Anrede im Aufnahmebogen', pflicht: true }],
+  antwort: { art: 'einmalpasswort', an: 'aufnahme@sonnenhof.example.de' },
+};
+const KNOPF = '.uebersicht-karte [data-anfrage-oeffnen]';
+
+async function zurUebersicht(page) {
   // Nach dem Anlegen steht „Identität & Person“ da; die Übersicht öffnet die Person über die Leiste unten.
   await page.getByRole('navigation', { name: 'Schnellzugriff' }).getByRole('button', { name: 'Übersicht' }).click();
-  await page.waitForSelector('.uebersicht-karte [data-anfrage-oeffnen="anf-schmal"]', { state: 'visible' });
+}
+
+async function mitAnfrage(page) {
+  // Bis 767 px steht die Seitenleiste eingeklappt; der Weg der Nutzerin geht über den Tab „Bereiche“ unten.
+  await schubfachOeffnen(page);
+  await inLeisteKlicken(page, '[data-uebergabe-protokoll]');
+  await page.waitForSelector('#anfrage-empfangen', { state: 'visible' });
+  await page.click('#anfrage-empfangen');
+  await page.fill('#anfrage-text', JSON.stringify(ANFRAGE));
+  await page.click('#m-ok');
+  await page.waitForSelector('#anfrage-kopf', { state: 'visible' });
+  await zurUebersicht(page);
+  await page.waitForSelector(KNOPF, { state: 'visible' });
 }
 
 async function knopfMessen(page) {
   return page.evaluate(() => {
-    const b = document.querySelector('.uebersicht-karte [data-anfrage-oeffnen="anf-schmal"]');
+    const b = document.querySelector('.uebersicht-karte [data-anfrage-oeffnen]');
     const karte = b.closest('.uebersicht-karte');
     const r = b.getBoundingClientRect();
     const k = karte.getBoundingClientRect();
@@ -55,9 +70,11 @@ for (const breite of [360, 375]) {
 
 /* Zuletzt geändert bei 375 px: Zeitpunkt und Herkunft („heute, … · eingelesen von <Stelle>“) stehen in einer eigenen Zeile unter der
    Angabe und enden in der Karte (Desktop-Dummy Z. 227–228; Bild M26). Rot-Beweis: ohne Umbruch läuft die Angabe über den Rand. */
+const PLAN = '<MP v="026" U="00112233445566778899AABBCCDDEEFF"><P g="Maria" f="Mustermann" b="19600101"/>'
+  + '<A n="Hausarztpraxis Dr. Beispiel"/><S><M a="Beispielol 5 mg" m="1" v="1" r="Blutdruck"/></S></MP>';
 async function zeileMessen(page) {
   return page.evaluate(() => {
-    const r = document.querySelector('[data-uebersicht-feld="health|bloodType"] .uebersicht-rechts');
+    const r = document.querySelector('[data-uebersicht-feld="health|medicationOngoing"] .uebersicht-rechts');
     const k = r.closest('.uebersicht-karte').getBoundingClientRect();
     const b = r.getBoundingClientRect();
     return { rechts: Math.round(b.right), karteRechts: Math.round(k.right), bild: document.documentElement.clientWidth,
@@ -68,15 +85,15 @@ test('[M26·Zeile] bei 375 px endet „eingelesen von <Stelle>“ unter „Zulet
   await page.setViewportSize({ width: 375, height: 800 });
   await oeffneApp(page);
   await depotAnlegen(page);
-  await page.evaluate(() => {
-    const d = window.__vdOeffentlich.ankerDaten();
-    d.urheberschaft = d.urheberschaft || {};
-    d.urheberschaft.health = d.urheberschaft.health || {};
-    d.urheberschaft.health.bloodType = [{ zeitpunkt: new Date().toISOString(), eingabeArt: 'import',
-      quelle: 'Gesundheitsdaten einlesen · Hausarztpraxis Dr. Beispiel' }];
-  });
-  await page.getByRole('navigation', { name: 'Schnellzugriff' }).getByRole('button', { name: 'Übersicht' }).click();
-  await page.locator('[data-uebersicht-feld="health|bloodType"]').scrollIntoViewIfNeeded();
+  // Eingelesen über die Oberfläche: ein Medikationsplan (erfunden) mit Aussteller; die Übernahme trägt den Aussteller als Quelle.
+  await schubfachOeffnen(page);
+  await oeffneSektor(page, 'health');
+  await page.locator('#content [data-bmp-einlesen]').first().click();
+  await page.locator('input[data-bmp-datei]').setInputFiles({ name: 'medikationsplan.xml', mimeType: 'text/xml', buffer: Buffer.from(PLAN, 'utf8') });
+  await page.waitForSelector('[data-bmp-vorschau] .bmp-liste li', { state: 'visible' });
+  await page.click('#m-ok');
+  await zurUebersicht(page);
+  await page.locator('[data-uebersicht-feld="health|medicationOngoing"]').scrollIntoViewIfNeeded();
   const m = await zeileMessen(page);
   test.info().annotations.push({ type: 'zeile-375', description: JSON.stringify(m) });
   expect(m.text, 'die Stelle steht da, nicht der Weg').toContain('eingelesen von Hausarztpraxis Dr. Beispiel');

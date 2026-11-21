@@ -83,6 +83,7 @@ function mitPflichthinweisen(beschreibung, repo = path.join(__dirname, '..')) {
    der CHANGELOG-Abschnitt. Die Datei trägt nur die Notes: den Satz zu SHA256SUMS und die Pflichthinweise hängt dieses Werkzeug an,
    beides doppelt wäre ein Fehler, ebenso eine fehlende Sprache. Probe: tests/opencode-release-vorbereiten.test.js, [Release·Notes]. */
 const NOTES_ORDNER = 'docs/release-notes';
+const NOTES_AB = 931;
 const SPRACHEN = Object.freeze(['## Deutsch', '## English']);
 const PRUEFSUMMEN_SATZ = Object.freeze({
   de: 'Prüfsummen (SHA-256) der Anhänge in `SHA256SUMS`.',
@@ -142,6 +143,9 @@ function releaseVorbereiten({ quelle, fassung, ziel }) {
     for (const f of notesPruefen(notes, wortlaute)) fehler.push(f + ' (' + NOTES_ORDNER + '/' + fassung + '.md)');
     beschreibung = notesMitPruefsummen(notes) + '\n\n' + LIZENZ_KOPF;
   } else {
+    // Ab v1.0.931 gibt es keinen stillen Rückfall mehr (19.11.2026, RELEASE-NOTES-AUSNAHME-JE-FASSUNG): die Notes fehlen.
+    const nr = Number((/^v1\.0\.(\d+)$/.exec(String(fassung)) || [])[1]);
+    if (nr >= NOTES_AB) fehler.push('Release-Notes fehlen: ' + NOTES_ORDNER + '/' + fassung + '.md (ab v1.0.' + NOTES_AB + ' Pflicht)');
     const changelogPfad = path.join(quelle, 'CHANGELOG.md');
     const abschnitt = fs.existsSync(changelogPfad) ? changelogAbschnitt(fs.readFileSync(changelogPfad, 'utf8'), fassung) : null;
     if (!abschnitt) fehler.push('kein CHANGELOG-Abschnitt für ' + fassung);
@@ -199,5 +203,5 @@ function main(argv) {
 
 if (require.main === module) process.exitCode = main(process.argv.slice(2));
 
-module.exports = { ANHAENGE, GITHUB_REPO, GITHUB_ANHAENGE, githubReleaseBefehle, PROJEKT_ID, PFLICHTHINWEISE, mitPflichthinweisen, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE,
+module.exports = { HOST, ANHAENGE, GITHUB_REPO, GITHUB_ANHAENGE, githubReleaseBefehle, PROJEKT_ID, PFLICHTHINWEISE, mitPflichthinweisen, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE,
   NOTES_ORDNER, SPRACHEN, PRUEFSUMMEN_SATZ, notesPruefen, notesMitPruefsummen };

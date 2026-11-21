@@ -97,7 +97,7 @@ test('[Beziehung·Dialog] die Auswahl trägt jeden Code außer OTH, leer zuerst,
   assert.equal(optionen[0].value, '');
   assert.deepEqual(optionen.slice(1).map((o) => o.value), Object.keys(V.BEZIEHUNGS_CODES).filter((c) => c !== 'OTH'));
   assert.equal(optionen.filter((o) => o.selected === true).map((o) => o.value).join(), 'SIB');
-  assert.equal(optionen[1].textContent, V.BEZIEHUNGS_CODES[optionen[1].value].displayDe, 'der Text geht als textContent hinein');
+  assert.equal(optionen[1].textContent, V._beziehungsText(optionen[1].value), 'der Text geht als textContent hinein (aus dem Textsatz, EN-BEZIEHUNGSLISTE-DEUTSCH)');
 });
 
 /* Rot-Beweis: der Kern vor diesem Commit nahm `beziehungZu` nicht an. Nachgestellt mit einem Eintrag, dessen Beziehung nie

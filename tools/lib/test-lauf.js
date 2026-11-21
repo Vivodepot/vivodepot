@@ -73,8 +73,13 @@ function ohneLaufPreloads(env = process.env) {
 }
 
 /** Die Umgebung für einen Testprozess mit eigenem Laufverzeichnis. */
+/* Dieselben Schalter wie tests/hook-sperre-testumgebung.js (18.11.2026, Befund UEBERNAHME-OHNE-TESTUMGEBUNG): ein Testlauf,
+   den ein Werkzeug startet (die Beleg-Übernahme im pre-push, die Formalie im pre-commit), lud den Preload nicht. Ein
+   Hook-Ausschnitt in einer Probe nahm dann die gemeinsame Belegungssperre des Arbeitsbaums und traf den laufenden pre-push. */
+const TEST_SCHALTER = { VD_HOOK_SPERRE_JE_PID: '1', VD_SCHLUESSELBUND_GESPERRT: '1' };
+
 function umgebungFuer(dir, env = process.env) {
-  return { ...env, TMPDIR: dir, TMP: dir, TEMP: dir, NODE_OPTIONS: nodeOptionenMitPreload(env.NODE_OPTIONS), [UMGEBUNG_LAUF]: dir };
+  return { ...env, ...TEST_SCHALTER, TMPDIR: dir, TMP: dir, TEMP: dir, NODE_OPTIONS: nodeOptionenMitPreload(env.NODE_OPTIONS), [UMGEBUNG_LAUF]: dir };
 }
 
 /**
@@ -139,7 +144,7 @@ function main(argv = process.argv.slice(2)) {
 
 if (require.main === module) process.exit(main());
 
-module.exports = {
+module.exports = { TEST_SCHALTER,
   PRELOAD, ZEITGRENZE, UMGEBUNG_LAUF, UMGEBUNG_BESITZER,
   nodeOptionenMitPreload, ohneLaufPreloads, umgebungFuer, testLauf, mitTestLauf, playwrightLaufBeginnen, playwrightLaufBeenden, main,
 };

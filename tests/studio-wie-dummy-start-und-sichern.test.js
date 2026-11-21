@@ -4,8 +4,8 @@
    ─────────────────────────────────────────────────────────────────
    (1) Der Start heißt „Vorlage erstellen“, darunter „Legt fest, welche Daten Ihre Stelle erhält.“ (17.11.2026) und trägt keinen Block „So läuft es ab“ mehr. Der Block steht mit
        unverändertem Wortlaut als „Ablauf“ nach dem Sichern beim Knopf „Einreichen“, mit Schritt 4 „Freigabe“: so wird die Vorlage Teil des Produkts.
-   (2) Nach „Vorlage sichern“ stehen die Wege in zwei Gruppen wie im Dummy: „Vorlage an Personen geben“ (Link kopieren, QR-Code)
-       und „Vorlage aufbewahren“ (Als Datei, Als PDF). „Link kopieren“ trägt den Dummy-Wortlaut und kopiert den bestehenden Link.
+   (2) Nach „Vorlage sichern“ stehen die Wege in zwei Gruppen wie im Dummy: „Teilen“ (Link kopieren, QR-Code)
+       und „Speichern“ (Als Datei, Als PDF); die Überschriften nach der üblichen Benennung (18.11.2026). „Link kopieren“ trägt den Dummy-Wortlaut und kopiert den bestehenden Link.
        „Einreichen“ ist Nebenknopf, kein Hauptknopf.
    (3) Die Kachel „Eigenes Erscheinungsbild · in Arbeit“ steht nicht auf dem Start, bis sie fertig ist.
    (4) Die drei Beispiel-Kacheln nennen ihre Felder wortgleich wie der Dummy.
@@ -55,17 +55,15 @@ test('[Wie Dummy · 1] Start „Vorlage erstellen“ ohne „So läuft es ab“;
   }
 });
 
-test('[Wie Dummy · 2] nach dem Sichern: zwei Gruppen wie im Dummy, „Link kopieren“ am Link, Einreichen als Nebenknopf', () => {
+test('[Wie Dummy · 2] nach dem Sichern: oben Personen, dann andere Stellen, dann Speichern; Einreichen als Nebenknopf', () => {
   const f = funktion('vorlageErgebnisZeigen');
   assert.ok(f, 'vorlageErgebnisZeigen fehlt');
-  const a = f.indexOf("'Vorlage an Personen geben'"), b = f.indexOf("'Vorlage aufbewahren'");
-  assert.ok(a > 0 && b > a, 'die Gruppen „Vorlage an Personen geben“ und „Vorlage aufbewahren“ fehlen oder stehen verkehrt');
-  const link = f.indexOf("'Link kopieren'"), qr = f.indexOf("L('QR-Code'"), datei = f.indexOf("L('Als Datei speichern'"), pdf = f.indexOf("L('Als PDF'");
-  assert.ok(link > a && link < b, '„Link kopieren“ steht nicht in der ersten Gruppe');
-  assert.ok(qr > a && qr < b, 'QR-Code steht nicht in der ersten Gruppe');
-  assert.ok(datei > b && pdf > b, 'Als Datei / Als PDF stehen nicht in der zweiten Gruppe');
-  assert.match(f, /'Für E-Mail, Brief oder Ihre Website'/, 'der Dummy-Wortlaut zu „Link kopieren“ fehlt');
-  assert.match(f, /ergebnisKopierKnopf\('vorlage-link', \(\) => erg\.qr\.link/, '„Link kopieren“ kopiert nicht den bestehenden Link');
+  const a = f.indexOf("L('Teilen mit Personen'"), m = f.indexOf("L('Weitergeben an andere Stellen'"), b = f.indexOf("L('Speichern', 'Save')");
+  assert.ok(a > 0 && m > a && b > m, 'die Gruppen „Teilen mit Personen“, „Weitergeben an andere Stellen“ und „Speichern“ fehlen oder stehen verkehrt');
+  const link = f.indexOf("L('Link kopieren'"), datei = f.indexOf("L('Als Datei speichern'"), pdf = f.indexOf("L('Als PDF'");
+  assert.ok(link > a && link < m, '„Link kopieren“ der Anfrage steht nicht oben');
+  assert.ok(datei > b && pdf > b, 'Als Datei / Als PDF stehen nicht unter „Speichern“');
+  assert.match(f, /kopieren\(anfrageAlsLink\(anfrage\)\)/, '„Link kopieren“ kopiert nicht den Link der Anfrage');
   assert.ok(knopf('ns-einreichen') && !/haupt-knopf/.test(knopf('ns-einreichen')), 'Einreichen ist noch Hauptknopf');
 });
 
