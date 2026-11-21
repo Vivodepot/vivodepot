@@ -129,8 +129,8 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     const html = document.getElementById('content').innerHTML;
     const karten = html.match(/<details class="feldgruppen-karte"/g) || [];
     // Abnahme v998 (M07): fünf Karten im Abschnitt „Person“ und die Karte „Personenstandsurkunden“ (jeder Abschnitt trägt Karten);
-    // dazu die Rubrik „Foto“ (D51, Desktop-Dummy: das Foto steht als eigene Rubrik in der Liste, 17.11.2026).
-    assert.equal(karten.length, 7, 'erwartet fünf Statuskarten für person, die Rubrik Foto und die Karte Personenstandsurkunden');
+    // das Foto steht nur am Kreis oben, ohne eigene Rubrik (FOTO-ABSCHNITT-DOPPELT, 20.11.2026).
+    assert.equal(karten.length, 6, 'erwartet fünf Statuskarten für person und die Karte Personenstandsurkunden');
     assert.match(html, /Name (&amp;|&) Geburt/);   // vorher „Kernidentität“ (Zielbild S4, 31.10.2026)
     assert.match(html, /Kontakt/);
   });
@@ -140,7 +140,7 @@ describe('[renderSektor] person rendert als Statuskarten, nicht als flache Liste
     V.oeffneSektor('identity');
     const html = document.getElementById('content').innerHTML;
     const kartenBloecke = html.split('<details class="feldgruppen-karte"').slice(1);
-    assert.equal(kartenBloecke.length, 7);   // mit der Rubrik „Foto“ (D51)
+    assert.equal(kartenBloecke.length, 6);   // das Foto steht nur am Kreis (FOTO-ABSCHNITT-DOPPELT)
     for (const block of kartenBloecke) {
       assert.match(block.split('</summary>')[0], new RegExp(V.STRINGS.statuskarteLeer));
     }

@@ -129,7 +129,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 331401
+   "bytes": 331712
   },
   "satz": {
    "bytes": 26798
@@ -4067,6 +4067,17 @@
    "auf": 331401,
    "daneben": {},
    "grund": "Suche findet Felder über ihren Namen (SUCHE-OHNE-FELDNAMEN, 18.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 331401,
+   "auf": 331779,
+   "daneben": {},
+   "grund": "ALTE-FASSUNG-OHNE-HINWEIS: Fassungszeile mit Aktualisierungs-Knopf und dritter leiser Knopf „Neues Depot anlegen“ im Öffnen-Schirm (neu aufgesetzt auf 7f4697a85)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

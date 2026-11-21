@@ -1,5 +1,5 @@
 {
- "_kopf": "Kennungen der Eingabefelder (data-feld) je Bereich in privat-de, leeres Depot, erhoben am Kanon 943e97d19 vor dem Umbau des Eintragebereichs. Der Umbau ordnet die Felder neu an und lässt die Menge gleich. Seit 16.11.2026 steht an der Hauptwohnung zusätzlich registrationCertificate (Baustein Meldebescheinigung, S-7a); das Feld ist neu, die übrigen bleiben gleich. Seit 17.11.2026 steht in Schwerbehinderung und Pflege zusätzlich reducedRateProofs (Nachweise für eine Ermäßigung, S-7b).",
+ "_kopf": "Kennungen der Eingabefelder (data-feld) je Bereich in privat-de, leeres Depot, erhoben am Kanon 943e97d19 vor dem Umbau des Eintragebereichs. Der Umbau ordnet die Felder neu an und lässt die Menge gleich. Seit 16.11.2026 steht an der Hauptwohnung zusätzlich registrationCertificate (Baustein Meldebescheinigung, S-7a); das Feld ist neu, die übrigen bleiben gleich. Seit 17.11.2026 steht in Schwerbehinderung und Pflege zusätzlich reducedRateProofs (Nachweise für eine Ermäßigung, S-7b). Seit 20.11.2026 steht profilePhotoCoverPage in keiner Karte mehr, nur am Kreis oben (FOTO-ABSCHNITT-DOPPELT); es fehlt darum in identity.",
  "bereiche": {
   "identity": [
    "academicDegree",
@@ -22,7 +22,6 @@
    "marriageCertificateStorage",
    "nationality",
    "postalCode",
-   "profilePhotoCoverPage",
    "reRegistrationWithTheResidents",
    "residencePermit",
    "residencePermitType",

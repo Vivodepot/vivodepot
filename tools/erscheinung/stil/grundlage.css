@@ -3711,12 +3711,11 @@
   #overlay .entsperren-karte #crypto-fehler { margin: var(--space-2) 0 0; padding: 0; border: 0; background: none; color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); line-height: var(--dialog-zeilenhoehe); }
   #overlay #overlay-inhalt .entsperren-karte .welcome-aktionen { margin-top: var(--space-5); }
   #overlay #overlay-inhalt .entsperren-karte #w-oeffnen { width: 100%; min-height: var(--ziel-gross); justify-content: center; border-radius: var(--radius-pill); font-size: var(--fs-role-text); font-weight: var(--fw-semibold); }
-  .entsperren-wege { font-size: var(--fs-role-hilfe); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2) var(--space-4); margin: var(--space-4) 0 0; }
+  .entsperren-wege { font-size: var(--fs-role-hilfe); display: flex; flex-direction: column; align-items: flex-start; gap: 0; margin: var(--space-4) 0 0; }
   #overlay .entsperren-wege .btn-dezent { min-height: var(--ziel); padding: 0 var(--space-1); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); color: var(--salbei-dunkel); text-decoration: none; }
   #overlay #overlay-inhalt.karte:has(> .entsperren-karte) > .welcome-haftung { margin: var(--space-5) var(--space-4) 0; font-size: var(--fs-role-hilfe); color: var(--ink3); }
   html.dark-mode #overlay #overlay-inhalt .entsperren-kopf .vor-depot-sprache, html.dark-mode #overlay .entsperren-wege .btn-dezent { color: var(--salbei-nacht); }
   @media (max-width: 767px) {
     #overlay:has(.entsperren-karte) { padding-top: var(--space-5); }
     .entsperren-karte { padding: var(--space-6) var(--space-5) var(--space-5); }
-    .entsperren-wege { flex-direction: column; align-items: flex-start; gap: 0; }
   }

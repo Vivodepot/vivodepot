@@ -17,6 +17,7 @@
     "strings:btnOeffnen.text": "Open",
     "strings:btnDepotOeffnen.text": "Open my depot",
     "strings:cryptoNeuAnfangen.text": "Open another depot",
+    "strings:cryptoNeuesDepotAnlegen.text": "Create a new depot",
     "strings:welcomeInternVorhanden.text": "There is already a depot on this device. Starting a new one leaves it untouched: when you unlock, your password opens the depot it belongs to.",
     "strings:wipeSperrschirmHinweis.text": "Your depot was closed because {marke} had not been visible for half an hour. Nothing has been lost.",
     "strings:cryptoDateiGewaehlt.text": "Selected file",
@@ -51,6 +52,8 @@
     "strings:whcOeffnenLink.text": "Open with the recovery code",
     "strings:whcOeffnenPw2Label.text": "Repeat the new password",
     "strings:whcOeffnenPwLabel.text": "New password",
-    "strings:whcOeffnenZurueck.text": "Back to the password"
+    "strings:whcOeffnenZurueck.text": "Back to the password",
+    "strings:oeffnenFassungSatz.text": "This version is from {datum}. Your data is preserved when you update.",
+    "strings:oeffnenFassungLink.text": "View the current version on {adresse}"
   }
 }

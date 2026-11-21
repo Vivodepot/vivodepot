@@ -1,34 +1,45 @@
 'use strict';
-/* Foto-Rubrik nur lesend (Befund FOTO-RUNDLAUF-VERLUST, 17.11.2026).
-   Die Rubrik „Foto“ (D51) zeigt das Deckblatt-Foto in der Liste des Bereichs. Stünde das Feld dort als Auswahl im
-   Bearbeiten-Formular (data-edit-ref), läse bearbeitungSpeichern deren beim Zeichnen festgehaltenen Wert zurück. War das
-   Foto inzwischen gesetzt, etwa über das Deckblatt, löschte der leere Wert der Auswahl es (Kern: Schleife über
-   [data-edit-ref], „delete neu[fid]“). Im Browser gezeigt vom Rundlauf über die Sicherungsdatei
-   (Zweites Gerät, Falsches Passwort) und von tests/e2e/hintergrund-wipe-bildschirm.spec.js.
-   Diese Probe hält die Ursache an der Quelle fest: die Karte der Foto-Rubrik wird mit darf = false gezeichnet. */
+/* Foto-Feld nie im Bearbeiten-Formular (Befund FOTO-RUNDLAUF-VERLUST, 17.11.2026).
+   Stünde das Deckblatt-Foto als Auswahl im Bearbeiten-Formular (data-edit-ref), läse bearbeitungSpeichern deren beim Zeichnen
+   festgehaltenen Wert zurück. War das Foto inzwischen über den Kreis gesetzt, löschte der leere Wert der Auswahl es (Kern: Schleife
+   über [data-edit-ref], „delete neu[fid]“). Im Browser gezeigt vom Rundlauf über die Sicherungsdatei (Zweites Gerät, Falsches
+   Passwort) und von tests/e2e/hintergrund-wipe-bildschirm.spec.js.
+   Seit FOTO-ABSCHNITT-DOPPELT (20.11.2026) steht das Foto nur am Kreis oben und in keiner Karte. Diese Probe hält die Ursache an der
+   Quelle fest: kein Kartenaufruf trägt das Foto-Feld, und in der Bearbeiten-Sicht der Identität trägt kein Element mit dem Foto-Feld
+   ein data-edit-Attribut. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { ladeKern } = require('./load-kern.js');
 
 const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
 
 function fotoKartenAufrufe(quelle) {
-  return quelle.split('\n').filter((z) => /feldgruppenKarteHTML\(\[\{ name: STRINGS\.deckblattFotoHinzufuegen/.test(z));
+  return quelle.split('\n').filter((z) => /feldgruppenKarteHTML\(\[\{ name: STRINGS\.deckblattFotoHinzufuegen/.test(z) || /felder: \[_dbFoto\]/.test(z));
 }
-function nurLesend(zeile) {
-  return /,\s*false,\s*\{\}\);\s*$/.test(zeile);
+/* Rein: Elemente der Sicht, die das Foto-Feld als Speicherfeld tragen. */
+function speicherfelder(html, feldId) {
+  return [...html.matchAll(/<[^>]*>/g)].map((m) => m[0])
+    .filter((t) => /data-edit/.test(t) && (t.includes('"' + feldId + '"') || t.includes('|' + feldId + '"')));
 }
 
-test('[Foto-Rubrik] die Karte der Foto-Rubrik steht genau einmal im Kern und wird nur lesend gezeichnet', () => {
-  const z = fotoKartenAufrufe(KERN);
-  assert.equal(z.length, 1, 'Vorbedingung: genau ein Aufruf für die Foto-Rubrik');
-  assert.equal(nurLesend(z[0]), true, 'die Foto-Rubrik gibt darf = false weiter, sonst steht das Feld im Bearbeiten-Formular:\n' + z[0].trim());
+test('[Foto-Rubrik] kein Kartenaufruf trägt das Foto-Feld', () => {
+  assert.deepEqual(fotoKartenAufrufe(KERN), []);
 });
 
-test('[Foto-Rubrik·Rot-Beweis] mit darf statt false fällt die Probe', () => {
-  const z = fotoKartenAufrufe(KERN);
-  const gekippt = z[0].replace(/,\s*false,\s*\{\}\);\s*$/, ', darf, {});');
-  assert.notEqual(gekippt, z[0], 'Vorbedingung: der Aufruf ließ sich kippen');
-  assert.equal(nurLesend(gekippt), false);
+test('[Foto-Rubrik] Bearbeiten-Sicht der Identität: das Foto-Feld ist nirgends ein Speicherfeld', async () => {
+  const { V, document } = ladeKern({ produkt: 'privat-de' });
+  await V.depotAnlegen('pw');
+  V.akteurSelbstErklaeren('Tester');
+  V.renderSektor('identity');
+  const html = String(document.getElementById('content').innerHTML);
+  assert.ok(html.includes('data-edit'), 'Vorbedingung: die Sicht trägt Speicherfelder');
+  assert.deepEqual(speicherfelder(html, V.SEKTOR_BY_ID.identity.deckblatt.fotoFeld), []);
+});
+
+test('[Foto-Rubrik·Rot-Beweis] ein Kartenaufruf mit dem Foto oder ein data-edit-ref auf dem Foto-Feld fällt auf', () => {
+  assert.equal(fotoKartenAufrufe('      if (x) html += feldgruppenKarteHTML([{ name: STRINGS.deckblattFotoHinzufuegen, felder: [_dbFoto] }], a, b, c, darf, {});').length, 1);
+  assert.equal(speicherfelder('<select data-edit-ref="profilePhotoCoverPage"></select>', 'profilePhotoCoverPage').length, 1);
+  assert.equal(speicherfelder('<input data-edit="givenName">', 'profilePhotoCoverPage').length, 0);
 });

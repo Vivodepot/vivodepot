@@ -242,7 +242,7 @@ test('6) Render: Einführungstext + Pausen-Zeile; ToC ab drei Sektionen (seit �
   // fünf Cluster-Karten (SEKTION_STATUSKARTEN_CLUSTER). Modul-Feld notizen_start ("Weitere Angaben")
   // steckt jetzt in der Karte „Frühere Namen" statt im mehr-Block.
   const kartenBloecke = html.split('<details class="feldgruppen-karte"');
-  assert.equal(kartenBloecke.length - 1, 7, 'fünf Statuskarten für person, die Rubrik Foto (D51) und die Karte Personenstandsurkunden (jeder Abschnitt trägt seine Felder in Karten)');
+  assert.equal(kartenBloecke.length - 1, 6, 'fünf Statuskarten für person und die Karte Personenstandsurkunden; das Foto steht nur am Kreis (FOTO-ABSCHNITT-DOPPELT, 20.11.2026)');
   // Der Karten-TITEL (feldgruppen-karte-titel), nicht bloß irgendein Vorkommen des Textes —
   // "Frühere Namen" steht zusätzlich als ToC-Link (nav.toc) VOR der ersten Karte und träfe sonst dort.
   const fruehereNamenKarte = kartenBloecke.find(b => b.includes('feldgruppen-karte-titel">Frühere Namen<'));
@@ -250,13 +250,12 @@ test('6) Render: Einführungstext + Pausen-Zeile; ToC ab drei Sektionen (seit �
     'notizen_start ("Weitere Angaben") steckt in der Karte „Frühere Namen"');
 });
 
-/* Rein: Funde zum Foto-Feld der Identität. Es steht genau einmal, und zwar in der Karte der Rubrik „Foto“ (D51, 17.11.2026). */
-function fotoFeldFunde(html, fotoTitel) {
+/* Rein: Funde zum Foto-Feld der Identität. Es steht in keiner Karte, nur am Kreis oben (FOTO-ABSCHNITT-DOPPELT, 20.11.2026). */
+function fotoFeldFunde(html) {
   const karten = html.split('<details class="feldgruppen-karte"').slice(1).filter((b) => b.includes('data-feld="profilePhotoCoverPage"'));
-  if (karten.length !== 1) return ['das Foto-Feld steht in ' + karten.length + ' Karten statt in einer'];
-  return karten[0].split('>')[0].includes('|' + fotoTitel + '"') ? [] : ['das Foto-Feld steht nicht in der Rubrik „' + fotoTitel + '“'];
+  return karten.length ? ['das Foto-Feld steht in ' + karten.length + ' Karten statt nur am Kreis'] : [];
 }
-test('7) Deckblatt: Foto-Platzhalter + Name oben; das Foto-Feld steht genau einmal, im Detail der Rubrik Foto', async () => {
+test('7) Deckblatt: Foto-Platzhalter + Name oben; das Foto-Feld steht nur am Kreis, in keiner Karte', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('B');
@@ -268,23 +267,20 @@ test('7) Deckblatt: Foto-Platzhalter + Name oben; das Foto-Feld steht genau einm
   assert.ok(html.includes('deckblatt-platzhalter'), 'Foto-Platzhalter, solange kein Foto gesetzt');
   assert.ok(html.includes('id="deckblatt-foto"'), 'Foto klickbar (Upload)');
   assert.ok(html.includes('Maria Mustermann'), 'Name im Deckblatt');
-  // Das Foto-Feld steht genau einmal: im Detail der Rubrik „Foto“ (D51, 17.11.2026), in keiner anderen Karte; oben bleibt das Deckblatt
-  // als Anzeige (Foto-Deckblatt vom 31.05.2026, 57a0e8fe7).
-  assert.deepEqual(fotoFeldFunde(html, V.STRINGS.deckblattFotoHinzufuegen), [], 'das Foto-Feld steht genau einmal, im Detail der Rubrik Foto');
+  // Das Foto steht nur am Kreis oben (Foto-Deckblatt vom 31.05.2026, 57a0e8fe7; FOTO-ABSCHNITT-DOPPELT, 20.11.2026), in keiner Karte.
+  assert.deepEqual(fotoFeldFunde(html), [], 'das Foto-Feld steht in keiner Karte');
   // Deklaration trägt das Deckblatt data-driven.
   const s = V.SEKTOR_BY_ID.identity;
   assert.equal(s.deckblatt.fotoFeld, 'profilePhotoCoverPage');
   assert.equal(s.deckblatt.nameFelder.join(','), 'givenName,familyName,secondLastName');   // A460 (22.08.2026)
 });
 
-test('7) Rot-Beweis: ein zweites Vorkommen des Foto-Felds in einer anderen Karte fällt auf, ebenso ein Foto-Feld außerhalb der Rubrik Foto', async () => {
+test('7) Rot-Beweis: das Foto-Feld in einer Karte fällt auf', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.renderSektor('identity');
   const html = document.getElementById('content').innerHTML;
-  const titel = V.STRINGS.deckblattFotoHinzufuegen;
-  assert.deepEqual(fotoFeldFunde(html, titel), []);
-  const zweite = html.replace('<details class="feldgruppen-karte"', '<details class="feldgruppen-karte" data-karte="identity|x"><span data-feld="profilePhotoCoverPage"></span></details><details class="feldgruppen-karte"');
-  assert.match(fotoFeldFunde(zweite, titel).join(' '), /in 2 Karten/);
-  assert.match(fotoFeldFunde(html, 'eine andere Rubrik').join(' '), /nicht in der Rubrik/);
+  assert.deepEqual(fotoFeldFunde(html), []);
+  const mit = html.replace('<details class="feldgruppen-karte"', '<details class="feldgruppen-karte" data-karte="identity|x"><span data-feld="profilePhotoCoverPage"></span></details><details class="feldgruppen-karte"');
+  assert.match(fotoFeldFunde(mit).join(' '), /in 1 Karten/);
 });

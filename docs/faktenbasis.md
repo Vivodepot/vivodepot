@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-11-19 · **Fassung:** v1069 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-11-20 · **Fassung:** v1070 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -89,9 +89,9 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-11-19, 1489be63b Basis Kanon)
-- E2E (Playwright): 817 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 248 aus Schleifen über CPU-Drosselungen = **1065 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- E2E (Playwright): 818 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 248 aus Schleifen über CPU-Drosselungen = **1066 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
 - Wächter-Register (intern): 163
-- Schema-Version: 102 · SCHALEN_STAND: v1069 · Build-Version: v1.0
+- Schema-Version: 102 · SCHALEN_STAND: v1070 · Build-Version: v1.0
 
 ---
 
@@ -568,13 +568,13 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 |---|---|---|
 | `.btn` | 51 | 303 |
 | `.btn-sek` | 15 | 145 |
-| `.btn-dezent` | 9 | 19 |
+| `.btn-dezent` | 9 | 21 |
 | `.btn-klein` | 3 | 25 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 12 | 46 |
 | `.karte` | 8 | 94 |
 | `.modal` | 68 | 214 |
-| `.toast` | 9 | 339 |
+| `.toast` | 9 | 340 |
 | `.banner-stapel` | 4 | 2 |
 | `.topbar` | 59 | 10 |
 | `.sidebar` | 19 | 7 |

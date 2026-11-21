@@ -5,7 +5,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderWelcome",
-   "zeile": 22855,
+   "zeile": 22935,
    "abdruck": "87e5efcfbe4dc91f",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"welcome\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.welcomeTitel) + '</h1>' + '<div class=\"welcome-text\">' + absaetze + '</div>' + '<div class=\"",
@@ -14,7 +14,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderQrPdf",
-   "zeile": 22975,
+   "zeile": 23055,
    "abdruck": "07ac3d3cb37eb8e6",
    "anzahl": 1,
    "code": "wrap.innerHTML = html",
@@ -23,7 +23,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderQrBereich",
-   "zeile": 23003,
+   "zeile": 23083,
    "abdruck": "961d20974b9a62fe",
    "anzahl": 1,
    "code": "wrap.innerHTML = html",
@@ -32,7 +32,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderPasswort",
-   "zeile": 23015,
+   "zeile": 23095,
    "abdruck": "31499b7015c3f9d4",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.pwTitel) + '</h1>' + '<p class=\"hint\">' + escapeHTML(hint) + '</p>' + '<form id=\"pw-form\" auto",
@@ -41,7 +41,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderVollExport",
-   "zeile": 23084,
+   "zeile": 23164,
    "abdruck": "919305ec93f15055",
    "anzahl": 1,
    "code": "wrap.innerHTML = topbarHTML(STRINGS.sichtVoll, true) + subBannerHTML() + herkunftBlockHTML(modulHerkunftBerechnen(data)) + moduleNichtAngewandtZeileHTML(data) + standBlockHTML(moduleStandBerechnen(dat",
@@ -54,7 +54,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 23276,
+   "zeile": 23356,
    "abdruck": "f2e62e7a27b4a71a",
    "anzahl": 1,
    "code": "sb.innerHTML = sidebarHTML()",
@@ -66,7 +66,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 23281,
+   "zeile": 23361,
    "abdruck": "4b9c4734e916b91d",
    "anzahl": 1,
    "code": "el('content').innerHTML = sektorHTML(aktiverSektorId)",
@@ -75,7 +75,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 23286,
+   "zeile": 23366,
    "abdruck": "88124cf73b9e3140",
    "anzahl": 1,
    "code": "el('content').innerHTML = situationContentHTML(btn.getAttribute('data-situation'))",
@@ -84,7 +84,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 23291,
+   "zeile": 23371,
    "abdruck": "ee868c5beca84b36",
    "anzahl": 1,
    "code": "el('content').innerHTML = angehoerigenBlattHTML(btn.getAttribute('data-angblatt'))",
@@ -93,7 +93,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireTopbar",
-   "zeile": 23305,
+   "zeile": 23385,
    "abdruck": "6d3192e928fe23a4",
    "anzahl": 1,
    "code": "if (c) c.innerHTML = hilfeEmpfaengerinHTML()",
@@ -102,7 +102,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderSituationOnly",
-   "zeile": 24190,
+   "zeile": 24277,
    "abdruck": "5845cd06ada2bce1",
    "anzahl": 1,
    "code": "wrap.innerHTML = topbarHTML(STRINGS.sichtSituation, true) + subBannerHTML() + herkunftBlockHTML(modulHerkunftBerechnen(data)) + moduleNichtAngewandtZeileHTML(data) + standBlockHTML(moduleStandBerechne",
@@ -114,7 +114,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderNotfall",
-   "zeile": 24236,
+   "zeile": 24323,
    "abdruck": "f94bc3f400c1ce49",
    "anzahl": 1,
    "code": "wrap.innerHTML = html",
@@ -123,7 +123,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderEinfuegen",
-   "zeile": 24249,
+   "zeile": 24336,
    "abdruck": "78b9a233666eb262",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.wegEinfuegen) + '</h1>' + '<p class=\"hint\">' + escapeHTML(STRINGS.wegEinfuegenHint) + '</p>' +",
@@ -132,7 +132,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderAntwortOeffnen",
-   "zeile": 24380,
+   "zeile": 24467,
    "abdruck": "10aef2dfe58dbeb2",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + '<h1>' + escapeHTML(STRINGS.antwortTitel) + '</h1>' + '<p class=\"hint\" id=\"antwort-kopf\">' + escapeHTML(STRINGS.antwortVorgang) + ' <span id=\"antwo",
@@ -144,7 +144,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderAntwort",
-   "zeile": 24605,
+   "zeile": 24692,
    "abdruck": "5b7c818089afb0b4",
    "anzahl": 1,
    "code": "wrap.innerHTML = h",
@@ -153,7 +153,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderAnlass",
-   "zeile": 24665,
+   "zeile": 24752,
    "abdruck": "94323e8605665744",
    "anzahl": 1,
    "code": "wrap.innerHTML = h",
@@ -162,7 +162,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderKamera",
-   "zeile": 24730,
+   "zeile": 24817,
    "abdruck": "b8bf539f89772282",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + '<h1>' + escapeHTML(STRINGS.kameraTitel) + '</h1>' + '<p class=\"hint\" id=\"kamera-hint\">' + escapeHTML(STRINGS.kameraSucht) + '</p>' + '<video id=\"k",
@@ -171,7 +171,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderHinweisMitZurueck",
-   "zeile": 24778,
+   "zeile": 24865,
    "abdruck": "666acc1b80580964",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\"><p class=\"hint\">' + escapeHTML(text) + '</p>' + '<div class=\"sheet-aktionen\"><button class=\"btn btn-sek\" id=\"btn-zurueck\">' + escapeHTML(STRINGS.zurueck) + '</butt",
@@ -180,7 +180,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "onSchliessen",
-   "zeile": 24793,
+   "zeile": 24880,
    "abdruck": "6dace052c15653f0",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\"><p class=\"hint\">' + escapeHTML(STRINGS.schliessenHinweis) + '</p>' + '<div class=\"sheet-aktionen\"><button class=\"btn\" id=\"btn-neu\">' + escapeHTML(STRINGS.zurueck) ",
@@ -189,7 +189,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderEmpfaengerQrPasswort",
-   "zeile": 24873,
+   "zeile": 24960,
    "abdruck": "09409f67db0dfce8",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.pwTitel) + '</h1>' + '<p class=\"hint\">' + escapeHTML(STRINGS.kreiseQrEmpfangHint) + '</p>' + '",
@@ -198,7 +198,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenZeigen",
-   "zeile": 24947,
+   "zeile": 25034,
    "abdruck": "4cbbbb5b91631cb1",
    "anzahl": 1,
    "code": "wrap.innerHTML = _vorfuehrungLesenAnfrageHTML(n)",
@@ -207,7 +207,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenZeigen",
-   "zeile": 24952,
+   "zeile": 25039,
    "abdruck": "4d6f48eaa2628144",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet vorfuehrung-szene-blatt\" role=\"main\" id=\"vorfuehrung-szene-blatt\"><p class=\"vorfuehrung-szene\">' + escapeHTML(st.szene) + '</p></div>'",
@@ -216,7 +216,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenZeigen",
-   "zeile": 24979,
+   "zeile": 25066,
    "abdruck": "b4257f4fe6cf1474",
    "anzahl": 1,
    "code": "karte.innerHTML = _vorfuehrungLesenSpalteHTML(n, st, nr, gesamt)",
@@ -225,7 +225,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenWechsel",
-   "zeile": 25061,
+   "zeile": 25148,
    "abdruck": "40c7be1a631a0966",
    "anzahl": 1,
    "code": "k.innerHTML = '<div class=\"vorfuehrung-wechsel-karte\"><p class=\"vorfuehrung-wechsel-satz\">' + escapeHTML(satz) + '</p>' + '<p class=\"vorfuehrung-rolle-text\">' + escapeHTML(st.rolle.text) + '</p>' + '<",
@@ -270,7 +270,7 @@
   {
    "datei": "vivodepot-studio.html",
    "funktion": "el",
-   "zeile": 12749,
+   "zeile": 12771,
    "abdruck": "1953723bff696bf4",
    "anzahl": 1,
    "code": "else if (k === 'html') e.innerHTML = attrs[k]",
@@ -279,7 +279,7 @@
   {
    "datei": "vivodepot-studio.html",
    "funktion": "sprachAnwenden",
-   "zeile": 15282,
+   "zeile": 15311,
    "abdruck": "062c12db9a748313",
    "anzahl": 2,
    "code": "if (LANG === 'en') n.innerHTML = n.getAttribute('data-en-html')",
@@ -288,7 +288,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "hilfeOeffnen",
-   "zeile": 13440,
+   "zeile": 13563,
    "abdruck": "43ec850035f2f1f9",
    "anzahl": 1,
    "code": "wrapper.innerHTML = hilfeOverlayHTML(themaId)",
@@ -297,7 +297,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_brandingProduktIconAnwenden",
-   "zeile": 16161,
+   "zeile": 16284,
    "abdruck": "030cb52dfa993396",
    "anzahl": 1,
    "code": "logoMark.innerHTML = (_fall2Marke.modell === 'white-label' && bild) ? bild : bild + _VD_BILDMARKE_SVG('logo-svg')",
@@ -306,7 +306,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungKarteHandSetzen",
-   "zeile": 18376,
+   "zeile": 18500,
    "abdruck": "0b90bc14d21fc74e",
    "anzahl": 1,
    "code": "karte.innerHTML = _vorfuehrungSpalteHTML({ situation: AB_WERK_SHOWCASE.situation, rolle: station.rolle, titel: AB_WERK_SHOWCASE.schrittTitel, nr, gesamt, station, text: _vorfuehrungText, }, escapeHTML",
@@ -315,7 +315,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungWechselSetzen",
-   "zeile": 18424,
+   "zeile": 18548,
    "abdruck": "f3ca00f332a63f1f",
    "anzahl": 1,
    "code": "k.innerHTML = '<div class=\"vorfuehrung-wechsel-karte\"><p class=\"vorfuehrung-wechsel-satz\">' + escapeHTML(satz) + '</p>' + '<p class=\"vorfuehrung-rolle-text\">' + escapeHTML(station.rolle.text) + '</p>'",
@@ -324,7 +324,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungWarnungZeigen",
-   "zeile": 18625,
+   "zeile": 18749,
    "abdruck": "2c5e6f70bac07633",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"vorfuehrung-karte\"><p class=\"vorfuehrung-karte-text\">' + escapeHTML(_vorfuehrungText('leerlaufHinweis')) + '</p><button type=\"button\" class=\"btn\" id=\"vorfuehrung-weiter\">' ",
@@ -333,7 +333,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageorteAufStartseiteZeigen",
-   "zeile": 21205,
+   "zeile": 21329,
    "abdruck": "f9c985b36886bf56",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortKnoepfeHTML(alle, vorDepotText('ablageortOeffnen'))",
@@ -345,7 +345,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageortEinstellungZeigen",
-   "zeile": 21230,
+   "zeile": 21354,
    "abdruck": "a6e7294ad9c60baf",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortGemerktHTML(gemerkt.name)",
@@ -357,7 +357,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageortEinstellungZeigen",
-   "zeile": 21236,
+   "zeile": 21360,
    "abdruck": "1ea086b714cab2de",
    "anzahl": 1,
    "code": "ort.innerHTML = '<p class=\"einst-hint\">' + escapeHTML(STRINGS.ablageortNichtGemerktHinweis) + '</p>' + '<button type=\"button\" class=\"btn btn-sek\" id=\"einst-ablageort-merken\">' + escapeHTML(STRINGS.abl",
@@ -366,7 +366,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "anlassFertigZeigen",
-   "zeile": 26215,
+   "zeile": 26271,
    "abdruck": "0e93d6c432a07dc6",
    "anzahl": 1,
    "code": "c.innerHTML = anlassFertigHTML(f)",
@@ -375,7 +375,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderEinlesen",
-   "zeile": 39247,
+   "zeile": 39548,
    "abdruck": "55aac3018ce0cb7f",
    "anzahl": 1,
    "code": "c.innerHTML = '<div class=\"content-narrow einlesen-seite\" data-ansicht=\"einlesen\">' + '<div class=\"bereich-kopf\"><h1>' + esc(STRINGS.einlesenSeiteTitel) + '</h1></div>' + '<p class=\"sektor-intro\">' + ",
@@ -387,7 +387,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderUebergabeProtokoll",
-   "zeile": 42437,
+   "zeile": 42855,
    "abdruck": "5f769ac393443b4f",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -396,7 +396,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "zeigeKernFehler",
-   "zeile": 45908,
+   "zeile": 46338,
    "abdruck": "6d2007c8b2262951",
    "anzahl": 1,
    "code": "box.innerHTML = '<h3 id=\"modal-titel\">' + (titelHTML != null ? titelHTML : escapeHTML(String(titel))) + '</h3>' + '<div class=\"modal-koerper\">' + koerperHTML + '</div>' + '<div class=\"modal-aktionen\">",
@@ -408,7 +408,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_installBlockAktualisieren",
-   "zeile": 46160,
+   "zeile": 46592,
    "abdruck": "b35fd5e8c004083b",
    "anzahl": 1,
    "code": "hosts[i].innerHTML = blockHtml",
@@ -417,7 +417,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_sucheVerdrahten",
-   "zeile": 46571,
+   "zeile": 47022,
    "abdruck": "dc2886099ca45459",
    "anzahl": 1,
    "code": "liste.innerHTML = leer",
@@ -429,7 +429,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_sucheVerdrahten",
-   "zeile": 46605,
+   "zeile": 47056,
    "abdruck": "df32084762622f0c",
    "anzahl": 1,
    "code": "liste.innerHTML = html",
@@ -441,7 +441,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderWelcome",
-   "zeile": 46720,
+   "zeile": 47146,
    "abdruck": "7594532cd85bc66f",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\">' + vorDepotSprachKnopfHTML() + '<h1 class=\"welcome-brand\" id=\"overlay-titel\">' + _vdBildmarkeHTML('welcome-logo-mark') + '<span class=\"welcome-wort\"><span cl",
@@ -457,22 +457,22 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderCryptoOverlay",
-   "zeile": 46873,
-   "abdruck": "ce81c8c7ba2f2c46",
+   "zeile": 47329,
+   "abdruck": "d2f81af642d974b2",
    "anzahl": 1,
-   "code": "el.innerHTML = '<div class=\"karte entsperren-karte\">' + '<div class=\"entsperren-kopf\">' + '<p class=\"welcome-brand\">' + _vdBildmarkeHTML('welcome-logo-mark') + '<span class=\"welcome-wort\"><span class=",
-   "grund": "Die vorDepotText-Texte stehen in escapeHTML. dateiZeile maskiert _cryptoDatei.name, den Namen der gewählten Datei, mit escapeHTML; alles Übrige sind feste Literale, ICONS und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026. 29.10.2026: der Sprachknopf kommt aus vorDepotSprachKnopfHTML(); Sprachcode (Schlüssel der Modul-Registry) in escapeAttr, sein Name (Intl.DisplayNames, sonst der Code) in escapeHTML; Probe [Vor-Depot·Kern·Escape] mit Rot-Beweis in tests/vor-depot-sprachwahl-module.test.js. 01.11.2026: am Ende steht die leise Haftungszeile (ueberHinweiseVorDepotZeileHTML): STRINGS.fussHaftung und STRINGS.ueberHinweiseTitel in escapeHTML, sonst feste Literale; Probe tests/ueber-und-hinweise-erreichbar.test.js. 06.11.2026 (Zielbild 03): die Karte trägt Marke, Sprachknopf, Überschrift „Willkommen zurück“ und zwei leise Wege; jeder vorDepotText-Text steht in escapeHTML, sonst feste Literale. Probe tests/sperrschirm-und-dialog-texte-maskiert.test.js mit Rot-Beweis. 07.11.2026 (Import-Anzeige): neu sind zwei Blöcke mit Zweitknöpfen nach einer Abweisung (crypto-fehler-weiter: mappeAndereDatei, fehlerbeschreibungSpeichern; crypto-fehler-misch: sicherungsdateiOeffnen); jeder Text steht in escapeHTML(vorDepotText(...)), ids und Klassen sind feste Literale. Kein neuer eingesetzter Wert. 11.11.2026: beide Fassungen zusammengeführt (Gestaltungs-Kette b20 auf den Kanon), dieselben Maskierungen.",
    "probe": [
     "tests/white-label-bildmarke-formen.test.js",
     "tests/vor-depot-sprachwahl-module.test.js",
     "tests/ueber-und-hinweise-erreichbar.test.js",
     "tests/sperrschirm-und-dialog-texte-maskiert.test.js"
-   ]
+   ],
+   "code": "el.innerHTML = '<div class=\"karte entsperren-karte\">' + '<div class=\"entsperren-kopf\">' + '<p class=\"welcome-brand\">' + _vdBildmarkeHTML('welcome-logo-mark') + '<span class=\"welcome-wort\"><span class=",
+   "grund": "Die vorDepotText-Texte stehen in escapeHTML. dateiZeile maskiert _cryptoDatei.name, den Namen der gewählten Datei, mit escapeHTML; alles Übrige sind feste Literale, ICONS und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026. 29.10.2026: der Sprachknopf kommt aus vorDepotSprachKnopfHTML(); Sprachcode (Schlüssel der Modul-Registry) in escapeAttr, sein Name (Intl.DisplayNames, sonst der Code) in escapeHTML; Probe [Vor-Depot·Kern·Escape] mit Rot-Beweis in tests/vor-depot-sprachwahl-module.test.js. 01.11.2026: am Ende steht die leise Haftungszeile (ueberHinweiseVorDepotZeileHTML): STRINGS.fussHaftung und STRINGS.ueberHinweiseTitel in escapeHTML, sonst feste Literale; Probe tests/ueber-und-hinweise-erreichbar.test.js. 06.11.2026 (Zielbild 03): die Karte trägt Marke, Sprachknopf, Überschrift „Willkommen zurück“ und zwei leise Wege; jeder vorDepotText-Text steht in escapeHTML, sonst feste Literale. Probe tests/sperrschirm-und-dialog-texte-maskiert.test.js mit Rot-Beweis. 07.11.2026 (Import-Anzeige): neu sind zwei Blöcke mit Zweitknöpfen nach einer Abweisung (crypto-fehler-weiter: mappeAndereDatei, fehlerbeschreibungSpeichern; crypto-fehler-misch: sicherungsdateiOeffnen); jeder Text steht in escapeHTML(vorDepotText(...)), ids und Klassen sind feste Literale. Kein neuer eingesetzter Wert. 11.11.2026: beide Fassungen zusammengeführt (Gestaltungs-Kette b20 auf den Kanon), dieselben Maskierungen. 20.11.2026 (v1070, Öffnen-Schirm): neu ist der Baustein _dateiFassungZeileHTML; beide Sätze (oeffnenFassungSatz mit dem Datum aus BUILD_DATUM, oeffnenFassungLink mit dem Host der Aktualisierungs-Adresse der Marke) stehen in escapeHTML, ids und Klassen sind feste Literale. Kein Wert aus Depot-Datei oder Einlass."
   },
   {
    "datei": "vivodepot.html",
    "funktion": "renderCodeOeffnen",
-   "zeile": 47168,
+   "zeile": 47637,
    "abdruck": "dde9c47c1254319a",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\"><h1 class=\"welcome-brand\" id=\"overlay-titel\">' + escapeHTML(vorDepotText('whcOeffnenCodeLabel')) + '</h1></div>' + '<p class=\"crypto-auff\" id=\"whc-oeffnen-auf",
@@ -481,7 +481,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderErledigen",
-   "zeile": 47309,
+   "zeile": 47778,
    "abdruck": "f966c8823ce361eb",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -493,7 +493,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "pwStaerkeAnzeigeVerdrahten",
-   "zeile": 47843,
+   "zeile": 48312,
    "abdruck": "431409dbef178a50",
    "anzahl": 1,
    "code": "a.innerHTML = '<span class=\"pw-staerke-balken\" aria-hidden=\"true\"><i></i><i></i><i></i></span>' + '<span class=\"pw-staerke-text\">' + escapeHTML(STRINGS.pwStaerkeLabel + ' ' + wort) + (tipp ? (' · ' + ",
@@ -502,7 +502,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderBlattOverlay",
-   "zeile": 48679,
+   "zeile": 49148,
    "abdruck": "d79bf3fa73c4501a",
    "anzahl": 1,
    "code": "ov.innerHTML = '<div class=\"pv-dok-toolbar\">' + '<p class=\"pv-dok-hinweis\">' + escapeHTML(hinweis) + '</p>' + '<div class=\"pv-dok-knoepfe\"><button class=\"btn\" id=\"nfb-drucken\">' + escapeHTML(knopf) + ",
@@ -511,7 +511,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "zeigeSchlussSicht",
-   "zeile": 49337,
+   "zeile": 49813,
    "abdruck": "f2da3cd5817399dc",
    "anzahl": 1,
    "code": "if (el) el.innerHTML = '<div class=\"welcome-kopf\">' + '<h1 class=\"welcome-brand\" id=\"overlay-titel\">' + _vdBildmarkeHTML('welcome-logo-mark') + '<span class=\"welcome-wort\"><span class=\"lw-vivo-d\">VIVO",
@@ -523,7 +523,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSaveStatus",
-   "zeile": 56154,
+   "zeile": 56675,
    "abdruck": "d956270a81c578e2",
    "anzahl": 1,
    "code": "if (ico) ico.innerHTML = (m.zustand === 'ungespeichert' || m.zustand === 'unbestaetigt' || m.zustand === 'fehlgeschlagen') ? svgIcon(ICONS.alertTriangle, 16) : ''",
@@ -532,7 +532,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSaveStatus",
-   "zeile": 56172,
+   "zeile": 56693,
    "abdruck": "8d340fa62f339c4e",
    "anzahl": 1,
    "code": "knopf.innerHTML = svgIcon(ICONS.save, 16) + '<span class=\"tb-save-knopf-text\">' + escapeHTML(knopfLabel) + '</span>'",
@@ -541,7 +541,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56230,
+   "zeile": 56751,
    "abdruck": "0d664774140cffe2",
    "anzahl": 1,
    "code": "if (ico && !ico.innerHTML) ico.innerHTML = svgIcon(ICONS.menu)",
@@ -550,7 +550,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56290,
+   "zeile": 56772,
    "abdruck": "060ff225dec3e61f",
    "anzahl": 1,
    "code": "btUebersicht.querySelector('.ico').innerHTML = svgIcon(ICONS.home)",
@@ -559,25 +559,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56256,
-   "abdruck": "62bb99d235d12bfa",
-   "anzahl": 1,
-   "code": "btHerausgeben.querySelector('.ico').innerHTML = svgIcon(ICONS.fileDown)",
-   "grund": "Nur svgIcon(ICONS.fileDown), fester Text."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderTopbar",
-   "zeile": 56262,
-   "abdruck": "466909caf7d0c828",
-   "anzahl": 1,
-   "code": "btEinlesen.querySelector('.ico').innerHTML = svgIcon(ICONS.fileText)",
-   "grund": "Nur svgIcon(ICONS.fileText), fester Text."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderTopbar",
-   "zeile": 56296,
+   "zeile": 56778,
    "abdruck": "67d0247482aa2d62",
    "anzahl": 1,
    "code": "btBereiche.querySelector('.ico').innerHTML = svgIcon(ICONS.folder)",
@@ -586,7 +568,25 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56350,
+   "zeile": 56784,
+   "abdruck": "466909caf7d0c828",
+   "anzahl": 1,
+   "code": "btEinlesen.querySelector('.ico').innerHTML = svgIcon(ICONS.fileText)",
+   "grund": "Nur svgIcon(ICONS.fileText), fester Text."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderTopbar",
+   "zeile": 56790,
+   "abdruck": "62bb99d235d12bfa",
+   "anzahl": 1,
+   "code": "btHerausgeben.querySelector('.ico').innerHTML = svgIcon(ICONS.fileDown)",
+   "grund": "Nur svgIcon(ICONS.fileDown), fester Text."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderTopbar",
+   "zeile": 56886,
    "abdruck": "cf44eab03bc9aac0",
    "anzahl": 1,
    "code": "kontrast.querySelector('.ico').innerHTML = svgIcon(ICONS.contrast)",
@@ -595,7 +595,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56355,
+   "zeile": 56891,
    "abdruck": "4064824e6d61d2b0",
    "anzahl": 1,
    "code": "nacht.querySelector('.ico').innerHTML = svgIcon(ICONS.moon)",
@@ -604,7 +604,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56369,
+   "zeile": 56905,
    "abdruck": "745d126c90aa1ff3",
    "anzahl": 1,
    "code": "if (ico) ico.innerHTML = svgIcon(ICONS.volume2)",
@@ -613,7 +613,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56381,
+   "zeile": 56917,
    "abdruck": "7db126404a7c716d",
    "anzahl": 1,
    "code": "einst.querySelector('.ico').innerHTML = svgIcon(ICONS.settings)",
@@ -622,7 +622,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56389,
+   "zeile": 56925,
    "abdruck": "a032fcaf300d5a37",
    "anzahl": 1,
    "code": "const ico = schliessenBtn.querySelector('.ico')",
@@ -631,7 +631,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 56400,
+   "zeile": 56936,
    "abdruck": "ba8be2b0c2dc3716",
    "anzahl": 1,
    "code": "const ico = pwHinweis.querySelector('.ico')",
@@ -640,7 +640,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderUeberHinweise",
-   "zeile": 56684,
+   "zeile": 57361,
    "abdruck": "6a1872715fd73db6",
    "anzahl": 1,
    "code": "c.innerHTML = '<div class=\"content-narrow ueber-hinweise\" data-ansicht=\"ueber-hinweise\">' + '<div class=\"bereich-kopf\"><h1>' + escapeHTML(STRINGS.ueberHinweiseTitel) + '</h1></div>' + '<p class=\"sekto",
@@ -654,7 +654,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSuchtreffer",
-   "zeile": 56731,
+   "zeile": 57408,
    "abdruck": "c285ce9eeb2926ef",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -666,7 +666,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_staleCacheWarnungAnzeigen",
-   "zeile": 56812,
+   "zeile": 57489,
    "abdruck": "dc1fcb08f87e0e4b",
    "anzahl": 1,
    "code": "el.innerHTML = '<span class=\"stale-warnung\">' + svgIcon(ICONS.alertTriangle, 14) + ' ' + escapeHTML(STRINGS.fussStaleCacheWarnung) + '</span>'",
@@ -678,7 +678,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_kreisPersonAuswahlVerdrahten",
-   "zeile": 57155,
+   "zeile": 57832,
    "abdruck": "c45b1f71248196fd",
    "anzahl": 1,
    "code": "maske.innerHTML = _personNeuMaskeHTML('kreis', '', false)",
@@ -690,7 +690,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderEintragenUebersicht",
-   "zeile": 58694,
+   "zeile": 59387,
    "abdruck": "9361fe00a27d0043",
    "anzahl": 1,
    "code": "c.innerHTML = _uebersichtHTML()",
@@ -698,272 +698,8 @@
   },
   {
    "datei": "vivodepot.html",
-   "funktion": "renderSidebar",
-   "zeile": 58828,
-   "abdruck": "1e1883d7587a639f",
-   "anzahl": 1,
-   "code": "sb.innerHTML = html",
-   "grund": "renderSidebar: unmaskiert sind nur s.label, s.navUnterzeile und gruppe.titel. Sie haben dieselbe Herkunft wie bei 42837: Bereichsmodule sind auf reinen Text geprüft (8801), Clustertitel laufen über escapeHTML (42673). Die STRINGS-Werte sind reiner Text, und keiner der hier roh gesetzten Schlüssel enthält {marke}. Modultitel und Herkunft laufen über escapeHTML (42905ff)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderSidebar",
-   "zeile": 58834,
-   "abdruck": "6903f999685d4b37",
-   "anzahl": 1,
-   "code": "sb.insertAdjacentHTML('afterbegin', sucheHtml)",
-   "grund": "renderSidebar (Suchfeld, U-3): sucheHtml ist festes Markup; nur aria-label und placeholder kommen aus STRINGS, beide über escapeHTML. Fundstelle am Zugstand bae8db769: sucheHtml Z.58602–58608; svgIcon setzt nur die ICONS-Konstante ein (Z.3495). Geprüft 16.11.2026, Einzelwort der Gegenlesung."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderSidebar",
-   "zeile": 58836,
-   "abdruck": "480c27af9b132cb1",
-   "anzahl": 2,
-   "code": "if (_platzAktionen) _platzAktionen.innerHTML = kopfAktionen",
-   "grund": "renderSidebar (Einlesen und Herausgeben in der Kopfleiste, U-3; zweimal: innerHTML und insertAdjacentHTML in der Seitenleiste): kopfAktionen besteht aus zwei festen Knöpfen, aria-label und Text über escapeHTML(STRINGS…); replace entfernt nur Klassennamen. Fundstelle am Zugstand bae8db769: kopfAktionen Z.58707–58716; svgIcon setzt nur die ICONS-Konstante ein (Z.3495). Geprüft 16.11.2026, Einzelwort der Gegenlesung."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "dokumentOeffnen",
-   "zeile": 62350,
-   "abdruck": "07884a8930007c34",
-   "anzahl": 1,
-   "code": "ov.innerHTML = '<div class=\"pv-dok-toolbar\">' + da.toolbarHinweisHTML + (da.lueckenFelder ? _identitaetLueckenHinweisHTML(da.lueckenFelder) : '') + '<div class=\"pv-dok-knoepfe\"><button class=\"btn\" id=",
-   "grund": "Sicher seit v842: dokumentHTML maskiert klasse und fussText (vorher roh aus eingelassenen Modulen); toolbarHinweisHTML kommt aus Modulen nur als escapeHTML(toolbarHinweis) (logikModulPruefen), aus STRINGS nur in der Absatzform _TEXTSATZ_HINWEIS_ABSATZ_FORM mit maskierter Marke. Probe: tests/fremdtext-senken.test.js.",
-   "probe": [
-    "tests/fremdtext-senken.test.js"
-   ]
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderWizard",
-   "zeile": 62931,
-   "abdruck": "78843b92e461f2c7",
-   "anzahl": 1,
-   "code": "if (!def) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const idx = Math.min(Math.max(wizardSchrittIndex, 0), def.schritte.l",
-   "grund": "Hier steht nur STRINGS.bereichLeer. Modultexte für diesen Schlüssel werden in _textsatzTexteUebernehmen verworfen, wenn sie nicht reiner Text sind (_TAG_ODER_REFERENZ: kein <Buchstabe, keine Entität, kein \"). Der Schlüssel enthält kein {marke}."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderWizard",
-   "zeile": 62984,
-   "abdruck": "8fb1c671b6fef07e",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderWizard maskiert def.titel, die Einleitung, schritt.frage und den Hilfetext mit escapeHTML. feldInputHTML (53927) maskiert Beschriftungen und Werte (escapeHTML/escapeAttr, bzw. .replace('\"') in Attributen mit doppelten Anführungszeichen). feldWertHTML (53117) maskiert ebenfalls und lässt bei Verweisen nur https durch (_verweisZielGeprueft 53111)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderAngehoerigenBlatt",
-   "zeile": 63668,
-   "abdruck": "052daf1b3e5ed353",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderAngehoerigenBlatt (47173) maskiert alle Blatt- und Dokumentwerte mit escapeHTML. akutZeileHTML (47120) maskiert Beschriftung und Quelle und gibt den Wert über feldWertHTML aus, das seinerseits maskiert."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "sprachfassungHinweisAnzeigen",
-   "zeile": 63817,
-   "abdruck": "d6eeebf8c8957612",
-   "anzahl": 1,
-   "code": "if (sprachfassungLueckenAnzahl() > 0) c.insertAdjacentHTML('afterbegin', sprachfassungHinweisHTML())",
-   "grund": "sprachfassungHinweisHTML (47346) gibt nur escapeHTML(STRINGS.sprachfassungUnvollstaendigHinweis) aus."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderContent",
-   "zeile": 63919,
-   "abdruck": "565df87b166f9212",
-   "anzahl": 1,
-   "code": "c.insertAdjacentHTML('afterbegin', namenlosHinweisHTML())",
-   "grund": "namenlosHinweisHTML (47356) maskiert alle drei STRINGS-Werte mit escapeHTML."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderPrueftermine",
-   "zeile": 64274,
-   "abdruck": "a6890c1d1296ae1d",
-   "anzahl": 1,
-   "code": "c.innerHTML = '<div class=\"content-narrow\">' + '<div class=\"bereich-kopf\"><span class=\"ico\">' + icon('clock', 24) + '</span><h2>' + escapeHTML(STRINGS.prueftermineTitel) + '</h2></div>' + vorgeschlage",
-   "grund": "prueftermineSektionHTML (40008) maskiert r.id, r.name, die Meta-Texte und die Ereignistexte mit escapeHTML. Die Klasse des Ampelpunkts kommt aus einer festen Abbildung (_ampelDotKlasse). vorgeschlageneLageBannerHTML maskiert lageId und Texte."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderMappe",
-   "zeile": 64399,
-   "abdruck": "d6749c181bbd00f6",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderMappe maskiert STRINGS und Größe. mappeListeHTML maskiert e.id, beschriftung, dateiname und bereich; die Bildquelle lässt _mappeInhaltAlsQuelle nur als data:image-Base64 zu (Muster vor 47790), und sie wird zusätzlich maskiert."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderMappe",
-   "zeile": 64409,
-   "abdruck": "de0ca421dd2120f8",
-   "anzahl": 1,
-   "code": "host.innerHTML = mappeListeHTML(mappeSuche(eintraege, suche.value))",
-   "grund": "mappeListeHTML wie bei 47866: alle Depotwerte laufen über escapeHTML, die Bildquelle nur über _mappeInhaltAlsQuelle. Die Sucheingabe filtert nur und wird nicht ausgegeben."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderSektor",
-   "zeile": 66359,
-   "abdruck": "62449ecb2570ba3f",
-   "anzahl": 1,
-   "code": "if (!s) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const sektorDaten = (data && data.sektoren[sektorId]) || {}",
-   "grund": "Hier steht nur STRINGS.bereichLeer. Textsatz-Module lassen dafür nur reinen Text zu (_textsatzTexteUebernehmen/_TAG_ODER_REFERENZ)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderSektor",
-   "zeile": 66813,
-   "abdruck": "e6ce21ad458a147e",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderSektor setzt s.label und quelleFeld.label roh. Beide sind sicher: sie stammen aus Bereichsmodulen oder dem Textsatz, beide auf reinen Text geprüft (8801 / _textsatzTexteUebernehmen); CROSS_SEKTOR_FELDER ist eine Konstante. Die Teilbausteine maskieren. Geprüft: feldZeileHTML, feldInputHTML, feldWertHTML, deckblattHTML, vorsorgeRegalHTML, sichtbarkeitsKartenHTML, logikModulAuszugKartenHTML (Klasse und Attribut per Muster in _logikKarteLesen), dokumentPanelHTML (idA und Datum maskiert), feldGueltigkeitZeileHTML, urheberschaftZeileHTML und wizardStartHTML. Bei K9-Vorlagen laufen Titel und anbieterName hier über escapeHTML."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderSituation",
-   "zeile": 66922,
-   "abdruck": "c57bc1a04dcfe611",
-   "anzahl": 1,
-   "code": "if (!si) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const sitId = si.id",
-   "grund": "Hier steht nur STRINGS.bereichLeer, reiner Text, wie bei 46532."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderSituation",
-   "zeile": 67091,
-   "abdruck": "8565e08fba948fc7",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderSituation (49239) maskiert si.titel, die Einführung, die Hinweise, die Blocktitel und verwandt.id. Die Feldzeilen kommen aus feldZeileHTML und situationSektorZeileHTML (49205), beide maskieren. Roh bleiben nur STRINGS (reiner Text) und svgIcon(ICONS.*)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderAnfrage",
-   "zeile": 72448,
-   "abdruck": "5332d5563a59d9a3",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderAnfrage (52493) maskiert alle Anfragewerte (von, zweck, grundlage, vorgang, kennung, label, zweck je Feld) mit escapeHTML. Roh stehen nur die Array-Längen als Zahlen."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderZusammenstellen",
-   "zeile": 73117,
-   "abdruck": "90aa4e9ecc43af25",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "Sicher seit v842: z.name und die Treffer über escapeHTML, die Anzahl nur aus einem Array (vorher z.kennungen.length roh aus dem Depot). Probe: tests/fremdtext-senken.test.js, Zusammenstellung.",
-   "probe": [
-    "tests/fremdtext-senken.test.js"
-   ]
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "eintragebereichVerdrahten",
-   "zeile": 74027,
-   "abdruck": "8a91c028d345d0c4",
-   "anzahl": 1,
-   "code": "if (ico) ico.innerHTML = svgIcon(ICONS.fileDown)",
-   "grund": "eintragebereichVerdrahten (U-4): nur svgIcon mit der Konstante ICONS.fileDown, kein Wert. Fundstelle am Zugstand bae8db769: Z.73860; svgIcon setzt nur die ICONS-Konstante ein (Z.3495). Geprüft 16.11.2026, Einzelwort der Gegenlesung."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "eintragebereichVerdrahten",
-   "zeile": 74486,
-   "abdruck": "c3825463b6ead3ce",
-   "anzahl": 1,
-   "code": "if (ico) ico.innerHTML = svgIcon(ICONS.chevronRight)",
-   "grund": "eintragebereichVerdrahten: nur svgIcon(ICONS.chevronRight), feste Konstante, kein Feldwert (U-4 Eintragebereich am Handy, Zurück-Knopf; 17.11.2026)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "_refSubPickerVerdrahten",
-   "zeile": 76626,
-   "abdruck": "6b18a30d5287f68d",
-   "anzahl": 1,
-   "code": "inlineInst.innerHTML = listenEintragInputsHTML(institutionFeld, {}) + '<button type=\"button\" class=\"btn-mini\" data-neu-anlegen=\"' + escapeAttr(fid) + '\">' + STRINGS.btnHinzufuegen + '</button> ' + '<b",
-   "grund": "listenEintragInputsHTML maskiert uf.id, label und hint und ruft feldInputHTML mit leerem Eintrag auf. Die Art-Optionen von _institutionFelder werden in feldInputHTML maskiert (Wert per .replace('\"'), Beschriftung per escapeHTML). fid läuft über escapeAttr; STRINGS sind reiner Text."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "_refSubPickerVerdrahten",
-   "zeile": 76667,
-   "abdruck": "f72a26c5b6835c43",
-   "anzahl": 1,
-   "code": "inline.innerHTML = _personNeuMaskeHTML(fid, '', mitGeburt)",
-   "grund": "Setzt _personNeuMaskeHTML(fid, '', mitGeburt) ein: fid ist die Feldkennung aus der Bereichsdefinition und geht in der Maske über escapeAttr, ebenso die Platzhalter; Beschriftungen und Knopftexte über escapeHTML; die Datumsgrenzen sind die Konstante DATUM_JAHR_MIN_GEBURT und _datumHeuteIso(). Neu geprüft am 31.10.2026 (vorher dieselbe Maske inline).",
-   "probe": [
-    "tests/person-neu-maske-escape.test.js"
-   ]
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "_refMehrfachVerdrahten",
-   "zeile": 76842,
-   "abdruck": "aa967beafcaad2a7",
-   "anzahl": 1,
-   "code": "maske.innerHTML = _personNeuMaskeHTML(fid, nm, false)",
-   "grund": "Setzt _personNeuMaskeHTML(fid, nm, false) ein: nm ist der eingetippte Name aus dem Suchfeld und geht in der Maske über escapeAttr (value-Attribut), fid ebenso; Beschriftungen und Knopftexte über escapeHTML. Neu geprüft am 31.10.2026 (vorher dieselbe Maske inline).",
-   "probe": [
-    "tests/person-neu-maske-escape.test.js"
-   ]
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "_refMehrfachVerdrahten",
-   "zeile": 76975,
-   "abdruck": "4d3d34324af1d48c",
-   "anzahl": 1,
-   "code": "tmp.innerHTML = _refmZeileHTML(feld, { ref: '', override: '' })",
-   "grund": "_refmZeileHTML (53850) setzt ref, override und anzeige nur in Attribute mit doppelten Anführungszeichen, jeweils über escapeAttr (seit v928). fid und Entität laufen über escapeAttr, Beschriftung und STRINGS über escapeHTML. Hier wird ohnehin ein leerer Eintrag übergeben."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "_chipFelderVerdrahten",
-   "zeile": 77048,
-   "abdruck": "cfd046f4450ce204",
-   "anzahl": 1,
-   "code": "span.innerHTML = chipInnerHTML(chip)",
-   "grund": "chipInnerHTML (55248) gibt chip.text und chip.code.code nur über escapeHTML aus; dazu kommt escapeHTML(STRINGS.chipWeg)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderNotfall",
-   "zeile": 78092,
-   "abdruck": "6dab99aa1520f08f",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderNotfall (55966) maskiert z.label und z.wert mit escapeHTML. notfallZeileZuEingabeHTML maskiert Sektor, Feld und Beschriftung. Roh stehen nur STRINGS (reiner Text) und svgIcon(ICONS.*)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderSubDepotKonzept",
-   "zeile": 78398,
-   "abdruck": "7e31b124906f7eba",
-   "anzahl": 1,
-   "code": "c.innerHTML = html",
-   "grund": "renderSubDepotKonzept (56205) gibt STRINGS nur über esc=escapeHTML aus; dazu kommen icon() und subKonzeptGrafikSVG() (56182) mit festen Koordinaten. Es fließen keine Depotwerte ein."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "renderVerwalteteDepots",
-   "zeile": 78462,
-   "abdruck": "a3bd919b8855afe5",
-   "anzahl": 2,
-   "code": "c.innerHTML = html",
-   "grund": "renderVerwalteteDepots: depotUUID läuft über escapeAttr; bezeichnung, inhaberin und empfaenger über escapeHTML. Die Werte in style= stammen aus subDepotAkzentToken (27814), das nur eine Palette oder geprüftes Hex zulässt. _widerspruchListeHTML (56402) maskiert den ganzen Satz."
-  },
-  {
-   "datei": "vivodepot.html",
    "funktion": "_kopfDarstellung",
-   "zeile": 59193,
+   "zeile": 59504,
    "abdruck": "7bb82aa13faabd6f",
    "anzahl": 1,
    "code": "k.innerHTML = svgIcon(ICONS.barrierefrei, 20)",
@@ -975,7 +711,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_kopfLupe",
-   "zeile": 58751,
+   "zeile": 59529,
    "abdruck": "0fae3ec3d089b0b8",
    "anzahl": 1,
    "code": "k.innerHTML = svgIcon(ICONS.search, 20)",
@@ -983,6 +719,270 @@
    "probe": [
     "tests/suche-lupe-u8a.test.js"
    ]
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSidebar",
+   "zeile": 59735,
+   "abdruck": "1e1883d7587a639f",
+   "anzahl": 1,
+   "code": "sb.innerHTML = html",
+   "grund": "renderSidebar: unmaskiert sind nur s.label, s.navUnterzeile und gruppe.titel. Sie haben dieselbe Herkunft wie bei 42837: Bereichsmodule sind auf reinen Text geprüft (8801), Clustertitel laufen über escapeHTML (42673). Die STRINGS-Werte sind reiner Text, und keiner der hier roh gesetzten Schlüssel enthält {marke}. Modultitel und Herkunft laufen über escapeHTML (42905ff)."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSidebar",
+   "zeile": 59743,
+   "abdruck": "6903f999685d4b37",
+   "anzahl": 1,
+   "code": "sb.insertAdjacentHTML('afterbegin', sucheHtml)",
+   "grund": "renderSidebar (Suchfeld, U-3): sucheHtml ist festes Markup; nur aria-label und placeholder kommen aus STRINGS, beide über escapeHTML. Fundstelle am Zugstand bae8db769: sucheHtml Z.58602–58608; svgIcon setzt nur die ICONS-Konstante ein (Z.3495). Geprüft 16.11.2026, Einzelwort der Gegenlesung."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSidebar",
+   "zeile": 59745,
+   "abdruck": "480c27af9b132cb1",
+   "anzahl": 2,
+   "code": "if (_platzAktionen) _platzAktionen.innerHTML = kopfAktionen",
+   "grund": "renderSidebar (Einlesen und Herausgeben in der Kopfleiste, U-3; zweimal: innerHTML und insertAdjacentHTML in der Seitenleiste): kopfAktionen besteht aus zwei festen Knöpfen, aria-label und Text über escapeHTML(STRINGS…); replace entfernt nur Klassennamen. Fundstelle am Zugstand bae8db769: kopfAktionen Z.58707–58716; svgIcon setzt nur die ICONS-Konstante ein (Z.3495). Geprüft 16.11.2026, Einzelwort der Gegenlesung."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "dokumentOeffnen",
+   "zeile": 63260,
+   "abdruck": "07884a8930007c34",
+   "anzahl": 1,
+   "code": "ov.innerHTML = '<div class=\"pv-dok-toolbar\">' + da.toolbarHinweisHTML + (da.lueckenFelder ? _identitaetLueckenHinweisHTML(da.lueckenFelder) : '') + '<div class=\"pv-dok-knoepfe\"><button class=\"btn\" id=",
+   "grund": "Sicher seit v842: dokumentHTML maskiert klasse und fussText (vorher roh aus eingelassenen Modulen); toolbarHinweisHTML kommt aus Modulen nur als escapeHTML(toolbarHinweis) (logikModulPruefen), aus STRINGS nur in der Absatzform _TEXTSATZ_HINWEIS_ABSATZ_FORM mit maskierter Marke. Probe: tests/fremdtext-senken.test.js.",
+   "probe": [
+    "tests/fremdtext-senken.test.js"
+   ]
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderWizard",
+   "zeile": 63841,
+   "abdruck": "78843b92e461f2c7",
+   "anzahl": 1,
+   "code": "if (!def) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const idx = Math.min(Math.max(wizardSchrittIndex, 0), def.schritte.l",
+   "grund": "Hier steht nur STRINGS.bereichLeer. Modultexte für diesen Schlüssel werden in _textsatzTexteUebernehmen verworfen, wenn sie nicht reiner Text sind (_TAG_ODER_REFERENZ: kein <Buchstabe, keine Entität, kein \"). Der Schlüssel enthält kein {marke}."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderWizard",
+   "zeile": 63894,
+   "abdruck": "8fb1c671b6fef07e",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderWizard maskiert def.titel, die Einleitung, schritt.frage und den Hilfetext mit escapeHTML. feldInputHTML (53927) maskiert Beschriftungen und Werte (escapeHTML/escapeAttr, bzw. .replace('\"') in Attributen mit doppelten Anführungszeichen). feldWertHTML (53117) maskiert ebenfalls und lässt bei Verweisen nur https durch (_verweisZielGeprueft 53111)."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderAngehoerigenBlatt",
+   "zeile": 64585,
+   "abdruck": "052daf1b3e5ed353",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderAngehoerigenBlatt (47173) maskiert alle Blatt- und Dokumentwerte mit escapeHTML. akutZeileHTML (47120) maskiert Beschriftung und Quelle und gibt den Wert über feldWertHTML aus, das seinerseits maskiert."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "sprachfassungHinweisAnzeigen",
+   "zeile": 64734,
+   "abdruck": "d6eeebf8c8957612",
+   "anzahl": 1,
+   "code": "if (sprachfassungLueckenAnzahl() > 0) c.insertAdjacentHTML('afterbegin', sprachfassungHinweisHTML())",
+   "grund": "sprachfassungHinweisHTML (47346) gibt nur escapeHTML(STRINGS.sprachfassungUnvollstaendigHinweis) aus."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderContent",
+   "zeile": 64836,
+   "abdruck": "565df87b166f9212",
+   "anzahl": 1,
+   "code": "c.insertAdjacentHTML('afterbegin', namenlosHinweisHTML())",
+   "grund": "namenlosHinweisHTML (47356) maskiert alle drei STRINGS-Werte mit escapeHTML."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderPrueftermine",
+   "zeile": 65191,
+   "abdruck": "a6890c1d1296ae1d",
+   "anzahl": 1,
+   "code": "c.innerHTML = '<div class=\"content-narrow\">' + '<div class=\"bereich-kopf\"><span class=\"ico\">' + icon('clock', 24) + '</span><h2>' + escapeHTML(STRINGS.prueftermineTitel) + '</h2></div>' + vorgeschlage",
+   "grund": "prueftermineSektionHTML (40008) maskiert r.id, r.name, die Meta-Texte und die Ereignistexte mit escapeHTML. Die Klasse des Ampelpunkts kommt aus einer festen Abbildung (_ampelDotKlasse). vorgeschlageneLageBannerHTML maskiert lageId und Texte."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderMappe",
+   "zeile": 65316,
+   "abdruck": "d6749c181bbd00f6",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderMappe maskiert STRINGS und Größe. mappeListeHTML maskiert e.id, beschriftung, dateiname und bereich; die Bildquelle lässt _mappeInhaltAlsQuelle nur als data:image-Base64 zu (Muster vor 47790), und sie wird zusätzlich maskiert."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderMappe",
+   "zeile": 65326,
+   "abdruck": "de0ca421dd2120f8",
+   "anzahl": 1,
+   "code": "host.innerHTML = mappeListeHTML(mappeSuche(eintraege, suche.value))",
+   "grund": "mappeListeHTML wie bei 47866: alle Depotwerte laufen über escapeHTML, die Bildquelle nur über _mappeInhaltAlsQuelle. Die Sucheingabe filtert nur und wird nicht ausgegeben."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSektor",
+   "zeile": 67377,
+   "abdruck": "62449ecb2570ba3f",
+   "anzahl": 1,
+   "code": "if (!s) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const sektorDaten = (data && data.sektoren[sektorId]) || {}",
+   "grund": "Hier steht nur STRINGS.bereichLeer. Textsatz-Module lassen dafür nur reinen Text zu (_textsatzTexteUebernehmen/_TAG_ODER_REFERENZ)."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSektor",
+   "zeile": 67834,
+   "abdruck": "e6ce21ad458a147e",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderSektor setzt s.label und quelleFeld.label roh. Beide sind sicher: sie stammen aus Bereichsmodulen oder dem Textsatz, beide auf reinen Text geprüft (8801 / _textsatzTexteUebernehmen); CROSS_SEKTOR_FELDER ist eine Konstante. Die Teilbausteine maskieren. Geprüft: feldZeileHTML, feldInputHTML, feldWertHTML, deckblattHTML, vorsorgeRegalHTML, sichtbarkeitsKartenHTML, logikModulAuszugKartenHTML (Klasse und Attribut per Muster in _logikKarteLesen), dokumentPanelHTML (idA und Datum maskiert), feldGueltigkeitZeileHTML, urheberschaftZeileHTML und wizardStartHTML. Bei K9-Vorlagen laufen Titel und anbieterName hier über escapeHTML."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSituation",
+   "zeile": 67952,
+   "abdruck": "c57bc1a04dcfe611",
+   "anzahl": 1,
+   "code": "if (!si) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const sitId = si.id",
+   "grund": "Hier steht nur STRINGS.bereichLeer, reiner Text, wie bei 46532."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSituation",
+   "zeile": 68121,
+   "abdruck": "8565e08fba948fc7",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderSituation (49239) maskiert si.titel, die Einführung, die Hinweise, die Blocktitel und verwandt.id. Die Feldzeilen kommen aus feldZeileHTML und situationSektorZeileHTML (49205), beide maskieren. Roh bleiben nur STRINGS (reiner Text) und svgIcon(ICONS.*)."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderAnfrage",
+   "zeile": 73472,
+   "abdruck": "5332d5563a59d9a3",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderAnfrage (52493) maskiert alle Anfragewerte (von, zweck, grundlage, vorgang, kennung, label, zweck je Feld) mit escapeHTML. Roh stehen nur die Array-Längen als Zahlen."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderZusammenstellen",
+   "zeile": 74143,
+   "abdruck": "90aa4e9ecc43af25",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "Sicher seit v842: z.name und die Treffer über escapeHTML, die Anzahl nur aus einem Array (vorher z.kennungen.length roh aus dem Depot). Probe: tests/fremdtext-senken.test.js, Zusammenstellung.",
+   "probe": [
+    "tests/fremdtext-senken.test.js"
+   ]
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "eintragebereichVerdrahten",
+   "zeile": 75061,
+   "abdruck": "c3825463b6ead3ce",
+   "anzahl": 1,
+   "code": "if (ico) ico.innerHTML = svgIcon(ICONS.chevronRight)",
+   "grund": "eintragebereichVerdrahten: nur svgIcon(ICONS.chevronRight), feste Konstante, kein Feldwert (U-4 Eintragebereich am Handy, Zurück-Knopf; 17.11.2026)."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "eintragebereichVerdrahten",
+   "zeile": 75072,
+   "abdruck": "8a91c028d345d0c4",
+   "anzahl": 1,
+   "code": "if (ico) ico.innerHTML = svgIcon(ICONS.fileDown)",
+   "grund": "eintragebereichVerdrahten (U-4): nur svgIcon mit der Konstante ICONS.fileDown, kein Wert. Fundstelle am Zugstand bae8db769: Z.73860; svgIcon setzt nur die ICONS-Konstante ein (Z.3495). Geprüft 16.11.2026, Einzelwort der Gegenlesung."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "_refSubPickerVerdrahten",
+   "zeile": 77699,
+   "abdruck": "6b18a30d5287f68d",
+   "anzahl": 1,
+   "code": "inlineInst.innerHTML = listenEintragInputsHTML(institutionFeld, {}) + '<button type=\"button\" class=\"btn-mini\" data-neu-anlegen=\"' + escapeAttr(fid) + '\">' + STRINGS.btnHinzufuegen + '</button> ' + '<b",
+   "grund": "listenEintragInputsHTML maskiert uf.id, label und hint und ruft feldInputHTML mit leerem Eintrag auf. Die Art-Optionen von _institutionFelder werden in feldInputHTML maskiert (Wert per .replace('\"'), Beschriftung per escapeHTML). fid läuft über escapeAttr; STRINGS sind reiner Text."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "_refSubPickerVerdrahten",
+   "zeile": 77740,
+   "abdruck": "f72a26c5b6835c43",
+   "anzahl": 1,
+   "code": "inline.innerHTML = _personNeuMaskeHTML(fid, '', mitGeburt)",
+   "grund": "Setzt _personNeuMaskeHTML(fid, '', mitGeburt) ein: fid ist die Feldkennung aus der Bereichsdefinition und geht in der Maske über escapeAttr, ebenso die Platzhalter; Beschriftungen und Knopftexte über escapeHTML; die Datumsgrenzen sind die Konstante DATUM_JAHR_MIN_GEBURT und _datumHeuteIso(). Neu geprüft am 31.10.2026 (vorher dieselbe Maske inline).",
+   "probe": [
+    "tests/person-neu-maske-escape.test.js"
+   ]
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "_refMehrfachVerdrahten",
+   "zeile": 77915,
+   "abdruck": "aa967beafcaad2a7",
+   "anzahl": 1,
+   "code": "maske.innerHTML = _personNeuMaskeHTML(fid, nm, false)",
+   "grund": "Setzt _personNeuMaskeHTML(fid, nm, false) ein: nm ist der eingetippte Name aus dem Suchfeld und geht in der Maske über escapeAttr (value-Attribut), fid ebenso; Beschriftungen und Knopftexte über escapeHTML. Neu geprüft am 31.10.2026 (vorher dieselbe Maske inline).",
+   "probe": [
+    "tests/person-neu-maske-escape.test.js"
+   ]
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "_refMehrfachVerdrahten",
+   "zeile": 78048,
+   "abdruck": "4d3d34324af1d48c",
+   "anzahl": 1,
+   "code": "tmp.innerHTML = _refmZeileHTML(feld, { ref: '', override: '' })",
+   "grund": "_refmZeileHTML (53850) setzt ref, override und anzeige nur in Attribute mit doppelten Anführungszeichen, jeweils über escapeAttr (seit v928). fid und Entität laufen über escapeAttr, Beschriftung und STRINGS über escapeHTML. Hier wird ohnehin ein leerer Eintrag übergeben."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "_chipFelderVerdrahten",
+   "zeile": 78128,
+   "abdruck": "cfd046f4450ce204",
+   "anzahl": 1,
+   "code": "span.innerHTML = chipInnerHTML(chip)",
+   "grund": "chipInnerHTML (55248) gibt chip.text und chip.code.code nur über escapeHTML aus; dazu kommt escapeHTML(STRINGS.chipWeg)."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderNotfall",
+   "zeile": 79176,
+   "abdruck": "6dab99aa1520f08f",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderNotfall (55966) maskiert z.label und z.wert mit escapeHTML. notfallZeileZuEingabeHTML maskiert Sektor, Feld und Beschriftung. Roh stehen nur STRINGS (reiner Text) und svgIcon(ICONS.*)."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderSubDepotKonzept",
+   "zeile": 79485,
+   "abdruck": "7e31b124906f7eba",
+   "anzahl": 1,
+   "code": "c.innerHTML = html",
+   "grund": "renderSubDepotKonzept (56205) gibt STRINGS nur über esc=escapeHTML aus; dazu kommen icon() und subKonzeptGrafikSVG() (56182) mit festen Koordinaten. Es fließen keine Depotwerte ein."
+  },
+  {
+   "datei": "vivodepot.html",
+   "funktion": "renderVerwalteteDepots",
+   "zeile": 79549,
+   "abdruck": "a3bd919b8855afe5",
+   "anzahl": 2,
+   "code": "c.innerHTML = html",
+   "grund": "renderVerwalteteDepots: depotUUID läuft über escapeAttr; bezeichnung, inhaberin und empfaenger über escapeHTML. Die Werte in style= stammen aus subDepotAkzentToken (27814), das nur eine Palette oder geprüftes Hex zulässt. _widerspruchListeHTML (56402) maskiert den ganzen Satz."
   }
  ]
 }

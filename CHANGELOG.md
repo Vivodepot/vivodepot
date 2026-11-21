@@ -19,6 +19,15 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
+## [v1.0.1070] – 2026-11-20
+
+### Hinzugefügt
+- Öffnen-Schirm: Ist die Anwendung als Datei geöffnet, nennt der Schirm zum Öffnen des Depots ihre Fassung: „Diese Version ist vom … Ihre Daten bleiben bei einer Aktualisierung erhalten.“ Darunter steht der Link „Aktuelle Version auf … ansehen“; er öffnet diese Website in einem neuen Tab, bei Vivodepot vivodepot.de. Ist die Fassung älter als 30 Tage, ist der Satz als Hinweis hervorgehoben. In einer Anwendung, die über das Netz aufgerufen wird, entfällt die Zeile.
+- Öffnen-Schirm: „Neues Depot anlegen“ führt direkt in denselben Dialog wie „Depot anlegen“ auf dem Startschirm.
+
+### Geändert
+- Identität & Person: Das Foto steht nur noch im Kreis oben neben dem Namen. Ein Druck auf den Kreis öffnet das Hochladen. Die eigene Rubrik „Foto“ in der Liste der Abschnitte entfällt. Die Suche findet das Foto weiter und springt zum Kreis.
+
 ## [v1.0.1069] – 2026-11-19
 
 ### Hinzugefügt
