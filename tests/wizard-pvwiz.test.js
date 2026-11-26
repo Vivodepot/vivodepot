@@ -247,7 +247,7 @@ test('6b) refMehrfach-Schritte (Beistand/Schweigepflicht): Personen-Entität, Ch
   // Der Browser-Pfad (Verdrahtung + Speichern) ist headless nicht direkt fahrbar — Quell-Guard,
   // dass renderWizard das Chip-Input verdrahtet und _wizardAktuellerWert refMehrfach liest.
   const html = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  assert.ok(html.includes('_refMehrfachVerdrahten(c, (fid) => (fid === schritt.feld.id'), 'renderWizard verdrahtet das refMehrfach-Chip-Input');
+  assert.ok(html.includes('_refMehrfachVerdrahten(c, (fid) => refm[fid] || null)'), 'renderWizard verdrahtet das refMehrfach-Chip-Input jeder Zeile der Seite');
   assert.ok(html.includes('_refmInsRegister(_refmSammeln(c, feld.id))'), '_wizardAktuellerWert liest die refMehrfach-Zeilen');
 });
 

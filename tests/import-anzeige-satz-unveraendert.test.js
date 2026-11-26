@@ -34,6 +34,7 @@ function erwartungen(V) {
     'mappe-datei': [
       ['datei-zu-gross', null, S.mappeDateiZuGross],
       ['mappe-fehler', null, S.mappeFehler],
+      ['depot-zu-gross', null, S.depotGesamtZuGross],   // Posteingang (U2-ADR-529): das Depot als Ganzes ist zu groß
     ],
     'kdl': [
       ['kdl-ohne-version', null, S.kdlFehler_kdl_ohne_version || S.kdlFehler_kdl_kein_codesystem],
@@ -103,7 +104,7 @@ test('[Anschluss·Format] die Import-Wege lesen ihre Art aus dem Format, und der
 
 test('[Anschluss·Satz·Rot-Beweis] ohne die Satzquelle einer Art zeigt das Modell den allgemeinen Satz, und die Probe sieht es', () => {
   const quelle = fs.readFileSync(KERN_PFAD, 'utf8');
-  const ZEILE = "  'mappe-datei': (g) => (g === 'datei-zu-gross') ? STRINGS.mappeDateiZuGross : STRINGS.mappeFehler,\n";
+  const ZEILE = "  'mappe-datei': (g) => (g === 'depot-zu-gross') ? STRINGS.depotGesamtZuGross : (g === 'datei-zu-gross') ? STRINGS.mappeDateiZuGross : STRINGS.mappeFehler,\n";
   assert.equal(quelle.split(ZEILE).length, 2, 'die Satzquelle der Mappe steht genau einmal im Kern');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'anschluss-satz-'));
   try {

@@ -83,6 +83,8 @@ function schritt1MitElementen() {
 // Befund der Produktverantwortung 31.10.2026: „wenn ich oben auf pw vorschlagen gehe, dann muss ich unten alles eintippen. das ist selbst für mich unklar“.
 test('[S2·Probe der Wörter] die Probe steht unter den Wörtern, nennt die Aufgabe, und neue Wörter setzen den Fokus hinein', () => {
   const { V, document, els } = schritt1MitElementen();
+  // Passwort festlegen (24.11.2026): die Wörter kommen erst über das Angebot.
+  els['id-pw-vorschlag-knopf'].dispatchEvent({ type: 'click' });
   const html = document.getElementById('modal-inhalt').innerHTML;
   const iWoerter = html.indexOf('id="id-pw-vorschlag-woerter"');
   const iStaerke = html.indexOf('id="id-pw-staerke"');
@@ -111,6 +113,7 @@ test('[S2·Probe der Wörter] die Probe steht unter den Wörtern, nennt die Aufg
 // Muster statt Satz (Gestaltungsleitung 31.10.2026): je richtig abgetipptem Wort eine Markierung am Wort, wortgenau, nur beim Vorschlag.
 test('[S2·Markierung je Wort] richtig abgetippte Wörter sind oben markiert, falsch geschriebene und ein eigenes Passwort nicht', () => {
   const { els } = schritt1MitElementen();
+  els['id-pw-vorschlag-knopf'].dispatchEvent({ type: 'click' });   // Passwort festlegen: Angebot der Wörter nehmen
   const haken = () => els['id-pw-vorschlag-woerter'].querySelectorAll().map((s) => s.klassen.has('pw-wort-ok'));
   const soll = els['id-pw'].value.split('-');
   assert.equal(soll.length, 6, 'Vorbedingung: sechs Wörter im Feld');
@@ -133,7 +136,7 @@ test('[S2·Markierung je Wort] richtig abgetippte Wörter sind oben markiert, fa
 });
 
 test('[S2·Markierung je Wort·Rot-Beweis] ohne die Verdrahtung der Probe bleibt jede Markierung aus', () => {
-  const kopieText = KERN.replace("schlicht: true, probeId: 'id-pw2',", 'schlicht: true,');
+  const kopieText = KERN.replace("schlicht: true, ohneVorbelegung: true, probeId: 'id-pw2',", 'schlicht: true, ohneVorbelegung: true,');
   assert.notEqual(kopieText, KERN, 'Vorbedingung: die Verdrahtung steht im Kern');
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'zwei-schritte-haken-rot-'));
   const kopie = path.join(ordner, 'vivodepot.html');
@@ -147,6 +150,7 @@ test('[S2·Markierung je Wort·Rot-Beweis] ohne die Verdrahtung der Probe bleibt
     const stub = document.getElementById;
     document.getElementById = (id) => els[id] || stub(id);
     V.flowDepotAnlegen();
+    els['id-pw-vorschlag-knopf'].dispatchEvent({ type: 'click' });
     els['id-pw2'].value = els['id-pw'].value;
     els['id-pw2'].dispatchEvent({ type: 'input' });
     assert.ok(spans.every((s) => !s.klassen.has('pw-wort-ok')), 'ohne probeId keine Markierung');
@@ -275,7 +279,8 @@ test('[S2·Probe-Meldung] beim Wörter-Vorschlag spricht die Meldung von den Wö
   const woerter = V.passwortVorschlag();
   assert.ok(V._pwIstVorschlagForm(woerter), 'Testvoraussetzung: sechs Listenwörter');
   const w = woerter.split('-');
-  assert.equal(V.pwProbeMeldung(woerter, w.slice(0, 3).join('-') + '-' + w[3].slice(0, 2)), V.STRINGS.pwProbeWoerterUngleich);
+  // Vier Teile statt sechs: keine sechs Wörter zu erkennen, die Meldung sagt das (Anlegen: Schreibweise, 24.11.2026).
+  assert.equal(V.pwProbeMeldung(woerter, w.slice(0, 3).join('-') + '-' + w[3].slice(0, 2)), V.STRINGS.pwProbeKeineWoerter);
   assert.equal(V.pwProbeMeldung(woerter, [w[0], 'xxxqq'].concat(w.slice(2)).join('-')), V.STRINGS.pwProbeWortWeichtAb.replace('{n}', '2'));
   assert.equal(V.pwProbeVergleich(woerter, w.join(' ')).art, 'gleich', 'die Wörter, wie angezeigt, sind gleich (PASSWORT-TRENNZEICHEN)');
   assert.equal(V.pwProbeMeldung('Sommer-Garten-2026', 'Sommer-Garten'), V.STRINGS.pwSetzenUngleich);

@@ -1,0 +1,26 @@
+{
+  "zweck": "Einträge einer Auswahl, die in Englisch mit Absicht wie in Deutsch lauten (Teil D, tools/sprachluecken-messen.js). Je Eintrag ein Wort der Gegenlesung; die Liste ist eine Positivliste, ihr Deckel steht in tests/auswahl-englisch-klasse.test.js und sinkt nur.",
+  "eintraege": [
+    {
+      "stelle": "institutionsArt",
+      "wert": "bank",
+      "text": "Bank",
+      "grund": "englisches Wort lautet gleich",
+      "wort": "Gegenlesung 2026-11-19"
+    },
+    {
+      "stelle": "feld:SEKTOREN[identity].sektionen[fruehere-namen].felder[formerNames].unterFelder[reason]",
+      "wert": "adoption",
+      "text": "Adoption",
+      "grund": "englisches Wort lautet gleich",
+      "wort": "Gegenlesung 2026-11-19"
+    },
+    {
+      "stelle": "feld:SEKTOREN[health].sektionen[notfall-aerzte].felder[researchDecisions].unterFelder[kind]",
+      "wert": "biobank",
+      "text": "Biobank",
+      "grund": "englisches Wort lautet gleich",
+      "wort": "Gegenlesung 2026-11-19"
+    }
+  ]
+}

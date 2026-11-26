@@ -1,0 +1,58 @@
+{
+  "hinweis": "Erfundene Zuordnungen für tests/zuordnungen-pruefen.test.js (Aufbau wie bereiche/bezuege.json). Ohne Argument prüft tools/zuordnungen-pruefen.js diese Datei; sie ist ohne Befund.",
+  "zeilen": [
+    {
+      "kennung": "identity.givenName",
+      "datensatz": "probe-turtle",
+      "ziel": "http://beispiel.invalid/eins#vorname",
+      "vokabular": "Eins",
+      "fassung": "1.0.0",
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Gleiche Bedeutung auf beiden Seiten (erfundenes Beispiel).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-01-02"
+    },
+    {
+      "kennung": "identity.idDocuments/system",
+      "datensatz": "probe-turtle",
+      "ziel": "http://beispiel.invalid/eins#ausweisArt",
+      "vokabular": "Eins",
+      "fassung": "1.0.0",
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Bestand, von der Redaktion erhoben. Datum der Erhebung nicht belegt.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": ""
+    },
+    {
+      "kennung": "identity.familyName",
+      "datensatz": "probe-turtle",
+      "ziel": "http://beispiel.invalid/eins#nachname",
+      "vokabular": "Eins",
+      "fassung": "1.0.0",
+      "grad": "exakt",
+      "stufe": "fachlich-bestaetigt",
+      "begruendung": "Erfundene Bestätigung durch eine erfundene Prüfstelle.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "https://ror.org/0abcde123",
+      "bestaetigtAm": "2026-01-05",
+      "datum": "2026-01-03"
+    },
+    {
+      "kennung": "identity.givenName",
+      "datensatz": "probe-xdf",
+      "ziel": "F99000001",
+      "fassung": "1.0",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Bestand, von der Redaktion erhoben; eingeführt mit Commit 0000002.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-01-04"
+    }
+  ]
+}

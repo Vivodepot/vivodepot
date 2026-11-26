@@ -38,9 +38,9 @@ test('[Generator·SNOMED-Allergene] die Vorschlagsliste trägt Peanut und Tree n
   for (const d of liste.daten) assert.ok(d.anzeige && !/peanut|tree nut/i.test(d.anzeige), 'die Beschriftung ist der deutsche Name, nicht der SNOMED-Begriff: ' + d.anzeige);
 });
 
-test('[Generator·SNOMED-Allergene] das Beispiel „Anamnese“ codiert „Bekannte Allergien“ mit denselben zwei Konzepten', () => {
+test('[Generator·SNOMED-Allergene] das Beispiel „Praxis“ (früher „Anamnese“) codiert „Bekannte Allergien“ mit denselben zwei Konzepten', () => {
   const { V } = ladeGenerator();
-  const feld = V.BEISPIEL_TEMPLATES.anamnese.felder.find((f) => f.feldname === 'Bekannte Allergien');
+  const feld = V.BEISPIEL_TEMPLATES.praxis.felder.find((f) => f.feldname === 'Bekannte Allergien');
   assert.ok(feld, 'Feld „Bekannte Allergien“ fehlt im Beispiel');
   assert.equal(feld.feldtyp, 'mehrfachauswahl');
   assert.equal(feld.codeSystem, SNOMED);

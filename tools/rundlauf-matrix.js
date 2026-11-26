@@ -85,11 +85,12 @@ async function messen() {
       const kanaele = {};
       for (const kid of importIds) {
         let plan = null;
-        try { plan = V.importPlan(kid, text); } catch (_) { plan = null; }
+        try { plan = await V.importPlanGeprueft(kid, text); } catch (_) { plan = null; }   // der Einleseweg: die kompakte Form nur geprüft
         const n = planZeilen(plan);
         if (n > 0) kanaele[kid] = n;
       }
-      const eigen = importIds.includes(def.id) ? (() => { try { return V.importPlan(def.id, text); } catch (_) { return null; } })() : null;
+      let eigen = null;
+      if (importIds.includes(def.id)) { try { eigen = await V.importPlanGeprueft(def.id, text); } catch (_) { eigen = null; } }
       const vergleich = eigen ? zeilenVergleichen(V, eigen) : { gleich: [], anders: [] };
       zeile.laeufe[sensibel ? 'mitSensibel' : 'ohneSensibel'] = {
         bytes: Buffer.byteLength(text, 'utf8'),

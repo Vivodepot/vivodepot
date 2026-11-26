@@ -30,7 +30,7 @@ test('[SD-JWT·Rundlauf] eigene kompakte Ausgabe → Einlesen → dieselben Wert
   assert.match(serialisierung, /~$/);
   const def = V.importFormatFuerId('sd-jwt-vc-identitaet');
   assert.equal(def.erkennen(serialisierung), true, 'die kompakte Form wird als Identitäts-Nachweis erkannt');
-  const kompakt = V.importPlan('sd-jwt-vc-identitaet', serialisierung);
+  const kompakt = await V.importPlanGeprueft('sd-jwt-vc-identitaet', serialisierung);   // synchron nur abgelehnt (IMPORT-SYNCHRON-UNGEPRUEFT)
   const json = V.importPlan('sd-jwt-vc-identitaet', JSON.stringify(vc));
   assert.ok(!kompakt.ungueltig);
   assert.ok(kompakt.zeilen.length >= 4, 'Werte kommen an');

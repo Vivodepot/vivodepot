@@ -78,5 +78,20 @@ Die Konsequenz oben nennt für Bereich 7 einen Export-Knopf **und** die EUDIW-Ü
   einer Messung des Bestands.
 - **Nachsehen:** `git grep -n "EUDIW_SICHTBAR" -- vivodepot.html` (Schalter und Bedingung am Knopf).
 
+## Nachtrag 20.11.2026 — der Filter gilt für Selbstauskunft-Exporte, nicht für eine Antwort an eine Stelle
+
+Der Wahrheits-Filter (Nachtrag II) hält in `baueAusMapping` jede verifiziert-stämmige Angabe zurück. Er schützt ein
+`iss:'selbstauskunft'`-Credential davor, eine geprüfte Angabe als selbst eingetragen auszugeben. Eine Antwort auf eine
+Anfrage ist kein solches Credential: Die Person gibt ihre Angaben einer Stelle frei, so wie sie im Depot stehen, auch die aus
+einem signierten Nachweis. Hielte der Antwort-Kanal sie zurück, fehlte zum Beispiel ein so übernommener Familienname in der
+Sterbefall-Datei, und statt der Datei stünde „Pflichtangabe fehlt“.
+- **Code-Stelle:** `baueAusMapping` überspringt den Filter nur bei der ausdrücklichen Wahl `ohneWahrheitsFilter: true`. Gesetzt
+  wird sie nur im Kern, am Aufruf in `xpsSterbefallVerstorbenerXml` (Antwort-Kanal Sterbefall, XPersonenstand 084021). Ohne die
+  Wahl bleibt der Filter für jeden anderen Weg unverändert, samt `_zurueck`-Meldung.
+- **Probe:** `tests/mit-modul/antwort-xpersonenstand-sterbefall.test.js`, `[Sterbefall·Nachweis]`: Ein verifiziert-stämmiger
+  Familienname geht hinaus; Rot-Beweis: derselbe Aufruf ohne die Wahl hält ihn zurück und meldet ihn.
+- **Status heute** bleibt „gilt“ für den Filter in Selbstauskunft-Exporten.
+- **Nachsehen:** `git grep -n "ohneWahrheitsFilter" -- vivodepot.html`.
+
 ## Cross-Referenz
 U2-ADR-016 (Schlüsseltrennung v3 / Voll-Verschlüsselung), U2-ADR-018 (Pflegegrad → Sozialversicherung), U2-ADR-019 (Pflegedienst/Pflegegeld → Sozialversicherung), U2-ADR-005 (Provenienz). Befund-Doku: interner Bericht vom 21.06.2026.

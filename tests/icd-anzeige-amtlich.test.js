@@ -232,11 +232,13 @@ function studioIcdBefund(html) {
 }
 test('[ICD-Anzeige·Studio] jeder ICD-Text der Studio-Beispielvorlagen ist amtlich belegt', () => {
   const html = lesen('vivodepot-studio.html');
-  assert.ok(/codeSystem: 'http:\/\/fhir\.de\/CodeSystem\/bfarm\/icd-10-gm'/.test(html), 'Vorbedingung: die Vorlage mit ICD-Werten wird gefunden');
+  /* Seit 22.11.2026 trägt kein Beispiel ICD-Werte (das Beispiel „anamnese“ ging in „Anmeldung in der Praxis“ auf; Erkrankungen
+     bleiben als Baustein wählbar). Die Prüfung gilt weiter für jedes Beispiel, das wieder ICD-Werte trägt; der Rot-Beweis läuft an
+     einem angehängten Block in der Form der Beispiele. */
   assert.deepEqual(studioIcdBefund(html), []);
-  const alt = html.replace("{ code: 'E11.90', anzeige: 'Typ-2-Diabetes mellitus ohne Komplikation' }", "{ code: 'E11.90', anzeige: 'Diabetes mellitus Typ 2' }");
-  assert.notEqual(alt, html, 'Vorbedingung des Rot-Beweises: die Stelle wird ersetzt');
-  assert.deepEqual(studioIcdBefund(alt), ['E11.90: „Diabetes mellitus Typ 2“'], 'Rot-Beweis: der alte eigene Name fällt');
+  const block = (anzeige) => "\n        codeSystem: 'http://fhir.de/CodeSystem/bfarm/icd-10-gm',\n        codeWerte: [\n          { code: 'E11.90', anzeige: '" + anzeige + "' },\n          { code: 'F03', anzeige: 'Demenz' },\n        ],";
+  assert.deepEqual(studioIcdBefund(html + block('Typ-2-Diabetes mellitus ohne Komplikation')), [], 'der amtliche Begriff und die benannte Ausnahme sind belegt');
+  assert.deepEqual(studioIcdBefund(html + block('Diabetes mellitus Typ 2')), ['E11.90: „Diabetes mellitus Typ 2“'], 'Rot-Beweis: der alte eigene Name fällt');
 });
 
 /* Klartextwege (PDF, QR, Notfallkarte über feldWertText): auch dort steht bei einem älteren Depot nicht der früher

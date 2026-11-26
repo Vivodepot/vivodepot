@@ -60,8 +60,7 @@
     "weg:_anfrageAntwortSchreiben": {
       "kennung": "L8",
       "fehlt": [
-        "standard",
-        "pdf"
+        "standard"
       ],
       "grund": "eigene Antwort; eine Standarddatei nur, wenn die Anfrage ein Format nennt"
     },

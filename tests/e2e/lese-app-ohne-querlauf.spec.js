@@ -71,8 +71,11 @@ for (const breite of [390, 360, 320]) {
       const reiter = page.locator('#sidebar .nav-item');
       const n = await reiter.count();
       expect(n, 'die Depot-Ansicht hat Reiter').toBeGreaterThan(sprache === 'ausschnitt' ? 0 : 3);
+      // Unter 720 px stehen die Bereiche hinter dem Menüknopf (H-2, 22.11.2026): vor jedem Tipp das Menü öffnen und mitmessen.
+      const menue = page.locator('#nav-menue-knopf');
       for (let i = 0; i < n; i++) {
         const r = reiter.nth(i);
+        if (await menue.isVisible()) { await menue.click(); if (i === 0) await messen('renderVollExport, Menü der Bereiche offen'); }
         const t = (await r.innerText()).trim();
         await r.click();
         await messen('renderVollExport, Reiter „' + t + '"');
@@ -112,7 +115,7 @@ test('[Lese-App·Querlauf·Rot-Beweis] die Messung meldet zwei Teile des Kopfs, 
   const page = await ctx.newPage();
   await page.goto(LESE_URL);
   await page.evaluate(() => renderNotfall());
-  await page.evaluate(() => { const l = document.querySelector('.tb-marke-link'); l.style.cssText = 'flex-shrink:1;min-width:0;width:10px;white-space:nowrap'; });
+  await page.evaluate(() => { const l = document.querySelector('.tb-marke-link'); l.style.cssText = 'flex-shrink:1;min-width:0;width:10px;white-space:nowrap;grid-row:1;grid-column:1'; });
   const ueber = await page.evaluate(querlaufMessen);
   expect(ueber.some((z) => / überlappt /.test(z)), ueber.join(' | ')).toBe(true);
   await ctx.close();

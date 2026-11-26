@@ -82,9 +82,12 @@ test('[Reisen-3-4·Probe 1] Reise 3 — Allowlist hält an der echten UI: Blutgr
          Protokoll gesucht. Der Grund ist der Wegwechsel: das alte Angehörigen-Blatt war eine
          Lese-Ansicht, sein Wert stand als Text da und landete in den Hinweisen. Ein Fach öffnet
          die gewöhnliche Bereichs-Ansicht — dort steckt der Wert im `<select>`, nicht im Text.
-         Die Zusage ist dieselbe; nur die Stelle, an der man sie ablesen muss, ist eine andere. */
-      const blutgruppe = await seite.inputValue('[data-edit="bloodType"]', { timeout: 5000 });
+         Die Zusage ist dieselbe; nur die Stelle, an der man sie ablesen muss, ist eine andere.
+         Seit „über ein Fach nur lesend" (U2-ADR-432, Tabelle Zeile S7) zeigt die Bereichs-Ansicht im Fach wieder den Wert
+         als Text, ohne Eingabefeld: gelesen wird er im `.feld-wert`, und ein `[data-edit]` darf dort nicht stehen. */
+      const blutgruppe = (await seite.locator('.feld-wert[data-feld="bloodType"]').innerText({ timeout: 5000 })).trim();
       assert.equal(blutgruppe, 'A+', 'der eingetragene WERT (nicht nur das Label) muss ankommen.');
+      assert.equal(await seite.locator('[data-edit="bloodType"]').count(), 0, 'über ein Fach geöffnet ist das Feld nur zu lesen, nicht zu bearbeiten.');
 
       /* Die harte Hälfte von Z9: das Master-Feld darf NICHT ankommen. Gemessen dort, wo es
          stünde, wenn es käme — nicht nur in den Hinweisen des Gesundheits-Schritts.

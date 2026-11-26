@@ -36,8 +36,8 @@ const SALBEI_LIGHT_DARK = { r: 0x25, g: 0x2f, b: 0x1d };      // --salbei-light 
 const AUF_CREAM = [
   '.autoritativ-marker', '.lage-erfasst-marker', '.mappe-narrativ h3', '.mappe-narrativ h4',
   '.regal-verweis-hin', '.referenz-sprung:hover',
-  '.einst-abschnitt h4', '.wizard-frage', '.ampel-titel',
-];
+  '.einst-abschnitt h4', '.wizard-zeile-frage', '.ampel-titel',
+];   // U-AS (23.11.2026): die Frage steht als Zeile der Assistenten-Seite (.wizard-zeile-frage); .wizard-frage ist der Seitentitel
 const AUF_SALBEI_LIGHT = ['.chip-uebernehmen', '.refm-uebernehmen', '.refm-vorschlaege li.refm-aktiv'];
 
 test('[Zug1] Vor der Reparatur: alle 11 Stellen tragen --salbei-dunkel ohne Nachtmodus-Override und fallen durch', () => {

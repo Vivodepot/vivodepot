@@ -74,7 +74,7 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
     await hatKarte(p, 'Aufnahmedatum geändert');
     const namen = await kartenNamen(p);
 
-    const datei = await H.downloadNachTmp(p, tmp, () => p.click('#entwurf-sichern'));
+    const datei = await H.downloadNachTmp(p, tmp, () => p.evaluate(() => entwurfSichern()));
     expect(path.basename(datei)).toBe(ENTWURF_NAME);
     await expect(p.locator('#bau-status')).toContainText('Entwurf gesichert');
     const entwurf = JSON.parse(fs.readFileSync(datei, 'utf8'));
@@ -94,7 +94,7 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
     await expect(p2.locator('#tpl-anzahl')).toContainText('2');
     await expect(p2.locator('#start-status')).toBeHidden();
     // Noch einmal sichern: dieselben Felder gehen wieder hinaus.
-    const datei2 = await H.downloadNachTmp(p2, H.frischerTmp('studio-kern-2'), () => p2.click('#entwurf-sichern'));
+    const datei2 = await H.downloadNachTmp(p2, H.frischerTmp('studio-kern-2'), () => p2.evaluate(() => entwurfSichern()));
     expect(JSON.parse(fs.readFileSync(datei2, 'utf8')).felder).toEqual(entwurf.felder);
     H.tmpAufraeumen(path.dirname(datei2));
     await ctx2.close();
@@ -134,7 +134,7 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
     }
     // Gegenprobe auf derselben Seite: nach sieben Abweisungen öffnet ein echter Entwurf.
     await zweiFelderAnlegen(p);
-    const datei = await H.downloadNachTmp(p, tmp, () => p.click('#entwurf-sichern'));
+    const datei = await H.downloadNachTmp(p, tmp, () => p.evaluate(() => entwurfSichern()));
     await ctx.close();
     const ctx2 = await browser.newContext();
     const p2 = await ctx2.newPage();
@@ -205,7 +205,7 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
     const p = await ctx.newPage();
     await H.generator.oeffnen(p, 'de');
     await zweiFelderAnlegen(p);
-    const datei = await H.downloadNachTmp(p, tmp, () => p.click('#entwurf-sichern'));
+    const datei = await H.downloadNachTmp(p, tmp, () => p.evaluate(() => entwurfSichern()));
     await ctx.close();
     const entwurf = JSON.parse(fs.readFileSync(datei, 'utf8'));
 
@@ -229,8 +229,8 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
       await H.generator.oeffnen(s, 'de');
       await s.setInputFiles('#ent-datei', { name: 'entwurf.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(kopie), 'utf8') });
       // Entweder die Arbeitsfläche steht (geöffnet) oder die Meldung steht (abgelehnt). Nie beides, nie keines.
-      await expect.poll(async () => (await s.locator('#fertig-oeffnen').isVisible()) || (await s.locator('#start-status').isVisible()), { message: name }).toBe(true);
-      const geoeffnet = await s.locator('#fertig-oeffnen').isVisible();
+      await expect.poll(async () => (await s.locator('#vorlage-sichern').isVisible()) || (await s.locator('#start-status').isVisible()), { message: name }).toBe(true);
+      const geoeffnet = await s.locator('#vorlage-sichern').isVisible();
       const abgelehnt = await s.locator('#start-status').isVisible();
       expect(geoeffnet !== abgelehnt, name + ': geöffnet und abgelehnt zugleich').toBe(true);
       if (abgelehnt) {
@@ -266,7 +266,7 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
       await expect(s.locator('#start-status'), art).toContainText(/neueren Fassung/);
       // Nichts übernommen: der Start steht noch, die Arbeitsfläche ist nicht offen, kein Feld im Zustand.
       await expect(s.locator('#start-leer'), art).toBeVisible();
-      await expect(s.locator('#fertig-oeffnen'), art).toBeHidden();
+      await expect(s.locator('#vorlage-sichern'), art).toBeHidden();
       expect(await s.evaluate(() => STATE.felder.length), art).toBe(0);
       await c.close();
     }
@@ -276,7 +276,7 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
       const name = 'Fassung ' + JSON.stringify(version);
       await expect(s.locator('#start-status'), name).toBeVisible();
       await expect(s.locator('#start-status'), name).toContainText(/Fassung ist ungültig/);
-      await expect(s.locator('#fertig-oeffnen'), name).toBeHidden();
+      await expect(s.locator('#vorlage-sichern'), name).toBeHidden();
       expect(await s.evaluate(() => STATE.felder.length), name).toBe(0);
       await c.close();
     }

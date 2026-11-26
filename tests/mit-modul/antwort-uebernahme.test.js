@@ -17,11 +17,10 @@
    · KLASSE: Eine Anfrage nach JEDEM Verweisfeld auf eine Person oder Institution außerhalb von Listen (Einfach- und
      Mehrfachverweis), so wie der Kern seine Bereiche aufzählt (`bereicheAlle`), wird beantwortet, validiert, und jeder
      Verweis ist aufgelöst. Ein neues Verweisfeld nimmt das mit, ohne dass diese Probe es kennt.
-   · NOCH OFFEN (W2): Für den Todesfall bekommt das Bestattungsunternehmen eine kopierbare Vorlage in der Feldfolge der
-     Landesportale und die Mappe nach § 38 PStV (Entscheidung 03.11.2026). Zieldatei, CSV-Schreiber und Knopf in der Lese-App
-     stehen schon (tests/mit-modul/antwort-zieldatei.test.js, tests/csv-schreiber.test.js
-     und die Probe der Lese-App zur Zieldatei). Bis dahin steht die Probe unten als todo mit der Kennung, und der Befund
-     bleibt offen (er schließt erst mit W1, W2 und W3).
+   · TODESFALL (W2, neu zugeschnitten 20.11.2026): Statt einer Vorlage in der Feldfolge der Landesportale geht der Teil
+     verstorbener der Nachricht 084021 (XPersonenstand 26.11) als Zieldatei hinaus; die Probe dazu ist
+     tests/mit-modul/antwort-xpersonenstand-sterbefall.test.js. Feldfolgen eines Portals zum Abtippen sind kein Produktweg.
+     Offen bleibt die Übernahme beim Bestatter (kein Beleg, dass ein Fachverfahren die Teile einliest).
    ROT-BEWEIS: Die Prüffunktionen melden einen Verweis ohne Eintrag, einen Eintrag ohne Namen, ein Feld, das ein Schema
    nicht kennt, und Personalien über den Namen hinaus (Positivkontrolle unten). Am Kern vor dem Fix fehlte der Block.
    Liegt hier, weil sie Ajv braucht.
@@ -154,10 +153,11 @@ test('[Antwort·Übernahme·Klasse] jedes Verweisfeld auf Person oder Institutio
   assert.ok(ds.personen.length && ds.institutionen.length, 'Vorbedingung: beide Blöcke entstehen');
 });
 
-test('[Antwort·Übernahme·Bestatter] der Kern führt Portal-Feldfolgen für die Bestatter-Vorlage (W2)',
-  { todo: 'Befund UEBERNAHME-OHNE-ABTIPPEN (HOCH): W2 baut die Bestatter-Vorlage und die Mappe nach § 38 PStV' }, () => {
+test('[Antwort·Übernahme·Bestatter] der Todesfall geht im Standard der Standesämter hinaus, nicht als Feldfolge zum Abtippen', () => {
   const { V } = ladeKern();
-  assert.ok(V.BESTATTER_PORTAL_FELDFOLGEN && Object.keys(V.BESTATTER_PORTAL_FELDFOLGEN).length, 'Feldfolgen je Landesportal');
+  assert.deepEqual(V.ANTWORT_ZIELDATEI_KANAELE.map((k) => k.id), ['xpersonenstand-sterbefall'], 'der Kanal der Antwort für den Todesfall');
+  assert.equal(V.BESTATTER_PORTAL_FELDFOLGEN, undefined, 'keine Feldfolgen eines Portals im Kern');
+  assert.ok(fs.existsSync(path.join(__dirname, 'antwort-xpersonenstand-sterbefall.test.js')), 'die Probe des Kanals liegt daneben');
 });
 
 test('[Antwort·Übernahme·Rot-Beweis] die Prüfung meldet Verweise ohne Eintrag und Felder außerhalb des Schemas', () => {

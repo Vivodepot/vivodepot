@@ -52,7 +52,7 @@ test('[Studio·Texte] die Messung sieht Textknoten, data-en und L(…) überhaup
 test('[Studio·Texte·Rot-Beweis] der Fund vom 16.10.2026 und ein englisches „on the left“ werden gemeldet', () => {
   const faelle = [
     HTML.replace('>Frei, sobald Ihre Schlüsselsicherung geprüft und bestätigt ist.<', '>Frei, sobald die Sicherung rechts geprüft und bestätigt ist.<'),
-    HTML.replace("'Choose a field under “Fields” with + or drag it here.", "'Choose a field on the left with + or drag it here."),
+    HTML.replace("'Drag building blocks here from “Building blocks”.", "'Drag building blocks here from the blocks on the left."),
     HTML.replace("L('Diese Kennung steht schon in der Liste.',", "L('Diese Kennung steht schon in der Liste unten.',"),
   ];
   for (const schlecht of faelle) {

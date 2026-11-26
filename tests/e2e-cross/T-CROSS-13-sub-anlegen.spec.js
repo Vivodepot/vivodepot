@@ -100,7 +100,7 @@ test('D49 — Sub anlegen: fehlender Vorname → Feld-Markierung + Meldung, KEIN
   await page.fill('#id-pw2', 'sub-passwort-123');
   await page.click('#m-ok');
   await expect(page.locator('#id-vorname-fehler')).toBeVisible();
-  await expect(page.locator('#id-vorname-fehler')).toContainText('Vorname erforderlich');
+  await expect(page.locator('#id-vorname-fehler')).toContainText('Bitte tragen Sie Ihren Vornamen ein.');
   expect(await page.locator('#id-vorname').evaluate((e) => e.classList.contains('feld-fehler'))).toBe(true);
   await expect(page.locator('#id-vorname')).toBeVisible();    // keine Anlage, Modal offen
   await ctx.close();

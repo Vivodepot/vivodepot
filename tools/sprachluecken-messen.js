@@ -29,11 +29,16 @@
 
    TEIL C (mit --mit-kern) — TEXT-TRÄGER OHNE KENNUNG: siehe `teilC` unten. Der Kern wird dafür geladen.
 
+   TEIL D (mit --mit-kern) — AUSWAHL IN ENGLISCH: siehe `teilDAmKern` unten. Jeder Eintrag jeder Auswahlliste, den der
+   Kern baut, wird in Deutsch und in Englisch gelesen; steht in Englisch derselbe Text wie in Deutsch, ist das ein Fund
+   (Klasse EN-BEZIEHUNGSLISTE-DEUTSCH, 19.11.2026). Ausnahmen nur über tools/sprachluecken-auswahl-ausnahmen.json, je Eintrag
+   mit Wort. Dazu zählt `auswahlBaustellen` die Stellen im Kern, die Einträge bauen: ein neuer Bauer hebt die Zahl.
+
    GRENZEN: Studio, Begleitmodule (`*-en.json`) und Texte, die als Literal im Quelltext einer Funktion
    stehen (nicht in einem Objekt des Bestands), misst dieses Werkzeug nicht. Für diese Texte zählt der
    Gerüst-Wächter die Sätze.
 
-   Aufruf:  node tools/sprachluecken-messen.js [--wurzel <pfad>] [--mit-kern] [--json] [--fundstellen <n>]
+   Aufruf:  node tools/sprachluecken-messen.js [--wurzel <pfad>] [--mit-kern] [--json] [--fundstellen <n>]   (Teil C und D nur mit --mit-kern)
    Ohne --wurzel misst es die Vorlage tests/fixtures/sprachluecken-messen (die Probe kennt ihre Zahlen);
    für den echten Stand --wurzel . im Repo. Exit 0, das Werkzeug misst und urteilt nicht.
    Probe: tests/sprachluecken-messen.test.js.
@@ -237,10 +242,136 @@ function dokTitelOhneKennung(V, de, amtlich) {
   return raus;
 }
 
+/* TEIL D — AUSWAHL IN ENGLISCH. Gelesen wird, was die Auswahl zeigt, nicht eine Kennung: die Bauer der Auswahllisten im
+   geladenen Kern, einmal in Deutsch und einmal, nachdem der englische Satz angewendet ist. `sammeln` kennt die Bauer mit Namen;
+   die Feldauswahl (`feldInputHTML`, case 'auswahl') liest `optionen[].label` aus SEKTOREN, darum läuft der Bestand ganz ab.
+   Ein Eintrag mit Daten der Person (Namen, Dateien) entsteht hier nicht, weil das Depot dafür leer ist. */
+const AUSWAHL_BAUER = ['beziehung', 'vertretungsGrundlage', 'rhythmus', 'institutionsArt', 'instrument', 'platzhalter',
+  'jaNein', 'bankvollmacht', 'bedingung', 'feld'];
+
+const ENTITAET = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" };
+function optionenAusHtml(h) {
+  return [...String(h).matchAll(/<option\b([^>]*)>([^<]*)<\/option>/g)].map((m) => ({
+    wert: ((/value="([^"]*)"/.exec(m[1]) || [])[1] || ''),
+    text: m[2].replace(/&(amp|lt|gt|quot|#39);/g, (z) => ENTITAET[z]),
+  }));
+}
+
+function feldOptionen(sektoren) {
+  const raus = [];
+  const gesehen = new WeakSet();
+  const lauf = (o, pfad, tiefe) => {
+    if (!o || typeof o !== 'object' || tiefe > 8 || gesehen.has(o)) return;
+    gesehen.add(o);
+    if (Array.isArray(o)) { o.forEach((x, i) => lauf(x, pfad + '[' + ((x && x.id) || i) + ']', tiefe + 1)); return; }
+    if (Array.isArray(o.optionen) && o.optionen.length && o.optionen.every((x) => x && typeof x === 'object' && 'wert' in x)) {
+      raus.push({ stelle: 'feld:' + pfad, optionen: o.optionen.map((x) => ({ wert: String(x.wert), text: String(x.label) })) });
+    }
+    for (const k of Object.keys(o)) {
+      if (k === 'optionen') continue;
+      let v;
+      try { v = o[k]; } catch (_) { continue; }
+      if (v && typeof v === 'object') lauf(v, pfad + '.' + k, tiefe + 1);
+    }
+  };
+  lauf(sektoren, 'SEKTOREN', 0);
+  return raus;
+}
+
+function sammeln(V) {
+  const raus = [];
+  const nimm = (stelle, optionen) => raus.push({ stelle, optionen: optionen.map((o) => ({ wert: String(o.wert), text: String(o.text) })) });
+  const sel = [];
+  V._beziehungsAuswahlFuellen({ appendChild: (o) => sel.push({ wert: o.value, text: o.textContent }) }, '');
+  nimm('beziehung', sel);
+  nimm('vertretungsGrundlage', optionenAusHtml(V.vertretungsGrundlageOptionenHTML('')));
+  nimm('rhythmus', optionenAusHtml(V._dokumentRhythmusOptionenHTML(0)));
+  nimm('institutionsArt', V.institutionsArtenAlle().map((o) => ({ wert: o.wert, text: o.label })));
+  nimm('instrument', V.instrumentZeileOptionen().map((o) => ({ wert: o.wert, text: o.label })));
+  nimm('platzhalter', optionenAusHtml(V._auswahlPlatzhalterHTML(true) + V._auswahlEntfernenHTML(false)).map((o, i) => ({ wert: 'platz' + i, text: o.text })));
+  nimm('jaNein', V._jaNeinOptionen().map((o) => ({ wert: o.wert, text: o.label })));
+  const d = V.getData();
+  d.sektoren = d.sektoren || {};
+  const vorher = d.sektoren.advanceCare;
+  d.sektoren.advanceCare = Object.assign({}, vorher || {}, { provisionInstruments: [{ id: 'teil-d-bv', instrument: 'enduring-power-of-attorney', typeOfPowerOfAttorney: 'bank' }] });
+  try { nimm('bankvollmacht', V.bankvollmachtVorschlag().map((o) => ({ wert: o.id, text: o.name }))); }
+  finally { if (vorher === undefined) delete d.sektoren.advanceCare; else d.sektoren.advanceCare = vorher; }
+  nimm('bedingung', ((V.bedingungskatalog() || {}).eintraege || []).map((e) => ({ wert: e.kennung, text: e.kennung })));
+  for (const f of feldOptionen(V.bereicheAlle())) raus.push(f);
+  return raus;
+}
+
+/* Ein Code in Großbuchstaben (Währung „EUR“, Steuerklasse „III“, Kennung „SD-BASE-DP“) lautet in jeder Sprache gleich und ist kein Wort. */
+const CODE = /^[A-Z0-9][A-Z0-9 .\-]*$/;
+
+/* Vergleich je Stelle und Wert. Fund: in Englisch derselbe Text wie in Deutsch, mit einem Wort aus drei Buchstaben, und nicht in
+   der Ausnahmeliste (`<stelle>|<wert>`). Fehlt eine Stelle oder ein Wert in Englisch, steht das unter `fehlt`. */
+function teilDVergleichen(de, en, ausnahmen) {
+  const enMap = new Map();
+  for (const s of en) for (const o of s.optionen) enMap.set(s.stelle + '|' + o.wert, o.text);
+  const funde = [], fehlt = [], ausgenommen = [];
+  let eintraege = 0;
+  for (const s of de) {
+    for (const o of s.optionen) {
+      eintraege++;
+      const k = s.stelle + '|' + o.wert;
+      if (!enMap.has(k)) { fehlt.push({ stelle: s.stelle, wert: o.wert, de: o.text }); continue; }
+      if (enMap.get(k) !== o.text || !WORT.test(o.text) || CODE.test(o.text)) continue;
+      if (ausnahmen.has(k)) { ausgenommen.push(k); continue; }
+      funde.push({ stelle: s.stelle, wert: o.wert, text: o.text });
+    }
+  }
+  const jeBauer = {};
+  for (const f of funde) { const b = f.stelle.split(':')[0]; jeBauer[b] = (jeBauer[b] || 0) + 1; }
+  const bauer = [...new Set(de.filter((s) => s.optionen.length).map((s) => s.stelle.split(':')[0]))];
+  return { stellen: de.length, eintraege, bauer, funde, fehlt, ausgenommen, jeBauer };
+}
+
+function auswahlAusnahmen(tools) {
+  const p = path.join(tools, 'sprachluecken-auswahl-ausnahmen.json');
+  if (!fs.existsSync(p)) return new Set();
+  return new Set((leseJson(p).eintraege || []).map((e) => e.stelle + '|' + e.wert));
+}
+
+/* Stellen im Kern, die Auswahl-Einträge bauen (`<option`, `createElement('option')`, `new Option`), außerhalb von Kommentarzeilen. */
+function auswahlBaustellen(quelltext) {
+  let n = 0;
+  for (const zeile of String(quelltext).replace(/\/\*[\s\S]*?\*\//g, '').split('\n')) {
+    const t = zeile.trim();
+    if (t.startsWith('//') || t.startsWith('*')) continue;
+    n += (zeile.match(/<option\b|createElement\('option'\)|new Option\(/g) || []).length;
+  }
+  return n;
+}
+
+async function teilDAmKern(wurzel) {
+  const { ladeKern } = require(path.join(wurzel, 'tests', 'load-kern.js'));
+  const { V } = ladeKern({ backen: true });
+  await V.depotAnlegen('sprachluecken-teil-d-2026!');
+  V.betreteApp();
+  const de = sammeln(V);
+  const r = V.modulEinlassen(JSON.stringify(V.TEXTSATZ_EN_QUELLE));
+  if (!r || !r.angenommen) throw new Error('englischer Satz nicht angenommen: ' + ((r && r.grund) || ''));
+  V._textsatzModuleAusDepotAnmelden(V.getData());
+  V.getData().textsprache = 'en';
+  V.textsatzNeuAnwenden();
+  const en = sammeln(V);
+  const d = teilDVergleichen(de, en, auswahlAusnahmen(path.join(wurzel, 'tools')));
+  d.baustellen = auswahlBaustellen(fs.readFileSync(path.join(wurzel, 'vivodepot.html'), 'utf8'));
+  return d;
+}
+
 function messen(wurzel, opts) {
   const b = teilB(wurzel);
   const e = { wurzel, teilA: teilA(path.join(wurzel, 'tools')), teilB: b };
   if (opts && opts.mitKern) e.teilC = teilCAmKern(wurzel, [...new Set(b.map((s) => s.eigenschaft))]);
+  return e;
+}
+
+/* Mit Teil D (asynchron, der Kern legt ein Depot an). `messen` bleibt synchron für die bestehenden Aufrufer. */
+async function messenMitAuswahl(wurzel, opts) {
+  const e = messen(wurzel, opts);
+  if (opts && opts.mitKern) e.teilD = await teilDAmKern(wurzel);
   return e;
 }
 
@@ -269,6 +400,14 @@ function ausgeben(e, n) {
     z.push('Teil C2 — Dokument-Titel ohne Kennung dok:<id>#<i>.titel: ' + d.length);
     for (const t of d) z.push('  ' + t.kennung + '  „' + t.titel + '“' + (t.modulAmtlich ? '  (Modul mit amtlichem Wortlaut)' : ''));
   }
+  if (e.teilD) {
+    const d = e.teilD;
+    z.push('Teil D — Auswahl in Englisch wie in Deutsch: ' + d.funde.length + ' Funde in ' + d.stellen + ' Auswahlen (' + d.eintraege +
+      ' Einträge), fehlt in Englisch ' + d.fehlt.length + ', ausgenommen ' + d.ausgenommen.length + ', Baustellen im Kern ' + d.baustellen);
+    if (d.funde.length) z.push('  je Bauer: ' + Object.entries(d.jeBauer).map(([b, k]) => b + ' ' + k).join(', '));
+    for (const f of d.funde.slice(0, n)) z.push('  ' + f.stelle + ' | ' + f.wert + '  „' + String(f.text).slice(0, 70) + '“');
+    for (const f of d.fehlt.slice(0, n)) z.push('  fehlt ' + f.stelle + ' | ' + f.wert + '  „' + String(f.de).slice(0, 70) + '“');
+  }
   return z.join('\n') + '\n';
 }
 
@@ -278,8 +417,9 @@ if (require.main === module) {
   const ni = a.indexOf('--fundstellen');
   const wurzel = wi >= 0 ? path.resolve(a[wi + 1]) : VORLAGE;
   const n = ni >= 0 ? Number(a[ni + 1]) : 20;
-  const e = messen(wurzel, { mitKern: a.includes('--mit-kern') });
-  process.stdout.write(a.includes('--json') ? JSON.stringify(e, null, 2) + '\n' : ausgeben(e, n));
+  messenMitAuswahl(wurzel, { mitKern: a.includes('--mit-kern') }).then((e) => {
+    process.stdout.write(a.includes('--json') ? JSON.stringify(e, null, 2) + '\n' : ausgeben(e, n));
+  }, (err) => { process.stderr.write(String(err && err.stack || err) + '\n'); process.exitCode = 1; });
 }
 
-module.exports = { messen, art, teilC, artAusPfad, dokTitelOhneKennung, VORLAGE };
+module.exports = { messen, messenMitAuswahl, art, teilC, artAusPfad, dokTitelOhneKennung, teilDVergleichen, teilDAmKern, auswahlBaustellen, optionenAusHtml, AUSWAHL_BAUER, VORLAGE };

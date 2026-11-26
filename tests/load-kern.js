@@ -588,20 +588,43 @@ const EXPORT_HOOK = `
   vorDepotVorlagenVerworfen: (typeof _vorDepotVorlagenVerworfen !== 'undefined' ? (() => _vorDepotVorlagenVerworfen) : undefined),
   anfrageVorlagenfeldPruefen: (typeof anfrageVorlagenfeldPruefen !== 'undefined' ? anfrageVorlagenfeldPruefen : undefined),
   anfrageAntwortDatensatzGeprueft: (typeof anfrageAntwortDatensatzGeprueft !== 'undefined' ? anfrageAntwortDatensatzGeprueft : undefined),
+  ANTWORT_ZIELDATEI_KANAELE: (typeof ANTWORT_ZIELDATEI_KANAELE !== 'undefined' ? ANTWORT_ZIELDATEI_KANAELE : undefined),
+  _antwortZieldateiKanal: (typeof _antwortZieldateiKanal !== 'undefined' ? _antwortZieldateiKanal : undefined),
+  XPS_STERBEFALL_ZUORDNUNG: (typeof XPS_STERBEFALL_ZUORDNUNG !== 'undefined' ? XPS_STERBEFALL_ZUORDNUNG : undefined),
+  _xpsEl: (typeof _xpsEl === 'function' ? _xpsEl : undefined),
+  _xpsText: (typeof _xpsText === 'function' ? _xpsText : undefined),
   anfrageAuswahlKennungen: (typeof anfrageAuswahlKennungen !== 'undefined' ? anfrageAuswahlKennungen : undefined),
   _anfrageUmschlagAusEintrag: (typeof _anfrageUmschlagAusEintrag !== 'undefined' ? _anfrageUmschlagAusEintrag : undefined),
   anfragePruefenMitVorlagen: (typeof anfragePruefenMitVorlagen !== 'undefined' ? anfragePruefenMitVorlagen : undefined),
   anfrageZustand, anfrageMerken, anfrageBeantwortetVermerken, anfrageEinstiegSchritte,
-  anfrageAblehnen: (typeof anfrageAblehnen !== 'undefined' ? anfrageAblehnen : undefined),   // U-9 Schema 103 (16.11.2026); ältere Fassungen laden ohne sie
+  anfrageAblehnen: (typeof anfrageAblehnen !== 'undefined' ? anfrageAblehnen : undefined),   // U-9 Schema 102 (16.11.2026); ältere Fassungen laden ohne sie
   anfrageWiederOeffnen: (typeof anfrageWiederOeffnen !== 'undefined' ? anfrageWiederOeffnen : undefined),
+  // U-3b Posteingang (Schema 103, U2-ADR-529, 17.11.2026); ältere Fassungen laden ohne sie
+  posteingangListe: (typeof posteingangListe === 'function' ? posteingangListe : undefined),
+  posteingangAufnehmen: (typeof posteingangAufnehmen === 'function' ? posteingangAufnehmen : undefined),
+  posteingangEntfernen: (typeof posteingangEntfernen === 'function' ? posteingangEntfernen : undefined),
+  posteingangIstUnterlage: (typeof posteingangIstUnterlage === 'function' ? posteingangIstUnterlage : undefined),
+  _einlesenPosteingangHTML: (typeof _einlesenPosteingangHTML === 'function' ? _einlesenPosteingangHTML : undefined),
+  einlesenDateienAnnehmen: (typeof einlesenDateienAnnehmen === 'function' ? einlesenDateienAnnehmen : undefined),
+  posteingangUebernehmen: (typeof posteingangUebernehmen === 'function' ? posteingangUebernehmen : undefined),
   // Studio W3 — Endbildschirm und das einmal nachgeholte Absichern-Angebot
   anfrageEndeModell: (typeof anfrageEndeModell === 'function' ? anfrageEndeModell : undefined),
+  antwortKopieModell: (typeof antwortKopieModell !== 'undefined' ? antwortKopieModell : undefined),
+  antwortKopiePdfAusgeben: (typeof antwortKopiePdfAusgeben !== 'undefined' ? antwortKopiePdfAusgeben : undefined),
+  antwortPdfModell: (typeof antwortPdfModell !== 'undefined' ? antwortPdfModell : undefined),
+  antwortPdfAusgeben: (typeof antwortPdfAusgeben !== 'undefined' ? antwortPdfAusgeben : undefined),
+  antwortPdfQr: (typeof antwortPdfQr !== 'undefined' ? antwortPdfQr : undefined),
+  _antwortSterbefallAbschnitte: (typeof _antwortSterbefallAbschnitte !== 'undefined' ? _antwortSterbefallAbschnitte : undefined),
+  zeichneAntwortKopiePdf: (typeof zeichneAntwortKopiePdf !== 'undefined' ? zeichneAntwortKopiePdf : undefined),
   _anfrageAbsichernNachholen: (typeof _anfrageAbsichernNachholen === 'function' ? _anfrageAbsichernNachholen : undefined),
   anfrageEintragFuerId, oeffneAnfrage, renderAnfrage, flowAnfrageEmpfangen, flowAnfrageAntworten,
   flowAnfrageEinstieg, anfrageAusAdresseVielleicht,
   anfrageAusKompakt: (typeof anfrageAusKompakt === 'function' ? anfrageAusKompakt : undefined),
   anfrageAusTextAsync: (typeof anfrageAusTextAsync === 'function' ? anfrageAusTextAsync : undefined),
   anfrageAusEingabeAsync: (typeof anfrageAusEingabeAsync === 'function' ? anfrageAusEingabeAsync : undefined),
+  anfrageKameraFund: (typeof anfrageKameraFund === 'function' ? anfrageKameraFund : undefined),
+  anfrageKameraHTML: (typeof anfrageKameraHTML === 'function' ? anfrageKameraHTML : undefined),
+  anfrageKameraMoeglich: (typeof anfrageKameraMoeglich === 'function' ? anfrageKameraMoeglich : undefined),
   _anfrageKompaktRoh: (typeof _anfrageKompaktRoh === 'function' ? _anfrageKompaktRoh : undefined),
   ANFRAGE_KOMPAKT_MAX_BYTES: (typeof ANFRAGE_KOMPAKT_MAX_BYTES !== 'undefined' ? ANFRAGE_KOMPAKT_MAX_BYTES : undefined),
   ANFRAGE_KOMPAKT_PRAEFIX: (typeof ANFRAGE_KOMPAKT_PRAEFIX !== 'undefined' ? ANFRAGE_KOMPAKT_PRAEFIX : undefined),
@@ -626,6 +649,7 @@ const EXPORT_HOOK = `
   ed25519Verfuegbar: (typeof ed25519Verfuegbar === 'function' ? ed25519Verfuegbar : undefined),
   jwkThumbprintOkp: (typeof jwkThumbprintOkp === 'function' ? jwkThumbprintOkp : undefined),
   sdJwtSelbstSignaturPruefen: (typeof sdJwtSelbstSignaturPruefen === 'function' ? sdJwtSelbstSignaturPruefen : undefined),
+  sdJwtOffenlegungenGebunden: (typeof sdJwtOffenlegungenGebunden === 'function' ? sdJwtOffenlegungenGebunden : undefined),
   _jwsAlgPasstZuKey: (typeof _jwsAlgPasstZuKey === 'function' ? _jwsAlgPasstZuKey : undefined),
   _sdJwtIstSelbstSigniert: (typeof _sdJwtIstSelbstSigniert === 'function' ? _sdJwtIstSelbstSigniert : undefined),
   HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX: (typeof HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX !== 'undefined' ? HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX : undefined),
@@ -895,6 +919,7 @@ const EXPORT_HOOK = `
   wizardZielBereichNamen, _wizZieleSatz,   // Finding 13 (Zielbereiche vor Schritt 1)
   wizardSchrittSetzen, wizardSchrittSpeichern, wizardFehlerText,
   wizardWeiter, wizardZurueck, wizardAbbrechen, wizardAbschluss,
+  wizardFertig: (typeof wizardFertig === 'function' ? wizardFertig : undefined),   // U-AS (23.11.2026): ältere Kerne kennen den Namen nicht
   wizardStartHTML, waehleAnlass,
   _wizardZielImProdukt: (typeof _wizardZielImProdukt === 'function' ? _wizardZielImProdukt : undefined),
   get _BEREICH_IDS_RUHEND() { return _BEREICH_IDS_RUHEND; }, get _BEREICH_IDS_ERSETZT() { return _BEREICH_IDS_ERSETZT; },
@@ -1013,6 +1038,9 @@ const EXPORT_HOOK = `
   einleseStelleAusQuelle: (typeof einleseStelleAusQuelle === 'function' ? einleseStelleAusQuelle : undefined),
   // Umbau U-3 (17.11.2026): die Übersicht nach dem Desktop-Dummy.
   _uebersichtHTML: (typeof _uebersichtHTML === 'function' ? _uebersichtHTML : undefined),
+  _uebersichtNotfallKurz: (typeof _uebersichtNotfallKurz === 'function' ? _uebersichtNotfallKurz : undefined),
+  _meldungenBeimSeitenwechsel: (typeof _meldungenBeimSeitenwechsel === 'function' ? _meldungenBeimSeitenwechsel : undefined),
+  _posteingangHinweisZeigen: (typeof _posteingangHinweisZeigen === 'function' ? _posteingangHinweisZeigen : undefined),
   _anlaesseFuerLeiste: (typeof _anlaesseFuerLeiste === 'function' ? _anlaesseFuerLeiste : undefined),
   uebersichtOffeneAnfragen: (typeof uebersichtOffeneAnfragen === 'function' ? uebersichtOffeneAnfragen : undefined),
   uebersichtZuletztGeaendert: (typeof uebersichtZuletztGeaendert === 'function' ? uebersichtZuletztGeaendert : undefined),
@@ -1322,6 +1350,9 @@ const EXPORT_HOOK = `
   whcCodeErzeugen: (typeof whcCodeErzeugen !== 'undefined' ? whcCodeErzeugen : undefined),
   whcCodeGruppiert: (typeof whcCodeGruppiert !== 'undefined' ? whcCodeGruppiert : undefined),
   whcCodeLesen: (typeof whcCodeLesen !== 'undefined' ? whcCodeLesen : undefined),
+  whcCodeNormalisieren: (typeof whcCodeNormalisieren === 'function' ? whcCodeNormalisieren : undefined),
+  whcLaengeMeldung: (typeof whcLaengeMeldung === 'function' ? whcLaengeMeldung : undefined),
+  _whcCodeFeld: (typeof _whcCodeFeld === 'function' ? _whcCodeFeld : undefined),
   whcHuelleWickeln: (typeof whcHuelleWickeln !== 'undefined' ? whcHuelleWickeln : undefined),
   whcHuelleVorhanden: (typeof whcHuelleVorhanden !== 'undefined' ? whcHuelleVorhanden : undefined),
   whcHuelleEntfernen: (typeof whcHuelleEntfernen !== 'undefined' ? whcHuelleEntfernen : undefined),
@@ -1411,6 +1442,10 @@ const EXPORT_HOOK = `
   subDepotBeziehungSetzen: (typeof subDepotBeziehungSetzen === 'function' ? subDepotBeziehungSetzen : undefined),
   _beziehungsAuswahlFuellen: (typeof _beziehungsAuswahlFuellen === 'function' ? _beziehungsAuswahlFuellen : undefined),
   _beziehungsText: (typeof _beziehungsText === 'function' ? _beziehungsText : undefined),   // EN-BEZIEHUNGSLISTE-DEUTSCH (18.11.2026)
+  _jaNeinOptionen: (typeof _jaNeinOptionen === 'function' ? _jaNeinOptionen : undefined),   // Teil D sprachluecken-messen (19.11.2026)
+  instrumentZeileOptionen: (typeof instrumentZeileOptionen === 'function' ? instrumentZeileOptionen : undefined),   // Teil D sprachluecken-messen (19.11.2026)
+  _auswahlPlatzhalterHTML: (typeof _auswahlPlatzhalterHTML === 'function' ? _auswahlPlatzhalterHTML : undefined),   // Teil D sprachluecken-messen (19.11.2026)
+  _auswahlEntfernenHTML: (typeof _auswahlEntfernenHTML === 'function' ? _auswahlEntfernenHTML : undefined),   // Teil D sprachluecken-messen (19.11.2026)
   // Benannte Vollmacht im Sub-Depot (05.11.2026)
   _vertretungsVollmachtLesen: (typeof _vertretungsVollmachtLesen === 'function' ? _vertretungsVollmachtLesen : undefined),
   subDepotVollmachtSetzen: (typeof subDepotVollmachtSetzen === 'function' ? subDepotVollmachtSetzen : undefined),
@@ -1514,6 +1549,7 @@ const EXPORT_HOOK = `
   _pwIstVorschlagForm: (typeof _pwIstVorschlagForm === 'function' ? _pwIstVorschlagForm : undefined),
   pwProbeVergleich: (typeof pwProbeVergleich === 'function' ? pwProbeVergleich : undefined),
   pwWoerterKanon: (typeof pwWoerterKanon === 'function' ? pwWoerterKanon : undefined),
+  _pwWoerterZerlegen: (typeof _pwWoerterZerlegen === 'function' ? _pwWoerterZerlegen : undefined),
   _pwKanonRueckfall: (typeof _pwKanonRueckfall === 'function' ? _pwKanonRueckfall : undefined),
   _passwortProbeMitKanon: (typeof _passwortProbeMitKanon === 'function' ? _passwortProbeMitKanon : undefined),
   modalPwMismatch: (typeof modalPwMismatch === 'function' ? modalPwMismatch : undefined),
@@ -1573,6 +1609,8 @@ const EXPORT_HOOK = `
   staleBandAktualisieren: (typeof staleBandAktualisieren !== 'undefined' ? staleBandAktualisieren : undefined),
   renderUeberHinweise: (typeof renderUeberHinweise !== 'undefined' ? renderUeberHinweise : undefined),
   oeffneUeberHinweise: (typeof oeffneUeberHinweise !== 'undefined' ? oeffneUeberHinweise : undefined),
+  // Volle Versionsnummer v1.0.<Fassung> (VERSION-OHNE-FASSUNGSNUMMER, 21.11.2026); ein historischer Kern kennt sie nicht.
+  fassungAnzeige: (typeof fassungAnzeige !== 'undefined' ? fassungAnzeige : undefined),
   _ueberHinweiseAbschnitteHTML: (typeof _ueberHinweiseAbschnitteHTML !== 'undefined' ? _ueberHinweiseAbschnitteHTML : undefined),
   _ueberStandardsHTML: (typeof _ueberStandardsHTML !== 'undefined' ? _ueberStandardsHTML : undefined),
   herkunftsortHTML: (typeof herkunftsortHTML !== 'undefined' ? herkunftsortHTML : undefined),

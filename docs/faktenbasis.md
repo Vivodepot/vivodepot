@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-11-20 · **Fassung:** v1070 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-11-25 · **Fassung:** v1073 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -89,13 +89,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-11-19, 1489be63b Basis Kanon)
-- E2E (Playwright): 818 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 248 aus Schleifen über CPU-Drosselungen = **1066 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
-- Wächter-Register (intern): 163
-- Schema-Version: 102 · SCHALEN_STAND: v1070 · Build-Version: v1.0
+- E2E (Playwright): 838 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 251 aus Schleifen über CPU-Drosselungen = **1089 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 164
+- Schema-Version: 103 · SCHALEN_STAND: v1073 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (458)
+## ADR-Register (459)
 
 | Nummer | Titel |
 |---|---|
@@ -557,6 +557,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-523 | Fragen am Eintrag und das Blatt für ein Gespräch |
 | U2-ADR-524 | Bundeseinheitlichen Medikationsplan einlesen, Data-Matrix-Auszug im Kern |
 | U2-ADR-527 | Nachweise für eine Ermäßigung im Bereich Soziales |
+| U2-ADR-529 | Posteingang für eingelesene Dateien |
 
 ---
 
@@ -566,15 +567,15 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 51 | 303 |
-| `.btn-sek` | 15 | 145 |
+| `.btn` | 51 | 311 |
+| `.btn-sek` | 15 | 150 |
 | `.btn-dezent` | 9 | 21 |
-| `.btn-klein` | 3 | 25 |
+| `.btn-klein` | 3 | 30 |
 | `.btn-notfall` | 2 | 0 |
-| `.btn-mini` | 12 | 46 |
+| `.btn-mini` | 12 | 47 |
 | `.karte` | 8 | 94 |
-| `.modal` | 68 | 214 |
-| `.toast` | 9 | 340 |
+| `.modal` | 68 | 215 |
+| `.toast` | 9 | 347 |
 | `.banner-stapel` | 4 | 2 |
 | `.topbar` | 59 | 10 |
 | `.sidebar` | 19 | 7 |

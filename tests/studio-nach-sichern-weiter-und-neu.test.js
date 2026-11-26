@@ -9,7 +9,7 @@
        (bei einem Feld „Ein Datenfeld, für <Stelle>“).
    (3) Oben „‹ Weiter bearbeiten“: die Seite nach dem Sichern schließt sich, die Felder bleiben.
    (4) Unten „Weitere Vorlage beginnen“: zurück auf den Start.
-   (5) Wortlaut der Wege: QR-Zeile „Den QR-Code zum Aushängen gibt es noch nicht. Bis dahin geben Sie den Link weiter.“, „Als Datei speichern“ mit
+   (5) Wortlaut der Wege: „Für E-Mail, Brief oder Ihre Website“, „Zum Aushängen oder Vorzeigen am Schalter“, „Als Datei speichern“ mit
        „Zum späteren Öffnen und Ändern im Studio“, „Als PDF“ mit „Die Vorlage zum Lesen und Ablegen“.
        Oben steht seit 18.11.2026 die Anfrage für Personen, den QR-Code der Vorlage zeigt die Seite nicht (Probe tests/studio-nach-sichern-anfrage-oben.test.js).
    ROT-BEWEIS: GENERATOR_HTML_PATH=<Fassung vor diesem Wagen> node --test tests/studio-nach-sichern-weiter-und-neu.test.js → alle rot.
@@ -101,7 +101,9 @@ test('[Nach Sichern · 3/4] oben „‹ Weiter bearbeiten“, unten „Weitere V
 
 test('[Nach Sichern · 5] Wortlaut der Wege wie im Dummy', () => {
   const f = funktion('vorlageErgebnisZeigen');
-  assert.match(f, /'Den QR-Code zum Aushängen gibt es noch nicht\. Bis dahin geben Sie den Link weiter\.'/);
+  /* N74/N75 (22.11.2026): Link und QR-Code wortgleich zum Dummy Z. 202–203. */
+  assert.match(f, /L\('Für E-Mail, Brief oder Ihre Website', /);
+  assert.match(f, /L\('Zum Aushängen oder Vorzeigen am Schalter', /);
   assert.match(f, /L\('Als Datei speichern'/);
   assert.match(f, /L\('Zum späteren Öffnen und Ändern im Studio', /);   // wortgleich zum Dummy Z. 209 (18.11.2026)
   assert.match(f, /L\('Die Vorlage zum Lesen und Ablegen', /);   // wortgleich zum Dummy Z. 210

@@ -23,7 +23,7 @@
    ohne den Guard schlägt der Test fehl (vorsorge trägt die Streu-Kopie).
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, assistentFertig } = require('./helpers');
 
 test('1b: pflwiz-Override-Schritt (pflegezeit) landet in meine-menschen, NICHT im Startsektor sozialversicherung', async ({ page }) => {
   await oeffneApp(page);
@@ -55,7 +55,7 @@ test('1b: pflwiz-Override-Schritt (pflegezeit) landet in meine-menschen, NICHT i
   // Feld ausfüllen und „Fertig" als ECHTEN Klick — löst focusout (Autosave) UND
   // wizardAbschluss→oeffneSektor(bearbeitungSpeichern) aus, genau die zwei Pfade.
   await page.fill('#content [data-edit="careLeaveFamilyCareLeave"]', 'seit Maerz 2025, drei Tage die Woche');
-  await page.click('#wiz-weiter');
+  await assistentFertig(page);
 
   // Prüfung über den ENTSCHLÜSSELTEN Datensatz.
   const r = await page.evaluate(async () => {

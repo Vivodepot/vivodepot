@@ -127,7 +127,12 @@ const NUR_CHIFFRAT = [
 // Depot-Feld, kein Geheimnis, kein Schlüssel, keine neue Feld-Grenze. Eine Weitergabe: der Weg läuft durch `mitVereinbarung`.
 // Probe: tests/eu-lab-dokument-der-person.test.js [EU-Lab·Person] „Quelle ist nur das Original“.
 // 22 → 23 am 10.11.2026: `migrationFehlerBeschreibungSpeichern` — die Fehlerbeschreibung nach einem Migrationswurf. Sie trägt Fassung, Build, Schemanummern, Weg, Fehlerklasse und Funktionsnamen aus dem Stapel; kein Depot-Feld, kein Geheimnis, kein Schlüssel. Probe: die E2E-Strecke zum Hinweis nach dem Migrationswurf.
-const ERLAUBTE_KLARTEXT_ANZAHL = 23;
+// 23 → 24 am 11.11.2026: `antwortKopiePdfAusgeben` — die Kopie der Person über ihre Antwort an eine Stelle. Sie trägt, was verschlüsselt hinausging,
+// und bleibt bei der Person; die Stelle bekommt weiter nur die JWE. Der Name trägt das Datum, kein Aktenzeichen und keinen Zweck.
+// 24 → 25 am 20.11.2026: `antwortPdfAusgeben` — die Antwort als PDF an die Stelle. Es trägt genau die Angaben der Antwort (ds.felder)
+// und als Anhang den Klartext, der verschlüsselt hinausging; die Person wählt es ausdrücklich, die Wahl sagt „nicht verschlüsselt“.
+// Probe: tests/mit-modul/antwort-sterbefall-pdf.test.js [Sterbefall-PDF·Anhang·Rot-Beweis], tests/anfrage-antwort-als-pdf.test.js.
+const ERLAUBTE_KLARTEXT_ANZAHL = 25;
 
 test('[Klausel] Bindung an ' + ADR + ' über das Fundament', () => {
   bindungPruefen(ADR, HERKUNFT, PRUEFUNGEN, __filename);

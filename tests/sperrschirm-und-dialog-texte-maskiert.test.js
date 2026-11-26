@@ -67,7 +67,8 @@ function stelle(quelle, anker) {
 const SENKEN = [
   { name: 'Sperrschirm (renderCryptoOverlay)', anker: "el.innerHTML =\n    '<div class=\"karte entsperren-karte\">'", ende: ';', mindestens: 6 },
   { name: 'Dialog-Fußleiste (ui.modal)', anker: "box.innerHTML =\n      '<h3 id=\"modal-titel\">'", ende: ';', mindestens: 1 },
-  { name: 'Nebenweg (Anlegen-Fenster)', anker: 'nebenwegHTML: zs ?', ende: ',', mindestens: 2 },
+  // Seit „Passwort festlegen“ (24.11.2026) steht im Nebenweg nur noch „Lieber ein eigenes Passwort“; das Angebot der Wörter steht im Körper.
+  { name: 'Nebenweg (Anlegen-Fenster)', anker: 'nebenwegHTML: zs ?', ende: ',', mindestens: 1 },
   // Seite „Was möchten Sie erledigen?“ (renderErledigen, Zielbild 04): Titel und Einleitung, dann der Hinweis zum
   // Wiederherstellungs-Code. Beide Anweisungen füllen `html`, das danach in `c.innerHTML` geht.
   { name: 'Erledigen-Seite, Kopf (renderErledigen)', anker: "let html = '<div class=\"content-narrow erledigen\"", ende: ';', mindestens: 2 },

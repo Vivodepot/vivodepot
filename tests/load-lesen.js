@@ -211,6 +211,12 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   hilfeEmpfaengerinModell: (typeof hilfeEmpfaengerinModell !== 'undefined' ? hilfeEmpfaengerinModell : undefined),
   hilfeEmpfaengerinHTML: (typeof hilfeEmpfaengerinHTML !== 'undefined' ? hilfeEmpfaengerinHTML : undefined),
   herkunftsortHTML: (typeof herkunftsortHTML !== 'undefined' ? herkunftsortHTML : undefined),
+  leseFassungHTML: (typeof leseFassungHTML !== 'undefined' ? leseFassungHTML : undefined),
+  // Benutzbarkeit zum Launch (22.11.2026, tests/lese-app-benutzbarkeit-launch.test.js): Fehlerwahl, Passwortfeld, Fassung.
+  _pwFehlerText: (typeof _pwFehlerText !== 'undefined' ? _pwFehlerText : undefined),
+  _umschlagFormPruefen: (typeof _umschlagFormPruefen !== 'undefined' ? _umschlagFormPruefen : undefined),
+  _pwFeldHTML: (typeof _pwFeldHTML !== 'undefined' ? _pwFeldHTML : undefined),
+  LESE_FASSUNG: (typeof LESE_FASSUNG !== 'undefined' ? LESE_FASSUNG : undefined),
   VIVODEPOT_HERKUNFT_LINK: (typeof VIVODEPOT_HERKUNFT_LINK !== 'undefined' ? VIVODEPOT_HERKUNFT_LINK : undefined),
   bereichUebersetztLesen: (typeof bereichUebersetztLesen !== 'undefined' ? bereichUebersetztLesen : undefined),
   nichtUebersetzteZeigenSetzenLesen: (typeof nichtUebersetzteZeigenSetzenLesen !== 'undefined' ? nichtUebersetzteZeigenSetzenLesen : undefined),

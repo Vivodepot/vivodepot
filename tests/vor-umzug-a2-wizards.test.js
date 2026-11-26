@@ -70,7 +70,17 @@ test('[Vor-Umzug·a2·Ausbeute] die Fixture trägt Provenienz (Commit, Datum) un
    unten sind GENAU die Texte dieser Schritte, gemessen aus dem Diff (verlorene gegen den Beleg); ihr Rot-Beweis steht unten. */
 const C14_ANAMWIZ = 'C14, Urteil GL 01.11. (W04): der Anamnese-Assistent ist gestrichen; seine Felder stehen auf der Bereichsseite Gesundheit.';
 const C14_GEBWIZ = 'C14, Urteil GL 01.11. (W03): der Geburts-Assistent fragt nur nach dem Kind; der Schritt steht als Feld im Blatt „Geburt“.';
+/* ASSISTENT-ALT-UND-ABBRUCHSATZ (Entscheidung vom 21.11.2026): der Schlusssatz „Sie können jederzeit
+   pausieren.“ fällt mit der ganzen Klasse aus den Einleitungen; die Probe der Klasse ist tests/assistent-ohne-abbruchsatz.test.js. */
+const ABBRUCHSATZ = 'ASSISTENT-ALT-UND-ABBRUCHSATZ (21.11.2026): der Schlusssatz „Sie können jederzeit pausieren.“ entfällt; der übrige Text der Einleitung steht unverändert.';
+/* Assistent als Anlass-Seite (24.11.2026): alle Fragen stehen auf einer Seite; der Schlusssatz der Einleitung
+   „Sie beantworten eine Frage nach der anderen.“ heißt jetzt „Sie beantworten die Fragen auf dieser Seite.“ */
+const ANLASS_SEITE = 'Assistent als Anlass-Seite (24.11.2026): alle Fragen auf einer Seite; der Schlusssatz heißt jetzt „Sie beantworten die Fragen auf dieser Seite.“, der übrige Text der Einleitung steht unverändert.';
 const BEWUSST_ENTFALLEN = Object.freeze({
+  "Ein paar Fragen, damit rund um die Geburt alles beisammen ist — und Sie wissen, wo welche Unterlage hingehört. Sie beantworten eine Frage nach der anderen.": ANLASS_SEITE,
+  "Wenn jemand pflegebedürftig wird, ist vieles zugleich zu regeln. Wir gehen die wichtigsten Punkte durch — Pflegegrad, Pflegedienst, Geld, wer pflegt und ob die Vorsorge steht. Sie können jederzeit pausieren.": ABBRUCHSATZ,
+  "Eine Heirat oder eingetragene Partnerschaft ändert vieles auf einmal — Name, Güterstand, Steuerklasse, Vorsorge. Wir gehen die Punkte durch, damit nichts untergeht. Sie können jederzeit pausieren.": ABBRUCHSATZ,
+  "Ein Umzug zieht viele kleine Schritte nach sich — Ummeldung, Adressänderungen, Versorger, die alte Wohnung. Wir sammeln, was zu tun ist, und halten fest, was schon erledigt ist. Sie können jederzeit pausieren.": ABBRUCHSATZ,
   'Wie lautet Ihre neue Anschrift — Straße & Hausnummer?': 'U2-ADR-467 (01.10.2026): der Umzugs-Assistent fragt die neue '
     + 'Anschrift in vier Teilen (Straße, Hausnummer, Postleitzahl, Ort) statt in zwei Zeilen; die Zeilen-Schritte entfallen.',
   'Straße & Hausnummer': 'U2-ADR-467: Beschriftung des entfallenen Zeilen-Schritts (s. o.).',

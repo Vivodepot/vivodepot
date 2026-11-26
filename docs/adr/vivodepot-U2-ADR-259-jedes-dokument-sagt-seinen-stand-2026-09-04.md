@@ -164,3 +164,20 @@ zustand:  geprüft
 herkunft: entscheidung
 pruefung: tests/pdf-fuss-umbruch-an-trennpunkten.test.js#[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen: keine“ genau einmal
 ```
+
+## Nachtrag 24.11.2026 — Lese-App ohne Erweiterung: eine Angabe
+
+Was der Nachtrag vom 02.11.2026 für den PDF-Fuß festhält, gilt jetzt auch für die Lese-App. Ohne Erweiterung sagt der
+Herkunfts-Block „Diese Angaben stammen ganz aus Vivodepot selbst. Es ist keine Erweiterung eingelassen.“, und der
+Stand-Block entfällt in genau diesem Fall (`standBlockHTML` liefert dann nichts). Kein stummer Fall entsteht: die Aussage steht
+weiter im Herkunfts-Block, der nach U2-ADR-258 immer steht. Fehlt die Stand-Angabe ganz (geforkte Fassung), bleibt
+`standSatzOhneAngabe` sichtbar; mit Erweiterungen bleibt der Stand-Block wie bisher. Anlass: Durchgang als fremde Nutzerin am
+Abnahme-Stand v1072; die beiden Zeilen „keine Erweiterung eingelassen“ und „Stand der Erweiterungen“ waren für Empfänger
+Fachwörter ohne Bedeutung.
+
+```konformitaet
+aussage:  Ohne Erweiterung zeigt die Lese-App eine Zeile zur Herkunft und keine Stand-Zeile; ohne Stand-Angabe bleibt deren eigener Satz.
+zustand:  geprüft
+herkunft: entscheidung
+pruefung: tests/meldungen-erster-weg.test.js#[L4] ohne Erweiterung eine Zeile zur Herkunft, keine Stand-Zeile; ohne Stand-Angabe bleibt ihr Satz
+```

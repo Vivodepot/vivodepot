@@ -36,7 +36,8 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     const p = await ctx.newPage();
     await H.generator.oeffnen(p, 'de');
     await p.click('#start-leer');
-    await p.click('#fertig-oeffnen');
+    // Seit N18 (22.11.2026) steht „Einreichen“ erst nach dem Sichern (#ns-einreichen ruft fertigOeffnen, tests/studio-einreichen-nach-sichern.test.js); hier derselbe Aufruf ohne Sichern.
+    await p.evaluate(() => fertigOeffnen());
     const sd = FIX.stammdaten;
     await p.fill('#sd-name', sd.anbieterName); await H.weitereAngabenOeffnen(p); await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
     await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
@@ -101,7 +102,7 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await expect(p.locator('#pr-submit')).toBeHidden();
     // ein zweites Paket ohne Schlüssel: wer den Dialog neu öffnet, sieht den gesperrten Knopf und was fehlt
     await p.click('#fs-fertig-zu');
-    await p.click('#fertig-oeffnen');
+    await p.evaluate(() => fertigOeffnen());
     await expect(p.locator('#fs-fertig')).toBeHidden();
     await H.einzelheitenOeffnen(p);
     await p.click('#pr-pruefen');

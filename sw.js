@@ -27,7 +27,7 @@
 // v804 (26.09.2026): Demos mit Handsteuerung — die Vorführung schaltet auf Wunsch Schritt für Schritt, auch über die Lese-App.
 // v805 (26.09.2026): Listen-Unterfelder folgen beim Herausgeben der Entscheidung der Person — abgewählt bleibt zurück, freigegeben geht mit.
 // v894 (03.10.2026): das Gerüst trägt keinen Gestaltungswert — Stylesheet und Werte kommen als Erscheinungsbild-Modul.
-const CACHE = 'vivodepot-shell-v1070';
+const CACHE = 'vivodepot-shell-v1073';
 
 // Die App-Schale. Einzeln & tolerant gecacht (fehlende Einträge brechen den
 // Install NICHT — z. B. wenn die Manifest-Entscheidung „inline" lautet und es
@@ -44,6 +44,17 @@ const SCHALE = [
      tests/schale-traegt-nachgeladene-dateien.test.js; Probe: tests/e2e/modul-app-vorabkonfiguration-offline.spec.js. */
   './vorabkonfiguration.js',
 ];
+
+// Die Schalen-Adressen, gegen den Scope aufgelöst: nur diese Adressen legt der fetch-Handler ab.
+// Aufgelöst beim ersten Abruf, nicht beim Laden: der Scope steht fest, sobald der Worker Abrufe bekommt.
+let _schalenAdressen = null;
+function schalenAdressen() {
+  if (!_schalenAdressen) {
+    const basis = (self.registration && self.registration.scope) || self.location.href;
+    _schalenAdressen = new Set(SCHALE.map((s) => new URL(s, basis).href));
+  }
+  return _schalenAdressen;
+}
 
 /* Ohne Startseite kein Install (26.10.2026, Befund SW-INSTALL-OHNE-ZUGANG-LEERT-CACHE): ein Pro-Host liefert `./` und
    `./vivodepot.html` nur mit dem Zugangs-Cookie der Sitzung. Gelang der Install ohne beide, löschte activate die alte
@@ -109,19 +120,24 @@ self.addEventListener('fetch', (e) => {
   const istNavigation = req.mode === 'navigate';
   const ablageSchluessel = istNavigation ? url.origin + url.pathname : req;
 
-  e.respondWith((async () => {
+  /* Schale ist nur, was in SCHALE steht, als volle Adresse im Scope (23.11.2026, Befund SW-SCHALE-GRENZE-OFFEN). Bis
+     v1071 entschied ein Suffixvergleich: für './' blieb der leere Text, auf den jeder Pfad endet, und dazu galt jede
+     Navigation als Schale. So wurde jede gleichursprüngliche Antwort abgelegt und danach aus dem Speicher bedient. Eine
+     Navigation zählt nur mit ihrem Pfad (s. o.), jede andere Anfrage mit der vollen Adresse. Das Ablegen hängt über
+     waitUntil am Ereignis, damit der Worker nicht vor dem Schreiben endet. Probe: tests/sw-schale-grenze.test.js. */
+  const istSchale = schalenAdressen().has(istNavigation ? url.origin + url.pathname : url.href);
+  let ablage = Promise.resolve();
+
+  const antwort = (async () => {
     // Cache-first für die Schale.
     const cached = await caches.match(req, istNavigation ? { ignoreSearch: true } : undefined);
     if (cached) return cached;
     try {
       const net = await fetch(req);
-      // Nur same-origin-Schale nachcachen (Navigation oder gelistete Schalen-URL).
       // KEIN Daten-Caching — IndexedDB ist strikt getrennt und wird nie berührt.
-      const istSchale = istNavigation
-        || SCHALE.some((s) => url.pathname.endsWith(s.replace('./', '')));
       if (net && net.ok && istSchale) {
-        const cache = await caches.open(CACHE);
-        cache.put(ablageSchluessel, net.clone());
+        const kopie = net.clone();
+        ablage = caches.open(CACHE).then((cache) => cache.put(ablageSchluessel, kopie));
       }
       return net;
     } catch (err) {
@@ -133,5 +149,7 @@ self.addEventListener('fetch', (e) => {
       }
       throw err;
     }
-  })());
+  })();
+  e.respondWith(antwort);
+  e.waitUntil(antwort.then(() => ablage, () => undefined));
 });

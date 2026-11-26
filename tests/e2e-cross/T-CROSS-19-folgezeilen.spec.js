@@ -50,6 +50,6 @@ test.describe('T-CROSS-19 · die Sorge-Markierung ist zurückgenommen', () => {
        für die Anwesenheit des Ganzen. */
     await zumTemplateSchritt(page);
     await expect(page.locator('#tpl-anzahl')).toBeVisible();
-    await expect(page.locator('#fertig-oeffnen')).toBeVisible();
+    await expect(page.locator('#vorlage-sichern')).toBeVisible();
   });
 });

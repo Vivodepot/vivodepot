@@ -40,7 +40,7 @@ const ZEILEN_S1 = {
     return s.includes('>Neu beginnen<') && s.includes('>Mit einem Beispiel beginnen<') && !/Womit möchten Sie anfangen\?/.test(s); },
   N12: (h) => /function beispielKachelText\(id\)/.test(h) && /\n {2}beispielKachelnFelderNennen\(\);\n/.test(h),
   N13: (h) => { const s = ohneDetails(block(h, 'main', 'raum-start'));
-    const wahl = ['start-leer', 'tpl-csv', 'bsp-bibliothek', 'bsp-verein', 'bsp-anamnese'];
+    const wahl = ['start-leer', 'tpl-csv', 'bsp-bibliothek', 'bsp-verein', 'bsp-praxis'];
     const rest = ['start-blatt', 'bsp-kommune', 'bsp-arbeitgeber', 'bsp-pflegeheim', 'bsp-notariat', 'ent-datei', 'ein-anfrage'];
     return wahl.every((id) => hatId(s, id)) && rest.every((id) => !hatId(s, id) && hatId(block(h, 'details', 'start-weitere'), id)); },
   N16: (h) => hatId(block(h, 'div', 'raum-bau'), 'bau-ort') && /function bauOrtSetzen\(\)/.test(h),
@@ -67,7 +67,7 @@ const ZEILEN_S1 = {
     return s.length > 0 && !/\bFrage(n)?\b/.test(s) && !/\b(Schema|JSON|Credential|Claim)\b/.test(s); },
   /* S-1c: die Wahl auf dem Start steht als Zeilen mit „›“, die Beispiel-Kacheln tragen die Titel des Dummys aus Sicht der Stelle. */
   N10: (h) => />Aufnahme in einen Verein<\/span>/.test(block(h, 'button', 'bsp-verein')),
-  N11: (h) => />Anmeldung in einer Praxis<\/span>/.test(block(h, 'button', 'bsp-anamnese')),
+  N11: (h) => />Anmeldung in einer Praxis<\/span>/.test(block(h, 'button', 'bsp-praxis')),
   S1c: (h) => /<section class="start-wahl" aria-labelledby="start-titel">/.test(h)
     && /\.start-wahl > \.kacheln \{ grid-template-columns: 1fr;/.test(h)
     && /\.start-wahl > \.kacheln > \.kachel::after \{ content: "›";/.test(h),

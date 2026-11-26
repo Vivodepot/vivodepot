@@ -156,6 +156,8 @@ test('[Datum·Fehler] Markierung und Fokus tragen die sichtbaren Teile; der Text
   assert.equal(typeof V.STRINGS.feldFehlerDatumTeile, 'string');
   assert.match(V.STRINGS.feldFehlerDatumTeile, /Tag, Monat und Jahr/);
   assert.equal(V.wizardFehlerText('datum'), V.STRINGS.feldFehlerDatumTeile);
-  assert.match(KERN, /_abgelehnt = \(inp\.hasAttribute && inp\.hasAttribute\('data-datum-iso'\)\) \? STRINGS\.feldFehlerDatumTeile : STRINGS\.feldFehlerDatum;/);
+  // Seit 24.11.2026 (Durchgang als fremde Nutzerin, I4) wählt _datumFehlerText den Satz; ohne erkannten Grund bleibt es dieser.
+  assert.match(KERN, /_abgelehnt = _datumFehlerText\(inp, v\);/);
+  assert.match(KERN, /  return STRINGS\.feldFehlerDatumTeile;\n\}\nfunction _datumEingabePlausibel/);
   assert.match(KERN, /for \(const z of _feldSichtbareTeile\(feld\)\) \{\n    if \(z\.classList\) z\.classList\.add\('feld-fehler'\);/);
 });

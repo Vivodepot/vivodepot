@@ -180,7 +180,7 @@
     },
     "zieldatei": {
       "type": "object",
-      "description": "Nur wenn die Anfrage `antwort.format` nennt: die Angaben der Antwort als Datei in diesem Format, gebaut im Kern aus einem Ausgabe-Format-Modul der Person und nur aus den freigegebenen Angaben. Geht das nicht, steht `grund` statt `inhalt` da.",
+      "description": "Nur wenn die Anfrage `antwort.format` nennt: die Angaben der Antwort als Datei in diesem Format, gebaut im Kern aus einem Ausgabe-Format-Modul der Person oder einem eingebauten Antwort-Kanal (xpersonenstand-sterbefall) und nur aus den freigegebenen Angaben. Geht das nicht, steht `grund` statt `inhalt` da; `pflichtangabe-fehlt` heißt, dass eine Angabe fehlt, die der Standard verlangt.",
       "additionalProperties": false,
       "required": ["format"],
       "properties": {
@@ -189,7 +189,7 @@
         "endung": { "type": "string" },
         "dateiname": { "type": "string" },
         "inhalt": { "type": "string" },
-        "grund": { "enum": ["format-fehlt", "format-liest-am-filter-vorbei", "format-ohne-ergebnis"] }
+        "grund": { "enum": ["format-fehlt", "format-liest-am-filter-vorbei", "format-ohne-ergebnis", "pflichtangabe-fehlt"] }
       }
     },
     "personen": {

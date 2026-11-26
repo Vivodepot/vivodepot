@@ -14,6 +14,7 @@
    Einordnung fällt. Rot-Beweise je Teil. Die E2E-Probe: tests/e2e/passwort-woerter-wie-angezeigt.spec.js.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
+const { istOeffentlich } = require('./helfer/nur-privat.js');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -69,14 +70,126 @@ test('[Trennzeichen·Probe] die Wörter, wie angezeigt, sind gleich; ein falsche
   assert.ok(!/\bart:\s*'form'/.test(KERN), 'die Art „form“ gibt es nicht mehr');
 });
 
-test('[Trennzeichen·Kopie] die Lese-App trägt dieselbe pwWoerterKanon wie der Kern', () => {
-  const koerper = (t) => {
-    const i = t.indexOf('function pwWoerterKanon(');
-    assert.ok(i >= 0);
+test('[Trennzeichen·Kopie] die Lese-App trägt dieselbe pwWoerterKanon und _pwWoerterZerlegen wie der Kern', () => {
+  const koerper = (t, name) => {
+    const i = t.indexOf('function ' + name + '(');
+    assert.ok(i >= 0, name);
     return t.slice(i, t.indexOf('\n}\n', i) + 2);
   };
-  assert.equal(koerper(LESEN), koerper(KERN));
-  assert.equal(ladeLesen().V.pwWoerterKanon(WIE_ANGEZEIGT), KANON);
+  for (const name of ['pwWoerterKanon', '_pwWoerterZerlegen']) assert.equal(koerper(LESEN, name), koerper(KERN, name), name);
+  const k = ladeLesen().V.pwWoerterKanon;
+  assert.equal(k(WIE_ANGEZEIGT), KANON);
+  // Die Lese-App trägt keine Wortliste: ohne Trenner keine Wörter, mit übergebener Liste wie im Kern.
+  assert.equal(k('tintewolkehafenapfelgeigebirke'), null);
+  assert.equal(k('tintewolkehafenapfelgeigebirke', LISTE), KANON);
+});
+
+/* ── PASSWORT-OHNE-TRENNER (HOCH, 24.11.2026): die sechs Wörter aneinander getippt ──────────────────────────────────────────── */
+
+test('[OhneTrenner·Kanon] aneinander getippt fällt auf die Kanonform, über die Liste der Produktsprache; sonst null', () => {
+  const { V } = ladeKern();
+  const k = V.pwWoerterKanon;
+  // Ohne Liste: die Wortliste des geladenen Produkts.
+  assert.equal(k('tintewolkehafenapfelgeigebirke'), KANON);
+  assert.equal(k('TinteWolkeHafenApfelGeigeBirke'), KANON);
+  assert.equal(k('  TINTEwolkehafenapfelgeigebirke\n'), KANON);
+  assert.equal(k('tintewolkehafenapfelgeigebirke', LISTE), KANON);
+  assert.equal(k('tintewolkehafenapfelgeigebirkekanne', LISTE), null, 'sieben Wörter');
+  assert.equal(k('tintewolkehafenapfelgeige', LISTE), null, 'fünf Wörter');
+  assert.equal(k('tintewolkehafenapfelgeigexyz', LISTE), null, 'kein Listenwort');
+  assert.equal(k('tintewolkehafenapfelgeigebirke2', LISTE), null, 'Ziffer');
+  assert.equal(k('tintewolkehafenäpfelgeigebirke', LISTE), null, 'Umlaut');
+  assert.equal(k('tintewolkehafenapfelgeigebirke', []), null, 'ohne Liste keine Zerlegung');
+  // Zwei Zerlegungen in sechs Wörter: keine Wörter. Kommt bei den Listen der Produkte nicht vor (Wächter unten).
+  assert.equal(V._pwWoerterZerlegen('xyxzzzz', ['x', 'xy', 'yx', 'z']), null, 'x|yx|z… und xy|x|z…');
+  assert.equal(V._pwWoerterZerlegen('xyzzzzz', ['x', 'xy', 'yx', 'z']), 'xy-z-z-z-z-z');
+  // Ein Wort, das Anfang eines anderen ist, zerlegt trotzdem eindeutig.
+  assert.equal(V._pwWoerterZerlegen('hafenhafentinteapfelgeigebirke', ['hafen', 'hafent', 'tinte', 'apfel', 'geige', 'birke']),
+    'hafen-hafen-tinte-apfel-geige-birke');
+});
+
+test('[OhneTrenner·Probe] aneinander getippt: gleich, das erste abweichende Wort von vorn, oder ungleich', () => {
+  const f = ladeKern().V.pwProbeVergleich;
+  assert.deepEqual(f(KANON, 'tintewolkehafenapfelgeigebirke', LISTE), { art: 'gleich', wort: -1 });
+  assert.deepEqual(f(KANON, 'TinteWolkeHafenApfelGeigeBirke', LISTE), { art: 'gleich', wort: -1 });
+  assert.deepEqual(f(KANON, 'tintewolkehofenapfelgeigebirke', LISTE), { art: 'wort', wort: 2 });
+  assert.deepEqual(f(KANON, 'tintewolkehafenapfelgeigebirk', LISTE), { art: 'wort', wort: 5 });
+  assert.deepEqual(f(KANON, 'tintewolkehafenapfelgeigebirkekanne', LISTE), { art: 'ungleich', wort: -1 });
+  assert.deepEqual(f('mein-eigenes-passwort', 'meineigenespasswort', LISTE), { art: 'ungleich', wort: -1 }, 'eigenes Passwort: zeichengenau');
+});
+
+test('[OhneTrenner·Kern·depotLaden] ein Depot unter der Kanonform öffnet aneinander getippt; genau ein weiterer Versuch', async () => {
+  const { V: A } = ladeKern();
+  await A.depotAnlegen(KANON);
+  A.getData()._marker = 'ohne-trenner';
+  const u = await A.depotSerialisieren();
+  for (const eingabe of ['tintewolkehafenapfelgeigebirke', 'TinteWolkeHafenApfelGeigeBirke']) {
+    assert.equal((await ladeKern().V.depotLaden(kopie(u), eingabe))._marker, 'ohne-trenner', eingabe);
+  }
+  const einVersuch = await pbkdf2Zaehlen(() => assert.rejects(() => ladeKern().V.depotLaden(kopie(u), 'falsch-ascii-2026')));
+  const falsch = await pbkdf2Zaehlen(() => assert.rejects(() => ladeKern().V.depotLaden(kopie(u), 'tintewolkehafenapfelgeigekanne')));
+  assert.equal(falsch, 2 * einVersuch, 'falsche Wörter ohne Trenner: genau ein weiterer Versuch');
+  const keinWort = await pbkdf2Zaehlen(() => assert.rejects(() => ladeKern().V.depotLaden(kopie(u), 'tintewolkehafenapfelgeigexyz')));
+  assert.equal(keinWort, einVersuch, 'nicht zerlegbar: kein weiterer Versuch');
+  // Die Probe des alten Passworts (Wechsel, Code einrichten) nimmt es ebenso.
+  const { V } = ladeKern();
+  await V.depotAnlegen(KANON);
+  assert.equal(await V._passwortProbeMitKanon('TinteWolkeHafenApfelGeigeBirke'), KANON);
+});
+
+test('[OhneTrenner·Kern·Rot-Beweis] ohne die Zerlegung bleibt ein Depot unter der Kanonform aneinander getippt zu', async () => {
+  const von = 'if (teile.length === 1) return _pwWoerterZerlegen(teile[0], liste);';
+  assert.equal(KERN.split(von).length, 2, 'Vorbedingung: die Zeile steht genau einmal im Kern');
+  const { V: A } = ladeKern();
+  await A.depotAnlegen(KANON);
+  A.getData()._marker = 'rot-ohne-trenner';
+  const u = await A.depotSerialisieren();
+  const alt = kernMit(von, '');
+  await assert.rejects(() => alt.depotLaden(kopie(u), 'tintewolkehafenapfelgeigebirke'), 'ohne Zerlegung: zu');
+  assert.equal((await alt.depotLaden(kopie(u), WIE_ANGEZEIGT))._marker, 'rot-ohne-trenner', 'mit Trennern weiter offen');
+  assert.equal(alt.pwWoerterKanon('tintewolkehafenapfelgeigebirke'), null);
+});
+
+/* Sardinas-Patterson: eine Liste ist eindeutig zerlegbar, wenn kein hängender Rest selbst ein Listenwort ist. */
+function eindeutigZerlegbar(liste) {
+  const C = new Set(liste);
+  const woerter = [...C];
+  const rest = new Set();
+  const schlange = [];
+  const dazu = (x) => { if (x && !rest.has(x)) { rest.add(x); schlange.push(x); } };
+  for (const a of woerter) for (const b of woerter) if (a !== b && b.startsWith(a)) dazu(b.slice(a.length));
+  while (schlange.length) {
+    const x = schlange.shift();
+    if (C.has(x)) return { eindeutig: false, zeuge: x };
+    for (const c of woerter) {
+      if (c !== x && c.startsWith(x)) dazu(c.slice(x.length));
+      if (c !== x && x.startsWith(c)) dazu(x.slice(c.length));
+    }
+  }
+  return { eindeutig: true, zeuge: null };
+}
+
+test('[OhneTrenner·Wächter] jede Wortliste eines Sprachmoduls ist eindeutig zerlegbar und besteht nur aus a–z', () => {
+  const module = fs.readdirSync(path.join(WURZEL, 'tools')).filter((d) => /^textsatz-.*-modul\.json$/.test(d));
+  const mitListe = [];
+  for (const d of module) {
+    const text = (JSON.parse(fs.readFileSync(path.join(WURZEL, 'tools', d), 'utf8')).texte || {})['strings:passwortWortliste.text'];
+    if (!text) continue;
+    mitListe.push(d);
+    const liste = text.trim().split(/\s+/);
+    assert.ok(liste.every((w) => /^[a-z]+$/.test(w)), d + ': nur a–z');
+    assert.equal(new Set(liste).size, liste.length, d + ': keine Doppel');
+    assert.deepEqual(eindeutigZerlegbar(liste), { eindeutig: true, zeuge: null }, d);
+  }
+  // Öffentlich (Kennzeichen „läuft nur im privaten Repo“, tests/helfer/nur-privat.js) fehlen die Pro-Textsätze: dort zwei, privat unverändert vier.
+  const mindestens = istOeffentlich(WURZEL) ? 2 : 4;
+  assert.ok(mitListe.length >= mindestens, 'Wächter blind: weniger als ' + mindestens + ' Sprachmodule mit Wortliste (' + mitListe.join(', ') + ')');
+});
+
+test('[OhneTrenner·Wächter·Rot-Beweis] eine Liste mit zwei Zerlegungen fällt', () => {
+  assert.equal(eindeutigZerlegbar(['x', 'xy', 'yx', 'z']).eindeutig, false);
+  assert.equal(eindeutigZerlegbar(['tinte', 'wolke', 'tintewolke']).eindeutig, false);
+  assert.equal(eindeutigZerlegbar(LISTE).eindeutig, true);
 });
 
 /* ══ Teil 2: die Einlässe ═════════════════════════════════════════════════ */
@@ -272,6 +385,19 @@ test('[Trennzeichen·Wächter·Rot-Beweis] ein Einlass ohne Rückfall, ein neuer
   assert.notEqual(leseOhne, LESEN);
   assert.ok(waechterFunde({ 'vivodepot-lesen.html': leseOhne }).some((f) => /_mitNfcDannNfd: ohne Kanon-Rückfall/.test(f)));
 });
+
+/* Ein Kern mit einer ersetzten Zeile, geladen wie in tests/passwort-nfc-klasse.test.js. */
+function kernMit(von, nach) {
+  assert.equal(KERN.split(von).length, 2, 'Vorbedingung Rot-Beweis: die Zeile steht genau einmal im Kern');
+  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pw-trennzeichen-'));
+  try {
+    const datei = path.join(ordner, 'vivodepot.html');
+    fs.writeFileSync(datei, KERN.split(von).join(nach));
+    return ladeKern({ htmlPfad: datei, backen: true }).V;
+  } finally {
+    fs.rmSync(ordner, { recursive: true, force: true });
+  }
+}
 
 /* Ein Kern ohne den Rückfall in depotLaden (wie vor dem Fix), geladen wie in tests/passwort-nfc-klasse.test.js. */
 function kernOhneRueckfall() {

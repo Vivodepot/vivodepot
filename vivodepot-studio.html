@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-fpnMzUcdZN6ERVxKzC+q5PJbHeDr07C/R8j/xVoBbS8=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-NYMntYU1omERPsdXe1d/nBgyieCcj3jUD+8B+Lk3gIs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-rvKBsIkCryCYasbpKFpbrPf38cSPA8UGBjYid+lGKIk=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-NYMntYU1omERPsdXe1d/nBgyieCcj3jUD+8B+Lk3gIs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -266,6 +266,7 @@
   .ns-weitere { display: block; margin-top: 14px; }
   .ergebnis-name { font-size: var(--fs-role-gruppe); font-weight: 700; margin: 6px 0 0; }
   .ergebnis-zahl { color: var(--grau); margin: 2px 0 6px; }
+  .ns-liste > .ergebnis-zahl { padding: 0 16px 12px; margin: 4px 0 0; }   /* Hinweis in der Liste: dieselbe Einrückung wie die Zeilen */
   .gruppe-kopf { font-size: var(--fs-role-hilfe); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--grau); margin: 14px 0 4px; }
   /* Wege nach dem Sichern als ganze Listenzeile, das Aktionswort rechts (Dummy 14.11.2026 Z. 202–211, Zeile .liste). */
   /* Die Linie wie --linie im Dummy; --rand ist in der Arbeitsfläche durchsichtig (Gestaltung ohne Ränder). */
@@ -274,6 +275,8 @@
   .ns-liste .ns-weg:first-child { border-top: 0; }
   .ns-liste .ns-weg .t { display: block; color: var(--grau); font-size: var(--fs-role-hilfe); }
   .ns-liste .ns-weg .w { margin-left: auto; color: var(--akzent-dunkel); font-size: var(--fs-role-hilfe); font-weight: 600; white-space: nowrap; }
+  .ns-qr { display: block; width: 168px; height: 168px; margin: 6px auto 14px; image-rendering: pixelated; }
+  .ns-qr[hidden] { display: none; }
   .leer-hinweis { color: var(--grau); font-style: italic; }
   .cw-zeile { display: grid; grid-template-columns: 1fr 1.4fr 1fr auto; gap: 8px; margin: 6px 0; }
   .cw-zeile input { padding: 6px 8px; }
@@ -365,12 +368,12 @@
      ruht bis „‹ Weiter bearbeiten“. Probe: tests/studio-dummy-fertig-seite.test.js. */
   .raum-bau.gesichert > :not(#sichern-ergebnis):not(#nach-sichern) { display: none; }
   .bau-leiste { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  /* Kopf auf allen Breiten wie im Vorgabe-Dummy: „‹ Studio“ und „Vorlage sichern“. Schalter und Wegband stehen unter den Reitern,
-     „Entwurf sichern“ und „Fertigstellen und einreichen“ unter der Vorlage. Probe: tests/studio-telefon-kopf-s3r.test.js. */
-  .bau-ort { display: none; }
+  /* Kopf auf allen Breiten wie im Vorgabe-Dummy: „‹ Studio“, der Name der Vorlage und „Vorlage sichern“ als einziger Hauptweg (N18);
+     kein „Entwurf sichern“, kein „Fertigstellen und einreichen“. Der Ansicht-Schalter steht unter den Reitern (die Vorschau mit
+     Eingaben, z. B. Einträge einer Liste). Probe: tests/studio-telefon-kopf-s3r.test.js. */
+  @media (max-width: 760px) { .bau-ort { display: none; } }   /* N16: Name der Vorlage im Kopf ab Tablet sichtbar, am Telefon nicht (Dummy 14.11.2026). */
   .ansicht-zeile { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 10px 0 4px; }
   .ansicht-zeile .weg-band ol { margin: 0; }
-  .vorlage-unten { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 14px 0 0; }
   .bau-links > .status-chip { position: fixed; left: 50%; transform: translateX(-50%); bottom: 16px; z-index: 70; max-width: calc(100% - 32px); text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.18); opacity: 0; pointer-events: none; transition: opacity .2s; }
   .bau-links > .status-chip.toast-an { opacity: 1; }
   .bau-links, .bau-rechts { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -435,7 +438,7 @@
   .pal-gruppe > summary .zahl { color: var(--grau); font-weight: 400; }
   .pal-eintrag { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px; margin: 2px 0; border: 1px solid transparent; border-radius: 8px; cursor: grab; font-size: var(--fs-role-hilfe); }
   .pal-eintrag:hover { background: var(--nav-hover); border-color: var(--akzent-flaeche-rand); }
-  .pal-eintrag .pal-plus { flex: none; width: 26px; height: 26px; padding: 0; border-radius: 50%; line-height: 1; font-size: var(--fs-role-text); }
+  .pal-eintrag .pal-plus { flex: none; width: 32px; height: 32px; padding: 0; border-radius: 50%; line-height: 1; font-size: var(--fs-role-text); }
   .pal-eintrag small { display: block; color: var(--grau); font-size: var(--fs-role-hilfe); }
   .vk.markiert { outline: 3px solid var(--salbei-dunkel, #4F6539); outline-offset: 3px; }
   .pal-kennungen { display: flex; align-items: center; gap: 6px; font-size: var(--fs-role-hilfe); color: var(--grau); margin: 0 0 6px; }
@@ -465,6 +468,8 @@
   .vorschau.ziel { border-color: var(--akzent); background: var(--akzent-flaeche-zart); }
   .vorschau-leer { text-align: center; color: var(--grau); padding: 64px 20px; }
   .vorschau-leer strong { display: block; color: var(--text); font-size: var(--fs-role-gruppe); margin-bottom: 6px; }
+  .vorschau-leer .leer-schmal { display: none; }
+  @media (max-width: 760px) { .vorschau-leer .leer-breit { display: none; } .vorschau-leer .leer-schmal { display: inline; } }
   .vb-kopf { font-size: var(--fs-role-hilfe); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--akzent-dunkel); margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--akzent-flaeche-rand); }
   .vb-kopf:first-child { margin-top: 0; }
   .vb-sektion { font-size: var(--fs-role-hilfe); font-weight: 600; color: var(--grau); margin: 14px 0 6px; }
@@ -561,7 +566,7 @@
   #mod-bloecke details.zeigen { display: block; }
   #mod-bloecke details > summary { display: none; }
   .recht-text { line-height: 1.55; max-width: 66ch; }
-  .raum-bau.blatt-modus #fertig-oeffnen, .raum-bau.blatt-modus .ansicht-schalter, .raum-bau.blatt-modus .reiter, .raum-bau.blatt-modus .pal-frei, .raum-bau.blatt-modus .weg-band li:last-child { display: none; }
+  .raum-bau.blatt-modus .ansicht-schalter, .raum-bau.blatt-modus .reiter, .raum-bau.blatt-modus .pal-frei, .raum-bau.blatt-modus .weg-band li:last-child { display: none; }
   .raum-bau:not(.blatt-modus) #blatt-fertig, .raum-bau:not(.blatt-modus) #blatt-meta { display: none; }
   dialog.blatt #pr-submit, dialog.blatt .fs-sammlung, dialog.blatt #absenden-block { display: none; }
   dialog:not(.blatt) #ab-erzeugen { display: none; }
@@ -633,8 +638,6 @@
     .weg-band ol { gap: 4px; }
     .weg-band li + li::before { width: 12px; margin-right: 4px; }
     .ansicht-zeile { gap: 8px; margin: 6px 0 4px; }
-    .vorlage-unten > button { min-height: 44px; }
-    .vorlage-unten > #entwurf-sichern { width: 100%; }
   }
   /* Schmal: die Navigation bekommt eine eigene Zeile unter dem Logo, statt es zu überdecken (26.09.2026). */
   @media (max-width: 520px) {
@@ -833,7 +836,7 @@ label.as-feld { margin: 0; }
 .as-meldung { background: var(--fehler-bg); color: var(--fehler); border-radius: 14px; padding: 10px 16px; font-size: var(--fs-role-text); }
 .as-meldung ul { margin: 0; padding-left: 18px; }
 .as-eingabe.klein { font-size: var(--fs-role-text); padding: 10px 14px; margin: 8px 0 4px; grid-column: 1 / -1; }
-.as-eingabe[aria-invalid="true"], .feld-grid input[aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--fehler-rand); }
+.as-eingabe[aria-invalid="true"], .feld-grid input[aria-invalid="true"], .vorlage-kopf input[aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--fehler-rand); }
 .muss::after { content: " *"; color: var(--fehler); }
 .as-raster { display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; }
 .as-raster .as-breit { grid-column: 1 / -1; }
@@ -1633,13 +1636,19 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
   <div class="aa-antworten">
     <p class="eingang-aug" data-en="Replies">Antworten</p>
     <h1 class="as-titel" data-en="Open replies you have received">Eingegangene Antworten öffnen</h1>
-    <p class="as-lead" data-en="Choose the reply files that people sent you. For a request with a password, enter that password; for a request signed with your certificate, choose its key file and enter the key file’s password. Nothing is stored; when you close the page, the replies are gone from here.">Wählen Sie die Antwort-Dateien, die Ihnen Personen geschickt haben. Zu einer Anfrage mit Passwort geben Sie dieses Passwort ein; zu einer Anfrage, die mit Ihrem Zertifikat signiert war, wählen Sie ihre Schlüsseldatei und geben deren Passwort ein. Nichts wird gespeichert; schließen Sie die Seite, sind die Antworten hier wieder fort.</p>
-    <label class="as-feld" for="an-dateien"><span data-en="Reply files (.jwe)">Antwort-Dateien (.jwe)</span></label>
+    <!-- Zwei Felder für den häufigen Fall (Anfrage mit Passwort); die Schlüsseldatei steht in der Klappe darunter
+         (Benutzbarkeitsprüfung 22.11.2026, M7). Probe: tests/studio-benutzbarkeit-rest.test.js. -->
+    <p class="as-lead" data-en="Choose the reply files that people sent you and enter the password of your request. Nothing is stored.">Wählen Sie die Antwort-Dateien, die Ihnen Personen geschickt haben, und geben Sie das Passwort Ihrer Anfrage ein. Es wird nichts gespeichert.</p>
+    <label class="as-feld" for="an-dateien"><span data-en="Reply files">Antwort-Dateien</span></label>
     <input type="file" id="an-dateien" class="as-eingabe" accept=".jwe,application/jose" multiple>
-    <label class="as-feld" for="an-schluessel"><span data-en="Key file of the request (.vdkey), if the request was signed with your certificate">Schlüsseldatei der Anfrage (.vdkey), wenn die Anfrage mit Ihrem Zertifikat signiert war</span></label>
-    <input type="file" id="an-schluessel" class="as-eingabe" accept=".vdkey,.json,application/json">
-    <label class="as-feld" for="an-passwort"><span data-en="Password of the request, or of the key file">Passwort der Anfrage oder der Schlüsseldatei</span></label>
+    <label class="as-feld" for="an-passwort"><span data-en="Password of the request">Passwort der Anfrage</span></label>
     <input type="password" id="an-passwort" class="as-eingabe" autocomplete="off">
+    <details id="an-zertifikat">
+      <summary data-en="If your request was signed with a certificate">Wenn Ihre Anfrage mit Zertifikat signiert war</summary>
+      <label class="as-feld" for="an-schluessel"><span data-en="Key file of the request">Schlüsseldatei der Anfrage</span></label>
+      <input type="file" id="an-schluessel" class="as-eingabe" accept=".vdkey,.json,application/json">
+      <p class="as-hilfe" data-en="Enter the password of the key file under “Password of the request”.">Das Passwort der Schlüsseldatei tragen Sie bei „Passwort der Anfrage“ ein.</p>
+    </details>
     <div class="as-knoepfe"><button type="button" class="as-knopf" id="an-oeffnen" data-en="Open replies">Antworten öffnen</button>
       <button type="button" class="link-knopf" id="an-zurueck" data-en="Back to the choice">Zurück zur Auswahl</button></div>
     <div id="an-ergebnis" aria-live="polite"></div>
@@ -1683,6 +1692,7 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
         <label class="as-feld" for="aa-zweck"><span data-en="What is the request for?">Wofür ist die Anfrage?</span></label>
         <input type="text" id="aa-zweck" class="as-eingabe" autocomplete="off" placeholder="z. B. Termin im Bürgerservice vereinbaren" data-en-ph="e.g. Booking an appointment at the citizens’ service">
         <div class="as-feld"><span data-en="Example">Beispiel</span><div class="as-chips" id="aa-beispiele"></div></div>
+        <p class="as-hilfe" id="aa-aus-vorlage" hidden></p>
         <ol class="as-felder" id="aa-felder" aria-label="Angaben der Anfrage" data-en-aria="Details in the request"></ol>
         <div class="as-feld"><span data-en="Add a detail">Angabe hinzufügen</span><div class="as-chips" id="aa-hinzu"></div></div>
         <label class="as-feld" for="aa-suche"><span data-en="Search for another detail">Weitere Angabe suchen</span></label>
@@ -1790,7 +1800,7 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
         <label class="as-feld" for="as-name"><span class="muss" data-en="Name of your organisation">Name Ihrer Stelle</span></label>
         <input type="text" id="as-name" class="as-eingabe" aria-required="true" autocomplete="organization" placeholder="z. B. Bürgerservice Musterstadt" data-en-ph="e.g. Citizens’ Service Exampletown">
         <details class="start-angaben" id="start-angaben">
-          <summary data-en="Details of your organisation">Angaben der Stelle</summary>
+          <summary data-en="Details of your organisation (for submitting)">Angaben der Stelle (für das Einreichen)</summary>
         <div class="as-feld"><span id="as-art-l" data-en="Type of organisation">Art der Stelle</span>
           <div class="as-chips" id="as-art" role="group" aria-labelledby="as-art-l">
             <button type="button" class="as-chip" data-art="praxis" aria-pressed="false" data-en="Practice">Praxis</button>
@@ -1849,7 +1859,7 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
         <span class="kachel-titel" data-en="Joining a club">Aufnahme in einen Verein</span>
         <span class="kachel-text" data-en="Name, address, e-mail, bank details">Name, Anschrift, E-Mail, Bankverbindung</span>
       </button>
-      <button type="button" class="kachel" id="bsp-anamnese">
+      <button type="button" class="kachel" id="bsp-praxis">
         <span class="kachel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.600-7 10-7 10z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg></span>
         <span class="kachel-titel" data-en="Registering at a medical practice">Anmeldung in einer Praxis</span>
         <span class="kachel-text" data-en="Name, date of birth, health insurance, medication">Name, Geburtsdatum, Krankenversicherung, Medikamente</span>
@@ -1893,12 +1903,12 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
       </label>
       <button type="button" class="kachel eingang-kachel" id="ein-anfrage"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H10l-4 4v-4H4z"/><path d="M8 9.5h8M8 12.5h5"/></svg></span><span class="ek-pfeil" aria-hidden="true">→</span>
       <span class="ek-titel" data-en="Request to people">Anfrage an Personen</span>
-      <span class="ek-text" data-en="You say which details you need. The person decides what to give you.">Sie sagen, welche Angaben Sie brauchen. Die Person entscheidet, was sie Ihnen gibt.</span></button>
+      <span class="ek-text" data-en="This is how you receive replies. You say which details you need. The person decides what to give you.">So empfangen Sie Antworten. Sie sagen, welche Angaben Sie brauchen. Die Person entscheidet, was sie Ihnen gibt.</span></button>
       <button type="button" class="kachel eingang-kachel eingang-hinweis" id="ein-empfangen" aria-expanded="false" aria-controls="ein-empfangen-hinweis"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v9m0 0-4-4m4 4 4-4"/><path d="M4 15v5h16v-5"/></svg></span><span class="ek-pfeil ek-info" aria-hidden="true">i</span>
       <span class="ek-titel" data-en="Receive documents">Dokumente empfangen</span>
       <span class="ek-text" data-en="People give you documents as a file, for example the original from their depot.">Personen geben Ihnen Unterlagen als Datei, etwa das Original aus ihrem Depot.</span>
       <span class="ek-hinweis" id="ein-empfangen-hinweis" hidden data-en="There is nothing to set up: you open the file with your own software.">Dafür richten Sie nichts ein: Sie öffnen die Datei mit Ihrem eigenen Programm.</span></button>
-      <button type="button" class="kachel eingang-kachel eingang-hinweis eingang-folgt" id="ein-bereitstellen" aria-disabled="true"><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0-4 4m4-4 4 4"/><path d="M5 20h14"/></svg></span><span class="ek-pfeil ek-folgt" data-en="in progress">in Arbeit</span>
+      <button type="button" class="kachel eingang-kachel eingang-hinweis eingang-folgt" id="ein-bereitstellen" aria-disabled="true" disabled><span class="ek-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0-4 4m4-4 4 4"/><path d="M5 20h14"/></svg></span><span class="ek-pfeil ek-folgt" data-en="in progress">in Arbeit</span>
       <span class="ek-titel" data-en="Provide data">Daten bereitstellen</span>
       <span class="ek-text" data-en="You issue documents as files in open formats. The person keeps them in their depot.">Sie geben Unterlagen als Datei in offenen Formaten heraus. Die Person legt sie in ihrem Depot ab.</span></button>
     </div>
@@ -1927,12 +1937,12 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
       <button type="button" id="blatt-fertig" class="haupt-knopf" data-en="Finish ▸">Fertigstellen ▸</button>
     </div>
   </div>
-  <div id="sichern-ergebnis" class="meldung ok" role="status" aria-live="polite" hidden></div>
+  <div id="sichern-ergebnis" class="meldung ok" hidden></div>
 
   <section class="nach-sichern" id="nach-sichern" aria-labelledby="ns-titel" hidden>
     <h2 id="ns-titel" data-en="Saved">Gesichert</h2>
     <div class="ns-knoepfe">
-      <button type="button" class="sekundaer" id="ns-einreichen" data-en="Submit ▸">Einreichen ▸</button>
+      <button type="button" class="sekundaer" id="ns-einreichen" data-en="Send to Vivodepot for review ▸">An Vivodepot zur Prüfung schicken ▸</button>
       <button type="button" class="sekundaer" id="ns-veroeffentlichen" data-en="Publish a request ▸">Anfrage veröffentlichen ▸</button>
     </div>
     <!-- Wie die Vorlage Teil des Produkts wird (17.11.2026): der Weg der Einreichung, Wortlaut unverändert vom Start hierher. -->
@@ -1959,13 +1969,15 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
         <button type="button" class="knopf-klein pal-fertig" id="pal-fertig" data-en="Done">Fertig</button>
       </div>
       <p class="hint" data-en="Add with + or drag into the template.">Mit + hinzufügen oder in die Vorlage ziehen.</p>
-      <label class="pal-kennungen"><input type="checkbox" id="pal-kennungen"> <span data-en="Show technical terms">Technische Begriffe anzeigen</span></label>
       <div id="pal-liste"></div>
+      <!-- N22 (Dummy 14.11.2026): die Liste zeigt nur Bausteine; Feldarten, der Schalter für technische Begriffe (O13: verlegt, nicht entfernt)
+           und der Vorschlag stehen unter „Weitere“. -->
       <details class="pal-frei">
-        <summary data-en="Further field types">Weitere Feldarten</summary>
+        <summary data-en="More">Weitere</summary>
         <div id="pal-typen"></div>
+        <label class="pal-kennungen"><input type="checkbox" id="pal-kennungen"> <span data-en="Show technical terms">Technische Begriffe anzeigen</span></label>
+        <p class="hint pal-fehlt"><span data-en="Is something missing?">Fehlt etwas?</span> <button type="button" class="link-knopf" id="pal-vorschlagen" data-en="Suggest a building block">Baustein vorschlagen</button></p>
       </details>
-      <p class="hint pal-fehlt"><span data-en="Is something missing?">Fehlt etwas?</span> <button type="button" class="link-knopf" id="pal-vorschlagen" data-en="Suggest a building block">Baustein vorschlagen</button></p>
     </aside>
     <div class="pal-schleier" id="pal-schleier" hidden></div>
 
@@ -2000,11 +2012,18 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
           <p class="meldung fehler" id="tpl-name-meldung" role="alert" hidden data-en="Give the template a name.">Geben Sie der Vorlage einen Namen.</p>
           <label for="tpl-zweck" data-en="Purpose of the data transfer (the person reads this)">Zweck der Datenübernahme (liest die Person)</label>
           <textarea id="tpl-zweck" rows="2" maxlength="400" placeholder="z. B. Wir brauchen diese Daten, um Ihren Ausweis auszustellen." data-en-ph="e.g. We need these details to issue your card."></textarea>
+          <!-- Fehlt beim Sichern der Name der Stelle, steht das Feld hier, wo die Person gerade ist, mit einer Meldung, die stehen bleibt
+               (Benutzbarkeitsprüfung 22.11.2026, H1). Probe: tests/studio-sichern-benutzbar.test.js. -->
+          <div id="vk-stelle" hidden>
+            <label for="vk-stelle-name" data-en="Name of your organisation">Name Ihrer Stelle</label>
+            <input type="text" id="vk-stelle-name" autocomplete="organization" maxlength="120" aria-describedby="vk-stelle-meldung" placeholder="z. B. Bürgerservice Musterstadt" data-en-ph="e.g. Citizens’ Service Exampletown">
+            <p class="meldung fehler" id="vk-stelle-meldung" data-en="Enter the name of your organisation, then save again.">Tragen Sie den Namen Ihrer Stelle ein, dann sichern Sie noch einmal.</p>
+          </div>
         </div>
         <h3 class="vorlage-ueberschrift" data-en="Data fields in this template">Datenfelder in dieser Vorlage</h3>
         <div class="vorschau-kopf">
           <button type="button" class="sekundaer mini" id="tpl-ordnen" data-en="Sort by topic">Nach Themen ordnen</button>
-          <span class="anzahl-badge" id="tpl-anzahl">0 Feld(er)</span>
+          <span class="anzahl-badge" id="tpl-anzahl">0 Datenfelder</span>
         </div>
         <div id="tpl-felder" class="vorschau" aria-label="Vorschau der Vorlage" data-en-aria="Preview of the template"></div>
         <button type="button" class="pal-auf" id="pal-auf" aria-controls="palette" data-en="＋ Add building block">＋ Baustein hinzufügen</button>
@@ -2013,6 +2032,9 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
       <div id="tafel-wortlaut" role="tabpanel" aria-labelledby="reiter-wortlaut" hidden>
         <h3 data-en="Text for a document (optional)">Text für ein Dokument (freiwillig)</h3>
         <p class="hint" data-en="Enter the text from which Vivodepot creates a document once the signature checks out (place, date and signature are added automatically). Leave empty if your template only carries form fields.">Tragen Sie hier den Text ein, aus dem Vivodepot bei geprüfter Signatur ein Dokument erzeugt (Ort, Datum und Unterschrift ergänzt Vivodepot automatisch). Leer lassen, wenn Ihre Vorlage nur Formularfelder trägt.</p>
+        <!-- Benutzbarkeitsprüfung 22.11.2026, N2: die Sterne gelten erst mit einem Wortlaut. -->
+        <p class="hint" id="wortlaut-sterne" data-en="The fields marked * are only needed once you enter a wording.">Die Felder mit * brauchen Sie nur, wenn Sie einen Wortlaut eintragen.</p>
+        
         <div class="feld-grid">
           <div class="voll">
             <label for="tpl-wortlaut" data-en="Wording">Wortlaut</label>
@@ -2044,10 +2066,8 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
           </div>
         </div>
       </div>
-      <div class="vorlage-unten">
-        <button type="button" class="sekundaer" id="entwurf-sichern" data-en="Save draft">Entwurf sichern</button>
-        <button type="button" id="fertig-oeffnen" class="link-knopf" data-en="Finish and submit ▸">Fertigstellen und einreichen ▸</button>
-      </div>
+      <!-- N18 (Dummy 14.11.2026): „Vorlage sichern“ im Kopf ist der einzige Hauptweg. Der Entwurf geht beim Sichern mit, Einreichen
+           steht danach unter „Gesichert“. -->
     </section>
 
     <aside class="eigenschaften" id="eigenschaften" aria-label="Vorschau der Anfrage" data-en-aria="Preview of the request">
@@ -2097,7 +2117,7 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
         </div>
         <div id="ed-codewerte-block" hidden>
           <h3 data-en="Answers to choose from">Antworten zur Auswahl</h3>
-          <p class="hint" data-en="Allowed codes: code, display text, optionally a synonym.">Erlaubte Codes: Code, Anzeigetext, optional ein Synonym.</p>
+          <p class="hint" data-en="One line for each answer the person can choose.">Eine Zeile je Antwort, die die Person wählen kann.</p>
           <div id="ed-codewerte-vorschlag" style="margin:6px 0"></div>
           <div id="ed-codewerte-liste"></div>
           <button type="button" class="mini" id="ed-codewert-hinzu" data-en="+ Value in the list">+ Wert in der Liste</button>
@@ -2123,7 +2143,7 @@ body.zeiger-zieht { user-select: none; -webkit-user-select: none; -webkit-touch-
           </div>
         </details>
         <div class="knopf-reihe">
-          <button type="button" id="ed-speichern" data-en="Done">Fertig</button>
+          <button type="button" id="ed-speichern" data-en="Apply">Übernehmen</button>
           <button type="button" class="mini gefahr" id="ed-loeschen" data-en="Delete field">Feld löschen</button>
         </div>
       </div>
@@ -8442,7 +8462,11 @@ function _validateSchema(schema, data, pfad, fehler) {
    ════════════════════════════════════════════════════════════════════════ */
 
 const GENERATOR_WERKZEUG = 'vivodepot-template-generator';
-const GENERATOR_VERSION = 'v1.0';
+/* Die Fassung des Studios ist die Fassung von Register und Release: STUDIO_FASSUNG trägt denselben Wert wie SCHALEN_STAND in
+   vivodepot.html und wird im Zugkopf-Commit mit ihm gesetzt. Die Fußzeile und das Einreichungspaket tragen „v1.0.<n>“, damit eine Stelle
+   im Support sagen kann, welche Fassung sie benutzt (Entscheidung 21.11.2026). Probe: tests/studio-issuer-fassungsnummer.test.js. */
+const STUDIO_FASSUNG = 'v1073';
+const GENERATOR_VERSION = 'v1.0' + '.' + STUDIO_FASSUNG.slice(1);
 
 /* Die Vivodepot-Bereiche. Der alte Kommentar an dieser Stelle lautete „NICHT
    erweitern (Spec: elf, nicht neun, nicht andere)” und trug eine von Hand
@@ -11597,6 +11621,9 @@ function anfrageFeldkatalogKennt(kennung, state) {
   const k = String(kennung == null ? '' : kennung);
   if (FELDKATALOG.some((f) => f.kennung === k)) return true;
   if (state && anfrageVorlagenFelder(state).some((f) => f.kennung === k)) return true;
+  /* Ein eigenes Feld der geöffneten Vorlage, aus „Antworten empfangen“ übernommen (Weg A): kein Katalogfeld, aber bekannt. */
+  const mv = _ANF_VORLAGE_KENNUNG.exec(k);
+  if (mv && (STATE.felder || []).some((f) => f && _anfrageTplSlug(String(f.feldname || '').trim()) === mv[2] && f.bereich === mv[1])) return true;
   const m = /^([a-zA-Z0-9-]+)\.([^.\[\]]+)\[[^\]\[]+\]\.[^.\[\]]+$/.exec(k);
   return !!(m && FELDKATALOG.some((f) => f.kennung === m[1] + '.' + m[2]));
 }
@@ -12529,18 +12556,24 @@ const BEISPIEL_TEMPLATES = Object.freeze({
      Stadtbibliothek, Arbeitgeber. Erfundene Inhalte, keine echten Stellen. Gesundheit höchstens ein Drittel aller Beispiele,
      abgerundet (tests/studio-vorfuehrpfad.test.js). */
   verein: {
-    titel: 'Mitgliedsantrag Sportverein', titelEn: 'Sports club membership application',
+    /* Wie das Beispiel „Aufnahme in einen Verein“ im Dummy vom 14.11.2026 (Z. 159, 249): Name, Anschrift, E-Mail, Bankverbindung.
+       Die Feldnamen sind die der Kernfelder; „Konten“ ist der Baustein „Bankverbindung“ (N38). Probe: tests/studio-nach-dummy-l4.test.js. */
+    titel: 'Aufnahme in den Verein', titelEn: 'Joining the club',
+    zweck: 'Mitgliedschaft und Beitrag', zweckEn: 'Membership and fee',
+    kachel: 'Name, Anschrift, E-Mail, Bankverbindung', kachelEn: 'Name, address, e-mail, bank details',
     beschreibung: 'Aufnahme eines neuen Mitglieds (Verein).',
     felder: [
       { feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
       { feldname: 'Nachname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
-      { feldname: 'Geburtsdatum', feldtyp: 'datum', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Straße', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
+      { feldname: 'Hausnummer', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
+      { feldname: 'Postleitzahl', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
+      { feldname: 'Ort', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Anschrift' },
       { feldname: 'E-Mail', feldtyp: 'text', pflicht: false, bereich: 'identity', gruppe: 'Person' },
-      { feldname: 'Art der Mitgliedschaft', feldtyp: 'auswahl', pflicht: true, bereich: 'administration', gruppe: 'Mitgliedschaft',
+      { feldname: 'Konten', feldtyp: 'text', pflicht: true, bereich: 'finance', gruppe: 'Beitrag' },
+      /* Die Auswahl bleibt über den Dummy hinaus: an ihr zeigen Vorlage, PDF und Questionnaire eine Auswahl mit Antworten. */
+      { feldname: 'Art der Mitgliedschaft', feldtyp: 'auswahl', pflicht: true, bereich: 'administration', gruppe: 'Beitrag',
         codeWerte: [{ code: 'ordentlich', anzeige: 'Ordentliches Mitglied' }, { code: 'foerdernd', anzeige: 'Fördermitglied' }, { code: 'jugend', anzeige: 'Jugendmitglied' }] },
-      { feldname: 'Abteilung', feldtyp: 'auswahl', pflicht: false, bereich: 'administration', gruppe: 'Mitgliedschaft',
-        codeWerte: [{ code: 'fussball', anzeige: 'Fußball' }, { code: 'turnen', anzeige: 'Turnen' }, { code: 'schwimmen', anzeige: 'Schwimmen' }] },
-      { feldname: 'Eintritt zum', feldtyp: 'datum', pflicht: true, bereich: 'administration', gruppe: 'Mitgliedschaft' },
     ],
   },
   kommune: {
@@ -12616,23 +12649,22 @@ const BEISPIEL_TEMPLATES = Object.freeze({
       { feldname: 'Patientenverfügung vorhanden', feldtyp: 'jaNein', pflicht: false, bereich: 'Vorsorge', gruppe: 'Vorsorge' },
     ],
   },
-  anamnese: {
-    titel: 'Anamnese-Form',
-    beschreibung: 'Strukturierte Anamnese mit medizinischen Code-Listen (Gesundheit).',
+  praxis: {
+    /* Wie das Beispiel „Anmeldung in einer Praxis“ im Dummy vom 14.11.2026 (Z. 160, 250): Name, Geburtsdatum, Krankenversicherung,
+       Medikamente, dazu Allergien (freiwillig). Das frühere Beispiel „anamnese“ geht darin auf (Entscheidung 22.11.2026): Medikamente
+       mit ATC und Allergien mit SNOMED zeigen die Code-Listen weiter; Körpergröße, Körpergewicht und Erkrankungen bleiben als Bausteine
+       unter „Gesundheit“ wählbar. Probe: tests/studio-nach-dummy-l4.test.js. */
+    titel: 'Anmeldung in der Praxis', titelEn: 'Registering at the practice',
+    zweck: 'Anmeldung und Behandlung', zweckEn: 'Registration and treatment',
+    kachel: 'Name, Geburtsdatum, Krankenversicherung, Medikamente', kachelEn: 'Name, date of birth, health insurance, medication',
+    beschreibung: 'Anmeldung in einer Arztpraxis mit medizinischen Code-Listen (Gesundheit).',
     felder: [
-      { feldname: 'Körpergröße', feldtyp: 'zahl', pflicht: false, bereich: 'Gesundheit', gruppe: 'Vitalwerte', codeSystem: 'http://loinc.org', codeWerte: [{ code: '8302-2', anzeige: 'Körpergröße' }] },
-      { feldname: 'Körpergewicht', feldtyp: 'zahl', pflicht: false, bereich: 'Gesundheit', gruppe: 'Vitalwerte', codeSystem: 'http://loinc.org', codeWerte: [{ code: '29463-7', anzeige: 'Körpergewicht' }] },
+      { feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Nachname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Geburtsdatum', feldtyp: 'datum', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Krankenversicherung', feldtyp: 'text', pflicht: true, bereich: 'health', gruppe: 'Versicherung' },
       {
-        feldname: 'Vorerkrankungen', feldtyp: 'mehrfachauswahl', pflicht: false, bereich: 'Gesundheit', gruppe: 'Anamnese',
-        codeSystem: 'http://fhir.de/CodeSystem/bfarm/icd-10-gm',
-        codeWerte: [
-          { code: 'E11.90', anzeige: 'Typ-2-Diabetes mellitus ohne Komplikation' },
-          { code: 'I10.90', anzeige: 'Essentielle Hypertonie' },
-          { code: 'F03', anzeige: 'Demenz' },
-        ],
-      },
-      {
-        feldname: 'Dauermedikation', feldtyp: 'mehrfachauswahl', pflicht: false, bereich: 'Gesundheit', gruppe: 'Anamnese',
+        feldname: 'Medikamente (laufend)', feldtyp: 'mehrfachauswahl', pflicht: false, bereich: 'Gesundheit', gruppe: 'Behandlung',
         codeSystem: 'http://fhir.de/CodeSystem/bfarm/atc',
         codeWerte: [
           { code: 'A10BA02', anzeige: 'Metformin' },
@@ -12641,7 +12673,7 @@ const BEISPIEL_TEMPLATES = Object.freeze({
         ],
       },
       {
-        feldname: 'Bekannte Allergien', feldtyp: 'mehrfachauswahl', pflicht: false, bereich: 'Gesundheit', gruppe: 'Anamnese',
+        feldname: 'Bekannte Allergien', feldtyp: 'mehrfachauswahl', pflicht: false, bereich: 'Gesundheit', gruppe: 'Behandlung',
         codeSystem: 'http://snomed.info/sct',
         codeWerte: [
           { code: '442571000124108', anzeige: 'Schalenfrüchte' },
@@ -13352,13 +13384,19 @@ function toggleZielZeile() {
 
 function rendereCodeWerteEditor() {
   const box = $('ed-codewerte-liste'); leeren(box);
+  /* Ohne „Technische Begriffe anzeigen“ steht je Antwort nur ihr Text; der Code entsteht aus dem Text (Befund
+     STUDIO-OPTION-OHNE-CODE-STILL-VERWORFEN). Code und Synonym zeigt der Schalter (Benutzbarkeitsprüfung 22.11.2026, M9). */
+  const technisch = !!paletteKennungenZeigen;
   editorCodeWerte.forEach((c, i) => {
-    box.appendChild(el('div', { class: 'cw-zeile' }, [
+    const anzeige = el('input', { type: 'text', value: c.anzeige || '', placeholder: technisch ? 'Klartext-Anzeige' : L('Antwort', 'Answer'), 'aria-label': technisch ? 'Anzeige' : L('Antwort ', 'Answer ') + (i + 1),
+      oninput: (e) => { editorCodeWerte[i].anzeige = e.target.value; } });
+    box.appendChild(el('div', { class: 'cw-zeile' }, (technisch ? [
       el('input', { type: 'text', value: c.code || '', placeholder: 'Code', 'aria-label': 'Code', oninput: (e) => { editorCodeWerte[i].code = e.target.value; } }),
-      el('input', { type: 'text', value: c.anzeige || '', placeholder: 'Klartext-Anzeige', 'aria-label': 'Anzeige', oninput: (e) => { editorCodeWerte[i].anzeige = e.target.value; } }),
+      anzeige,
       el('input', { type: 'text', value: c.synonym || '', placeholder: 'Synonym (optional)', 'aria-label': 'Synonym', oninput: (e) => { editorCodeWerte[i].synonym = e.target.value; } }),
-      el('button', { type: 'button', class: 'mini gefahr', onclick: () => { editorCodeWerte.splice(i, 1); rendereCodeWerteEditor(); } }, ['×']),
-    ]));
+    ] : [anzeige]).concat([
+      el('button', { type: 'button', class: 'mini gefahr', 'aria-label': L('Antwort entfernen', 'Remove answer'), onclick: () => { editorCodeWerte.splice(i, 1); rendereCodeWerteEditor(); } }, ['×']),
+    ])));
   });
   // Vorschläge aus der gewählten Inline-Liste
   const v = $('ed-codesystem').value;
@@ -14905,19 +14943,31 @@ function beispielKachelnFelderNennen() {
 function ladeBeispiel(id) {
   const b = BEISPIEL_TEMPLATES[id];
   if (!b) return;
+  if (!vorlageErsetzenErlaubt()) return;
+  /* Name und Zweck des vorigen Beispiels wechseln mit; was die Person selbst eingetragen hat, bleibt (M4). */
+  if (STATE.vorlageNameAusBeispiel && STATE.vorlageName === STATE.vorlageNameAusBeispiel) { STATE.vorlageName = ''; STATE.vorlageZweck = ''; }
   const ergB = felderAngleichungen(b.felder.map((f) => Object.assign({}, f, { bereich: normBereich(f.bereich) })));
+  /* Englisch: Felder aus dem Katalog tragen ihren englischen Namen; das Depot findet sie über label oder labelEn
+     (feldKatalogIndex). Eigene Felder des Beispiels haben keinen englischen Namen (Benutzbarkeitsprüfung 22.11.2026, M8). */
+  let deutschGeblieben = 0;
+  if (LANG === 'en') ergB.felder = ergB.felder.map((f) => {
+    const i = feldKatalogIndex(f), en = i >= 0 ? FELDKATALOG[i].labelEn : '';
+    if (!en) { deutschGeblieben += 1; return f; }
+    return Object.assign({}, f, { feldname: en });
+  });
   STATE.felder = ergB.felder;
   zeigeSchritt('template');
   rendereFelder();
   const status = $('tpl-csv-status');
-  const titelEn = b.titelEn || { pflegeheim: 'Care home admission form', anamnese: 'Medical history', notariat: 'Notary intake' }[id] || b.titel;
+  const titelEn = b.titelEn || { pflegeheim: 'Care home admission form', notariat: 'Notary intake' }[id] || b.titel;
   /* Wie im Dummy trägt ein Beispiel seinen Namen ins Feld „Name der Vorlage“, wenn dort noch keiner steht; sonst verlangte
      „Vorlage sichern“ einen Namen, den das Beispiel schon hat. */
-  if (!String(STATE.vorlageName || '').trim()) { STATE.vorlageName = L(b.titel, titelEn); vorlageKopfFuellen(); vorlageTitelHinweis(false); }
+  if (!String(STATE.vorlageName || '').trim()) { STATE.vorlageName = L(b.titel, titelEn); STATE.vorlageNameAusBeispiel = STATE.vorlageName; vorlageKopfFuellen(); vorlageTitelHinweis(false); }
   /* Wie im Dummy trägt das Beispiel auch den Zweck ein, wenn dort noch keiner steht (Dummy Z. 248 „wofuer“). */
   if (b.zweck && !String(STATE.vorlageZweck || '').trim()) { STATE.vorlageZweck = L(b.zweck, b.zweckEn || b.zweck); vorlageKopfFuellen(); }
   status.className = 'meldung ok';
-  status.textContent = L('Beispiel „' + b.titel + '“ geladen — bitte an Ihren Bedarf anpassen.', 'Example “' + titelEn + '” loaded. Adapt it to your needs; the field names stay in German.');
+  status.textContent = L('Beispiel „' + b.titel + '“ geladen — bitte an Ihren Bedarf anpassen.', 'Example “' + titelEn + '” loaded. Adapt it to your needs.'
+    + (deutschGeblieben ? ' ' + (deutschGeblieben === 1 ? 'One field has no English name yet and stays in German; you can rename it.' : deutschGeblieben + ' fields have no English name yet and stay in German; you can rename them.') : ''));
   status.hidden = false;
   zeigeAngleichung(ergB.angeglichen, 'beim Laden von „' + b.titel + '“');
 }
@@ -15455,8 +15505,8 @@ function wegAktualisieren() {
   const chip = $('bau-status');
   if (chip) {
     if (!n) { chip.textContent = L('Noch keine Felder', 'No fields yet'); chip.classList.add('offen'); }
-    else if (feldBlocker.length) { chip.textContent = L(n + ' Feld(er) · ' + feldBlocker.length + ' Hinweis(e) offen', n + ' field(s) · ' + feldBlocker.length + ' issue(s) open'); chip.classList.add('offen'); }
-    else { chip.textContent = L(n + ' Feld(er) · bereit zum Einreichen', n + ' field(s) · ready to submit'); chip.classList.remove('offen'); }
+    else if (feldBlocker.length) { chip.textContent = datenfelderText(n) + L(' · ' + feldBlocker.length + (feldBlocker.length === 1 ? ' Hinweis offen' : ' Hinweise offen'), ' · ' + feldBlocker.length + (feldBlocker.length === 1 ? ' issue open' : ' issues open')); chip.classList.add('offen'); }
+    else { chip.textContent = datenfelderText(n) + L(' · bereit zum Einreichen', ' · ready to submit'); chip.classList.remove('offen'); }
   }
   const markiere = (id, fertig) => { const b = $(id); if (!b) return; const li = b.closest ? b.closest('li') : null; const ziel = li || b; if (ziel.classList) { if (fertig) ziel.classList.add('ist-fertig'); else ziel.classList.remove('ist-fertig'); } };
   if (STATE.art === 'blatt' && typeof blattStatus === 'function') blattStatus();
@@ -15478,6 +15528,19 @@ function paletteKennungKlein(text) { return paletteKennungenZeigen ? el('small',
    Fehlt einmal eine englische Beschriftung, wird die Kennung gelesen („identity.givenName“ → „Given name“) — der Wächter
    tests/generator-feldkatalog-drift.test.js macht diesen Rückfall sichtbar. */
 const KATALOG_KURZWORTE = Object.freeze({ id: 'ID', url: 'URL', iban: 'IBAN', bic: 'BIC', ehic: 'EHIC', tin: 'TIN', vat: 'VAT', gdb: 'GdB' });
+/* N31/N32/N38 (Dummy 14.11.2026, Z. 230, 233, 239): In der Bausteinliste heißen drei Katalogeinträge so, wie eine Stelle sie sucht.
+   Kennung, Katalogname und Ausgabe bleiben unverändert; die Karte in der Vorlage trägt den Namen, den das Depot kennt. Probe: tests/studio-nach-dummy-l4.test.js. */
+const STUDIO_ANZEIGENAMEN = Object.freeze({
+  'identity.idDocuments': { de: 'Personalausweis', en: 'ID card' },
+  'identity.profilePhotoCoverPage': { de: 'Foto', en: 'Photo' },
+  'finance.accounts': { de: 'Bankverbindung', en: 'Bank details' },   // N38 (Dummy Z. 239): Gruppe Zahlung
+});
+/* N66: Zahl der Datenfelder ohne Klammerform. */
+function datenfelderText(n) { return n === 1 ? L('1 Datenfeld', '1 data field') : L(n + ' Datenfelder', n + ' data fields'); }
+function studioBausteinName(k) {
+  const a = STUDIO_ANZEIGENAMEN[k.kennung];
+  return a ? (LANG === 'en' ? a.en : a.de) : katalogLabel(k);
+}
 function katalogLabel(k) {
   if (LANG !== 'en') return k.label;
   if (k.labelEn) return k.labelEn;
@@ -15487,7 +15550,7 @@ function katalogLabel(k) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 function paletteEintraege() {
-  return FELDKATALOG.map((k, idx) => ({ idx, kennung: k.kennung, bereich: k.bereich, label: katalogLabel(k), labelDe: k.label, labelEn: k.labelEn || '' }))
+  return FELDKATALOG.map((k, idx) => ({ idx, kennung: k.kennung, bereich: k.bereich, label: studioBausteinName(k), labelDe: k.label, labelEn: k.labelEn || '' }))
     .filter((e) => e.kennung.indexOf('/') < 0 && e.kennung.indexOf('[') < 0);
 }
 /* S-2 Bausteine (Vorgabe-Dummy 14.11.2026, Bau 16.11.2026, Entscheidung C):
@@ -15514,7 +15577,7 @@ const ANSCHRIFT_KENNUNGEN = Object.freeze(['identity.street', 'identity.houseNum
 /* N56: ein Katalogbaustein wird als Pflicht abgelegt; freiwillig sind E-Mail, Telefon, Allergien, Foto (D14:252, 257) und alle eigenen Felder. */
 const FREIWILLIGE_KENNUNGEN = Object.freeze(['identity.email', 'identity.telephone', 'health.allergiesMedicationFoodOther', 'identity.profilePhotoCoverPage',
   'socialInsurance.reducedRateProofs']);   // Dummy Z. 253: auch der Nachweis für eine Ermäßigung ist freiwillig
-/* N39/N40: offen in „Eigene Felder“, mehrfach ablegbar; die übrigen Feldarten stehen unter „Weitere Feldarten“ und über „Bearbeiten“. */
+/* N39/N40: offen in „Eigene Felder“, mehrfach ablegbar; die übrigen Feldarten stehen unter „Weitere“ und über „Bearbeiten“. */
 const EIGENE_BAUSTEINE = Object.freeze([
   { typ: 'text', de: 'Eigenes Textfeld', en: 'Own text field' },
   { typ: 'jaNein', de: 'Ja-Nein-Feld', en: 'Yes-no field' },
@@ -15818,8 +15881,9 @@ function rendereFelder() {
   if (liste.classList) { if (STATE.felder.length) liste.classList.add('hat-felder'); else liste.classList.remove('hat-felder'); }
   if (!STATE.felder.length) {
     liste.appendChild(el('div', { class: 'vorschau-leer' }, [
-      el('strong', { text: L('Hier entsteht Ihre Vorlage', 'Your template takes shape here') }),
-      el('span', { text: L('Wählen Sie unter „Felder“ ein Feld mit + oder ziehen Sie es hierher. Sie sehen sofort, wie es in der App aussieht.', 'Choose a field under “Fields” with + or drag it here. You see right away how it looks in the app.') }),
+      /* N52: Wortlaut des Dummys 14.11.2026 (Z. 273–277), breit und schmal getrennt. */
+      el('span', { class: 'leer-breit', text: L('Ziehen Sie Bausteine aus „Bausteine“ hierher. Oder wählen Sie „+“ am Baustein.', 'Drag building blocks here from “Building blocks”. Or choose “+” on a building block.') }),
+      el('span', { class: 'leer-schmal', text: L('Noch keine Datenfelder. Wählen Sie „Baustein hinzufügen“.', 'No data fields yet. Choose “Add building block”.') }),
     ]));
   }
   let letzterBereich = null, letzteGruppe = null;
@@ -15877,7 +15941,7 @@ function rendereFelder() {
     });
     liste.appendChild(karte);
   });
-  const ta = $('tpl-anzahl'); if (ta) ta.textContent = L(STATE.felder.length + ' Feld(er)', STATE.felder.length + ' field(s)');
+  const ta = $('tpl-anzahl'); if (ta) ta.textContent = datenfelderText(STATE.felder.length);
   const dl = $('ed-gruppe-vorschlaege');
   if (dl) { leeren(dl); Array.from(new Set(STATE.felder.map((f) => f.gruppe).filter(Boolean))).forEach((g) => dl.appendChild(el('option', { value: g }))); }
   editorInKarteSetzen();
@@ -16420,6 +16484,16 @@ function vorlageNameHinweis(an) {
   const m = $('sd-name-meldung'); if (m) m.hidden = !an;
   const af = $('as-name');
   if (af) { if (an) af.setAttribute('aria-invalid', 'true'); else af.removeAttribute('aria-invalid'); }
+  const vk = $('vk-stelle'), vf = $('vk-stelle-name');
+  if (vk && an) vk.hidden = false;
+  if (vf) { if (an) vf.setAttribute('aria-invalid', 'true'); else vf.removeAttribute('aria-invalid'); }
+}
+/* Der Name der Stelle aus dem Feld im Kopf der Vorlage gilt wie der vom Start (H1). */
+function vkStelleLesen() {
+  const vf = $('vk-stelle-name'); if (!vf) return;
+  ASSISTENT.name = String(vf.value || '');
+  const af = $('as-name'); if (af) af.value = ASSISTENT.name;
+  if (ASSISTENT.name.trim()) vf.removeAttribute('aria-invalid');
 }
 /* Fehlt der Name der Vorlage, trägt das Feld aria-invalid und der Satz aus dem Dummy steht darunter (N71). */
 function vorlageTitelHinweis(an) {
@@ -16445,14 +16519,19 @@ function vorlageErgebnisZeigen(erg) {
      Probe: tests/studio-nach-sichern-weiter-und-neu.test.js. */
   box.appendChild(el('button', { type: 'button', class: 'sekundaer mini ns-zurueck', id: 'ns-weiter-bearbeiten', onclick: vorlageWeiterBearbeiten },
     [L('‹ Weiter bearbeiten', '‹ Keep editing')]));
-  box.appendChild(el('strong', { text: L('Vorlage gesichert', 'Template saved') }));
+  /* Der Fokus geht auf die Überschrift der neuen Seite; die Statuszeile meldet das Sichern den Vorlesern (Benutzbarkeitsprüfung
+     22.11.2026, N3: vorher las ein Vorleser die ganze Seite als Statusmeldung vor). */
+  const kopfG = el('strong', { id: 'ns-gesichert', tabindex: '-1', text: L('Vorlage gesichert', 'Template saved') });
+  box.appendChild(kopfG);
   if (erg.name) box.appendChild(el('p', { class: 'ergebnis-name', id: 'ns-vorlage-name', text: erg.name }));
   if (erg.stelle) box.appendChild(el('p', { class: 'ergebnis-zahl', id: 'ns-vorlage-zahl', text: vorlageZahlZeile(erg.zahl || 0, erg.stelle) }));
-  /* Oben die Anfrage für die Person am Schalter, darunter die Vorlage für andere Stellen, dann Speichern (Produktverantwortung 18.11.2026: „Die Idee
-     war, dass die Person am Schalter den QR-Code scannt“; Dummy 14.11.2026 Z. 201). Wege als ganze Listenzeilen mit dem Aktionswort
-     rechts (Dummy Z. 202–211). Der Link der Anfrage führt direkt in die Anwendung der Person. Einen QR-Code der Anfrage gibt es erst mit
-     der kurzen Adresse der Ablage (U2-ADR-460); bis dahin steht kein Code da, der ins Leere führt.
-     Probe: tests/studio-nach-sichern-anfrage-oben.test.js. */
+  /* Das Sichern lädt die Dateien gleich herunter; die Seite sagt, wie viele und wohin (Benutzbarkeitsprüfung 22.11.2026, M1). */
+  if (erg.dateien) box.appendChild(el('p', { class: 'ergebnis-zahl', id: 'ns-dateien', text: downloadsText(erg.dateien) }));
+  /* Zwei Gruppen wie im freigegebenen Dummy vom 14.11.2026 (Z. 201–211; N74, Entscheidung 22.11.2026 „Wie im Dummy“):
+     „Vorlage an Personen geben“ mit „Link kopieren“ und „QR-Code zeigen“ gleich nach dem Sichern, dann „Vorlage aufbewahren“.
+     Der Link ist der Link der signierten Anfrage, wenn es sie gibt (er führt direkt in die Anwendung der Person), sonst der Link
+     der Vorlage auf der Abholseite. Der QR-Code ist der Code der Vorlage (N75, kleine Form); ein QR-Code der Anfrage braucht die
+     kurze Adresse der Ablage (U2-ADR-460). Probe: tests/studio-nach-sichern-anfrage-oben.test.js. */
   letztesVorlageErgebnis = erg;
   const gespeichert = L('Gespeichert ✓', 'Saved ✓');
   const kopieren = (text) => async () => {
@@ -16460,35 +16539,33 @@ function vorlageErgebnisZeigen(erg) {
     try { ok = await textKopieren(text); } catch (_) { ok = false; }
     return ok ? L('Kopiert ✓', 'Copied ✓') : L('Nicht möglich', 'Not possible');
   };
-  box.appendChild(gruppe(L('Teilen mit Personen', 'Share with people')));
+  box.appendChild(gruppe(L('Vorlage an Personen geben', 'Give the template to people')));
   const personen = el('div', { class: 'ns-liste', id: 'ns-liste-personen' });
   box.appendChild(personen);
   const anfrage = nachSichernAnfrage && nachSichernAnfrage.umschlag;
-  if (!anfrage) {
-    personen.appendChild(nsWegZeile({ id: 'ns-weg-anfrage-erstellen', titel: L('Anfrage für Personen erstellen', 'Create a request for people'),
-      text: L('Dafür braucht es die Angaben Ihrer Stelle und Ihren Schlüssel. Danach stehen hier Link und QR-Code.',
-        'This needs your organisation’s details and your key. The link and QR code then appear here.'),
-      wort: L('Erstellen', 'Create'), tat: () => { anfrageAssistentEintreten(); zeigeSchritt('anfrage'); } }));
-  } else {
-    personen.appendChild(nsWegZeile({ id: 'ns-weg-anfrage-link', titel: L('Link kopieren', 'Copy link'),
-      text: L('Für E-Mail, Brief oder Ihre Website. Wer den Link öffnet, sieht, welche Angaben Sie erfragen, und antwortet aus dem eigenen Depot.',
-        'For e-mail, letter or your website. Whoever opens the link sees which details you ask for and answers from their own depot.'),
-      wort: L('Kopieren', 'Copy'), tat: kopieren(anfrageAlsLink(anfrage)) }));
-    personen.appendChild(nsWegZeile({ id: 'ns-weg-anfrage-qr', titel: L('QR-Code zum Aushängen', 'QR code for a notice'),
-      text: L('Den QR-Code zum Aushängen gibt es noch nicht. Bis dahin geben Sie den Link weiter.', 'The QR code for a notice is not available yet. Until then, please pass on the link.') }));
-  }
-  box.appendChild(gruppe(L('Weitergeben an andere Stellen', 'Pass on to other organisations')));
-  const stellen = el('div', { class: 'ns-liste', id: 'ns-liste-stellen' });
-  box.appendChild(stellen);
-  stellen.appendChild(nsWegZeile({ id: 'ns-weg-vorlage-datei', titel: L('Vorlage als Datei weitergeben', 'Pass on the template as a file'),
-    text: L('Eine andere Stelle öffnet die Datei im Studio und baut daraus ihre eigene Anfrage.', 'Another organisation opens the file in the Studio and builds its own request from it.'),
-    wort: L('Speichern', 'Save'), tat: erg.dateiSpeichern ? () => { erg.dateiSpeichern(); return gespeichert; } : null }));
-  /* Der Link zeigt die Vorlage auf der Abholseite (share/anfrage.html): Name, Angaben und „Als Datei speichern“ fürs eigene Studio. */
-  if (erg.qr) stellen.appendChild(nsWegZeile({ id: 'ns-weg-vorlage-link', titel: L('Link zur Vorlage kopieren', 'Copy link to the template'),
-    text: L('Der Link zeigt, welche Angaben die Vorlage erfragt; eine andere Stelle speichert sie dort für ihr Studio.',
-      'The link shows which details the template asks for; another organisation saves it there for its Studio.'),
-    wort: L('Kopieren', 'Copy'), tat: kopieren(erg.qr.link) }));
-  box.appendChild(gruppe(L('Speichern', 'Save')));
+  const link = anfrage ? anfrageAlsLink(anfrage) : (erg.qr && erg.qr.link) || '';
+  personen.appendChild(nsWegZeile({ id: 'ns-weg-anfrage-link', titel: L('Link kopieren', 'Copy link'),
+    text: link ? L('Für E-Mail, Brief oder Ihre Website', 'For e-mail, letter or your website')
+      : L('Den Link gibt es gerade nicht, weil die Abholseite nicht erreichbar ist.', 'The link is not available right now because the collection page cannot be reached.'),
+    wort: L('Kopieren', 'Copy'), tat: link ? kopieren(link) : null }));
+  const qrBild = erg.qr && erg.qr.qr && erg.qr.qr.dataUrl ? el('img', { class: 'ns-qr', id: 'ns-qr', src: erg.qr.qr.dataUrl, width: '168', height: '168',
+    alt: L('QR-Code der Vorlage', 'QR code of the template'), hidden: '' }) : null;
+  personen.appendChild(nsWegZeile({ id: 'ns-weg-qr', titel: L('QR-Code zeigen', 'Show QR code'),
+    text: qrBild ? L('Zum Aushängen oder Vorzeigen am Schalter', 'To put up as a notice or show at the counter')
+      : L('Den QR-Code gibt es gerade nicht, weil die Abholseite nicht erreichbar ist.', 'The QR code is not available right now because the collection page cannot be reached.'),
+    wort: L('Zeigen', 'Show'), attrs: qrBild ? { 'aria-controls': 'ns-qr', 'aria-expanded': 'false' } : {},
+    tat: qrBild ? () => qrZeigenUmschalten(qrBild) : null }));
+  /* Der Weg zu den Antworten (H2): eine Anfrage mit den Datenfeldern dieser Vorlage; dort legt die Stelle fest, wohin die Antworten gehen. */
+  if (!anfrage) personen.appendChild(nsWegZeile({ id: 'ns-weg-antworten', titel: L('Antworten empfangen', 'Receive replies'),
+    text: L('Eine Anfrage mit diesen Datenfeldern veröffentlichen; Sie legen fest, wohin die Antworten gehen.', 'Publish a request with these data fields; you decide where the replies go.'),
+    wort: L('Weiter ▸', 'Next ▸'), tat: () => { anfrageAusVorlageOeffnen(); } }));
+  if (qrBild) box.appendChild(qrBild);
+  /* Passt die Vorlage nicht in einen kurzen Link, nennen Link und QR-Code nur Name und Fassung; die Abholseite schickt die Person
+     zur Stelle. Das sagt die Seite hier (Benutzbarkeitsprüfung 22.11.2026, H3; gemessen: alle Beispiele sind länger als 300 Zeichen). */
+  if (!anfrage && erg.qr && erg.qr.art === 'abholseite') personen.appendChild(el('p', { class: 'ergebnis-zahl', id: 'ns-abholseite-hinweis',
+    text: L('Link und QR-Code nennen nur den Namen und die Fassung der Vorlage. Die Datei selbst geben Sie weiter, zum Beispiel mit „Als Datei speichern“.',
+      'The link and the QR code only give the name and version of the template. You pass on the file itself, for example with “Save as a file”.') }));
+  box.appendChild(gruppe(L('Vorlage aufbewahren', 'Keep the template')));
   const aufbewahren = el('div', { class: 'ns-liste', id: 'ns-liste-aufbewahren' });
   box.appendChild(aufbewahren);
   aufbewahren.appendChild(nsWegZeile({ id: 'ns-weg-datei', titel: L('Als Datei speichern', 'Save as a file'), text: L('Zum späteren Öffnen und Ändern im Studio', 'To open and change later in the Studio'), wort: gespeichert,
@@ -16498,6 +16575,35 @@ function vorlageErgebnisZeigen(erg) {
     attrs: { 'aria-label': L('Noch einmal als PDF speichern', 'Save as a PDF again') }, tat: erg.pdf && erg.pdfSpeichern ? () => { erg.pdfSpeichern(); return gespeichert; } : null }));
   box.appendChild(el('button', { type: 'button', class: 'sekundaer ns-weitere', id: 'ns-weitere-vorlage', onclick: weitereVorlageBeginnen },
     [L('Weitere Vorlage beginnen', 'Start another template')]));
+  if (kopfG && kopfG.focus) kopfG.focus();
+}
+function downloadsText(n) {
+  return n === 1 ? L('1 Datei liegt in Ihrem Download-Ordner.', '1 file is in your downloads folder.')
+    : L(n + ' Dateien liegen in Ihrem Download-Ordner: die Vorlage, ihr Entwurf zum Weiterbearbeiten, das PDF und, je nach Datenfeldern, Dateien in Standardformaten.',
+      n + ' files are in your downloads folder: the template, its draft for further editing, the PDF and, depending on the data fields, files in standard formats.');
+}
+/* Reiter mit Pfeiltasten (Benutzbarkeitsprüfung 22.11.2026, M11): links/rechts, Pos1/Ende wählen den Nachbarn in derselben Leiste
+   und lösen ihn aus wie ein Klick; so erwarten es Tastatur und Vorleser bei role="tab". */
+function reiterPfeile(e) {
+  const tab = e && e.target && e.target.getAttribute && e.target.getAttribute('role') === 'tab' ? e.target : null;
+  if (!tab || !tab.closest) return;
+  const leiste = tab.closest('[role="tablist"]'); if (!leiste) return;
+  const alle = [];
+  leiste.querySelectorAll('[role="tab"]').forEach((x) => { if (!x.hidden) alle.push(x); });   /* nur sichtbare Reiter; verwirft keinen Inhalt */
+  const i = alle.indexOf(tab); if (i < 0) return;
+  const ziel = { ArrowRight: alle[(i + 1) % alle.length], ArrowLeft: alle[(i - 1 + alle.length) % alle.length], Home: alle[0], End: alle[alle.length - 1] }[e.key];
+  if (!ziel) return;
+  e.preventDefault();
+  ziel.focus(); ziel.click();
+}
+/* „QR-Code zeigen“ blendet den Code der Vorlage unter der Gruppe ein und wieder aus (Dummy Z. 204–206: „Zeigen“ / „Verbergen“). */
+function qrZeigenUmschalten(bild) {
+  const an = bild.vdQrAn !== true;
+  bild.vdQrAn = an;
+  if (an) bild.removeAttribute('hidden'); else bild.setAttribute('hidden', '');
+  bild.hidden = !an;
+  const z = $('ns-weg-qr'); if (z && z.setAttribute) z.setAttribute('aria-expanded', String(an));
+  return an ? L('Verbergen', 'Hide') : L('Zeigen', 'Show');
 }
 /* Ein Weg nach dem Sichern als ganze Listenzeile: Titel, Untertext, rechts das Aktionswort (Dummy 14.11.2026 Z. 202–211).
    Die ganze Zeile ist der Knopf; was tat zurückgibt, wird das neue Aktionswort. Ohne tat steht die Zeile ohne Knopf da. */
@@ -16523,7 +16629,34 @@ function vorlageWeiterBearbeiten() {
 /* Wie im Dummy zurück auf den Start; dort beginnt die nächste Vorlage. Die gesicherte liegt als Datei bei der Stelle. */
 function weitereVorlageBeginnen() {
   nachSichernSchliessen();
+  vorlageLeeren();
   zeigeSchritt('willkommen');
+}
+/* Eine neue Vorlage beginnt leer: Felder, Name und Zweck gehen (Benutzbarkeitsprüfung 22.11.2026, M3). */
+function vorlageLeeren() {
+  STATE.felder = [];
+  STATE.vorlageName = ''; STATE.vorlageZweck = ''; STATE.vorlageNameAusBeispiel = '';
+  vorlageKopfFuellen();
+  rendereFelder();
+}
+/* Stehen schon Datenfelder in der Vorlage, fragt das Studio, bevor eine leere Vorlage oder ein Beispiel sie ersetzt (M3, M4). */
+/* Ersetzen in zwei Schritten auf der Seite, ohne Browser-Dialog (das Studio ruft kein window.confirm, tests/template-generator.test.js
+   Klasse-A): der erste Klick nennt, was geschieht, der zweite ersetzt. */
+let _vorlageErsetzenGefragt = false;
+function vorlageErsetzenErlaubt() {
+  if (!(STATE.felder || []).length) { _vorlageErsetzenGefragt = false; return true; }
+  if (_vorlageErsetzenGefragt) { _vorlageErsetzenGefragt = false; return true; }
+  _vorlageErsetzenGefragt = true;
+  const satz = L('Die Datenfelder der bisherigen Vorlage werden ersetzt. Gesichertes bleibt als Datei erhalten. Wählen Sie noch einmal, um fortzufahren.',
+    'The data fields of the current template will be replaced. Anything saved stays as a file. Choose again to continue.');
+  const s = $('start-status'); if (s) { s.textContent = satz; s.hidden = false; }
+  const b = $('bau-status'); if (b) b.textContent = satz;
+  return false;
+}
+function leereVorlageBeginnen() {
+  if (!vorlageErsetzenErlaubt()) return;
+  vorlageLeeren();
+  zeigeSchritt('template');
 }
 async function vorlageSichern() {
   const c = $('bau-status'), box = $('sichern-ergebnis');
@@ -16538,12 +16671,24 @@ async function vorlageSichern() {
     return false;   /* nichts gesichert: „Wie geht es weiter?“ bleibt zu */
   }
   vorlageTitelHinweis(false);
+  /* Ohne Datenfelder gibt es nichts zu sichern (Benutzbarkeitsprüfung 22.11.2026, M2). */
+  if (!(state.felder || []).length) {
+    if (box) box.hidden = true;
+    ansichtSetzen(false);
+    if (c) c.textContent = L('Die Vorlage hat noch keine Datenfelder. Wählen Sie „Baustein hinzufügen“.', 'The template has no data fields yet. Choose “Add building block”.');
+    const pa = $('pal-auf'); if (pa && pa.focus) pa.focus();
+    return false;
+  }
   const name = vorlageName(state);
   if (!name) {
     vorlageNameHinweis(true);
     if (box) box.hidden = true;
-    if (c) c.textContent = L('Bitte tragen Sie zuerst den Namen Ihrer Stelle ein.', 'Please enter the name of your organisation first.');
-    const f = $('sd-name'); if (f && f.focus) f.focus();
+    ansichtSetzen(false);   /* das Feld steht im Kopf der Vorlage (H1); vor der Meldung, damit sie stehen bleibt */
+    /* Eine Meldung, am Feld (Rundgang 22.11.2026: Statuszeile und Feldmeldung standen übereinander mit demselben Satz). */
+    if (c) c.textContent = '';
+    const sm = $('vk-stelle-meldung');
+    if (sm) sm.textContent = L('Bitte tragen Sie zuerst den Namen Ihrer Stelle ein. Dann sichern Sie noch einmal.', 'Please enter the name of your organisation first. Then save again.');
+    const f = $('vk-stelle-name'); if (f && f.focus) f.focus();
     return false;   /* nichts gesichert: „Wie geht es weiter?“ bleibt zu */
   }
   vorlageNameHinweis(false);
@@ -16563,10 +16708,12 @@ async function vorlageSichern() {
   if (qr) blobDownload(basis + (qr.aushang ? '-qr.png' : '-qr.gif'), _dataUrlBytes((qr.aushang || qr.qr).dataUrl), qr.aushang ? 'image/png' : 'image/gif');
   const abschnitte = _vorlagePdfAbschnitte(template);
   if (qr) abschnitte.push({ titel: L('QR-Code', 'QR code'), text: qr.link });
+  const standard = vorlageDateienNachBereich(state, template, basis);
   const r = await studioStandardUndPdfAusgeben({ originalName: basis + '.json', originalText: vorlageText,
-    standard: vorlageDateienNachBereich(state, template, basis),
+    standard,
     titel: _vorlageTitel(state, template), kopf: _vorlagePdfKopf(state, template), abschnitte });
   vorlageErgebnisZeigen({ pdf: r.pdf, pdfFehler: r.fehler, qr, name: titel, stelle: name, zahl: (state.felder || []).length, dateiSpeichern,
+    dateien: 2 + (qr ? 1 : 0) + standard.length + (r.pdf ? 1 : 0),
     pdfSpeichern: r.pdf ? () => blobDownload(r.dateiname, r.bytes, 'application/pdf') : null });
   /* Die Seite sagt „Vorlage gesichert“ selbst; der Hinweis unten bliebe bei 375 über „Speichern“ stehen. Der Text
      bleibt für Vorleser in der Statuszeile, erscheint aber nicht als Hinweis. Probe: tests/studio-nach-sichern-wege-liste.test.js. */
@@ -17849,9 +17996,9 @@ function assistentArtWaehlen(art) {
 function assistentBinden(an) {
   an('as-name', 'input', () => {
     ASSISTENT.name = $('as-name').value; anfrageVorschauRendern();
-    // Wer seine Stelle nennt, sieht ihre Angaben ohne weiteren Klick; einmal, danach bleibt die Klappe, wie die Person sie stellt.
-    const d = $('start-angaben');
-    if (d && d.dataset && d.dataset.auf !== '1' && ASSISTENT.name.trim()) { d.dataset.auf = '1'; d.open = true; }
+    /* Die Klappe „Angaben der Stelle“ geht nicht mehr von selbst auf: sie schob die Kacheln nach unten, und zum Sichern braucht es
+       nur den Namen (Benutzbarkeitsprüfung 22.11.2026, M5). */
+    const vf = $('vk-stelle-name'); if (vf) vf.value = ASSISTENT.name;
   });
   an('as-land', 'input', () => { assistentRechtsformVorschlagen(); assistentLandVorschlagZeigen(); });
   an('as-land-chip', 'click', assistentLandUebernehmen);
@@ -18392,7 +18539,7 @@ const _aaText = (paar) => (Array.isArray(paar) ? L(paar[0], paar[1]) : String(pa
 function _aaKennung(kurz) { return ASSISTENT_REGISTER[kurz] || ''; }
 function _aaLabel(kennung) {
   const k = FELDKATALOG.find((x) => x.kennung === kennung);
-  return k ? (LANG === 'en' ? (k.labelEn || k.label) : k.label) : kennung;
+  return k ? (LANG === 'en' ? (k.labelEn || k.label) : k.label) : (anfrageVorlagenLabel(kennung) || kennung);
 }
 /* Ein Kalendertag für Menschen ist LOKAL, nicht UTC (tests/kalendertag-lokal.test.js): heuteLokal wie im Kern (scripts/build-datum-kern.js). */
 function heuteLokal(d = new Date()) {
@@ -18415,6 +18562,70 @@ function anfrageVorgang() { return ANF_AS.vorgang.trim() || String(ANF_AS.vorgan
 function anfrageAssistentNeu() {
   Object.assign(ANF_AS, { schritt: 1, von: ASSISTENT.name || '', vorgang: '', vorgangVorschlag: 'Anfrage-' + _aaHeute(), zweck: '', grundlage: '', rechtsraum: '', gueltigBis: _aaInTagen(30),
     antwortAn: '', gestelltAm: _aaHeute(), felder: [], suche: '', vonVorbelegt: ASSISTENT.name || '' });
+  const h = $('aa-aus-vorlage'); if (h) { h.textContent = ''; h.hidden = true; }
+}
+/* Von der gesicherten Vorlage zu den Antworten (Benutzbarkeitsprüfung 22.11.2026, H2):
+   die Anfrage beginnt mit den Datenfeldern der Vorlage, ihrem Zweck und der Stelle. Felder aus dem Katalog gehen mit
+   ihrer Kennung hinüber; eigene Felder kennt die Anfrage nicht, die Seite nennt sie. Probe: tests/studio-benutzbarkeit-h2.test.js. */
+/* Eigene Vorlagenfelder in der Anfrage (Weg A). Der Slug ist der des Kerns (`_tplSlug`), hier `_anfrageTplSlug`; ihre Gleichheit hält
+   tests/studio-anfrage-eigene-felder.test.js fest. */
+const _ANF_VORLAGE_KENNUNG = /^([a-z][a-zA-Z0-9-]*)\.(?:[^.:\[\]]+:)?tpl_([a-z0-9_]+)$/;
+function anfrageVorlagenKennungIntern(f) {
+  const slugTeil = _anfrageTplSlug(String((f && f.feldname) || '').trim());
+  if (!slugTeil || FELD_ZIEL_BEREICHE.indexOf(f.bereich) < 0) return '';
+  return f.bereich + '.tpl_' + slugTeil;
+}
+/* Die signierte Anfrage nennt das eigene Feld mit der Anbieterkennung aus dem Zertifikat: `bereich.<anbieterId>:tpl_<slug>`. */
+function anfrageVorlagenKennungenSetzen(felder, anbieterId) {
+  const a = String(anbieterId || '');
+  return (felder || []).map((f) => {
+    const m = _ANF_VORLAGE_KENNUNG.exec(String((f && f.kennung) || ''));
+    return (m && a) ? Object.assign({}, f, { kennung: m[1] + '.' + a + ':tpl_' + m[2] }) : f;
+  });
+}
+/* Der Weg ohne Zertifikat: eigene Felder bleiben draußen, und was draußen bleibt, wird genannt (kein stilles Verwerfen). */
+function anfrageOhneVorlagenKennungen(felder) {
+  const drin = [], weg = [];
+  (felder || []).forEach((f) => { (_ANF_VORLAGE_KENNUNG.test(String((f && f.kennung) || '')) ? weg : drin).push(f); });
+  return { felder: drin, weg };
+}
+/* Die Beschriftung eines eigenen Felds: der Feldname aus der geöffneten Vorlage, sonst der Slug lesbar. */
+function anfrageVorlagenLabel(kennung) {
+  const m = _ANF_VORLAGE_KENNUNG.exec(String(kennung || ''));
+  if (!m) return '';
+  const f = (STATE.felder || []).find((x) => x && _anfrageTplSlug(String(x.feldname || '').trim()) === m[2]);
+  return f ? String(f.feldname).trim() : m[2].replace(/_/g, ' ');
+}
+function anfrageAusVorlageUebernehmen() {
+  ANF_GEHALTEN = null;
+  anfrageAssistentNeu();
+  const ohne = [], eigene = [];
+  (STATE.felder || []).forEach((f) => {
+    const i = feldKatalogIndex(f);
+    let k = i >= 0 ? FELDKATALOG[i].kennung : '';
+    /* Eigene Felder (Weg A, 22.11.2026): in der internen Form `bereich.tpl_<slug>` (U2-ADR-366-Nachtrag). Die Anbieterkennung setzt
+       erst die signierte Anfrage ein, aus dem Zertifikat der Stelle (anfrageVorlagenKennungenSetzen); der Weg ohne Zertifikat
+       nimmt sie nicht mit, denn dort löst die Anwendung der Person sie nie auf. */
+    if (!k) k = anfrageVorlagenKennungIntern(f);
+    if (!k) { ohne.push(f.feldname); return; }
+    if (_ANF_VORLAGE_KENNUNG.test(k)) eigene.push(String(f.feldname || '').trim());
+    if (!ANF_AS.felder.some((x) => x.kennung === k)) ANF_AS.felder.push({ kennung: k, zweck: '', pflicht: f.pflicht !== false });
+  });
+  ANF_AS.zweck = String(STATE.vorlageZweck || '').trim();
+  const h = $('aa-aus-vorlage');
+  if (h) {
+    const name = String(STATE.vorlageName || '').trim();
+    h.textContent = L('Die Angaben stammen aus Ihrer Vorlage' + (name ? ' „' + name + '“' : '') + '.', 'The details come from your template' + (name ? ' “' + name + '”' : '') + '.')
+      + (eigene.length ? ' ' + L('Ihre eigenen Felder gehen nur in der Anfrage mit dem Zertifikat Ihrer Stelle mit, und beantworten kann sie, wer Ihre Vorlage im Depot hat: ',
+        'Your own fields go only into the request signed with your organisation’s certificate, and only people who have your template in their depot can answer them: ') + eigene.join(', ') + '.' : '')
+      + (ohne.length ? ' ' + L('Diese Felder trägt eine Anfrage nicht: ', 'A request does not carry these fields: ') + ohne.join(', ') + '.' : '');
+    h.hidden = false;
+  }
+  return ohne;
+}
+function anfrageAusVorlageOeffnen() {
+  anfrageAusVorlageUebernehmen();
+  zeigeSchritt('anfrage');
 }
 function anfrageAssistentHinzu(kurz, zweck) {
   const kennungen = kurz === 'anschrift' ? ['strasse', 'hausnummer', 'plz', 'ort'].map(_aaKennung) : [_aaKennung(kurz) || kurz];
@@ -18695,6 +18906,10 @@ async function anfrageAssistentErzeugen(ev) {
   const haupt = await anfrageAssistentHauptweg();
   if (haupt) return anfrageAssistentErzeugenMitPaar(ev, box, haupt);
   const state = anfrageAssistentState();
+  const ohneEigene = anfrageOhneVorlagenKennungen(state.anfrage.felder);
+  state.anfrage.felder = ohneEigene.felder;
+  if (ohneEigene.weg.length) box.appendChild(el('p', { class: 'as-hilfe', id: 'aa-eigene-weg', text: L('Ohne das Zertifikat Ihrer Stelle gehen Ihre eigenen Felder nicht mit: ',
+    'Without your organisation’s certificate, your own fields are not included: ') + ohneEigene.weg.map((f) => _aaLabel(f.kennung)).join(', ') + '.' }));
   const p = pruefeAnfrage(state);
   if (p.blocker.length) {
     box.className = 'meldung fehler';
@@ -18863,6 +19078,7 @@ function anfrageAssistentLandUebernehmen() {
 async function anfrageAssistentErzeugenMitPaar(ev, box, haupt) {
   const state = anfrageAssistentState();
   state.anbieter = { anbieterId: haupt.anbieterId, anbieterName: '' };
+  state.anfrage.felder = anfrageVorlagenKennungenSetzen(state.anfrage.felder, haupt.anbieterId);
   state.publicKeyJwk = haupt.publicKeyJwk;
   state.zertifikatJws = ANF_STELLE.zertifikatJws;
   state.anfrage.antwortArt = 'schluesselpaar';
@@ -18978,7 +19194,8 @@ function gen1Binden() {
   // „Daten bereitstellen“ und „Eigenes Erscheinungsbild“: Kacheln „in Arbeit“ ohne Ziel, bis ihre Assistenten stehen (Wagen 2/3).
   an('kopf-hilfe', 'click', () => hilfeOeffnen());
   an('sp-de', 'click', () => spracheWaehlen('de')); an('sp-en', 'click', () => spracheWaehlen('en'));
-  an('start-leer', 'click', () => zeigeSchritt('template'));
+  an('start-leer', 'click', leereVorlageBeginnen);
+  an('vk-stelle-name', 'input', vkStelleLesen);
   an('start-blatt', 'click', () => zeigeSchritt('blatt'));
   an('blatt-fertig', 'click', fertigOeffnen);
   an('ab-erzeugen', 'click', blattErzeugen);
@@ -18994,14 +19211,12 @@ function gen1Binden() {
   an('tpl-zweck', 'input', vorlageKopfLesen);
   an('sd-name', 'input', anfrageVorschauRendern);
   an('ansicht-probieren', 'click', () => { if (editorIndex != null) schliesseEditor(); ansichtSetzen(true); });
-  an('entwurf-sichern', 'click', async () => { await entwurfSichern(); nachSichernZeigen(); });
   statusAlsMeldung();
   an('vorlage-sichern', 'click', async () => { if (await vorlageSichern() !== false) nachSichernZeigen(); });
   an('sd-name', 'input', () => vorlageNameHinweis(false));
   an('ns-einreichen', 'click', fertigOeffnen);
-  an('ns-veroeffentlichen', 'click', () => { anfrageAssistentEintreten(); zeigeSchritt('anfrage'); });
+  an('ns-veroeffentlichen', 'click', anfrageAusVorlageOeffnen);   /* H2: die Anfrage beginnt mit den Feldern der Vorlage */
   an('ent-datei', 'change', entwurfDateiGewaehlt);
-  an('fertig-oeffnen', 'click', fertigOeffnen);
   an('fs-fertig-zu', 'click', () => { dlgZu('dlg-fertig'); fertigKarteZuruecksetzen(); });
   an('wb-angaben', 'click', () => zeigeSchritt('stammdaten'));
   an('wb-absenden', 'click', () => zeigeSchritt('pruefung'));
@@ -19036,6 +19251,7 @@ function gen1Binden() {
     ['felder', 'wortlaut'].forEach((k) => { const t = $('tafel-' + k), b = $('reiter-' + k); if (t) t.hidden = (k !== welcher); if (b) b.setAttribute('aria-selected', String(k === welcher)); });
   };
   an('reiter-felder', 'click', () => reiter('felder')); an('reiter-wortlaut', 'click', () => reiter('wortlaut'));
+  if (typeof document !== 'undefined' && document.addEventListener) document.addEventListener('keydown', reiterPfeile);   /* M11 */
   if (typeof document !== 'undefined' && document.querySelectorAll) {
     document.querySelectorAll('.dlg-zu').forEach((b) => b.addEventListener('click', () => dlgZu(b.getAttribute('data-zu'))));
     document.querySelectorAll('[data-recht]').forEach((b) => b.addEventListener('click', () => rechtOeffnen(b.getAttribute('data-recht'))));

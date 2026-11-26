@@ -156,3 +156,25 @@ test('[Git-Umgebung·Rot-Beweis] `cwd: REPO` ohne env-Option wird als dritte, ei
     assert.deepEqual(r.repoNeu, ['tests/repo-ohne-env.test.js']);
   } finally { fs.rmSync(wurzel, { recursive: true, force: true }); }
 });
+
+/* ── cwd-Kurzform (21.11.2026, Befund GIT-IM-HOOK-SCHREIBT-INS-ECHTE-REPO) ──────────────────────
+   Bis hierher erkannte der Wächter nur `cwd:` mit Doppelpunkt. Die Kurzform `{ cwd }` galt als „kein cwd" und damit als
+   sicher. So blieb die Waisen-Probe des Deckel-Vorlaufs unerkannt: Im Commit-Hook eines Wagens
+   legte ihr `git commit -m x` einen fremden Commit in dessen Zweig. Diese Probe prüft den Wächter; das Verhalten unter
+   einer Hook-Umgebung prüft die Waisen-Probe selbst ([Deckel-Vorlauf·Hook-Lauf]). */
+test('[Git-Umgebung·cwd-Kurzform] `{ cwd }` ohne env wird gefunden, `{ cwd, env }` nicht; Rot-Beweis: die alte Erkennung nur mit Doppelpunkt sieht nichts', () => {
+  const wurzel = tmpWurzel();
+  try {
+    const kurz = '{ ' + 'cwd' + ' }';
+    fs.writeFileSync(path.join(wurzel, 'tests', 'kurz.test.js'),
+      `const { ${AUFRUF} } = require('node:child_process');\n${AUFRUF}('git', ['commit', '-m', 'x'], ${kurz});\n`);
+    fs.writeFileSync(path.join(wurzel, 'tests', 'kurz-sauber.test.js'),
+      `const { ${AUFRUF} } = require('node:child_process');\n${AUFRUF}('git', ['commit', '-m', 'x'], { cwd, ${ENV_OK} });\n`);
+    const r = W.pruefe([path.join(wurzel, 'tests')], { ungeschuetzt: [], roherEnvSpreadMitGit: [], repoOhneEnv: [] });
+    assert.deepEqual(r.neu, ['tests/kurz.test.js']);
+    // Rot-Beweis: die Erkennung bis 20.11.2026 (nur `cwd:`) fand in dieser Datei kein Arbeitsverzeichnis.
+    const alt = (t) => { const m = t.match(/\bcwd\s*:\s*([A-Za-z_$][\w.$]*)/); return m ? m[1] : null; };
+    assert.equal(alt(fs.readFileSync(path.join(wurzel, 'tests', 'kurz.test.js'), 'utf8')), null);
+  } finally { fs.rmSync(wurzel, { recursive: true, force: true }); }
+});
+

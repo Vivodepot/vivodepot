@@ -36,7 +36,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const { dialogAbbrechen } = require('./durchklick-abnahme-helpers.js');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { oeffneApp, depotAnlegen, assistentWeiter, assistentFertig } = require('./helpers');
 
 async function gebwizStarten(page) {
   await page.click('[data-anlass-auswahl]');
@@ -54,9 +54,9 @@ async function gebwizMitNamenDurchlaufen(page, name) {
   await gebwizStarten(page);
   await bisZumNamenSchrittDurchklicken(page);
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', name);
-  await page.click('#wiz-weiter');
-  await page.click('#wiz-weiter');   // Geburtsdatum leer
-  await page.click('#wiz-weiter');   // Verhältnis auf Vorgabe
+  await assistentWeiter(page);
+  await assistentWeiter(page);   // Geburtsdatum leer
+  await assistentFertig(page);   // Verhältnis auf Vorgabe
 }
 
 test('Ereignis-Achse: eine Bürgerin trägt eine Geburt ein (echter Klickweg) — ein Testament mit Bedachten wird markiert, vorher nicht, nachher schon', async ({ page }) => {

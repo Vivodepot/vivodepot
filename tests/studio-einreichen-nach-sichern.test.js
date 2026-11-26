@@ -27,10 +27,10 @@ function funktion(name) {
   return HTML.slice(i, k < 0 ? i + 4000 : k + 2);
 }
 
-test('[Nach dem Sichern · vorher] „Vorlage sichern“ ist der Hauptknopf, „Fertigstellen und einreichen“ nicht', () => {
+test('[Nach dem Sichern · vorher] „Vorlage sichern“ ist der Hauptknopf, „Fertigstellen und einreichen“ gibt es vorher nicht', () => {
   assert.match(knopf('vorlage-sichern') || '', /class="[^"]*haupt-knopf/, 'Vorlage sichern ist kein Hauptknopf');
-  assert.ok(knopf('fertig-oeffnen'), 'der bisherige Weg „Fertigstellen und einreichen“ fehlt');
-  assert.doesNotMatch(knopf('fertig-oeffnen'), /haupt-knopf/, 'Einreichen steht als Hauptweg vor dem Sichern');
+  /* N18 (Dummy 14.11.2026): vor dem Sichern gibt es keinen Einreichen-Weg mehr; er steht nach dem Sichern unter „Gesichert“. */
+  assert.equal(knopf('fertig-oeffnen'), null, 'Einreichen steht vor dem Sichern in der Arbeitsfläche');
 });
 
 test('[Nach dem Sichern · vorher] der Abschnitt der nächsten Schritte ist zu Beginn verborgen', () => {
@@ -41,8 +41,8 @@ test('[Nach dem Sichern · nachher] Einreichen und Veröffentlichen sind dort er
   const abschnitt = (HTML.match(/<section[^>]*\bid="nach-sichern"[\s\S]*?<\/section>/) || [''])[0];
   assert.ok(/id="ns-einreichen"/.test(abschnitt) && /id="ns-veroeffentlichen"/.test(abschnitt), 'Knöpfe fehlen im Abschnitt');
   assert.match(HTML, /an\('ns-einreichen', 'click', fertigOeffnen\)/, 'Einreichen führt nicht in den bisherigen Dialog');
-  assert.match(HTML, /an\('ns-veroeffentlichen', 'click', \(\) => \{ anfrageAssistentEintreten\(\); zeigeSchritt\('anfrage'\); \}\)/);
-  assert.match(HTML, /an\('entwurf-sichern', 'click', async \(\) => \{ await entwurfSichern\(\); nachSichernZeigen\(\); \}\)/);
+  /* H2 (22.11.2026): „Anfrage veröffentlichen“ beginnt mit den Feldern der Vorlage (Probe tests/studio-benutzbarkeit-h2.test.js). */
+  assert.match(HTML, /an\('ns-veroeffentlichen', 'click', anfrageAusVorlageOeffnen\);/);
   assert.match(HTML, /an\('vorlage-sichern', 'click', async \(\) => \{ if \(await vorlageSichern\(\) !== false\) nachSichernZeigen\(\); \}\)/,
     'nach dem Sichern der Vorlage, nicht wenn der Name fehlt und nichts hinausging');
 });

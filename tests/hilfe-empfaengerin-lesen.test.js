@@ -2,7 +2,7 @@
 /* Hilfe für die Empfängerin in der Lese-App (U2-ADR-425, 20.09.2026, „Hilfe in der Datei").
    Vier feste Fragen — kein eigenes Register wie im Kern, `strings:`-Kennungen wie jeder Bedienfluss-Text
    dieser Datei (kein dritter Weg). die Redaktion hat alle vier Antworten geliefert; der Knopf `#btn-hilfe`
-   in der Topbar tauscht `#content` dagegen — derselbe Ersetzungsweg wie ein Sidebar-Klick. */
+   in der Topbar legt die Hilfe seit 22.11.2026 über `#content` (vorher ersetzte er die Sicht, ohne Rückweg). */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -36,10 +36,13 @@ test('[Hilfe-Lesen·Rendering] die Übersicht zeigt Titel und alle vier Fragen-B
   assert.match(html, /Sie sehen eine Zusammenstellung/, 'die Antwort zu wasIstDas muss im Text stehen');
 });
 
-test('[Hilfe-Lesen·Aktivierung] die Topbar trägt den Hilfe-Knopf, verdrahtet auf den Tausch von #content', () => {
+test('[Hilfe-Lesen·Aktivierung] die Topbar trägt den Hilfe-Knopf, verdrahtet auf die Hilfe über der Sicht', () => {
   assert.match(LESEN_QUELLE, /id="btn-hilfe"/, 'der Knopf muss in topbarHTML erscheinen');
-  assert.match(LESEN_QUELLE, /el\('btn-hilfe'\)[\s\S]{0,300}hilfeEmpfaengerinHTML\(\)/,
-    'wireTopbar muss #content auf hilfeEmpfaengerinHTML() setzen, kein toter Knopf');
+  // Seit 22.11.2026 (H-1) legt sich die Hilfe über die Sicht, statt #content zu ersetzen: kein toter Knopf, und ein Rückweg.
+  assert.match(LESEN_QUELLE, /el\('btn-hilfe'\)[\s\S]{0,200}addEventListener\('click', hilfeUmschalten\)/,
+    'wireTopbar muss den Knopf auf hilfeUmschalten legen, kein toter Knopf');
+  assert.match(LESEN_QUELLE, /function hilfeUmschalten\(\) \{[\s\S]{0,1200}hilfeEmpfaengerinHTML\(\)/,
+    'hilfeUmschalten zeigt hilfeEmpfaengerinHTML()');
 });
 
 test('[Hilfe-Lesen·EN] jede Frage UND Antwort hat eine englische Fassung, eigenständig geschrieben (_STRINGS_EINGEBAUT/LESE_TEXTE_EN-Parität, bestehender Wächter deckt es)', () => {

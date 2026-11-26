@@ -157,7 +157,8 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await p.evaluate((i) => feldEinfuegen(feldAusKatalog(i), null), geburt);
       await expect(p.locator('#tpl-felder .vk')).toHaveCount(vorher);
       await bildschirm(p, 'Arbeitsfläche mit Beispiel', s);
-      await p.tap('#fertig-oeffnen');
+      // Seit N18 (22.11.2026) steht „Einreichen“ erst nach dem Sichern (#ns-einreichen ruft fertigOeffnen, tests/studio-einreichen-nach-sichern.test.js); hier derselbe Aufruf ohne Sichern.
+      await p.evaluate(() => fertigOeffnen());
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
       await vorabPruefenTippen(p);
       await expect(p.locator('#vorab-ergebnis')).toBeVisible();
@@ -179,7 +180,7 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await expect(p.locator('#tpl-felder input[type="date"]').first()).toBeVisible();
       await bildschirm(p, 'Vorschau', s);
       await p.tap('#ansicht-bauen');
-      await p.tap('#fertig-oeffnen');
+      await p.evaluate(() => fertigOeffnen());
       await expect(p.locator('#sd-name')).toHaveValue(ENTWURF.anbieter.anbieterName);
       await vorabPruefenTippen(p);
       await expect(p.locator('#vorab-ergebnis')).toBeVisible();

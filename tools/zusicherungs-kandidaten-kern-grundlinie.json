@@ -240,6 +240,22 @@
     "renderNotfall": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Restschlüssel: notfallKarteStand (Datums-Beschriftung „Stand: …“ auf der Notfallkarte am Bildschirm, U-7, dieselbe Beschriftung wie im PDF von zeichneNotfallkarte) — sagt, wann die Angaben zuletzt geändert wurden, nichts über Vertrauen oder Prüfung."
+    },
+    "_ausgabeWegWaehlen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Warnung über die eigene Wahl der Person: „Das PDF ist nicht verschlüsselt. Wer es hat, kann alles darin lesen.“ Sagt, was der gewählte Weg nicht schützt, nichts über Vertrauen oder Prüfung."
+    },
+    "anfrageEndeZeigen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Dieselbe Warnung am Abschluss der Antwort, bevor die Person ihre Kopie als PDF nimmt; sagt, was nicht geschützt ist, nichts über Vertrauen oder Prüfung."
+    },
+    "antwortKopieModell": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines Datums: „Hinausgegeben am {datum}“ ist der Tag, an dem die Antwort hinausging, in der eigenen Kopie der Person."
+    },
+    "antwortPdfModell": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Herkunftszeile je Angabe im PDF („aus einem Nachweis“ / „selbst eingetragen“), gelesen aus dem Stempel, den die Antwort im eigenen Depot setzt; mit Krypto gegengelesen am 21.11.2026. Die Herkunft ist an der angehängten Antwort nachprüfbar."
     }
   }
 }

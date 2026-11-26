@@ -40,18 +40,19 @@ test('1) WIZARDS ist deklarativ + eingefroren; gebwiz vorhanden, Schritte wohlge
   }
 });
 
-test('2) Definition rendert: Titel, erste Frage, Fortschritt „Schritt 1 von N"', async () => {
+test('2) Definition rendert als Seite (U-AS): Titel, alle Fragen, Fortschritt „0 von N vorhanden"', async () => {
   const { V, document } = await frischMitDepot();
   V.betreteApp();
   assert.equal(V.wizardLauf('gebwiz'), true);
   const def = V.WIZARD_BY_ID.gebwiz;
   const html = document.getElementById('content').innerHTML;
   assert.ok(html.includes(def.titel), 'Titel gerendert');
-  assert.ok(html.includes(def.schritte[0].frage), 'erste Frage gerendert');
-  assert.ok(html.includes(V.STRINGS.wizSchritt + ' 1 ' + V.STRINGS.wizVon + ' ' + def.schritte.length),
-    'Fortschritt „Schritt 1 von N" gerendert');
-  assert.ok(html.includes(V.STRINGS.wizWeiter), 'Weiter-Knopf da');
-  assert.ok(html.includes(V.STRINGS.wizAbbrechen), 'Abbrechen-Knopf da');
+  for (const s of def.schritte) assert.ok(html.includes(s.frage), 'Frage gerendert: ' + s.feld.id);
+  assert.ok(html.includes(V.STRINGS.anlassInhaltZahl.replace('{n}', 0).replace('{m}', def.schritte.length)),
+    'Fortschritt „0 von N vorhanden" gerendert');
+  assert.ok(html.includes('id="wiz-fertig"') && html.includes(V.STRINGS.wizFertig), 'Fertig-Knopf da');
+  assert.ok(html.includes('id="wiz-abbr"') && html.includes(V.STRINGS.btnSchliessen), 'Schließen-Knopf da');
+  assert.ok(!html.includes('id="wiz-weiter"'), 'kein Weiter-Knopf');
   assert.equal(V.getViewState().aktiveAnsicht, 'wizard');
 });
 
@@ -120,9 +121,9 @@ test('6) Navigation: Weiter/Zurück bewegen den Schritt-Index', async () => {
   assert.equal(V.getWizardState().wizardSchrittIndex, 0);
   V.wizardWeiter();
   assert.equal(V.getWizardState().wizardSchrittIndex, 1, 'Weiter → Schritt 2');
+  // U-AS: die Seite zeigt weiterhin alle Fragen; der Index ist nur noch die Schnittstelle der Proben.
   const def = V.WIZARD_BY_ID.gebwiz;
-  assert.ok(document.getElementById('content').innerHTML.includes(
-    V.STRINGS.wizSchritt + ' 2 ' + V.STRINGS.wizVon + ' ' + def.schritte.length));
+  assert.equal((document.getElementById('content').innerHTML.match(/data-wiz-idx="/g) || []).length, def.schritte.length);
   V.wizardZurueck();
   assert.equal(V.getWizardState().wizardSchrittIndex, 0, 'Zurück → Schritt 1');
 });

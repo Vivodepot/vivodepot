@@ -99,7 +99,7 @@ test('[EXP1] jedes Exportformat mit eigenem Einlesekanal läuft nach der Migrati
     if (def.nurExport) continue;
     assert.ok(importIds.includes(def.id), def.id + ': kein Einlesekanal, obwohl nicht nurExport');
     const text = await V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
-    const plan = V.importPlan(def.id, text);
+    const plan = await V.importPlanGeprueft(def.id, text);   // der Einleseweg: die kompakte Form nur geprüft
     assert.ok(plan && !plan.ungueltig, def.id + ': eigener Einlesekanal lehnt die eigene Ausgabe ab');
     assert.ok(planZeilen(plan) > 0, def.id + ': eigener Einlesekanal liefert keine Zeile');
     const { anders } = zeilenVergleichen(V, plan);
@@ -149,9 +149,12 @@ test('[EXP1·Rot-Beweis] die Vergleichsprobe erkennt eine echte Verfälschung (M
   const def = V.EXPORT_FORMATE.find((f) => f.id === 'sd-jwt-vc-identitaet');
   const text = await V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
   assert.ok(lesbar(text).includes('Wredenhagen-Sonnenschein'), 'Vorbedingung: der bekannte Nachname steht in der unverfälschten Ausgabe');
-  // Kompakt (U2-ADR-457): die Verfälschung geht in die Offenlegung; sync importPlan liest strukturell, ohne Signaturprüfung.
+  // Kompakt (U2-ADR-457): die Verfälschung geht in die Offenlegung. Der Einleseweg lehnt sie ab (die Offenlegung ist nicht mehr
+  // gebunden; synchron liest er die kompakte Form gar nicht). Für den Methodik-Beleg liest die Probe darum den reinen Leser des
+  // Formats und baut daraus den Plan, ohne Prüfung: es geht um den Vergleich, nicht um den Einleseweg.
   const verfaelscht = mitOffenlegungen(text, (o) => (o[2] === 'Wredenhagen-Sonnenschein' ? [o[0], o[1], 'Falscher-Nachname'] : o));
-  const plan = V.importPlan('sd-jwt-vc-identitaet', verfaelscht);
+  const idef = V.importFormatFuerId('sd-jwt-vc-identitaet');
+  const plan = V._planAusRoh('sd-jwt-vc-identitaet', idef, idef.parse(verfaelscht));
   const { anders } = zeilenVergleichen(V, plan);
   assert.ok(anders.length > 0, 'Rot-Beweis verfehlt: eine verfälschte Ausgabe wird als "gleich" durchgewunken');
   assert.ok(anders.some((z) => z.eingelesen === 'Falscher-Nachname'), 'die verfälschte Zeile selbst steht nicht unter "anders"');

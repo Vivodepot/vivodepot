@@ -17,6 +17,10 @@
    Die Fortschrittsanzeige („Schritt X von Y") zählte schon immer NUR die
    sichtbaren Schritte (`wizardFortschritt`) — sie ist die Quelle, aus der
    der Knopf jetzt mitliest. Kein zweiter Sichtbarkeits-Durchlauf.
+
+   U-AS (21.11.2026): der Assistent ist EINE Seite (Entwurf A). Es gibt kein
+   „Weiter“ mehr; „Fertig“ steht immer da und schliesst immer ab — Wort und
+   Wirkung fallen damit an jeder Stelle zusammen. Die Probe hält das fest.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -31,7 +35,7 @@ async function frischMitDepot() {
 
 function knopfText(k) {
   const html = String(k.document.getElementById('content').innerHTML || '');
-  const m = html.match(/id="wiz-weiter">([^<]*)</);
+  const m = html.match(/id="wiz-fertig">([^<]*)</);
   return m ? m[1] : null;
 }
 
@@ -64,16 +68,14 @@ test('pvwiz: der letzte SICHTBARE Schritt trägt „Fertig", obwohl zwei Schritt
     'der Knopf sagt „Fertig", weil der Klick den Assistenten abschliesst');
 });
 
-test('pvwiz: ein Schritt davor sagt weiterhin „Weiter" (die Probe ist nicht pauschal)', async () => {
+test('pvwiz: die Seite trägt keinen „Weiter“-Knopf, auch nicht vor dem letzten sichtbaren Schritt', async () => {
   const k = await frischMitDepot();
   const { V } = k;
   V.wizardLauf('pvwiz');
-  const { sichtbar, ziel } = bisZumLetztenSichtbaren(V, 'pvwiz');
-  const vorletzter = sichtbar[sichtbar.indexOf(ziel) - 1];
-  V.wizardZurueck();
-  assert.equal(V.getWizardState().wizardSchrittIndex, vorletzter, 'einen sichtbaren Schritt zurück');
   V.renderWizard();
-  assert.equal(knopfText(k), V.STRINGS.wizWeiter, 'vorletzter sichtbarer Schritt: „Weiter"');
+  const html = String(k.document.getElementById('content').innerHTML || '');
+  assert.ok(!/id="wiz-weiter"/.test(html), 'kein „Weiter“ auf der Assistenten-Seite');
+  assert.equal(knopfText(k), V.STRINGS.wizFertig, '„Fertig“ steht von Anfang an da');
 });
 
 test('pvwiz: der Klick am letzten sichtbaren Schritt schliesst wirklich ab — Wort und Wirkung fallen zusammen', async () => {
@@ -83,7 +85,7 @@ test('pvwiz: der Klick am letzten sichtbaren Schritt schliesst wirklich ab — W
   bisZumLetztenSichtbaren(V, 'pvwiz');
   V.renderWizard();
   const wort = knopfText(k);
-  V.wizardWeiter();
+  V.wizardFertig();
   const zu = V.getWizardState().aktiverWizardId == null;
   assert.equal(wort, V.STRINGS.wizFertig, 'der Knopf hat den Abschluss angekündigt');
   assert.ok(zu, 'und der Klick hat den Assistenten geschlossen');

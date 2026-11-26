@@ -19,6 +19,17 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
+## [v1.0.1073] – 2026-11-25
+
+Diese Fassung enthält auch die Änderungen der Fassungen 1071 und 1072, die nicht einzeln veröffentlicht wurden.
+
+### Hinzugefügt
+- Depot anlegen: Der erste Schritt heißt „Passwort festlegen“. Sie tragen ein eigenes Passwort ein und wiederholen es; die Mindestlänge von zwölf Zeichen steht am Feld. Wer lieber einen Vorschlag möchte, wählt „Oder lassen Sie sich eines vorschlagen“ und bekommt sechs Wörter mit Probe und Druckknopf.
+
+### Geändert
+- Sechs Wörter: Wer die Wörter ohne Leerzeichen aneinander schreibt, besteht in der Anwendung die Probe und öffnet das Depot; in der Lese-App braucht es weiter Trenner zwischen den Wörtern. Der Wiederherstellungs-Code nimmt auch Unterstrich, Komma, Semikolon und Schrägstrich als Trenner an; ist er zu kurz oder zu lang, nennt die Meldung die Zahl der Zeichen.
+- Meldungen auf dem ersten Weg: Fehlen beim Anlegen Vor- und Nachname, stehen beide Meldungen zugleich am Feld. Ein Datum mit Buchstaben oder ein Tag, den es nicht gibt, wird benannt. Eine Sicherungskopie als Download nennt ihr Datum und bittet, den Download-Ordner zu prüfen.
+
 ## [v1.0.1070] – 2026-11-20
 
 ### Hinzugefügt

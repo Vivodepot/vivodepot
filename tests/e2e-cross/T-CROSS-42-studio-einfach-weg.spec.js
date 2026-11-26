@@ -86,7 +86,8 @@ async function landEintragen(p) {
    (auch auf dem vor Wagen 1.5), damit die Zählung vergleichbar bleibt. */
 async function bisZumDialog(p, angabenAmStart) {
   await p.fill('#as-name', SD.name);
-  if (angabenAmStart) {                              // mit dem Namen stehen die Angaben der Stelle offen da, ohne weiteren Klick
+  if (angabenAmStart) {                              // M5 (22.11.2026): die Angaben öffnen sich nicht mehr beim Tippen, ein Klick öffnet sie
+    if (!(await p.locator('#start-angaben[open]').count())) await p.click('#start-angaben > summary');
     await expect(p.locator('#as-strasse')).toBeVisible();
     await p.fill('#as-strasse', SD.strasse); await p.fill('#as-plz', SD.plz); await p.fill('#as-ort', SD.ort);
     await landEintragen(p);
@@ -96,7 +97,7 @@ async function bisZumDialog(p, angabenAmStart) {
   await p.click('#as-beispiele [data-beispiel="verein"]');                  // das Beispiel nennt die Art, seine Felder liegen in der Arbeitsfläche
   await expect(p.locator('#tpl-felder .vk').first()).toBeVisible();
   if (angabenAmStart) await expect(p.locator('#as-rechtsform')).toHaveValue('e.V.');   // aus Land und Art vorgeschlagen, kein Handgriff
-  await p.click('#fertig-oeffnen');
+  await p.evaluate(() => fertigOeffnen());
   await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
 }
 
@@ -177,7 +178,7 @@ test.describe('T-CROSS-42 Studio · Einfach-Weg', () => {
       await p.uncheck('#ed-pflicht');
       await p.click('#ed-speichern');
     }
-    await p.click('#fertig-oeffnen');
+    await p.evaluate(() => fertigOeffnen());
     await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
     await p.evaluate(() => document.querySelectorAll('#dlg-fertig details').forEach((d) => { d.open = true; }));
     const text = await p.locator('#dlg-fertig').innerText();

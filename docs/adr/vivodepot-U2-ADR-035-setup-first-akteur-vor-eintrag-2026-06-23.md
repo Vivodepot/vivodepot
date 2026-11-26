@@ -61,6 +61,15 @@ zu öffnen; dort steht der Weg in die Hilfe. Statt eines weiteren Satzes steht d
 
 Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Schritt 1], [S2·Warum]).
 
+## Nachtrag 24.11.2026 — Ziffer 4: Schritt 1 heißt „Passwort festlegen“
+
+Mit der Entscheidung vom 24.11.2026 (eigenes Passwort als Standard, sechs Wörter als Angebot; U2-ADR-463, Nachtrag
+24.11.2026) steht über dem Feld die Überschrift „Passwort festlegen“; beim Vorschlag nennt sie die Wörter. Der Satz aus dem
+Nachtrag vom 31.10.2026 steht beim eigenen Passwort unter der Wiederholung, beim Vorschlag über den Wörtern, mit „Warum?“
+daneben. Das Passwort entsteht weiter vor dem ersten Eintrag; die Schritt-Leiste und Schritt 2 bleiben.
+
+Probe: `tests/anlegen-passwort-festlegen.test.js` ([Festlegen·Standard]).
+
 ## Cross-Referenz
 
 U2-ADR-034 (Wiedereintritts-Akteur — gleiche Wurzel, Rückkehrer-Lage; `darfBearbeiten()`-Akteur-Kopplung baut auf der dort eingeführten Inhaber-Akteur-Regel auf), U2-ADR-005 (Urheberschaft/Provenienz), U2-ADR-031 (Persistenz/Wiedereinstieg, App-first-Türen — hier auf „Erkunden, nicht Eintragen" verengt). Befund `befund-erstnutzer-onboarding-akteur-timing-2026-06-22` (intern). Produktiv: —

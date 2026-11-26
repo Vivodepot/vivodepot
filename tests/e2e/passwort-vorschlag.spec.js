@@ -34,7 +34,15 @@ test('[PW-Vorschlag] vorschlagen, übernehmen, anlegen — der Hinweis gilt nur 
     await page.fill('#id-pw', pw);
   };
 
-  // Vorbelegt (07.10.2026): ohne Klick steht der Vorschlag im Feld und sichtbar darüber; die Bestätigung bleibt leer.
+  // Passwort festlegen (24.11.2026): der Dialog öffnet mit dem eigenen Passwort, leer; die Wörter kommen über das Angebot.
+  await expect(page.locator('#id-pw')).toBeVisible();
+  await expect(page.locator('#id-pw')).toHaveValue('');
+  await expect(page.locator('#id-pw-vorschlag-anzeige')).toBeHidden();
+  await expect(page.locator('#id-pw-woerter-titel')).toHaveText(DE['strings:anlegenPwFestlegenTitel.text']);
+  await expect(page.locator('#id-pw-vorschlag-knopf')).toHaveText(DE['strings:anlegenPwVorschlagAngebot.text']);
+  await imEigenen();
+  await page.click('#id-pw-vorschlag-knopf');
+  // Nach dem Angebot steht der Vorschlag im Feld und sichtbar darüber; die Bestätigung bleibt leer.
   const vorbelegt = await woerter();
   expect(vorbelegt.split('-')).toHaveLength(6);
   await expect(page.locator('#id-pw-vorschlag-anzeige')).toBeVisible();

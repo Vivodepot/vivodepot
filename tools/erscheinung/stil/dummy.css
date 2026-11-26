@@ -104,12 +104,12 @@ html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion { border: 0; }
 html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion:not(.tb-aktion-haupt) { background: transparent; }
 html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion-haupt { background: var(--salbei-dunkel); color: var(--white); }
 html:not(.dark-mode):not(.high-contrast) .topbar .tb-aktion-haupt:hover { background: var(--salbei-dunkel); text-decoration: underline; }
-html:not(.dark-mode):not(.high-contrast) .tb-suche-platz #suche-eingabe { border: 0; border-bottom: var(--feld-rahmen-dialog); background: var(--flaeche-neutral); border-radius: var(--radius-md) var(--radius-md) 0 0; padding-right: calc(var(--abstand-6) + var(--abstand-4)); }
+html:not(.dark-mode):not(.high-contrast) .tb-suche-platz #suche-eingabe { padding-right: calc(var(--abstand-6) + var(--abstand-4)); }
 html.dark-mode:not(.high-contrast) .topbar .tb-aktion { border: 0; }
 html.dark-mode:not(.high-contrast) .topbar .tb-aktion:not(.tb-aktion-haupt) { background: transparent; }
 html.dark-mode:not(.high-contrast) .topbar .tb-aktion-haupt { background: var(--salbei-dunkel); color: var(--auf-akzent); }
 html.dark-mode:not(.high-contrast) .topbar .tb-aktion-haupt:hover { background: var(--salbei-dunkel); text-decoration: underline; }
-html.dark-mode:not(.high-contrast) .tb-suche-platz #suche-eingabe { border: 0; border-bottom: var(--feld-rahmen-dialog); background: var(--flaeche-neutral); border-radius: var(--radius-md) var(--radius-md) 0 0; padding-right: calc(var(--abstand-6) + var(--abstand-4)); }
+html.dark-mode:not(.high-contrast) .tb-suche-platz #suche-eingabe { padding-right: calc(var(--abstand-6) + var(--abstand-4)); }
 
 /* GROESSENLEITER-DUMMY:BEGIN — erzeugt aus tools/groessenleiter.json (profile.dummy) durch tools/gestaltung-definition.js; nicht von Hand ändern */
 :root { --fs-role-anzeige: 1.375rem; --fs-role-titel: 1.375rem; --fs-role-abschnitt: 1rem; --fs-role-gruppe: 0.9375rem; --fs-role-einleitung: 0.875rem; --fs-role-text: 0.875rem; --fs-role-wert: 0.875rem; --fs-role-label: 0.875rem; --fs-role-knopf: 0.875rem; --fs-role-nav: 0.875rem; --fs-role-hilfe: 0.875rem; }

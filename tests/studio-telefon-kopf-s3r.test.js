@@ -14,8 +14,9 @@ const path = require('node:path');
 
 const HTML = fs.readFileSync(path.join(__dirname, '..', 'vivodepot-studio.html'), 'utf8');
 
+/* Der Telefon-Block ist der @media-Block bis 760 px, der den Kopf regelt; einzeilige Regeln für dieselbe Breite (N16, N52) stehen davor. */
 function telefonBlock(html) {
-  const von = html.indexOf('@media (max-width: 760px) {');
+  const von = html.indexOf('@media (max-width: 760px) {\n');
   if (von < 0) return '';
   let tiefe = 0;
   for (let i = html.indexOf('{', von); i < html.length; i++) {
@@ -41,23 +42,23 @@ function befunde(html) {
   /* #blatt-fertig gehört zum Blatt-Modus und steht sonst nicht; außerhalb davon ist #vorlage-sichern der einzige Hauptknopf. */
   if (haupt.filter((id) => id !== 'blatt-fertig').join() !== 'vorlage-sichern') f.push('Hauptknöpfe im Kopf: ' + haupt.join(', '));
   for (const id of ['entwurf-sichern', 'fertig-oeffnen', 'ansicht-bauen', 'wb-angaben']) if (k.includes('id="' + id + '"')) f.push('im Kopf: ' + id);
-  if (!/\n {2}\.bau-ort \{ display: none; \}/.test(html)) f.push('Name der Vorlage steht im Kopf');
+  /* N16: der Name der Vorlage steht ab Tablet im Kopf, am Telefon nicht (Dummy 14.11.2026). */
+  if (/\n {2}\.bau-ort \{ display: none; \}/.test(html) || !/@media \(max-width: 760px\) \{ \.bau-ort \{ display: none; \} \}/.test(html)) f.push('Name der Vorlage nicht nur am Telefon ausgeblendet');
   const reiter = abschnitt(html, 'id="reiter-wortlaut"', 'id="tafel-felder"');
   if (!/class="ansicht-zeile"[\s\S]*id="ansicht-bauen"/.test(reiter)) f.push('der Schalter steht nicht unter den Reitern');
+  /* N18 (Dummy 14.11.2026): in der ganzen Arbeitsfläche kein „Entwurf sichern“ und kein „Fertigstellen und einreichen“. */
+  const raum = abschnitt(html, '<div id="raum-bau"', '<section class="nach-sichern"') + abschnitt(html, '<div class="tel-reiter"', '<aside class="eigenschaften"');
+  for (const id of ['entwurf-sichern', 'fertig-oeffnen']) if (raum.includes('id="' + id + '"')) f.push('in der Arbeitsfläche: ' + id);
   if (/class="weg-band"/.test(html.slice(html.indexOf('<div id="raum-bau"')))) f.push('das Weg-Band steht wieder in der Arbeitsfläche (Dummy 14.11.2026)');
-  const unten = abschnitt(html, '<div class="vorlage-unten">', '<aside class="eigenschaften"');
-  if (!/id="entwurf-sichern"/.test(unten) || !/id="fertig-oeffnen"/.test(unten)) f.push('Entwurf oder Einreichen fehlt unter der Vorlage');
-  if (html.indexOf('id="tafel-wortlaut"') > html.indexOf('<div class="vorlage-unten">')) f.push('Knöpfe unter der Vorlage stehen in einer Reiter-Tafel');
   if (!/\n {2}\.bau-links > \.status-chip \{ position: fixed;[^}]*opacity: 0;/.test(html) || !/\n {2}\.bau-links > \.status-chip\.toast-an \{ opacity: 1; \}/.test(html)) f.push('Statuszeile nicht als Meldung');
   if (!/<span class="status-chip" id="bau-status" role="status" aria-live="polite"><\/span>/.test(k)) f.push('Meldung steht nicht in einer aria-live-Region');
   if (!/function statusAlsMeldung\(\)/.test(html) || !/\n {2}statusAlsMeldung\(\);\n/.test(html) || /matchMedia\('\(max-width: 760px\)'\)\.matches \|\| !chip/.test(html)) f.push('Meldung nicht auf allen Breiten');
   if (!/\.bau-rechts \.haupt-knopf \{ white-space: nowrap; min-height: 44px; \}/.test(t)) f.push('Vorlage sichern bricht um oder ist unter 44 px');
-  if (!/\.vorlage-unten > button \{ min-height: 44px; \}/.test(t)) f.push('Knöpfe unter der Vorlage am Telefon unter 44 px');
   if (/font-size: \d+px/.test(t.slice(t.indexOf('Telefon wie im Vorgabe-Dummy')))) f.push('feste Schriftgröße statt Leiter');
   return f;
 }
 
-test('[Studio·Kopf] eine Kopfzeile mit einem Hauptknopf, Schalter und Wegband unter den Reitern, Entwurf und Einreichen unter der Vorlage', () => {
+test('[Studio·Kopf] eine Kopfzeile mit einem Hauptknopf, der Schalter unter den Reitern; kein Entwurf-Knopf und kein Einreichen in der Arbeitsfläche (N18)', () => {
   assert.deepEqual(befunde(HTML), []);
 });
 
@@ -73,6 +74,9 @@ test('[Studio·Kopf·Rot-Beweis] ein zweiter Hauptknopf, ein Einreichen-Link ode
   const stumm = HTML.replace('id="bau-status" role="status" aria-live="polite"', 'id="bau-status"');
   assert.notEqual(stumm, HTML, 'Vorbedingung: die Mutation greift');
   assert.ok(befunde(stumm).includes('Meldung steht nicht in einer aria-live-Region'));
+  const unterDerVorlage = HTML.replace('<div id="tafel-wortlaut"', '<button type="button" id="entwurf-sichern">x</button><div id="tafel-wortlaut"');
+  assert.notEqual(unterDerVorlage, HTML, 'Vorbedingung: die Mutation greift');
+  assert.ok(befunde(unterDerVorlage).includes('in der Arbeitsfläche: entwurf-sichern'));
   const fest = HTML.replace('.weg-band ol { gap: 4px; }', '.weg-band ol { gap: 4px; font-size: 13px; }');
   assert.notEqual(fest, HTML, 'Vorbedingung: die Mutation greift');
   assert.ok(befunde(fest).includes('feste Schriftgröße statt Leiter'));

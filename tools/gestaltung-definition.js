@@ -14,6 +14,10 @@
    (--abstand-1 … --abstand-6, --radius-klein, --radius-gross, --radius-rund, --treffer) zwischen
    `GESTALTUNG-DEFINITION:BEGIN` und `GESTALTUNG-DEFINITION:END`. Bestehende Regeln stellt es NICHT um.
    Schicht 2 wird in dieser Stufe nur geprüft (Verweise lösen auf), nicht ins CSS geschrieben.
+     vorlagen    Schicht 3 (Formatvorlagen, AP 2 S1, 24.11.2026): je Elementart genau ein Eintrag mit Selektor und Regeln. Jeder
+                 Regelwert besteht nur aus Verweisen (var(--…)) und den Schlüsselwörtern 0/none, keine Zahl. Daraus schreibt das
+                 Werkzeug einen zweiten markierten Block GESTALTUNG-VORLAGEN in grundlage.css: die Grundregel je Feldart, im Bereich
+                 `bereich` (ohne hohen Kontrast) und, wo angegeben, die Fassung für hohen Kontrast.
 
    AUFRUFE
      node tools/gestaltung-definition.js                  Selbstprobe gegen die Fixtures im Repo (grün und rot)
@@ -43,6 +47,8 @@ const LEITER_MARKE_ENDE = 'GROESSENLEITER-DUMMY:END';
 // Hinter diese Zeile (Ende der Größenleiter) setzt `--schreiben` den Block, solange er noch fehlt.
 const EINSETZEN_NACH = /^[ \t]*@media \(max-width: 767px\) \{ :root \{ --fs-role-anzeige:.*$/m;
 
+const VORLAGEN_MARKE_ANFANG = 'GESTALTUNG-VORLAGEN:BEGIN';
+const VORLAGEN_MARKE_ENDE = 'GESTALTUNG-VORLAGEN:END';
 const ABSTAENDE = ['--abstand-1', '--abstand-2', '--abstand-3', '--abstand-4', '--abstand-5', '--abstand-6'];
 const RADIEN = ['--radius-klein', '--radius-gross', '--radius-rund'];
 const BEDEUTUNGEN = ['flaeche', 'text', 'linie', 'aktion', 'warnung', 'herkunft'];
@@ -141,7 +147,73 @@ function definitionPruefen(def, wurzel = REPO) {
     if (Object.keys(t).some((k) => !['bedeutung', 'token', 'verweis'].includes(k))) fehler.push(`bedeutung: ${t.token} trägt mehr als bedeutung, token, verweis (keine Zahl in Schicht 2)`);
     if (!/^--[a-z][a-z0-9-]*$/.test(String(t.verweis))) fehler.push(`bedeutung: ${t.token}: Verweis ist ein Name, kein Wert`);
   }
+  // Feldtönung (Schicht 1, AP 2): die hinterlegte Fläche der Felder, hell und nachts; die Werte stehen nur hier
+  if (g.feldtoenung !== undefined) {
+    const ft = g.feldtoenung || {};
+    if (ft.token !== '--feld-toenung') fehler.push('grundwerte.feldtoenung: erwartet --feld-toenung');
+    for (const k of ['hell', 'nacht']) if (!/^rgba\(\d{1,3},\d{1,3},\d{1,3},(0|1|0?\.\d+)\)$/.test(String(ft[k]))) fehler.push('grundwerte.feldtoenung.' + k + ': rgba(r,g,b,a)');
+  }
+  fehler.push(...vorlagenPruefen(def.vorlagen));
   return fehler;
+}
+/* Schicht 3: je Art ein Eintrag; Werte nur aus Verweisen und 0/none (keine Zahl in Schicht 3). */
+const VORLAGE_WERT = /^(?:var\(--[a-z][a-z0-9-]*\)|0|none)(?: (?:var\(--[a-z][a-z0-9-]*\)|0|none))*$/;
+const VORLAGE_EIGENSCHAFT = /^[a-z]+(?:-[a-z]+)*$/;
+function vorlagenPruefen(v) {
+  if (v === undefined) return [];
+  const f = [];
+  if (!v || typeof v.bereich !== 'string' || !v.bereich.trim()) f.push('vorlagen.bereich fehlt');
+  const arten = (v && v.arten) || [];
+  if (!Array.isArray(arten) || !arten.length) f.push('vorlagen.arten: Liste fehlt oder leer');
+  const gesehen = new Set();
+  for (const a of arten) {
+    if (!/^[a-z]+(?:-[a-z]+)*$/.test(String(a.art))) f.push('vorlagen: Name ' + a.art);
+    if (gesehen.has(a.art)) f.push('vorlagen: doppelte Art ' + a.art);
+    gesehen.add(a.art);
+    if (typeof a.selektor !== 'string' || !a.selektor.trim() || /[{}]/.test(a.selektor)) f.push('vorlagen: ' + a.art + ': Selektor fehlt oder trägt Klammern');
+    for (const fass of ['regeln', 'hochkontrast']) {
+      if (fass === 'hochkontrast' && a[fass] === undefined) continue;
+      const rg = a[fass] || {};
+      if (!Object.keys(rg).length) f.push('vorlagen: ' + a.art + ': ' + fass + ' leer');
+      for (const [k, w] of Object.entries(rg)) {
+        if (!VORLAGE_EIGENSCHAFT.test(k)) f.push(`vorlagen: ${a.art}: Eigenschaft ${k}`);
+        if (!VORLAGE_WERT.test(String(w))) f.push(`vorlagen: ${a.art}.${k}: „${w}“ ist kein Verweis (keine Zahl in Schicht 3)`);
+      }
+    }
+  }
+  return f;
+}
+function vorlagenBlockBauen(def) {
+  const v = def.vorlagen;
+  const z = [`  /* ${VORLAGEN_MARKE_ANFANG} — erzeugt aus tools/erscheinung/definition.json (Schicht 3) durch tools/gestaltung-definition.js; nicht von Hand ändern */`];
+  const regel = (rg) => Object.entries(rg).map(([k, w]) => `${k}: ${w};`).join(' ');
+  for (const a of v.arten) {
+    z.push(`  /* ${a.art} */`);
+    z.push(`  html:not(.high-contrast) :is(${v.bereich}) :is(${a.selektor}) { ${regel(a.regeln)} }`);
+    if (a.hochkontrast) z.push(`  html.high-contrast :is(${v.bereich}) :is(${a.selektor}) { ${regel(a.hochkontrast)} }`);
+  }
+  z.push(`  /* ${VORLAGEN_MARKE_ENDE} */`);
+  return z.join('\n');
+}
+function vorlagenRegion(css) {
+  const a = css.indexOf(VORLAGEN_MARKE_ANFANG); const e = css.indexOf(VORLAGEN_MARKE_ENDE);
+  if (a < 0 || e < a) return null;
+  return { von: css.lastIndexOf('\n', a) + 1, bis: css.indexOf('\n', e) < 0 ? css.length : css.indexOf('\n', e) };
+}
+function vorlagenEinsetzen(css, def) {
+  if (!def.vorlagen) return css;
+  const block = vorlagenBlockBauen(def);
+  const r = vorlagenRegion(css);
+  if (r) return css.slice(0, r.von) + block + css.slice(r.bis);
+  const d = blockRegion(css);
+  if (!d) throw new Error('Einfügestelle für ' + VORLAGEN_MARKE_ANFANG + ' (nach ' + MARKE_ENDE + ') nicht gefunden');
+  return css.slice(0, d.bis) + '\n' + block + css.slice(d.bis);
+}
+function vorlagenPruefenImCss(css, def) {
+  if (!def.vorlagen) return [];
+  const r = vorlagenRegion(css);
+  if (!r) return ['Block ' + VORLAGEN_MARKE_ANFANG + ' fehlt'];
+  return css.slice(r.von, r.bis) === vorlagenBlockBauen(def) ? [] : ['Block der Formatvorlagen weicht von der Definition ab (neu erzeugen mit --schreiben)'];
 }
 
 /* ── Größenleiter des Stilsatzes dummy: Block bauen, schreiben, prüfen ─────────────────────────────────────── */
@@ -202,7 +274,9 @@ function blockBauen(def, wurzel = REPO) {
     `    ${g.treffer.token}: ${g.treffer.wert};`,
     ...(g.masse ? ['    ' + g.masse.map((m) => `${m.token}: ${m.wert};`).join(' ')] : []),
     ...(g.zeichen ? g.zeichen.map((z) => `    ${z.token}: ${zeichenDataUrl(z.svg)};`) : []),
+    ...(g.feldtoenung ? [`    ${g.feldtoenung.token}: ${g.feldtoenung.hell};`] : []),
     '  }',
+    ...(g.feldtoenung ? [`  :root.dark-mode { ${g.feldtoenung.token}: ${g.feldtoenung.nacht}; }`] : []),
     `  /* ${MARKE_ENDE} */`,
   ];
   return zeilen.join('\n');
@@ -256,7 +330,7 @@ function main() {
     const def = definitionLaden(defPfad);
     const f = definitionPruefen(def);
     if (f.length) { console.error(f.join('\n')); process.exit(1); }
-    const neu = blockEinsetzen(fs.readFileSync(cssPfad, 'utf8'), blockBauen(def));
+    const neu = vorlagenEinsetzen(blockEinsetzen(fs.readFileSync(cssPfad, 'utf8'), blockBauen(def)), def);
     fs.writeFileSync(cssPfad, neu);
     console.log('Block geschrieben: ' + path.relative(REPO, cssPfad));
     if (!arg('--css') && fs.existsSync(DUMMY_STIL)) {
@@ -267,7 +341,7 @@ function main() {
   }
   if (process.argv.includes('--check')) {
     const def = definitionLaden(defPfad);
-    const fehler = [...definitionPruefen(def), ...blockPruefen(fs.readFileSync(cssPfad, 'utf8'), def), ...(arg('--css') || !fs.existsSync(DUMMY_STIL) ? [] : leiterBlockPruefen(fs.readFileSync(DUMMY_STIL, 'utf8'))), ...adrPruefen(defPfad, arg('--adr') || adrDatei())];
+    const fehler = [...definitionPruefen(def), ...blockPruefen(fs.readFileSync(cssPfad, 'utf8'), def), ...vorlagenPruefenImCss(fs.readFileSync(cssPfad, 'utf8'), def), ...(arg('--css') || !fs.existsSync(DUMMY_STIL) ? [] : leiterBlockPruefen(fs.readFileSync(DUMMY_STIL, 'utf8'))), ...adrPruefen(defPfad, arg('--adr') || adrDatei())];
     if (fehler.length) { console.error('ROT:\n' + fehler.map((x) => '  ' + x).join('\n')); process.exit(1); }
     console.log('gestaltung-definition: grün (Definition, Block, ADR-Prüfsumme)');
     return;
@@ -283,6 +357,6 @@ function main() {
   process.exit(a.length === 0 && b.length > 0 ? 0 : 1);
 }
 
-module.exports = { zeichenSvgPruefen, zeichenDataUrl, leiterBlockBauen, leiterBlockPruefen, definitionLaden, definitionPruefen, blockBauen, blockEinsetzen, blockPruefen, blockRegion, pruefsumme, adrDatei, adrPruefsumme, adrPruefen,
+module.exports = { vorlagenPruefen, vorlagenBlockBauen, vorlagenEinsetzen, vorlagenPruefenImCss, VORLAGEN_MARKE_ANFANG, VORLAGEN_MARKE_ENDE, zeichenSvgPruefen, zeichenDataUrl, leiterBlockBauen, leiterBlockPruefen, definitionLaden, definitionPruefen, blockBauen, blockEinsetzen, blockPruefen, blockRegion, pruefsumme, adrDatei, adrPruefsumme, adrPruefen,
   DEFINITION, GRUNDLAGE, FIXTURES, MARKE_ANFANG, MARKE_ENDE };
 if (require.main === module) main();

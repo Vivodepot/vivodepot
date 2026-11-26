@@ -40,6 +40,7 @@
       "toene": ["ton", "altrose", "nebel", "kiesel", "malve", "pfirsich", "hellblau", "rose"],
       "token": ["--person", "--person-text", "--person-linie"]
     },
+    "feldtoenung": { "token": "--feld-toenung", "hell": "rgba(79,101,57,.07)", "nacht": "rgba(255,255,255,.07)", "hinweis": "Hinterlegte Fläche der Felder (Bestand seit 07.10.2026, vorher als Zahl im Stilsatz salbei-glas); ein Feld bleibt über seine Unterkante --feld-rahmen als Feld erkennbar (WCAG 1.4.11)." },
     "umbrueche": {
       "schmal_bis_px": 767,
       "breit_ab_px": 768
@@ -70,6 +71,15 @@
       { "bedeutung": "warnung", "token": "--bedeutung-warnung", "verweis": "--warning" },
       { "bedeutung": "warnung", "token": "--bedeutung-warnung-flaeche", "verweis": "--flaeche-warnung" },
       { "bedeutung": "herkunft", "token": "--bedeutung-herkunft", "verweis": "--info" }
+    ]
+  },
+  "vorlagen": {
+    "hinweis": "Schicht 3 (AP 2 S1, 24.11.2026): je Feldart eine Grundregel mit den Bestandswerten der Feldform (Linie unten, oben gerundet, getönte Fläche; seit 07.10.2026). Kein neuer Wert: jede Regel verweist auf Schicht 1 oder die Token des Erscheinungsbilds. Höhe, Schriftgröße und Abstand bleiben bei der Stelle. Hoher Kontrast behält seinen Vollrahmen aus der Grundlage. Die Dialoge (.modal, Entsperrfeld) sind ausgenommen und tragen ihre Form weiter selbst (Bau Anlegen/Öffnen).",
+    "bereich": ".content, .suche-feld, .tb-suche-platz",
+    "arten": [
+      { "art": "feld-eingabe", "selektor": "input:not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"file\"]):not([type=\"range\"]):not([type=\"color\"]):not([type=\"hidden\"])", "regeln": { "border": "0", "border-bottom": "var(--feld-rahmen)", "border-radius": "var(--radius-feld) var(--radius-feld) 0 0", "background-color": "var(--feld-toenung)", "color": "var(--ink)" } },
+      { "art": "feld-mehrzeilig", "selektor": "textarea", "regeln": { "border": "0", "border-bottom": "var(--feld-rahmen)", "border-radius": "var(--radius-feld) var(--radius-feld) 0 0", "background-color": "var(--feld-toenung)", "color": "var(--ink)" } },
+      { "art": "feld-auswahl", "selektor": "select", "regeln": { "border": "0", "border-bottom": "var(--feld-rahmen)", "border-radius": "var(--radius-feld) var(--radius-feld) 0 0", "background-color": "var(--feld-toenung)", "color": "var(--ink)" } }
     ]
   }
 }

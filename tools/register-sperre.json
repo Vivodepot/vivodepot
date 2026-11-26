@@ -179,6 +179,11 @@
    "seit": "v922",
    "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
   },
+  "feldregister-zuordnungen": {
+   "lizenz": null,
+   "seit": "2026-11-22",
+   "beleg": "neue Art: PDF-Übersicht der Zuordnungen (feldregister-zuordnungen.pdf) neben der SSSOM-Tabelle; die Lizenz CC0 steht im PDF selbst, eine Lizenzangabe aus JSON gibt es für diese Art nicht; Wort der Gegenlesung im Commit"
+  },
   "generator": {
    "lizenz": null,
    "seit": "v922",

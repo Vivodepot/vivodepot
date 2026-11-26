@@ -303,6 +303,8 @@ const SENKEN = Object.freeze([
 const AUSNAHMEN = Object.freeze({
   'depotLaden|VdCrypto.setupSession|pw': 'Die Hilfsfunktion entschluessleMit(pw) wird mit nfc (normalizePassword) und genau einmal mit '
     + 'der NFD-Form aufgerufen: der bewusste Rückfall des Kerns für Bestände von vor B1. Danach schlüsselt der Kern auf NFC um.',
+  'depotLaden|depotMasterHkdfKey|pw': 'Dieselbe Hilfsfunktion entschluessleMit(pw) wie bei setupSession (nfc, einmal NFD): bei offener '
+    + 'Sitzung leitet sie erst ohne Sitzung ab und übernimmt die Sitzung erst nach dem Erfolg (SITZUNG-SCHLUESSEL-NACH-FEHLVERSUCH).',
   'subDepotEntsiegeln|depotMasterHkdfKey|pw': 'Wie depotLaden: entsiegleMit(pw) bekommt nfc und einmal die NFD-Form (B1 L4); nach Erfolg '
     + 'über NFD wird unter NFC neu versiegelt.',
   '_whcAuspacken|_whcCodeBits|stellen': 'Wiederherstellungs-Code, kein Passwort: whcCodeLesen lässt nur Zeichen aus WHC_ALPHABET '

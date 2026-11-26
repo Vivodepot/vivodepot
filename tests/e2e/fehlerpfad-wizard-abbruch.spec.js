@@ -46,7 +46,7 @@ const KONSOLE_HARMLOS = [
   /Content Security Policy directive '(frame-ancestors|report-uri|sandbox)' is ignored when delivered via/i,
 ];
 const istHarmloseKonsole = (t) => KONSOLE_HARMLOS.some((re) => re.test(String(t)));
-const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten, datumSetzen } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten, datumSetzen, assistentWeiter, assistentFertig } = require('./helpers');
 
 test('[Fehlerpfad 2/5·A] Wizard abbrechen WÄHREND eine Validierungs-Fehlermeldung sichtbar ist — kein überlebender Banner', async ({ page }) => {
   const fehler = [];
@@ -63,16 +63,16 @@ test('[Fehlerpfad 2/5·A] Wizard abbrechen WÄHREND eine Validierungs-Fehlermeld
   await expect(page.locator('.wizard-frage')).toBeVisible();
   await expect(page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]')).toBeVisible();
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'E2E Fehlerpfad Kind');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await expect(page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]')).toBeVisible();   // Datum in drei Feldern (Zielbild S4)
 
   // ── DER FEHLERPFAD: ein Datum, das das Format erfüllt, aber unplausibel ist
   // (Jahr weit vor DATUM_JAHR_MIN_WEIT) — feldValidieren liefert grund:'datum'. ──
   await datumSetzen(page, '#content [data-edit="guidedBirthEntryDateOfBirthNot"]', '0100-01-01');
-  await page.click('#wiz-weiter');
+  await assistentFertig(page);
   await expect(page.locator('.feld-fehler[role="alert"]'), 'Fehler-Banner muss erscheinen (grund:"datum")').toBeVisible();
   const grundVorAbbruch = await page.evaluate(() => window.__vdOeffentlich.wizardFehlerGrund);
-  expect(grundVorAbbruch, 'wizardWeiter muss am Schritt blockieren').toBe('datum');
+  expect(grundVorAbbruch, '„Fertig“ muss an der Zeile blockieren').toBe('datum');
   // Der Schritt-Index darf sich NICHT bewegt haben — geblockt heißt geblockt.
   const indexVorAbbruch = await page.evaluate(() => window.__vdOeffentlich.wizardSchrittIndex);
   expect(indexVorAbbruch).toBe(1);
@@ -115,7 +115,7 @@ test('[Fehlerpfad 2/5·B] Wizard abbrechen VOM LETZTEN Schritt aus („Abschluss
     return sichtbar[sichtbar.length - 1];
   });
   await page.evaluate((i) => { window.__vdOeffentlich.wizardSchrittIndex = i; window.__vdOeffentlich.renderContent(); }, letzterIndex);
-  await expect(page.locator('#content'), 'letzter Schritt zeigt "Fertig" statt "Weiter" (Abschluss-Sicht)').toContainText('Fertig');
+  await expect(page.locator('#content'), 'die Seite zeigt "Fertig" (Abschluss-Sicht)').toContainText('Fertig');
   await expect(page.locator('#wiz-abbr'), 'Abbrechen bleibt auch im letzten Schritt verfügbar').toBeVisible();
 
   const vorAbbruch = await page.evaluate(() => window.__vdOeffentlich.ankerDaten().dokumente.length);

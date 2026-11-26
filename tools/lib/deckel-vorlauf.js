@@ -31,7 +31,39 @@ const MUSTER = Object.freeze([/grundlinie[a-z-]*\.json|-ausnahmen\.json|deckel-r
 // Beide Bedingungen zusammen: der Name allein wählt auch Proben über fremde Dateien, das Lesen des Kerns allein gut tausend Dateien.
 const KLASSE_IM_TESTNAMEN = /test\(\s*['"`][^'"`]*(Klasse|Wächter|Waechter|Deckung|DIE MESSUNG)/;
 const istKlassenwaechterUeberKern = (text) => text.includes('vivodepot.html') && KLASSE_IM_TESTNAMEN.test(text);
-const ORTE = Object.freeze(['tests', path.join('tests', 'mit-modul')]);
+const ORTE = Object.freeze(['tests', path.join('tests', 'mit-modul'), 'tools']);
+/* Nachtrag 20.11.2026, verengt (Befund am v1065-Kopf e6a3eba06: Rot an Proben, die der Vorlauf nicht wählte). Ein erster
+   Nachtrag wählte jede feste Zahl und jeden Listenvergleich mit [] über den Kern: 1306 statt 435 Dateien, der Schritt riss am
+   Zugkopf dreimal seine Zeitgrenze. Gemessen gewählt wird nur noch, was den Bestand liest UND
+     · eine feste Zahl ohne .length prüft, `equal(wert, 341)`, N ≥ 10 (FESTE_ZAHL), oder
+     · eine Liste mit [] vergleicht, deren Name eine Lücke benennt, `deepEqual(fehlend, [])` (LUECKEN_LISTE);
+   dazu alle Proben unter tools/ (ALLE_IN), denn dort liegen wenige und keine wird sonst gesammelt.
+   Ausgelassen sind neu hinzukommende Proben, die allein länger als 120 s laufen (LANG_AUSSER): sie trugen keinen der Fänge
+   und hätten die Spanne des Schritts verlängert. Gemessen: 742 Dateien, Spanne bei 14 Arbeitern wie zuvor.
+   Probe: [Deckel-Vorlauf·Auswahl·Nachtrag].
+   Nachtrag 20.11.2026, Zeitgrenze am v1071-Kopf: die gemessene Spanne galt nicht unter Last. Der Nachtrag wählte 310 Dateien
+   mehr (435 → 745, Dateizeit 3236 → 4850 s), darunter sieben Proben unter tests/mit-modul/, die einen Browser starten; der
+   Schritt riss zweimal 600 s. Der Nachtrag wählt darum nur noch unter tests/ (NACHTRAG_ORT) und keine Probe, die einen Browser
+   startet (BROWSER_START). Diese Proben laufen weiter im Volllauf. Probe: [Deckel-Vorlauf·Auswahl·Nachtrag·ohne Browser].
+   Nachtrag 20.11.2026, Dateizeit: auch so blieben 729 Dateien mit 4652 s. Den Zweck tragen nur die Proben, die am v1065-Kopf rot
+   waren: feste Zahlen des Feld- und Bereichsbestands (Felder, Unterfelder, Bereiche, Feldmarken) und Lücken-Listen, die einen
+   fehlenden Eintrag benennen (fehlende, ohneZeile, luecke). FESTE_ZAHL und LUECKEN_LISTE wählen nur noch diese. Alle anderen
+   festen Zahlen und Listenvergleiche laufen weiter im Volllauf. Probe: [Deckel-Vorlauf·Auswahl·Nachtrag·Bestandszahl].
+   Nachtrag 21.11.2026, Spanne am v1071-Kopf: Eine Probe, die selbst Testläufe startet, holt deren Dateien in den Vorlauf,
+   auch solche aus LANG_AUSSER. Seit die längste Probe zuerst startet, laufen diese inneren Läufe neben allen Arbeitern statt
+   allein am Ende. INNERE_LAEUFE_AUSSER nimmt solche Proben aus der Wahl, auch wenn ein Muster sie trifft; sie laufen weiter im
+   Volllauf. Probe: [Deckel-Vorlauf·Auswahl·Innere Läufe]. */
+const FESTE_ZAHL = /[eE]qual\(\s*[\w$.()]*?(?:[fF]elder|[bB]ereiche(?:Alle\(\))?\.length|\.top|\btop|\.unter|\bunter|Marke|LaeuftAb)\s*,\s*[0-9]{2,}\s*[,)]/;
+const LUECKEN_LISTE = /[dD]eep(?:Strict)?Equal\(\s*[\w$.]*(fehlende|ohneZeile|luecke|lücke)[\w$.]*\s*(\([^;\n]*\))?\s*,\s*\[\]\s*[,)]/;
+const BESTAND = /ladeKern|load-kern|vivodepot\.html|buergermodul\/|feldkatalog|vd-privat\.json/;
+const ALLE_IN = Object.freeze(['tools']);
+const LANG_AUSSER = Object.freeze(['ausgabewege-nach-zweck.test.js', 'css-spezifitaet-und-mobile-schrift.test.js']);
+// Proben, die je Ausnahme bis zu drei innere Testläufe gleichzeitig starten (gemessen 21.11.2026: zwölf Läufe, darunter eine
+// Probe aus LANG_AUSSER mit über 400 s).
+const INNERE_LAEUFE_AUSSER = Object.freeze(['zuschnitt-testpfade-erreichbar.test.js']);
+const NACHTRAG_ORT = 'tests';
+const BROWSER_START = /\b(?:chromium|firefox|webkit)\.launch(?:Persistent(?:Context)?)?\(/;
+const istNachtragMuster = (text) => BESTAND.test(text) && (FESTE_ZAHL.test(text) || LUECKEN_LISTE.test(text));
 function eigenesWerkzeugMitGrundlinie(wurzel, stamm, text, lesen) {
   const esc = stamm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   if (!new RegExp('tools/' + esc + '(\\.js)?[\'"]').test(text)) return false;
@@ -49,10 +81,12 @@ function dateienWaehlen(wurzel, { liste = (d) => fs.readdirSync(d), lesen = (p) 
       const rel = path.join(ort, n);
       let text = '';
       try { text = lesen(path.join(wurzel, rel)); } catch (_) { continue; }
-      if (MUSTER.some((m) => m.test(text)) || istKlassenwaechterUeberKern(text) || eigenesWerkzeugMitGrundlinie(wurzel, n.slice(0, -'.test.js'.length), text, lesen)) gewaehlt.push(rel);
+      const bisher = MUSTER.some((m) => m.test(text)) || istKlassenwaechterUeberKern(text) || eigenesWerkzeugMitGrundlinie(wurzel, n.slice(0, -'.test.js'.length), text, lesen);
+      if (INNERE_LAEUFE_AUSSER.includes(n)) continue;
+      if (bisher || (!LANG_AUSSER.includes(n) && (ALLE_IN.includes(ort) || (ort === NACHTRAG_ORT && !BROWSER_START.test(text) && istNachtragMuster(text))))) gewaehlt.push(rel);
     }
   }
   return gewaehlt.sort();
 }
 
-module.exports = { MUSTER, ORTE, istKlassenwaechterUeberKern, dateienWaehlen, eigenesWerkzeugMitGrundlinie };
+module.exports = { MUSTER, ORTE, ALLE_IN, NACHTRAG_ORT, BROWSER_START, FESTE_ZAHL, LUECKEN_LISTE, BESTAND, LANG_AUSSER, INNERE_LAEUFE_AUSSER, istNachtragMuster, istKlassenwaechterUeberKern, dateienWaehlen, eigenesWerkzeugMitGrundlinie };

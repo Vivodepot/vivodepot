@@ -20,7 +20,7 @@
   <!-- frame-ancestors 'none' WIRKT NICHT (Nachtrag 18.09.2026, gemessen) — s. denselben Vermerk
        im Kern (vivodepot.html, an derselben CSP-Zeile) und tests/d43-etappe6-csp.test.js. -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-LAu7nZn2HONrT2wbrCy10gsxp5rPvQW0ATfKdDCwNp0=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-ybDEc6ovFIiQ3hDaJVaniMIcKGT6BlLbUvWUeNf8OsE='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
+        content="default-src 'none'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-LAu7nZn2HONrT2wbrCy10gsxp5rPvQW0ATfKdDCwNp0=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Xbi3o05K5i1fQBgSZyrnu16BPf0TVRxPYHWnj02nOOI='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -279,6 +279,10 @@
       transition: filter .15s;
     }
     .btn:hover { filter: brightness(1.08); }
+    /* N-1/N-4 (22.11.2026): jede Schaltfläche ist mindestens 44 px hoch, der Tastaturfokus als sichtbarer Ring (auch auf dem Kopfband). */
+    .btn, .nav-item { min-height: 44px; }
+    .btn:focus-visible, .nav-item:focus-visible, .weg-karte:focus-visible, .nav-menue-knopf:focus-visible { outline: 3px solid var(--akzent); outline-offset: 2px; }
+    .topbar .btn:focus-visible { outline-color: #fff; }
     .btn-sek { background: transparent; color: var(--akzent); border: 1.5px solid var(--akzent); }
 
     /* ── Begrüßung ─────────────────────────────────────────── */
@@ -322,6 +326,10 @@
       border-radius: 10px; background: #fff; color: var(--tinte);
     }
     .pw-feld:focus, .qr-text:focus { outline: none; border-color: var(--akzent); }
+    /* M-5: der Fokus zeigt sich auch für die Tastatur als Ring, nicht nur als Randfarbe. */
+    .pw-feld:focus-visible, .qr-text:focus-visible { outline: 2px solid var(--akzent); outline-offset: 2px; }
+    .pw-label { display: block; font-weight: 600; margin: 0 0 6px; }
+    .pw-anzeigen { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: var(--fs-role-hilfe); color: var(--tinte-weich); min-height: 44px; }
     .qr-text { resize: vertical; min-height: 110px; }
     .qr-video { width: 100%; border-radius: 10px; background: var(--kamera-flaeche); display: block; }
     .pw-fehler { color: #a82a1c; font-size: var(--fs-role-hilfe); margin-top: 10px; }
@@ -358,15 +366,20 @@
       .tb-marke-link { white-space: normal; flex-shrink: 0; }
       .tb-mitte { display: none; }
       .tb-aktionen { margin-left: auto; gap: 12px; }   /* der verborgene Text „Hilfe“ reicht mit der Leiter-Größe 3 px weiter; die Querlauf-Probe misst ihn mit */
-      .tb-schliessen { min-width: 44px; padding-left: 10px; padding-right: 10px; }
+      .tb-schliessen, .tb-drucken { min-width: 44px; padding-left: 10px; padding-right: 10px; }
+      .tb-drucken .tb-knopf-text { display: none; }   /* M-1: der Name steht im aria-label des Knopfs; ein verborgener Text liefe in Schließen hinein */
+      .tb-drucken .tb-knopf-zeichen { display: inline-flex; align-items: center; line-height: 1; }
       .tb-schliessen .tb-knopf-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
       .tb-schliessen .tb-knopf-zeichen { display: inline; font-size: var(--fs-role-abschnitt); line-height: 1; }
     }
-    @media (max-width: 379px) {
+    /* M-1 (22.11.2026): mit dem dritten Knopf (Drucken) steht der Link schon unter 600 px unter dem Titel, sonst läuft der Titel in ihn. */
+    @media (max-width: 599px) {
       .topbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 2px; align-items: center; }
       .tb-titel { grid-column: 1; grid-row: 1; }
       .tb-marke-link { grid-column: 1; grid-row: 2; justify-self: start; }
       .tb-aktionen { grid-column: 2; grid-row: 1 / span 2; }
+    }
+    @media (max-width: 379px) {
       .tb-hilfe { min-width: 44px; padding-left: 10px; padding-right: 10px; }
       .tb-hilfe .tb-knopf-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
       .tb-hilfe .tb-knopf-zeichen { display: inline; font-size: var(--fs-role-gruppe); font-weight: 700; line-height: 1; }
@@ -483,12 +496,37 @@
     .notfall-stand { font-size: var(--fs-role-hilfe); color: var(--leer); }
     .herkunftsort { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--linie); color: var(--tinte-weich); font-size: var(--fs-role-hilfe); }
     .herkunftsort p { margin: 0 0 4px; }
+    .lese-fassung { margin: 4px 0 0; color: var(--tinte-weich); font-size: var(--fs-role-hilfe); }
+    .herkunftsort a { color: var(--akzent); text-underline-offset: 2px; }   /* Impressum, Datenschutz: Farbe des Produkts statt Browser-Blau (22.11.2026) */
     .hinweis-box { background: var(--flaeche-warm); border: 1px solid var(--linie); border-radius: 10px; padding: 14px 16px; color: var(--tinte-weich); }
 
+    /* M-1: aufs Blatt kommen die Angaben, nicht die Bedienung. Im vollen Depot alle Bereiche (#druck-inhalt), je Bereich eine neue Seite. */
+    #druck-inhalt { display: none; }
+    @media print {
+      .topbar, .sprunglink, .sidebar, .nav-menue-knopf, #hilfe-ansicht, .btn, .sprach-umschalter { display: none !important; }
+      body, .content, .shell-body { background: var(--flaeche) !important; }   /* --flaeche ist in der Lese-App immer weiß (keine Nacht-Ebene) */
+      .shell-body { display: block; }
+      body.druck-alle #content { display: none; }
+      body.druck-alle #druck-inhalt { display: block; }
+      .druck-bereich + .druck-bereich { break-before: page; }
+      a { color: inherit; }
+    }
+    /* H-1: der Rückweg aus der Hilfe steht über den Hilfetexten. */
+    .hilfe-zurueck { margin: 0 0 16px; color: var(--tinte); border-color: var(--tinte-weich); }   /* ein Rückweg, keine Meldung: neutral, auch in der Notfall-Sicht */
+    /* H-2: am Rechner keine Rolle; am Handy der Knopf vor dem Menü der Bereiche. */
+    .nav-menue-knopf { display: none; }
     @media (max-width: 720px) {
       .shell-body { flex-direction: column; }
-      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--linie); display: flex; flex-wrap: wrap; gap: 4px; }
-      .nav-item { width: auto; }
+      .nav-menue-knopf {
+        display: flex; align-items: center; gap: 8px; width: 100%; min-height: 48px; padding: 10px 16px; font: inherit; text-align: left;
+        background: var(--flaeche); color: var(--tinte); border: none; border-bottom: 1px solid var(--linie); cursor: pointer;
+      }
+      .nav-menue-label { color: var(--tinte-weich); font-size: var(--fs-role-hilfe); }
+      .nav-menue-titel { font-weight: 600; color: var(--akzent); flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+      .nav-menue-knopf[aria-expanded="true"] .nav-menue-pfeil { transform: rotate(180deg); }
+      .sidebar { display: none; width: 100%; border-right: none; border-bottom: 1px solid var(--linie); }
+      .sidebar.offen { display: block; }
+      .nav-item { width: 100%; }
       .feld-zeile { flex-direction: column; gap: 2px; }
       .feld-label { flex-basis: auto; }
     }
@@ -1759,8 +1797,12 @@ const _STRINGS_EINGEBAUT = ({
   // Hilfe für die Empfängerin (20.09.2026, Auftrag „Hilfe in der Datei") — nur die vier
   // Fragen; die Antworten liefert die Redaktion, s. Kommentar an HILFE_LESEN_FRAGEN.
   hilfeEmpfaengerinTitel: 'Hilfe',
+  // H-1/H-2 (22.11.2026): Rückweg aus der Hilfe; am Handy das Menü der Bereiche.
+  hilfeZurueck: 'Zurück zu den Angaben',
+  navMenueBereich: 'Bereich',
   herkunftUrheberin: 'Urheberin',
   herkunftLizenzLabel: 'Lizenz',
+  herkunftFassung: 'Fassung {fassung} vom {datum}',
   herkunftImpressumLink: 'Impressum',
   herkunftDatenschutzLink: 'Datenschutzerklärung',
   hilfeEmpfaengerinFrage_wasIstDas: 'Was ist das?',
@@ -1780,18 +1822,24 @@ const _STRINGS_EINGEBAUT = ({
     'Sie liest nur — sie speichert nichts, schickt nichts ins Netz und verändert die Daten nicht. Alles bleibt in diesem Browser-Fenster.',
     'Wenn Sie das Fenster schließen oder die Seite neu laden, ist alles wieder weg. Beim nächsten Mal stellen Sie die Datei oder den QR-Code einfach erneut bereit.',
   ],
-  wegDatei: '.vivodepot-Datei öffnen',
-  wegDateiHint: 'Eine zugesandte Depot-Datei vom Gerät auswählen.',
-  wegEinfuegen: 'QR-Text einfügen',
-  wegEinfuegenHint: 'Einen kopierten QR-Inhalt aus der Zwischenablage einfügen.',
+  wegDatei: 'Datei öffnen',
+  wegDateiHint: 'Eine Datei auswählen, die Ihnen geschickt wurde (Endung .vivodepot).',
+  wegEinfuegen: 'Link oder QR-Inhalt einfügen',
+  wegEinfuegenHint: 'Wenn Sie einen Freigabe-Link oder den Inhalt eines QR-Codes kopiert haben, fügen Sie ihn hier ein.',
   // Passwort
   pwTitel: 'Passwort eingeben',
-  pwHintVoll: 'Diese Datei ist verschlüsselt. Bitte geben Sie das Passwort ein, das Ihnen genannt wurde.',
-  pwHintSub: 'Dies ist ein übergebenes Sub-Depot. Bitte geben Sie das gesonderte Passwort dieses Depots ein.',
+  pwHintVoll: 'Diese Datei ist verschlüsselt. Bitte geben Sie das Passwort ein, das Ihnen genannt wurde. Ist es Ihre eigene Datei, gilt Ihr eigenes Passwort; mit dem Wiederherstellungs-Code öffnen Sie sie in der Anwendung, in der Sie sie angelegt haben.',
+  pwHintSub: 'Diese Datei enthält einen Ausschnitt aus einem Depot. Bitte geben Sie das Passwort ein, das Ihnen dafür genannt wurde.',
   pwPlaceholder: 'Passwort',
   pwOeffnen: 'Öffnen',
-  pwFalsch: 'Das Passwort passt nicht — bitte erneut versuchen.',
-  fachAbgelaufen: 'Dieses Fach galt bis {datum} und ist abgelaufen. Die App öffnet es nicht mehr. Wenden Sie sich an die Person, der das Depot gehört.',
+  pwFalsch: 'Das Passwort stimmt nicht.',   // ein Wortlaut wie in der Anwendung (entsperrPasswortFalsch), Durchgang 24.11.2026 O4
+  // H-3 (22.11.2026): eine beschädigte Datei ist kein falsches Passwort; nach drei Fehlversuchen der Hinweis auf eine neue Datei.
+  dateiBeschaedigt: 'Die Datei ist unvollständig oder beschädigt. Am Passwort liegt es nicht. Bitten Sie die Person, Ihnen die Datei noch einmal zu schicken.',
+  pwFalschWiederholt: 'Das Passwort stimmt nicht. Wenn Sie sicher sind, dass es stimmt, kann auch die Datei beschädigt sein: Bitten Sie dann um eine neue.',
+  // M-5 (22.11.2026): Beschriftung des Passwortfelds und Schalter zum Anzeigen.
+  pwFeldLabel: 'Passwort',
+  pwAnzeigen: 'Passwort anzeigen',
+  fachAbgelaufen: 'Ihr Zugang zu diesen Angaben galt bis {datum} und ist abgelaufen. Die App öffnet ihn nicht mehr. Wenden Sie sich an die Person, der das Depot gehört.',
   // QR-Übergabe (b16-Wiedereinbau, 24.08.2026)
   kreiseQrEmpfangHint: 'Jemand hat Ihnen einen QR-Code gegeben. Bitte geben Sie das Passwort ein, das Sie dazu erhalten haben.',
   kreiseQrAbgelaufen: 'Dieser QR-Code ist abgelaufen — bitten Sie die Person, einen neuen zu erzeugen.',
@@ -1842,11 +1890,16 @@ const _STRINGS_EINGEBAUT = ({
   subBannerNach: '',
   // Session
   schliessen: 'Schließen',
+  // M-1 (22.11.2026)
+  drucken: 'Drucken',
+  druckenTitel: 'Drucken oder als PDF sichern',
   schliessenHinweis: 'Diese Sicht ist beendet. Beim nächsten Mal müssen Sie die Datei oder den QR-Code erneut bereitstellen.',
+  // N-3 (22.11.2026): der Knopf nach dem Schließen führt zum Anfang, nicht zurück zur Datei.
+  neuOeffnen: 'Neu öffnen',
   zurueck: 'Zurück',
   // QR
   qrTeilFortschritt: 'Teil {i} von {n} eingelesen ({empfangen} von {n} da). Es fehlen noch: Teil {liste}.',
-  qrUnlesbar: 'Dieser QR-Inhalt konnte nicht gelesen werden.',
+  qrUnlesbar: 'Dieser Inhalt konnte nicht gelesen werden. Prüfen Sie, ob er vollständig kopiert ist, oder bitten Sie um einen neuen QR-Code.',
   qrEinfuegenPlaceholder: 'QR-Inhalt hier einfügen …',
   // QR-Selbstauskunft-Sichten (U2-ADR-082): PDF-Selbstverifikation + Bereich-Export
   qrPdfTitel: 'Maschinenlesbare Selbst-Verifikation',
@@ -1951,7 +2004,7 @@ const _STRINGS_EINGEBAUT = ({
   anlassVertretungGrundlage: 'Grundlage der Vertretung: {grundlage}.',
   anlassOhneVertretung: 'Herausgegeben von der Person selbst, ohne Vertretung.',
   // Kamera (Kette, Auftrag 8 — Wiederaufnahme, s. U2-ADR-085 §5 Entscheidung 3)
-  wegKamera: 'QR mit der Kamera lesen',
+  wegKamera: 'QR-Code mit der Kamera lesen',
   wegKameraHint: 'Den QR-Code am Bildschirm oder auf Papier abscannen — mehrteilige Serien werden zusammengesetzt.',
   kameraTitel: 'QR-Code scannen',
   kameraStarten: 'Kamera einschalten',
@@ -1960,8 +2013,8 @@ const _STRINGS_EINGEBAUT = ({
   kameraAbgelehnt: 'Der Zugriff auf die Kamera wurde nicht erlaubt. Bitte den QR-Inhalt einfügen.',
   kameraSucht: 'Halten Sie den QR-Code in den Rahmen …',
   // Fehler
-  dateiUnlesbar: 'Diese Datei konnte nicht gelesen werden.',
-  formatUnbekannt: 'Dieses Format wird nicht erkannt. Erwartet wird eine .vivodepot-Datei, ein Sub-Depot-Export oder ein Vivodepot-JSON.',
+  dateiUnlesbar: 'Diese Datei konnte nicht gelesen werden. Bitten Sie die Person, Ihnen die Datei noch einmal zu schicken. Erwartet wird eine Depot-Datei, meist mit der Endung .vivodepot.',
+  formatUnbekannt: 'Diese Datei kann hier nicht geöffnet werden. Bitten Sie die Person, die sie Ihnen geschickt hat, um die Datei aus ihrem Depot.',
   /* A318 Zug 2 — vier Zustaende, vier Saetze. „Nicht pruefbar" sagt ausdruecklich, dass
      das kein Fehler ist: der Eintrag stammt aus einer Zeit, in der der Beleg nicht
      mitgereist ist. Ohne diesen Halbsatz laese sich das Fehlen wie ein Verdacht. */
@@ -2488,8 +2541,8 @@ const SCHUTZ_SCHLUESSEL_LESEN = new Set([
 /* REZEPT-FINGERABDRUECKE-LESEN:BEGIN — generierter Bereich (tools/rezept-fingerabdruecke-erheben.js) */
 const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
-  "sha256:0869e6b6d2d302ba96b472d4432833e9e35306c8f050d63c90cdcd77b0408f49",
   "sha256:0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
+  "sha256:15c94ff2d02c6ddbce4d6d20a76fc06f7e961b8d274572dea23add6eec28e267",
   "sha256:1ad49abb589a47188f7986fa0f3308ba7ecd706327edd0c19f623ad0a4bcce7d",
   "sha256:1c8d8e8c2194f7fa43ecec269f62a2cc244d5e8a99debc9e3680fc67e98909f7",
   "sha256:1dd621218f4bce47d4d862cee94ba9fcca13602ef554361edb42ee42662f8b67",
@@ -2501,13 +2554,15 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:32f54ea0c25858b321b3f18230ed957f47a2316d86c9827bf80921e5c48b3655",
   "sha256:334d2de2ac42ed5d410d226d0560af85d81e1c84c7ccfab9b8234ed7429949c2",
   "sha256:3366e7bd707b2fcc8f731d6d09fe373bedf261423696288789334fe5a014ba6d",
+  "sha256:34ef2b44d75dd86f7876970c608201ae94d26f0f7954ec8c199ce794255fd87c",
+  "sha256:377192d60e36cb9e588650306ac76c140c851491778fe90d1775a9b8abdf2f6e",
   "sha256:3960dffa66540a22223438375f128b4ded55d80f929ece1b0b2c8a3481260f60",
   "sha256:397a6120f3bf79d74c6130ce12d9d76c29aaf6e6b0b447cc1f631e67a0d6d6d9",
-  "sha256:3e67e694e4e2594339e0adb345b0c0d4ac2aff3956c446e7f0aa3dede914b2c7",
   "sha256:40e63823efbdc60a36623281dd79c87de245e94ffc9f94c9eb5d35a11444bfe7",
   "sha256:41cbca8339f3b44cb50cebd9f84835835a48cfd457827be9fd30f7779b436d09",
   "sha256:4d310b9b93132f9a93aa47ade4c345c85bb23b501c72e18f2b4fd3705c86dca1",
   "sha256:4d88a0fe356eb1d9a3f6c8dd9174008b4305bfb5ea611a4ce4b073941c24d9ac",
+  "sha256:5095ff48bdefa3c636cbebcb96eda1a6e5c918005a7586d7ed27b859766f2349",
   "sha256:50f71cf337fbe76f23ede0db4afb79ef215fe3170b3bc244cb8dcc1f7d012255",
   "sha256:5159d5034025b359f9c82c35934b0d10f17afd56af6fe4e1962925323bc1ea48",
   "sha256:5c804d4d8514dd89a7bc00cdea8937b713c63f7742fbe54f59b2576695942643",
@@ -2520,11 +2575,11 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:70d8b2765d51d42136e99e8317e7bede9066e360fae269f88004cd0b97bf8637",
   "sha256:715144c7004d89259c0fe5aa5e8437e5291e5ab05fc47d9ba18df0b49906c7ee",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
-  "sha256:73f8b52b54c16a74fc12e3ea2a9f2b4f979827ccda13262d4caebfa3bbd4ae14",
   "sha256:7426376f23ad361f22ae8e608de10b2d9254e6042e4fe91d86d17b7e8bc67851",
   "sha256:74cdaf31ec607f1a13525007c4eb41275890fed4dfe0baf46e764ecba761361c",
   "sha256:74d73afbf44e4bd20ce7ba4ee272e8d729b80d422e5b047bcec57444dce07687",
   "sha256:78dd73aa9315f9c51525c076ea6d636639e105d0fe0472312be9765d17d68c4d",
+  "sha256:7e85da5191dc2d99e668f229ef13ad181eaad63b5b0a51ad99d7d94db3d97529",
   "sha256:8211701bc1860c8baddf1258e90aa5e4e450e5adf15073df60c0188db4326055",
   "sha256:844ca961fa17295314eee71b0345e7808c0366b080fde492096d6a5503efe7de",
   "sha256:89dfce37d07521635653ff6e7b4eec1768bf7b73fcb464199669d6b5c0e124ef",
@@ -2537,17 +2592,16 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:a349e68d1d95c99b7f4d8813cc22470fb1d6716a8175ac5c8f7c0647966a6b54",
   "sha256:a951b0806a9cf23853d881ef35313ccb235a0ba6835208747cb9917cf3c564e8",
   "sha256:a9c6651539e2c09511238c2b20fa61ff8d48aa90f51bdb638af78c268faab6f6",
-  "sha256:a9ddf60d9a96c995c7dcab80b8c6665f370bee393d8fe520d0c5f61ae95d9d62",
   "sha256:ab292947bc894cacfe2a96e06928310b7b2634ea69f084a00f55ddcb5cbd5cf2",
-  "sha256:b0e18dbefcffe3e2499f4f12c0e24607eaa3c76eb61cb2fb917d574cd88ff436",
   "sha256:b1362ad8433c6f09e10f76a769612150fbe30dd3df4bbc15fb6e3b88a9fe5766",
   "sha256:b46c509fe0ac6648db1b4f7f327d6fea27c1e9925aefee61ea0812f836fc244d",
   "sha256:b5ec2155432f27038a809aba1d7a0fcfc583c51378429b5268fbf6ccc98ea155",
   "sha256:b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
   "sha256:baa7cf789d7d6dc3fc09dd7728181176a890ff3dcf4c392a6a3479c6fe02044a",
+  "sha256:bdf413b1d19f5914cf38849bb2bd736d27ffac7b34758ed24eda32b5f351c641",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
-  "sha256:c7dd77dec5ba8bbd0eb0c9763c98b004976712e793ea7b64451a6b1ec6342c97",
   "sha256:c9f1cb98037bb14ff641a1c80f9cd03218da1edcb76ff8601ca76fe2a932c742",
+  "sha256:ca218227b5450cc7c2e558c0464f9dacc8f7c280cbbf347dd50f0dd0e4663bb1",
   "sha256:cb8b8da4abaa8dca4639eb06fbc6533f1b5ed620fa941ad28ce88e9ea5147761",
   "sha256:ceb89d099b169a98f797046a5622056acde936288a26742d7f68c9760b193622",
   "sha256:cf1df31b293f8c2053b9b42f9faee0d8c86a3c71bb4e86221405febc78d183b2",
@@ -2555,7 +2609,6 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
   "sha256:e7ac4b0150ee13955fb75c14c58b4a545525ccf378fc1dd81ee1d3c02f013268",
   "sha256:ec6ae8647832bdaefd9ac4bb590dc908e2d2b04b55991cb6cead9d00f92a7815",
-  "sha256:ed5eb4637f2592e334efc9a2c3a8f5ca9cf8111d1659317fd68a221c6d044d93",
   "sha256:ed8b5d783e7ec6786d0553f14b94ae27249fc214efa20f8b4c7c25fdb1f29fba",
   "sha256:f320d12207311cd455f45f48b4aae1ea0689c80adfdec6b5a91027bf3fff9ac1",
   "sha256:feb419a2bf7efa68348d922c4748978e5649c22d93888305b6d9139247a3e69b"
@@ -2570,6 +2623,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
   "sha256:07863b2944d284c9dbe6b8aca7fd5beb7aeb76e7783b8730a326439876917587",
   "sha256:0854de108702f55143e767e17b07713018d935e0eb389d4ede51363e3b69a735",
+  "sha256:0869e6b6d2d302ba96b472d4432833e9e35306c8f050d63c90cdcd77b0408f49",
   "sha256:0994ec3d41a8518a2bc4c7e774d48595331b45bfa5e7b9ad55eeab0ed69102d9",
   "sha256:0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
   "sha256:0b9572843514cd731adac27a49d8d25263ade83e80a5655c9ad620c0ace4dd4e",
@@ -2638,6 +2692,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:3c5325d8c30b9dc9574a1aeae9cd4dad77eea1aa12e0ff9c64781f5b0769818e",
   "sha256:3c907297290cc839456ffd577d74afd7321fa69efe72365da7c07cb8852fa297",
   "sha256:3d19a7701ecd07ac817a918c529c697c83a9d38722362a193888752258d7d51b",
+  "sha256:3e67e694e4e2594339e0adb345b0c0d4ac2aff3956c446e7f0aa3dede914b2c7",
   "sha256:3eed17fea7b823887d4fc68b69b57417da1ccb278a216fc0a4d58a4387217a12",
   "sha256:40d6640ae3ec9c3a888198497cbb073868cbc58c4abf75bc8b4a02c0833056e2",
   "sha256:40e63823efbdc60a36623281dd79c87de245e94ffc9f94c9eb5d35a11444bfe7",
@@ -2711,6 +2766,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:72dfa91887fdf70e5b33eefb0c5532e508d95bf9cd2a667b6a4bb37a3b483557",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
   "sha256:7369c899e58e72f31208e3a85a93fe274a123b0e2cba0b1b099d5caa6c10b632",
+  "sha256:73f8b52b54c16a74fc12e3ea2a9f2b4f979827ccda13262d4caebfa3bbd4ae14",
   "sha256:7426376f23ad361f22ae8e608de10b2d9254e6042e4fe91d86d17b7e8bc67851",
   "sha256:74cdaf31ec607f1a13525007c4eb41275890fed4dfe0baf46e764ecba761361c",
   "sha256:74d73afbf44e4bd20ce7ba4ee272e8d729b80d422e5b047bcec57444dce07687",
@@ -2793,6 +2849,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:a951b0806a9cf23853d881ef35313ccb235a0ba6835208747cb9917cf3c564e8",
   "sha256:a964776a0f314495aeb1f46a572b7a9dcf7abce3ae6d36791522fdce6e41f4b1",
   "sha256:a9c6651539e2c09511238c2b20fa61ff8d48aa90f51bdb638af78c268faab6f6",
+  "sha256:a9ddf60d9a96c995c7dcab80b8c6665f370bee393d8fe520d0c5f61ae95d9d62",
   "sha256:aa1b06a5ff8bb190465c1912508b5af5518aec11aabe76b95177338d1357d8ce",
   "sha256:aaf892965e67be91f577b21df186e08bed4a45f43c71afca41dbdbb958cef857",
   "sha256:ab292947bc894cacfe2a96e06928310b7b2634ea69f084a00f55ddcb5cbd5cf2",
@@ -2801,6 +2858,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:ae8feaaef9a97730b66b098c74df82e676288e3877707e07b87a92ab5935ecf0",
   "sha256:b04197f831258e1ba50d2c0e44da67f3a2eddd8934f6da49851689c8c67e2a67",
   "sha256:b08586085d22ecdf3b18c95841655e1c3db526b7736a5665988f5e1aab7e2b83",
+  "sha256:b0e18dbefcffe3e2499f4f12c0e24607eaa3c76eb61cb2fb917d574cd88ff436",
   "sha256:b1362ad8433c6f09e10f76a769612150fbe30dd3df4bbc15fb6e3b88a9fe5766",
   "sha256:b23f7daba56a3ca8c6fc73c932c3c4532e56052ff84b0378b39f9d8efe513a88",
   "sha256:b3272b33c227cd48c446f98f177cd72ff0c2693184f9199ef513fe949c7b9b0a",
@@ -2826,6 +2884,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:c2baef635b4a847b19b36105cd576fe8ebc1934aed27d4132644f72d601051c0",
   "sha256:c65b1e49717830345ebc6f4d865e4e498e430cb2640b57093a5f9914626c4998",
   "sha256:c7480022eeaa10f9a0c9bfaa19d81132a8c7665f57759d858892027a859b5aed",
+  "sha256:c7dd77dec5ba8bbd0eb0c9763c98b004976712e793ea7b64451a6b1ec6342c97",
   "sha256:c9a008c4699827452c1c5e395c0b38efd8db44bdc0657ea9283ec1493eb03baa",
   "sha256:c9cec5ef5844c6434399c4699fdac97c7c41501a692920f80f5092de20dbf454",
   "sha256:c9f1cb98037bb14ff641a1c80f9cd03218da1edcb76ff8601ca76fe2a932c742",
@@ -2869,6 +2928,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:ec0979eca20bdf2ec93fef2208281c1beb1a956b5bc78d61dddc2e6a2909bfd8",
   "sha256:ec6ae8647832bdaefd9ac4bb590dc908e2d2b04b55991cb6cead9d00f92a7815",
   "sha256:ec9c03c30e230dc1b5ed3ce16dbbe70ff693364f8bb4e88e8e4c42d899f01bf3",
+  "sha256:ed5eb4637f2592e334efc9a2c3a8f5ca9cf8111d1659317fd68a221c6d044d93",
   "sha256:ed8b5d783e7ec6786d0553f14b94ae27249fc214efa20f8b4c7c25fdb1f29fba",
   "sha256:eda559dab476d53a6d18ef7b54b9266f2b096b58b3320484ea3e4012a6c689fa",
   "sha256:edd96c672d07e1f99890c7e8571133011330ee6a6d3b5084e1ea66a3a4363101",
@@ -4060,6 +4120,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:336c2338152b91a5f31c19fac25078a006092af38d9b978683f24369843c1c31",
   "sha256:3392f5d83a8ff71b07782f869ed56b8627c7848f1355644a2f17ecae6857c143",
   "sha256:3396c03ff260b94a8b61b121632b9f8f6cc936f12ebda79238407fb7e387f426",
+  "sha256:33a09161e7847fac560822320b861176d6ac896ac9aebc7e5e6295de4d2d45ec",
   "sha256:33a0f4412ca6cedcdf19eb2ae21a4631818f71522e107de6a8fa891e0787ec03",
   "sha256:33a17eb5e52a1ee81ff017682168feed12d3c34d9ecf27113d610275f1ac9f68",
   "sha256:33a36bc5a786d3e1ca9f65e1591f7ef0a958dac187f40880ed0bd8cbdfe13cf2",
@@ -4362,6 +4423,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:4179341306fbcd68bf2ae3785dea172659fecf9cf563627201b7ca0c4e73b148",
   "sha256:417f13d2c60e2a1a9351f27497204c071884f4a122f0e1b253ee1a6c5a5b886c",
   "sha256:41831bb2e0aa4c35fe2ad0c096baa485ad08552a0532f8ea78a76dc4a980e24c",
+  "sha256:418e847c2ee50842a656758ef92225e9c10c12f83b50d8713216b2223a730d66",
   "sha256:41946890262cd1c81cda460106bd429ded9eb56300ebd88e22a7ebf9446eefa8",
   "sha256:4194bbde141bc3e4000d24c3e12731c25afaca5794c5a085bb3c4426f338a323",
   "sha256:4199e7a10796f5fa6d831c22a90fe07dc6685642fe078b87306e0aef25d35559",
@@ -4423,6 +4485,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:43fa937e92b8a49759007b85709b647396d8788fa4b2b71e7821ee08aeecb410",
   "sha256:442be2e20fcb5391d395b0bc60768abe71696858af2a437d6d72bf9abce00b61",
   "sha256:443562e06d3786f6410ea68c509e26b817a1dfa7fedc8e3a32af3951f5006f69",
+  "sha256:443b33791b14ac9203ab4ccdc5674616cf4cfa284c6b9e895c639e38d0dd7b25",
   "sha256:446836d3a9e3ed796002e5c3ebf14273d836256a01ac519d6bb91f3eee199ea0",
   "sha256:4485dd7c2a5d56415c9871e6ef100ec246c6da1467c385bbfb2f26d46ab1e4c2",
   "sha256:44863c8819fc6523e790b51f3060db6c3b56837c320dcd14bf364952ab78952c",
@@ -5262,6 +5325,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:6e3b750f9d10476b36abbfd77cc56f981ad1b656a74d134678eac1d0128a7d83",
   "sha256:6e48cf67ca5ab1ceddd72709de9535189520e4c4b89086e69ed5045c9fcbd4a5",
   "sha256:6e4a4eee745e0b798dec314ee78ab1a469292c6ad5dbb69b9be98aeff026d2e2",
+  "sha256:6e580fce63f403b56cea13d29b14ec93848b6d2c3ceb47c7b4894b9b198e82e7",
   "sha256:6e66ea1f590a94f32e31f5e9a1683f48d9e4cb72bac7d99090ace3f1e9dddd55",
   "sha256:6e8818b23dc747014d2212e2cf602aeb44a6ca41e638752890df5f8fe17f17dc",
   "sha256:6ea18a19595cc14fb9bc8d15d6b330dac90f820c893cc2818acc01ba6b5acb83",
@@ -5715,6 +5779,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:84705118af435b4a7f8e73c519aaf315ed74847130caab9616d4244626b36e57",
   "sha256:848e93407675dc97f8153dd86e500b7d163da9579cf4298ffd09cde7aff973e2",
   "sha256:8490f3505542c7e7fdfcc6ff2477c9e1ac1b96c62bc27b30a113ae99484b8d42",
+  "sha256:849b3f78628c3d7b6b8e36f366b2c9b29763f01795475d23bfef4a45fe7a6247",
   "sha256:849e3b151dd6afc16015287e9ad74470421612d2825f2848bbef948663c8fa50",
   "sha256:84aeabed31d0e1df45ce720d530e4bedd7b63084786c9738fe79aa85b33f99ab",
   "sha256:84baf22b6a745c981e4840030f44431f8cbbfe89a13e34a9c8bda2be352f37c4",
@@ -6329,6 +6394,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:a39a5c007313d11e46a3cb77ddfe5155b83203bb4ca5ce2de146e6a7629f26f5",
   "sha256:a39e47824cb7ae5fe74878090fe5f3096a4a1f20f14c6bdc9d7b515d2be9b25e",
   "sha256:a3a5912d2e015695e6c6ac65b4cec9db3b4d32fc513dfdc927fd3420adb6eba6",
+  "sha256:a3a95876af52f787bed8df0b4945439af25bcda7de86c6125e7ece4dbcd2e194",
   "sha256:a3a97f497ed5d679353624c919a4c20eab595c913702a13b4831a04d61c4ee32",
   "sha256:a3b26904c07cd18c412f48b69da53d99bc1bd3f23fb38e8f70cff23a2c68067d",
   "sha256:a3bcecd96ded657f7da5a9b82de84fb810f45ca9432ad4ce22ea8f72531abb00",
@@ -6407,6 +6473,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:a71c62b613b0a1c9d3e155a15da003293ff1869f69fd27a956ad52b5842ab03e",
   "sha256:a725c3c853a4dc8db26f850f9322dd9de7dfa2518e6d89b7f8d9bfd17274364c",
   "sha256:a72aecf44060b31d2549e5d6a2d6b87a8abca2c0cc5aaa06bc3a056beafb1f3a",
+  "sha256:a7305e42c8dd4a292606f85707cc65fe9274cc575578a83d980d5ce87b8a6a25",
   "sha256:a746a738472acd4f122a89868b44a11d9223cbdcbcd4c4523406f795581fa60b",
   "sha256:a7547cc967db29b7f32496ea1207d81b6e293b4ec544da8138d9aab159cde432",
   "sha256:a75a71d1f7a698f803e1a6bb727329ae1cecf46bcfa10f0224bd8ae09cea3c53",
@@ -6904,6 +6971,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:be535dae501ef464c83fdfc9a3f1b3a1088da08f959630d92e74a18b68a4acdd",
   "sha256:be6322b4baf8a083d8df54da49e8b9b3282cc92b77f67b6779a076fd1b3a2288",
   "sha256:be77de81667b862a3a903dab84f0dcccefc17b32ba1198b3231b13dac3dbea5c",
+  "sha256:be8bebcd4ed03be291c3b76b320a28fe184d8990008cb8aee260279776355770",
   "sha256:be9374fefd2e5cd20afaef9464b706f2c2f9dce668ebeff0c073d52a4b57bc76",
   "sha256:bea1153d180bc839f26e54172b2b433fe7be24007baf5c71cf3bb33784accbc8",
   "sha256:bea448b98db9951fc1bdf872678c3c1e83e438dcfc630f3b7441bbdcfa8b077b",
@@ -7075,6 +7143,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:c7386a059869f3cbded565a28db13699a183e1f14d010a5a8379af75f55bb6fe",
   "sha256:c74bb9f0de7cbf9b1d2518246cf0b47dd21978233b74de1b6ad2594b6d7cdceb",
   "sha256:c78103c963b53aea1ad00bf136c294df84d9bda5d3127e7800d9c75e63ddaa7a",
+  "sha256:c78422b8410f9dd2fb66a9029d384f9f32a4116fe456aac9e0e4f273e2f6327f",
   "sha256:c7950d83d950b16074fc81f8d645f0f8df07ac9eb4711d2686eaf3bb5c4fdcc5",
   "sha256:c7a9eb5f77cc6a2019a18314bde58fd42f1de5c159a55ec8b87ff687d69f89d0",
   "sha256:c7e6201d49838cab6400b846728bf34eda5139eaa5b2b81e8ba3acdfb0df11f7",
@@ -7130,6 +7199,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:cad23e5e359275bb65d8aea9e3a358d060a87e88da8165f75cd404096d1b9a3f",
   "sha256:cae5d7c834a1983ef9542006f51420b079e2333edb330739ce8250647f813172",
   "sha256:cafee559ba49bafcd7286c83f6873db82335c0d0769a2790d941f6606567816f",
+  "sha256:cb07871e11bbbcd238c918a65f0d35fe24a9df4e94a44980636ab1c682695671",
   "sha256:cb0f126a41d13c41ce1c60c1b9c858e675e49b28654ee3008fb8c3ab16e5b47e",
   "sha256:cb14d93d00d03393c9e2ccba6102de986d8d97c418c74160c40fc06e6bb816c7",
   "sha256:cb166ce569e0ecd2179952a078d251ef6380fbb7db5a3f98ca6536832affd062",
@@ -7254,6 +7324,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:d1ad1576093784a8c36a766b506a6ba95e9942baf42f74f11f00325e97f28026",
   "sha256:d1aeab20d65a03984d5551df0d63d7ff96c3c7078764a5d09e4e43b1586f1bd5",
   "sha256:d1b318b139c9ab84a5dd7d2793a9d66420a2ff8a90656548d1965f07d99e042c",
+  "sha256:d1b4adf453067ff5485273b5f474e4c37fab6f0110a9fe2f28fd63f6db21b0e8",
   "sha256:d1c2a674db97dd6dc8225ddf5e608a06aea52409a82225760d376137d2aa6fc7",
   "sha256:d1cfffd98c6e2da4e94078fe0c9a6b0f8de04f93b00a089ac3b344d3ff7fb492",
   "sha256:d1dc23edc751673048a8e6c54ea8e099addfc2bf8c1788968d4aa41094831959",
@@ -7723,6 +7794,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
   "sha256:e8209ab5ae2ec396b5d0a2cdccfd03d26e3f11e33419fcfe1abcf484f1b98fdc",
   "sha256:e83c42bf4eec948901c44d3bef74d5d9412caca8037b1771bad821db3a286b2e",
   "sha256:e85366229397800e26c70a6ca0d21a46490e27040d7263de687776c2804cbd3c",
+  "sha256:e8537d65b36dd12f41a5432944a344ff338928a7b465fee436717f4da93d228c",
   "sha256:e85ce26f39e950f40bb00b156de49a5b7431399d86389238c873ed8a21676881",
   "sha256:e85d416de9c7b70e3616577347bc494c827c89bad8849450c832072a1eed19c4",
   "sha256:e872c15c5e76f845f943eafa213e1033a22ebcfcf9fce51488c4e71107d2c7ea",
@@ -8410,8 +8482,11 @@ const LESE_TEXTE_EN = Object.freeze({
   modulWirkungLokalesModell: 'Points to an AI model stored on this device. The application does not ship the model and does not start it.',
   navAngehoerigenBlaetter: "Sheets for relatives",
   hilfeEmpfaengerinTitel: "Help",
+  hilfeZurueck: "Back to the information",
+  navMenueBereich: "Section",
   herkunftUrheberin: "Copyright holder",
   herkunftLizenzLabel: "Licence",
+  herkunftFassung: "Version {fassung} of {datum}",
   herkunftImpressumLink: "Legal notice",
   herkunftDatenschutzLink: "Privacy policy",
   hilfeEmpfaengerinFrage_wasIstDas: "What is this?",
@@ -8428,17 +8503,21 @@ const LESE_TEXTE_EN = Object.freeze({
   spracheUmschalter: "Language",
   topbarLesen: "Reader",
   welcomeEinfuehrung: ["This page shows you a Vivodepot that someone sent you or showed you as a QR code.", "It only reads — it stores nothing, sends nothing over the network and does not change the data. Everything stays in this browser window.", "If you close the window or reload the page, everything is gone. Next time, simply provide the file or the QR code again."],
-  wegDatei: "Open a .vivodepot file",
-  wegDateiHint: "Choose a depot file that was sent to you from your device.",
-  wegEinfuegen: "Paste QR text",
-  wegEinfuegenHint: "Paste copied QR content from the clipboard.",
+  wegDatei: "Open a file",
+  wegDateiHint: "Choose a file that was sent to you (ending .vivodepot).",
+  wegEinfuegen: "Paste a link or QR content",
+  wegEinfuegenHint: "If you copied a sharing link or the content of a QR code, paste it here.",
   pwTitel: "Enter password",
-  pwHintVoll: "This file is encrypted. Please enter the password you were given.",
-  pwHintSub: "This is a handed-over sub-depot. Please enter the separate password for this depot.",
+  pwHintVoll: "This file is encrypted. Please enter the password you were given. If it is your own file, your own password applies; with the recovery code you open it in the application where you created it.",
+  pwHintSub: "This file contains an excerpt from a depot. Please enter the password you were given for it.",
   pwPlaceholder: "Password",
   pwOeffnen: "Open",
-  pwFalsch: "That password does not match — please try again.",
-  fachAbgelaufen: "This compartment was valid until {datum} and has expired. The app no longer opens it. Please contact the person who owns the depot.",
+  pwFalsch: "That password isn't correct.",
+  dateiBeschaedigt: "The file is incomplete or damaged. The password is not the problem. Please ask the person to send you the file again.",
+  pwFalschWiederholt: "That password isn't correct. If you are sure it is right, the file may be damaged: please ask for a new one.",
+  pwFeldLabel: "Password",
+  pwAnzeigen: "Show password",
+  fachAbgelaufen: "Your access to this information was valid until {datum} and has expired. The app no longer opens it. Please contact the person who owns the depot.",
   kreiseQrEmpfangHint: "Someone has given you a QR code. Please enter the password you received with it.",
   kreiseQrAbgelaufen: "This QR code has expired — please ask the person to create a new one.",
   kreiseQrFassung: "This reader cannot open this QR code — please ask the person to create a new one.",
@@ -8459,10 +8538,13 @@ const LESE_TEXTE_EN = Object.freeze({
   subBannerVerwaltet: ", managed by ",
   subBannerNach: "",
   schliessen: "Close",
+  drucken: "Print",
+  druckenTitel: "Print or save as PDF",
   schliessenHinweis: "This view has ended. Next time you will need to provide the file or the QR code again.",
+  neuOeffnen: "Open again",
   zurueck: "Back",
   qrTeilFortschritt: "Part {i} of {n} read ({empfangen} of {n} received). Still missing: part {liste}.",
-  qrUnlesbar: "This QR content could not be read.",
+  qrUnlesbar: "This content could not be read. Check that it was copied completely, or ask for a new QR code.",
   qrEinfuegenPlaceholder: "Paste QR content here …",
   qrPdfTitel: "Machine-readable self-verification",
   qrBereichTitel: "Area as a QR code",
@@ -8550,7 +8632,7 @@ const LESE_TEXTE_EN = Object.freeze({
   anlassVertretung: "Released by {handelnd} on behalf of {fuer}.",
   anlassVertretungGrundlage: "Basis for the representation: {grundlage}.",
   anlassOhneVertretung: "Released by the person themselves, without representation.",
-  wegKamera: "Read QR with the camera",
+  wegKamera: "Read a QR code with the camera",
   wegKameraHint: "Scan the QR code on screen or on paper — multi-part series are assembled.",
   kameraTitel: "Scan QR code",
   kameraStarten: "Turn camera on",
@@ -8558,8 +8640,8 @@ const LESE_TEXTE_EN = Object.freeze({
   kameraKeinLeser: "This browser cannot read QR codes itself. Please paste the QR content.",
   kameraAbgelehnt: "Access to the camera was not allowed. Please paste the QR content.",
   kameraSucht: "Hold the QR code inside the frame …",
-  dateiUnlesbar: "This file could not be read.",
-  formatUnbekannt: "This format is not recognised. A .vivodepot file, a sub-depot export or a Vivodepot JSON is expected.",
+  dateiUnlesbar: "This file could not be read. Please ask the person to send you the file again. A depot file is expected, usually ending in .vivodepot.",
+  formatUnbekannt: "This file cannot be opened here. Please ask the person who sent it to you for the file from their depot.",
   // S1 (21.09.2026): bisher trug nur die Region AB_WERK_TEXTSATZ_EN diese Fassungen. Wortlaut aus tools/textsatz-en-modul.json, dem Kern-EN-Modul.
   angehoerigenGiltFuer: "Applies in: %s",
   angehoerigenUngeprueft: "Unverified template — the content of this sheet comes from a file whose origin is not verified.",
@@ -10857,7 +10939,11 @@ function moduleStandSatz(s) {
    Keine eigene Farbklasse: anders als Herkunft (geprüft/offen) trägt Stand keine binäre
    Trust-Unterscheidung, nur eine Tatsache — Farbe würde hier eine Wertung erfinden, die der
    Satz nicht macht (Auflage 5). */
+/* Ohne Erweiterung sagt der Herkunfts-Block schon alles („Diese Angaben stammen ganz aus … selbst. Es ist keine Erweiterung eingelassen.“); die Stand-Zeile entfällt nur in diesem
+   Fall (Durchgang als fremde Nutzerin, 24.11.2026, L4; wie im PDF-Fuß, Nachtrag U2-ADR-259 vom 02.11.2026). Fehlt die Stand-Angabe
+   ganz (geforkte Fassung), bleibt der eigene Satz dafür sichtbar. Probe: tests/meldungen-erster-weg.test.js. */
 function standBlockHTML(s) {
+  if (s && typeof s === 'object' && Number.isInteger(s.unbekannt) && !moduleStandAnzahl(s)) return '';
   return '<div class="stand-marke" id="stand-marke">' +
     '<strong>' + escapeHTML(STRINGS.standTitel) + '</strong> ' +
     escapeHTML(moduleStandSatz(s)) + '</div>';
@@ -10878,7 +10964,7 @@ const SEKTOREN = Object.freeze([
     "exporte": [
       {
         "format": "sd-jwt-vc-identitaet",
-        "label": "Angaben zur Person als Selbstauskunft (für Computer lesbar)"
+        "label": "Angaben zur Person als Selbstauskunft zum Einlesen in andere Programme"
       },
       {
         "format": "vcard-identitaet",
@@ -12256,7 +12342,7 @@ const SEKTOREN = Object.freeze([
     "exporte": [
       {
         "format": "sd-jwt-vc-finanzen",
-        "label": "Angaben zu Finanzen als Selbstauskunft (für Computer lesbar)"
+        "label": "Angaben zu Finanzen als Selbstauskunft zum Einlesen in andere Programme"
       }
     ],
     "wizards": [],
@@ -13364,7 +13450,7 @@ const SEKTOREN = Object.freeze([
     "exporte": [
       {
         "format": "bildungsangaben",
-        "label": "Angaben zu Bildung (für Computer lesbar)"
+        "label": "Angaben zu Bildung für Programme, die Bildungsnachweise lesen"
       }
     ],
     "sektionen": [
@@ -13714,7 +13800,7 @@ const SEKTOREN = Object.freeze([
     "exporte": [
       {
         "format": "sd-jwt-vc-sozialversicherung",
-        "label": "Angaben zur Sozialversicherung als Selbstauskunft (für Computer lesbar)"
+        "label": "Angaben zur Sozialversicherung als Selbstauskunft zum Einlesen in andere Programme"
       }
     ],
     "wizards": [
@@ -16376,11 +16462,11 @@ const SEKTOREN = Object.freeze([
     "exporte": [
       {
         "format": "xoev-verwaltung",
-        "label": "Angaben zu Verwaltung und Behörden (für Computer lesbar)"
+        "label": "Angaben zu Verwaltung und Behörden"
       },
       {
         "format": "fim-json",
-        "label": "Angaben für Behörden (für Computer lesbar)"
+        "label": "Angaben für Behörden"
       }
     ],
     "wizards": [
@@ -22673,18 +22759,62 @@ async function _mitNfcDannNfd(passwort, oeffne) {
     return oeffne(kanon);
   }
 }
-/* Kopie von pwWoerterKanon aus vivodepot.html (die Lese-App lädt den Kern nicht); die Probe
-   tests/passwort-trennzeichen-kanon.test.js verlangt, dass beide Körper gleich sind. */
+/* Kopie von pwWoerterKanon und _pwWoerterZerlegen aus vivodepot.html (die Lese-App lädt den Kern nicht); die Probe
+   tests/passwort-trennzeichen-kanon.test.js verlangt, dass die Körper gleich sind. Die Lese-App trägt keine Wortliste: ohne
+   Trenner getippte Wörter gelten hier nicht als Wörter (null), mit Trennern öffnen sie wie im Kern. */
 const PW_VORSCHLAG_WOERTER = 6;
-function pwWoerterKanon(eingabe) {
+function passwortWortliste() { return []; }
+function pwWoerterKanon(eingabe, liste) {
   const teile = String(eingabe == null ? '' : eingabe).trim().split(/[\s\-_.,;/]+/).filter(Boolean);
+  if (teile.length === 1) return _pwWoerterZerlegen(teile[0], liste);   // PASSWORT-OHNE-TRENNER: aneinander getippt
   if (teile.length !== PW_VORSCHLAG_WOERTER || !teile.every((w) => /^[A-Za-z]+$/.test(w))) return null;
   return teile.map((w) => w.toLowerCase()).join('-');
 }
+function _pwWoerterZerlegen(roh, liste) {
+  const s = String(roh || '').toLowerCase();
+  if (!/^[a-z]+$/.test(s)) return null;
+  const woerter = new Set(liste || passwortWortliste());
+  if (!woerter.size) return null;
+  let laengste = 0;
+  for (const w of woerter) if (w.length > laengste) laengste = w.length;
+  // wege[i][k]: Zahl der Zerlegungen von s ab i in genau k Wörter, gedeckelt bei 2 (mehr als eine reicht für „nicht eindeutig“).
+  const n = s.length, K = PW_VORSCHLAG_WOERTER;
+  const wege = Array.from({ length: n + 1 }, () => new Array(K + 1).fill(0));
+  wege[n][0] = 1;
+  for (let i = n - 1; i >= 0; i--) {
+    for (let l = 1; l <= laengste && i + l <= n; l++) {
+      if (!woerter.has(s.slice(i, i + l))) continue;
+      for (let k = 1; k <= K; k++) wege[i][k] = Math.min(2, wege[i][k] + wege[i + l][k - 1]);
+    }
+  }
+  if (wege[0][K] !== 1) return null;
+  const teile = [];
+  for (let i = 0, k = K; k > 0; k--) {
+    for (let l = 1; l <= laengste && i + l <= n; l++) {
+      if (woerter.has(s.slice(i, i + l)) && wege[i + l][k - 1] === 1) { teile.push(s.slice(i, i + l)); i += l; break; }
+    }
+  }
+  return teile.join('-');
+}
 
 /* ── Entschlüsselung Vollexport-Depot (read-only Spiegel von depotLaden) ───── */
+/* H-3 (22.11.2026): eine veränderte Datei, deren verschlüsselte Teile kein Base64 mehr sind, scheiterte erst beim Öffnen. Der
+   Leser probiert nach dem Anker die Fächer, und deren Fehlschlag erschien als „Passwort passt nicht“. Darum vor jeder
+   Ableitung die Form: jede Einheit trägt iv und ct als Base64. Ein Verstoß ist ein Strukturfehler (__vdStruktur), die
+   Meldung sagt „Datei beschädigt“. Die Entschlüsselung selbst bleibt unverändert. */
+const _B64_FORM = /^[A-Za-z0-9+/]*={0,2}$/;
+function _umschlagFormPruefen(umschlag) {
+  const einheiten = (umschlag && umschlag.einheiten && typeof umschlag.einheiten === 'object') ? umschlag.einheiten : {};
+  for (const e of Object.values(einheiten)) {
+    if (!e || typeof e.iv !== 'string' || typeof e.ct !== 'string' || !_B64_FORM.test(e.iv) || !_B64_FORM.test(e.ct)) {
+      const f = new Error('Laden: eine Einheit dieser Datei ist verändert oder abgeschnitten.'); f.__vdStruktur = true;
+      throw f;
+    }
+  }
+}
 async function leseDepotUmschlag(umschlag, password) {
   _versionsGate(umschlag);                                  // VOR jeder Ableitung (B3)
+  _umschlagFormPruefen(umschlag);                           // H-3: kaputte Datei ist kein falsches Passwort
   const pbkdf2Salt = base64ToBytes(umschlag.pbkdf2.salt);
   const depotSalt  = base64ToBytes(umschlag.depotSalt);
   const depotUUID  = umschlag.depotUUID;
@@ -22854,6 +22984,9 @@ const URHEBER_LESEN = Object.freeze({ name: HERKUNFTSORT_ANGABEN.urheberin.name,
 // auch unter fremder Marke auf die Urheberin; nur der Linktext ist ersetzbar. Nur ein Link, nichts wird nachgeladen.
 const VIVODEPOT_HERKUNFT_LINK = 'https://vivodepot.de/impressum.html';
 const DATENSCHUTZ_LINK = Object.freeze({ de: 'https://vivodepot.de/datenschutz.html', en: 'https://vivodepot.de/datenschutz.html?lang=en' });
+/* LESE-FASSUNG:BEGIN — generierter Bereich (tools/lese-fassung-schreiben.js); Quelle: vivodepot.html BUILD_VERSION, SCHALEN_STAND, BUILD_DATUM */
+const LESE_FASSUNG = Object.freeze({ name: "v1.0.1073", datum: "2026-11-25" });
+/* LESE-FASSUNG:END */
 function herkunftsortHTML() {
   const datenschutz = DATENSCHUTZ_LINK[textsatzSpracheAktiv() === 'en' ? 'en' : 'de'];
   return '<div class="herkunftsort" data-herkunftsort="1">' +
@@ -22862,6 +22995,11 @@ function herkunftsortHTML() {
     '<p><a class="herkunft-impressum-link" href="' + escapeHTML(VIVODEPOT_HERKUNFT_LINK) + '" target="_blank" rel="noopener noreferrer">' + escapeHTML(STRINGS.herkunftImpressumLink) + '</a></p>' +
     '<p><a class="herkunft-datenschutz-link" href="' + escapeHTML(datenschutz) + '" target="_blank" rel="noopener noreferrer">' + escapeHTML(STRINGS.herkunftDatenschutzLink) + '</a></p>' +
   '</div>';
+}
+/* M-2 (22.11.2026): die Fassung, nach der eine Rückfrage fragt; aus dem Kern (Region LESE-FASSUNG, tools/lese-fassung-schreiben.js).
+   Sie steht unter dem Herkunftsort, nicht darin: der Herkunftsort trägt nur seine festen Angaben (Invariante 34.7). */
+function leseFassungHTML() {
+  return '<p class="lese-fassung" data-lese-fassung="1">' + escapeHTML(STRINGS.herkunftFassung.replace('{fassung}', LESE_FASSUNG.name).replace('{datum}', datumKurz(LESE_FASSUNG.datum))) + '</p>';
 }
 function hilfeEmpfaengerinHTML() {
   const fragen = hilfeEmpfaengerinModell();
@@ -22892,6 +23030,9 @@ function topbarHTML(titel, mitSchliessen) {
       '<button class="btn btn-sek tb-hilfe" id="btn-hilfe"><span class="tb-knopf-text">' + escapeHTML(STRINGS.hilfeEmpfaengerinTitel) +
         '</span><span class="tb-knopf-zeichen" aria-hidden="true">?</span></button>' +
       // Unter 600 px trägt Schließen sein Zeichen, unter 380 px auch Hilfe; der Text bleibt für den Vorleser stehen (LESE-KOPF-390).
+      // M-1 (22.11.2026): Drucken, auch als PDF über den Druckdialog; nur in Sichten mit Angaben. Unter 600 px nur das Zeichen.
+      (mitSchliessen ? '<button class="btn btn-sek tb-drucken" id="btn-drucken" aria-label="' + escapeHTML(STRINGS.drucken) + '" title="' + escapeHTML(STRINGS.druckenTitel) + '"><span class="tb-knopf-text">' + escapeHTML(STRINGS.drucken) +
+        '</span><span class="tb-knopf-zeichen" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span></button>' : '') +
       (mitSchliessen ? '<button class="btn btn-sek tb-schliessen" id="btn-schliessen"><span class="tb-knopf-text">' + escapeHTML(STRINGS.schliessen) +
         '</span><span class="tb-knopf-zeichen" aria-hidden="true">×</span></button>' : '') +
     '</div></header>' + sprachfassungHinweisHTML();
@@ -22947,6 +23088,7 @@ function renderWelcome() {
       '</div>' +
       '<input type="file" id="datei-input" accept=".vivodepot,.json,application/json,.jwe,application/jose" hidden>' +
       herkunftsortHTML() +   // Impressum am ersten Schirm, den jede Person sieht (§ 5 Abs. 1 DDG)
+      leseFassungHTML() +
     '</div>';
   sprachUmschalterVerdrahten(renderWelcome);
   el('weg-datei').addEventListener('click', () => el('datei-input').click());
@@ -23087,6 +23229,37 @@ function renderQrBereich(obj) {
 // U2-ADR-078: der passwortlose Notfall-Cache-Knopf ist entfernt — ein zugesandtes Depot wird
 // NUR mit dem Übergabe-Passwort geöffnet. Ein alter Umschlag mit `notfallCache`-Klartext-Geschwister
 // wird hier NICHT mehr passwortlos angezeigt (das war das Art-9-Leck aus ADR-099/109).
+/* ── Passwortfeld der beiden Passwort-Schirme (Datei und Freigabe-Link) ──────────────────────────────────────────────
+   M-5 (22.11.2026): das Feld trägt eine sichtbare Beschriftung, einen Schalter zum Anzeigen, und eine Fehlermeldung, die der
+   Vorleser ansagt (role="alert"). Nach einem Fehlversuch bleibt die Eingabe stehen und ist markiert: wer sich vertippt hat,
+   korrigiert, statt ein langes Passwort am Handy neu zu tippen. Geräumt wird das Feld nach dem Öffnen (s. Aufrufer).
+   H-3 (22.11.2026): _pwFehlerText trennt die Fehlerarten. Nur ein Fehlschlag der Entschlüsselung selbst (WebCrypto wirft
+   `OperationError`, wenn Schlüssel und Daten nicht zusammenpassen) heißt „Passwort passt nicht". Alles andere — kaputtes Base64,
+   fehlende Felder, ein Strukturfehler des Zerfall-Lesers, ein Fehler nach dem Entschlüsseln — liegt an der Datei. Am
+   Entschlüsseln ändert sich nichts; gewählt wird nur die Meldung. Ab dem dritten Fehlversuch nennt die Meldung auch die
+   beschädigte Datei, denn ein verändertes Byte im Geheimtext sieht für WebCrypto aus wie ein falscher Schlüssel. */
+function _pwFeldHTML() {
+  return '<label class="pw-label" for="pw-feld">' + escapeHTML(STRINGS.pwFeldLabel) + '</label>' +
+    '<input type="password" id="pw-feld" class="pw-feld" placeholder="' + escapeHTML(STRINGS.pwPlaceholder) + '" autocomplete="off" aria-describedby="pw-fehler">' +
+    '<label class="pw-anzeigen"><input type="checkbox" id="pw-anzeigen"> ' + escapeHTML(STRINGS.pwAnzeigen) + '</label>' +
+    '<div class="pw-fehler" id="pw-fehler" role="alert" hidden></div>';
+}
+function _pwFeldVerdrahten() {
+  const a = el('pw-anzeigen');
+  if (a) a.addEventListener('change', () => { const f = el('pw-feld'); if (f) f.type = a.checked ? 'text' : 'password'; });
+}
+function _pwFehlerText(err, versuche) {
+  if (err && err.name === 'OperationError') return versuche >= 3 ? STRINGS.pwFalschWiederholt : STRINGS.pwFalsch;
+  return STRINGS.dateiBeschaedigt;
+}
+function _pwFehlerZeigen(text, fokus) {
+  const f = el('pw-fehler');
+  f.textContent = text;
+  f.hidden = false;
+  const feld = el('pw-feld');
+  if (fokus && feld) { feld.focus(); if (feld.select) feld.select(); }
+}
+
 function renderPasswort(art, umschlag, blackboxDatei) {
   const wrap = el('app');
   setModusFarbe(art === 'sub' ? 'sub' : 'anker');
@@ -23100,8 +23273,7 @@ function renderPasswort(art, umschlag, blackboxDatei) {
       '<h1>' + escapeHTML(STRINGS.pwTitel) + '</h1>' +
       '<p class="hint">' + escapeHTML(hint) + '</p>' +
       '<form id="pw-form" autocomplete="off">' +
-        '<input type="password" id="pw-feld" class="pw-feld" placeholder="' + escapeHTML(STRINGS.pwPlaceholder) + '" autocomplete="off">' +
-        '<div class="pw-fehler" id="pw-fehler" hidden></div>' +
+        _pwFeldHTML() +
         '<div class="sheet-aktionen">' +
           '<button type="button" class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button>' +
           '<button type="submit" class="btn">' + escapeHTML(STRINGS.pwOeffnen) + '</button>' +
@@ -23110,6 +23282,8 @@ function renderPasswort(art, umschlag, blackboxDatei) {
     '</div>';
   el('btn-zurueck').addEventListener('click', renderWelcome);   // Aufräumung sitzt jetzt zentral in renderWelcome()
   sprachUmschalterVerdrahten(() => renderPasswort(art, umschlag, blackboxDatei));
+  _pwFeldVerdrahten();
+  let versuche = 0;
   const form = el('pw-form');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -23132,13 +23306,11 @@ function renderPasswort(art, umschlag, blackboxDatei) {
       const istVersion = !!(err && err.vivodepotGrund === 'version');
       // U2-ADR-452: ein abgelaufenes Fach ist kein falsches Passwort — die Tür passte, das Fach gilt nicht mehr.
       const istAbgelaufen = !!(err && err.code === 'fach-abgelaufen');
-      const f = el('pw-fehler');
-      f.textContent = istVersion ? STRINGS.versionNichtLesbar
+      versuche += 1;
+      _pwFehlerZeigen(istVersion ? STRINGS.versionNichtLesbar
         : istAbgelaufen ? STRINGS.fachAbgelaufen.replace('{datum}', datumKurz(err.giltBis || ''))
-        : STRINGS.pwFalsch;
-      f.hidden = false;
-      el('pw-feld').value = '';
-      if (!istVersion) el('pw-feld').focus();   // bei Versions-Ablehnung hilft kein zweiter Versuch
+        : _pwFehlerText(err, versuche),
+        !istVersion);   // bei Versions-Ablehnung hilft kein zweiter Versuch
     }
   });
   const pf = el('pw-feld'); if (pf && pf.focus) pf.focus();
@@ -23171,6 +23343,7 @@ function renderVollExport() {
     standBlockHTML(moduleStandBerechnen(data)) +
     (klartextWarnung ? '<div class="klartext-warn">' + escapeHTML(STRINGS.klartextHinweis) + '</div>' : '') +
     '<div class="shell-body">' +
+      navMenueKnopfHTML() +
       '<nav class="sidebar" id="sidebar">' + sidebarHTML() + '</nav>' +
       '<main class="content" id="content" tabindex="-1">' + sektorHTML(aktiverSektorId) + '</main>' +
     '</div>';
@@ -23328,13 +23501,13 @@ function sidebarHTML() {
     ? '<button class="nav-item nav-umschalter" data-nicht-uebersetzt-zeigen="1" aria-pressed="' + (_nichtUebersetzteZeigen ? 'true' : 'false') + '">' + escapeHTML(STRINGS.navNichtUebersetzteZeigen) + '</button>'
     : '') +
   bereicheSichtbarLesen().map(s =>
-    '<button class="nav-item' + (s.id === aktiverSektorId ? ' aktiv' : '') + '" data-sektor="' + escapeHTML(s.id) + '">' +
+    '<button class="nav-item' + (s.id === aktiverSektorId ? ' aktiv' : '') + '"' + (s.id === aktiverSektorId ? ' aria-current="page"' : '') + ' data-sektor="' + escapeHTML(s.id) + '">' +
       escapeHTML(s.label) +
     '</button>'
   ).join('') +
   // Nachbau C (LESE-APP-MODULE-OHNE-WAHL): Bereiche eines nicht angewandten Moduls, unter ihrer Kennung, in der Reihenfolge der Datei
   _bereicheNichtAngewandtLesen(data).map((b) =>
-    '<button class="nav-item' + (b.id === aktiverSektorId ? ' aktiv' : '') + '" data-sektor="' + escapeHTML(b.id) + '">' + escapeHTML(b.id) + '</button>'
+    '<button class="nav-item' + (b.id === aktiverSektorId ? ' aktiv' : '') + '"' + (b.id === aktiverSektorId ? ' aria-current="page"' : '') + ' data-sektor="' + escapeHTML(b.id) + '">' + escapeHTML(b.id) + '</button>'
   ).join('') +
   // Situationsblätter als zusätzliche Navigation
   '<div class="nav-trenner">' + escapeHTML(STRINGS.sichtSituation) + '</div>' +
@@ -23358,20 +23531,53 @@ function wireSidebar() {
   }));
   sb.querySelectorAll('[data-sektor]').forEach(btn => btn.addEventListener('click', () => {
     aktiverSektorId = btn.getAttribute('data-sektor');
-    el('content').innerHTML = sektorHTML(aktiverSektorId);
-    sb.querySelectorAll('.nav-item').forEach(b => b.classList.remove('aktiv'));
-    btn.classList.add('aktiv');
+    inhaltZeigen(sektorHTML(aktiverSektorId), btn);
   }));
   sb.querySelectorAll('[data-situation]').forEach(btn => btn.addEventListener('click', () => {
-    el('content').innerHTML = situationContentHTML(btn.getAttribute('data-situation'));
-    sb.querySelectorAll('.nav-item').forEach(b => b.classList.remove('aktiv'));
-    btn.classList.add('aktiv');
+    inhaltZeigen(situationContentHTML(btn.getAttribute('data-situation')), btn);
   }));
   sb.querySelectorAll('[data-angblatt]').forEach(btn => btn.addEventListener('click', () => {
-    el('content').innerHTML = angehoerigenBlattHTML(btn.getAttribute('data-angblatt'));
-    sb.querySelectorAll('.nav-item').forEach(b => b.classList.remove('aktiv'));
-    btn.classList.add('aktiv');
+    inhaltZeigen(angehoerigenBlattHTML(btn.getAttribute('data-angblatt')), btn);
   }));
+  const mk = el('nav-menue-knopf');
+  if (mk && !mk.__verdrahtet) {
+    mk.__verdrahtet = true;
+    mk.addEventListener('click', () => navMenueSetzen(mk.getAttribute('aria-expanded') !== 'true'));
+  }
+}
+
+/* ── H-2 (22.11.2026): ein Bereichswechsel ist sichtbar ──────────────────────────────────────────────────────────────
+   Vorher tauschte ein Tipp in der Bereichsleiste nur den Inhalt darunter aus. Am Handy (unter 720 px) steht die Leiste als
+   umbrechende Knopfreihe über dem Inhalt; der neue Bereich lag unter dem Bildschirmrand, und die Seite wirkte unverändert.
+   Jetzt: am Handy ist die Leiste ein Menü hinter einem Knopf, der den aktuellen Bereich nennt; ein Wechsel schließt das Menü,
+   setzt aria-current="page", rückt den Inhalt nach oben und gibt ihm den Fokus (der Vorleser liest den neuen Bereich). */
+const _NAV_SCHMAL = '(max-width: 720px)';
+function _navSchmal() { return typeof matchMedia === 'function' && matchMedia(_NAV_SCHMAL).matches; }
+function navMenueKnopfHTML() {
+  const s = bereicheAlleLesen().find((b) => b.id === aktiverSektorId);
+  return '<button type="button" class="nav-menue-knopf" id="nav-menue-knopf" aria-expanded="false" aria-controls="sidebar">' +
+    '<span class="nav-menue-label">' + escapeHTML(STRINGS.navMenueBereich) + '</span> ' +
+    '<span class="nav-menue-titel" id="nav-menue-titel">' + escapeHTML(s ? s.label : (aktiverSektorId || '')) + '</span>' +
+    '<span class="nav-menue-pfeil" aria-hidden="true">▾</span></button>';
+}
+function navMenueSetzen(offen) {
+  const mk = el('nav-menue-knopf'), sb = el('sidebar');
+  if (!mk || !sb) return;
+  mk.setAttribute('aria-expanded', offen ? 'true' : 'false');
+  sb.classList.toggle('offen', !!offen);
+  if (offen) { const a = sb.querySelector('.nav-item.aktiv') || sb.querySelector('.nav-item'); if (a) a.focus(); }
+}
+function inhaltZeigen(html, btn) {
+  const c = el('content'), sb = el('sidebar');
+  hilfeZustandZuruecksetzen();
+  c.innerHTML = html;
+  if (sb) sb.querySelectorAll('.nav-item').forEach((b) => { b.classList.remove('aktiv'); b.removeAttribute('aria-current'); });
+  if (btn) { btn.classList.add('aktiv'); btn.setAttribute('aria-current', 'page'); }
+  const titel = el('nav-menue-titel');
+  if (titel && btn) titel.textContent = btn.textContent;
+  navMenueSetzen(false);
+  c.focus({ preventScroll: true });
+  if (_navSchmal() && c.scrollIntoView) c.scrollIntoView({ block: 'start' });
 }
 function wireTopbar() {
   // Der Sprunglink setzt den Fokus selbst und lässt location.hash unberührt: die Lese-App liest den Hash als Datenlink.
@@ -23379,13 +23585,80 @@ function wireTopbar() {
   if (sprung) sprung.addEventListener('click', (e) => { e.preventDefault(); const z = el('content'); if (z) z.focus(); });
   const b = el('btn-schliessen');
   if (b) b.addEventListener('click', onSchliessen);
+  const dr = el('btn-drucken');
+  if (dr) dr.addEventListener('click', drucken);
   const h = el('btn-hilfe');
-  if (h) h.addEventListener('click', () => {
+  if (h) { h.setAttribute('aria-expanded', 'false'); h.addEventListener('click', hilfeUmschalten); }
+}
+
+/* ── H-1 (22.11.2026): die Hilfe ersetzt die Sicht nicht mehr ───────────────────────────────────────────────────────
+   Vorher schrieb „Hilfe" die Hilfetexte in #content. In den Einzelsichten (Notfall, QR-PDF, QR-Bereich) gab es danach keinen
+   Weg zurück zu den Angaben; „Schließen" entlädt die Daten, und der QR-Code musste neu besorgt werden. Jetzt legt sich die
+   Hilfe über die Sicht: die Kinder von #content bleiben stehen (nur verborgen, mit ihren Ereignissen), und „Zurück zu den
+   Angaben" oder ein zweiter Tipp auf „Hilfe" zeigt sie wieder. Ein Bereichswechsel räumt die Hilfe mit (inhaltZeigen). */
+/* ── M-1 (22.11.2026): Drucken und als PDF sichern ─────────────────────────────────────────────────────────────────
+   Die Hilfe sagt zu, dass man die Angaben ausdrucken und speichern kann; einen Weg gab es nicht. Jetzt: der Knopf „Drucken"
+   öffnet den Druckdialog des Browsers, in dem jeder Browser auch „Als PDF sichern" anbietet. Im vollen Depot kommen ALLE
+   Bereiche aufs Blatt, nicht nur der gerade gezeigte: vor dem Druck legt drucken() sie in #druck-inhalt, das nur der Druck
+   zeigt, und räumt danach wieder ab. Kopf, Bereichsleiste, Knöpfe und die Hilfe bleiben vom Blatt (@media print). */
+function drucken() {
+  if (el('hilfe-ansicht')) hilfeSchliessen();
+  const alt = el('druck-inhalt');
+  if (alt) alt.remove();
+  const voll = !!el('sidebar') && typeof sektorHTML === 'function';
+  if (voll) {
+    const d = document.createElement('div');
+    d.id = 'druck-inhalt';
+    // Je Bereich eine eigene <section>; sektorHTML maskiert seine Werte selbst (wie in inhaltZeigen), hier wird nichts verkettet.
+    for (const b of bereicheSichtbarLesen()) {
+      const s = document.createElement('section');
+      s.className = 'druck-bereich';
+      s.innerHTML = sektorHTML(b.id);
+      d.appendChild(s);
+    }
     const c = el('content');
-    if (c) c.innerHTML = hilfeEmpfaengerinHTML();
-    const sb = el('sidebar');
-    if (sb) sb.querySelectorAll('.nav-item').forEach(x => x.classList.remove('aktiv'));
-  });
+    c.parentNode.insertBefore(d, c.nextSibling);
+    document.body.classList.add('druck-alle');
+  }
+  const aufraeumen = () => {
+    document.body.classList.remove('druck-alle');
+    const x = el('druck-inhalt'); if (x) x.remove();
+    window.removeEventListener('afterprint', aufraeumen);
+  };
+  window.addEventListener('afterprint', aufraeumen);
+  window.print();
+}
+
+function hilfeUmschalten() {
+  if (el('hilfe-ansicht')) { hilfeSchliessen(); return; }
+  const c = el('content');
+  if (!c) return;
+  Array.from(c.children).forEach((k) => { if (!k.hidden) { k.hidden = true; k.setAttribute('data-hilfe-verborgen', '1'); } });
+  const sb = el('sidebar');
+  if (sb) sb.querySelectorAll('.nav-item.aktiv').forEach((x) => { x.classList.remove('aktiv'); x.setAttribute('data-hilfe-aktiv', '1'); });
+  const d = document.createElement('div');
+  d.id = 'hilfe-ansicht';
+  d.innerHTML = '<button type="button" class="btn btn-sek hilfe-zurueck" id="btn-hilfe-zurueck">' + escapeHTML(STRINGS.hilfeZurueck) + '</button>' +
+    hilfeEmpfaengerinHTML();
+  c.insertBefore(d, c.firstChild);
+  el('btn-hilfe-zurueck').addEventListener('click', hilfeSchliessen);
+  const h = el('btn-hilfe'); if (h) h.setAttribute('aria-expanded', 'true');
+  c.focus({ preventScroll: true });
+  if (c.scrollIntoView) c.scrollIntoView({ block: 'start' });
+}
+function hilfeSchliessen() {
+  const d = el('hilfe-ansicht');
+  if (d) d.remove();
+  const c = el('content');
+  if (c) c.querySelectorAll('[data-hilfe-verborgen]').forEach((k) => { k.hidden = false; k.removeAttribute('data-hilfe-verborgen'); });
+  const sb = el('sidebar');
+  if (sb) sb.querySelectorAll('[data-hilfe-aktiv]').forEach((x) => { x.classList.add('aktiv'); x.removeAttribute('data-hilfe-aktiv'); });
+  const h = el('btn-hilfe'); if (h) { h.setAttribute('aria-expanded', 'false'); h.focus(); }
+}
+function hilfeZustandZuruecksetzen() {
+  const h = el('btn-hilfe'); if (h) h.setAttribute('aria-expanded', 'false');
+  const sb = el('sidebar');
+  if (sb) sb.querySelectorAll('[data-hilfe-aktiv]').forEach((x) => x.removeAttribute('data-hilfe-aktiv'));
 }
 
 /* ── U2-ADR-037: read-only Spiegelung der eingewanderten Template-Felder ─────
@@ -24340,7 +24613,7 @@ function renderEinfuegen() {
       '<h1>' + escapeHTML(STRINGS.wegEinfuegen) + '</h1>' +
       '<p class="hint">' + escapeHTML(STRINGS.wegEinfuegenHint) + '</p>' +
       '<textarea id="qr-text" class="qr-text" placeholder="' + escapeHTML(STRINGS.qrEinfuegenPlaceholder) + '" rows="6"></textarea>' +
-      '<div class="pw-fehler" id="qr-fehler" hidden></div>' +
+      '<div class="pw-fehler" id="qr-fehler" role="alert" hidden></div>' +
       '<div id="qr-fortschritt" class="qr-fortschritt" hidden></div>' +
       '<div class="sheet-aktionen">' +
         '<button type="button" class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button>' +
@@ -24351,9 +24624,10 @@ function renderEinfuegen() {
   el('btn-zurueck').addEventListener('click', () => { qrTeile.clear(); renderWelcome(); });
   el('btn-qr-lesen').addEventListener('click', () => {
     const text = el('qr-text').value || '';
-    verarbeiteQrText(text, (msg) => { const f = el('qr-fortschritt'); f.textContent = msg; f.hidden = false; },
+    // M-6 (22.11.2026): geleert wird nur, wenn ein Teil angenommen ist; nach einem Fehler bleibt der Text zum Korrigieren stehen.
+    el('qr-fehler').hidden = true;
+    verarbeiteQrText(text, (msg) => { const f = el('qr-fortschritt'); f.textContent = msg; f.hidden = false; el('qr-text').value = ''; },
       (msg) => { const f = el('qr-fehler'); f.textContent = msg; f.hidden = false; });
-    el('qr-text').value = '';
   });
 }
 // Verarbeitet einen QR-Inhalt: Mehr-Teile sammeln, sonst direkt Notfall-Klartext.
@@ -24361,6 +24635,10 @@ function renderEinfuegen() {
 // (Fund komplett) — explizites Signal für Aufrufer, die währenddessen eine Ressource offen
 // halten (z. B. die Kamera), statt das per DOM-Abfrage zu erraten.
 function verarbeiteQrText(text, onFortschritt, onFehler, onFund) {
+  /* M-6 (22.11.2026): ein Freigabe-Link (…#eqr=…), eingefügt oder als QR-Code gescannt, führt zur selben Passwortabfrage wie
+     der geöffnete Link. Vorher las nur der Start der Seite den Link aus der Adresse; als Text kam „nicht lesbar". */
+  const link = /#eqr=([A-Za-z0-9_\-+/=]+)\s*$/.exec(String(text || '').trim());
+  if (link) { onFund && onFund(); renderEmpfaengerQrPasswort(link[1]); return; }
   const teil = qrTeilAufnehmen(text);
   if (teil && !teil.fertig) {
     const msg = STRINGS.qrTeilFortschritt
@@ -24862,9 +25140,11 @@ function renderHinweisMitZurueck(text) {
   const wrap = el('app');
   setModusFarbe('anker');
   wrap.className = 'sheet-screen';
-  wrap.innerHTML = '<div class="sheet"><p class="hint">' + escapeHTML(text) + '</p>' +
+  // M-4 (22.11.2026): der Satz wird angesagt (role="alert"), der Fokus steht auf dem einzigen Ausweg.
+  wrap.innerHTML = '<div class="sheet" role="main"><p class="hint" role="alert">' + escapeHTML(text) + '</p>' +
     '<div class="sheet-aktionen"><button class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button></div></div>';
   el('btn-zurueck').addEventListener('click', renderWelcome);
+  el('btn-zurueck').focus();
 }
 function renderFehler(text) { renderHinweisMitZurueck(text); }
 
@@ -24878,7 +25158,7 @@ function onSchliessen() {
   setModusFarbe('anker');
   wrap.className = 'sheet-screen';
   wrap.innerHTML = '<div class="sheet"><p class="hint">' + escapeHTML(STRINGS.schliessenHinweis) + '</p>' +
-    '<div class="sheet-aktionen"><button class="btn" id="btn-neu">' + escapeHTML(STRINGS.zurueck) + '</button></div></div>';
+    '<div class="sheet-aktionen"><button class="btn" id="btn-neu">' + escapeHTML(STRINGS.neuOeffnen) + '</button></div></div>';
   el('btn-neu').addEventListener('click', renderWelcome);
 }
 
@@ -24963,8 +25243,7 @@ function renderEmpfaengerQrPasswort(payloadB64) {
       '<h1>' + escapeHTML(STRINGS.pwTitel) + '</h1>' +
       '<p class="hint">' + escapeHTML(STRINGS.kreiseQrEmpfangHint) + '</p>' +
       '<form id="pw-form" autocomplete="off">' +
-        '<input type="password" id="pw-feld" class="pw-feld" placeholder="' + escapeHTML(STRINGS.pwPlaceholder) + '" autocomplete="off">' +
-        '<div class="pw-fehler" id="pw-fehler" hidden></div>' +
+        _pwFeldHTML() +
         '<div class="sheet-aktionen">' +
           '<button type="button" class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button>' +
           '<button type="submit" class="btn">' + escapeHTML(STRINGS.pwOeffnen) + '</button>' +
@@ -24976,6 +25255,8 @@ function renderEmpfaengerQrPasswort(payloadB64) {
     renderWelcome();
   });
   sprachUmschalterVerdrahten(() => renderEmpfaengerQrPasswort(payloadB64));
+  _pwFeldVerdrahten();
+  let versuche = 0;
   const form = el('pw-form');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -24994,10 +25275,8 @@ function renderEmpfaengerQrPasswort(payloadB64) {
       renderVollExport();
     } catch (err) {
       const fassung = err && err.message === 'qr-fassung-unbekannt';
-      f.textContent = fassung ? STRINGS.kreiseQrFassung : STRINGS.pwFalsch;
-      f.hidden = false;
-      el('pw-feld').value = '';
-      el('pw-feld').focus();
+      versuche += 1;
+      _pwFehlerZeigen(fassung ? STRINGS.kreiseQrFassung : _pwFehlerText(err, versuche), true);
     }
   });
   const pf = el('pw-feld'); if (pf && pf.focus) pf.focus();

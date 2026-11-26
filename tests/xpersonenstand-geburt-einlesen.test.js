@@ -98,14 +98,14 @@ test('[Name] eine andere Person: die Vorschau nennt den Namen und bietet die zwe
   assert.ok(m.hinweis.includes('Lina Marie Musterkind'), 'der Name von der Urkunde steht im Hinweis');
   // Wortlaut nach dem Desktop-Dummy (Umbau, Zeilen 564–567; Beispiel Mia): der Satz nennt, wer auf der Urkunde steht, wohin sie kommt und wo
   // die eigenen Angaben der Person stehen. Der Genitiv des Vornamens: endet er auf s, ß, x oder z, steht nur der Apostroph, sonst ein s.
-  assert.equal(m.hinweis, 'Auf der Urkunde steht Lina Marie Musterkind, nicht Sie. In Ihr Depot kommt sie als Unterlage, etwa für die Anmeldung beim Standesamt. Lina Maries eigene Angaben stehen in Lina Maries Depot.');
+  assert.equal(m.hinweis, 'Auf der Urkunde steht Lina Marie Musterkind, nicht Sie. In Ihr Depot kommt sie als Dokument, etwa für die Anmeldung beim Standesamt. Lina Maries eigene Angaben stehen in Lina Maries Depot.');
   assert.deepEqual(m.wege, ['unterlage'], 'ohne Depot für die Person nur die Unterlage');
   V.ankerDaten().verwalteteDepots = [{ depotUUID: 'd-lina', inhaberin: 'Lina Marie Musterkind' }];
   m = V.xpsGeburtVorschauModell(URKUNDE);
   assert.deepEqual(m.wege, ['unterlage', 'depot'], 'mit Depot der Person auch der Wechsel dorthin');
   assert.equal(m.depotUUID, 'd-lina');
   assert.equal(m.labels.depot, 'In Lina Maries Depot einlesen', 'der Wechsel nennt die Person im Genitiv');
-  assert.equal(m.labels.unterlage, 'Als Unterlage übernehmen');
+  assert.equal(m.labels.unterlage, 'Als Dokument ablegen');   // Wörter des Zuordnens seit 23.11.2026 (Produktentscheidung, Abweichung vom Dummy D72)
   const jonas = V.xpsGeburtVorschauModell(URKUNDE.replace('<name>Lina Marie</name>', '<name>Jonas</name>'));
   assert.equal(jonas.labels.depot, 'In Jonas’ Depot einlesen', 'auf s: nur der Apostroph');
   assert.ok(jonas.hinweis.endsWith('Jonas’ eigene Angaben stehen in Jonas’ Depot.'));

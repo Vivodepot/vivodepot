@@ -1180,6 +1180,11 @@ const STUFEN = [
     baue: () => basis(101, {}, { anfragen: [{ id: 'q1', vorgang: 'A-7', von: 'Stadtbibliothek Beispielstadt', anbieterId: null, empfangenAm: '2026-11-01T09:00:00.000Z', beantwortetAm: null }] }),
     vorher:  (d) => !('abgelehntAm' in d.anfragen[0]),
     nachher: (d) => d.schemaVersion >= 102 && !('abgelehntAm' in d.anfragen[0]) && d.anfragen[0].vorgang === 'A-7' },
+  { nach: 103, was: 'posteingang[] entsteht (17.11.2026, U-3b, U2-ADR-529): eingelesene Dateien, die noch keinem Bereich zugeordnet sind; '
+                 + 'die Stufe legt nur die leere Liste an und ändert keinen Wert. Ausführlich: tests/u3b-posteingang.test.js [U-3b·Migration].',
+    baue: () => basis(102, {}, {}),
+    vorher:  (d) => d.schemaVersion === 102 && !Array.isArray(d.posteingang),
+    nachher: (d) => d.schemaVersion >= 103 && Array.isArray(d.posteingang) && d.posteingang.length === 0 },
 ];
 
 module.exports = { STUFEN, basis };

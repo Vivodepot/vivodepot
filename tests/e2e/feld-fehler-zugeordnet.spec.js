@@ -8,7 +8,7 @@
    gespeicherten Wert. Klassenschutz und Rot-Beweis gegen den Kern vor dem Helfer: tests/feld-fehler-gemeinsamer-helfer.test.js. */
 const fs = require('node:fs');
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, datumSetzen, ANLEGE_WEG } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, datumSetzen, ANLEGE_WEG, assistentWeiter, assistentFertig } = require('./helpers');
 
 /** Prüft am Locator: aria-invalid="true" und ein Verweis auf eine sichtbare Meldung mit Text. Liefert die Meldung. */
 async function erwarteZugeordnet(page, feld) {
@@ -121,18 +121,18 @@ test('[Feld-Fehler·Wizard] ungültiges Datum im Assistenten: die Eingabe ist ma
   await expect(page.locator('.wizard-frage')).toBeVisible();
   // Seit C14 (Assistenten-Urteil W03/W04, 07.11.2026) ist der Name Schritt 0 — keine Vorschritte mehr.
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'E2E Kind');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   const sel = '#content [data-edit="guidedBirthEntryDateOfBirthNot"]';
   const feld = page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]');
   await expect(feld).toBeVisible();
 
   await datumSetzen(page, sel, '0100-01-01');
-  await page.click('#wiz-weiter');
+  await assistentFertig(page);
   const meldung = await erwarteZugeordnet(page, page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]'));
   await expect(meldung).toHaveAttribute('role', 'alert');
 
   await datumSetzen(page, sel, '2020-02-02');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   expect(await page.evaluate(() => window.__vdOeffentlich.wizardFehlerGrund)).toBeNull();
   await expect(page.locator('#content [aria-invalid="true"]')).toHaveCount(0);
   await expect(page.locator('#content p.feld-fehler')).toHaveCount(0);

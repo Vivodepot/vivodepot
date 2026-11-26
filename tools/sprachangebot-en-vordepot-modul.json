@@ -30,7 +30,7 @@
     "strings:fehlerFalsch.text": "Decryption failed — wrong password or tampered file.",
     "strings:modalOeffnenPwLabel.text": "Your six words or your password",
     "strings:ortHinweisAllgemein.text": "A note on where the password for this file is kept: {ort}",
-    "strings:dateiErkennungAnker.text": "This file is your own depot.",
+    "strings:dateiErkennungAnker.text": "This is your depot. Enter your password to open it.",
     "strings:dateiErkennungBlackbox.text": "This file was given to you by someone else — open it with the password you were given for it.",
     "strings:installEmpfehlungTitel.text": "Add to your home screen (optional)",
     "strings:a11yVorlesen.text": "Read this page aloud",
@@ -53,7 +53,14 @@
     "strings:whcOeffnenPw2Label.text": "Repeat the new password",
     "strings:whcOeffnenPwLabel.text": "New password",
     "strings:whcOeffnenZurueck.text": "Back to the password",
-    "strings:oeffnenFassungSatz.text": "This version is from {datum}. Your data is preserved when you update.",
-    "strings:oeffnenFassungLink.text": "View the current version on {adresse}"
+    "strings:oeffnenFassungSatz.text": "This is version {version} from {datum}. Your data is preserved when you update.",
+    "strings:oeffnenFassungLink.text": "View the current version on {adresse}",
+    "strings:oeffnenPwHinweis.text": "For the six words: with spaces between them, capitals or not.",
+    "strings:oeffnenDateiFehlt.text": "Please choose a file first.",
+    "strings:oeffnenPwFehlt.text": "Please enter your password.",
+    "strings:whcCodeFehlt.text": "Please enter the code.",
+    "strings:whcCodeFeldHinweis.text": "With or without spaces, capitals or not. O and 0, I and 1 count as the same.",
+    "strings:whcFehlerZuKurz.text": "{n} characters missing.",
+    "strings:whcFehlerZuLang.text": "{n} characters too many."
   }
 }

@@ -32,13 +32,17 @@ test('[Selbst-Hash] kein ausgelieferter Text und kein Kommentar verspricht einen
 });
 
 test('[Selbst-Hash] die Einstellungen nennen den Ort der Prüfsumme je Fassung, und SECURITY.md trägt diesen Abschnitt', () => {
+  // Seit 23.11.2026 steht in den Einstellungen ein ganzer Satz (einstPruefsummeSatz); die Seite „Über und Hinweise“ behält fussPruefsummeOrt.
   for (const d of ['tools/textsatz-de-modul.json', 'tools/textsatz-en-modul.json']) {
-    const t = JSON.parse(lesen(d)).texte['strings:fussPruefsummeOrt.text'];
-    assert.ok(typeof t === 'string' && t.includes('SECURITY.md') && t.includes('Fingerabdruck je Fassung'), d);
+    for (const k of ['strings:fussPruefsummeOrt.text', 'strings:einstPruefsummeSatz.text']) {
+      const t = JSON.parse(lesen(d)).texte[k];
+      assert.ok(typeof t === 'string' && t.includes('SECURITY.md') && t.includes('Fingerabdruck je Fassung'), d + ' ' + k);
+    }
   }
   assert.match(lesen('SECURITY.md'), /^## \d+ · Fingerabdruck je Fassung$/m, 'der genannte Abschnitt steht in SECURITY.md');
-  assert.ok(lesen('vivodepot.html').includes('escapeHTML(STRINGS.fussPruefsummeOrt)'), 'die Einstellungen zeigen den Ort');
-  assert.match(lesen('vivodepot.html'), /\(_markeIstEingebaut\(_markeName\(\)\)\n\s+\? '<div class="einst-zeile"><span class="einst-label">' \+ STRINGS\.fussHashLabel/, 'nur unter der eigenen Marke: das Register kennt kein Partnerprodukt');
+  assert.ok(lesen('vivodepot.html').includes('escapeHTML(STRINGS.fussPruefsummeOrt)'), 'die Seite „Über und Hinweise“ zeigt den Ort');
+  assert.ok(lesen('vivodepot.html').includes('escapeHTML(STRINGS.einstPruefsummeSatz)'), 'die Einstellungen zeigen den Ort');
+  assert.match(lesen('vivodepot.html'), /\(_markeIstEingebaut\(_markeName\(\)\)\n(\s+\/\/[^\n]*\n)*\s+\? '<p class="einst-hint" data-einst-pruefsumme="1">' \+ escapeHTML\(STRINGS\.einstPruefsummeSatz\)/, 'nur unter der eigenen Marke: das Register kennt kein Partnerprodukt');
 });
 
 test('[Selbst-Hash·Rot-Beweis] die alte Konstante, der alte Platzhalter und ein Release-Versprechen werden gefunden', () => {

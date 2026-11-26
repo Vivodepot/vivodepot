@@ -66,11 +66,11 @@ test('[Versionsname·Rot-Beweis] ein fest verdrahteter Titel und ein „v“ dav
   assert.deepEqual(funde(probe).map((f) => f.split(':')[0]), ['1', '2']);
 });
 
-test('[Versionsname] zur Laufzeit: Titel, Fußzeile und Einstellungen zeigen genau BUILD_VERSION, ohne doppeltes „v“', async () => {
+test('[Versionsname] zur Laufzeit: Titel, Fußzeile und Einstellungen zeigen BUILD_VERSION mit Fassungsnummer, ohne doppeltes „v“', async () => {
   const { V, document } = ladeKern();
   assert.equal(V.BUILD_VERSION, 'v1.0');
   V._markeAnzeigeAnwenden(null, { querySelector: () => null });
-  assert.equal(document.title, 'Vivodepot · v1.0');
+  assert.equal(document.title, 'Vivodepot · ' + V.fassungAnzeige());   // volle Nummer seit VERSION-OHNE-FASSUNGSNUMMER (21.11.2026)
   await V.depotAnlegen('versionsname-pw-2026');
   V.betreteApp();
   V.oeffneUeberHinweise();   // die Fußzeile ist entfallen; die Fassung steht auf der Seite „Über und Hinweise“
@@ -95,7 +95,7 @@ test('[Versionsname·Verträglichkeit] ein Klartext-Export mit „v1.0-rc“ und
   V.akteurSelbstErklaeren('Gertrud Beispiel');
   V.sektorFeldSetzen('identity', 'birthDate', '1941-05-02');
   const neu = V.vollExportJSON({ sensibel: true });
-  assert.equal(neu._version, 'v1.0');
+  assert.equal(neu._version, V.fassungAnzeige());   // v1.0.<Fassung> seit VERSION-OHNE-FASSUNGSNUMMER (21.11.2026)
   const alt = Object.assign({}, neu, { _version: 'v1.0-rc' });
   const { V: W } = ladeKern();
   const a = W._vollDepotParsen(JSON.stringify(alt));

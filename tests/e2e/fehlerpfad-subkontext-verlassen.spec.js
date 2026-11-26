@@ -44,7 +44,7 @@ const KONSOLE_HARMLOS = [
   /Content Security Policy directive '(frame-ancestors|report-uri|sandbox)' is ignored when delivered via/i,
 ];
 const istHarmloseKonsole = (t) => KONSOLE_HARMLOS.some((re) => re.test(String(t)));
-const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten, assistentFertig } = require('./helpers');
 
 const ANKER_PW = 'fehlerpfad-sub-anker-536';
 const SUB_PW = 'fehlerpfad-sub-sub-647';
@@ -146,7 +146,7 @@ test('[Fehlerpfad 3/5·B] Sub-Kontext über #vm-zurueck verlassen, WÄHREND ein 
     o.value = 'gibt-es-nicht'; o.textContent = 'Attrappe';
     sel.appendChild(o); sel.value = 'gibt-es-nicht';
   });
-  await page.click('#wiz-weiter');
+  await assistentFertig(page);
   await expect(page.locator('.feld-fehler[role="alert"]'), 'Fehler-Banner muss stehen, bevor der Sub-Kontext verlassen wird').toBeVisible();
   const grundVorVerlassen = await page.evaluate(() => window.__vdOeffentlich.wizardFehlerGrund);
   expect(grundVorVerlassen).toBe('auswahl');

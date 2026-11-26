@@ -155,6 +155,8 @@ function uneinheitlichkeitMessen(de, en) {
 // IGNORIERT, bewusst: als zweites Kompositum-Glied steht das Wort klein („Vorsorgevollmacht"
 // enthält „vollmacht", nicht „Vollmacht") — ein case-sensitiver Vergleich fände die Mehrheit der
 // Komposita gar nicht (gefunden über einen fehlschlagenden Fixture-Test, nicht vermutet).
+const PLATZHALTER_REGEX = /\{[a-z]+:[^{}\s]+\}/gi;
+
 function geschwisterKandidaten(de, en, nurWort) {
   const woerter = nurWort ? GLOSSAR_WOERTER.filter((w) => w === nurWort) : GLOSSAR_WOERTER;
   const out = {};
@@ -168,7 +170,9 @@ function geschwisterKandidaten(de, en, nurWort) {
       // Ausnahmen ZUERST herausschneiden, dann prüfen, ob noch ein echtes Vorkommen übrig bleibt
       // — ein Satz kann beides enthalten ("verschlüsselter Schlüssel"), einfaches Ausschließen
       // bei Ausnahme-Treffer würde den echten Treffer mit wegwerfen.
-      let bereinigt = deWert;
+      // Platzhalter wie {beschriftung:gruppeBereiche} sind Kennungen eines anderen Textes, kein deutscher Wortlaut:
+      // sie zählen nicht als Vorkommen (der eingesetzte Text wird unter seiner eigenen Kennung geprüft).
+      let bereinigt = deWert.replace(PLATZHALTER_REGEX, '');
       for (const re of ausnahmen) bereinigt = bereinigt.replace(re, '');
       if (!bereinigt.toLowerCase().includes(wortKlein)) continue;
       if (!Object.prototype.hasOwnProperty.call(en, k)) continue; // ungedeckt = anderes Thema (Abdeckung)

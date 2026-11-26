@@ -46,6 +46,18 @@ const SCHALE = [
   './manifest.webmanifest',
 ];
 
+// Die Schalen-Adressen, gegen den Scope aufgelöst: nur diese Adressen legt der fetch-Handler ab (logik-gleich zur Wurzel-sw.js,
+// Befund SW-SCHALE-GRENZE-OFFEN, 23.11.2026; Probe: tests/sw-schale-grenze.test.js).
+// Aufgelöst beim ersten Abruf, nicht beim Laden: der Scope steht fest, sobald der Worker Abrufe bekommt.
+let _schalenAdressen = null;
+function schalenAdressen() {
+  if (!_schalenAdressen) {
+    const basis = (self.registration && self.registration.scope) || self.location.href;
+    _schalenAdressen = new Set(SCHALE.map((s) => new URL(s, basis).href));
+  }
+  return _schalenAdressen;
+}
+
 /* Ohne Startseite kein Install (30.10.2026, Befund SW-INSTALL-OHNE-ZUGANG-LEERT-CACHE), logik-gleich zur Wurzel-sw.js: lehnt der
    Install ab, bleiben der alte Worker und seine Schale. Eine der beiden Startseiten genügt. Probe:
    tests/sw-install-ohne-startseite-behaelt-schale.test.js. */
@@ -79,19 +91,20 @@ self.addEventListener('fetch', (e) => {
   try { url = new URL(req.url); } catch (_) { return; }
   if (url.origin !== self.location.origin) return;        // NIE fremde Origins
 
-  e.respondWith((async () => {
+  // Schale ist nur, was in SCHALE steht: eine Navigation mit ihrem Pfad, jede andere Anfrage mit der vollen Adresse.
+  const istSchale = schalenAdressen().has(req.mode === 'navigate' ? url.origin + url.pathname : url.href);
+  let ablage = Promise.resolve();
+
+  const antwort = (async () => {
     // Cache-first für die Schale.
     const cached = await caches.match(req);
     if (cached) return cached;
     try {
       const net = await fetch(req);
-      // Nur same-origin-Schale nachcachen (Navigation oder gelistete Schalen-URL).
       // KEIN Daten-Caching — IndexedDB ist strikt getrennt und wird nie berührt.
-      const istSchale = req.mode === 'navigate'
-        || SCHALE.some((s) => url.pathname.endsWith(s.replace('./', '')));
       if (net && net.ok && istSchale) {
-        const cache = await caches.open(CACHE);
-        cache.put(req, net.clone());
+        const kopie = net.clone();
+        ablage = caches.open(CACHE).then((cache) => cache.put(req, kopie));
       }
       return net;
     } catch (err) {
@@ -103,5 +116,7 @@ self.addEventListener('fetch', (e) => {
       }
       throw err;
     }
-  })());
+  })();
+  e.respondWith(antwort);
+  e.waitUntil(antwort.then(() => ablage, () => undefined));
 });

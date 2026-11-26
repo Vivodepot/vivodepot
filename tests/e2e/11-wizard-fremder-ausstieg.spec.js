@@ -33,7 +33,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, assistentWeiter } = require('./helpers');
 
 const PW = 'e2e-passwort-123';   // == helpers.js Default-PW
 const WERT = 'Seelsorge der Gemeinde St. Anna';
@@ -139,7 +139,7 @@ test('Fremder Ausstieg 2 — „Jetzt sichern": die DATEI enthält den Wert (der
 
 test('Gegenprobe wizard-eigen — „Weiter" sichert weiterhin, und genau einmal', async ({ page }) => {
   await wizardSchrittTippen(page, 'supportFromChurchOrCommunity', WERT);
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   const r = await ausSpeicher(page);
   expect(r.ort).toBe(WERT);
   expect(r.stempel).toBe(1);        // die Delegation darf hier NICHT zusätzlich schreiben

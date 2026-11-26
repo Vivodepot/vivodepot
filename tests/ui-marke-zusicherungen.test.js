@@ -206,26 +206,29 @@ test('[Negativprobe] b16-030 + b16-009b feuern auf die Mutation — und nur auf 
 });
 
 test('b16-021-kein-prozent-vollstaendigkeit-indikator', () => {
-  // (a) Die einzige „* 100"-Prozent-Rechnung im Eigen-Code (Vendor raus — jsPDF u. a. rechnen intern
-  //     mit * 100), die eine Anzeige treibt, ist der Wizard-Schrittbalken.
+  // (a) Keine „* 100"-Prozent-Rechnung im Eigen-Code (Vendor raus — jsPDF u. a. rechnen intern mit * 100) treibt eine
+  //     Anzeige. Die einzige frühere, der Wizard-Schrittbalken, entfiel mit dem Assistenten als Anlass-Seite (U-AS, 23.11.2026):
+  //     die Seite zählt „n von m vorhanden“, ohne Balken.
+  // Vorbedingung: die Suche läuft über Eigen-Code, nicht über eine leere Menge (sonst wäre „0 Prozent-Zeilen“ wertlos).
+  const vendor = vendorZeilen(HTML);
+  const eigenCode = HTML.split('\n').filter((z, i) => !vendor.has(i + 1) && /Math\.round\(/.test(z));
+  assert.ok(eigenCode.length > 0, 'keine Math.round-Zeile im Eigen-Code gefunden — die Suche greift ins Leere');
   const prozentZeilen = prozentZeilenVon(HTML);
-  assert.equal(prozentZeilen.length, 1,
-    'Unerwartete Prozent-Rechnung(en) — nur der Wizard-Schrittbalken ist erlaubt:\n' + prozentZeilen.join('\n'));
-  assert.ok(/fort\.schritt\s*\/\s*fort\.gesamt/.test(prozentZeilen[0]),
-    'die Prozent-Rechnung ist nicht der Wizard-Schrittbalken (schritt/gesamt): ' + prozentZeilen[0]);
+  assert.equal(prozentZeilen.length, 0,
+    'Unerwartete Prozent-Rechnung(en) — keine ist erlaubt:\n' + prozentZeilen.join('\n'));
   // (b) Keine Vollständigkeits-Anzeige über den Depot-Inhalt.
   const verstoesse = vollstaendigkeitVerstoesse(HTML);
   assert.deepEqual(verstoesse, [], verstoesse.join(' · '));
 });
 
 test('[Negativprobe] b16-021 + b16-033 feuern auf die Mutation — und nur auf sie (rot ⇄ grün)', () => {
-  // b16-021 (a): eine ZWEITE Prozent-Anzeige einspeisen → Zähler steigt; raus → wieder 1.
+  // b16-021 (a): eine Prozent-Anzeige einspeisen → Zähler steigt; raus → wieder 0.
   const istZahl = prozentZeilenVon(HTML).length;
-  assert.equal(istZahl, 1, 'Ausgangslage nicht 1 Prozent-Zeile — Probe misst gegen falschen Stand');
+  assert.equal(istZahl, 0, 'Ausgangslage nicht 0 Prozent-Zeilen — Probe misst gegen falschen Stand');
   const mutiert = HTML + '\n  const voll = Math.round((gefuellt / felderGesamt) * 100);\n';
-  assert.equal(prozentZeilenVon(mutiert).length, 2,
-    'Wächter blind: eine zweite Math.round(…*100)-Anzeige wurde NICHT mitgezählt');
-  assert.equal(prozentZeilenVon(HTML).length, 1, 'nach Rücknahme der Mutation nicht wieder 1');
+  assert.equal(prozentZeilenVon(mutiert).length, 1,
+    'Wächter blind: eine Math.round(…*100)-Anzeige wurde NICHT mitgezählt');
+  assert.equal(prozentZeilenVon(HTML).length, 0, 'nach Rücknahme der Mutation nicht wieder 0');
 
   // b16-021 (b): Vollständigkeits-Text einspeisen → rot; raus → grün.
   assert.deepEqual(vollstaendigkeitVerstoesse('Ihre Angaben sind gespeichert.'), [],

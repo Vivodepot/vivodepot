@@ -32,19 +32,22 @@ for (const [name, url] of PRODUKTE) {
     await h.oeffneApp(page, { url });
     expect(await sichtbareHidden(page), 'Startschirm').toEqual([]);
     await anlegeDialogOeffnen(page, url);
-    expect(await sichtbareHidden(page), 'Anlege-Dialog, Zustand A (Vorschlag)').toEqual([]);
-    await expect(page.locator('#id-pw-vorschlag-knopf')).toBeHidden();
-    await page.click('#id-pw-eigen-weg');   // Zielbild 01: das Passwort-Feld steht erst beim eigenen Passwort da
-    await page.fill('#id-pw', 'sommer2026!');
-    await expect(page.locator('#id-pw-vorschlag-knopf')).toBeVisible();
+    // Passwort festlegen (24.11.2026): der Dialog öffnet mit dem eigenen Passwort (Zustand B), die Wörter kommen über das Angebot.
     expect(await sichtbareHidden(page), 'Anlege-Dialog, Zustand B (eigenes Passwort)').toEqual([]);
+    await expect(page.locator('#id-pw-vorschlag-knopf')).toBeVisible();
+    await expect(page.locator('#id-pw-eigen-weg')).toBeHidden();
     await page.click('#id-pw-vorschlag-knopf');
-    expect(await sichtbareHidden(page), 'Anlege-Dialog, zurück in Zustand A').toEqual([]);
+    await expect(page.locator('#id-pw-vorschlag-knopf')).toBeHidden();
+    expect(await sichtbareHidden(page), 'Anlege-Dialog, Zustand A (Vorschlag)').toEqual([]);
+    await page.click('#id-pw-eigen-weg');
+    await page.fill('#id-pw', 'sommer2026!');
+    expect(await sichtbareHidden(page), 'Anlege-Dialog, zurück in Zustand B').toEqual([]);
   });
 
   test(`[PW-Wortblock-390] ${name}: die sechs Wörter stehen bei 390 px ohne Scrollen über der Knopfleiste`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await anlegeDialogOeffnen(page, url);
+    await page.click('#id-pw-vorschlag-knopf');   // Passwort festlegen: die Wörter kommen über das Angebot
     await expect(page.locator('#id-pw-vorschlag-woerter')).toBeVisible();
     const m = await page.evaluate(() => {
       const woerter = document.getElementById('id-pw-vorschlag-woerter');

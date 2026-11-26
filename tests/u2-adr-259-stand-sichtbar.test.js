@@ -166,14 +166,26 @@ test('[259·PDF·ROT] ein Meta-Objekt kann den Stand nicht weglassen — er komm
 
 /* ══ 4) STATION „LESE-APP" — der Empfänger ═══════════════════════════════════════════════ */
 
-test('[259·Lesen] die Depot-Ansicht zeigt den Stand-Block — unbedingt, auch ohne Erweiterung', () => {
+/* NACHGEZOGEN 24.11.2026 (Nachtrag U2-ADR-259 „Lese-App ohne Erweiterung: eine Angabe"): ohne jede
+   Erweiterung sagt die Herkunft-Zeile (U2-ADR-258, bleibt) alles; die Stand-Zeile entfällt NUR in diesem Fall.
+   Sobald ein Modul eingelassen ist oder der Stand fehlt, steht der Block wie bisher (Tests unten). */
+test('[259·Lesen] ohne Erweiterung: Herkunft-Zeile steht, die Stand-Zeile entfällt nur in diesem Fall', () => {
   const { V, document } = ladeLesen();
   V.setData({ sektoren: {}, personen: [], institutionen: [] });
   V.setLeseModus('voll');
   V.renderVollExport();
   const html = document.getElementById('app').innerHTML;
+  assert.ok(html.includes(V.STRINGS.herkunftSatzKeine), 'die Herkunft-Zeile bleibt (U2-ADR-258)');
+  assert.ok(!html.includes('id="stand-marke"'), 'ohne Erweiterung keine zweite Zeile');
+});
+
+test('[259·Lesen] mit Erweiterung steht der Stand-Block wie bisher', () => {
+  const { V, document } = ladeLesen();
+  V.setData({ sektoren: {}, personen: [], institutionen: [], textsatzModule: [M_BEKANNT_V1] });
+  V.setLeseModus('voll');
+  V.renderVollExport();
+  const html = document.getElementById('app').innerHTML;
   assert.ok(html.includes('id="stand-marke"'), 'der Block steht in der Depot-Ansicht');
-  assert.ok(html.includes(V.STRINGS.standSatzKeine));
 });
 
 test('[259·Lesen] ein Depot mit unbekanntem Stand sagt es dem Empfänger', () => {

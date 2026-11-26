@@ -54,11 +54,16 @@ test('[S-2 · N21 · Rot-Beweis] eine Gruppe ohne ihren Bereich fällt auf', () 
   assert.ok(gruppenMessen(V).ohneBereich.length > 0);
 });
 
-test('[S-2 · N22] keine Gesamtsuche, kein Register-Link im Kopf der Bausteine; der Schalter heißt „Technische Begriffe anzeigen“', () => {
+test('[S-2 · N22] keine Gesamtsuche, kein Register-Link im Kopf der Bausteine; der Schalter heißt „Technische Begriffe anzeigen“ und steht unter „Weitere“', () => {
   const kopf = HTML.slice(HTML.indexOf('<aside class="palette"'), HTML.indexOf('<div id="pal-liste"></div>'));
   assert.doesNotMatch(kopf, /id="pal-suche"|data-marke-href="register"/);
   assert.match(kopf, /<h2 id="pal-titel" data-en="Building blocks">Bausteine<\/h2>/);
-  assert.match(kopf, /<label class="pal-kennungen"><input type="checkbox" id="pal-kennungen"> <span data-en="Show technical terms">Technische Begriffe anzeigen<\/span><\/label>/);
+  /* N22 (Dummy 14.11.2026, O13): der Schalter ist aus der Liste unter „Weitere“ verlegt, nicht entfernt. */
+  assert.doesNotMatch(kopf, /id="pal-kennungen"/);
+  const weitere = HTML.slice(HTML.indexOf('<details class="pal-frei">'), HTML.indexOf('</details>', HTML.indexOf('<details class="pal-frei">')));
+  assert.match(weitere, /<summary data-en="More">Weitere<\/summary>/);
+  assert.match(weitere, /<label class="pal-kennungen"><input type="checkbox" id="pal-kennungen"> <span data-en="Show technical terms">Technische Begriffe anzeigen<\/span><\/label>/);
+  assert.match(weitere, /id="pal-vorschlagen"/);
   assert.match(HTML, /'pal-weitere'[\s\S]{0,400}L\('Weitere', 'More'\)/, 'je Gruppe „Weitere“');
   assert.match(HTML, /class: 'pal-gruppen-suche', placeholder: L\('In dieser Gruppe suchen …', 'Search this group …'\)/, 'mit eigener Suche (C)');
 });

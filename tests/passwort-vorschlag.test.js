@@ -125,7 +125,7 @@ function konstText(quelle, name) {
   return m[0];
 }
 const VORSCHLAG_FUNKTIONEN = ['passwortWortliste', '_pwZufallsIndex', 'passwortVorschlag', 'pwVorschlagVerdrahten', 'escapeHTML'];
-const VORBELEGUNG = '  if (!feld.value) neu();';
+const VORBELEGUNG = '  if (!feld.value && !o.ohneVorbelegung) neu();';
 
 // Die Wortzeile baut pwVorschlagVerdrahten per DOM auf (createElement/textContent, keine HTML-Senke): der Ersatz führt darum
 // Kinder und liefert als textContent den Text aller Kinder; wer textContent setzt, leert die Kinder wie im Browser.

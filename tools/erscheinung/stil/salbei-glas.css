@@ -136,11 +136,12 @@ html:not(.high-contrast) .toc { border: 0; background: transparent; padding-left
 /* Die Sprungmarken-Pillen tragen Fläche statt Linie (Entscheidung 07.10.2026); vorher blieb nach border-bottom: 0 ein Rand an drei Seiten. */
 html:not(.high-contrast) .toc-liste a { border: 0; text-decoration: underline; text-decoration-color: transparent; }
 html:not(.high-contrast) .toc-liste a:hover { text-decoration-color: currentColor; }
-html:not(.high-contrast) :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) {
-border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: rgba(79,101,57,.07);
+/* Feldform im Inhalt und in der Suche: Grundregel aus der Definition (Schicht 3, GESTALTUNG-VORLAGEN in grundlage.css). Die Dialoge tragen ihre Form bis zum Umbau Anlegen/Öffnen hier selbst. */
+html:not(.high-contrast) .modal :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) {
+border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung);
 }
 /* Nachts ist das hinterlegte Feld dunkel; die Grundlage hält Felder nachts hell mit Papier-Tinte. Darum trägt das Feld hier die Nacht-Tinte (vorher 1,12 bis 1,57:1, Ebenen-Finder). */
-html.dark-mode:not(.high-contrast) :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.07); color: var(--ink); }
+html.dark-mode:not(.high-contrast) .modal :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: var(--feld-toenung); color: var(--ink); }
 /* Das Entsperrfeld steht weder im Inhalt noch in einem Dialog und trug darum einen Vollrahmen (Befund UX-ENTSPERRFELD-KONTRAST,
  30.10.2026). Eigene Zeile statt eines Eintrags im :is() oben, damit die Kennung dort nicht die Spezifität aller Felder hebt. */
 html:not(.high-contrast) #overlay-inhalt :is(input[type="password"], input[type="text"]) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: rgba(79,101,57,.07); }
@@ -416,7 +417,7 @@ html:not(.dark-mode):not(.high-contrast) #overlay .entsperren-karte { border: 0;
 #app .feldgruppen-karte[open] > .feldgruppen-karte-koerper { display: flex; flex-wrap: wrap; column-gap: var(--space-4); row-gap: var(--abstand-feld-feld); max-width: var(--spalte-formular); }
 #app .feldgruppen-karte-koerper > * { flex: 1 1 100%; min-width: 0; }
 #app .feldgruppen-karte-koerper > .feld-zeile { flex: 0 0 calc((100% - var(--space-4)) / 2); max-width: calc((100% - var(--space-4)) / 2); align-content: start; }
-#app .feldgruppen-karte-koerper > .feld-zeile:is(.feld-zeile--mehrzeilig, :has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen, .feld-liste-editor, .feld-refm, .feld-ref-picker, [role="group"]:not(.datum-dreifeld)))) { flex: 1 1 100%; max-width: none; }
+#app .feldgruppen-karte-koerper > .feld-zeile:is(.feld-zeile--mehrzeilig, .feld-zeile--voll, :has(> .feld-wert > :is(input[type="checkbox"], .feld-umschau-eintragen--kaestchen, .feld-liste-editor, .feld-refm, .feld-ref-picker, [role="group"]:not(.datum-dreifeld)))) { flex: 1 1 100%; max-width: none; }
 #app .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="street"], [data-feld="city"])) { flex: 1 1 0; min-width: 12ch; max-width: none; }
 #app .feldgruppen-karte-koerper > .feld-zeile:has(> .feld-wert:is([data-feld="houseNumber"], [data-feld="postalCode"])) { flex: 0 1 auto; min-width: 0; max-width: 100%; }
 #app .feldgruppen-karte-koerper > .feld-zeile > .feld-wert > :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select) { width: 100%; max-width: none; }

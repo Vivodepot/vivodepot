@@ -8,7 +8,7 @@
    `verborgenWenn` bereits heute greift (KEIN Cross-Sektor-Fall, `wohnung_typ` steht im selben
    Zielbereich `wohnen`), node-getestet aber nie im echten Klickweg belegt. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten, datumSetzen } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, wizardStarten, datumSetzen, assistentWeiter, assistentFertig } = require('./helpers');
 
 test('umzwiz: voller Klickweg, Mietverhältnis-Schritte sichtbar ohne wohnung_typ', async ({ page }) => {
   await oeffneApp(page);
@@ -17,34 +17,35 @@ test('umzwiz: voller Klickweg, Mietverhältnis-Schritte sichtbar ohne wohnung_ty
 
   await wizardStarten(page, 'umzwiz');
   await expect(page.locator('.wizard-frage')).toBeVisible();
-  await expect(page.locator('#content')).toContainText('Schritt 1 von');
+  // U-AS: die Seite zählt „n von m vorhanden“ statt „Schritt n von m“.
+  await expect(page.locator('.wizard-fortschritt')).toContainText(' von ');
 
   // U2-ADR-467: der Assistent fragt die vier Teile der Anschrift, nicht mehr zwei Zeilen.
   await page.fill('#content [data-edit="street"]', 'Seestraße');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="houseNumber"]', '4');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="postalCode"]', '18055');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="city"]', 'Rostock');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="reRegistrationWithTheResidents"]', 'Termin Bürgerbüro 12.09.');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="changingUtilityProviders"]', 'Strom/Internet ummelden; Bank informieren');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
 
   // Der eigentliche Beleg: ohne gesetztes wohnung_typ bleibt der Schritt sichtbar (Negativ-Form,
   // U2-ADR-102 — unbeantwortet zeigt, nur AKTIV 'eigentum' verbirgt).
   await expect(page.locator('#content')).toContainText('Mietverhältnis');
   await page.fill('#content [data-edit="tenancyTerminationHandover"]', 'alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await expect(page.locator('#content')).toContainText('gekündigt');
   await datumSetzen(page, '#content [data-edit="noticeDate"]', '2026-09-30');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await datumSetzen(page, '#content [data-edit="moveOutDate"]', '2026-10-01');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await datumSetzen(page, '#content [data-edit="handoverDateNewHome"]', '2026-10-02');
-  await page.click('#wiz-weiter');
+  await assistentFertig(page);
 
   // Abschluss: Wizard schließt, Toast bestätigt die drei Zielbereiche.
   await expect(page.locator('.wizard-frage')).toHaveCount(0);
@@ -80,20 +81,20 @@ test('umzwiz: mit wohnung_typ=eigentum bleiben Mietverhältnis-Schritte verborge
 
   // U2-ADR-467: der Assistent fragt die vier Teile der Anschrift, nicht mehr zwei Zeilen.
   await page.fill('#content [data-edit="street"]', 'Seestraße');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="houseNumber"]', '4');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="postalCode"]', '18055');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="city"]', 'Rostock');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="reRegistrationWithTheResidents"]', 'erledigt');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await page.fill('#content [data-edit="changingUtilityProviders"]', 'Strom ummelden');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
 
-  // Der Beleg: die nächste Frage überspringt Mietverhältnis UND Kündigungstermin und springt
-  // direkt zum Auszugstermin — beide `verborgenWenn`-Schritte sind wirklich weg, nicht nur leer.
+  // Der Beleg: auf der Seite fehlen Mietverhältnis UND Kündigungstermin, der Auszugstermin steht da —
+  // beide `verborgenWenn`-Schritte sind wirklich weg, nicht nur leer.
   await expect(page.locator('#content')).not.toContainText('Mietverhältnis');
   await expect(page.locator('#content')).toContainText('Wann ziehen Sie aus');
   await page.screenshot({ path: 'tests/e2e/.artifacts/umzwiz-3-eigentum-verborgen.png', fullPage: true }).catch(() => {});

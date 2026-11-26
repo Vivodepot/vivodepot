@@ -174,8 +174,8 @@ test('[Zerfall-Block·abgelaufen] die Lese-App zeigt für ein abgelaufenes Fach 
   const text = fs.readFileSync(LESEN, 'utf8');
   const { ladeLesen } = require('./load-lesen.js');
   const S = ladeLesen().V.STRINGS || null;
-  const de = /fachAbgelaufen: 'Dieses Fach galt bis \{datum\}/.test(text);
-  const en = /fachAbgelaufen: "This compartment was valid until \{datum\}/.test(text);
+  const de = /fachAbgelaufen: 'Ihr Zugang zu diesen Angaben galt bis \{datum\}/.test(text);
+  const en = /fachAbgelaufen: "Your access to this information was valid until \{datum\}/.test(text);
   assert.ok(de && en, 'der Satz steht nicht in beiden Sprachen der Lese-App');
   assert.match(text, /istAbgelaufen \? STRINGS\.fachAbgelaufen\.replace\('\{datum\}'/, 'das Passwort-Formular wählt den Satz nicht');
   assert.match(text, /if \(e1 && e1\.code === 'fach-abgelaufen'\) throw e1;/, 'nach einem abgelaufenen Fach folgt ein zweiter Versuch (NFD)');

@@ -1,0 +1,19 @@
+{
+  "hinweis": "Erfundene Lock-Datei für tests/zuordnungen-pruefen.test.js (Aufbau wie bereiche/bezuege-quellen.json). Die Quelldateien liegen unter quellen/.",
+  "quellen": [
+    {
+      "datensatz": "probe-turtle",
+      "fassung": "2026-01-01",
+      "dateien": [
+        { "pfad": "turtle/eins.ttl", "sha256": "2031b686e325ad22591cd314cb2fcdf6c82723b8415556bd1cbfcd2f9fa4d524", "vokabular": "Eins", "fassung": "1.0.0" }
+      ]
+    },
+    {
+      "datensatz": "probe-xdf",
+      "fassung": "2026-01-01",
+      "dateien": [
+        { "pfad": "xdf/F99000001_V1.0.xdf.xml", "sha256": "e9d268e98a8a5269f585b653fe96fd31a56e359414713b33b66eaedb91b51f3d", "kennung": "F99000001", "fassung": "1.0", "freigabestatus": "fachlich freigegeben (gold)" }
+      ]
+    }
+  ]
+}

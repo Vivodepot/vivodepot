@@ -145,9 +145,11 @@ test('[Link senden·Wege] Antwort und Anlass-Auszug fragen nach dem Weg, die Ant
   const rumpf = (name) => { const a = KERN.indexOf('function ' + name + '('); return KERN.slice(a, KERN.indexOf('\n}\n', a)); };
   const antwortWeg = rumpf('_anfrageAntwortSchreiben');
   // Den Link gibt es nur signiert; die QR-Serie für jede Antwort (U2-ADR-449, Nachtrag 16.11.2026).
-  assert.match(antwortWeg, /const linkSenden = \(LINK_SENDEN_FUER_AUSZUEGE && antwortTraegtSignatur\(jwe\)\)\n\s+\? \(\) => flowLinkSenden/);
+  // TODESFALL B (20.11.2026): die Bedingung steht in linkSendenGeht; „Als PDF“ kommt als sechster Weg dazu und kann zuerst den Link öffnen.
+  assert.match(antwortWeg, /const linkSendenGeht = \(\) => !!\(LINK_SENDEN_FUER_AUSZUEGE && antwortTraegtSignatur\(jwe\)\);/);
+  assert.match(antwortWeg, /linkSenden = linkSendenGeht\(\)\n\s+\? \(weiter\) => flowLinkSenden/);
   assert.match(antwortWeg, /: null;/);
-  assert.match(antwortWeg, /_ausgabeWegWaehlen\(STRINGS\.anfrageAntwortenCta, name, herunterladen, linkSenden, qrZeigen\)/);
+  assert.match(antwortWeg, /_ausgabeWegWaehlen\(STRINGS\.anfrageAntwortenCta, name, herunterladen, linkSenden, qrZeigen, pdfAusgeben\)/);
   assert.match(antwortWeg, /flowLinkSenden\(\(o\) => antwortLinkTeile\(jwe, o\)/);
   const anlassWeg = rumpf('flowAnlassExport');
   // B3 (12.11.2026): zwei Wege (PDF, Datei); „Link senden“ bleibt dabei. Seit U-5 Rest (17.11.2026) stehen sie auf der Seite „Fertig“.

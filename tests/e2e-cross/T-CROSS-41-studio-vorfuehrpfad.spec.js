@@ -60,6 +60,7 @@ test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
     await expect(p.locator('#pal-liste .pal-eintrag').first()).toBeVisible();
     await expect(p.locator('#pal-liste small.pal-kennung')).toHaveCount(0);
     await expect(p.locator('#pal-liste [data-kennung="identity.givenName"]')).toHaveAttribute('title', 'identity.givenName');
+    await p.click('.pal-frei > summary');   // N22: der Schalter steht unter „Weitere“
     await p.check('#pal-kennungen');
     await expect(p.locator('#pal-liste small.pal-kennung').first()).toBeVisible();
     await expect(p.locator('#pal-liste small.pal-kennung', { hasText: 'identity.givenName' })).toHaveCount(1);

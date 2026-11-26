@@ -87,11 +87,12 @@ test('im Kern: die Stellen rendern den Satz des Modells, je nach Modus', () => {
       const sicht = V.speicherModellSicht();
       assert.equal(sicht.automatisch, modus === 'intern');
       assert.equal(sicht.ort, modus === 'intern' ? 'geraet' : 'datei');
-      const html = V.einstellungenHTML();
+      // Der Schnellstart steht seit 21.11.2026 in der Hilfe-Übersicht, nicht mehr in den Einstellungen.
+      const html = V.hilfeUebersichtHTML();
       for (const stelle of ['schnellstartEintragen', 'schnellstartSichern']) {
         const satz = V.speicherSatz(stelle);
         assert.ok(satz && !/\{beschriftung:/.test(satz), stelle + ': Platzhalter aufgelöst');
-        assert.ok(html.includes(V.escapeHTML ? V.escapeHTML(satz) : satz), modus + ': ' + stelle + ' im Einstellungen-Dialog');
+        assert.ok(html.includes(V.escapeHTML ? V.escapeHTML(satz) : satz), modus + ': ' + stelle + ' in der Hilfe-Übersicht');
       }
     }
   } finally {

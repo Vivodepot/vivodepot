@@ -57,7 +57,7 @@ function ladeSW() {
     URL, Promise, console, Map,
     self: {
       addEventListener: (typ, fn) => { handlers[typ] = fn; },
-      location: { origin: ORIGIN },
+      location: { origin: ORIGIN, href: ORIGIN + '/sw.js' },   // wie WorkerLocation: sw.js löst die Schale gegen href auf
       clients: { claim: async () => { claimCalls.push(1); } },
       caches,
     },
@@ -105,7 +105,7 @@ test('SW-Lieferweg: nach Aktivierung liefert fetch die aktuelle Schale aus', asy
 
   let antwort;
   const evt = { request: { url: ORIGIN + '/vivodepot.html', method: 'GET', mode: 'navigate' },
-                respondWith: (p) => { antwort = p; } };
+                respondWith: (p) => { antwort = p; }, waitUntil: () => {} };
   handlers.fetch(evt);
   const res = await antwort;
   assert.ok(res && res.ok, 'Navigation wird beantwortet');

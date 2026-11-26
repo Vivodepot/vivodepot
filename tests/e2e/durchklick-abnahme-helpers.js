@@ -213,12 +213,13 @@ async function gebwizGeburtsdatumWeg(page, { name = 'Gebwiz Testkind', geburtsda
     if (!(await nameFeld.count())) {
       return { weg: 'gebwiz', erreichbar: false, grund: 'Namens-Schritt fehlt — Wizard zielt vermutlich auf einen Sektor, den dieses Produkt nicht trägt' };
     }
+    const h = require('./helpers.js');
     await nameFeld.fill(name);
-    await page.click('#wiz-weiter');
-    await require('./helpers.js').datumSetzen(page, '#content [data-edit="guidedBirthEntryDateOfBirthNot"]', geburtsdatum);
-    await page.click('#wiz-weiter');
+    await h.assistentWeiter(page);
+    await h.datumSetzen(page, '#content [data-edit="guidedBirthEntryDateOfBirthNot"]', geburtsdatum);
+    await h.assistentWeiter(page);
     await page.selectOption('#content select[data-edit="guidedBirthEntryRelationship"]', 'leiblich');
-    await page.click('#wiz-weiter');
+    await h.assistentFertig(page);
     const abbr = page.locator('#m-abbr, #m-x');
     if (await abbr.first().isVisible({ timeout: 2000 }).catch(() => false)) await dialogAbbrechen(page);
     return { weg: 'gebwiz', erreichbar: true, ...(await geburtsdatumSchluesselFuer(page, name)) };

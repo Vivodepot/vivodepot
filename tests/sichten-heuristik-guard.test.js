@@ -55,6 +55,8 @@ const AUSGESCHLOSSENE_FEHLALARME = [
   // Wizard-Renderers, öffnet keine eigene Sicht (a5/B6b zählt die Wizard-Schritte selbst, über
   // die WIZARDS-Registry statt über diese Klasse):
   'wizardWeiter', 'wizardZurueck', 'wizardAbschluss',
+  // „Fertig“ der Anlass-Seite (U-AS, 23.11.2026): prüft die Zeilen und ruft wizardAbschluss, keine eigene Sicht.
+  'wizardFertig',
   // Reine Event-Verdrahtung, kein Rendering:
   'verdrahteEinstellungen', 'blattVorschlagVerdrahten', 'depotMenueVerdrahten',
   // Reine Zustands-/Zähler-Buchhaltung (Speicher-Status); der sichtbare Effekt läuft über

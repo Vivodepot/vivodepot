@@ -44,15 +44,16 @@ test('[Fertig-Seite 1] „Weitere Vorlage beginnen“ und der Weg zum Start schl
   assert.ok(!klassen.has('gesichert'), 'der Start lässt die Seite „Vorlage gesichert“ stehen');
 });
 
-test('[Fertig-Seite 2] Untertexte der Wege (Datei und PDF wortgleich zum Dummy, oben die Anfrage für Personen seit 18.11.2026)', () => {
+test('[Fertig-Seite 2] Untertexte der Wege wortgleich zum Dummy (Link, QR-Code, Datei, PDF)', () => {
   const g = ladeGenerator();
   const gebaut = [];
   const el = g.sandbox.el;
   g.sandbox.el = (tag, attrs, kinder) => { const e = el(tag, attrs, kinder); gebaut.push({ tag, attrs: attrs || {}, kinder: kinder || [], e }); return e; };
   g.sandbox.vorlageErgebnisZeigen(Object.assign({ dateiSpeichern: () => {}, pdfSpeichern: () => {} }, ERG));
   const t = gebaut.filter((b) => b.attrs.class === 't').map(text);
-  assert.deepEqual(t, ['Dafür braucht es die Angaben Ihrer Stelle und Ihren Schlüssel. Danach stehen hier Link und QR-Code.',
-    'Eine andere Stelle öffnet die Datei im Studio und baut daraus ihre eigene Anfrage.',
-    'Der Link zeigt, welche Angaben die Vorlage erfragt; eine andere Stelle speichert sie dort für ihr Studio.',
+  /* Zwei Gruppen wie im Dummy (N74, Entscheidung 22.11.2026 „Wie im Dummy“): Link und QR-Code, dann Datei und PDF. */
+  /* Dazu der Weg zu den Antworten (Benutzbarkeitsprüfung 22.11.2026, H2). */
+  assert.deepEqual(t, ['Für E-Mail, Brief oder Ihre Website', 'Zum Aushängen oder Vorzeigen am Schalter',
+    'Eine Anfrage mit diesen Datenfeldern veröffentlichen; Sie legen fest, wohin die Antworten gehen.',
     'Zum späteren Öffnen und Ändern im Studio', 'Die Vorlage zum Lesen und Ablegen']);
 });

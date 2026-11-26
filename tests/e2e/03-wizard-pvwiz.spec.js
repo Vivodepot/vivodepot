@@ -12,9 +12,9 @@
    `node --test` und sieht Playwright nicht, also wäre er erst beim Push
    aufgeschlagen. Das Gate benennt seinen Geltungsbereich jetzt in der Ausgabe. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, assistentWeiter } = require('./helpers');
 
-test('pvwiz: Start in Bereich 8, Fortschritt, Weiter/Zurück, Abbrechen → Ausgangsbereich', async ({ page }) => {
+test('pvwiz: Start in Bereich 8, Fortschritt, Antwort zählt, Abbrechen → Ausgangsbereich', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
@@ -32,18 +32,18 @@ test('pvwiz: Start in Bereich 8, Fortschritt, Weiter/Zurück, Abbrechen → Ausg
 
   // Wizard rendert: Titel, Fortschritt, erste Frage.
   await expect(page.locator('.wizard-frage')).toBeVisible();
-  await expect(page.locator('#content')).toContainText('Schritt 1 von');
+  // U-AS (21.11.2026): eine Seite mit allen sichtbaren Fragen; sie zählt „n von m vorhanden“.
+  await expect(page.locator('.wizard-fortschritt')).toContainText('0 von');
 
   // Erster Schritt ist eine Mehrfachauswahl (pv_situationen, amtlicher BMJ-Baustein) — seit dem
   // Pillen-Umbau (Screenshot-Review Befund C, 27.08.2026) ein <button>, kein <input
   // type="checkbox"> mehr; ein Klick genügt, um weiterzukommen.
   await page.locator('#content button[data-edit-multi="applicableSituations"]').first().click();
-  await page.click('#wiz-weiter');
-  await expect(page.locator('#content')).toContainText('Schritt 2 von');
+  await assistentWeiter(page);
+  await expect(page.locator('.wizard-fortschritt')).toContainText('1 von');
 
-  // Zurück bewegt den Schritt.
-  await page.click('#wiz-zurueck');
-  await expect(page.locator('#content')).toContainText('Schritt 1 von');
+  // Seit U-AS gibt es kein „Zurück“: alle Fragen stehen zugleich auf der Seite.
+  await expect(page.locator('#wiz-zurueck')).toHaveCount(0);
 
   // Abbrechen → zurück in den AUSGANGSBEREICH (U2-ADR-054, Bug 1): der Wizard wurde aus Vorsorge
   // gestartet, also landet Abbrechen wieder auf der Vorsorge-Sicht — NICHT mehr auf der Welcome-Seite.

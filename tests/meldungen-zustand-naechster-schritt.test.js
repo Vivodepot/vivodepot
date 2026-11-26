@@ -181,7 +181,7 @@ function uebersichtFunde(V, html, erwartet) {
   if (!erwartet) return zeile ? ['die Zeile steht, obwohl nichts zu tun ist'] : [];
   if (!zeile) return ['die Zeile „Sicherungskopie: noch keine“ fehlt auf der Übersicht'];
   const aus = [];
-  if (zeile[1] !== String(V.STRINGS.sicherungskopieNochKeine)) aus.push('Zustand: ' + zeile[1]);
+  if (zeile[1] !== String(V.STRINGS.sicherungskopieNochKeine)) aus.push('Zustand: ' + zeile[1]);   // ohne Download; nach einem Download: tests/meldungen-erster-weg.test.js [P1]
   if (zeile[2] !== String(V.STRINGS.sicherungskopieMenuepunkt)) aus.push('Knopf: ' + zeile[2]);
   return aus;
 }
@@ -221,7 +221,7 @@ test('[Meldungen·2b] beide Stellen lesen dieselbe Bedingung, die Zeile ist mask
   const a = KERN.indexOf('function renderErledigen()');
   const rumpf = KERN.slice(a, KERN.indexOf('\n}\n', a));
   assert.match(rumpf, /if \(data && !imVorschau\(\) && Modus\.darfBearbeiten\(\) && exportErinnerungModell\(\)\.ohneSicherungskopie && vorschauHatDaten\(data\)\) \{/);
-  assert.match(rumpf, /escapeHTML\(STRINGS\.sicherungskopieNochKeine\)/);
+  assert.match(rumpf, /escapeHTML\(sicherungskopieStandSatz\(STRINGS\.sicherungskopieNochKeine\)\)/);   // „noch keine“ oder der Satz nach einem unbestätigten Download (24.11.2026)
   assert.match(rumpf, /escapeHTML\(STRINGS\[SPEICHERMODELL_HANDGRIFF\]\)/);
   assert.match(rumpf, /sk\.onclick = \(\) => Promise\.resolve\(sicherungskopieErstellen\(\)\)\.then\(\(\) => \{ if \(aktiveAnsicht === 'erledigen'\) renderErledigen\(\); \}\);/);
   const b = KERN.indexOf('function speicherHinweisOeffnen()');

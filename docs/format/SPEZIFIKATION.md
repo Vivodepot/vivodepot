@@ -37,7 +37,7 @@ Alle Zahlen und Kennungen dieses Formats an einer Stelle. Die Krypto-Parameter s
 | `einheitStufeBytes` | 1024 | Auffüllstufe einer Feld-Einheit |
 | `geheimPolsterZeichen` | 512 | Auffüllstufe eines Geheimteils |
 | `fachKennungPraefix` | Fach␠ | Kennung der Tabelleneinträge: „Fach 1“, „Fach 2“, … (␠ = Leerzeichen) |
-| `schemaVersionAktuell` | 102 | höchste beschriebene Schemastufe des Inhalts |
+| `schemaVersionAktuell` | 103 | höchste beschriebene Schemastufe des Inhalts |
 | `whcForm` | 1 | Form des Feldes `wiederherstellung` |
 | `whcSalzBytes` | 32 | Salz im Feld `wiederherstellung` |
 | `whcHuelleBytes` | 48 | Länge der Hülle im Feld `wiederherstellung` |

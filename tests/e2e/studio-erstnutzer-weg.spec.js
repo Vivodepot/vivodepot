@@ -83,7 +83,7 @@ const FACHWOERTER = [
 ];
 
 /* Die Beschriftung eines Knopfes für das Ergebnis (f): „Vorschau“ oder Sichern/Herunterladen der Vorlage. */
-const ERGEBNIS_KNOEPFE = ['#ansicht-probieren', '#entwurf-sichern', '#vorlage-sichern', '#fertig-oeffnen'];
+const ERGEBNIS_KNOEPFE = ['#ansicht-probieren', '#vorlage-sichern'];   // N18: kein „Entwurf sichern“, kein „Fertigstellen und einreichen“ mehr
 const ERGEBNIS_BESCHRIFTUNG = /Vorschau|herunterladen|speichern|sichern|fertig/i;
 
 async function oeffnen(browser, b) {

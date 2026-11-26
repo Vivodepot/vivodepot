@@ -129,6 +129,10 @@ function arbeitsVerzeichnis(argText) {
   if (REPO_INLINE_MUSTER.test(argText)) return 'REPO';
   const cwdM = argText.match(/\bcwd\s*:\s*([A-Za-z_$][\w.$]*)/);
   if (cwdM) return cwdM[1];
+  // `cwd` als Kurzform ohne Doppelpunkt (`{ cwd }`, `{ cwd, encoding }`), wie bei `env` unten. Bis 21.11.2026 galt diese
+  // Schreibweise als „kein cwd" und damit als sicher; so blieb `git init`/`git commit` einer Probe im Commit-Hook unerkannt
+  // und schrieb einen Commit in einen fremden Wagenzweig. Probe: [Git-Umgebung·cwd-Kurzform] in der Probe dieses Wächters.
+  if (/[{,]\s*cwd\s*[,}]/.test(argText)) return 'cwd';
   const cM = argText.match(/['"`]-C['"`]\s*,\s*([A-Za-z_$][\w.$]*)/);
   if (cM) return cM[1];
   return null;

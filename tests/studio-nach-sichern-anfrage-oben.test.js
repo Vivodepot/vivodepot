@@ -1,16 +1,17 @@
 'use strict';
 /* ═════════════════════════════════════════════════════════════════
-   Studio nach dem Sichern: oben die Anfrage für die Person am Schalter, darunter die Vorlage für andere Stellen, dann Speichern
-   (Produktverantwortung 18.11.2026 „Die Idee war, dass die Person am Schalter den QR-Code scannt“; Dummy 14.11.2026 Z. 201).
+   Studio nach dem Sichern wie im freigegebenen Dummy vom 14.11.2026 (Z. 201–211; N74, Entscheidung 22.11.2026 „Wie im Dummy“;
+   N75 in der kleinen Form).
    ─────────────────────────────────────────────────────────────────
-   (1) Ohne signierte Anfrage steht oben „Anfrage für Personen erstellen“; sie führt in den Anfrage-Weg. Kein QR-Code der Vorlage.
-   (2) Mit signierter Anfrage stehen oben „Link kopieren“ (der Link der Anfrage, direkt in die Anwendung) und die QR-Zeile ohne Code:
-       den QR-Code gibt es erst mit der kurzen Adresse der Ablage, kein Code führt ins Leere.
-   (3) Die Vorlage steht unter „Weitergeben an andere Stellen“ (Datei, Link zur Vorlage), Datei und PDF unter „Speichern“.
-   (4) Entsteht die signierte Anfrage nach dem Sichern, steht sie oben auf der Seite, ohne neues Sichern.
+   (1) Gleich nach dem Sichern, ohne signierte Anfrage: oben „Vorlage an Personen geben“ mit „Link kopieren“ (Link der Vorlage auf
+       der Abholseite) und „QR-Code zeigen“; ein Druck zeigt den Code der Vorlage, ein zweiter verbirgt ihn.
+   (2) Mit signierter Anfrage kopiert „Link kopieren“ den Link der Anfrage, direkt in die Anwendung.
+   (3) Zwei Gruppen, Köpfe wie im Dummy: „Vorlage an Personen geben“, „Vorlage aufbewahren“ (Datei und PDF).
+   (4) Entsteht die signierte Anfrage nach dem Sichern, kopiert „Link kopieren“ danach ihren Link, ohne neues Sichern.
    (5) Link und QR-Code der Vorlage zeigen auf die Abholseite. Sie ist live (ABHOLSEITE_LIVE an); die Datei des QR-Codes geht beim
        Sichern hinaus (Ausgabe in drei Wegen). Der Schalter bleibt, falls die Seite einmal nicht steht. Der QR-Teil der Anfrage verlinkt sie nicht.
-   ROT-BEWEIS: GENERATOR_HTML_PATH=<Fassung vor diesem Umbau> node --test tests/studio-nach-sichern-anfrage-oben.test.js → rot.
+   (6) Ohne Abholseite (kein Link der Vorlage) stehen beide Zeilen ohne Knopf mit dem Grund da.
+   ROT-BEWEIS: GENERATOR_HTML_PATH=<Kanon efb4b7886> node --test tests/studio-nach-sichern-anfrage-oben.test.js → (1), (3), (6) rot.
    ═════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -34,54 +35,72 @@ function seite(mitAnfrage) {
   return { g, gebaut, pos };
 }
 
-test('[Anfrage oben · 1] ohne signierte Anfrage: „Anfrage für Personen erstellen“ oben, kein QR-Code der Vorlage', () => {
+test('[Anfrage oben · 1] gleich nach dem Sichern: „Link kopieren“ kopiert den Link der Vorlage, „QR-Code zeigen“ zeigt und verbirgt den Code', async () => {
   const { g, gebaut, pos } = seite(false);
-  assert.ok(pos('ns-liste-personen') >= 0 && pos('ns-weg-anfrage-erstellen') > pos('ns-liste-personen'), '„Anfrage für Personen erstellen“ fehlt oben');
-  assert.ok(pos('ns-liste-stellen') > pos('ns-weg-anfrage-erstellen'), 'die Vorlage steht nicht unter der Anfrage');
-  assert.ok(!gebaut.some((b) => b.tag === 'img'), 'die Seite zeigt einen QR-Code der Vorlage');
-  assert.equal(pos('ns-weg-anfrage-link'), -1);
-  let schritt = null, eingetreten = false;
-  g.sandbox.zeigeSchritt = (s) => { schritt = s; };
-  g.sandbox.anfrageAssistentEintreten = () => { eingetreten = true; };
-  gebaut[pos('ns-weg-anfrage-erstellen')].attrs.onclick();
-  assert.ok(eingetreten && schritt === 'anfrage', 'die Zeile führt nicht in den Anfrage-Weg');
+  assert.ok(pos('ns-liste-personen') >= 0 && pos('ns-weg-anfrage-link') > pos('ns-liste-personen'), '„Link kopieren“ fehlt oben');
+  assert.ok(pos('ns-weg-qr') > pos('ns-weg-anfrage-link'), '„QR-Code zeigen“ fehlt unter „Link kopieren“');
+  const link = gebaut[pos('ns-weg-anfrage-link')];
+  assert.equal(link.tag, 'button');
+  let kopiert = null;
+  g.sandbox.textKopieren = async (t) => { kopiert = t; return true; };
+  await link.attrs.onclick();
+  assert.equal(kopiert, ERG.qr.link, 'kopiert wird nicht der Link der Vorlage');
+  const bild = gebaut.find((b) => b.tag === 'img' && b.attrs.id === 'ns-qr');
+  assert.ok(bild, 'der QR-Code der Vorlage steht nicht auf der Seite');
+  assert.equal(bild.attrs.src, ERG.qr.qr.dataUrl);
+  assert.equal(bild.attrs.hidden, '', 'der Code steht zu Beginn offen da');
+  const qr = gebaut[pos('ns-weg-qr')];
+  assert.equal(qr.tag, 'button');
+  assert.equal(g.sandbox.qrZeigenUmschalten(bild.e), 'Verbergen');
+  assert.equal(bild.e.hidden, false, 'der Code bleibt verborgen');
+  assert.equal(g.sandbox.qrZeigenUmschalten(bild.e), 'Zeigen');
+  assert.equal(bild.e.hidden, true, 'der Code bleibt offen');
 });
 
-test('[Anfrage oben · 2] mit signierter Anfrage: „Link kopieren“ kopiert den Link der Anfrage; die QR-Zeile zeigt keinen Code', async () => {
+test('[Anfrage oben · 2] mit signierter Anfrage: „Link kopieren“ kopiert den Link der Anfrage', async () => {
   const { g, gebaut, pos } = seite(true);
   const link = gebaut[pos('ns-weg-anfrage-link')];
-  assert.ok(link && link.tag === 'button', '„Link kopieren“ der Anfrage fehlt');
-  assert.ok(pos('ns-weg-anfrage-link') < pos('ns-liste-stellen'), '„Link kopieren“ steht nicht oben');
+  assert.ok(link && link.tag === 'button', '„Link kopieren“ fehlt');
   let kopiert = null;
   g.sandbox.textKopieren = async (t) => { kopiert = t; return true; };
   await link.attrs.onclick();
   assert.equal(kopiert, g.V.anfrageAlsLink ? g.V.anfrageAlsLink(UMSCHLAG) : g.sandbox.anfrageAlsLink(UMSCHLAG), 'kopiert wird nicht der Link der Anfrage');
   assert.ok(!/share\.vivodepot\.de\/anfrage\.html/.test(kopiert), 'der Link der Anfrage führt über die Abholseite statt direkt in die Anwendung');
-  const qr = gebaut[pos('ns-weg-anfrage-qr')];
-  assert.ok(qr && qr.tag === 'div', 'die QR-Zeile ist ein Knopf, obwohl es keinen Code gibt');
-  assert.ok(!gebaut.some((b) => b.tag === 'img'), 'ein QR-Code steht da, obwohl die kurze Adresse fehlt');
 });
 
-test('[Anfrage oben · 3] die Vorlage unter „Weitergeben an andere Stellen“, Datei und PDF unter „Speichern“', () => {
+test('[Anfrage oben · 3] zwei Gruppen wie im Dummy: „Vorlage an Personen geben“, „Vorlage aufbewahren“ mit Datei und PDF', () => {
   const { gebaut, pos } = seite(false);
-  const st = pos('ns-liste-stellen'), sp = pos('ns-liste-aufbewahren');
-  assert.ok(st >= 0 && sp > st, 'die Reihenfolge der Gruppen stimmt nicht');
-  assert.ok(pos('ns-weg-vorlage-datei') > st && pos('ns-weg-vorlage-datei') < sp);
-  assert.ok(pos('ns-weg-vorlage-link') > st && pos('ns-weg-vorlage-link') < sp);
+  const pe = pos('ns-liste-personen'), sp = pos('ns-liste-aufbewahren');
+  assert.ok(pe >= 0 && sp > pe, 'die Reihenfolge der Gruppen stimmt nicht');
   assert.ok(pos('ns-weg-datei') > sp && pos('ns-weg-pdf') > sp);
+  assert.equal(pos('ns-liste-stellen'), -1, 'die dritte Gruppe steht noch da');
   const koepfe = gebaut.filter((b) => b.attrs.class === 'gruppe-kopf').map(text);
-  assert.deepEqual(koepfe, ['Teilen mit Personen', 'Weitergeben an andere Stellen', 'Speichern']);
+  assert.deepEqual(koepfe, ['Vorlage an Personen geben', 'Vorlage aufbewahren']);
 });
 
-test('[Anfrage oben · 4] entsteht die signierte Anfrage nach dem Sichern, steht ihr Link oben', () => {
+test('[Anfrage oben · 4] entsteht die signierte Anfrage nach dem Sichern, kopiert „Link kopieren“ ihren Link', async () => {
   const g = ladeGenerator();
   const gebaut = [];
   const el = g.sandbox.el;
   g.sandbox.el = (tag, attrs, kinder) => { const e = el(tag, attrs, kinder); gebaut.push({ tag, attrs: attrs || {}, kinder: kinder || [], e }); return e; };
   g.sandbox.vorlageErgebnisZeigen(ERG);
-  assert.ok(!gebaut.some((b) => b.attrs.id === 'ns-weg-anfrage-link'));
   g.sandbox.nachSichernAnfrageMerken(UMSCHLAG, {});
-  assert.ok(gebaut.some((b) => b.attrs.id === 'ns-weg-anfrage-link'), 'nach dem Signieren steht der Link der Anfrage nicht oben');
+  const links = gebaut.filter((b) => b.attrs.id === 'ns-weg-anfrage-link');
+  let kopiert = null;
+  g.sandbox.textKopieren = async (t) => { kopiert = t; return true; };
+  await links[links.length - 1].attrs.onclick();
+  assert.equal(kopiert, g.V.anfrageAlsLink ? g.V.anfrageAlsLink(UMSCHLAG) : g.sandbox.anfrageAlsLink(UMSCHLAG), 'nach dem Signieren kopiert der Knopf nicht den Link der Anfrage');
+});
+
+test('[Anfrage oben · 6] ohne Link der Vorlage stehen „Link kopieren“ und „QR-Code zeigen“ ohne Knopf mit dem Grund da', () => {
+  const g = ladeGenerator();
+  const gebaut = [];
+  const el = g.sandbox.el;
+  g.sandbox.el = (tag, attrs, kinder) => { const e = el(tag, attrs, kinder); gebaut.push({ tag, attrs: attrs || {}, kinder: kinder || [], e }); return e; };
+  g.sandbox.vorlageErgebnisZeigen(Object.assign({}, ERG, { qr: null }));
+  for (const id of ['ns-weg-anfrage-link', 'ns-weg-qr']) assert.equal(gebaut.find((b) => b.attrs.id === id).tag, 'div', id + ' ist ein Knopf ohne Ziel');
+  assert.ok(gebaut.some((b) => b.attrs.class === 't' && /Abholseite nicht erreichbar/.test(text(b))));
+  assert.ok(!gebaut.some((b) => b.tag === 'img'));
 });
 
 test('[Anfrage oben · 5] Link und QR-Code der Vorlage mit live stehender Abholseite; die QR-Datei geht beim Sichern hinaus', () => {

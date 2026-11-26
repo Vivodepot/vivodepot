@@ -61,7 +61,7 @@ test('[Marke·AbWerk] _markeAnzeigeAnwenden(null,...) setzt den nativen Tab-Tite
   const { V, document } = ladeKern();
   const root = fakeRootMitWortmarke();
   V._markeAnzeigeAnwenden(null, root);
-  assert.equal(document.title, 'Vivodepot · ' + V.BUILD_VERSION);
+  assert.equal(document.title, 'Vivodepot · ' + V.fassungAnzeige());
   assert.equal(root._wortEl.innerHTML, '<span class="lw-vivo">VIVO</span><span class="lw-depot">DEPOT</span>');
 });
 
@@ -100,7 +100,7 @@ test('[Marke·Rot⇄Gruen] Tab-Titel und Wortmarke tragen den fremden Namen nach
   const { V, document } = ladeKern();
   const root = fakeRootMitWortmarke();
   V._markeAnzeigeAnwenden(FREMDMARKE, root);
-  assert.equal(document.title, 'Test-Institut Fremdmarke · ' + V.BUILD_VERSION);
+  assert.equal(document.title, 'Test-Institut Fremdmarke · ' + V.fassungAnzeige());
   assert.equal(root._wortEl.textContent, 'Test-Institut Fremdmarke');
   assert.equal(root._wortEl.innerHTML, '', 'fremder Name ist EIN Textknoten, kein zweifarbiges Wortzeichen erfunden');
 });
@@ -110,7 +110,7 @@ test('[Marke·Reset] _markeAnzeigeAnwenden(null,...) nach einer Fremdmarke räum
   const root = fakeRootMitWortmarke();
   V._markeAnzeigeAnwenden(FREMDMARKE, root);
   V._markeAnzeigeAnwenden(null, root);
-  assert.equal(document.title, 'Vivodepot · ' + V.BUILD_VERSION);
+  assert.equal(document.title, 'Vivodepot · ' + V.fassungAnzeige());
   assert.equal(root._wortEl.innerHTML, '<span class="lw-vivo">VIVO</span><span class="lw-depot">DEPOT</span>');
 });
 

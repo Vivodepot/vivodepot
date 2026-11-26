@@ -70,7 +70,7 @@ test('[U-6·Seite] „Einlesen“ öffnet die Seite mit Ablagefläche, Wählen, 
   }
   assert.ok(inhalt.includes('id="einlesen-ablage"'), 'Ablagefläche');
   assert.ok(inhalt.includes('id="einlesen-waehlen"'), 'Knopf „Dateien auswählen“ mit fester ID (Weg ohne Ziehen)');
-  assert.match(fs.readFileSync(KERN, 'utf8'), /function einlesenDateiWaehlen\(f\) \{[\s\S]*?<input type="file" id="einlesen-datei" hidden>/, 'die Dateiwahl setzt den Picker ein');
+  assert.match(fs.readFileSync(KERN, 'utf8'), /function einlesenDateiWaehlen\(f\) \{[\s\S]*?<input type="file" id="einlesen-datei" multiple hidden>/, 'die Dateiwahl setzt den Picker ein');
   for (const a of ['data-einlesen-bereich', 'data-iz-ganzes', 'data-iz-beta', 'einlesen-wege']) {
     assert.ok(!inhalt.includes(a), 'kein weiterer Weg auf der Seite: ' + a);
   }
@@ -139,8 +139,10 @@ test('[U-6·Autark] die Seite bietet kein Ziel-Depot an; die Datei geht ohne Dep
   const { inhalt } = oeffne(k);
   for (const fremd of ['data-sub-depot', 'data-depot-wahl', 'data-fuer-wen']) assert.ok(!inhalt.includes(fremd), 'keine Depot-Wahl: ' + fremd);
   const src = fs.readFileSync(KERN, 'utf8');
-  assert.match(src, /^async function importAutoDatei\(datei, sektorId, schliessen\) \{$/m, 'die Erkennung kennt kein Ziel-Depot');
-  assert.ok(src.includes('  if (f) { importAutoDatei(f, null, () => {}); return; }'), 'die Seite liest ohne Bereichsvorwahl');
+  // U-3b (17.11.2026): der vierte Parameter trägt nur Posteingang und Rückmeldung nach der Übernahme, kein Ziel-Depot.
+  assert.match(src, /^async function importAutoDatei\(datei, sektorId, schliessen, opt\) \{$/m, 'die Erkennung kennt kein Ziel-Depot');
+  assert.ok(src.includes('  if (f) { einlesenDateienAnnehmen([f]); return; }'), 'die Seite gibt die Datei an die Annahme');
+  assert.ok(src.includes("  if (dateien.length === 1) { await importAutoDatei(dateien[0], null, () => {}, { posteingang: true }); return; }"), 'die Seite liest ohne Bereichsvorwahl');
 });
 
 /* Rot-Beweis: ein Kern, dessen Knopf noch den Dialog öffnet (Stand vor U-6), fällt an [U-6·Knopf]. */

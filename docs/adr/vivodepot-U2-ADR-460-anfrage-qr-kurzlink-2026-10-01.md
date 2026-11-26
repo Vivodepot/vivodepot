@@ -53,6 +53,22 @@ des Share-Fixes dort live ist.
 Sie liefert keinen Kamera-Scanner in der App; eine QR-Serie liest die App weiterhin nur als eingefügten Text (eigener Posten). Sie
 macht eine Anfrage nicht ohne Netz per QR erreichbar.
 
+## Nachtrag 22.11.2026 — die Kamera in der Anwendung ersetzt den Kurzlink-Weg
+
+Seit dem 16.11.2026 gilt Option 1: Statt des Kurzlinks auf einem Server (Punkte 3 bis 5) liest die Anwendung den QR einer Anfrage
+selbst mit der Kamera. Der Dialog „Anfrage öffnen“ trägt dafür den Knopf „Mit Kamera lesen“; der Baustein ist der der Lese-App.
+
+- Die Kamera öffnet nur auf diesen Klick und schließt sofort beim vollständigen Fund und sobald der Dialog geschlossen ist.
+- Gelesen wird über denselben Leser wie beim Einfügen: kompakte Form, Link und QR-Serie („Teil i von n“). Eine Serie wird gesammelt,
+  bis sie vollständig ist; ein fehlender Teil wird benannt. Die Signaturprüfung bleibt unverändert.
+- Es wird nichts aus dem Netz geladen; `connect-src 'none'` bleibt. Fehlt dem Browser der eingebaute QR-Leser (`BarcodeDetector`,
+  heute in Chromium-Browsern) oder verweigert die Person die Kamera, sagt der Dialog das, und Einfügen bleibt. Ein Link-QR öffnet
+  die Anwendung weiter über die Kamera des Telefons (`#anfrage=`).
+- Der Server-Teil (Ablage, `anfrage-ziele.php`, Ablageseite) wird nicht gebaut. Der Satz unter „Was diese Entscheidung nicht leistet“
+  zum Kamera-Scanner ist damit überholt.
+- Golden-Master der Ausgabewege: in der Mitschrift des Datei-Rundlaufs kommen die sechs Kamera-Texte hinzu
+  (`strings:anfrageKamera*.text`); keine bestehende Zeile bewegt sich.
+
 ```yaml
 konformitaet:
   - aussage: >-
@@ -64,6 +80,15 @@ konformitaet:
       - tests/anfrage-kompakt.test.js "[Anfrage·kompakt] Rundlauf: Link und eingefügter Text ergeben dieselbe, geprüfte Anfrage — mit Zertifikat"
       - tests/anfrage-kompakt.test.js "[Anfrage·kompakt·Rot-Beweis] Dekompressionsbombe: ein kleiner Eingang, der über die Grenze aufbläht, wird abgewiesen"
       - tests/anfrage-kompakt.test.js "[Anfrage·kompakt] die alte Form (base64url des Umschlags) bleibt gültig, auch über den asynchronen Weg"
+  - aussage: >-
+      Nachtrag 22.11.2026: Die Anwendung liest den QR einer Anfrage mit der Kamera, nur auf Klick, schließt sie beim Fund und beim
+      Schließen des Dialogs, sammelt eine QR-Serie und lädt nichts aus dem Netz.
+    zustand: erfuellt
+    herkunft: U2-ADR-460 Nachtrag (22.11.2026)
+    pruefung:
+      - tests/anfrage-kamera.test.js "[Anfrage·Kamera] eine Serie wird ohne Doppel gesammelt und ergibt dieselbe Anfrage wie Einfügen"
+      - tests/anfrage-kamera.test.js "[Anfrage·Kamera] ohne Browser-Leser kein Knopf, der Satz steht da"
+      - tests/e2e/anfrage-kamera.spec.js "[Anfrage·Kamera] die Fake-Kamera liest den QR einer Anfrage, die Anfrage öffnet"
 ```
 
 Die Proben der Server-Seite liegen im Repo der Webseite (Testdatei share-anfrage-kurzlink): Weiterleitung nur auf die

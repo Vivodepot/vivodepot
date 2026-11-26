@@ -1,5 +1,5 @@
 {
-  "hinweis": "Abbildungen der Feldkennungen auf internationale Datensätze (IPS, eu-eps, openEHR; ePA/MIO zusätzlich). Nur Abbildung, keine Umbenennung (U2-ADR-409). Grade: exakt, naeherung, eng, weit (SKOS). Keine Zeile heißt: keine Entsprechung. Geprüft und gezählt von tools/bezuege-erheben.js. FIM-Zeilen (datensatz fim-baukasten) tragen zusätzlich fassung und status; Feldnamen der FIM-Bausteine stehen hier NICHT (Feld name bleibt leer, bis die Zustimmung der FITKO in fimNamenFreigabe belegt ist). SEMIC-Zeilen (datensatz semic-core-vocabularies, 17.10.2026) tragen vokabular und fassung; das Ziel ist die volle IRI eines Terms der SEMIC Core Vocabularies. Nur IRIs, keine Labels oder Definitionen von SEMIC (CC-BY 4.0); die Grade sind die Auslegung von Vivodepot. Sie stehen im öffentlichen Feldregister, die FIM-Zeilen nicht.",
+  "hinweis": "Abbildungen der Feldkennungen auf internationale Datensätze (IPS, eu-eps, openEHR; ePA/MIO zusätzlich). Nur Abbildung, keine Umbenennung (U2-ADR-409). Grade: exakt, naeherung, eng, weit (SKOS). Keine Zeile heißt: keine Entsprechung. Geprüft und gezählt von tools/bezuege-erheben.js. FIM-Zeilen (datensatz fim-baukasten) tragen zusätzlich fassung und status; Feldnamen der FIM-Bausteine stehen hier NICHT (Feld name bleibt leer, bis die Zustimmung der FITKO in fimNamenFreigabe belegt ist). SEMIC-Zeilen (datensatz semic-core-vocabularies, 17.10.2026) tragen vokabular und fassung; das Ziel ist die volle IRI eines Terms der SEMIC Core Vocabularies. Nur IRIs, keine Labels oder Definitionen von SEMIC (CC-BY 4.0); die Grade sind die Auslegung von Vivodepot. Sie stehen im öffentlichen Feldregister, die FIM-Zeilen nicht. Je Zeile zusätzlich (22.11.2026): stufe, begruendung, kommentar (Sachsatz, worin Definition und Grad auseinandergehen, bei Stufe zu-pruefen), vorgeschlagenVon, bestaetigtVon, datum, bei einer Bestätigung bestaetigtAm; geprüft von tools/zuordnungen-pruefen.js. Der Bestand trägt stufe aufgenommen, vorgeschlagenVon vivodepot-redaktion, keinen Bestätiger und das Datum des Commits, der die Zeile einführte (git show <hash>).",
   "zeilen": [
     {
       "kennung": "identity.familyName",
@@ -7,7 +7,12 @@
       "ziel": "F60000227",
       "fassung": "1.1",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten den Familiennamen (Nachname) einer Person als Text fest.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.givenName",
@@ -15,7 +20,12 @@
       "ziel": "F60000228",
       "fassung": "2.0",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.birthName",
@@ -23,7 +33,12 @@
       "ziel": "F60000230",
       "fassung": "2.0",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Familiennamen bei der Geburt als Text; im Feld stehen spätere Namen unter „Frühere Namen“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.birthDate",
@@ -31,7 +46,12 @@
       "ziel": "F05000016340",
       "fassung": "1.2.0",
       "status": "fachlich freigegeben (silber)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten das vollständige Geburtsdatum (Tag, Monat, Jahr) als Datum fest.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.birthPlace",
@@ -39,7 +59,12 @@
       "ziel": "F60000234",
       "fassung": "1.2",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten den Ort der Geburt einer Person als Text fest.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.nationality",
@@ -47,7 +72,12 @@
       "ziel": "F60000236",
       "fassung": "1.4",
       "status": "fachlich freigegeben (gold)",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind Auswahlfelder aus der Destatis-Codeliste Staatsangehörigkeit, auch mit mehreren Werten; das Ziel bindet die Fassung 2023-02-24, das Feld die Fassung 2026-08-05.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.maritalStatus",
@@ -55,7 +85,12 @@
       "ziel": "F60000275",
       "fassung": "1.2",
       "status": "fachlich freigegeben (gold)",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind Auswahlfelder zum Familienstand; die Werte weichen ab (Ziel u. a. „Ehe aufgehoben“, Feld „getrennt lebend“).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.gender",
@@ -63,7 +98,12 @@
       "ziel": "F60000332",
       "fassung": "1.3",
       "status": "fachlich freigegeben (gold)",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind Auswahlfelder mit denselben vier Werten (männlich, weiblich, divers, keine Angabe); das Ziel bindet an den Eintrag im Personenstandsregister.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.email",
@@ -71,7 +111,13 @@
       "ziel": "F03000021483",
       "fassung": "1.0.0",
       "status": "fachlich freigegeben (silber)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Ziel ist als Kontaktadresse einer Organisation definiert, das Feld meint die E-Mail-Adresse der Person; das passt nicht zu „exakt“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.telephone",
@@ -79,7 +125,13 @@
       "ziel": "F03000021484",
       "fassung": "1.0.0",
       "status": "fachlich freigegeben (silber)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Ziel ist als Telefonnummer der zuständigen Kontaktperson definiert, das Feld meint die Nummer der Person selbst; das passt nicht zu „exakt“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.streetAddress",
@@ -87,7 +139,13 @@
       "ziel": "G00000587",
       "fassung": "2.0",
       "status": "in Bearbeitung — nicht fest",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Ziel ist die ganze Anschrift im Inland oder Ausland (Straße, Hausnummer, Postleitzahl, Ort, Staat), das Feld nur ein Teil davon; das passt eher zu „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.postcodeCity",
@@ -95,7 +153,13 @@
       "ziel": "G00000587",
       "fassung": "2.0",
       "status": "in Bearbeitung — nicht fest",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Ziel ist die ganze Anschrift im Inland oder Ausland (Straße, Hausnummer, Postleitzahl, Ort, Staat), das Feld nur ein Teil davon; das passt eher zu „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "administration.bundidVerificationLevel",
@@ -103,7 +167,12 @@
       "ziel": "F06006636",
       "fassung": "0.1",
       "status": "in Bearbeitung — nicht fest",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind Auswahlfelder zur Stufe der BundID; das Ziel spricht vom Vertrauensniveau der Anmeldung und nutzt eine eigene Codeliste.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-09-30"
     },
     {
       "kennung": "identity.street",
@@ -111,7 +180,12 @@
       "ziel": "F60000243",
       "fassung": "1.2",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten den Straßennamen einer Anschrift als Text fest.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-11-07"
     },
     {
       "kennung": "identity.houseNumber",
@@ -119,7 +193,12 @@
       "ziel": "F60000244",
       "fassung": "1.2",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten die Hausnummer einer Anschrift als Text fest.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-11-07"
     },
     {
       "kennung": "identity.postalCode",
@@ -127,7 +206,12 @@
       "ziel": "F60000246",
       "fassung": "1.1",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten die Postleitzahl als Text fest; das Ziel schränkt sie zusätzlich auf fünf Ziffern ein.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-11-07"
     },
     {
       "kennung": "identity.city",
@@ -135,7 +219,12 @@
       "ziel": "F60000247",
       "fassung": "2.2",
       "status": "fachlich freigegeben (gold)",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten den Ortsnamen als Text fest; das Ziel nennt Gemeinde, Ortschaft oder Stadt und schließt Ortsteile aus.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-11-07"
     },
     {
       "kennung": "administration.bundid/bundidEmailAddress",
@@ -143,7 +232,12 @@
       "ziel": "http://data.europa.eu/m8g/email",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine E-Mail-Adresse als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für das BundID-Konto.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "administration.furtherEmailAddress",
@@ -151,7 +245,12 @@
       "ziel": "http://data.europa.eu/m8g/email",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine E-Mail-Adresse als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für eine weitere Adresse.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "administration.mainEmailAddress",
@@ -159,7 +258,12 @@
       "ziel": "http://data.europa.eu/m8g/email",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine E-Mail-Adresse als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für die Haupt-Adresse.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "administration.ongoingAdministrativeCases/authority",
@@ -167,7 +271,12 @@
       "ziel": "http://data.europa.eu/m8g/hasCompetentAuthority",
       "vokabular": "CPSV-AP",
       "fassung": "3.2.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel verknüpft eine öffentliche Leistung mit der verantwortlichen Organisation; das Feld nennt die Behörde eines laufenden Vorgangs als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "administration.ongoingAdministrativeCases/currency",
@@ -175,7 +284,12 @@
       "ziel": "http://data.europa.eu/m8g/currency",
       "vokabular": "CPSV-AP",
       "fassung": "3.2.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Währung eines Betrags; das Ziel ist ein Begriff aus einem Vokabular, das Feld bietet fünf feste Werte (EUR, USD, GBP, CHF, sonstige).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "administration.ongoingAdministrativeCases/fileReferenceNumber",
@@ -183,7 +297,12 @@
       "ziel": "http://purl.org/dc/terms/identifier",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "administration.ongoingAdministrativeCases/frequency",
@@ -191,7 +310,12 @@
       "ziel": "http://data.europa.eu/m8g/frequency",
       "vokabular": "CPOV",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Wiederkehr; das Ziel ist ein Begriff aus einem Vokabular, das Feld bietet drei feste Werte (monatlich, jährlich, einmalig).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "advanceCare.provisionInstruments/fileReferenceNumber",
@@ -199,7 +323,12 @@
       "ziel": "http://purl.org/dc/terms/identifier",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "advanceCare.provisionInstruments/storageCity",
@@ -207,7 +336,12 @@
       "ziel": "http://www.w3.org/ns/locn#postName",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der für postalische Zwecke geführte Name einer Adressuntereinheit, das Feld der Ort des Ablageorts als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "advanceCare.provisionInstruments/storageHouseNumber",
@@ -215,7 +349,12 @@
       "ziel": "http://www.w3.org/ns/locn#locatorDesignator",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel beschreibt die Kennung eines Locators allgemein, das Feld speziell die Hausnummer des Ablageorts als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "advanceCare.provisionInstruments/storagePostalCode",
@@ -223,7 +362,12 @@
       "ziel": "http://www.w3.org/ns/locn#postCode",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Postleitzahl als Text; das Feld bezieht sie auf den Ablageort.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "advanceCare.provisionInstruments/storageStreet",
@@ -231,7 +375,12 @@
       "ziel": "http://www.w3.org/ns/locn#thoroughfare",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Straßennamen als Text; das Feld bezieht ihn auf den Ablageort.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "education.employerAddress",
@@ -239,7 +388,12 @@
       "ziel": "http://www.w3.org/ns/locn#address",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel verknüpft eine Ressource mit einem Adress-Objekt, das Feld hält die Arbeitgeber-Adresse als einzelnen Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "finance.financialAdvisorNameContact",
@@ -247,7 +401,13 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Feld nennt eine Person oder Stelle mit Namen und Kontakt, das Ziel nur Kontaktangaben; das passt nicht zur Richtung „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "finance.taxAdvisorContact",
@@ -255,7 +415,12 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel umfasst Kontaktangaben wie E-Mail und Telefon einer Person oder Stelle, das Feld ist als Telefon-Eingabe angelegt.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "finance.taxIdsTaxNumbers",
@@ -263,7 +428,12 @@
       "ziel": "http://www.w3.org/ns/adms#Identifier",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "finance.taxIdsTaxNumbers/system",
@@ -271,7 +441,12 @@
       "ziel": "http://purl.org/dc/terms/conformsTo",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel nennt das Schema, nach dem eine Kennung gebildet ist; das Feld „Land / System“ nennt als Text das Land oder System der Steuer-ID bzw. Steuernummer.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "finance.taxIdsTaxNumbers/taxNumber",
@@ -279,7 +454,12 @@
       "ziel": "http://www.w3.org/2004/02/skos/core#notation",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind eine Zeichenfolge zur eindeutigen Kennzeichnung; das Ziel kennzeichnet einen Begriff, das Feld die Steuer-ID bzw. Steuernummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "health.dentistNameContact",
@@ -287,7 +467,13 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Feld nennt eine Person oder Stelle mit Namen und Kontakt, das Ziel nur Kontaktangaben; das passt nicht zur Richtung „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "health.emergencyContacts",
@@ -295,7 +481,13 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Feld nennt eine Person oder Stelle mit Namen und Kontakt, das Ziel nur Kontaktangaben; das passt nicht zur Richtung „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "health.familyMedicalHistory/familyMember",
@@ -303,7 +495,12 @@
       "ziel": "http://www.w3.org/ns/person#Person",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "health.insuranceNumber",
@@ -311,7 +508,12 @@
       "ziel": "http://www.w3.org/2004/02/skos/core#notation",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind eine Zeichenfolge zur eindeutigen Kennzeichnung; das Ziel kennzeichnet einen Begriff, das Feld die Versichertennummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "housing.currency",
@@ -319,7 +521,12 @@
       "ziel": "http://data.europa.eu/m8g/currency",
       "vokabular": "CPSV-AP",
       "fassung": "3.2.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Währung eines Betrags; das Ziel ist ein Begriff aus einem Vokabular, das Feld bietet fünf feste Werte (EUR, USD, GBP, CHF, sonstige).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "housing.furtherHomes/landlordEmail",
@@ -327,7 +534,12 @@
       "ziel": "http://data.europa.eu/m8g/email",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine E-Mail-Adresse als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für den Vermieter.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "housing.furtherHomes/landlordPhone",
@@ -335,7 +547,12 @@
       "ziel": "http://data.europa.eu/m8g/telephone",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine Telefonnummer als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für den Vermieter.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "housing.landlordEmail",
@@ -343,7 +560,12 @@
       "ziel": "http://data.europa.eu/m8g/email",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine E-Mail-Adresse als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für den Vermieter.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "housing.landlordPhone",
@@ -351,7 +573,12 @@
       "ziel": "http://data.europa.eu/m8g/telephone",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine Telefonnummer als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für den Vermieter.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.birthDate",
@@ -359,7 +586,12 @@
       "ziel": "http://data.europa.eu/m8g/birthDate",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten den Zeitpunkt der Geburt als Datum fest; das Ziel lässt zusätzlich Monat oder nur das Jahr zu.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.birthName",
@@ -367,7 +599,13 @@
       "ziel": "http://www.w3.org/ns/person#birthName",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Ziel ist der vollständige Name bei der Geburt, das Feld nur der Familienname bei der Geburt; das passt nicht zu „exakt“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.birthPlace",
@@ -375,7 +613,12 @@
       "ziel": "http://www.w3.org/ns/person#placeOfBirth",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Ort der Geburt; das Ziel verweist auf ein Orts-Objekt, das Feld hält ihn als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.city",
@@ -383,7 +626,12 @@
       "ziel": "http://www.w3.org/ns/locn#postName",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der für postalische Zwecke geführte Name einer Adressuntereinheit, das Feld der Ort der Anschrift als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.email",
@@ -391,7 +639,12 @@
       "ziel": "http://data.europa.eu/m8g/email",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine E-Mail-Adresse als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für die E-Mail im Bereich Identität.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.familyName",
@@ -399,7 +652,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/familyName",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Familiennamen (Nachname) einer Person als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.formerNames",
@@ -407,7 +665,12 @@
       "ziel": "http://purl.org/dc/terms/alternative",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel umfasst jeden Namen einer Person neben dem vollen Namen, das Feld nur früher geführte Namen.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.formerNames/name",
@@ -415,7 +678,12 @@
       "ziel": "http://purl.org/dc/terms/alternative",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel umfasst jeden Namen einer Person neben dem vollen Namen, das Feld hält einen früher geführten Namen als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.gender",
@@ -423,7 +691,12 @@
       "ziel": "http://data.europa.eu/m8g/gender",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist ein Begriff aus einem je Zusammenhang passenden Vokabular, das Feld bietet vier feste Werte (männlich, weiblich, divers, keine Angabe).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.givenName",
@@ -431,7 +704,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/givenName",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Vornamen einer Person als Text; das Ziel nennt ausdrücklich auch mehrere Vornamen.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.houseNumber",
@@ -439,7 +717,12 @@
       "ziel": "http://www.w3.org/ns/locn#locatorDesignator",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel beschreibt die Kennung eines Locators allgemein, das Feld speziell die Hausnummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.idDocuments",
@@ -447,7 +730,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/Document",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.idDocuments/documentNumber",
@@ -455,7 +743,12 @@
       "ziel": "http://www.w3.org/2004/02/skos/core#notation",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind eine Zeichenfolge zur eindeutigen Kennzeichnung; das Ziel kennzeichnet einen Begriff, das Feld die Ausweisnummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.idDocuments/issuedOn",
@@ -463,7 +756,12 @@
       "ziel": "http://purl.org/dc/terms/issued",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen das Ausstellungsdatum als Datum; das Ziel bezieht es auf die Kennung, das Feld auf den Ausweis.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.idDocuments/system",
@@ -471,7 +769,12 @@
       "ziel": "http://purl.org/dc/terms/conformsTo",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel nennt das Schema, nach dem eine Kennung gebildet ist; das Feld „Land / System“ nennt als Text das Land oder System der Ausweisnummer.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.nationality",
@@ -479,7 +782,12 @@
       "ziel": "http://www.w3.org/ns/person#citizenship",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Staatsangehörigkeit; das Ziel verweist auf die verleihende Rechtsordnung als Objekt, das Feld wählt sie als Code aus der Destatis-Codeliste Staatsangehörigkeit.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pets.pets/emergencyCarePersonContact",
@@ -487,7 +795,13 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Feld nennt eine Person oder Stelle mit Namen und Kontakt, das Ziel nur Kontaktangaben; das passt nicht zur Richtung „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-23"
     },
     {
       "kennung": "pets.pets/vetNameContact",
@@ -495,7 +809,13 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Feld nennt eine Person oder Stelle mit Namen und Kontakt, das Ziel nur Kontaktangaben; das passt nicht zur Richtung „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-23"
     },
     {
       "kennung": "identity.postalCode",
@@ -503,7 +823,12 @@
       "ziel": "http://www.w3.org/ns/locn#postCode",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Postleitzahl als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.residencePermit",
@@ -511,7 +836,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/Document",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.residencePermit/fileReferenceNumber",
@@ -519,7 +849,12 @@
       "ziel": "http://purl.org/dc/terms/identifier",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.residencePermit/issuedOn",
@@ -527,7 +862,12 @@
       "ziel": "http://purl.org/dc/terms/issued",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen das Ausstellungsdatum als Datum; das Ziel bezieht es auf die Kennung, das Feld auf den Aufenthaltstitel.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.residencePermit/number",
@@ -535,7 +875,12 @@
       "ziel": "http://www.w3.org/2004/02/skos/core#notation",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind eine Zeichenfolge zur eindeutigen Kennzeichnung; das Ziel kennzeichnet einen Begriff, das Feld die Nummer des Aufenthaltstitels als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.residencePermit/system",
@@ -543,7 +888,12 @@
       "ziel": "http://purl.org/dc/terms/conformsTo",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel nennt das Schema, nach dem eine Kennung gebildet ist; das Feld „Land / System“ nennt als Text das Land oder System der Nummer des Aufenthaltstitels.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.secondLastName",
@@ -551,7 +901,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/familyName",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der Familienname allgemein, das Feld nur der zweite von zwei getrennt geführten Nachnamen.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.street",
@@ -559,7 +914,12 @@
       "ziel": "http://www.w3.org/ns/locn#thoroughfare",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Straßennamen als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.telephone",
@@ -567,7 +927,12 @@
       "ziel": "http://data.europa.eu/m8g/telephone",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine Telefonnummer als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für die Telefonnummer im Bereich Identität.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "identity.yearOfBirthIfTheExactDayIs",
@@ -575,7 +940,12 @@
       "ziel": "http://data.europa.eu/m8g/birthDate",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel lässt Datum, Monat oder nur das Jahr der Geburt zu, das Feld nimmt nur das Jahr als Zahl auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "mobility.embassyContact",
@@ -583,7 +953,13 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Feld nennt eine Person oder Stelle mit Namen und Kontakt, das Ziel nur Kontaktangaben; das passt nicht zur Richtung „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "mobility.passportIssuedOn",
@@ -591,7 +967,12 @@
       "ziel": "http://purl.org/dc/terms/issued",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen das Ausstellungsdatum als Datum; das Ziel bezieht es auf die Kennung, das Feld auf den Reisepass.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "mobility.passportNo",
@@ -599,7 +980,12 @@
       "ziel": "http://www.w3.org/2004/02/skos/core#notation",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind eine Zeichenfolge zur eindeutigen Kennzeichnung; das Ziel kennzeichnet einen Begriff, das Feld die Reisepass-Nummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.childrenAndDependants",
@@ -607,7 +993,12 @@
       "ziel": "http://www.w3.org/ns/person#Person",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.childrenAndDependants/fileReferenceNumber",
@@ -615,7 +1006,12 @@
       "ziel": "http://purl.org/dc/terms/identifier",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.childrenAndDependants/person",
@@ -623,7 +1019,12 @@
       "ziel": "http://www.w3.org/ns/person#Person",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.guidedBirthEntryChildsNameNot",
@@ -631,7 +1032,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.guidedBirthEntryDateOfBirthNot",
@@ -639,7 +1045,12 @@
       "ziel": "http://data.europa.eu/m8g/birthDate",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten ein Geburtsdatum als Datum fest; das Feld ist der noch nicht übernommene Zwischenstand des Geburts-Assistenten.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.maintenanceObligationsAnd/currency",
@@ -647,7 +1058,12 @@
       "ziel": "http://data.europa.eu/m8g/currency",
       "vokabular": "CPSV-AP",
       "fassung": "3.2.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Währung eines Betrags; das Ziel ist ein Begriff aus einem Vokabular, das Feld bietet fünf feste Werte (EUR, USD, GBP, CHF, sonstige).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.maintenanceObligationsAnd/frequency",
@@ -655,7 +1071,12 @@
       "ziel": "http://data.europa.eu/m8g/frequency",
       "vokabular": "CPOV",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Wiederkehr; das Ziel ist ein Begriff aus einem Vokabular, das Feld bietet drei feste Werte (monatlich, jährlich, einmalig).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.maintenanceObligationsAnd/person",
@@ -663,7 +1084,12 @@
       "ziel": "http://www.w3.org/ns/person#Person",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "people.spouseOrCivilPartner",
@@ -671,7 +1097,12 @@
       "ziel": "http://www.w3.org/ns/person#Person",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_name",
@@ -679,7 +1110,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-11-07"
     },
     {
       "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern/tpl_erreichbarkeit",
@@ -687,7 +1123,12 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern/tpl_name",
@@ -695,7 +1136,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-11-07"
     },
     {
       "kennung": "pro-betrieb-zugaenge.tpl_business_identification_number",
@@ -703,7 +1149,12 @@
       "ziel": "http://www.w3.org/ns/adms#identifier",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist die eindeutige Kennung einer juristischen Einheit allgemein, das Feld nur ihre Wirtschafts-Identifikationsnummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-betrieb-zugaenge.tpl_employer_number",
@@ -711,7 +1162,12 @@
       "ziel": "http://www.w3.org/ns/adms#identifier",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist die eindeutige Kennung einer juristischen Einheit allgemein, das Feld nur ihre Betriebsnummer für die Sozialversicherung als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-betrieb-zugaenge.tpl_immobilie_im_eigentum/tpl_adresse",
@@ -719,7 +1175,12 @@
       "ziel": "http://www.w3.org/ns/locn#address",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel verknüpft eine Ressource mit einem Adress-Objekt, das Feld hält die Adresse der Immobilie als einzelnen Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-finanzen-verbindlichkeiten.tpl_annual_accounts",
@@ -727,7 +1188,12 @@
       "ziel": "http://data.europa.eu/m8g/AccountingDocument",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel umfasst finanzielle und nichtfinanzielle Angaben aus der Tätigkeit einer Organisation, das Feld nur Jahresabschlüsse.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-finanzen-verbindlichkeiten.tpl_bankverbindung/tpl_vollmacht_inhaber",
@@ -735,7 +1201,12 @@
       "ziel": "http://data.europa.eu/m8g/authorises",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der Agent, dem die Vollmacht die Handlungsbefugnis gibt; das Feld nimmt den Vollmacht-Inhaber als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_name",
@@ -743,7 +1214,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den vollständigen Namen einer Person als eine Zeichenkette; das Feld gilt für wirtschaftlich Berechtigte.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_nationality",
@@ -751,7 +1227,12 @@
       "ziel": "http://www.w3.org/ns/person#citizenship",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die Staatsangehörigkeit; das Ziel verweist auf die verleihende Rechtsordnung als Objekt, das Feld nimmt sie als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_date_of_birth",
@@ -759,7 +1240,12 @@
       "ziel": "http://data.europa.eu/m8g/birthDate",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten den Zeitpunkt der Geburt als Datum fest; das Ziel lässt zusätzlich Monat oder nur das Jahr zu.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_name",
@@ -767,7 +1253,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den vollständigen Namen einer Person als eine Zeichenkette; das Feld gilt für Gesellschafterinnen und Gesellschafter.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_place_of_residence",
@@ -775,7 +1266,12 @@
       "ziel": "http://data.europa.eu/m8g/domicile",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Wohnsitz der Person; das Ziel verweist auf ein Adress-Objekt, das Feld hält den Wohnort als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit",
@@ -783,7 +1279,12 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name",
@@ -791,7 +1292,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den vollständigen Namen einer Person als eine Zeichenkette; das Feld gilt für nicht zu benachrichtigende Personen.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung/tpl_erreichbarkeit",
@@ -799,7 +1305,12 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung/tpl_name",
@@ -807,7 +1318,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den vollständigen Namen einer Person als eine Zeichenkette; das Feld gilt für die benannte Person.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_domestic_business_address",
@@ -815,7 +1331,12 @@
       "ziel": "http://data.europa.eu/m8g/registeredAddress",
       "vokabular": "Core Location",
       "fassung": "2.1.1",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen die im Register eingetragene Anschrift; das Ziel verknüpft mit einem Adress-Objekt, das Feld hält sie als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht",
@@ -823,7 +1344,12 @@
       "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht/tpl_wer",
@@ -831,7 +1357,12 @@
       "ziel": "http://data.europa.eu/m8g/authorises",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der Agent, dem die Vollmacht die Handlungsbefugnis gibt; das Feld nimmt die Person (Handlungsvollmacht) als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht/tpl_wofuer",
@@ -839,7 +1370,12 @@
       "ziel": "http://data.europa.eu/m8g/scopeOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten fest, wofür oder in welchem Zusammenhang die Vollmacht gilt; das Feld nimmt es als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_date_of_birth",
@@ -847,7 +1383,12 @@
       "ziel": "http://data.europa.eu/m8g/birthDate",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide halten den Zeitpunkt der Geburt als Datum fest; das Ziel lässt zusätzlich Monat oder nur das Jahr zu.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_name",
@@ -855,7 +1396,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den vollständigen Namen einer Person als eine Zeichenkette; das Feld gilt für die Geschäftsführung laut Register.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_place_of_residence",
@@ -863,7 +1409,12 @@
       "ziel": "http://data.europa.eu/m8g/domicile",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den Wohnsitz der Person; das Ziel verweist auf ein Adress-Objekt, das Feld hält den Wohnort als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_power_of_attorney_original",
@@ -871,7 +1422,12 @@
       "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_prokura",
@@ -879,7 +1435,12 @@
       "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_prokura/tpl_wer",
@@ -887,7 +1448,12 @@
       "ziel": "http://data.europa.eu/m8g/authorises",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der Agent, dem die Vollmacht die Handlungsbefugnis gibt; das Feld nimmt die Person (Prokura) als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_prokura_scope",
@@ -895,7 +1461,12 @@
       "ziel": "http://data.europa.eu/m8g/scopeOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide beschreiben den Anwendungsbereich der Vollmacht als Freitext; das Feld bezieht sich auf die Prokura (Grundstücke, Filiale).",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_registernummer",
@@ -903,7 +1474,12 @@
       "ziel": "http://www.w3.org/ns/legal#legalIdentifier",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist die Kennung, die die eintragende Stelle einer juristischen Einheit zuweist; das Feld nimmt die Registernummer als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney",
@@ -911,7 +1487,12 @@
       "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_authorised_person",
@@ -919,7 +1500,12 @@
       "ziel": "http://data.europa.eu/m8g/authorises",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der Agent, dem die Vollmacht die Handlungsbefugnis gibt; das Feld nimmt die Bevollmächtigten gegenüber dem Finanzamt als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_scope",
@@ -927,7 +1513,12 @@
       "ziel": "http://data.europa.eu/m8g/scopeOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide beschreiben den Anwendungsbereich der Vollmacht als Freitext; das Feld bezieht sich auf die Vollmacht gegenüber dem Finanzamt.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_name",
@@ -935,7 +1526,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der vollständige Name einer Person; das Feld nimmt den Namen von Banken, Geschäftspartnern oder Behörden als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-11-07"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_unternehmervollmacht",
@@ -943,7 +1539,12 @@
       "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_vertretungsregelung",
@@ -951,7 +1552,12 @@
       "ziel": "http://purl.org/dc/terms/type",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide beschreiben die Vertretungsregel (wie viele Mitglieder handeln müssen); das Ziel ist ein Begriff, das Feld bietet vier feste Werte, zwei davon mit Befreiung von § 181 BGB.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus",
@@ -959,7 +1565,12 @@
       "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_bevollmaechtigter",
@@ -967,7 +1578,12 @@
       "ziel": "http://data.europa.eu/m8g/authorises",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel ist der Agent, dem die Vollmacht die Handlungsbefugnis gibt; das Feld nimmt den Bevollmächtigten als Text auf.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_weitere_geschaeftsfuehrer_vorstaende/tpl_erreichbarkeit",
@@ -975,7 +1591,12 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "pro-vertretung-vollmachten.tpl_weitere_geschaeftsfuehrer_vorstaende/tpl_name",
@@ -983,7 +1604,12 @@
       "ziel": "http://xmlns.com/foaf/0.1/name",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "exakt"
+      "grad": "exakt",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen den vollständigen Namen einer Person als eine Zeichenkette; das Feld gilt für weitere Geschäftsführer und Vorstände.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.homeCareServiceNameContact",
@@ -991,7 +1617,13 @@
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "weit"
+      "grad": "weit",
+      "stufe": "zu-pruefen",
+      "begruendung": "",
+      "kommentar": "Zu prüfen: Das Feld nennt eine Person oder Stelle mit Namen und Kontakt, das Ziel nur Kontaktangaben; das passt nicht zur Richtung „weit“.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.longTermCareFundNumbers",
@@ -999,7 +1631,12 @@
       "ziel": "http://www.w3.org/ns/adms#Identifier",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.longTermCareFundNumbers/longTermCareFundNumber",
@@ -1007,7 +1644,12 @@
       "ziel": "http://www.w3.org/2004/02/skos/core#notation",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind eine Zeichenfolge zur eindeutigen Kennzeichnung; das Ziel kennzeichnet einen Begriff, das Feld die Pflegekasse-Nummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.longTermCareFundNumbers/system",
@@ -1015,7 +1657,12 @@
       "ziel": "http://purl.org/dc/terms/conformsTo",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel nennt das Schema, nach dem eine Kennung gebildet ist; das Feld „Land / System“ nennt als Text das Land oder System der Pflegekasse-Nummer.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.longTermCareFundPhone",
@@ -1023,7 +1670,12 @@
       "ziel": "http://data.europa.eu/m8g/telephone",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide meinen eine Telefonnummer als Text; das Ziel gilt für einen Kontaktpunkt, das Feld für die Pflegekasse.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.pensionInsuranceNumbers",
@@ -1031,7 +1683,12 @@
       "ziel": "http://www.w3.org/ns/adms#Identifier",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.pensionInsuranceNumbers/pensionInsuranceNumber",
@@ -1039,7 +1696,12 @@
       "ziel": "http://www.w3.org/2004/02/skos/core#notation",
       "vokabular": "Core Person",
       "fassung": "2.1.2",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Beide sind eine Zeichenfolge zur eindeutigen Kennzeichnung; das Ziel kennzeichnet einen Begriff, das Feld die Rentenversicherungsnummer als Text.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     },
     {
       "kennung": "socialInsurance.pensionInsuranceNumbers/system",
@@ -1047,7 +1709,12 @@
       "ziel": "http://purl.org/dc/terms/conformsTo",
       "vokabular": "Core Business",
       "fassung": "2.3.0",
-      "grad": "naeherung"
+      "grad": "naeherung",
+      "stufe": "aufgenommen",
+      "begruendung": "Das Ziel nennt das Schema, nach dem eine Kennung gebildet ist; das Feld „Land / System“ nennt als Text das Land oder System der Rentenversicherungsnummer.",
+      "vorgeschlagenVon": "vivodepot-redaktion",
+      "bestaetigtVon": "",
+      "datum": "2026-10-17"
     }
   ],
   "fimNamenFreigabe": {

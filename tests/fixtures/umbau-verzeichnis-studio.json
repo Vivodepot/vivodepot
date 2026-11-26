@@ -65,7 +65,7 @@
     {
       "kennung": "ein-anfrage",
       "art": "knopf",
-      "beschriftung": "Anfrage an Personen Sie sagen, welche Angaben Sie brauchen. Die Person entscheidet, was sie Ihnen gibt.",
+      "beschriftung": "Anfrage an Personen So empfangen Sie Antworten. Sie sagen, welche Angaben Sie brauchen. Die Person entscheidet, was sie Ihnen gibt.",
       "fundort_alt": "raum-eingang",
       "zustand": "gemessen",
       "neuer_platz": {
@@ -942,16 +942,16 @@
       }
     },
     {
-      "kennung": "bsp-anamnese",
+      "kennung": "bsp-praxis",
       "art": "knopf",
-      "beschriftung": "Anamnese-Bogen Beispiel: Gesundheit, mit medizinischen Code-Listen (LOINC, ICD-10, ATC, SNOMED).",
+      "beschriftung": "Anmeldung in einer Praxis Name, Geburtsdatum, Krankenversicherung, Medikamente",
       "fundort_alt": "raum-start",
       "zustand": "gemessen",
       "neuer_platz": {
         "ort": "Start",
         "weg": {
           "alle": [
-            "#bsp-anamnese"
+            "#bsp-praxis"
           ]
         }
       }
@@ -1101,15 +1101,8 @@
       "art": "knopf",
       "beschriftung": "Entwurf sichern",
       "fundort_alt": "raum-bau",
-      "zustand": "gemessen",
-      "neuer_platz": {
-        "ort": "Sichern",
-        "weg": {
-          "alle": [
-            "#entwurf-sichern"
-          ]
-        }
-      }
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-DUMMY N18 (22.11.2026): „Vorlage sichern“ ist der einzige Hauptweg; der Entwurf geht beim Sichern mit, Einreichen steht danach unter „Gesichert“, die Vorschau der Anfrage daneben bzw. am Telefon im Reiter"
     },
     {
       "kennung": "entwurf-sichern-unten",
@@ -1147,20 +1140,13 @@
       "art": "knopf",
       "beschriftung": "Fertigstellen und einreichen ▸",
       "fundort_alt": "raum-bau",
-      "zustand": "gemessen",
-      "neuer_platz": {
-        "ort": "Veröffentlichen",
-        "weg": {
-          "alle": [
-            "#fertig-oeffnen"
-          ]
-        }
-      }
+      "zustand": "entfällt mit Befund",
+      "befund": "STUDIO-DUMMY N18 (22.11.2026): „Vorlage sichern“ ist der einzige Hauptweg; der Entwurf geht beim Sichern mit, Einreichen steht danach unter „Gesichert“, die Vorschau der Anfrage daneben bzw. am Telefon im Reiter"
     },
     {
       "kennung": "ns-einreichen",
       "art": "knopf",
-      "beschriftung": "Einreichen ▸",
+      "beschriftung": "An Vivodepot zur Prüfung schicken ▸",
       "fundort_alt": "neu (S-5)",
       "zustand": "gemessen",
       "neuer_platz": {
@@ -1430,6 +1416,21 @@
         "weg": {
           "alle": [
             "#ab-berufsstandname"
+          ]
+        }
+      }
+    },
+    {
+      "kennung": "vk-stelle-name",
+      "art": "feld",
+      "beschriftung": "Name Ihrer Stelle",
+      "fundort_alt": "raum-bau",
+      "zustand": "gemessen",
+      "neuer_platz": {
+        "ort": "Vorlage, nur wenn beim Sichern der Name der Stelle fehlt",
+        "weg": {
+          "alle": [
+            "#vk-stelle-name"
           ]
         }
       }
@@ -1812,7 +1813,7 @@
     {
       "kennung": "ed-speichern",
       "art": "knopf",
-      "beschriftung": "Fertig",
+      "beschriftung": "Übernehmen",
       "fundort_alt": "raum-bau",
       "zustand": "gemessen",
       "neuer_platz": {

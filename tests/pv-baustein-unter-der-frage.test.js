@@ -29,6 +29,14 @@ function bausteinZeilen(html) {
 function htmlAn(k) {
   return String(k.document.getElementById('content').innerHTML || '');
 }
+// U-AS (21.11.2026): alle Fragen stehen auf einer Seite; das Stück einer Zeile reicht von ihrem `data-wiz-idx` bis zur nächsten.
+function zeileHtml(html, idx) {
+  const start = html.indexOf('data-wiz-idx="' + idx + '"');
+  if (start < 0) return '';
+  const rest = html.slice(start + 1);
+  const ende = rest.search(/data-wiz-idx="|class="wizard-aktionen"/);
+  return ende < 0 ? rest : rest.slice(0, ende);
+}
 
 const KOPPLUNG = { PROBEN: [
   { fuer: '[PV·Baustein] keine Frage des Assistenten trägt die Ziffer im Text, in keiner Sprache und keinem Produkt', diskriminante: fragenMitZiffer },
@@ -60,11 +68,11 @@ test('[PV·Baustein] jeder Schritt mit Baustein zeigt die Zeile unter der Frage,
   V.wizardLauf('pvwiz');
   const sichtbar = V.wizardSichtbareIndizes(def);
   let gesehenMit = 0;
+  V.renderWizard();
+  const seite = htmlAn(k);
   for (let i = 0; i < sichtbar.length; i++) {
-    if (i > 0) V.wizardWeiter();
-    V.renderWizard();
     const schritt = def.schritte[sichtbar[i]];
-    const zeilen = bausteinZeilen(htmlAn(k));
+    const zeilen = bausteinZeilen(zeileHtml(seite, sichtbar[i]));
     if (schritt.bmjBaustein) {
       gesehenMit++;
       assert.deepEqual(zeilen, ['Amtlicher Baustein ' + schritt.bmjBaustein], `Schritt ${schritt.feld.id}: Zeile fehlt oder falsch`);

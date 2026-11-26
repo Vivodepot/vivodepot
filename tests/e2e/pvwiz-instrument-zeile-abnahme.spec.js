@@ -4,7 +4,7 @@
    Bürgerin unsichtbar und unkorrigierbar" — das ist die eigentliche Probe hier: nach dem
    Abschluss steht die Patientenverfügung im Depot, in der Instrument-Liste sichtbar. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, assistentFertig } = require('./helpers');
 
 const KONSOLE_HARMLOS = /Content-Security-Policy|frame-ancestors/i;
 
@@ -28,16 +28,9 @@ test('pvwiz vollständig durchlaufen: die Patientenverfügung landet sichtbar in
   // mehr.
   await page.locator('#content button[data-edit-multi="applicableSituations"]').first().click();
 
-  // Alle weiteren Schritte durchklicken (kein BMJ-Feld ist pflicht — "Weiter" bleibt bedienbar),
-  // bis der Knopf "Fertig" zeigt.
-  let sicherung = 0;
-  while (sicherung++ < 60) {
-    const text = (await page.locator('#wiz-weiter').textContent() || '').trim();
-    await page.click('#wiz-weiter');
-    if (/fertig/i.test(text)) break;
-    await expect(page.locator('.wizard-frage')).toBeVisible();
-  }
-  expect(sicherung, 'die Schleife darf nicht an der Sicherung enden — dann lief etwas endlos').toBeLessThan(60);
+  // U-AS (21.11.2026): alle Fragen stehen auf einer Seite; kein BMJ-Feld ist Pflicht, „Fertig“ schliesst ab.
+  await expect(page.locator('.wizard-frage')).toBeVisible();
+  await assistentFertig(page);
 
   // Abschluss-Toast, zurück auf der Vorsorge-Sicht.
   await expect(page.locator('.toast, [role="status"]').first()).toBeVisible({ timeout: 5000 }).catch(() => {});
@@ -72,15 +65,9 @@ test('Bestandsdepot (alter Weg, nur Organspende beantwortet): nichts verschwinde
   await page.click('[data-wizard-start="pvwiz"]');
 
   // Nur die Organspende-Frage beantworten (der alte, vor diesem Auftrag bereits bestehende Weg),
-  // alle anderen Schritte unbeantwortet durchklicken.
-  let sicherung = 0;
-  while (sicherung++ < 60) {
-    const auswahl = page.locator('#content select[data-edit="organDonationDecision"]');
-    if (await auswahl.count()) await auswahl.selectOption('zustimmung');
-    const text = (await page.locator('#wiz-weiter').textContent() || '').trim();
-    await page.click('#wiz-weiter');
-    if (/fertig/i.test(text)) break;
-  }
+  // alle anderen Fragen bleiben leer; seit U-AS stehen sie auf einer Seite, „Fertig“ schliesst ab.
+  await page.locator('#content select[data-edit="organDonationDecision"]').selectOption('zustimmung');
+  await assistentFertig(page);
 
   const zeilen = await page.evaluate(() =>
     ((window.__vdOeffentlich.ankerDaten().sektoren.advanceCare && window.__vdOeffentlich.ankerDaten().sektoren.advanceCare.provisionInstruments) || [])

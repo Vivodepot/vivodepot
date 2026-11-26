@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 331712
+   "bytes": 338388
   },
   "satz": {
-   "bytes": 26798
+   "bytes": 26647
   }
  },
  "fremdcode": [
@@ -4078,6 +4078,241 @@
    "auf": 331779,
    "daneben": {},
    "grund": "ALTE-FASSUNG-OHNE-HINWEIS: Fassungszeile mit Aktualisierungs-Knopf und dritter leiser Knopf „Neues Depot anlegen“ im Öffnen-Schirm (neu aufgesetzt auf 7f4697a85)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 331712,
+   "auf": 331743,
+   "daneben": {},
+   "grund": "Schnellstart zieht aus den Einstellungen in die Hilfe-Übersicht (eigene Überschrift und Abschnittsrahmen); Pro-Wagen VERSION-OHNE-FASSUNGSNUMMER Schritt 2, 21.11.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 331743,
+   "auf": 331962,
+   "daneben": {},
+   "grund": "Unterlage an der Listenzeile entfernbar, Verweisfeld verwendet gleiche Datei wieder (UNTERLAGE-NICHT-LOESCHBAR)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 331962,
+   "auf": 332356,
+   "daneben": {},
+   "grund": "Anfrage-Kamera im Dialog Anfrage öffnen: Element-Kennungen, Kamera-Vorgaben und QR-Format (ANFRAGE-KAMERA, U2-ADR-460 Nachtrag); im Launch-Zug neu gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 332356,
+   "auf": 332395,
+   "daneben": {},
+   "grund": "ANFRAGE-BESCHRIFTUNG 23.11.2026: sichtbare Beschriftung über dem Feld im Dialog „Eine Anfrage öffnen“ (label mit Text aus STRINGS)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 332395,
+   "auf": 333708,
+   "daneben": {},
+   "grund": "U-3b Posteingang (U2-ADR-529): Abschnitt Erkannt auf der Seite Einlesen, Zeile in Wartet auf Sie, Register posteingang",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 333708,
+   "auf": 333773,
+   "daneben": {},
+   "grund": "Posteingang zeigt seinen Abweisungssatz über das Anzeige-Modell der Ablage, mit dem Grund depot-zu-gross in der Satzquelle",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 333773,
+   "auf": 333919,
+   "daneben": {},
+   "grund": "SD-JWT-DISCLOSURE-UNGEBUNDEN: Bindung der Offenlegungen an _sd (sdJwtOffenlegungenGebunden)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 333919,
+   "auf": 334245,
+   "daneben": {},
+   "grund": "IMPORT-SYNCHRON-UNGEPRUEFT und Gegenlesung der SD-JWT-Bindung: Marke in importPlan (+44), Ablehnungsgründe nach RFC 9901 §7.1 und verschachtelte Offenlegung mit eigenem Grund (+282)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 334245,
+   "auf": 334539,
+   "daneben": {},
+   "grund": "Wagen Schritt 5: Knöpfe des Posteingangs nach lesbarem Inhalt, Prüfsumme als Satz, Notfall-Kurzzeile, Aufräumen der Meldungen beim Seitenwechsel",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 334539,
+   "auf": 336550,
+   "daneben": {},
+   "grund": "Sterbefall nach XPersonenstand: XML-Schreiber der Nachricht 084021, Antwort als PDF an die Stelle und als Kopie der Person",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 336550,
+   "auf": 336621,
+   "daneben": {},
+   "grund": "Hinweis nach dem Einlesen nur außerhalb der Seite Einlesen, schließt beim Ablege-Dialog; Größenprüfung vor dem Einlesen im Posteingang (Fehlerkennung posteingang-datei-zu-gross)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 336621,
+   "auf": 336624,
+   "daneben": {},
+   "grund": "Antwort-PDF: Host und Pfad des Link-QR lesbar unter dem Code",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 336624,
+   "auf": 337058,
+   "daneben": {
+    "satz": -117
+   },
+   "grund": "Assistent als Anlass-Seite (U-AS): Zeilen je Frage mit Haken, Index-Attribut, Zeilen-Speichern und Fehlerzustand je Zeile — Struktur, auf die der Kern verzweigt, kein Inhalt (23.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 337058,
+   "auf": 337099,
+   "daneben": {},
+   "grund": "FACH-SITZUNG-SCHREIBT-INHABER-DATEI: Fehlercode fach-nur-lesen und Rückfalltext im Bearbeitungstor",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 337099,
+   "auf": 337100,
+   "daneben": {},
+   "grund": "Versionssatz je Herkunft: ein Leerzeichen zwischen Stand-Satz und Herkunfts-Satz in einstellungenHTML",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 337100,
+   "auf": 337270,
+   "daneben": {
+    "satz": -9
+   },
+   "grund": "PV-DOKUMENTNAME-DE-IM-EN: Titel und Überschrift der Vorsorge-Instrumente lesen dokument.<typ>.name über Getter (24.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 337257,
+   "auf": 337511,
+   "daneben": {},
+   "grund": "Meldungen erster Weg (24.11.2026): Platzhalter-Beispiele im Übergabe-Protokoll, Satz unter dem Anlass-Kopf und unter der eigenen Unterlage, Datums- und Download-Satz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 337511,
+   "auf": 337528,
+   "daneben": {},
+   "grund": "Klasse feld-zeile--voll: volle Breite für Felder mit langem Beispiel (Formatvorlagen, Schicht 3)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 337528,
+   "auf": 338246,
+   "daneben": {},
+   "grund": "Anlegen/Öffnen: Schreibweise und Meldungen (24.11.2026): Hinweis-Absätze am Probe-, Öffnen- und Code-Feld mit aria-describedby, Druckknöpfe in Schritt 1 und in den Einstellungen, Prüfreihenfolge beim Öffnen und beim Code; Markup und Kennungen ohne Satz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 338246,
+   "auf": 338356,
+   "daneben": {},
+   "grund": "Passwort festlegen (24.11.2026): Überschrift, Mindestlänge am Feld und Angebot der Wörter im Anlege-Dialog",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 338356,
+   "auf": 338388,
+   "daneben": {},
+   "grund": "Satz über dem Formular der eigenen Unterlage trägt data-baustein (Fix gestaltung-ansicht)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

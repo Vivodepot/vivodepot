@@ -148,5 +148,293 @@
     "sha256": "799e64befca97d4080e03608c80b85dd5a5ecc5f4ae4f35d1116ec2855b9a7c9",
     "entpacken": null,
     "herkunft": "curl + shasum -a 256 am 05.10.2026 (10 648 594 Byte, Release vom 20.08.2026); beschafft von tools/kosit-beschaffen.mjs (Pin im Adapter tests/konformitaet/adapter/kosit-validator.mjs)"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xinneres.xpersonenstand",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xinneres.xpersonenstand.xsd/daten",
+    "sha256": "96cb9ef5172f3f31f7f129f40fc723777f8b30ded6e46b79e479190d28214865",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-baukasten",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-baukasten.xsd/daten",
+    "sha256": "c08a449ebd025d3984c5c476e3a9bd8f02874c9adc02e1e4a6e1946ad88f8be1",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-codes",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-codes.xsd/daten",
+    "sha256": "f537cae95a431abc18f287452eb7dd177c08740d04d67f154b89a84867c8680d",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-auslaenderbehoerden",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-auslaenderbehoerden.xsd/daten",
+    "sha256": "961ca1089ca018edf58268b25777b42685e1ae043218cfe9b90190da9ca3782c",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-datenabrufe",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-datenabrufe.xsd/daten",
+    "sha256": "2f70e88303483124bacef268acae1c3a7ad3bbd09d55224986e00dcabdeeb736",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-elterngeldstelle",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-elterngeldstelle.xsd/daten",
+    "sha256": "cef5c799738699a63e4d9620898084fe9239daff204928907ed14e21ae912d92",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-euausland",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-euausland.xsd/daten",
+    "sha256": "2eea5956a4c92fd30f37dad5fdab377c3cac1245719335125bb8617025607a27",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-gesundheitsbehoerden",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-gesundheitsbehoerden.xsd/daten",
+    "sha256": "0be9e7830c7391a6ffbbcd40c4d1787e939ce8884f7dd9abeeb1a466052596b1",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-meldebehoerden",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-meldebehoerden.xsd/daten",
+    "sha256": "112ac2692a2fc63fd4a527d0a21dbafc28db15548833c5e442db124cb9af0b48",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-portale",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-portale.xsd/daten",
+    "sha256": "fa51239985291d9a43c9dd1f95af2b5f4173863676d6f3c480874f407ab124fb",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-sta2ja",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-sta2ja.xsd/daten",
+    "sha256": "3a03f9e842dc82b9c0e5507dbc625b11e6b56234f555a9bdcd4f8bbe2bc7b259",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-standesamtiberlin",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-standesamtiberlin.xsd/daten",
+    "sha256": "f16c9356e0b06e54220f8b29d260f4f02b87444ad23e6421622b3fe2edf49782",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-standesamtiberlinstandesamt",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-standesamtiberlinstandesamt.xsd/daten",
+    "sha256": "70a30a3fce29591fe0c8c118b5e8298d5a635d0feefe79003ddaa6f3db089732",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-standesamtintern",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-standesamtintern.xsd/daten",
+    "sha256": "98ce5864db24ba1f9c088e1f9434aa3c68ac4ff94f8851e809113b8ad3d692b0",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-statistik",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-statistik.xsd/daten",
+    "sha256": "5e7f166ba8284e1aba449596a2f57213381f12d39812dbf63b056b3c0c8fd33f",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xoev-xpersonenstand-26.11-xpersonenstand-nachrichten-ztr",
+    "art": "daten",
+    "version": "26.11",
+    "lizenz": "XRepository-Nutzungsbedingungen (KoSIT): unverändert, mit Urheberhinweis; keine Ablage auf fremden Servern ohne schriftliche Genehmigung",
+    "url": "https://www.xrepository.de/api/xrepository/urn:xoev-de:kosit:standard:xinneres.xpersonenstand_26.11:xmlschema:datei:xpersonenstand-nachrichten-ztr.xsd/daten",
+    "sha256": "8c85eebe01846f859c6b5ca2bae35997ec09abe76ff89fd3714fbee382e9e6df",
+    "herkunft": "curl + shasum -a 256 am 12.11.2026, nachgemessen am 20.11.2026 (gleich); Einzeldatei = Datei im XML-Schema-ZIP; nicht im Repo"
+  },
+  {
+    "id": "xinneres-allgemeinername-4",
+    "art": "daten",
+    "version": "4",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/allgemeinername/4/xinneres-name.xsd",
+    "sha256": "4df4f76c2667f4cb90fc25581c0cf812b413a0d1c3ec1464a94e0b1d5ac5fd23",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-auslandsanschrift-5",
+    "art": "daten",
+    "version": "5",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/auslandsanschrift/5/xinneres-auslandsanschrift.xsd",
+    "sha256": "a3fd67b3af702c2802c2cc328f0333dbcd7cea79653723188015d309763ef695",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-basisnachricht-7",
+    "art": "daten",
+    "version": "7",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/basisnachricht/7/xinneres-basisnachricht.xsd",
+    "sha256": "2c7dc903f5a0d9f2b8acd29196b78c914d62026dbeabce2a220f79dbd3ecbcc6",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-behoerde-7",
+    "art": "daten",
+    "version": "7",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/behoerde/7/xinneres-behoerde.xsd",
+    "sha256": "933b39e2d070cd26026983038b2c87696a7cf11fb357b0b838b5b2e3558c16c4",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-codes-gemeindeverzeichnis-3",
+    "art": "daten",
+    "version": "3",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/codes/gemeindeverzeichnis/3/xinneres-codes-gemeindeverzeichnis.xsd",
+    "sha256": "59bfb8868d37fce3ea3c3d582650e87399c9f3e084d9cc316c9a8b59da0d0d07",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-datum-2",
+    "art": "daten",
+    "version": "2",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/datum/2/xinneres-datum.xsd",
+    "sha256": "3c81ef96de878261be1411f6355aa39e39496a6399fbcf278970a40fb876f09b",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-geschlecht-1",
+    "art": "daten",
+    "version": "1",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/geschlecht/1/xinneres-geschlecht.xsd",
+    "sha256": "02e714724b8497ee04fb1b4a8057d13c3c972510132648b15b9d7faee4275ab8",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-idnr-2",
+    "art": "daten",
+    "version": "2",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/idnr/2/xinneres-idnr.xsd",
+    "sha256": "966f464ed66505a3e48921e0f835128fcc90966ae0c8831f42862ae5b5ef4914",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-meldeanschrift-5",
+    "art": "daten",
+    "version": "5",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/meldeanschrift/5/xinneres-meldeanschrift.xsd",
+    "sha256": "f2098175555c4e74ebe5cbca00aacf4897aedb1c30aef6683e9d9f628ec9a657",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-nachrichtentypen-7",
+    "art": "daten",
+    "version": "7",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/nachrichtentypen/7/xinneres-nachrichtentypen.xsd",
+    "sha256": "9aad47fb87b3f815d88f68c0b21e91c8d9917310b3f6cf9b61dcc81fa062d39a",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-postanschrift-5",
+    "art": "daten",
+    "version": "5",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/postanschrift/5/xinneres-postanschrift.xsd",
+    "sha256": "94d08a82ea6895223ba6c4ea6120b602aa2cf8fac69a5be4ab8df8f0b8c7a81d",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xinneres-rueckweisung-6",
+    "art": "daten",
+    "version": "6",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XInneres-Basismodul (osci.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://www.osci.de/xinneres/rueckweisung/6/xinneres-rueckweisung.xsd",
+    "sha256": "c51305a9e9606848751624fead197e83ba6fc501ef3c87dbf09b58b81966f371",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xoev-din-spec-91379-datatypes-2019-03",
+    "art": "daten",
+    "version": "2019-03",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XÖV-Rahmenwerk (xoev.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://xoev.de/DIN-SPEC-91379/2019-03/datatypes/din-91379-datatypes.xsd",
+    "sha256": "5d0a50292e436ee7c7d5bc8b36c4bacc60a964fc1f4a0122f4d5e4fd58a339c8",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xoev-basisnachricht-unqualified-g2g-1.1",
+    "art": "daten",
+    "version": "1.1",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XÖV-Rahmenwerk (xoev.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://xoev.de/schemata/basisnachricht/unqualified/g2g/1_1/xoev-basisnachricht-unqualified-g2g_1.1.xsd",
+    "sha256": "8baa3f188b8255dcf185914441d578174d51e7fdabf57888f50f76fc734fdbb6",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xoev-code-1.0",
+    "art": "daten",
+    "version": "1.0",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XÖV-Rahmenwerk (xoev.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://xoev.de/schemata/code/1_0/xoev-code.xsd",
+    "sha256": "afe77061aaba798b9a2f8c5156d42176cf7dae10bdce9b51d31dbe2794a34395",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
+  },
+  {
+    "id": "xoev-din-norm-91379-datatypes-2022-08",
+    "art": "daten",
+    "version": "2022-08",
+    "lizenz": "Nutzungsbedingungen des Herausgebers (XÖV-Rahmenwerk (xoev.de)); eingebunden aus dem Baukasten von XPersonenstand 26.11; nicht im Repo, Lizenz nicht eigens geprüft",
+    "url": "https://xoev.de/schemata/din/91379/2022-08/din-norm-91379-datatypes.xsd",
+    "sha256": "9f5d22ca5bcd1a2adb8262cae3f464269b41d0f86e188a36538fac12b9e15fd0",
+    "herkunft": "Python urllib + sha256 am 20.11.2026; http- und https-Adresse liefern dieselben Bytes; Basisschema, das xpersonenstand-baukasten.xsd oder xpersonenstand-codes.xsd per schemaLocation einbindet (auch mittelbar); nicht im Repo"
   }
 ]

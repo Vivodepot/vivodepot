@@ -9,7 +9,7 @@
    → „Depot anlegen“ mit Namen (A1/D46: der alte #tb-speichern-Knopf ist entfernt; der namenlose Dialog
    #pw-neu/#pw-neu2 entfiel am 07.11.2026) · App-Shell #app.an, #content, Sidebar [data-sektor], Topbar
    #tb-modus-select/#tb-einstellungen · Sektor-Edit #b-bearb/[data-edit]/#b-fertig ·
-   Wizard #wiz-weiter/#wiz-zurueck/#wiz-abbr · Modal #modal-rueck/#m-ok.
+   Assistent #wiz-fertig/#wiz-abbr (seit U-AS eine Seite) · Modal #modal-rueck/#m-ok.
    ════════════════════════════════════════════════════════════════════════ */
 const http = require('node:http');
 const fs = require('node:fs');
@@ -440,6 +440,17 @@ async function wizardStarten(page, wizardId) {
   await knopf.click();
 }
 
+/* U-AS (21.11.2026): der Assistent ist EINE Seite mit allen sichtbaren Fragen (Entwurf A). „Weiter“ gibt es nicht mehr — eine
+   Antwort zählt, sobald ihr Feld verlassen wird (change), und „Fertig“ sichert alle Zeilen und schliesst ab. Die beiden Helfer
+   ersetzen in den Specs den Klick auf „Weiter“ (assistentWeiter) und den letzten Klick, der abschloss (assistentFertig); was eine
+   Spec prüft, ändern sie nicht. */
+async function assistentWeiter(page) {
+  await page.evaluate(() => { const a = document.activeElement; if (a && a !== document.body && a.blur) a.blur(); });
+}
+async function assistentFertig(page) {
+  await page.click('#wiz-fertig');
+}
+
 // Modus über den Demo-Umschalter der Topbar wechseln (anker | vollmacht | notfall).
 // Der Umschalter (<select id="tb-modus-select"> in .dev-leiste) ist im Normalbetrieb ausgeblendet
 // (CSS display:none; nur mit ?dev=1 sichtbar). Für den Test blenden wir die Dev-Leiste ein und
@@ -677,7 +688,7 @@ module.exports = { schubfachOeffnen, eintragDetailOeffnenMobil, rubrikZeileTippe
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
   oeffneApp, depotAnlegen, eigenesPasswortWaehlen, datumSetzen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
-  fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, rubrikOeffnen, einstellungenAbschnittOeffnen,
+  fsaStandardAttrappeEinrichten, wizardStarten, assistentWeiter, assistentFertig, feldgruppenKartenOeffnen, rubrikOeffnen, einstellungenAbschnittOeffnen,
   erweiterungEinlesenBestaetigen, erweiterungenWaehlen,
   starteLokalenServer,
   browserEd25519SchluesselpaarErzeugen, browserJwsSignieren,

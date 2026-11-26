@@ -74,7 +74,7 @@
      wie das .einst-abschnitt h4 direkt darüber — derselbe 2,71:1-Kontrastfehler im Nachtmodus,
      darum derselbe Fix, nicht erneut gemessen (Geschwisterfall, keine neue Zahl). */
   html.dark-mode .einst-abschnitt-titel,
-  html.dark-mode .wizard-frage,
+  html.dark-mode .wizard-zeile-frage,
   html.dark-mode .ampel-titel,
   /* Task 5 (U2-ADR-174 Teilprojekt 2, 25.08.2026): derselbe Handgriff, elfte Stelle — gefunden
      nicht durch dieselbe Suche, sondern durch das Kampagne-Gate beim Push. `.bt-tab.aktiv` trug
@@ -142,9 +142,9 @@
   html.high-contrast body, html.dark-mode body { font-weight: var(--fw-medium); }
   /* Elemente der Erzählschrift ohne eigenes Gewicht gegen die 500-Vererbung schuetzen -> bleiben 400. */
   html.high-contrast .narrativ, html.high-contrast .logo, html.high-contrast .sektor-intro,
-  html.high-contrast .leer-platzhalter, html.high-contrast .deckblatt-name, html.high-contrast .wizard-frage,
+  html.high-contrast .leer-platzhalter, html.high-contrast .deckblatt-name, html.high-contrast .wizard-zeile-frage,
   html.dark-mode .narrativ, html.dark-mode .logo, html.dark-mode .sektor-intro,
-  html.dark-mode .leer-platzhalter, html.dark-mode .deckblatt-name, html.dark-mode .wizard-frage { font-weight: var(--fw-regular); }
+  html.dark-mode .leer-platzhalter, html.dark-mode .deckblatt-name, html.dark-mode .wizard-zeile-frage { font-weight: var(--fw-regular); }
   /* Feld-Werte (Inter) als Hervorhebung ueber dem nun 500-schweren Body/Labels halten -> 600. */
   html.high-contrast .feld-wert, html.dark-mode .feld-wert { font-weight: var(--fw-semibold); }
   * { box-sizing: border-box; }
@@ -154,7 +154,7 @@
     /* U2-ADR-296 (05.09.2026): Basis-Schriftart wird markenbewusst — ein Branding-Modul
        setzt --vd-branding-schriftart (brandingAnwenden), fehlt es, bleibt --font-inter
        unveraendert die Vorgabe. Nur die BASIS, nicht die "gesperrten Inter"-Regeln
-       (.welcome-wort, .wizard-frage — UX-Konzept §9/§12), die bleiben bewusst unberuehrt. */
+       (.welcome-wort, .wizard-zeile-frage — UX-Konzept §9/§12), die bleiben bewusst unberuehrt. */
     font-family: var(--vd-branding-schriftart, var(--font-inter));
     color: var(--ink);
     background: var(--cream);
@@ -874,6 +874,7 @@
   .uebersicht-quelle:empty { background: transparent; }
   .uebersicht-marke { display: inline-flex; align-items: center; padding: 0 var(--space-2); border-radius: var(--radius-pill); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); background: var(--salbei-light); color: var(--salbei-dunkel); }
   .uebersicht-marke.warten { background: var(--flaeche-hinweis); color: var(--ink); }
+  .uebersicht-av.warten { background: var(--flaeche-hinweis); color: var(--ink); }   /* U-3b (D29): Zahl der wartenden Dateien wie die Marke daneben */
   .uebersicht-anlaesse { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-3); }
   .uebersicht-kachel { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); color: var(--ink); text-align: left; font: inherit; }
   .uebersicht-kachel:hover { background: var(--flaeche-hover); }
@@ -890,6 +891,11 @@
     button.uebersicht-zeile { flex-wrap: wrap; }
     button.uebersicht-zeile > .uebersicht-zeile-text { flex: 1 1 0; }
     button.uebersicht-zeile > .uebersicht-rechts { flex: 1 1 100%; min-width: 0; padding-left: calc(var(--space-5) + var(--space-3)); }
+    /* U-3b (D72): eine wartende Datei unter „Erkannt“ trägt zwei Knöpfe; bei 375 px stehen Name und Angaben über die volle Breite,
+       „Entfernen“ und „Übernehmen“ darunter rechts (sonst brach der Dateiname in eine Spalte von wenigen Zeichen). */
+    [data-posteingang-eintrag] { flex-wrap: wrap; }
+    [data-posteingang-eintrag] > .uebersicht-zeile-text { flex: 1 1 100%; }
+    [data-posteingang-eintrag] > [data-posteingang-entfernen] { margin-left: auto; }
   }
   .nav-item .punkt { width: 7px; height: 7px; margin-left: auto; border-radius: var(--radius-rund); background: var(--gold); flex: 0 0 auto; }
   /* Zweizeiliger Nav-Eintrag (Label + dezenter Untertitel, z. B. „Prüftermine / Was wann erneuern"). */
@@ -948,7 +954,7 @@
      KOPFZEILE (.topbar, .lw-vivo, .lw-depot, .depot-pille) ABSICHTLICH NICHT in dieser Liste
      (Zug 2) — sie bleibt bei ihrer eigenen, unveränderten Textfarbe (var(--auf-akzent) bzw.
      die festen Logo-Literale), unabhängig vom Sub-Depot-Akzent. */
-  #app.modus-vollmacht.vm-akzent .content .wizard-frage,
+  #app.modus-vollmacht.vm-akzent .content .wizard-zeile-frage,
   #app.modus-vollmacht.vm-akzent .content .wizard-fortschritt-text,
   #app.modus-vollmacht.vm-akzent .content .btn-sek { color: var(--vm-akzent-stark); }
   #app.modus-vollmacht.vm-akzent .content .btn-sek { border-color: var(--vm-akzent-stark); }
@@ -1279,7 +1285,8 @@
     .eintragebereich[data-detail-offen] > .bereich-liste { display: none; }
     .bereich-liste-zeile { min-height: calc(var(--treffer) + var(--space-2)); flex-direction: row; align-items: center; gap: var(--space-3); }
     .bereich-liste-titel { flex-shrink: 0; }
-    .bereich-liste-inhalt { margin-left: auto; text-align: right; color: var(--ink2); min-width: 0; }
+    /* Am Handy bricht die Unterzeile um, statt mit Auslassungspunkten abzubrechen („Art der Buchführun…“). */
+    .bereich-liste-inhalt { margin-left: auto; text-align: right; color: var(--ink2); min-width: 0; white-space: normal; overflow: visible; overflow-wrap: anywhere; }
     .bereich-detail-zurueck { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--treffer); border: 0; background: none; color: var(--ink); padding: 0 var(--space-2) 0 0; font: inherit; font-weight: var(--fw-semibold); cursor: pointer; margin: 0 0 var(--space-2); }
   }
   /* U-4 Schritt 2 (Dummy): das Detail ist flach. Der Abschnitt um die offene Rubrik trägt keinen eigenen Rand und keinen Schatten,
@@ -2129,7 +2136,9 @@
   /* Einheitliche Werte-Rolle (Version/Stand/Hash/Lizenz gleich behandelt, keiner größer als die
      anderen — vorher waren Version/Stand/Lizenz unstyled und liefen auf Ambient-Größe, während
      nur Hash explizit klein war; der Lizenz-Wert wirkte dadurch wie eine Überschrift). */
-  .einst-wert { font-size: var(--fs-role-hilfe); color: var(--ink); }
+  /* Ein langer Wert (etwa die Lizenzzeile) bricht um, statt rechts aus dem Fenster zu laufen (21.11.2026, im Bild der
+     Einstellungen gesehen): overflow-wrap: anywhere senkt die kleinste Breite des Flex-Elements, die Zeile darf schrumpfen. */
+  .einst-wert { font-size: var(--fs-role-hilfe); color: var(--ink); overflow-wrap: anywhere; }
   .einst-hash { font-family: ui-monospace, Menlo, Consolas, monospace; color: var(--ink2); word-break: break-all; }
   /* U2-ADR-430: der Wiederherstellungs-Code zum Abschreiben — groß, gleichbreit, Gruppen nicht getrennt umbrochen. */
   .whc-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); letter-spacing: var(--ls-code);
@@ -2352,35 +2361,16 @@
   .wizard-sicht { max-width: 640px; }
   .wizard-fortschritt { display: flex; align-items: center; gap: var(--space-3); margin: var(--space-2) 0 var(--space-4) 0; }
   .wizard-fortschritt-text { font-size: var(--fs-role-hilfe); color: var(--akzent); font-weight: var(--fw-medium); flex: 0 0 auto; }
-  .wizard-balken { flex: 1 1 auto; height: 6px; background: var(--salbei-light); border-radius: var(--radius-pill); overflow: hidden; }
-  .wizard-balken-fuell { display: block; height: 100%; background: var(--salbei-mid); border-radius: var(--radius-pill); transition: width .25s ease; }
-  .wizard-schritt { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-5); box-shadow: var(--shadow-soft); }
-  .wizard-frage { font-family: var(--font-inter); font-weight: var(--fw-medium); letter-spacing: var(--ls-frage); font-size: var(--fs-role-text); color: var(--salbei-dunkel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }   /* Findings 6/10/11 → Nacharbeit 05.07.: von --fs-xl über --fs-lg auf Kern-Größe --fs-base (man will flacher). UX-Konzept §9 (25.08.2026, Produktentscheidung bestätigt): gesperrtes Inter statt Serif, gleiche Begründung wie §12 zur Wortmarke — löst den Konflikt mit der Schrift-Rollen-Probe (Auftrag 04.08.2026) auf, dieser Test wurde entsprechend nachgezogen. */
+  /* U-AS (21.11.2026): die Fragen eines Assistenten stehen als Zeilen auf EINER Karte, wie die Aufgaben eines Anlasses
+     (`.aufgabe`/`.haken`). Die Zeile beginnt oben, damit Haken und Frage auf einer Höhe stehen, auch bei hoher Eingabe. */
+  .wizard-liste { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-2) var(--space-5); box-shadow: var(--shadow-soft); }
+  .wizard-zeile { align-items: flex-start; padding: var(--space-4) 0; }
+  .wizard-zeile > .haken { align-self: flex-start; }   /* auch bei mehrzeiliger Frage oben, auf der ersten Zeile */
+  .wizard-zeile-inhalt { flex: 1 1 auto; min-width: 0; }
+  .wizard-zeile-frage { font-family: var(--font-inter); font-weight: var(--fw-medium); letter-spacing: var(--ls-frage); font-size: var(--fs-role-text); color: var(--salbei-dunkel); margin: 0 0 var(--space-2) 0; line-height: 1.3; }   /* Findings 6/10/11 → Nacharbeit 05.07.: von --fs-xl über --fs-lg auf Kern-Größe --fs-base (man will flacher). UX-Konzept §9 (25.08.2026, Produktentscheidung bestätigt): gesperrtes Inter statt Serif, gleiche Begründung wie §12 zur Wortmarke — löst den Konflikt mit der Schrift-Rollen-Probe (Auftrag 04.08.2026) auf, dieser Test wurde entsprechend nachgezogen. */
   .wizard-hilfe { margin: 0 0 var(--space-3) 0; }
   .wizard-baustein { margin: 0 0 var(--space-3) 0; font-size: var(--fs-role-hilfe); font-weight: var(--fw-regular); color: var(--ink3); }
-  /* Gerätetest v76 (F1): Das Eingabefeld begann auf jedem Schritt woanders — am Telefon tippt
-     man dann auf die Stelle des vorigen Schritts. Gemessen über alle 69 Wizard-Schritte aller
-     7 Wizards, in der echten App-Hülle (#app.an mit Topbar/Sidebar), 390px/Standardschrift:
-     13 verschiedene Eingabe-Positionen, Spanne 127,97px. Frage und Hilfetext liegen deshalb in
-     EINEM Block mit reservierter Höhe — der Hilfetext ist optional, eine min-height auf ihm
-     allein könnte den Sprung gar nicht fangen.
-     Die Werte sind GEMESSEN, nicht geschätzt: kleinste Reserve, bei der alle 69 Schritte EINE
-     Position haben, über 11 Breiten × 3 Schrift-Stufen (33 Kombinationen).
-     Maßgeblich ist die BREITE DES KOPFES, nicht die des Fensters — und die ist nicht monoton:
-     bei 768px nimmt die 268px-Sidebar so viel weg, dass der Kopf (354px) SCHMALER ist als am
-     Telefon bei 402px (344px … 372px bei 430px). Eine Media-Query-Staffel nach Fensterbreite
-     wäre daher sachlich falsch; der Schnitt geht nach Schrift-Stufe:
-       Standard  Bedarf 5,5–9,25rem  (Maximum bei 375–402px)   → 9,25rem
-       fs-medium Bedarf 5,75–9,25rem (Maximum bei 375–402/768px) → 9,25rem
-       fs-large  Bedarf 6,75–11,75rem (Maximum bei 375px, Kopf 303px) → 11,75rem
-     So zahlt das Telefon nichts (dort ist die Reserve == der reale Bedarf); die Reserve, die
-     über den Bedarf hinausgeht, fällt auf breite Fenster, wo der Platz da ist.
-     In rem, damit sie mit html.fs-medium/.fs-large mitwächst.
-     BEMERKT: Das Maximum setzt EIN Schritt — kiwiz #1 (Frage 94 + Hilfetext 177 Zeichen, der
-     längste der App). Ändert sich dieser Hilfetext, sinkt der Bedarf auf ~6,75rem. */
-  .wizard-kopf { min-height: 9.25rem; }
-  html.fs-large .wizard-kopf { min-height: 11.75rem; }
-  /* Finding 13: Zielbereiche vor Schritt 1 — dezente, sachliche Zeile (kein Alarm). */
+  /* Finding 13: Zielbereiche vor den Fragen — sachliche Zeile, ohne Warnfarbe. */
   .wizard-ziele { font-size: var(--fs-role-hilfe); color: var(--ink2); margin: 0 0 var(--space-4); }
   /* UX-Design-Konzept §9 (25.08.2026): die Spec nannte nur Auswahl-Felder ("Auswahl-Felder
      tragen sichtbar Browser-Standardoptik … Auswahl-Felder erhalten dieselbe Rand-Behandlung
@@ -2393,14 +2383,13 @@
     border: var(--feld-rahmen); border-radius: var(--radius-feld); background-color: var(--feld-flaeche); color: var(--ink); }
   .feld-fehler { color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); margin: var(--space-2) 0 0 0; font-weight: var(--fw-semibold); }
   .wizard-aktionen { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); flex-wrap: wrap; }
-  /* „Zurück/Weiter"-Reihe darf umbrechen und schrumpfen, statt rechts aus dem Schritt zu laufen
+  /* Die Knopfreihe darf umbrechen und schrumpfen, statt rechts aus dem Schritt zu laufen
      (auch bei Browser-Zoom oder sehr schmalem Fenster) — kein seitliches Abschneiden. */
   .wizard-aktionen-rechts { display: inline-flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; min-width: 0; }
   .wizard-aktionen .btn { min-height: 44px; min-width: 0; }
   /* Sub-Modus (Schieferblau): die Frage folgt der Modus-Farbe wie andere Titel. */
-  #app.modus-vollmacht .content .wizard-frage { color: var(--vm-chrome-tief); }
+  #app.modus-vollmacht .content .wizard-zeile-frage { color: var(--vm-chrome-tief); }
   #app.modus-vollmacht .content .wizard-fortschritt-text { color: var(--vm-chrome-tief); }
-  #app.modus-vollmacht .content .wizard-balken-fuell { background: var(--modus-vollmacht); }
   /* Bereich-Startknopf (Schnitt 2.2) — geführter Einstieg im Bereich. */
   .wizard-start { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-4) 0; }
   /* Zusatz-Aktionen UNTER dem Inhalt (IA-Befund): klar abgesetzter, ruhiger Sammel-Bereich.
@@ -2619,6 +2608,9 @@
   }
   .feld-mehrfach-pill:hover { background: var(--flaeche-hover); }
   .feld-mehrfach-pill.aktiv { background: var(--salbei-light); border-color: var(--salbei-mid); color: var(--ink); font-weight: var(--fw-semibold); }
+  /* Im Assistenten (Anlass-Seite): Antwort-Pillen linksbündig, lange Antworten lesen sich links. */
+  .wizard-eingabe .feld-mehrfach { justify-content: flex-start; }
+  .wizard-eingabe .feld-mehrfach-pill { justify-content: flex-start; text-align: left; }
   /* Personen-Widget (UX-Spezifikation 08.07.): EIN Feld pro Person — Eingabe UND Suche zugleich, mit
      weicher Live-Vorschlagsliste (kein System-Dropdown). ↑/↓/× je Zeile, „+ Person" am Fuß. Breiten-
      unabhängiges Grid → in Sektor-Feld (Erben) und Listen-Unterfeld (Vollmacht) identisch. Marken-Stil
@@ -3033,6 +3025,9 @@
     
     .mappe-vorschau-bild { max-height: 60vh; }
     .mappe-vorschau-pdf { height: 60vh; }
+    /* MAPPE-SENSIBEL-ANGESCHNITTEN (23.11.2026): am Handy nahm die Vorschau im Ablage-Dialog 220px; die Zeile „Sensibel“ lag unter dem
+       Rand des Dialogs. Kleinere Vorschau; die Zeile steht außerdem vor der Bereichsliste. Probe: tests/mappe-sensibel-sichtbar.test.js. */
+    .mappe-vorschau { max-height: 120px; }
 
     /* ── Modal füllt die Breite, Aktionen tippbar; Dialog beginnt OBEN ──────
        (statt vertikal zentriert mit großem Leerraum — Vorgabe: „Position auf
@@ -3042,7 +3037,7 @@
     .modal-aktionen .btn { min-height: var(--ziel); }
 
     /* ── Wizard: eine Frage pro Schritt, Knöpfe groß ──────────────────────── */
-    .wizard-schritt { padding: var(--space-4); }
+    .wizard-liste { padding: var(--space-1) var(--space-4); }
   }
 
   @media (max-width: 460px) {
@@ -3577,8 +3572,18 @@
     --treffer: 48px;
     --mass-kopfleiste: 52px; --mass-seitenleiste: 248px; --mass-textspalte: 280px; --mass-inhalt-max: 1180px;
     --zeichen-herkunft-eingelesen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 21V9l9-5 9 5v12'/%3E%3Cpath d='M8 21v-7h8v7'/%3E%3Cpath d='M2 21h20'/%3E%3C/svg%3E");
+    --feld-toenung: rgba(79,101,57,.07);
   }
+  :root.dark-mode { --feld-toenung: rgba(255,255,255,.07); }
   /* GESTALTUNG-DEFINITION:END */
+  /* GESTALTUNG-VORLAGEN:BEGIN — erzeugt aus tools/erscheinung/definition.json (Schicht 3) durch tools/gestaltung-definition.js; nicht von Hand ändern */
+  /* feld-eingabe */
+  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]):not([type="hidden"])) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung); color: var(--ink); }
+  /* feld-mehrzeilig */
+  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz) :is(textarea) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung); color: var(--ink); }
+  /* feld-auswahl */
+  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz) :is(select) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung); color: var(--ink); }
+  /* GESTALTUNG-VORLAGEN:END */
 
   /* ── Zielbild 01/02 (30.10.2026): „Depot anlegen“ als Fenster mit Schritten ──────────────────────────────────────────────
      Kopf: Titel links, Schritt-Leiste rechts (zwei Balken, gezeichnet). Schritt 1: die sechs Wörter als nummeriertes Raster auf

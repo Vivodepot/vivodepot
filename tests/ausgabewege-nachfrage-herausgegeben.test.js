@@ -30,9 +30,9 @@ test('[Herausgegeben] die gemeinsame Stelle fragt nach einer geglückten Ausgabe
   await V.depotAnlegen(PW);
   V._nachWeitergabeNachfragen('anlass:pro-vertretung', 'download', null, { empfaenger: 'Frau Berger', umfang: 'Vertretung' });
   assert.ok(offen(document), 'Nachfrage offen');
-  assert.match(inhalt(document), /id="up-empfaenger" class="eingabe" type="text" autocomplete="off" value="Frau Berger">/);
-  assert.match(inhalt(document), /id="up-umfang" class="eingabe" type="text" autocomplete="off" value="Vertretung">/);
-  assert.match(inhalt(document), /id="up-zweck" class="eingabe" type="text" autocomplete="off" value="Vorsorge regeln">/, 'der Zweck ist je Weg vorbelegt und änderbar (B23-Z2)');
+  assert.match(inhalt(document), /id="up-empfaenger" class="eingabe" type="text" autocomplete="off" placeholder="[^"]*" value="Frau Berger">/);
+  assert.match(inhalt(document), /id="up-umfang" class="eingabe" type="text" autocomplete="off" placeholder="[^"]*" value="Vertretung">/);
+  assert.match(inhalt(document), /id="up-zweck" class="eingabe" type="text" autocomplete="off" placeholder="[^"]*" value="Vorsorge regeln">/, 'der Zweck ist je Weg vorbelegt und änderbar (B23-Z2)');
   document.getElementById('up-empfaenger').value = 'Herr Berger';   // änderbar
   document.getElementById('up-umfang').value = 'Vertretung';
   document.getElementById('up-zweck').value = 'Urlaubsvertretung';
@@ -57,7 +57,7 @@ test('[Herausgegeben] ohne Vorbelegung bleiben die Felder leer wie bisher, und W
   const a = ladeKern();
   await a.V.depotAnlegen(PW);
   a.V._nachWeitergabeNachfragen('shl', 'gesendet', null);
-  assert.match(inhalt(a.document), /id="up-empfaenger" class="eingabe" type="text" autocomplete="off">/);
+  assert.match(inhalt(a.document), /id="up-empfaenger" class="eingabe" type="text" autocomplete="off" placeholder="[^"]*">/);
   const b = ladeKern();
   await b.V.depotAnlegen(PW);
   b.V._nachWeitergabeNachfragen('anfrage-antwort', 'download', null, { empfaenger: 'A "B" <c>' });

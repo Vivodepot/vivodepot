@@ -106,7 +106,9 @@ test('[Reisen·Probe 1] geänderter Hinweistext im Produktivcode ändert das erf
     assert.ok(schritt.hinweise.some((h) => h.includes('nicht für Sie zurückholen')),
       'ABBRUCH: der erwartete Warntext steht nicht im Original-Protokoll — Anker geprüft?');
 
-    const von = 'denn wir können sie nicht für Sie zurückholen.';   // seit S2 (31.10.2026) der Satz zu den sechs Wörtern
+    // Seit „Passwort festlegen“ (24.11.2026) öffnet der Dialog mit dem eigenen Passwort; sein Satz (anlegenPwSatzEigen) ist der
+    // Hinweis beim Öffnen. Der Satz zu den sechs Wörtern steht erst nach dem Angebot.
+    const von = 'Schreiben Sie Ihr Passwort jetzt auf Papier, denn wir können es nicht für Sie zurückholen.';
     const zu = 'Ein Zurücksetzen ist über den Support jederzeit möglich.';
     const mutiert = await mitMutierterKopie(von, zu, bisDialogOeffnen);
 
@@ -194,7 +196,9 @@ test('[Reisen·Beleg §2] eine Erfassung, die nur Selektor-Existenz prüft, sieh
     };
 
     const original = await messen('file://' + HTML_PFAD);
-    const von = 'denn wir können sie nicht für Sie zurückholen.';   // seit S2 (31.10.2026) der Satz zu den sechs Wörtern
+    // Seit „Passwort festlegen“ (24.11.2026) öffnet der Dialog mit dem eigenen Passwort; sein Satz (anlegenPwSatzEigen) ist der
+    // Hinweis beim Öffnen. Der Satz zu den sechs Wörtern steht erst nach dem Angebot.
+    const von = 'Schreiben Sie Ihr Passwort jetzt auf Papier, denn wir können es nicht für Sie zurückholen.';
     const zu = 'Ein Zurücksetzen ist über den Support jederzeit möglich.';
     let mutiertErgebnis;
     const alterOriginal = fs.readFileSync(HTML_PFAD, 'utf8');

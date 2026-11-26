@@ -96,3 +96,31 @@ test('[Definition·f] ohne Argument läuft das Werkzeug gegen die Fixtures: gut 
   assert.match(aus, /Fixture gut:\s+grün/);
   assert.match(aus, /Fixture schief: rot/);
 });
+
+test('[Definition·vorlagen] Schicht 3: je Feldart eine Grundregel, im Block der Stilquelle wie definiert, ohne Zahl', () => {
+  const def = g.definitionLaden();
+  const css = fs.readFileSync(g.GRUNDLAGE, 'utf8');
+  assert.deepEqual(g.vorlagenPruefen(def.vorlagen), []);
+  assert.deepEqual(g.vorlagenPruefenImCss(css, def), []);
+  assert.deepEqual(def.vorlagen.arten.map((a) => a.art).sort(), ['feld-auswahl', 'feld-eingabe', 'feld-mehrzeilig']);
+  for (const a of def.vorlagen.arten) assert.equal(a.regeln['background-color'], 'var(--feld-toenung)', a.art);
+  // Die Profile tragen die Feldform im Inhalt nicht mehr selbst (eine Quelle): nur die Dialoge behalten ihre eigene Zeile.
+  const salbei = fs.readFileSync(path.join(path.dirname(g.GRUNDLAGE), 'salbei-glas.css'), 'utf8');
+  assert.ok(!/^html:not\(\.high-contrast\) :is\(\.content, \.modal, \.suche-feld\)/m.test(salbei), 'salbei-glas.css trägt die Feldform im Inhalt noch selbst');
+  const dummy = fs.readFileSync(path.join(path.dirname(g.GRUNDLAGE), 'dummy.css'), 'utf8');
+  assert.ok(!/#suche-eingabe \{[^}]*border-bottom/.test(dummy), 'dummy.css trägt die Form des Suchfelds noch selbst');
+});
+
+test('[Definition·vorlagen·Rot-Beweis] Zahl im Wert, doppelte Art und veränderter Block fallen auf', () => {
+  const def = g.definitionLaden();
+  const kaputt = JSON.parse(JSON.stringify(def.vorlagen));
+  kaputt.arten[0].regeln['min-height'] = '44px';
+  kaputt.arten.push(JSON.parse(JSON.stringify(kaputt.arten[1])));
+  const f = g.vorlagenPruefen(kaputt);
+  assert.ok(f.some((x) => /44px|Wert/.test(x)), f.join(' | '));
+  assert.ok(f.some((x) => /doppelte Art/.test(x)), f.join(' | '));
+  const css = fs.readFileSync(g.GRUNDLAGE, 'utf8').replace('background-color: var(--feld-toenung);', 'background-color: #fff;');
+  assert.equal(g.vorlagenPruefenImCss(css, def).length, 1);
+  const ohne = fs.readFileSync(g.GRUNDLAGE, 'utf8').replace(g.VORLAGEN_MARKE_ANFANG, 'X');
+  assert.deepEqual(g.vorlagenPruefenImCss(ohne, def), ['Block ' + g.VORLAGEN_MARKE_ANFANG + ' fehlt']);
+});

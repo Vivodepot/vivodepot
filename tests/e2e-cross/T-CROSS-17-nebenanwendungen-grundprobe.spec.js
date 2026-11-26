@@ -119,7 +119,8 @@ test.describe('T-CROSS-17 Grundproben der drei Anwendungen ohne E2E', () => {
        Kasten `#tpl-angleich` existiert und bleibt still, solange nichts
        angeglichen wurde. */
     await p.click('#start-leer');
-    await p.click('#fertig-oeffnen');
+    // Seit N18 (22.11.2026) steht „Einreichen“ erst nach dem Sichern (#ns-einreichen ruft fertigOeffnen, tests/studio-einreichen-nach-sichern.test.js); hier derselbe Aufruf ohne Sichern.
+    await p.evaluate(() => fertigOeffnen());
     await p.waitForSelector('#sd-name', { state: 'visible' });
     await expect(p.locator('#sd-name')).toBeVisible();
     await ctx.close();

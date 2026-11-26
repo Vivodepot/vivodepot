@@ -1,7 +1,7 @@
 {
   "submissionId": "3f2504e0-4f89-41d3-9a0c-0305e82c3301",
   "submissionTimestamp": "2026-05-31T12:00:00Z",
-  "generatorVersion": "v1.0",
+  "generatorVersion": "v1.0.1071",
   "anbieter": {
     "anbieterId": "institution/pflegeheim-musterstadt-de",
     "anbieterName": "Seniorenresidenz Musterstadt",

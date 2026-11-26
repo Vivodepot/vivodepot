@@ -416,7 +416,7 @@ const generator = {
   },
   async stammdaten(page, sd) {
     await page.click('#start-leer');                     // Start → Arbeitsfläche
-    await page.click('#fertig-oeffnen');                 // ohne Angaben öffnet der Dialog bei den Angaben
+    await page.evaluate(() => fertigOeffnen());          // ohne Angaben öffnet der Dialog bei den Angaben; // N18: Einreichen steht nach dem Sichern (#ns-einreichen ruft fertigOeffnen)
     await page.waitForSelector('#sd-name', { state: 'visible' });
     await page.fill('#sd-name', sd.anbieterName);
     await weitereAngabenOeffnen(page); await page.fill('#sd-rechtsform', sd.rechtsform);   // U2-ADR-495: freies Feld mit Vorschlägen, kein Auswahlfeld mehr
@@ -452,7 +452,7 @@ const generator = {
       await page.selectOption('#ed-bereich', f.bereich);
       if (f.pflicht) await page.check('#ed-pflicht');
     }
-    await page.click('#fertig-oeffnen');                 // Angaben und Schlüssel stehen → der Dialog öffnet bei „Prüfen und absenden"
+    await page.evaluate(() => fertigOeffnen());          // Angaben und Schlüssel stehen → der Dialog öffnet bei „Prüfen und absenden"; // N18: Einreichen steht nach dem Sichern (#ns-einreichen ruft fertigOeffnen)
   },
   // Prüfen + Submission-Paket erzeugen → Download nach tmp.
   async submissionNachTmp(page, dir) {

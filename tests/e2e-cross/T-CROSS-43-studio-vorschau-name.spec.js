@@ -32,7 +32,8 @@ test.describe('T-CROSS-43 Studio · Vorschau zeigt den Namen', () => {
     await expect(kopf).toHaveText('Ihre Stelle');
     await p.click('#marke-start');
     await p.fill('#as-name', NAME);
-    await expect(p.locator('#start-angaben')).toHaveAttribute('open', '');   // mit dem Namen stehen die Angaben der Stelle offen da
+    await expect(p.locator('#start-angaben')).not.toHaveAttribute('open', '');   // M5 (22.11.2026): die Angaben öffnen sich nicht beim Tippen
+    await p.click('#start-angaben > summary');
     await p.fill('#as-k-name', 'Erika Beispiel');
     await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
     await p.click('#as-beispiele [data-beispiel="andere"]');

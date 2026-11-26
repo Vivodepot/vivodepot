@@ -99,6 +99,19 @@ Auf den anderen Wegen, die ein neues Passwort setzen, bleibt der Hinweis unter d
 
 Probe: `tests/passwort-zwei-schritte.test.js` ([S2·Schritt 1]).
 
+## Nachtrag 24.11.2026 — Ziffer 1: beim Anlegen ist das eigene Passwort der Standard, die Wörter sind das Angebot
+
+Entscheidung vom 24.11.2026 (Fundstelle: Entscheidung „Anlegen: eigenes Passwort ist der Standard, sechs Wörter sind das
+Angebot“). Sie ändert die Passwortregel vom 08.10.2026 in einem Punkt: Der Vorschlag aus sechs Wörtern ist beim Anlegen nicht
+mehr vorbelegt. Schritt 1 heißt „Passwort festlegen“ und zeigt ein gewöhnliches Feld mit Wiederholung, die Mindestlänge von
+zwölf Zeichen steht am Feld. Darunter steht „Oder lassen Sie sich eines vorschlagen“. Wer es nimmt, sieht die sechs Wörter mit
+Probe, Druckknopf und allem aus dem Nachtrag vom 31.10.2026; „Lieber ein eigenes Passwort“ in der Fußleiste führt zum leeren
+Feld zurück. Die Wiederholung heißt beim eigenen Passwort „Passwort wiederholen“. Ziffer 1 gilt weiter: das Feld bietet den
+Vorschlag an. Auf den anderen Wegen, die ein neues Passwort setzen (Sub-Depot, Passwortwechsel, Übergabe), bleibt der
+Vorschlag vorbelegt. Unverändert: Prüfreihenfolge, Probe und Kanon der Wörter, die Ableitung des Schlüssels.
+
+Probe: `tests/anlegen-passwort-festlegen.test.js` ([Festlegen·Standard], [Festlegen·Angebot], [Festlegen·Rot-Beweis]).
+
 ## Was nicht entschieden ist
 
 - Register mit eigener Kette: Solange Menschen und Institutionen keine tragen, fragt das Zusammenführen dort jeden

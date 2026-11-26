@@ -134,7 +134,7 @@ konformitaet:
       - tests/hilfe-empfaengerin-lesen.test.js
         "[Hilfe-Lesen·Struktur] genau die vier vereinbarten Fragen"
       - tests/hilfe-empfaengerin-lesen.test.js
-        "[Hilfe-Lesen·Aktivierung] die Topbar trägt den Hilfe-Knopf, verdrahtet auf den Tausch von #content"
+        "[Hilfe-Lesen·Aktivierung] die Topbar trägt den Hilfe-Knopf, verdrahtet auf die Hilfe über der Sicht"
       - tests/hilfe-empfaengerin-lesen.test.js
         "[Hilfe-Lesen·EN] jede Frage UND Antwort hat eine englische Fassung, eigenständig geschrieben (_STRINGS_EINGEBAUT/LESE_TEXTE_EN-Parität, bestehender Wächter deckt es)"
 ```

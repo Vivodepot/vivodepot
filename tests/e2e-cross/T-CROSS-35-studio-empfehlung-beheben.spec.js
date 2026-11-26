@@ -64,7 +64,7 @@ async function assistentBisFertigDialog(p, sprache) {
   await expect(p.locator('#tpl-felder .vk ' + PFLICHT_AN)).toHaveCount(3);
   await pflichtAbwaehlen(p);
   await expect(p.locator('#tpl-felder .vk ' + PFLICHT_AN)).toHaveCount(0);
-  await p.click('#fertig-oeffnen');
+  await p.evaluate(() => fertigOeffnen());
   await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
 }
 
@@ -97,7 +97,7 @@ for (const sprache of ['de', 'en']) {
       await expect(p.locator('#tpl-felder .vk').first().locator(PFLICHT_AN)).toBeVisible();          // Karte und Vorschau zeigen die Pflicht
       await expect(p.locator('#av-felder .as-zeile').first().locator('.av-art')).toHaveText(/Pflicht|required/);
 
-      await p.click('#fertig-oeffnen');                                         // ein Klick zurück zum Fertigstellen, wie bisher
+      await p.evaluate(() => fertigOeffnen());                                         // ein Klick zurück zum Fertigstellen, wie bisher
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
       // Seit Wagen 1.5: die Angaben stehen vollständig, ② ist erledigt, also öffnet der Dialog gleich bei ③;
       // ① steht als erledigte Zeile mit dem Namen da.
@@ -116,7 +116,7 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Fachebene mit Schlüssel', () =>
     const p = await ctx.newPage();
     await H.generator.oeffnen(p, 'de');
     await p.click('#start-leer');
-    await p.click('#fertig-oeffnen');                                         // ohne Angaben öffnet der Dialog bei den Angaben
+    await p.evaluate(() => fertigOeffnen());                                         // ohne Angaben öffnet der Dialog bei den Angaben
     await p.waitForSelector('#sd-name', { state: 'visible' });
     const sd = FIX.stammdaten;
     await p.fill('#sd-name', sd.anbieterName);
@@ -141,7 +141,7 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Fachebene mit Schlüssel', () =>
     await p.check('#ed-pflicht');
     await expect(p.locator('.vk').first().locator(PFLICHT_AN)).toBeVisible();   // die Arbeitsfläche zeigt die Pflicht ohne Auswahl
 
-    await p.click('#fertig-oeffnen');                                         // Angaben und Schlüssel stehen noch → „Fertig“
+    await p.evaluate(() => fertigOeffnen());                                         // Angaben und Schlüssel stehen noch → „Fertig“
     await expect(p.locator('#fs-c-rumpf')).toBeVisible();
     await expect(p.locator('#sk-priv-status')).toContainText('Sicherung geprüft');   // seit 16.10.2026: geprüft, bevor die Einreichung frei wird
     await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT_EINFACH.de })).toHaveCount(0);

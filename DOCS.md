@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v1070.
+Erzeugt aus der veröffentlichten Fassung v1073.
 
 ---
 
@@ -84,11 +84,11 @@ Vorlage darin wie in der App.
 
 ## Zahlen
 
-- E2E: 1066 (gezählt, nicht ausgeführt) · Wächter-Register: 163
-- Schema-Version: 102 · SCHALEN_STAND: v1070 · Build-Version: v1.0
-- ADR-Register: 458 Einträge
+- E2E: 1089 (gezählt, nicht ausgeführt) · Wächter-Register: 164
+- Schema-Version: 103 · SCHALEN_STAND: v1073 · Build-Version: v1.0
+- ADR-Register: 459 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-20, Fassung v1070. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-25, Fassung v1073. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -133,7 +133,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-20, Fassung v1070. Diese Zahlen v
 
 ## Unterordner von `docs/`
 
-- `docs/adr/` — 495 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 496 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)
@@ -155,7 +155,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-11-20, Fassung v1070. Diese Zahlen v
 - `docs/modules/` — 18 Datei(en), auch in Unterordnern, siehe [`docs/modules/README.md`](docs/modules/README.md)
 - `docs/pruefregeln/` — 3 Datei(en)
 - `docs/rechtsraum-modul/` — 1 Datei(en)
-- `docs/release-notes/` — 3 Datei(en)
+- `docs/release-notes/` — 4 Datei(en)
 - `docs/screenshots/` — 3 Datei(en)
 - `docs/security/` — 1 Datei(en)
 - `docs/situation-modul/` — 1 Datei(en)

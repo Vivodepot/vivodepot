@@ -53,7 +53,7 @@ for (const sprache of ['de', 'en']) {
 
       // Bauen: zwei Felder aus der Palette in die Vorschau ziehen, eines umsortieren, ein eigenes Feld anlegen
       await p.click('#start-leer');
-      await expect(p.locator('#fertig-oeffnen')).toBeVisible();      // der Weg zur Einreichung steht von der ersten Sekunde an da
+      await expect(p.locator('#vorlage-sichern')).toBeVisible();     // „Vorlage sichern“ steht von der ersten Sekunde an da (N18: Einreichen danach)
       const pal = p.locator('.pal-eintrag[data-kat]');
       // Die Vorlage steht vor dem Ziehen ganz im Bild: rollt der Browser erst während des Ziehens, wandert die Bausteinliste
       // (sticky) unter dem gedrückten Zeiger weiter, und ein anderer Baustein wird gezogen.
@@ -89,7 +89,7 @@ for (const sprache of ['de', 'en']) {
       await expect(p.locator('.vk[draggable="true"]')).toHaveCount(3);
 
       // Fertigstellen: Angaben → Fertig (Sicherung speichern und prüfen, dann Einreichung speichern)
-      await p.click('#fertig-oeffnen');
+      await p.evaluate(() => fertigOeffnen());
       await p.waitForSelector('#sd-name', { state: 'visible' });
       const sd = FIX.stammdaten;
       await p.fill('#sd-name', sd.anbieterName);
@@ -135,7 +135,7 @@ for (const sprache of ['de', 'en']) {
       await scan('Start');
       await p.evaluate(() => { const d = document.getElementById('start-weitere'); if (d) d.open = true; });   // seit S-1 unter „Weitere Wege“
       await p.click('#bsp-pflegeheim'); await p.click('.vk >> nth=1'); await scan('Arbeitsfläche');
-      await p.click('#fertig-oeffnen'); await scan('Fertigstellen');
+      await p.evaluate(() => fertigOeffnen()); await scan('Fertigstellen');
       await ctx.close();
     });
 

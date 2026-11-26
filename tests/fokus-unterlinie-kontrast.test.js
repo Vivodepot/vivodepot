@@ -33,13 +33,14 @@ function token(name, ebene) {
   return m ? token(m[1], ebene) : String(w).trim();
 }
 
-// Die Feldfläche, wie „Salbei mit Glas“ sie über die Karte (--white) legt: hell und dunkel getönt, hoher Kontrast deckend.
+// Die Feldfläche, wie die Feld-Grundregel (Gestaltungsdefinition, Schicht 3) sie über die Karte (--white) legt: das Token
+// --feld-toenung aus dem Block der Stilquelle, hell (:root) und nachts (html.dark-mode); hoher Kontrast deckend.
 function feldTonung(ebene) {
-  const sg = modul.stil['salbei-glas'];
+  const gl = modul.stil.grundlage;
   const re = ebene === 'dunkel'
-    ? /html\.dark-mode:not\(\.high-contrast\) :is\(\.content, \.modal, \.suche-feld\) :is\(input[^{]*\{ background-color: (rgba\([^)]+\))/
-    : /html:not\(\.high-contrast\) :is\(\.content, \.modal, \.suche-feld\) :is\(input[^{]*\{[^}]*background-color: (rgba\([^)]+\))/;
-  return ebene === 'hochkontrast' ? null : (sg.match(re) || [])[1];
+    ? /:root\.dark-mode \{ --feld-toenung: (rgba\([^)]+\));/
+    : /--feld-toenung: (rgba\([^)]+\));/;
+  return ebene === 'hochkontrast' ? null : (gl.match(re) || [])[1];
 }
 
 function flaechen(ebene) {

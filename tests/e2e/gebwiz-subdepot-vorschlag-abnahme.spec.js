@@ -8,7 +8,7 @@
    Sub-Depot-Dialog (flowKindSubDepotAnlegen); kein Name → kein Vorschlag.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, einmalDialogeSchliessen, datumSetzen } = require('./helpers');
+const { oeffneApp, depotAnlegen, einmalDialogeSchliessen, datumSetzen, assistentWeiter, assistentFertig } = require('./helpers');
 
 // Wizard „Geburt eines Kindes" über den echten Anlass-Weg starten (Sidebar → Anlass-Auswahl).
 async function gebwizStarten(page) {
@@ -31,13 +31,13 @@ test('Geburts-Assistent mit genanntem Namen → Kind-Eintrag entsteht → Sub-De
   await bisZumNamenSchrittDurchklicken(page);
 
   await page.fill('#content [data-edit="guidedBirthEntryChildsNameNot"]', 'Mia Musterfrau');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await expect(page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]')).toBeVisible();   // Datum in drei Feldern (Zielbild S4)
   await datumSetzen(page, '#content [data-edit="guidedBirthEntryDateOfBirthNot"]', '2027-03-15');
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await expect(page.locator('#content select[data-edit="guidedBirthEntryRelationship"]')).toBeVisible();
   await page.selectOption('#content select[data-edit="guidedBirthEntryRelationship"]', 'leiblich');
-  await page.click('#wiz-weiter');   // letzter Schritt: Fertig
+  await assistentFertig(page);   // letzter Schritt: Fertig
 
   // Kind-Eintrag entstand (Zug 2, hier nur als Voraussetzung des Vorschlags mitgeprüft).
   await page.waitForFunction(() => {
@@ -68,11 +68,11 @@ test('Geburts-Assistent ohne Namen (Zukunftsform) → kein Kind-Eintrag, kein Su
   await bisZumNamenSchrittDurchklicken(page);
 
   // Namens-Schritt leer lassen, ebenso Geburtsdatum; Verhältnis auf Vorgabe belassen.
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await expect(page.locator('#content .datum-dreifeld:has([data-edit="guidedBirthEntryDateOfBirthNot"]) [data-datum-teil="t"]')).toBeVisible();   // Datum in drei Feldern (Zielbild S4)
-  await page.click('#wiz-weiter');
+  await assistentWeiter(page);
   await expect(page.locator('#content select[data-edit="guidedBirthEntryRelationship"]')).toBeVisible();
-  await page.click('#wiz-weiter');   // Fertig
+  await assistentFertig(page);   // Fertig
 
   // Seit der Speicher-Funktionsprobe (12.09.2026) kann neben dieser Meldung eine zweite
   // Pille stehen („Dieses Gerät kann den …"), wenn der interne Speicher im Testbrowser

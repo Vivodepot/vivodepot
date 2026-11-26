@@ -1,0 +1,5 @@
+@prefix ex: <http://beispiel.invalid/eins#> .
+# Erfundenes Probevokabular für tests/zuordnungen-pruefen.test.js; keine fremde Quelle.
+ex:vorname a ex:Eigenschaft .
+ex:nachname a ex:Eigenschaft .
+ex:ausweisArt a ex:Eigenschaft .

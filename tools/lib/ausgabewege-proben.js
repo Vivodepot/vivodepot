@@ -21,6 +21,7 @@ const DATEI = 'tests/ausgabewege-artefakte-dateien.test.js';
 const WEGE = Object.freeze({
   flowVollDepotPdf: { fremd: 'poppler (pdfinfo, pdftotext)', proben: [{ datei: PDF, titel: '[Ausgabeweg·PDF·flowVollDepotPdf]' }] },
   flowBereichPdf: { fremd: 'poppler (pdfinfo, pdftotext)', proben: [{ datei: PDF, titel: '[Ausgabeweg·PDF·flowBereichPdf]' }] },
+  antwortKopiePdfAusgeben: { fremd: 'poppler (pdftotext); der Anhang, gelesen mit tools/pdf-anhang-datenfassung-lesen.js', proben: [{ datei: 'tests/anfrage-antwort-kopie-pdf.test.js', titel: '[L8·Kopie]' }, { datei: 'tests/anfrage-antwort-kopie-pdf.test.js', titel: '[L8·Anhang]' }] },
   flowSituationPdf: { fremd: 'poppler (pdfinfo, pdftotext)', proben: [{ datei: PDF, titel: '[Ausgabeweg·PDF·flowSituationPdf]' }] },
   flowNotfallkartePdf: { fremd: 'poppler (pdfinfo, pdftotext)', proben: [{ datei: PDF, titel: '[Ausgabeweg·PDF·flowNotfallkartePdf]' }] },
   flowDokumentDateiSichern: { fremd: 'poppler (pdfinfo, pdftotext)', proben: [{ datei: PDF, titel: '[Ausgabeweg·PDF·flowDokumentDateiSichern]' }] },

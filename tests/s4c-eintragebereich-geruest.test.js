@@ -203,6 +203,10 @@ test('[U-4·Handy] grundlage.css: Handy-Block blendet Liste/Detail aus, Zeilen T
   assert.match(inhalt, /margin-left:\s*auto/);
   assert.match(inhalt, /text-align:\s*right/);
   assert.match(inhalt, /min-width:\s*0/);
+  // Am Handy bricht die Unterzeile um, statt abzubrechen (Rot-Beweis: die Grundregel trägt white-space: nowrap und text-overflow: ellipsis)
+  assert.match(inhalt, /white-space:\s*normal/);
+  assert.match(inhalt, /overflow:\s*visible/);
+  assert.match(css.slice(0, a), /\.bereich-liste-inhalt \{[^}]*white-space: nowrap[^}]*\}/, 'Vorbedingung: außerhalb des Handys bleibt die Zeile einzeilig');
   assert.match(regel('.bereich-liste-titel') || '', /flex-shrink:\s*0/);
   assert.match(regel('.bereich-detail-zurueck') || '', /min-height:\s*var\(--treffer\)/);
   assert.match(css.slice(0, a), /\.bereich-detail-zurueck \{ display: none; \}/, 'Grundzustand: der Zurück-Knopf ist ausgeblendet');

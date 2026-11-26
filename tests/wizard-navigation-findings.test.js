@@ -50,9 +50,10 @@ test('[Bug 2] renderContent nimmt den Wizard vom aggressiven Scroll-nach-oben au
     'Wizard-Guard vor dem pauschalen inhaltNachObenScrollen');
 });
 
-test('[Bug 2] renderWizard fokussiert das Schritt-Feld auf Folge-Schritten (Sicht bleibt am Schritt)', () => {
+test('[Bug 2, U-AS] die Assistenten-Seite setzt beim Neuaufbau die zuletzt bearbeitete Zeile als Index (Sicht springt nicht nach oben)', () => {
   const { src } = ladeKern();
-  // Struktur-Pin: Fokus nur bei idx>0, auf ein Feld in .wizard-eingabe.
-  assert.match(src, /if\s*\(idx > 0 && c\.querySelector\)/, 'Fokus-Block nur auf Folge-Schritten');
-  assert.match(src, /querySelector\('input, select, textarea'\)/, 'fokussiert das Eingabefeld');
+  // Seit U-AS (21.11.2026) stehen alle Fragen auf einer Seite; es gibt keinen Folge-Schritt, auf den der Fokus springen müsste.
+  // Der Neuaufbau nach einer Antwort (geänderte Sichtbarkeit) darf die Sicht nicht nach oben reissen: der Index zeigt dann
+  // auf die bearbeitete Zeile, und der Guard oben scrollt nur bei Index 0.
+  assert.match(src, /wizardSchrittIndex = i;\s*\/\/ die zuletzt bearbeitete Zeile/, 'Index folgt der bearbeiteten Zeile');
 });

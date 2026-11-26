@@ -258,7 +258,7 @@ function neueFunde(diffText) {
 }
 
 function git(args, cwd = REPO) {
-  return execFileSync('git', args, { cwd, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
+  return execFileSync('git', args, { cwd, env: require('./lib/ohne-git-umgebung.js').ohneGitUmgebung(), encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
 }
 
 // Wörtlicher Spiegel der gleichnamigen Funktionen in den Vorbild-Wächtern — Rebase-Fang: ein

@@ -73,7 +73,8 @@ test('[Übergang 6] Wizard betreten → abbrechen → WIEDER betreten — Index 
 
   // ── ERSTES Betreten ───────────────────────────────────────────────────
   await wizardStarten(page, 'pvwiz');
-  await expect(page.locator('#content')).toContainText('Schritt 1 von');
+  // U-AS (21.11.2026): eine Seite, sie zählt „n von m vorhanden“ statt „Schritt n von m“.
+  await expect(page.locator('.wizard-fortschritt')).toContainText('0 von');
   await aufTextfeldSchrittSpringen(page);
   await page.fill('[data-edit="supportFromChurchOrCommunity"]', WERT);
 
@@ -95,7 +96,8 @@ test('[Übergang 6] Wizard betreten → abbrechen → WIEDER betreten — Index 
 
   // Index-Reset: der zweite Einstieg beginnt wieder bei Schritt 1, nicht beim zuletzt
   // verlassenen Schritt — genau die im Kommentar oben beschriebene Sorge.
-  await expect(page.locator('#content'), 'zweites Betreten muss wieder bei Schritt 1 beginnen (Index-Reset)').toContainText('Schritt 1 von');
+  // Seit U-AS zeigt die Seite keinen Schritt mehr an; der Index selbst ist der Beleg.
+  expect(await page.evaluate(() => window.__vdOeffentlich.wizardSchrittIndex), 'zweites Betreten muss wieder bei Schritt 1 beginnen (Index-Reset)').toBe(0);
 
   // Kein Fehler-Banner aus dem ersten Durchlauf überlebt den Wiedereinstieg.
   const fehlerBannerNoch = await page.evaluate(() => (typeof window.__vdOeffentlich.wizardFehlerGrund !== 'undefined' ? window.__vdOeffentlich.wizardFehlerGrund : 'undefined-var'));

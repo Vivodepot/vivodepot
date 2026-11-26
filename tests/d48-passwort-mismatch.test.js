@@ -29,12 +29,16 @@ test('[D48/D49] geteilte Validierungs-Helfer existieren (eine Quelle, kein Dupli
 test('[D49] Sub-/Anker-Anlege-Modal: Inline-Fehler je Feld + KEIN stilles Blockieren', () => {
   const { src } = ladeKern();
   // Inline-Fehler-Elemente unter Vorname/Nachname/PW/PW2.
+  // 220 statt 160 Zeichen (24.11.2026): das Probe-Feld trägt seit „Anlegen: Schreibweise“ aria-describedby auf den Hinweis darunter;
+  // der Fehler steht weiter unmittelbar nach dem Feld.
   for (const f of ['id-vorname', 'id-nachname', 'id-pw', 'id-pw2']) {
-    assert.ok(new RegExp('id="' + f + '"[\\s\\S]{0,160}?id="' + f + '-fehler"').test(src), 'Inline-Fehler unter ' + f);
+    assert.ok(new RegExp('id="' + f + '"[\\s\\S]{0,220}?id="' + f + '-fehler"').test(src), 'Inline-Fehler unter ' + f);
   }
   // Vorname Pflicht (immer), Nachname Pflicht NUR im Anker (Sub erlaubt Vorname-only).
-  assert.ok(/if \(!vorname\) \{ modalFeldFehlerZeigen\('id-vorname', 'id-vorname-fehler'/.test(src), 'Vorname-Pflicht inline');
-  assert.ok(/if \(!sub && !nachname\) \{ modalFeldFehlerZeigen\('id-nachname', 'id-nachname-fehler'/.test(src), 'Nachname nur im Anker Pflicht');
+  // NACHGEZOGEN 24.11.2026 (Meldungen erster Weg, A3): beide fehlenden Namen erscheinen zugleich, der Fokus geht auf das erste Feld.
+  assert.ok(/if \(!vorname\) _namenFehlen\.push\(\['id-vorname', STRINGS\.idVornamePflicht\]\)/.test(src), 'Vorname-Pflicht inline');
+  assert.ok(/if \(!sub && !nachname\) _namenFehlen\.push\(\['id-nachname', STRINGS\.idNachnamePflicht\]\)/.test(src), 'Nachname nur im Anker Pflicht');
+  assert.ok(/_namenFehlen\.forEach\(\(\[fid, text\], i\) => modalFeldFehlerZeigen\(fid, fid \+ '-fehler', text, i === 0\)\); return;/.test(src), 'Fehler inline je Feld, nicht still');
   assert.ok(/if \(modalPwMismatch\('id-pw', 'id-pw2', 'id-pw2-fehler', true\)\) return;/.test(src), 'Mismatch inline (Sub/Anker)');
   // Zielbild 01 (05.11.2026): im Anlege-Fenster mit Schritten (zs) meldet die Probe erst bei „Weiter“; Sub behält blur.
   assert.ok(/modalPwFelderVerdrahten\('id-pw', 'id-pw2', 'id-pw2-fehler', \{ ohneBlur: zs \}\)/.test(src), 'blur-Verdrahtung (Sub), im Fenster mit Schritten erst bei Weiter');

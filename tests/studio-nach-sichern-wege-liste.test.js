@@ -38,10 +38,10 @@ function funktion(name) {
   return i < 0 ? '' : HTML.slice(i, HTML.indexOf('\n}\n', i) + 2);
 }
 
-test('[Wege · Liste 1] „Link zur Vorlage kopieren“ als ganze Zeile mit „Kopieren“ rechts; ein Druck kopiert den Link, dann „Kopiert ✓“', async () => {
+test('[Wege · Liste 1] „Link kopieren“ als ganze Zeile mit „Kopieren“ rechts; ein Druck kopiert den Link der Vorlage, dann „Kopiert ✓“', async () => {
   const { g, zeile, wort } = ergebnis();
-  const z = zeile('ns-weg-vorlage-link');
-  assert.ok(z && z.tag === 'button' && z.attrs.class === 'ns-weg', '„Link zur Vorlage kopieren“ ist keine Listenzeile');
+  const z = zeile('ns-weg-anfrage-link');
+  assert.ok(z && z.tag === 'button' && z.attrs.class === 'ns-weg', '„Link kopieren“ ist keine Listenzeile');
   assert.equal(text(wort(z)), 'Kopieren');
   let kopiert = null;
   g.sandbox.textKopieren = async (t) => { kopiert = t; return true; };
@@ -56,7 +56,7 @@ test('[Wege · Liste 2] „Als Datei speichern“ und „Als PDF“ in „Speich
   for (const id of ['ns-weg-datei', 'ns-weg-pdf']) {
     const z = zeile(id);
     assert.ok(z && z.tag === 'button', id + ' ist keine Listenzeile mit Knopf');
-    assert.ok(inListe('ns-liste-aufbewahren', z), id + ' steht nicht in „Speichern“');
+    assert.ok(inListe('ns-liste-aufbewahren', z), id + ' steht nicht in „Vorlage aufbewahren“');
     assert.equal(text(wort(z)), 'Gespeichert ✓');
     await z.attrs.onclick();
   }

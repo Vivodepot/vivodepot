@@ -68,7 +68,7 @@ function anhaenge(bytes) {
 }
 
 test('[Studio·Vorlage·Questionnaire] FHIR R4 Questionnaire: Kopf, Reihenfolge, Pflicht, Datum, Auswahl', () => {
-  const { g, vorlage, state } = vorbereitet();
+  const { g, V, vorlage, state } = vorbereitet();
   const q = fn(g, 'vorlageQuestionnaire')(state);
   assert.equal(q.resourceType, 'Questionnaire');
   assert.ok(['draft', 'active'].includes(q.status));
@@ -83,7 +83,10 @@ test('[Studio·Vorlage·Questionnaire] FHIR R4 Questionnaire: Kopf, Reihenfolge,
   assert.equal(nach('Vorname').type, 'string');
   assert.equal(nach('Vorname').required, true);
   assert.ok(!nach('E-Mail').required, 'keine Pflicht ohne Pflichtangabe');
-  assert.equal(nach('Geburtsdatum').type, 'date');
+  /* Der Verein fragt seit dem Dummy-Abgleich (N10, 22.11.2026) kein Geburtsdatum mehr; den Datumstyp prüft das Praxis-Beispiel. */
+  const praxis = V.BEISPIEL_TEMPLATES.praxis;
+  const qp = fn(g, 'vorlageQuestionnaire')(Object.assign({}, state, { felder: praxis.felder.map((f) => Object.assign({}, f)), dokument: { titel: praxis.titel } }));
+  assert.equal(eingaben(qp.item).find((x) => x.text === 'Geburtsdatum').type, 'date');
   const art = nach('Art der Mitgliedschaft');
   assert.equal(art.type, 'choice');
   const quelle = vorlage.felder.find((f) => f.feldname === 'Art der Mitgliedschaft').codeWerte;
@@ -256,7 +259,7 @@ test('[Studio·Vorlage·S-4 QR] „Vorlage sichern“ gibt den QR-Code als Bild 
   assert.ok(adresse && adresse.includes('#vorlage='), 'die Adresse steht im PDF');
 });
 
-test('[Studio·Vorlage·S-4 Name] fehlt der Name, steht der Hinweis am Namensfeld und nichts geht hinaus; sonst blockiert nichts', async () => {
+test('[Studio·Vorlage·S-4 Name] fehlt der Name, steht der Hinweis am Namensfeld und nichts geht hinaus; ohne Datenfelder ebenso', async () => {
   const { g, V, hinaus } = fuerAnlass(ANLASS.identity, '');
   const feld = g.document.getElementById('sd-name');
   const gesetzt = [];
@@ -266,7 +269,8 @@ test('[Studio·Vorlage·S-4 Name] fehlt der Name, steht der Hinweis am Namensfel
   assert.equal(hinaus.length, 0, 'ohne Namen geht nichts hinaus: ' + hinaus.map((h) => h.name).join(', '));
   assert.deepEqual(gesetzt, [['aria-invalid', 'true']], 'das Namensfeld trägt aria-invalid');
   assert.equal(g.document.getElementById('sd-name-meldung').hidden, false, 'die Meldung steht am Namensfeld');
-  assert.match(String(g.document.getElementById('bau-status').textContent), /Name/);
+  // Der Satz steht am Feld im Kopf der Vorlage, nicht zusätzlich in der Statuszeile (Rundgang 22.11.2026).
+  assert.match(String(g.document.getElementById('vk-stelle-meldung').textContent), /Name/);
   // Mit dem Namen im Feld (statt in den Angaben) geht alles hinaus, die Meldung geht.
   V.STATE.anbieter = null;
   feld.value = 'Bürgerservice Probestadt';
@@ -275,11 +279,11 @@ test('[Studio·Vorlage·S-4 Name] fehlt der Name, steht der Hinweis am Namensfel
   assert.equal(g.document.getElementById('sd-name-meldung').hidden, true);
   assert.equal(sortiert(hinaus).pdf.length, 1);
   assert.ok(sortiert(hinaus).qr.length === 1);
-  // Sonst blockiert nichts: auch eine Vorlage ohne Felder und ohne Wortlaut wird gesichert.
+  // Ohne Datenfelder geht nichts hinaus (Benutzbarkeitsprüfung 22.11.2026, M2; Probe tests/studio-sichern-benutzbar.test.js).
   hinaus.length = 0;
   V.STATE.felder = [];
-  await fn(g, 'vorlageSichern')();
-  assert.deepEqual([sortiert(hinaus).vorlage.length, sortiert(hinaus).pdf.length, sortiert(hinaus).qr.length], [1, 1, 1]);
+  assert.equal(await fn(g, 'vorlageSichern')(), false);
+  assert.equal(hinaus.length, 0, 'ohne Datenfelder ging etwas hinaus');
 });
 
 /* Gesichert heißt wieder zu öffnen (17.11.2026): „Vorlage sichern“ gibt die Entwurfsdatei mit. Sie trägt Name, Zweck und Stelle,
