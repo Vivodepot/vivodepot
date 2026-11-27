@@ -40,6 +40,15 @@
 # auf. Darum zwei Dinge: ALRM, TERM und INT werden zu Beginn ausdrücklich entsperrt, und das Warten auf das Kind ist eine
 # Schleife, die die Grenze selbst an der Wachuhr (CLOCK_UPTIME_RAW, ohne Schlafzeit) misst und unabhängig von jedem Signal
 # abbricht. Probe: tests/zeitgrenze-ohne-signal.test.js.
+#
+# NACHTRAG 25.11.2026 (Lockerung, freigegeben): STILLSTAND STATT GESAMTZEIT. Die Grenze 1500 s der Suite brach zweimal an einem Tag
+# einen gesunden Lauf ohne roten Test ab (Last 20–62); sie maß, wie lange ein Lauf dauert, nicht ob er hängt. Mit der Umgebungsvariablen
+# VD_ZEITGRENZE_STILLSTAND_S=<n> beendet das Werkzeug den Befehl, sobald seine Ausgabe n Sekunden lang nicht gewachsen ist. Fortschritt
+# heißt: die Datei hinter STDOUT oder STDERR ist größer geworden (der Testlauf schreibt je beendetem Test eine Zeile). Ist keine der
+# beiden eine reguläre Datei, gibt es keinen Fortschritt zu messen; dann gilt nur die Gesamtgrenze, und STDERR sagt es. Die erste
+# Zahl bleibt die Gesamtobergrenze, gedacht weit oberhalb des längsten grünen Laufs. Beide Abbrüche enden mit Exit 142 (der Vertrag
+# oben); die Dauerzeile nennt im Feld "grund" "stillstand" oder "gesamt". Die Variable wird vor dem Start gelöscht, damit verschachtelte
+# Aufrufe sie nicht erben. Probe: tests/zeitgrenze-stillstand.test.js.
 
 use strict;
 use warnings;
@@ -51,6 +60,10 @@ defined $grenze && $grenze =~ /^\d+$/
   or die "mit-zeitgrenze: erstes Argument muss die Sekundenzahl sein\n";
 shift @ARGV if @ARGV && $ARGV[0] eq '--';
 @ARGV or die "mit-zeitgrenze: kein Befehl angegeben\n";
+my $stillstand = delete $ENV{VD_ZEITGRENZE_STILLSTAND_S};
+if (defined $stillstand && $stillstand ne '') {
+  $stillstand =~ /^\d+$/ && $stillstand > 0 or die "mit-zeitgrenze: VD_ZEITGRENZE_STILLSTAND_S muss eine positive Sekundenzahl sein\n";
+} else { $stillstand = undef; }
 
 my $kind = fork();
 defined $kind or die "mit-zeitgrenze: fork fehlgeschlagen: $!\n";
@@ -82,6 +95,7 @@ my $gruppe_sicher = sub {
 };
 
 my $abgelaufen = 0;
+my $grund = 'gesamt';     # 'gesamt' = Gesamtgrenze erreicht, 'stillstand' = keine neue Ausgabe seit $stillstand s
 my $extern_beendet = 0;   # 0=kein externes Signal, sonst die Signalnummer (fuer den Exit-Code)
 
 sub gruppe_beenden {
@@ -116,7 +130,7 @@ sub prozessbaum_sichern {
     my @t = localtime; my $stempel = POSIX::strftime('%Y%m%d-%H%M%S', @t);
     my $datei = "$dir/zeitgrenze-$stempel-pgid$kind.txt";
     open(my $fh, '>', $datei) or die "kann $datei nicht schreiben: $!";
-    print $fh "Zeitgrenze $grenze s gerissen, Gruppe $kind, Befehl: @ARGV\n\n";
+    print $fh ($grund eq 'stillstand' ? "Stillstand: $stillstand s keine neue Ausgabe" : "Zeitgrenze $grenze s gerissen") . ", Gruppe $kind, Befehl: @ARGV\n\n";
     my @alle = `ps -A -o pid=,ppid=,pgid=,stat=,wchan=,etime=,command=`;
     my @gruppe = grep { my @f = split ' ', $_; @f >= 3 && $f[2] == $kind } @alle;
     print $fh "PID PPID PGID STAT WCHAN ETIME COMMAND\n", @gruppe, "\n";
@@ -126,7 +140,7 @@ sub prozessbaum_sichern {
       print $fh "Pipes, FIFOs, Sockets der schlafenden Prozesse (lsof):\n", (grep { /PIPE|FIFO|unix|IPv[46]|COMMAND/ } @lsof);
     }
     close $fh;
-    print STDERR "[mit-zeitgrenze] Zeitgrenze gerissen — Prozessbaum gesichert: $datei\n";
+    print STDERR "[mit-zeitgrenze] " . ($grund eq 'stillstand' ? 'Stillstand' : 'Zeitgrenze gerissen') . " — Prozessbaum gesichert: $datei\n";
     1;
   } or print STDERR "[mit-zeitgrenze] Prozessbaum nicht gesichert: $@";
 }
@@ -175,6 +189,18 @@ alarm($grenze);
 # fertig ist, und bricht an der Grenze selbst ab, auch wenn kein SIGALRM ankommt.
 my $wachuhr = sub { my $t = eval { Time::HiRes::clock_gettime(Time::HiRes::CLOCK_UPTIME_RAW()) }; defined $t ? $t : Time::HiRes::time() };
 my $wach_start = $wachuhr->();
+# Fortschritt = Größe der Dateien hinter STDOUT und STDERR (Nachtrag 25.11.2026, Kopf). undef = keine reguläre Datei, nichts messbar.
+my $ausgabe_groesse = sub {
+  my ($n, $regulaer) = (0, 0);
+  for my $fh (\*STDOUT, \*STDERR) { my @s = stat($fh); if (@s && -f _) { $n += $s[7]; $regulaer = 1; } }
+  return $regulaer ? $n : undef;
+};
+my $letzte_groesse = defined $stillstand ? $ausgabe_groesse->() : undef;
+if (defined $stillstand && !defined $letzte_groesse) {
+  print STDERR "[mit-zeitgrenze] HINWEIS: Stillstand nicht messbar (Ausgabe geht in keine Datei) — es gilt nur die Gesamtgrenze $grenze s\n";
+  $stillstand = undef;
+}
+my $letzter_fortschritt = $wach_start;
 my ($weg, $status);
 while (1) {
   if (defined $fertig_status) { $status = $fertig_status; last; }
@@ -182,6 +208,11 @@ while (1) {
   if ($weg == $kind) { $status = $?; last; }
   if ($weg == -1 && !$!{EINTR}) { $status = $?; last; }      # Kind schon fort (ECHILD)
   if (!$abgelaufen && $wachuhr->() - $wach_start >= $grenze) { $abgelaufen = 1; prozessbaum_sichern(); gruppe_beenden(); }
+  if (!$abgelaufen && defined $stillstand) {
+    my $g = $ausgabe_groesse->(); my $jetzt = $wachuhr->();
+    if (defined $g && $g != $letzte_groesse) { $letzte_groesse = $g; $letzter_fortschritt = $jetzt; }
+    elsif ($jetzt - $letzter_fortschritt >= $stillstand) { $abgelaufen = 1; $grund = 'stillstand'; prozessbaum_sichern(); gruppe_beenden(); }
+  }
   select(undef, undef, undef, 0.05);
 }
 alarm(0);
@@ -205,9 +236,11 @@ sub dauer_schreiben {
     my $befehl = join(' ', @ARGV); $befehl =~ s/["\\\x00-\x1f]//g; $befehl = substr($befehl, 0, 160);
     my $quelle = $ENV{VD_HOOK_SPERRE_JE_PID} ? 'test' : 'echt';
     my $zeit = POSIX::strftime('%Y-%m-%dT%H:%M:%S', localtime);
+    my $grund_feld = $ergebnis eq 'zeitgrenze' ? $grund : '';
+    my $stillstand_feld = defined $stillstand ? $stillstand : 'null';
     my $anteil = $grenze > 0 ? sprintf('%.2f', $dauer / $grenze) : '0';
     open(my $fh, '>>', $datei) or return 1;
-    print $fh qq({"zeit":"$zeit","grenze_s":$grenze,"dauer_s":$dauer,"anteil":$anteil,"ergebnis":"$ergebnis","quelle":"$quelle","last_start":$last_start,"plaetze_belegt_start":$belegt_start,"befehl":"$befehl"}\n);
+    print $fh qq({"zeit":"$zeit","grenze_s":$grenze,"dauer_s":$dauer,"anteil":$anteil,"ergebnis":"$ergebnis","grund":"$grund_feld","stillstand_s":$stillstand_feld,"quelle":"$quelle","last_start":$last_start,"plaetze_belegt_start":$belegt_start,"befehl":"$befehl"}\n);
     close $fh;
     if ($quelle eq 'echt' && $ergebnis ne 'zeitgrenze' && $grenze > 0 && $dauer > 0.8 * $grenze) {
       print STDERR "[mit-zeitgrenze] HINWEIS: $dauer s = " . int(100 * $dauer / $grenze) . " % der Grenze $grenze s (ueber 80 %) — Grenze messen, bevor sie reisst: $befehl\n";
@@ -217,7 +250,9 @@ sub dauer_schreiben {
 }
 my $ergebnis = $abgelaufen ? 'zeitgrenze' : $extern_beendet ? 'abgebrochen' : (($status & 127) == 0 && ($status >> 8) == 0) ? 'gruen' : 'rot';
 dauer_schreiben($ergebnis);
-if ($abgelaufen) {
+if ($abgelaufen && $grund eq 'stillstand') {
+  print STDERR "[mit-zeitgrenze] STILLSTAND: $stillstand s keine neue Ausgabe — der Lauf hing und wurde beendet. Das ist KEIN roter Test; der Prozessbaum zeigt, worauf er wartete.\n";
+} elsif ($abgelaufen) {
   print STDERR "[mit-zeitgrenze] ZEITGRENZE $grenze s GERISSEN — das ist KEIN roter Test, sondern ein Abbruch nach Zeit. Erst die Last und die Dauer messen (vd-zeitgrenzen-dauer.ndjson), nicht den Code reparieren.\n";
 }
 

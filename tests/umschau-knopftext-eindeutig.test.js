@@ -5,7 +5,8 @@
    Seit der Abnahme v998 (Mängel M01–M03 der Gestaltungsleitung) steht sichtbar nur „Eintragen“ — „Wer übernimmt die Hauptpflege?
    eintragen“ war kein Satz —, die Beschriftung steht als Vorlesetext davor. Geprüft wird darum am gerenderten Knopf JEDES Felds
    jedes Bereichs, DE und EN: kein aria-label, der zugängliche Name enthält die Beschriftung und das sichtbare Wort (2.5.3).
-   Die Laufzeit hält tests/e2e/umschau-eintragen-fuehrt-zum-einrichten.spec.js („Umschau·Knopftext“). */
+   Die Schaltfläche steht nur in der leeren Vorschau (Rückfall eines Produkts ohne Beispielwerte); das erfundene Beispiel ist
+   schreibgeschützt (tests/e2e/umschau-eintragen-fuehrt-zum-einrichten.spec.js, „Umschau·Schreibgeschützt“). */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');

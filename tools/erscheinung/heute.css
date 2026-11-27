@@ -246,7 +246,7 @@
      mit heute gleichem Wert bekommen zwei Tokens, damit ein Profil die eine ohne die andere ändert.
      Alle sind FRISCH: kein Theme (Nacht, Hochkontrast) überschreibt sie — ein Rohwert war in
      jedem Theme derselbe, das Token ist es auch. Zählweg: tools/design-treue.js. */
-  /* Gewichte */
+  /* Gewichte (Vorlage kann sie setzen; Grundwerte in tools/erscheinung/definition.json, Gruppe „gewichte“; Dummy: halbfett 500) */
   --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
   /* Schreibung der Etiketten (G7 § 6.10 Sektion-Header; Profil „Leinen" setzt none) */
   --label-schreibung: uppercase;
@@ -274,7 +274,8 @@
   --radius-toast: 12px; --radius-block: 6px; --radius-logo: 6px; --radius-balken: 3px;
   /* Karte und Feld: Rahmen, Fläche, Schatten, Höhe */
   --karte-rahmen: 1px solid var(--line); --karte-schatten: var(--shadow-strong);
-  --feld-rahmen: 1px solid var(--salbei-mid);      /* Bereichs- und Assistentenfelder (WCAG 1.4.11) */
+  --feld-kante: var(--salbei-mid);
+  --feld-rahmen: 1px solid var(--feld-kante);      /* Bereichs- und Assistentenfelder (WCAG 1.4.11) */
   --feld-rahmen-dialog: 1px solid var(--salbei-mid);     /* Felder in Dialog, Mappe, Dokument-Erkennung — war --line, 1,5:1 gegen den Grund (WCAG 1.4.11 verlangt 3:1) */
   --feld-flaeche: var(--white);
   --feld-hoehe: 24px;   /* Untergrenze WCAG 2.5.8; heute liegt jedes Bereichsfeld darüber */

@@ -96,6 +96,9 @@ test('eine gefüllte VORSCHAU wird nicht still verworfen — die Grenze, die der
   await oeffneApp(page);
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
+  // Die leere Vorschau eines Produkts ohne Beispielwerte (Aufbau): „Erst umsehen“ zeigt sonst das erfundene, schreibgeschützte Beispiel
+  // (tests/umsehen-beispiel-gefuellt.test.js), in dem der Hinweis dem Streifen weicht und nichts eingetragen wird.
+  await page.evaluate(() => { const d = window.__vdOeffentlich.ankerDaten(); delete d._beispiel; d.sektoren = Object.fromEntries(Object.keys(d.sektoren || {}).map((k) => [k, {}])); window.__vdOeffentlich.renderContent(); });
 
   await page.evaluate((m) => { window.__vdOeffentlich.ankerDaten().sektoren.identity = window.__vdOeffentlich.ankerDaten().sektoren.identity || {}; window.__vdOeffentlich.ankerDaten().sektoren.identity.givenName = m; }, MARKER);
   const gefuellt = await page.evaluate(() => window.__vdOeffentlich.imVorschau() && window.__vdOeffentlich.vorschauHatDaten(window.__vdOeffentlich.ankerDaten()));

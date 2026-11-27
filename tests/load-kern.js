@@ -1039,6 +1039,8 @@ const EXPORT_HOOK = `
   // Umbau U-3 (17.11.2026): die Übersicht nach dem Desktop-Dummy.
   _uebersichtHTML: (typeof _uebersichtHTML === 'function' ? _uebersichtHTML : undefined),
   _uebersichtNotfallKurz: (typeof _uebersichtNotfallKurz === 'function' ? _uebersichtNotfallKurz : undefined),
+  notfallKernStand: (typeof notfallKernStand === 'function' ? notfallKernStand : undefined),
+  _uebersichtNotfallKontaktZeilen: (typeof _uebersichtNotfallKontaktZeilen === 'function' ? _uebersichtNotfallKontaktZeilen : undefined),
   _meldungenBeimSeitenwechsel: (typeof _meldungenBeimSeitenwechsel === 'function' ? _meldungenBeimSeitenwechsel : undefined),
   _posteingangHinweisZeigen: (typeof _posteingangHinweisZeigen === 'function' ? _posteingangHinweisZeigen : undefined),
   _anlaesseFuerLeiste: (typeof _anlaesseFuerLeiste === 'function' ? _anlaesseFuerLeiste : undefined),
@@ -1504,6 +1506,7 @@ const EXPORT_HOOK = `
   // Vorschau-/Umsehen-Modus (passwortloser Erstbesuch)
   imVorschau, _modalMitEingabe: (typeof _modalMitEingabe !== 'undefined' ? _modalMitEingabe : undefined), pausenZeileHTML: (typeof pausenZeileHTML !== 'undefined' ? pausenZeileHTML : undefined), vorschauDepotErzeugen, vorschauHatDaten, vorschauDatenUebernehmen,
   flowVorschauBetreten, vorschauBannerHTML, vorschauVerwerfenUndZuhause,
+  imBeispiel: (typeof imBeispiel === 'function' ? imBeispiel : undefined), beispielAngaben: (typeof beispielAngaben === 'function' ? beispielAngaben : undefined), beispielAngabenEinsetzen: (typeof beispielAngabenEinsetzen === 'function' ? beispielAngabenEinsetzen : undefined), beispielStreifenStellen: (typeof beispielStreifenStellen === 'function' ? beispielStreifenStellen : undefined), beispielStreifenTeile: (typeof beispielStreifenTeile === 'function' ? beispielStreifenTeile : undefined),   // Befund U1, tests/umsehen-beispiel-gefuellt.test.js
   // Vorführung (AB_WERK_SHOWCASE, 15.09.2026) — typeof-gesichert, damit KERN_HTML_PATH auf einen älteren Kern lädt.
   AB_WERK_SHOWCASE: (typeof AB_WERK_SHOWCASE !== 'undefined' ? AB_WERK_SHOWCASE : undefined),
   VORFUEHRUNG_ANSICHTEN: (typeof VORFUEHRUNG_ANSICHTEN !== 'undefined' ? VORFUEHRUNG_ANSICHTEN : undefined),

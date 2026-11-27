@@ -1,12 +1,12 @@
 /* Fixture: nur Token, Null, Kommentare und der erzeugte Block — null freie Werte */
 /* padding: 13px; margin: 7px; (im Kommentar zählt nicht) */
-.karte { padding: var(--abstand-4) var(--abstand-2); margin: 0 auto; gap: var(--abstand-3); border-radius: var(--radius-klein); min-height: var(--treffer); }
-.zeile { padding: 0; margin-bottom: var(--abstand-1); border-radius: 0 var(--radius-gross) var(--radius-gross) 0; min-height: 20px; }
+.karte { padding: var(--abstand-4) var(--abstand-2); margin: 0 auto; gap: var(--abstand-3); border-radius: var(--radius-1); min-height: var(--treffer); }
+.zeile { padding: 0; margin-bottom: var(--abstand-1); border-radius: 0 var(--radius-2) var(--radius-2) 0; min-height: 20px; }
 @media (max-width: 767px) { .karte { padding: var(--abstand-2); } }
 @media (min-width: 768px) { .karte { gap: var(--abstand-4); } }
 @media print { .karte { margin: 0; } }
 @media (prefers-reduced-motion: reduce) { .karte { padding: 0; } }
   /* GESTALTUNG-DEFINITION:BEGIN — Fixture */
-  :root { --abstand-1: 0.25rem; --radius-klein: 10px; --treffer: 48px; }
+  :root { --abstand-1: 0.25rem; --radius-1: 10px; --treffer: 48px; }
   .im-block { padding: 4px; margin: 4px; gap: 4px; border-radius: 4px; min-height: 48px; }
   /* GESTALTUNG-DEFINITION:END */

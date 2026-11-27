@@ -1,0 +1,13 @@
+{
+  "hinweis": "Texte der Feldseiten des Feldregisters je Sprache. Gelesen von tools/lib/feldregister-adressen.js (pruefstand, Feldseite). Platzhalter in geschweiften Klammern. Eine neue Sprache ist ein neuer Schlüssel je Text.",
+  "texte": {
+    "fassung": { "de": "Fassung {fassung}", "en": "version {fassung}" },
+    "erfasst": { "de": "erfasst von {wer} am {datum}", "en": "recorded by {wer} on {datum}" },
+    "zuPruefen": { "de": "erfasst von {wer} am {datum}, zur Prüfung offen", "en": "recorded by {wer} on {datum}, open for review" },
+    "strittig": { "de": "erfasst von {wer} am {datum}, strittig", "en": "recorded by {wer} on {datum}, disputed" },
+    "bestaetigt": { "de": "bestätigt von {wer} am {datum}", "en": "confirmed by {wer} on {datum}" }
+  },
+  "erfasser": {
+    "vivodepot-redaktion": { "de": "der Vivodepot-Redaktion", "en": "the Vivodepot editors" }
+  }
+}

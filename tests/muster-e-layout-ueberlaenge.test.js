@@ -27,7 +27,8 @@ test('Fix 1: .liste-eintraege li trägt flex-wrap (fehlte an keiner anderen verg
 test('Fix 2: .modal rechnet die Höhe zusätzlich mit dvh (vh bleibt als Fallback stehen)', () => {
   const modalRegeln = HTML.match(/\.modal \{[^}]*\}/g) || [];
   assert.ok(modalRegeln.length >= 1, 'mindestens eine .modal-Basisregel gefunden');
-  const basis = modalRegeln.find(r => r.includes('box-shadow'));
+  // Seit 25.11.2026 (Bildblatt, Dialog nach dem Dummy) stehen Fläche, Rahmen und Schatten in der Elementart dialog-rahmen; die Höhe bleibt hier.
+  const basis = modalRegeln.find(r => r.includes('max-width'));
   assert.ok(basis, 'Basis-.modal-Regel gefunden');
   assert.match(basis, /max-height:\s*calc\(100vh/, 'vh-Fallback bleibt erhalten');
   assert.match(basis, /max-height:\s*calc\(100dvh/, 'dvh-Deklaration ergänzt (überschreibt vh dort, wo unterstützt)');

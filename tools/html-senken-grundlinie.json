@@ -293,7 +293,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungKarteHandSetzen",
-   "zeile": 18540,
+   "zeile": 18619,
    "abdruck": "0b90bc14d21fc74e",
    "anzahl": 1,
    "code": "karte.innerHTML = _vorfuehrungSpalteHTML({ situation: AB_WERK_SHOWCASE.situation, rolle: station.rolle, titel: AB_WERK_SHOWCASE.schrittTitel, nr, gesamt, station, text: _vorfuehrungText, }, escapeHTML",
@@ -302,7 +302,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungWechselSetzen",
-   "zeile": 18588,
+   "zeile": 18667,
    "abdruck": "f3ca00f332a63f1f",
    "anzahl": 1,
    "code": "k.innerHTML = '<div class=\"vorfuehrung-wechsel-karte\"><p class=\"vorfuehrung-wechsel-satz\">' + escapeHTML(satz) + '</p>' + '<p class=\"vorfuehrung-rolle-text\">' + escapeHTML(station.rolle.text) + '</p>'",
@@ -311,7 +311,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungWarnungZeigen",
-   "zeile": 18789,
+   "zeile": 18868,
    "abdruck": "2c5e6f70bac07633",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"vorfuehrung-karte\"><p class=\"vorfuehrung-karte-text\">' + escapeHTML(_vorfuehrungText('leerlaufHinweis')) + '</p><button type=\"button\" class=\"btn\" id=\"vorfuehrung-weiter\">' ",
@@ -320,7 +320,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageorteAufStartseiteZeigen",
-   "zeile": 21404,
+   "zeile": 21483,
    "abdruck": "f9c985b36886bf56",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortKnoepfeHTML(alle, vorDepotText('ablageortOeffnen'))",
@@ -332,7 +332,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageortEinstellungZeigen",
-   "zeile": 21429,
+   "zeile": 21508,
    "abdruck": "a6e7294ad9c60baf",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortGemerktHTML(gemerkt.name)",
@@ -344,7 +344,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageortEinstellungZeigen",
-   "zeile": 21435,
+   "zeile": 21514,
    "abdruck": "1ea086b714cab2de",
    "anzahl": 1,
    "code": "ort.innerHTML = '<p class=\"einst-hint\">' + escapeHTML(STRINGS.ablageortNichtGemerktHinweis) + '</p>' + '<button type=\"button\" class=\"btn btn-sek\" id=\"einst-ablageort-merken\">' + escapeHTML(STRINGS.abl",

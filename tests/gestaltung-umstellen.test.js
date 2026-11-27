@@ -29,11 +29,11 @@ test('[Umstellen·a] Rot-Beweis: die rohe Fixture zählt frei, --exakt senkt, --
   assert.ok(summe(an) < summe(ex), 'angleichen muss weiter senken');
 });
 
-test('[Umstellen·b] --exakt ändert nur Gleiches: 8 px → --abstand-2, 16 px Radius → --radius-gross, 48 px → --treffer; Off-Raster bleibt', () => {
+test('[Umstellen·b] --exakt ändert nur Gleiches: 8 px → --abstand-2, 16 px Radius → --radius-2, 48 px → --treffer; Off-Raster bleibt', () => {
   const ex = u.anwenden(roh, u.ersetzungen(roh, tok, 'exakt').treffer);
   assert.match(ex, /\.a \{ padding: var\(--abstand-2\) var\(--abstand-4\); \}/);
   assert.match(ex, /\.b \{ margin: 0 auto var\(--abstand-5\); \}/);
-  assert.match(ex, /\.f \{ border-radius: var\(--radius-gross\); \}/);
+  assert.match(ex, /\.f \{ border-radius: var\(--radius-2\); \}/);
   assert.match(ex, /\.h \{ min-height: var\(--treffer\); \}/);
   assert.match(ex, /\.d \{ padding: 10px 14px; \}/);
   assert.match(ex, /\.i \{ min-height: 44px; \}/);
@@ -46,7 +46,7 @@ test('[Umstellen·c] --angleichen setzt auf das nächste Token, bei Gleichstand 
   assert.match(an, /\.d \{ padding: var\(--abstand-3\) var\(--abstand-4\); \}/); // 10 → 12, 14 → 16 (Gleichstand 12/16 → 16)
   assert.match(an, /\.e \{ margin: var\(--abstand-2\) 0 -4px; \}/); // 6 → 8 (Gleichstand 4/8 → 8)
   assert.match(an, /\.i \{ min-height: var\(--treffer\); \}/);
-  assert.match(an, /\.g \{ border-radius: var\(--radius-klein\); \}/);
+  assert.match(an, /\.g \{ border-radius: var\(--radius-1\); \}/);
   assert.match(an, /\.k \{ padding: 404px; \}/);
 });
 

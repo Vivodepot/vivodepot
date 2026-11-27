@@ -27,6 +27,9 @@ const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8
 function kernMitVorschau(fuellen) {
   const k = ladeKern({ indexedDB: createIdbMock(), location: { protocol: 'https:', href: 'https://vivodepot.example/app' } });
   k.V.flowVorschauBetreten();
+  // Die leere Vorschau ohne Beispiel (Rückfall eines Produkts ohne Beispielwerte): nur dort trägt die Person etwas ein, das
+  // beim Anlegen mitgeht. Das erfundene Beispiel ist schreibgeschützt und geht nie mit (tests/umsehen-beispiel-gefuellt.test.js).
+  k.V.vorschauDepotErzeugen();
   fuellen(k.V.getData());
   return k;
 }

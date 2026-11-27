@@ -147,3 +147,12 @@ mit Zahlen und Sonderzeichen.“ (`pwStaerkeTipp`), „Dieses Passwort ist weit 
 wenn ein Umlaut, ß oder € getippt ist, „Umlaute, ß und € besser weglassen.“ (`pwStaerkeUmlaute`). Englisch entsprechend.
 Die Begründung zu den Umlauten steht in der Hilfe „Depot und Passwort“ (U2-ADR-463, Nachtrag 31.10.2026). Die Balken
 nutzen nur die Zustands-Tokens, ohne Gold. Schranken und Bewertung ändern sich nicht.
+
+## Nachtrag 26.11.2026 — kein Ratschlag zur Stärke
+
+Der Ratschlag `pwStaerkeTipp` entfällt an allen Feldern mit Stärke-Anzeige (Anlegen, beide Wege des Passwortwechsels, drei Freigaben im
+Kreis). Neben „mindestens 12 Zeichen“ wirkte ein zweiter Richtwert wie eine zweite Regel, und die sechs Wörter
+kennt an dieser Stelle niemand. Beim Tippen steht „Passwort-Stärke: schwach/mittel/stark“; die Warnungen zu weit verbreiteten
+Passwörtern (`pwStaerkeBekannt`) und zu Umlauten (`pwStaerkeUmlaute`) bleiben. Schranken und Bewertung ändern sich nicht;
+die Anzeige hängt an einer Stelle (`pwStaerkeAnzeigeVerdrahten`).
+Probe: `tests/anlegen-passwort-festlegen.test.js` ([Festlegen·Kein Tipp·Texte], [Festlegen·Kein Tipp]).

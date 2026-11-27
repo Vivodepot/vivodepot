@@ -136,16 +136,6 @@ html:not(.high-contrast) .toc { border: 0; background: transparent; padding-left
 /* Die Sprungmarken-Pillen tragen Fläche statt Linie (Entscheidung 07.10.2026); vorher blieb nach border-bottom: 0 ein Rand an drei Seiten. */
 html:not(.high-contrast) .toc-liste a { border: 0; text-decoration: underline; text-decoration-color: transparent; }
 html:not(.high-contrast) .toc-liste a:hover { text-decoration-color: currentColor; }
-/* Feldform im Inhalt und in der Suche: Grundregel aus der Definition (Schicht 3, GESTALTUNG-VORLAGEN in grundlage.css). Die Dialoge tragen ihre Form bis zum Umbau Anlegen/Öffnen hier selbst. */
-html:not(.high-contrast) .modal :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) {
-border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung);
-}
-/* Nachts ist das hinterlegte Feld dunkel; die Grundlage hält Felder nachts hell mit Papier-Tinte. Darum trägt das Feld hier die Nacht-Tinte (vorher 1,12 bis 1,57:1, Ebenen-Finder). */
-html.dark-mode:not(.high-contrast) .modal :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: var(--feld-toenung); color: var(--ink); }
-/* Das Entsperrfeld steht weder im Inhalt noch in einem Dialog und trug darum einen Vollrahmen (Befund UX-ENTSPERRFELD-KONTRAST,
- 30.10.2026). Eigene Zeile statt eines Eintrags im :is() oben, damit die Kennung dort nicht die Spezifität aller Felder hebt. */
-html:not(.high-contrast) #overlay-inhalt :is(input[type="password"], input[type="text"]) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: rgba(79,101,57,.07); }
-html.dark-mode:not(.high-contrast) #overlay-inhalt :is(input[type="password"], input[type="text"]) { background-color: rgba(255,255,255,.07); color: var(--ink); }
 html:not(.high-contrast) .doku-panel { border: 0; background: rgba(79,101,57,.05); }
 html.dark-mode:not(.high-contrast) .doku-panel { background: rgba(255,255,255,.05); }
 html:not(.high-contrast) .pause-erlaubnis { border-top: 0; }

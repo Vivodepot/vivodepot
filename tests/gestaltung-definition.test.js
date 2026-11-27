@@ -33,19 +33,21 @@ test('[Definition·b] der erzeugte Block in grundlage.css entspricht der Definit
   const def = g.definitionLaden();
   for (const s of def.grundwerte.abstaende.stufen) assert.ok(css.includes(s.token + ':'), s.token);
   for (const r of def.grundwerte.radien) assert.ok(css.includes(`${r.token}: ${r.wert};`), r.token);
-  assert.ok(css.includes('--treffer: 48px;'));
+  assert.ok(css.includes('--treffer: 44px;'));
+  for (const s of def.grundwerte.abstaende.zwischen) assert.ok(css.includes(s.token + ':'), s.token);
+  for (const k of ['gewichte', 'zeilenhoehen', 'uebergaenge', 'schatten']) for (const e of def.grundwerte[k]) assert.ok(css.includes(`${e.token}: ${e.wert};`), e.token);
 });
 
 test('[Definition·c] Rot-Beweis: ein verändertes Maß im Block und ein fehlender Block machen --check rot', () => {
   const def = g.definitionLaden();
   const css = fs.readFileSync(g.GRUNDLAGE, 'utf8');
-  assert.equal(g.blockPruefen(css.replace('--radius-klein: 10px', '--radius-klein: 11px'), def).length, 1);
+  assert.equal(g.blockPruefen(css.replace('--radius-7: 10px', '--radius-7: 11px'), def).length, 1);
   assert.equal(g.blockPruefen(css.replace(g.MARKE_ANFANG, 'WEG'), def).length, 1);
   // über den Aufruf: --check gegen eine Kopie mit verändertem Block
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'gestaltung-def-'));
   try {
     const kopie = path.join(tmp, 'grundlage.css');
-    fs.writeFileSync(kopie, css.replace('--treffer: 48px', '--treffer: 44px'));
+    fs.writeFileSync(kopie, css.replace('--treffer: 44px', '--treffer: 48px'));
     let code = 0; let aus = '';
     try { execFileSync(process.execPath, [WERKZEUG, '--check', '--css', kopie], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }); } catch (e) { code = e.status; aus = String(e.stderr); }
     assert.equal(code, 1);
@@ -103,8 +105,10 @@ test('[Definition·vorlagen] Schicht 3: je Feldart eine Grundregel, im Block der
   assert.deepEqual(g.vorlagenPruefen(def.vorlagen), []);
   assert.deepEqual(g.vorlagenPruefenImCss(css, def), []);
   assert.deepEqual(def.vorlagen.arten.map((a) => a.art).sort(), ['feld-auswahl', 'feld-eingabe', 'feld-mehrzeilig']);
-  for (const a of def.vorlagen.arten) assert.equal(a.regeln['background-color'], 'var(--feld-toenung)', a.art);
-  // Die Profile tragen die Feldform im Inhalt nicht mehr selbst (eine Quelle): nur die Dialoge behalten ihre eigene Zeile.
+  // Feldform des Dummys 13.11.2026 (Entscheidung 25.11.2026): Rahmen ringsum, Fläche, Radius rundum
+  for (const a of def.vorlagen.arten) assert.deepEqual([a.regeln.border, a.regeln['border-radius'], a.regeln['background-color']], ['var(--feld-rahmen)', 'var(--radius-feld)', 'var(--feld-flaeche)'], a.art);
+  assert.ok(!/border-bottom/.test(JSON.stringify(def.vorlagen.arten)), 'Feldart mit Linie unten');
+  // Die Profile tragen die Feldform nicht mehr selbst (eine Quelle), auch nicht in den Dialogen.
   const salbei = fs.readFileSync(path.join(path.dirname(g.GRUNDLAGE), 'salbei-glas.css'), 'utf8');
   assert.ok(!/^html:not\(\.high-contrast\) :is\(\.content, \.modal, \.suche-feld\)/m.test(salbei), 'salbei-glas.css trägt die Feldform im Inhalt noch selbst');
   const dummy = fs.readFileSync(path.join(path.dirname(g.GRUNDLAGE), 'dummy.css'), 'utf8');
@@ -119,8 +123,70 @@ test('[Definition·vorlagen·Rot-Beweis] Zahl im Wert, doppelte Art und verände
   const f = g.vorlagenPruefen(kaputt);
   assert.ok(f.some((x) => /44px|Wert/.test(x)), f.join(' | '));
   assert.ok(f.some((x) => /doppelte Art/.test(x)), f.join(' | '));
-  const css = fs.readFileSync(g.GRUNDLAGE, 'utf8').replace('background-color: var(--feld-toenung);', 'background-color: #fff;');
+  const css0 = fs.readFileSync(g.GRUNDLAGE, 'utf8'); const im = css0.indexOf(g.VORLAGEN_MARKE_ANFANG);
+  const css = css0.slice(0, im) + css0.slice(im).replace('background-color: var(--feld-flaeche);', 'background-color: #fff;');
   assert.equal(g.vorlagenPruefenImCss(css, def).length, 1);
   const ohne = fs.readFileSync(g.GRUNDLAGE, 'utf8').replace(g.VORLAGEN_MARKE_ANFANG, 'X');
   assert.deepEqual(g.vorlagenPruefenImCss(ohne, def), ['Block ' + g.VORLAGEN_MARKE_ANFANG + ' fehlt']);
+});
+
+test('[Definition·elemente] je Elementart eine Regel an ihrer Stelle in der Stilquelle, wie definiert', () => {
+  const def = g.definitionLaden();
+  const css = fs.readFileSync(g.GRUNDLAGE, 'utf8');
+  assert.deepEqual(g.elementePruefen(def.vorlagen.elemente), []);
+  assert.deepEqual(g.elementePruefenImCss(css, def), []);
+  const arten = def.vorlagen.elemente.map((e) => e.art);
+  for (const a of ['ueberschrift-1', 'ueberschrift-2', 'ueberschrift-3', 'fliesstext', 'hinweis', 'fehlermeldung', 'feldbeschriftung',
+    'knopf-haupt', 'knopf-neben', 'knopf-text', 'stand-marke', 'karte', 'menue', 'dialog-rahmen']) assert.ok(arten.includes(a), a);
+  // Die Grundregel steht vor ihren Abwandlungen: der Hauptknopf vor dem Nebenknopf, die Karte vor ihrer Handy-Fassung.
+  assert.ok(css.indexOf(g.ELEMENT_MARKE('knopf-haupt')) < css.indexOf(g.ELEMENT_MARKE('knopf-neben')));
+  assert.ok(css.indexOf(g.ELEMENT_MARKE('karte')) < css.indexOf('.karte { padding: var(--space-5) var(--space-4); border-radius: var(--radius-karte-schmal); }'));
+});
+
+test('[Definition·elemente·Rot-Beweis] Maß außer der Haarlinie, fehlende Marke und veränderte Regel fallen auf', () => {
+  const def = g.definitionLaden();
+  const kaputt = JSON.parse(JSON.stringify(def.vorlagen.elemente));
+  kaputt[0].regeln.margin = '3px';
+  assert.ok(g.elementePruefen(kaputt).some((x) => /3px/.test(x)));
+  const css = fs.readFileSync(g.GRUNDLAGE, 'utf8');
+  const ohne = css.replace(g.ELEMENT_MARKE('karte'), '/* x */');
+  assert.ok(g.elementePruefenImCss(ohne, def).some((x) => /karte: Marke 0-mal/.test(x)));
+  const marke = css.indexOf(g.ELEMENT_MARKE('karte'));
+  const zeileAb = css.indexOf('\n', marke) + 1;
+  const zeile = css.slice(zeileAb, css.indexOf('\n', zeileAb));
+  assert.match(zeile, /border-radius: var\(--radius-6\)/, 'Vorbedingung: die Kartenzeile trägt ihre Rundung');
+  const schief = css.slice(0, zeileAb) + zeile.replace('border-radius: var(--radius-6)', 'border-radius: var(--radius-1)') + css.slice(zeileAb + zeile.length);
+  assert.ok(g.elementePruefenImCss(schief, def).some((x) => /karte: Regel weicht ab|Element karte/.test(x)));
+});
+
+test('[Definition·formate] VD-FORMATE: gebacken wie die Quelle, hängt nur an der Wurzelklasse und den .vd-Klassen', () => {
+  const block = fs.readFileSync(g.FORMATE, 'utf8');
+  assert.equal(block, g.vorlagenBacken());
+  assert.deepEqual(g.formatePruefen(g.definitionLaden()), []);
+  const regeln = block.split('\n').filter((z) => z && !z.startsWith('/*') && !z.startsWith('@media') && !z.startsWith('html.dark-mode'));
+  for (const z of regeln) assert.match(z, /^\.vd-formate( (:is\()?\.vd-[a-z0-9-]+(, \.vd-[a-z0-9-]+)*\)?)? \{/, z.slice(0, 80));
+  // Jedes Token, das eine Regel nennt, steht in der Wurzel (selbsttragend).
+  const wurzel = regeln[0];
+  for (const n of new Set([...block.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1]))) assert.ok(wurzel.includes(n + ':'), n);
+  assert.ok(/html\.dark-mode \.vd-formate/.test(block) && /@media \(max-width: 767px\)/.test(block));
+  // Rot-Beweis: eine andere Wurzel ist ein anderer Block; ein Wert ohne Token im Modul bricht ab.
+  assert.notEqual(g.vorlagenBacken({ wurzel: '.anders' }), block);
+  const def = g.definitionLaden(); def.vorlagen.elemente[0].regeln.color = 'var(--gibt-es-nicht)';
+  assert.throws(() => g.vorlagenBacken({ def }), /gibt-es-nicht/);
+});
+
+test('[Definition·grundwerte-25-11] Rot-Beweis: Lücke in der Radienreihe, ein Wert mit zwei Namen, Gewicht ohne Zahl und doppelter Zwischenabstand fallen auf', () => {
+  const def = g.definitionLaden();
+  assert.deepEqual(g.definitionPruefen(def), []);
+  const k = () => JSON.parse(JSON.stringify(def));
+  const a = k(); a.grundwerte.radien = a.grundwerte.radien.filter((r) => r.token !== '--radius-3');
+  assert.ok(g.definitionPruefen(a).some((x) => /lückenlos/.test(x)));
+  const b = k(); b.grundwerte.gewichte.push({ token: '--fw-doppelt', wert: '600' });
+  assert.ok(g.definitionPruefen(b).some((x) => /zwei Namen/.test(x)));
+  const c = k(); c.grundwerte.gewichte[0].wert = 'normal';
+  assert.ok(g.definitionPruefen(c).some((x) => /Schriftgewicht/.test(x)));
+  const d = k(); d.grundwerte.abstaende.zwischen.push({ token: '--abstand-9-9', px: 16 });
+  assert.ok(g.definitionPruefen(d).some((x) => /hat schon einen Namen/.test(x)));
+  const e = k(); e.grundwerte.radien.push({ token: '--radius-kreis', wert: '40%' });
+  assert.ok(g.definitionPruefen(e).some((x) => /50%/.test(x)));
 });

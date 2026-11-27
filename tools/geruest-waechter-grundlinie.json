@@ -129,7 +129,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 338388
+   "bytes": 339161
   },
   "satz": {
    "bytes": 26647
@@ -4313,6 +4313,50 @@
    "auf": 338388,
    "daneben": {},
    "grund": "Satz über dem Formular der eigenen Unterlage trägt data-baustein (Fix gestaltung-ansicht)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 338388,
+   "auf": 338417,
+   "daneben": {},
+   "grund": "Bildblatt 25.11.2026: Feldkante als eigenes Token in den Token-Listen des Kerns",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 338417,
+   "auf": 338474,
+   "daneben": {},
+   "grund": "Kurz-Frage beim Knopf „Ja, angekommen“ am Handy, im Speicherstatus angelegt (N1, 25.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 338469,
+   "auf": 339009,
+   "daneben": {},
+   "grund": "Notfall-Kachel der Übersicht misst die Kernangaben, fehlende Angabe mit Weg (26.11.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 339009,
+   "auf": 339161,
+   "daneben": {},
+   "grund": "Befund U1: „Erst umsehen“ setzt erfundene Beispielwerte der Felder ein; Streifen mit einem Hauptknopf",
    "laengste": {
     "einzel": 0,
     "lauf": 64

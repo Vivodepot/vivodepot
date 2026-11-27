@@ -1,10 +1,6 @@
 {
   "hinweis": "Kern-Funktionen mit Zustands-Vokabular, deren Schlüssel WEDER im Funktionsanker (ZUSTAND_FUNKTIONEN_KERN) NOCH namentlich geschützt (ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT) sind (Stand 19.09.2026), je mit Entscheidung. Die zwölf ursprünglich offenen Funktionen sind entschieden: ihre Vertrauens-/Haftungssätze stehen jetzt in der Sperrliste (Deckel 0). Ein NEUER Fund macht tests/zusicherungs-kandidaten-kern.test.js rot: Schlüssel in ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT (oder Funktion in den Anker) aufnehmen, oder hier mit Grund als kein-zusicherungssatz eintragen.",
   "funktionen": {
-    "_uebersichtHTML": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Beschriftung der Notfall-Kurzzeile in der eigenen Übersicht (Umbau U-3): „Stand heute“ sagt, dass die Zeile beim Zeichnen aus den Angaben des geöffneten Depots gelesen wurde; sie geht an niemanden hinaus und sagt nichts über Vertrauen oder Prüfung."
-    },
     "gespraechsblattHTML": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Beschriftung eines Datums: „Stand“ ist der Tag, an dem das Blatt für das Gespräch erstellt wurde, nichts über Vertrauen oder Prüfung (U2-ADR-523)."

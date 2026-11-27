@@ -157,12 +157,15 @@ Ab jetzt:
 
 Die früheren Abdrücke dieser Texte zieht die Rücknahme-Liste der früher ausgelieferten Schutztexte einzeln zurück.
 
+Für den Fall ohne Erweiterung überholt durch den Nachtrag U2-ADR-258 vom 25.11.2026: Der Fuß nennt Erweiterungen dann
+gar nicht mehr.
+
 ```konformitaet
-aussage:  Ohne Erweiterung steht im PDF-Fuß genau einmal „Erweiterungen: keine“, Herkunft und Stand fallen zusammen;
+aussage:  Ohne Erweiterung nennt der PDF-Fuß weder Herkunft noch Stand und kein „Fassung“ (Nachtrag U2-ADR-258 vom 25.11.2026);
           mit Erweiterungen nennt der Fuß den Erweiterungsstand, auch den Fall „{m} unbekannt“.
 zustand:  geprüft
 herkunft: entscheidung
-pruefung: tests/pdf-fuss-umbruch-an-trennpunkten.test.js#[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen: keine“ genau einmal
+pruefung: tests/pdf-fuss-umbruch-an-trennpunkten.test.js#[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen“ nicht im Fuß
 ```
 
 ## Nachtrag 24.11.2026 — Lese-App ohne Erweiterung: eine Angabe

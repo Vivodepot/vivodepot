@@ -17,7 +17,7 @@ function ausblendRegeln(src) {
   const re = /@media print\s*\{([\s\S]*?)\n\}/g;
   let m;
   while ((m = re.exec(stil(src)))) {
-    for (const z of m[1].split('\n')) if (/^\s*body\s*>\s*\*/.test(z)) out.push(z.trim());
+    for (const z of m[1].split('\n')) if (/^\s*body(:has\(>\s*\[data-druckbar\]\))?\s*>\s*\*/.test(z)) out.push(z.trim());
   }
   return out;
 }
@@ -38,7 +38,8 @@ function druckknoepfe(src) {
 test('[Druckweg·Regel] die Druckregel blendet nach dem Merkmal data-druckbar aus, nicht nach einer Liste von Kennungen', () => {
   const r = ausblendRegeln(KERN);
   assert.equal(r.length, 1, 'genau eine Ausblend-Regel im Druck: ' + JSON.stringify(r));
-  assert.match(r[0], /^body\s*>\s*\*:not\(\[data-druckbar\]\)\s*\{\s*display:\s*none\s*!important;\s*\}$/);
+  // Nur solange ein druckbares Blatt im Dokument steht (Durchgang v1073, 25.11.2026): sonst druckt die Seite selbst, etwa eine Bereichsseite.
+  assert.match(r[0], /^body:has\(>\s*\[data-druckbar\]\)\s*>\s*\*:not\(\[data-druckbar\]\)\s*\{\s*display:\s*none\s*!important;\s*\}$/);
 });
 
 test('[Druckweg·Overlays] jedes Overlay mit Druckknopf trägt data-druckbar — auch das Notfallblatt', () => {
@@ -55,8 +56,10 @@ test('[Druckweg·Rot-Beweis] ein neues Overlay mit Druckknopf ohne Merkmal fäll
     + '  ov.innerHTML = \'<button class="btn" id="probe-drucken">x</button>\';\n}\nfunction renderBlattOverlay(');
   const ohne = druckknoepfe(neu).find((x) => x.id === 'probe-drucken');
   assert.ok(ohne && !/data-druckbar/.test(ohne.koerper));
-  const alt = KERN.replace(/body\s*>\s*\*:not\(\[data-druckbar\]\)/, 'body > *:not(#pv-dok-overlay):not(#notfallblatt-overlay)');
-  assert.doesNotMatch(ausblendRegeln(alt)[0] || '', /^body\s*>\s*\*:not\(\[data-druckbar\]\)\s*\{/);
+  const alt = KERN.replace(/body:has\(>\s*\[data-druckbar\]\)\s*>\s*\*:not\(\[data-druckbar\]\)/, 'body > *:not(#pv-dok-overlay):not(#notfallblatt-overlay)');
+  assert.doesNotMatch(ausblendRegeln(alt)[0] || '', /^body:has\(>\s*\[data-druckbar\]\)\s*>\s*\*:not\(\[data-druckbar\]\)\s*\{/);
+  const immer = KERN.replace(/body:has\(>\s*\[data-druckbar\]\)\s*>/, 'body >');
+  assert.doesNotMatch(ausblendRegeln(immer)[0] || '', /^body:has/, 'die frühere Regel ohne :has blendete auch ohne Blatt alles aus');
 });
 
 test('[Druckweg·Lage] keine Bildschirm-Regel mit !important hält ein druckbares Overlay im Druck fest (fixed statt static)', () => {

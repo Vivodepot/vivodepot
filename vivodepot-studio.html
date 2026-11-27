@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-rvKBsIkCryCYasbpKFpbrPf38cSPA8UGBjYid+lGKIk=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-NYMntYU1omERPsdXe1d/nBgyieCcj3jUD+8B+Lk3gIs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-vsLwYzn+2X7IKA44eKVGDNTt7LjGIYgjv4IQIKknhl8=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-NYMntYU1omERPsdXe1d/nBgyieCcj3jUD+8B+Lk3gIs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -8465,7 +8465,7 @@ const GENERATOR_WERKZEUG = 'vivodepot-template-generator';
 /* Die Fassung des Studios ist die Fassung von Register und Release: STUDIO_FASSUNG trägt denselben Wert wie SCHALEN_STAND in
    vivodepot.html und wird im Zugkopf-Commit mit ihm gesetzt. Die Fußzeile und das Einreichungspaket tragen „v1.0.<n>“, damit eine Stelle
    im Support sagen kann, welche Fassung sie benutzt (Entscheidung 21.11.2026). Probe: tests/studio-issuer-fassungsnummer.test.js. */
-const STUDIO_FASSUNG = 'v1073';
+const STUDIO_FASSUNG = 'v1074';
 const GENERATOR_VERSION = 'v1.0' + '.' + STUDIO_FASSUNG.slice(1);
 
 /* Die Vivodepot-Bereiche. Der alte Kommentar an dieser Stelle lautete „NICHT

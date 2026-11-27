@@ -523,6 +523,9 @@
         "--feld-rahmen-dialog": {
           "$ref": "#/$defs/rahmen"
         },
+        "--feld-kante": {
+          "$ref": "#/$defs/farbe"
+        },
         "--feld-flaeche": {
           "$ref": "#/$defs/farbe"
         },

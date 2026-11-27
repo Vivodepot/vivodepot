@@ -33,16 +33,20 @@
         {
           "token": "--abstand-6",
           "px": 32
+        },
+        {
+          "token": "--abstand-7",
+          "px": 40
         }
       ]
     },
     "radien": [
       {
-        "token": "--radius-klein",
+        "token": "--radius-1",
         "wert": "10px"
       },
       {
-        "token": "--radius-gross",
+        "token": "--radius-2",
         "wert": "16px"
       },
       {

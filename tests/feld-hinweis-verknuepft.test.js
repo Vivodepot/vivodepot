@@ -111,6 +111,13 @@ test('[Feld-Hinweis·Rot-Beweis] der Kern vor dem Helfer (a8243ba7e) hat unverkn
     let altKern = altText.includes('/* AB_WERK_KI_KORPUS:BEGIN */') ? altText : altText.replace('/* AB_WERK_DOKUMENTE_DE:BEGIN */', KI_REGION + '/* AB_WERK_DOKUMENTE_DE:BEGIN */');
     assert.ok(altKern.includes(ALT_WACHE), 'Vorbedingung: der alte Kern trägt _wizardOptionenAusMaterialisieren');
     altKern = altKern.replace(ALT_WACHE, NEU_WACHE);
+    // Das heutige Erscheinungsbild-Modul setzt die Feldkante (--feld-kante, Bildblatt 25.11.2026), die der alte Kern noch nicht kennt.
+    // Sie kommt in seine beiden Token-Listen; der alte Kern liest sie nur über --feld-rahmen, am Befund ändert sie nichts.
+    assert.ok(altKern.includes('"--feld-rahmen-dialog",') && altKern.includes("'--feld-rahmen-dialog': 'rahmen',"), 'Vorbedingung: der alte Kern trägt die Token-Listen');
+    if (!altKern.includes('"--feld-kante"')) {
+      altKern = altKern.replace('"--feld-rahmen-dialog",', '"--feld-rahmen-dialog","--feld-kante",')
+        .replace("'--feld-rahmen-dialog': 'rahmen',", "'--feld-rahmen-dialog': 'rahmen', '--feld-kante': 'farbe',");
+    }
     fs.writeFileSync(alt, altKern);
     const { fehler, gezaehlt } = pruefe(ladeV({ htmlPfad: alt, backen: true }), 'alt');
     assert.ok(gezaehlt > 100, 'der alte Kern rendert keine Felder mit Hinweis — der Rot-Beweis prüft nichts');

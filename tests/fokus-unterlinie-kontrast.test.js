@@ -10,7 +10,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { parseFarbe: rgbFarbe, ueber, verhaeltnis } = require('../tools/lib/kontrast.js');
+const { parseFarbe: rgbFarbe, verhaeltnis, ueber } = require('../tools/lib/kontrast.js');
 
 const REPO = path.join(__dirname, '..');
 const kern = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
@@ -33,19 +33,12 @@ function token(name, ebene) {
   return m ? token(m[1], ebene) : String(w).trim();
 }
 
-// Die Feldfläche, wie die Feld-Grundregel (Gestaltungsdefinition, Schicht 3) sie über die Karte (--white) legt: das Token
-// --feld-toenung aus dem Block der Stilquelle, hell (:root) und nachts (html.dark-mode); hoher Kontrast deckend.
-function feldTonung(ebene) {
-  const gl = modul.stil.grundlage;
-  const re = ebene === 'dunkel'
-    ? /:root\.dark-mode \{ --feld-toenung: (rgba\([^)]+\));/
-    : /--feld-toenung: (rgba\([^)]+\));/;
-  return ebene === 'hochkontrast' ? null : (gl.match(re) || [])[1];
-}
 
+// Seit 25.11.2026 (Entscheidung A 1 b) ist --feld-flaeche eine Tönung über der Karte: für den Kontrast über die Karte gemischt.
 function flaechen(ebene) {
   const karte = parseFarbe(token('--white', ebene));
-  const feld = ebene === 'hochkontrast' ? parseFarbe(token('--feld-flaeche', ebene)) : ueber(parseFarbe(feldTonung(ebene)), karte);
+  const roh = parseFarbe(token('--feld-flaeche', ebene));
+  const feld = roh.a >= 1 ? roh : ueber(roh, karte);
   return { feld, karte };
 }
 
@@ -97,9 +90,19 @@ test('die allgemeine :focus-visible-Regel (Knöpfe, Menüs, Links) behält ihren
   assert.match(schutzText(kern), /\n:focus-visible \{ outline: var\(--fokus-breite\) solid var\(--fokus\) !important; outline-offset: 2px !important; \}/);
 });
 
+// Die Feldkante (Rahmen ringsum, Entscheidung 25.11.2026) hat gegen Feldfläche und Karte mindestens 3:1 (WCAG 1.4.11).
+function kanteMaengel(ebene, kante = parseFarbe(token('--feld-kante', ebene))) {
+  const { feld, karte } = flaechen(ebene);
+  return [['Feldfläche', feld], ['Karte', karte]].map(([n, g]) => [n, verhaeltnis(kante, g)])
+    .filter(([, k]) => !(k >= 3)).map(([n, k]) => `${ebene}: Kante gegen ${n} ${k.toFixed(2)}:1`);
+}
+
 for (const ebene of EBENEN) {
   test(`${ebene}: in Ruhe 1px (--feld-rahmen), im Fokus 2px (dazu 1px Innenschatten)`, () => {
-    assert.match(token('--feld-rahmen', ebene), /^1px solid /);
+    assert.match(token('--feld-rahmen', ebene), /^1px solid var\(--feld-kante\)$/);
+  });
+  test(`${ebene}: Feldkante gegen Feldfläche und Karte ≥ 3:1`, () => {
+    assert.deepEqual(kanteMaengel(ebene), []);
   });
   test(`${ebene}: Linie in ${AKZENT[ebene]} gegen Feldfläche und Karte ≥ 3:1`, () => {
     assert.deepEqual(kontrastMaengel(ebene), []);
@@ -120,4 +123,5 @@ test('[Rot-Beweis] Rahmen zurück, Linie entfernt, 3px Tinte wie vorher, ohne Na
   assert.equal(kontrastMaengel('dunkel', parseFarbe(token('--salbei-dunkel', 'dunkel'))).length, 2, 'nachts --salbei-dunkel statt --salbei-nacht');
   assert.deepEqual(maengel(s.replace(/\ninput:not\(\[type="checkbox"\]\)[^\n]*/, '')), ['keine Fokusregel für input/select/textarea im schutz-stil']);
   for (const ebene of EBENEN) assert.equal(kontrastMaengel(ebene, flaechen(ebene).feld).length, 2, ebene);
+  assert.equal(kanteMaengel('basis', parseFarbe('#e3e1d9')).length, 2, 'heller Linienton als Feldkante (1,31:1)');
 });

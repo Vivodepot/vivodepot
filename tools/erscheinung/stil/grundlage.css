@@ -179,8 +179,6 @@
   }
   #overlay.weg { display: none; }
   .karte {
-    background: var(--white); border: var(--karte-rahmen);
-    border-radius: var(--radius-karte); box-shadow: var(--karte-schatten);
     max-width: 760px; width: 100%; padding: var(--space-7);
     /* min-width:0 + Umbruch: die Karte bleibt in der Mitte, langer Inhalt bricht
        um statt die Karte zu verbreitern. */
@@ -198,6 +196,8 @@
        oberster Eintrag nie abgeschnitten; kurze Karte sitzt ruhig oben mit Abstand. Den
        Rest (scrollTop==0 beim (Re-)Render) garantiert overlayNachObenScrollen(). */
   }
+  /* GESTALTUNG-ELEMENT:karte — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .karte, .vd-karte { background: var(--white); border: var(--karte-rahmen); border-radius: var(--radius-6); box-shadow: none; }
   .logo { font-family: var(--font-narrativ); font-size: var(--fs-role-anzeige); color: var(--salbei-dunkel); margin: 0; }
   .logo-sub { color: var(--ink3); font-size: var(--fs-role-text); margin: var(--space-2) 0 var(--space-6) 0; }
   /* ── Aufgeräumter Einstiegs-/Willkommensbereich (eine ruhige vertikale Ordnung) ──
@@ -447,13 +447,12 @@
      Fließtext, hier gibt es keine horizontale Nachbarschaft). */
   .lage-erfasst-marker { font-size: var(--fs-role-hilfe); color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
 
-  .btn {
-    background: var(--salbei-dunkel); color: var(--auf-akzent); border: none;
-    border-radius: var(--radius-knopf); padding: var(--space-3) var(--space-5);
-    font-size: var(--fs-role-text); display: inline-flex; align-items: center; gap: var(--space-2);
-  }
+  .btn, .vd-knopf--haupt { display: inline-flex; align-items: center; gap: var(--space-2); }
+  /* GESTALTUNG-ELEMENT:knopf-haupt — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .btn, .vd-knopf--haupt, .vd-knopf--neben { background: var(--salbei-dunkel); color: var(--auf-akzent); border: 1px solid var(--salbei-dunkel); border-radius: var(--radius-5); padding: var(--abstand-1-5) var(--abstand-3); font-size: var(--fs-role-text); min-height: var(--ziel); font-weight: var(--fw-medium); }
   .btn:hover { background: var(--btn-hover); }   /* Kontrast-Klasse: war --salbei-mid, heller als die Ruhefläche, Schrift 3,15:1 */
-  :is(.btn-sek, .btn[data-doku-neu-add]) { background: transparent; color: var(--salbei-dunkel); border: 1px solid var(--salbei-dunkel); }
+  /* GESTALTUNG-ELEMENT:knopf-neben — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  :is(.btn-sek, .btn[data-doku-neu-add]), .vd-knopf--neben { background: var(--white); color: var(--ink); border: 1px solid var(--line); }
   :is(.btn-sek, .btn[data-doku-neu-add]):hover { background: var(--salbei-light); }
   /* Frischer-Blick-Fund 27./28.08.2026, Produktentscheidung: eine IRREVERSIBLE zweitAktion
      (ui.modal, s. Kommentar dort) markiert sich über die Text-Farbe — Apple-Konvention, kein
@@ -583,10 +582,11 @@
      44px je Eintrag (Trefferfläche). min-width verhindert ein zu schmales Menü bei kurzen Labels. */
   .depot-menue {
     position: absolute; z-index: 60; left: 0; top: calc(100% + 3px); min-width: 220px;
-    margin: 0; background: var(--white); border: 1px solid var(--line);
-    border-radius: var(--radius-sm); box-shadow: var(--schatten-aufklapp); overflow: hidden;
+    margin: 0; overflow: hidden;
     display: flex; flex-direction: column;
   }
+  /* GESTALTUNG-ELEMENT:menue — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .depot-menue, .vd-menue { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-7); box-shadow: var(--schatten-ebene); }
   .depot-menue[hidden] { display: none; }
   .depot-menue-eintrag {
     min-height: 44px; display: flex; align-items: center; gap: var(--space-2);
@@ -695,9 +695,11 @@
   /* Gesamtbild-UX-Konzept, Abschnitt A, „Korrektur nach Live-Test" (27.08.2026): NUR fett, nicht
      größer als Ebene 2 darunter — der Rangunterschied trägt sich allein über Gewicht (700 statt
      600) und die volle --ink-Farbe (statt --ink2), nicht über Größe. */
+  /* Entscheidung 25.11.2026 (Bild A 12): die Gruppenüberschrift ist eine Stufe größer als die Bereichszeilen darunter, fett. */
+  /* GESTALTUNG-ELEMENT:seitenleiste-gruppe — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .sidebar .nav-gruppe > summary, .vd-nav-gruppe { font-size: var(--fs-role-abschnitt); font-weight: var(--fw-bold); color: var(--ink); text-transform: none; }
   .sidebar .nav-gruppe > summary {
     list-style: none; cursor: pointer; display: flex; align-items: center; width: 100%;
-    font-size: var(--fs-role-hilfe); font-weight: var(--fw-bold); text-transform: none; color: var(--ink);
     padding: 6px var(--space-5) var(--abstand-1); min-height: 24px;
   }
   .sidebar .nav-gruppe > summary::-webkit-details-marker { display: none; }
@@ -799,7 +801,8 @@
     .feldgruppen-karte-zeile { grid-row: 3; }
     .feldgruppen-karte > summary::after, .feldgruppen-karte > summary:has(> .feldgruppen-karte-zeile)::after { grid-row: 1 / -1; align-self: center; }
   }
-  .feldgruppen-karte-status { font-size: var(--fs-role-hilfe); color: var(--ink3); }
+  /* GESTALTUNG-ELEMENT:stand-marke — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .feldgruppen-karte-status, .vd-stand { font-size: var(--fs-role-hilfe); color: var(--ink3); }
   .feldgruppen-karte-koerper { padding: 0 var(--space-4) var(--space-4); border-top: 1px solid var(--line); padding-top: var(--space-3); }
   /* Korrektur (25.08.2026, abends, Design-Sprache-Nachtrag) — dieselbe Hierarchie-Stufe wie
      .sidebar .nav-gruppe > summary (Zeile ~704): --fs-sm/Gewicht 600/--ink2 statt --fs-xs/
@@ -1229,6 +1232,14 @@
      Sinn des Befunds) — dieselbe Formatierung für beide, damit keine der beiden Gruppen ihre
      Schrift/Farbe/Abstand verliert. */
   .bereich-kopf h1, .bereich-kopf h2 { font-family: var(--font-inter); font-weight: var(--fw-semibold); letter-spacing: var(--ls-titel); color: var(--salbei-dunkel); margin: 0; font-size: var(--fs-role-titel); line-height: 1.2; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+  /* GESTALTUNG-ELEMENT:ueberschrift-1 — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .vd-h1 { font-family: var(--font-inter); font-weight: var(--fw-titel); line-height: var(--zh-titel); color: var(--ink); font-size: var(--fs-role-titel); }
+  /* GESTALTUNG-ELEMENT:ueberschrift-2 — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .vd-h2 { font-size: var(--fs-role-abschnitt); font-weight: var(--fw-semibold); color: var(--ink); }
+  /* GESTALTUNG-ELEMENT:ueberschrift-3 — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .vd-h3 { font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); color: var(--ink); }
+  /* GESTALTUNG-ELEMENT:fliesstext — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .vd-text { font-size: var(--fs-role-text); font-weight: var(--fw-regular); color: var(--ink); line-height: var(--zh-text); }
   /* fokusAufBereichsUeberschrift() setzt den Fokus programmatisch (tabindex="-1") nach jedem
      Sektor-Wechsel — sichtbarer Ring, damit auch sehende Tastatur-Nutzerinnen den Wechsel
      bemerken, nicht nur Screenreader. BEWUSST `:focus`, nicht `:focus-visible` (anders als die
@@ -1381,7 +1392,9 @@
      .feld-zeile vs. Modal-.feld-zeile-sub tragen unterschiedliches Padding, dazu eine optionale
      Urheberschafts-Zeile nach dem Hint) — dadurch sprang der Abstand sichtbar zwischen Feldern.
      Der Hint traegt seinen Abstand jetzt selbst, unabhaengig vom Kontext drumherum. */
-  .feld-hint { grid-column: 1 / -1; color: var(--ink); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-role-hilfe); margin: var(--space-1) 0 var(--space-2); }
+  .feld-hint { grid-column: 1 / -1; margin: var(--space-1) 0 var(--space-2); }
+  /* GESTALTUNG-ELEMENT:hinweis — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .feld-hint, .vd-hinweis { color: var(--ink2); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-role-hilfe); }
   /* Pro E4: die Vorschrift hinter dem Feld steht dicht unter dem Hinweis, als Fundstelle, nicht als zweiter Hinweis. */
   .feld-hint.feld-vorschrift { margin-top: 0; }
   /* Hinweis mit Aufklapper (zu U2-ADR-518): der erste Satz steht als .feld-hint, der Rest hinter einem leisen Verweis wie „Alle Angaben“;
@@ -1659,7 +1672,8 @@
   .feld-zeile[data-label-doppelt] > :not(.feld-label) { grid-column: 1 / -1; }
   /* Abschnittsüberschrift, die ihre einzige Gruppe schon trägt (Nr. 14): optisch weg, für Screenreader und Sprungmarken im Markup. */
   .sektion-titel[data-titel-doppelt] { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-  .feld-label { color: var(--ink2); font-size: var(--fs-role-label); }
+  /* GESTALTUNG-ELEMENT:feldbeschriftung — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .feld-label, .vd-beschriftung { color: var(--ink2); font-size: var(--fs-role-label); }
   /* Ein Listenfeld (Personen, Konten …) ist eine Gruppe, kein Einzelwert: sein Titel steht in der Gruppen-Rolle, nicht in der
      Label-Gestalt (UX-ABSCHNITT-KLEINER-ALS-LABEL, in Pro z. B. „Nicht zu benachrichtigende Personen“). */
   .feld-zeile:has(> .feld-wert > .feld-liste-editor) > .feld-label { color: var(--ink); font-size: var(--fs-role-gruppe); font-weight: var(--fw-semibold); hyphens: auto; overflow-wrap: break-word; }
@@ -1962,7 +1976,9 @@
      Modal war betroffen). `.modal` ist jetzt der Rahmen (flex, Spalte), NUR `.modal-koerper`
      scrollt — Kopf (h3) und Fuß (.modal-aktionen) bleiben außerhalb des Scrollbereichs, kein
      Überlappen mehr möglich, kein `position:sticky` mehr nötig. */
-  .modal { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-soft); max-width: var(--dialog-breite); width: 100%; padding: var(--space-5) var(--space-4); max-height: calc(100vh - 2 * var(--space-5)); max-height: calc(100dvh - 2 * var(--space-5)); display: flex; flex-direction: column; }
+  .modal { max-width: var(--dialog-breite); width: 100%; padding: var(--space-5) var(--space-4); max-height: calc(100vh - 2 * var(--space-5)); max-height: calc(100dvh - 2 * var(--space-5)); display: flex; flex-direction: column; }
+  /* GESTALTUNG-ELEMENT:dialog-rahmen — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .modal, .vd-dialog { background: var(--white); border: none; border-radius: var(--radius-8); box-shadow: var(--schatten-dialog); }
   .modal-koerper { overflow-y: auto; -webkit-overflow-scrolling: touch; flex: 1 1 auto; min-height: 0; }
   .modal h3 { margin: 0 0 var(--space-3) 0; color: var(--salbei-dunkel); display: flex; align-items: center; gap: var(--space-2); flex: 0 0 auto; }
   /* I02 (Muster 03): der Kopf trägt links oben das Schließen-Kreuz, daneben den Titel. Das Kreuz ist eine ruhige Fläche mit 44 px Zielgröße, kein Rahmen. */
@@ -2019,9 +2035,10 @@
   .pw-satz { font-size: var(--fs-role-text); line-height: 1.5; color: var(--ink); margin: 0 0 var(--space-5); }
   .pw-eigen-weg { margin: calc(-1 * var(--space-4)) 0 var(--space-5); }
   .pw-eigen-weg[hidden] { display: none; }
-  .btn-text { background: none; border: none; padding: 0; font: inherit; font-weight: var(--fw-medium); color: var(--salbei-dunkel); text-decoration: none; cursor: pointer; }
+  /* GESTALTUNG-ELEMENT:knopf-text — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .btn-text, .vd-knopf--text { background: none; border: none; padding: 0; font: inherit; font-weight: var(--fw-medium); color: var(--salbei-dunkel); text-decoration: none; cursor: pointer; }
   .btn-text:hover { text-decoration: underline; }
-  html.dark-mode .btn-text { color: var(--salbei-nacht); }
+  html.dark-mode .btn-text, html.dark-mode .vd-knopf--text { color: var(--salbei-nacht); }
   .pw-vorschlag-aktionen { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin: 0; }
   .pw-trenner { color: var(--ink3); }
   .modal-zweit-text { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-3); margin-right: auto; }
@@ -2381,7 +2398,9 @@
      (WCAG 1.4.11, mit eigener Kontrast-Probe). */
   .wizard-eingabe input, .wizard-eingabe textarea, .wizard-eingabe select { width: 100%;
     border: var(--feld-rahmen); border-radius: var(--radius-feld); background-color: var(--feld-flaeche); color: var(--ink); }
-  .feld-fehler { color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); margin: var(--space-2) 0 0 0; font-weight: var(--fw-semibold); }
+  .feld-fehler { margin: var(--space-2) 0 0 0; }
+  /* GESTALTUNG-ELEMENT:fehlermeldung — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */
+  .feld-fehler, .vd-fehler { color: var(--feld-fehler-schrift); font-size: var(--fs-role-hilfe); font-weight: var(--fw-semibold); }
   .wizard-aktionen { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); flex-wrap: wrap; }
   /* Die Knopfreihe darf umbrechen und schrumpfen, statt rechts aus dem Schritt zu laufen
      (auch bei Browser-Zoom oder sehr schmalem Fenster) — kein seitliches Abschneiden. */
@@ -3567,10 +3586,14 @@
   @media (max-width: 767px) { :root { --fs-role-anzeige: 1.75rem; --fs-role-titel: 1.625rem; --fs-role-text: 1rem; --fs-role-wert: 1rem; --fs-role-label: 0.9375rem; --fs-role-knopf: 1rem; --fs-role-nav: 1rem; } }
   /* GESTALTUNG-DEFINITION:BEGIN — erzeugt aus tools/erscheinung/definition.json durch tools/gestaltung-definition.js; nicht von Hand ändern */
   :root {
-    --abstand-1: 0.25rem; --abstand-2: 0.5rem; --abstand-3: 0.75rem; --abstand-4: 1rem; --abstand-5: 1.5rem; --abstand-6: 2rem;
-    --radius-klein: 10px; --radius-gross: 16px; --radius-rund: 999px;
-    --treffer: 48px;
-    --mass-kopfleiste: 52px; --mass-seitenleiste: 248px; --mass-textspalte: 280px; --mass-inhalt-max: 1180px;
+    --abstand-1: 0.25rem; --abstand-2: 0.5rem; --abstand-3: 0.75rem; --abstand-4: 1rem; --abstand-5: 1.5rem; --abstand-6: 2rem; --abstand-7: 2.5rem; --abstand-0-5: 0.125rem; --abstand-1-5: 0.375rem; --abstand-2-5: 0.625rem; --abstand-3-5: 0.875rem; --abstand-4-2: 1.125rem; --abstand-4-5: 1.25rem; --abstand-5-5: 1.75rem;
+    --radius-1: 2px; --radius-2: 3px; --radius-3: 4px; --radius-4: 6px; --radius-5: 7px; --radius-6: 8px; --radius-7: 10px; --radius-8: 12px; --radius-9: 14px; --radius-10: 16px; --radius-rund: 999px; --radius-kreis: 50%;
+    --treffer: 44px;
+    --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-titel: 650; --fw-bold: 700;
+    --zh-eng: 1; --zh-titel: 1.25; --zh-text: 1.45;
+    --dauer-kurz: .1s; --dauer-mittel: .15s; --dauer-lang: .18s;
+    --schatten-ebene: 0 1px 2px rgba(20,30,20,.06), 0 4px 16px rgba(20,30,20,.06); --schatten-dialog: 0 20px 60px rgba(0,0,0,.2); --schatten-ring: 0 0 0 1px var(--line); --schatten-band: inset 0 3px 0 var(--person);
+    --mass-kopfleiste: 52px; --mass-seitenleiste: 248px; --mass-textspalte: 280px; --mass-inhalt-max: 1180px; --mass-marke: 224px; --mass-listenspalte: 300px; --mass-seitenkasten: 340px; --mass-notfallkarte: 360px; --mass-direktfeld: 420px; --mass-suche: 520px; --mass-dialog: 620px; --mass-palette: 640px; --mass-dialog-rumpf: 460px; --mass-zeile-klein: 36px; --mass-zeile-schmal: 48px; --mass-listenknopf-schmal: 56px; --mass-tabs: 60px; --mass-kachel: 96px; --mass-fortschritt: 4px; --mass-symbol: 16px; --mass-logo: 22px; --mass-avatar: 24px;
     --zeichen-herkunft-eingelesen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 21V9l9-5 9 5v12'/%3E%3Cpath d='M8 21v-7h8v7'/%3E%3Cpath d='M2 21h20'/%3E%3C/svg%3E");
     --feld-toenung: rgba(79,101,57,.07);
   }
@@ -3578,11 +3601,11 @@
   /* GESTALTUNG-DEFINITION:END */
   /* GESTALTUNG-VORLAGEN:BEGIN — erzeugt aus tools/erscheinung/definition.json (Schicht 3) durch tools/gestaltung-definition.js; nicht von Hand ändern */
   /* feld-eingabe */
-  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]):not([type="hidden"])) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung); color: var(--ink); }
+  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz, .modal, [id="overlay-inhalt"]) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]):not([type="hidden"])) { border: var(--feld-rahmen); border-radius: var(--radius-feld); background-color: var(--feld-flaeche); color: var(--ink); }
   /* feld-mehrzeilig */
-  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz) :is(textarea) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung); color: var(--ink); }
+  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz, .modal, [id="overlay-inhalt"]) :is(textarea) { border: var(--feld-rahmen); border-radius: var(--radius-feld); background-color: var(--feld-flaeche); color: var(--ink); }
   /* feld-auswahl */
-  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz) :is(select) { border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: var(--feld-toenung); color: var(--ink); }
+  html:not(.high-contrast) :is(.content, .suche-feld, .tb-suche-platz, .modal, [id="overlay-inhalt"]) :is(select) { border: var(--feld-rahmen); border-radius: var(--radius-feld); background-color: var(--feld-flaeche); color: var(--ink); }
   /* GESTALTUNG-VORLAGEN:END */
 
   /* ── Zielbild 01/02 (30.10.2026): „Depot anlegen“ als Fenster mit Schritten ──────────────────────────────────────────────

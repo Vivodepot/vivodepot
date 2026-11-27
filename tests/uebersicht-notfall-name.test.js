@@ -47,7 +47,7 @@ test('[Notfall·Übersicht] die Übersicht zeigt den Namen ohne Komma', async ()
 /* Rot-Beweis: die Reihung von vorher (alle Angaben mit Komma) fällt durch [Notfall·Übersicht]. */
 test('[Notfall·Rot-Beweis] ein Kern mit der Reihung von vorher zeigt das Komma', async () => {
   const quelle = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  const neu = 'const kurz = _uebersichtNotfallKurz(notfallKernModell().slice(0, 3));';
+  const neu = 'const kurz = _uebersichtNotfallKurz(notfallZeilen.filter((z) => !z.kontakte).slice(0, 3));';
   assert.equal(quelle.split(neu).length, 2, 'Vorbedingung: der Anker steht genau einmal');
   const alt = "const kurz = notfallKernModell().slice(0, 3).map((z) => String(z.wert || '')).filter(Boolean).join(', ');";
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'notfall-komma-rot-'));

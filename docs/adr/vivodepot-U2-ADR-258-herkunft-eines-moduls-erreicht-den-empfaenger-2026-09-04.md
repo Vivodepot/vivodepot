@@ -153,3 +153,20 @@ hat, gehört in die Herkunftsangabe, auch wenn der Empfänger seine Wirkung hier
 - Der Datensatz wächst um einen Schlüssel. `ANLASS_FORMAT_VERSION` bleibt bei 1: der Zusatz ist
   rein additiv, ein Leser, der ihn nicht kennt, verliert nichts — und ein Leser, der ihn kennt,
   behandelt sein Fehlen richtig (als „nicht geprüft").
+
+## Nachtrag 25.11.2026 — ohne Erweiterung steht im Fuß nichts dazu
+
+Entscheidung vom 25.11.2026: „Wenn es keine Erweiterungen gibt, muss da auch keine Erweiterungen drinstehen.“
+
+Der Fuß der Ausgaben (PDF, DOCX, Druck) trug bisher auch ohne Erweiterung die Angabe „Erweiterungen: keine“. Ab jetzt
+steht die Herkunft im Fuß nur, wenn es Erweiterungen gibt. Ohne Erweiterung geben `modulHerkunftFussText` und
+`moduleStandFussText` einen Leerstring zurück, und `pdfFussText` lässt das Segment weg. Die Regel steht an dieser einen
+Quelle und gilt für jede Ausgabeart und jede Sprache; kein Ausgabeweg und kein Sprachmodul regelt das einzeln.
+
+Unverändert bleibt:
+
+- Mit Erweiterungen steht die Herkunft auf jeder Seite jedes PDFs, und kein Schalter unterdrückt sie.
+- Der Datensatz trägt `modulHerkunft` immer.
+- Am Bildschirm, im Kern und in der Lese-App, steht der Herkunfts-Satz auch ohne Erweiterung.
+
+Probe: `tests/u2-adr-258-herkunft-sichtbar.test.js`, „[258·PDF] ohne Erweiterung steht „Erweiterungen“ nicht im Fuß …“.

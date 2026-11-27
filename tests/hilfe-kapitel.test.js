@@ -165,7 +165,8 @@ test('[Hilfe·Übersetzbar, kein dritter Weg] ein Sprachmodul mit einer hilfe:-K
 
 test('[Hilfe·Druck] das Overlay trägt data-druckbar und bleibt im Druck stehen, wie Notfallblatt/PV-Dokument', () => {
   // seit 31.10.2026 über das Merkmal statt über eine Liste von Kennungen (tests/druckweg-druckbar.test.js)
-  assert.match(KERN_QUELLE, /body > \*:not\(\[data-druckbar\]\) \{ display: none !important; \}/);
+  // seit 25.11.2026 greift die Regel nur, solange ein druckbares Blatt im Dokument steht (N3, tests/druckweg-druckbar.test.js)
+  assert.match(KERN_QUELLE, /body:has\(> \[data-druckbar\]\) > \*:not\(\[data-druckbar\]\) \{ display: none !important; \}/);
   assert.match(CSS_QUELLE, /body > \[data-druckbar\] \{ position: static( !important)?;/);
   assert.match(KERN_QUELLE, /'<div id="hilfe-overlay" data-druckbar>'/);
 });

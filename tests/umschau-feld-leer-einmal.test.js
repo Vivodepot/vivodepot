@@ -95,5 +95,5 @@ test('[Umschau·Hinweis] der Hinweis ist nicht größer als die Feldbeschriftung
   const regel = /\.feld-umschau-eintragen-hinweis \{([^}]*)\}/.exec(STIL)[1];
   assert.match(regel, /font-size: var\(--fs-role-label\)/, 'dieselbe Rolle wie die Beschriftung, nicht die Wertgröße des Knopfs');
   assert.match(regel, /font-weight: var\(--fw-regular\)/);
-  assert.match(STIL, /\.feld-label \{ color: var\(--ink2\); font-size: var\(--fs-role-label\); \}/);
+  assert.match(STIL, /\.feld-label(?:, \.vd-beschriftung)? \{ color: var\(--ink2\); font-size: var\(--fs-role-label\); \}/);  // seit 24.11.2026 Elementart feldbeschriftung
 });

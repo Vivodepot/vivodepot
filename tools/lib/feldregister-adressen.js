@@ -108,6 +108,28 @@ function begriff(f, kennungen) {
   }
   return k;
 }
+/* Prüfstand einer Entsprechung, DE und EN, aus Stufe und Bestätigung der Zeile in bereiche/bezuege.json (25.11.2026).
+   Die Zeile nennt den geltenden Stand; „bestätigt" steht nur, wo die Zeile einen Bestätiger nennt. Der Wortlaut steht im
+   Textmodul tools/feldregister-texte.json, nicht hier. */
+const REGISTER_TEXTE = JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'feldregister-texte.json'), 'utf8'));
+function datumDe(iso) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ''); return m ? m[3] + '.' + m[2] + '.' + m[1] : String(iso || ''); }
+function registerText(schluessel, sprache, werte) {
+  let t = REGISTER_TEXTE.texte[schluessel][sprache];
+  if (!werte.datum) t = t.replace(/ \S+ \{datum\}/, '');
+  return t.replace(/\{(\w+)\}/g, (m, k) => (werte[k] !== undefined ? werte[k] : m));
+}
+function pruefstand(e) {
+  const aus = {};
+  for (const sprache of ['de', 'en']) {
+    const datum = (iso) => (sprache === 'de' ? datumDe(iso) : String(iso || ''));
+    if (e.bestaetigtVon) { aus[sprache] = registerText('bestaetigt', sprache, { wer: e.bestaetigtVon, datum: datum(e.bestaetigtAm) }); continue; }
+    const wer = (REGISTER_TEXTE.erfasser[e.vorgeschlagenVon] || {})[sprache] || e.vorgeschlagenVon || '–';
+    const schluessel = e.stufe === 'zu-pruefen' ? 'zuPruefen' : e.stufe === 'strittig' ? 'strittig' : 'erfasst';
+    aus[sprache] = registerText(schluessel, sprache, { wer, datum: datum(e.datum) });
+  }
+  return aus;
+}
+
 /* Grad → SKOS-Bezug, dieselbe Zuordnung wie tools/bezuege-erheben.js (SKOS). */
 const SKOS_BEZUG = Object.freeze({ exakt: 'skos:exactMatch', naeherung: 'skos:closeMatch', eng: 'skos:narrowMatch', weit: 'skos:broadMatch' });
 
@@ -164,8 +186,16 @@ function begriffSeite(f) {
     + (f.nachfolger ? ' → <a href="' + htmlText(adresse(f.nachfolger)) + '"><code>' + htmlText(f.nachfolger) + '</code></a>' : '')
     + '</dd>');
   if ((f.entsprechungen || []).length) {
-    z.push('    <dt>Entsprechungen · Mappings</dt><dd>' + f.entsprechungen.map((e) => '<code>' + htmlText(SKOS_BEZUG[e.grad]) + '</code> '
-      + '<a href="' + htmlText(e.ziel) + '"><code>' + htmlText(e.ziel) + '</code></a>').join('<br>') + '</dd>');
+    // Je Entsprechung: Bezug und Ziel, darunter Standard mit Fassung und der Prüfstand (pruefstand), DE und EN.
+    z.push('    <dt>Entsprechungen · Mappings</dt><dd>' + f.entsprechungen.map((e) => {
+      const p = pruefstand(e);
+      const std = (e.vokabular || e.fassung) ? htmlText(e.vokabular) + (e.fassung ? ', ' + htmlText(registerText('fassung', 'de', { fassung: e.fassung })) : '') : '';
+      const stdEn = (e.vokabular || e.fassung) ? htmlText(e.vokabular) + (e.fassung ? ', ' + htmlText(registerText('fassung', 'en', { fassung: e.fassung })) : '') : '';
+      return '<code>' + htmlText(SKOS_BEZUG[e.grad]) + '</code> '
+        + '<a href="' + htmlText(e.ziel) + '"><code>' + htmlText(e.ziel) + '</code></a>'
+        + '<br><small data-pruefstand>' + (std ? std + ' · ' : '') + htmlText(p.de) + '</small>'
+        + '<br><small class="lang-en" lang="en">' + (stdEn ? stdEn + ' · ' : '') + htmlText(p.en) + '</small>';
+    }).join('<br>') + '</dd>');
   }
   if (f.verweistAuf) {
     z.push('    <dt>Verweist auf · Refers to</dt><dd><a href="' + htmlText(adresse(f.verweistAuf)) + '"><code>' + htmlText(f.verweistAuf) + '</code></a></dd>');
@@ -266,5 +296,5 @@ function adressDateien(felder) {
 module.exports = {
   ADRESS_BASIS, ORDNER, SEITE, JSONLD, HTACCESS, HTACCESS_INHALT, SCHEMA_JSONLD_DATEI,
   LIZENZ, HERAUSGEBER, QUELLENHINWEIS, SKOS_KONTEXT,
-  SKOS_BEZUG, adresse, adressenPruefen, htaccessBefunde, schemaKopf, schemaSeite, begriff, begriffJsonld, schemaJsonld, begriffSeite, adressDateien,
+  SKOS_BEZUG, pruefstand, adresse, adressenPruefen, htaccessBefunde, schemaKopf, schemaSeite, begriff, begriffJsonld, schemaJsonld, begriffSeite, adressDateien,
 };

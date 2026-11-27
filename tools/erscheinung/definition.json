@@ -10,76 +10,599 @@
       "einheit": "rem",
       "anmerkung": "Die Einheit rem folgt der Größenleiter (basis_px_je_rem): die Schriftgrößen-Einstellung der Person skaliert die Abstände mit, wie die bestehenden --space-Token.",
       "stufen": [
-        { "token": "--abstand-1", "px": 4 },
-        { "token": "--abstand-2", "px": 8 },
-        { "token": "--abstand-3", "px": 12 },
-        { "token": "--abstand-4", "px": 16 },
-        { "token": "--abstand-5", "px": 24 },
-        { "token": "--abstand-6", "px": 32 }
-      ]
+        {
+          "token": "--abstand-1",
+          "px": 4
+        },
+        {
+          "token": "--abstand-2",
+          "px": 8
+        },
+        {
+          "token": "--abstand-3",
+          "px": 12
+        },
+        {
+          "token": "--abstand-4",
+          "px": 16
+        },
+        {
+          "token": "--abstand-5",
+          "px": 24
+        },
+        {
+          "token": "--abstand-6",
+          "px": 32
+        },
+        {
+          "token": "--abstand-7",
+          "px": 40
+        }
+      ],
+      "zwischen": [
+        {
+          "token": "--abstand-0-5",
+          "px": 2
+        },
+        {
+          "token": "--abstand-1-5",
+          "px": 6
+        },
+        {
+          "token": "--abstand-2-5",
+          "px": 10
+        },
+        {
+          "token": "--abstand-3-5",
+          "px": 14
+        },
+        {
+          "token": "--abstand-4-2",
+          "px": 18
+        },
+        {
+          "token": "--abstand-4-5",
+          "px": 20
+        },
+        {
+          "token": "--abstand-5-5",
+          "px": 28
+        }
+      ],
+      "hinweis_quelle": "Werte aus dem Dummy 13.11.2026 (vivodepot-dummy-desktop.html, Zeile): 2 (114,263) 4 8 12 16 24 32 40 (72,111) 6 (40,60,130) 10 (36,47,156,195) 14 (59,94,171) 18 (112,127,146,162) 20 (76) 28 (81,169,223,242). Feinwerte unter 12 px, die nur eine Elementart nutzt (1, 3, 5, 7, 9, 11, 22), stehen nicht hier; die Regel der Art setzt sie aus Reihenwerten zusammen."
     },
     "radien": [
-      { "token": "--radius-klein", "wert": "10px" },
-      { "token": "--radius-gross", "wert": "16px" },
-      { "token": "--radius-rund", "wert": "999px" }
+      {
+        "token": "--radius-1",
+        "wert": "2px"
+      },
+      {
+        "token": "--radius-2",
+        "wert": "3px"
+      },
+      {
+        "token": "--radius-3",
+        "wert": "4px"
+      },
+      {
+        "token": "--radius-4",
+        "wert": "6px"
+      },
+      {
+        "token": "--radius-5",
+        "wert": "7px"
+      },
+      {
+        "token": "--radius-6",
+        "wert": "8px"
+      },
+      {
+        "token": "--radius-7",
+        "wert": "10px"
+      },
+      {
+        "token": "--radius-8",
+        "wert": "12px"
+      },
+      {
+        "token": "--radius-9",
+        "wert": "14px"
+      },
+      {
+        "token": "--radius-10",
+        "wert": "16px"
+      },
+      {
+        "token": "--radius-rund",
+        "wert": "999px"
+      },
+      {
+        "token": "--radius-kreis",
+        "wert": "50%"
+      }
     ],
-    "treffer": { "token": "--treffer", "wert": "48px" },
+    "treffer": {
+      "token": "--treffer",
+      "wert": "44px",
+      "hinweis": "Trefferfläche schmal aus dem Dummy 13.11.2026 (vivodepot-dummy-desktop.html, Zeile) (206,219,230,243,248,250,267,268,276)."
+    },
     "masse": [
-      { "token": "--mass-kopfleiste", "wert": "52px" },
-      { "token": "--mass-seitenleiste", "wert": "248px" },
-      { "token": "--mass-textspalte", "wert": "280px" },
-      { "token": "--mass-inhalt-max", "wert": "1180px" }
+      {
+        "token": "--mass-kopfleiste",
+        "wert": "52px"
+      },
+      {
+        "token": "--mass-seitenleiste",
+        "wert": "248px"
+      },
+      {
+        "token": "--mass-textspalte",
+        "wert": "280px"
+      },
+      {
+        "token": "--mass-inhalt-max",
+        "wert": "1180px"
+      },
+      {
+        "token": "--mass-marke",
+        "wert": "224px"
+      },
+      {
+        "token": "--mass-listenspalte",
+        "wert": "300px"
+      },
+      {
+        "token": "--mass-seitenkasten",
+        "wert": "340px"
+      },
+      {
+        "token": "--mass-notfallkarte",
+        "wert": "360px"
+      },
+      {
+        "token": "--mass-direktfeld",
+        "wert": "420px"
+      },
+      {
+        "token": "--mass-suche",
+        "wert": "520px"
+      },
+      {
+        "token": "--mass-dialog",
+        "wert": "620px"
+      },
+      {
+        "token": "--mass-palette",
+        "wert": "640px"
+      },
+      {
+        "token": "--mass-dialog-rumpf",
+        "wert": "460px"
+      },
+      {
+        "token": "--mass-zeile-klein",
+        "wert": "36px"
+      },
+      {
+        "token": "--mass-zeile-schmal",
+        "wert": "48px"
+      },
+      {
+        "token": "--mass-listenknopf-schmal",
+        "wert": "56px"
+      },
+      {
+        "token": "--mass-tabs",
+        "wert": "60px"
+      },
+      {
+        "token": "--mass-kachel",
+        "wert": "96px"
+      },
+      {
+        "token": "--mass-fortschritt",
+        "wert": "4px"
+      },
+      {
+        "token": "--mass-symbol",
+        "wert": "16px"
+      },
+      {
+        "token": "--mass-logo",
+        "wert": "22px"
+      },
+      {
+        "token": "--mass-avatar",
+        "wert": "24px"
+      }
     ],
     "zeichen": [
-      { "token": "--zeichen-herkunft-eingelesen",
+      {
+        "token": "--zeichen-herkunft-eingelesen",
         "hinweis": "Herkunft A2 (13.11.2026): Eingelesenes trägt dieses Zeichen und dahinter die Stelle im Wort. Stelle/Gebäude, einfache Kontur.",
-        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 21V9l9-5 9 5v12\"/><path d=\"M8 21v-7h8v7\"/><path d=\"M2 21h20\"/></svg>" }
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 21V9l9-5 9 5v12\"/><path d=\"M8 21v-7h8v7\"/><path d=\"M2 21h20\"/></svg>"
+      }
     ],
     "person": {
       "hinweis": "Die Personenfarbe im Sub-Depot: acht benannte Töne, je mit Text- und Linienfassung. Die Oberfläche bleibt Salbei; die Person zeigt sich nur im Depot-Wechsler, im 3-px-Streifen oben und in der Kontextzeile. Werte bleiben in den Stil-Dateien, hier stehen nur Namen.",
-      "toene": ["ton", "altrose", "nebel", "kiesel", "malve", "pfirsich", "hellblau", "rose"],
-      "token": ["--person", "--person-text", "--person-linie"]
+      "toene": [
+        "ton",
+        "altrose",
+        "nebel",
+        "kiesel",
+        "malve",
+        "pfirsich",
+        "hellblau",
+        "rose"
+      ],
+      "token": [
+        "--person",
+        "--person-text",
+        "--person-linie"
+      ]
     },
-    "feldtoenung": { "token": "--feld-toenung", "hell": "rgba(79,101,57,.07)", "nacht": "rgba(255,255,255,.07)", "hinweis": "Hinterlegte Fläche der Felder (Bestand seit 07.10.2026, vorher als Zahl im Stilsatz salbei-glas); ein Feld bleibt über seine Unterkante --feld-rahmen als Feld erkennbar (WCAG 1.4.11)." },
+    "feldtoenung": {
+      "token": "--feld-toenung",
+      "hell": "rgba(79,101,57,.07)",
+      "nacht": "rgba(255,255,255,.07)",
+      "hinweis": "Hinterlegte Fläche der Felder (Bestand seit 07.10.2026, vorher als Zahl im Stilsatz salbei-glas); ein Feld bleibt über seine Unterkante --feld-rahmen als Feld erkennbar (WCAG 1.4.11)."
+    },
     "umbrueche": {
       "schmal_bis_px": 767,
       "breit_ab_px": 768
     },
     "farben": {
-      "quellen": ["tools/erscheinung/heute.css", "tools/erscheinung/salbei-glas.css", "tools/erscheinung/dummy.css"],
+      "quellen": [
+        "tools/erscheinung/heute.css",
+        "tools/erscheinung/salbei-glas.css",
+        "tools/erscheinung/dummy.css"
+      ],
       "hinweis": "Verweis auf bestehende Custom Properties der Stil-Dateien; jeder Name muss in jeder Quelle deklariert sein. Die Werte bleiben dort (je Erscheinungsbild, hell, dunkel, hoher Kontrast).",
       "namen": [
-        "--ink", "--ink2", "--ink3", "--line", "--line-feiner",
-        "--cream", "--white", "--papier-bereich",
-        "--salbei-dunkel", "--salbei-mid", "--salbei-light",
-        "--flaeche-neutral", "--flaeche-warnung", "--flaeche-hinweis",
-        "--auf-akzent", "--auf-warnung", "--btn-hover", "--link",
-        "--warning", "--error", "--success", "--info"
+        "--ink",
+        "--ink2",
+        "--ink3",
+        "--line",
+        "--line-feiner",
+        "--cream",
+        "--white",
+        "--papier-bereich",
+        "--salbei-dunkel",
+        "--salbei-mid",
+        "--salbei-light",
+        "--flaeche-neutral",
+        "--flaeche-warnung",
+        "--flaeche-hinweis",
+        "--feld-kante",
+        "--auf-akzent",
+        "--auf-warnung",
+        "--btn-hover",
+        "--link",
+        "--warning",
+        "--error",
+        "--success",
+        "--info"
       ]
-    }
+    },
+    "radien_hinweis": "Aus dem Dummy 13.11.2026 (vivodepot-dummy-desktop.html, Zeile): 2 Fortschritt (97), 3 Quellzeichen (132), 4 Taste/Dokument (48,173), 6 Feld/Seitenleiste/Logo (34,60,124,130), 7 Knopf/Segment (50,175), 8 Karte/Suche/Wahlkarte/Meldung (13,47,156,195), 10 Menü (40), 12 Dialog/Palette/Ablage (145,161,169), 14 Notfallkarte (180), 16 Blatt oben schmal (253), 999 Pille (36,89,187), 50 % Kreis (38,64,137,188,209).",
+    "gewichte": [
+      {
+        "token": "--fw-regular",
+        "wert": "400"
+      },
+      {
+        "token": "--fw-medium",
+        "wert": "500"
+      },
+      {
+        "token": "--fw-semibold",
+        "wert": "600"
+      },
+      {
+        "token": "--fw-titel",
+        "wert": "650"
+      },
+      {
+        "token": "--fw-bold",
+        "wert": "700"
+      }
+    ],
+    "zeilenhoehen": [
+      {
+        "token": "--zh-eng",
+        "wert": "1"
+      },
+      {
+        "token": "--zh-titel",
+        "wert": "1.25"
+      },
+      {
+        "token": "--zh-text",
+        "wert": "1.45"
+      }
+    ],
+    "uebergaenge": [
+      {
+        "token": "--dauer-kurz",
+        "wert": ".1s"
+      },
+      {
+        "token": "--dauer-mittel",
+        "wert": ".15s"
+      },
+      {
+        "token": "--dauer-lang",
+        "wert": ".18s"
+      }
+    ],
+    "schatten": [
+      {
+        "token": "--schatten-ebene",
+        "wert": "0 1px 2px rgba(20,30,20,.06), 0 4px 16px rgba(20,30,20,.06)"
+      },
+      {
+        "token": "--schatten-dialog",
+        "wert": "0 20px 60px rgba(0,0,0,.2)"
+      },
+      {
+        "token": "--schatten-ring",
+        "wert": "0 0 0 1px var(--line)"
+      },
+      {
+        "token": "--schatten-band",
+        "wert": "inset 0 3px 0 var(--person)"
+      }
+    ],
+    "gruppen_hinweis": "Gewichte (50; 59 …; 73; 33,38,132; 277), Zeilenhöhen (147, 73, 17), Übergänge (119, 187, 217), Schatten (13, 145/161, 62, 25/264) aus dem Dummy 13.11.2026 (vivodepot-dummy-desktop.html, Zeile).",
+    "masse_hinweis": "Aus dem Dummy 13.11.2026 (vivodepot-dummy-desktop.html, Zeile): Kopfleiste 52 (203), Seitenleiste 248 (57), Menü 280 (40), Inhalt 1180 (72), Marke 224 (33), Listenspalte 300 (102), Seitenkasten 340 (134), Notfallkarte 360 (180), Direktfeld 420 (129), Suche 520 (47), Dialog 620 (145), Palette 640 (161), Dialogrumpf 460 (148), Knopf klein 36 (231), Zeile schmal 48 (272,273), Listenknopf schmal 56 (240), Tab-Leiste 60 (262), Kachel 96 (94), Fortschritt 4 (97), Symbol 16 (65), Logo 22 (34), Avatar 24 (38)."
   },
   "bedeutung": {
     "hinweis": "Schicht 2: Namen nach der Bedeutung. Jeder Eintrag verweist auf genau einen Grundwert aus Schicht 1 (Farbname, Abstand, Radius, Treffer); keine Zahl, kein Farbwert.",
     "token": [
-      { "bedeutung": "flaeche", "token": "--bedeutung-flaeche", "verweis": "--flaeche-neutral" },
-      { "bedeutung": "flaeche", "token": "--bedeutung-flaeche-karte", "verweis": "--white" },
-      { "bedeutung": "text", "token": "--bedeutung-text", "verweis": "--ink" },
-      { "bedeutung": "text", "token": "--bedeutung-text-leise", "verweis": "--ink2" },
-      { "bedeutung": "linie", "token": "--bedeutung-linie", "verweis": "--line" },
-      { "bedeutung": "aktion", "token": "--bedeutung-aktion", "verweis": "--salbei-dunkel" },
-      { "bedeutung": "aktion", "token": "--bedeutung-aktion-text", "verweis": "--auf-akzent" },
-      { "bedeutung": "warnung", "token": "--bedeutung-warnung", "verweis": "--warning" },
-      { "bedeutung": "warnung", "token": "--bedeutung-warnung-flaeche", "verweis": "--flaeche-warnung" },
-      { "bedeutung": "herkunft", "token": "--bedeutung-herkunft", "verweis": "--info" }
+      {
+        "bedeutung": "flaeche",
+        "token": "--bedeutung-flaeche",
+        "verweis": "--flaeche-neutral"
+      },
+      {
+        "bedeutung": "flaeche",
+        "token": "--bedeutung-flaeche-karte",
+        "verweis": "--white"
+      },
+      {
+        "bedeutung": "text",
+        "token": "--bedeutung-text",
+        "verweis": "--ink"
+      },
+      {
+        "bedeutung": "text",
+        "token": "--bedeutung-text-leise",
+        "verweis": "--ink2"
+      },
+      {
+        "bedeutung": "linie",
+        "token": "--bedeutung-linie",
+        "verweis": "--line"
+      },
+      {
+        "bedeutung": "aktion",
+        "token": "--bedeutung-aktion",
+        "verweis": "--salbei-dunkel"
+      },
+      {
+        "bedeutung": "aktion",
+        "token": "--bedeutung-aktion-text",
+        "verweis": "--auf-akzent"
+      },
+      {
+        "bedeutung": "warnung",
+        "token": "--bedeutung-warnung",
+        "verweis": "--warning"
+      },
+      {
+        "bedeutung": "warnung",
+        "token": "--bedeutung-warnung-flaeche",
+        "verweis": "--flaeche-warnung"
+      },
+      {
+        "bedeutung": "herkunft",
+        "token": "--bedeutung-herkunft",
+        "verweis": "--info"
+      }
     ]
   },
   "vorlagen": {
-    "hinweis": "Schicht 3 (AP 2 S1, 24.11.2026): je Feldart eine Grundregel mit den Bestandswerten der Feldform (Linie unten, oben gerundet, getönte Fläche; seit 07.10.2026). Kein neuer Wert: jede Regel verweist auf Schicht 1 oder die Token des Erscheinungsbilds. Höhe, Schriftgröße und Abstand bleiben bei der Stelle. Hoher Kontrast behält seinen Vollrahmen aus der Grundlage. Die Dialoge (.modal, Entsperrfeld) sind ausgenommen und tragen ihre Form weiter selbst (Bau Anlegen/Öffnen).",
-    "bereich": ".content, .suche-feld, .tb-suche-platz",
+    "hinweis": "Schicht 3 (AP 2 S1, 24.11.2026): je Feldart eine Grundregel in der Feldform des Dummys vom 13.11.2026 (Entscheidung 25.11.2026): Rahmen ringsum aus --feld-rahmen (Kante --feld-kante, gegen Weiß mindestens 3:1), Fläche --feld-flaeche, Radius --radius-feld rundum. Kein neuer Wert: jede Regel verweist auf Schicht 1 oder die Token des Erscheinungsbilds. Höhe, Schriftgröße und Abstand bleiben bei der Stelle. Hoher Kontrast behält seinen Vollrahmen aus der Grundlage. Dieselbe Regel gilt in Dialogen (.modal) und im Entsperrfeld (als [id=overlay-inhalt], damit die Kennung die Spezifität nicht hebt).",
+    "bereich": ".content, .suche-feld, .tb-suche-platz, .modal, [id=\"overlay-inhalt\"]",
     "arten": [
-      { "art": "feld-eingabe", "selektor": "input:not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"file\"]):not([type=\"range\"]):not([type=\"color\"]):not([type=\"hidden\"])", "regeln": { "border": "0", "border-bottom": "var(--feld-rahmen)", "border-radius": "var(--radius-feld) var(--radius-feld) 0 0", "background-color": "var(--feld-toenung)", "color": "var(--ink)" } },
-      { "art": "feld-mehrzeilig", "selektor": "textarea", "regeln": { "border": "0", "border-bottom": "var(--feld-rahmen)", "border-radius": "var(--radius-feld) var(--radius-feld) 0 0", "background-color": "var(--feld-toenung)", "color": "var(--ink)" } },
-      { "art": "feld-auswahl", "selektor": "select", "regeln": { "border": "0", "border-bottom": "var(--feld-rahmen)", "border-radius": "var(--radius-feld) var(--radius-feld) 0 0", "background-color": "var(--feld-toenung)", "color": "var(--ink)" } }
+      {
+        "art": "feld-eingabe",
+        "klasse": ".vd-feld",
+        "selektor": "input:not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"file\"]):not([type=\"range\"]):not([type=\"color\"]):not([type=\"hidden\"])",
+        "regeln": {
+          "border": "var(--feld-rahmen)",
+          "border-radius": "var(--radius-feld)",
+          "background-color": "var(--feld-flaeche)",
+          "color": "var(--ink)"
+        }
+      },
+      {
+        "art": "feld-mehrzeilig",
+        "klasse": ".vd-feld--mehrzeilig",
+        "selektor": "textarea",
+        "regeln": {
+          "border": "var(--feld-rahmen)",
+          "border-radius": "var(--radius-feld)",
+          "background-color": "var(--feld-flaeche)",
+          "color": "var(--ink)"
+        }
+      },
+      {
+        "art": "feld-auswahl",
+        "klasse": ".vd-feld--auswahl",
+        "selektor": "select",
+        "regeln": {
+          "border": "var(--feld-rahmen)",
+          "border-radius": "var(--radius-feld)",
+          "background-color": "var(--feld-flaeche)",
+          "color": "var(--ink)"
+        }
+      }
+    ],
+    "elemente_hinweis": "Die übrigen Elementarten mit den Werten des Dummys vom 13.11.2026 (Entscheidung 25.11.2026; h1 DD:73, Text DD:17, Hinweis DD:83, Knopf DD:50–53, Karte DD:78, Menü DD:40, Dialog DD:145); der Erzeuger schreibt jede Regel an ihre frühere Stelle (Marke GESTALTUNG-ELEMENT). Die .vd-Namen sind die Klassen aus dem Formatvorlagen-Plan, für Studio, Lese-App und neue Stellen; bestehende Stellen behalten ihre Klassen. Lage und Abstand nach außen bleiben bei der Stelle.",
+    "elemente": [
+      {
+        "art": "ueberschrift-1",
+        "selektor": ".vd-h1",
+        "regeln": {
+          "font-family": "var(--font-inter)",
+          "font-weight": "var(--fw-titel)",
+          "line-height": "var(--zh-titel)",
+          "color": "var(--ink)",
+          "font-size": "var(--fs-role-titel)"
+        }
+      },
+      {
+        "art": "ueberschrift-2",
+        "selektor": ".vd-h2",
+        "regeln": {
+          "font-size": "var(--fs-role-abschnitt)",
+          "font-weight": "var(--fw-semibold)",
+          "color": "var(--ink)"
+        }
+      },
+      {
+        "art": "ueberschrift-3",
+        "selektor": ".vd-h3",
+        "regeln": {
+          "font-size": "var(--fs-role-gruppe)",
+          "font-weight": "var(--fw-semibold)",
+          "color": "var(--ink)"
+        }
+      },
+      {
+        "art": "seitenleiste-gruppe",
+        "selektor": ".sidebar .nav-gruppe > summary, .vd-nav-gruppe",
+        "regeln": {
+          "font-size": "var(--fs-role-abschnitt)",
+          "font-weight": "var(--fw-bold)",
+          "color": "var(--ink)",
+          "text-transform": "none"
+        }
+      },
+      {
+        "art": "fliesstext",
+        "selektor": ".vd-text",
+        "regeln": {
+          "font-size": "var(--fs-role-text)",
+          "font-weight": "var(--fw-regular)",
+          "color": "var(--ink)",
+          "line-height": "var(--zh-text)"
+        }
+      },
+      {
+        "art": "hinweis",
+        "selektor": ".feld-hint, .vd-hinweis",
+        "regeln": {
+          "color": "var(--ink2)",
+          "font-family": "var(--font-inter)",
+          "font-style": "normal",
+          "font-size": "var(--fs-role-hilfe)"
+        }
+      },
+      {
+        "art": "fehlermeldung",
+        "selektor": ".feld-fehler, .vd-fehler",
+        "regeln": {
+          "color": "var(--feld-fehler-schrift)",
+          "font-size": "var(--fs-role-hilfe)",
+          "font-weight": "var(--fw-semibold)"
+        }
+      },
+      {
+        "art": "feldbeschriftung",
+        "selektor": ".feld-label, .vd-beschriftung",
+        "regeln": {
+          "color": "var(--ink2)",
+          "font-size": "var(--fs-role-label)"
+        }
+      },
+      {
+        "art": "knopf-haupt",
+        "selektor": ".btn, .vd-knopf--haupt",
+        "regeln": {
+          "background": "var(--salbei-dunkel)",
+          "color": "var(--auf-akzent)",
+          "border": "1px solid var(--salbei-dunkel)",
+          "border-radius": "var(--radius-5)",
+          "padding": "var(--abstand-1-5) var(--abstand-3)",
+          "font-size": "var(--fs-role-text)",
+          "min-height": "var(--ziel)",
+          "font-weight": "var(--fw-medium)"
+        }
+      },
+      {
+        "art": "knopf-neben",
+        "basis": "knopf-haupt",
+        "selektor": ":is(.btn-sek, .btn[data-doku-neu-add]), .vd-knopf--neben",
+        "regeln": {
+          "background": "var(--white)",
+          "color": "var(--ink)",
+          "border": "1px solid var(--line)"
+        }
+      },
+      {
+        "art": "knopf-text",
+        "selektor": ".btn-text, .vd-knopf--text",
+        "regeln": {
+          "background": "none",
+          "border": "none",
+          "padding": "0",
+          "font": "inherit",
+          "font-weight": "var(--fw-medium)",
+          "color": "var(--salbei-dunkel)",
+          "text-decoration": "none",
+          "cursor": "pointer"
+        }
+      },
+      {
+        "art": "stand-marke",
+        "selektor": ".feldgruppen-karte-status, .vd-stand",
+        "regeln": {
+          "font-size": "var(--fs-role-hilfe)",
+          "color": "var(--ink3)"
+        }
+      },
+      {
+        "art": "karte",
+        "selektor": ".karte, .vd-karte",
+        "regeln": {
+          "background": "var(--white)",
+          "border": "var(--karte-rahmen)",
+          "border-radius": "var(--radius-6)",
+          "box-shadow": "none"
+        }
+      },
+      {
+        "art": "menue",
+        "selektor": ".depot-menue, .vd-menue",
+        "regeln": {
+          "background": "var(--white)",
+          "border": "1px solid var(--line)",
+          "border-radius": "var(--radius-7)",
+          "box-shadow": "var(--schatten-ebene)"
+        }
+      },
+      {
+        "art": "dialog-rahmen",
+        "selektor": ".modal, .vd-dialog",
+        "regeln": {
+          "background": "var(--white)",
+          "border": "none",
+          "border-radius": "var(--radius-8)",
+          "box-shadow": "var(--schatten-dialog)"
+        }
+      }
     ]
   }
 }

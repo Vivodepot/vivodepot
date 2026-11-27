@@ -3,9 +3,11 @@
    Anlegen: das eigene Passwort ist der Standard, die sechs Wörter sind das Angebot (Entscheidung 24.11.2026)
    ────────────────────────────────────────────────────────────────────────
    Schritt 1 heißt nach der Sache („Passwort festlegen“) und zeigt ein gewöhnliches Feld mit Wiederholung, die Mindestlänge am
-   Feld. Darunter steht „Oder lassen Sie sich eines vorschlagen“; erst wer es nimmt, sieht die sechs Wörter mit Probe. „Lieber ein
+   Feld. Darunter steht „Oder lassen Sie sich ein Passwort vorschlagen“; erst wer es nimmt, sieht die sechs Wörter mit Probe. „Lieber ein
    eigenes Passwort“ führt zurück. Unverändert: mindestens zwölf Zeichen (pwGrundFehler), Probe und Kanon der Wörter.
    Rot-Beweis: eine Kernkopie ohne `ohneVorbelegung` legt die Wörter wieder vorab ins Feld.
+   Nachtrag 26.11.2026 (U2-ADR-027, U2-ADR-463): kein Ratschlag zur Stärke und kein Platzhalter am Feld; es bleiben „mindestens
+   12 Zeichen“ und beim Tippen die Stufe ([Festlegen·Kein Tipp·Texte], [Festlegen·Kein Tipp]).
    ════════════════════════════════════════════════════════════════════════ */
 const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);
 const { istOeffentlich } = require('./helfer/nur-privat.js');   // nur-privat: s. tests/helfer/nur-privat.js
@@ -90,10 +92,10 @@ test('[Festlegen·Regeln] die Schranke bleibt: ein eigenes Passwort unter zwölf
 
 test('[Festlegen·Texte] Überschrift und Angebot stehen in allen vier Textsätzen; niemand muss ein Passwort mitbringen', () => {
   for (const [datei, titel, angebot] of [
-    ['textsatz-de-modul.json', 'Passwort festlegen', 'Oder lassen Sie sich eines vorschlagen'],
-    ['textsatz-de-pro-modul.json', 'Passwort festlegen', 'Oder lassen Sie sich eines vorschlagen'],
-    ['textsatz-en-modul.json', 'Set a password', 'Or let us suggest one'],
-    ['textsatz-en-pro-modul.json', 'Set a password', 'Or let us suggest one'],
+    ['textsatz-de-modul.json', 'Passwort festlegen', 'Oder lassen Sie sich ein Passwort vorschlagen'],
+    ['textsatz-de-pro-modul.json', 'Passwort festlegen', 'Oder lassen Sie sich ein Passwort vorschlagen'],
+    ['textsatz-en-modul.json', 'Set a password', 'Or let us suggest a password'],
+    ['textsatz-en-pro-modul.json', 'Set a password', 'Or let us suggest a password'],
   ].filter(([datei]) => !(istOeffentlich() && datei.includes('-pro-')))) {
     // Öffentlich (Kennzeichen „läuft nur im privaten Repo“, tests/helfer/nur-privat.js) fehlen die Pro-Textsätze; privat bleiben alle vier Pflicht.
     const t = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', datei), 'utf8')).texte;
@@ -113,5 +115,34 @@ test('[Festlegen·Rot-Beweis] ohne `ohneVorbelegung` stünden die Wörter wieder
     assert.notEqual(els['id-pw'].value, '', 'darum fiele [Festlegen·Standard] durch');
   } finally {
     fs.rmSync(ordner, { recursive: true, force: true });
+  }
+});
+
+// Kein Ratschlag zur Stärke (Nachtrag 26.11.2026, U2-ADR-027): an allen Feldern bleibt die Stufe, kein Tipp, kein Platzhalter.
+test('[Festlegen·Kein Tipp·Texte] kein Textsatz trägt einen Ratschlag zur Stärke oder ein Beispiel als Platzhalter', () => {
+  // Die Pro-Textsätze bleiben im öffentlichen Zuschnitt zurück; dort werden nur die zwei Privat-Sätze gelesen, privat alle vier.
+  const saetze = ['textsatz-de-modul.json', 'textsatz-en-modul.json'];
+  if (!istOeffentlich()) saetze.push('textsatz-de-pro-modul.json', 'textsatz-en-pro-modul.json');
+  for (const datei of saetze) {
+    const t = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', datei), 'utf8')).texte;
+    for (const k of ['pwStaerkeTipp', 'pwStaerkeTippVorschlag', 'anlegenPwBeispiel', 'pwBeispielFehler']) {
+      assert.equal(t['strings:' + k + '.text'], undefined, datei + ': ' + k);
+    }
+    assert.ok(t['strings:pwMinHinweis.text'], datei + ': die Mindestlänge bleibt');
+  }
+  assert.ok(!KERN.includes('STRINGS.pwStaerkeTipp'), 'der Kern liest keinen Ratschlag mehr');
+  assert.ok(!KERN.includes('_beispielPlatzhalter(STRINGS.anlegenPwBeispiel)'), 'kein Platzhalter am Passwort-Feld');
+});
+
+test('[Festlegen·Kein Tipp] beim Tippen steht nur „Passwort-Stärke: <Stufe>“, ohne Zusatz', () => {
+  for (const pw of ['gartenhausweg', 'Gartenhaus-Weg-2026']) {
+    const { V, document } = ladeKern();
+    const s = V.passwortStaerke(pw);
+    assert.ok(!s.bekannt, 'Vorbedingung: kein verbreitetes Passwort');
+    document.getElementById('id-pw').value = pw;
+    V.pwStaerkeAnzeigeVerdrahten('id-pw', 'id-pw-staerke');
+    const wort = s.stufe === 'stark' ? V.STRINGS.pwStaerkeStark : s.stufe === 'mittel' ? V.STRINGS.pwStaerkeMittel : V.STRINGS.pwStaerkeSchwach;
+    const text = document.getElementById('id-pw-staerke').innerHTML.replace(/<[^>]*>/g, '');
+    assert.equal(text, V.STRINGS.pwStaerkeLabel + ' ' + wort, pw + ' → ' + text);
   }
 });

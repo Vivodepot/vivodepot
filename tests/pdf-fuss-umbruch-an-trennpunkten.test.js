@@ -61,31 +61,30 @@ test('[PDF-Fuß·Rot-Beweis] der frühere Umbruch über den ganzen Fuß zerreiß
   assert.ok(teile.some((t) => !gelesen.includes(t)), 'der alte Weg muss hier rot sein, sonst misst diese Probe nichts');
 });
 
-// Nachtrag U2-ADR-259 vom 02.11.2026: ohne Erweiterung sagen Herkunft und Stand dasselbe, der Fuß nennt es einmal.
+// Nachtrag U2-ADR-259 vom 02.11.2026 (keine doppelte Angabe, kein „Fassung“) und Nachtrag U2-ADR-258 vom 25.11.2026:
+// ohne Erweiterung nennt der Fuß Erweiterungen gar nicht.
 function erweiterungenVerstoesse(strings, teile, ganz) {
   const v = [];
-  if (strings.dokStandFussKeine !== strings.dokHerkunftFussKeine) v.push('Stand und Herkunft lauten ohne Erweiterung verschieden');
-  const n = teile.filter((t) => t === strings.dokHerkunftFussKeine).length;
-  if (n !== 1) v.push('„' + strings.dokHerkunftFussKeine + '“ steht ' + n + '-mal: ' + ganz);
+  const n = teile.filter((t) => /Erweiterung/.test(t)).length;
+  if (n !== 0) v.push('ohne Erweiterung nennt der Fuß Erweiterungen ' + n + '-mal: ' + ganz);
   if (/Fassung/.test(ganz)) v.push('„Fassung“ steht im Fuß: ' + ganz);
   return v;
 }
-test('[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen: keine“ genau einmal', async () => {
+test('[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen“ nicht im Fuß', async () => {
   const { V, teile, ganz } = await fussTeile();
   assert.deepEqual(erweiterungenVerstoesse(V.STRINGS, teile, ganz), []);
 });
 
-test('[PDF-Fuß·Erweiterungen·Rot-Beweis] doppelt genannt oder „Fassung“ im Fuß wird gemeldet', async () => {
+test('[PDF-Fuß·Erweiterungen·Rot-Beweis] „Erweiterungen: keine“ oder „Fassung“ im Fuß wird gemeldet', async () => {
   const { V, teile } = await fussTeile();
-  const doppelt = [...teile, V.STRINGS.dokHerkunftFussKeine];
-  assert.equal(erweiterungenVerstoesse(V.STRINGS, doppelt, doppelt.join(TRENNER)).length, 1);
-  const alt = Object.assign({}, V.STRINGS, { dokStandFussKeine: 'Fassung: Grundfassung' });
+  const mitKeine = [...teile, 'Erweiterungen: keine'];
+  assert.equal(erweiterungenVerstoesse(V.STRINGS, mitKeine, mitKeine.join(TRENNER)).length, 1);
   const mitAlt = [...teile, 'Fassung: Grundfassung'];
-  assert.equal(erweiterungenVerstoesse(alt, mitAlt, mitAlt.join(TRENNER)).length, 2);
+  assert.equal(erweiterungenVerstoesse(V.STRINGS, mitAlt, mitAlt.join(TRENNER)).length, 1);
 });
 
 module.exports = {
   PROBEN: [
-    { fuer: '[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen: keine“ genau einmal', diskriminante: erweiterungenVerstoesse },
+    { fuer: '[PDF-Fuß·Erweiterungen] ohne Erweiterung steht „Erweiterungen“ nicht im Fuß', diskriminante: erweiterungenVerstoesse },
   ],
 };

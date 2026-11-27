@@ -178,9 +178,26 @@ test('[258·PDF] der Dokument-Fuß trägt die Herkunft — und zwar in JEDEM PDF
   }
 });
 
-test('[258·PDF] ohne Erweiterung sagt der Fuß das ausdrücklich — kein stummer Fall', async () => {
+// Nachtrag U2-ADR-258 vom 25.11.2026: „Wenn es keine Erweiterungen gibt, muss da auch keine Erweiterungen drinstehen.“
+// Der Fuß nennt Erweiterungen nur, wenn es welche gibt. Geprüft wird der Fuß jedes PDF-Wegs, beide Richtungen.
+function fussErweiterungenVerstoesse(V, mitErweiterung) {
+  const v = [];
+  for (const meta of [V.situationPdfMeta('geburt'), V.vollDepotPdfMeta()]) {
+    const fuss = V.pdfFussText(meta);
+    const genannt = /Erweiterung/.test(fuss);
+    if (mitErweiterung && !genannt) v.push('mit Erweiterung fehlt die Zeile: ' + fuss);
+    if (!mitErweiterung && genannt) v.push('ohne Erweiterung nennt der Fuß Erweiterungen: ' + fuss);
+  }
+  return v;
+}
+test('[258·PDF] ohne Erweiterung steht „Erweiterungen“ nicht im Fuß, mit Erweiterung steht die Zeile da', async () => {
+  assert.deepEqual(fussErweiterungenVerstoesse(await kernMit([]), false), []);
+  assert.deepEqual(fussErweiterungenVerstoesse(await kernMit([M_GEPRUEFT]), true), []);
+});
+test('[258·PDF·Rot-Beweis] der frühere Fuß „Erweiterungen: keine“ wird gemeldet', async () => {
   const V = await kernMit([]);
-  assert.ok(V.pdfFussText(V.vollDepotPdfMeta()).includes(V.STRINGS.dokHerkunftFussKeine));
+  const alt = Object.assign({}, V, { pdfFussText: (m) => V.pdfFussText(m) + ' · ' + 'Erweiterungen: keine' });
+  assert.equal(fussErweiterungenVerstoesse(alt, false).length, 2);
 });
 
 test('[258·PDF] alle geprüft → der Fuß sagt „alle geprüft"', async () => {

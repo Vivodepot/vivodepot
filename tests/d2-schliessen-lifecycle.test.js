@@ -42,6 +42,9 @@ test('[D2] Schließen im passwortlosen Vorschau-Zustand mit Daten → Warn-Modal
   const { V, document } = ladeKern();
   instrumentiere(document, ['overlay', 'app']);
   V.flowVorschauBetreten();
+  // Die leere Vorschau ohne Beispiel (Rückfall eines Produkts ohne Beispielwerte): nur dort trägt die Person etwas ein, das
+  // beim Anlegen mitgeht. Das erfundene Beispiel ist schreibgeschützt und geht nie mit (tests/umsehen-beispiel-gefuellt.test.js).
+  V.vorschauDepotErzeugen();
   V.getData().menschen.push({ id: 'p1', vorname: 'Test' });
 
   V.flowAppSchliessen();
@@ -70,6 +73,9 @@ test('[D2] der Primärknopf im Schließen-Modal öffnet „Depot anlegen“ (sei
   const { V, document } = ladeKern();
   instrumentiere(document, ['overlay', 'app']);
   V.flowVorschauBetreten();
+  // Die leere Vorschau ohne Beispiel (Rückfall eines Produkts ohne Beispielwerte): nur dort trägt die Person etwas ein, das
+  // beim Anlegen mitgeht. Das erfundene Beispiel ist schreibgeschützt und geht nie mit (tests/umsehen-beispiel-gefuellt.test.js).
+  V.vorschauDepotErzeugen();
   V.getData().menschen.push({ id: 'p1', vorname: 'Test' });
 
   V.flowAppSchliessen();

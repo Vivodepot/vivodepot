@@ -142,9 +142,11 @@ test('[259·PDF] der Dokument-Fuß trägt den Stand — in JEDEM PDF-Weg', async
   }
 });
 
-test('[259·PDF] ohne Erweiterung sagt der Fuß das ausdrücklich — kein stummer Fall', async () => {
+// Nachtrag U2-ADR-258 vom 25.11.2026: ohne Erweiterung nennt der Fuß auch den Stand nicht.
+test('[259·PDF] ohne Erweiterung steht im Fuß keine Stand-Angabe', async () => {
   const V = await kernMit([]);
-  assert.ok(V.pdfFussText(V.vollDepotPdfMeta()).includes(V.STRINGS.dokStandFussKeine));
+  assert.equal(V.moduleStandFussText(V.moduleStandBerechnen()), '');
+  assert.ok(!V.pdfFussText(V.vollDepotPdfMeta()).includes(V.STRINGS.dokStandFussKeine));
 });
 
 test('[259·PDF] alle bekannt → der Fuß sagt „bekannt bei n"', async () => {

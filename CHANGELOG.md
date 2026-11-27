@@ -19,6 +19,22 @@ bleibt im Satz. Beispiel: „Studio: Erzeugt eine Einrichtung ein Erscheinungsbi
 die Folge. Für die Nutzer heißt das: Sie sehen die Anwendung weiter im gewohnten Aussehen, bis das Erscheinungsbild
 signiert und von Vivodepot bestätigt ist.“ Bestehende Einträge bleiben, wie sie sind.
 
+## [v1.0.1074] – 2026-11-27
+
+### Hinzugefügt
+- Erst umsehen: „Erst umsehen, ohne zu speichern“ zeigt jetzt in allen Bereichen ein gefülltes Beispiel statt leerer Seiten, in allen vier Produkten, auf Deutsch und Englisch. Über jeder Ansicht steht „Erfundenes Beispiel. Nichts davon wird gespeichert oder übernommen. Ihr eigenes Depot beginnt leer.“ Die Felder des Beispiels lassen sich nicht bearbeiten. Der Knopf „Eigenes Depot anlegen“ beginnt ein leeres Depot und führt danach in den Bereich zurück, der offen war.
+
+### Geändert
+- Gestaltung: Eingabefelder haben jetzt einen feinen Rahmen ringsum statt einer Linie darunter; die Fläche bleibt leicht getönt. Die Überschriften der Gruppen in der Seitenleiste stehen eine Stufe größer. Abstände, Rundungen und Schriftgewichte folgen jetzt der freigegebenen Gestaltungsvorlage.
+- Depot anlegen: Das Angebot im Schritt „Passwort festlegen“ heißt „Oder lassen Sie sich ein Passwort vorschlagen“. Die Anzeige der Passwort-Stärke nennt nur noch die Stufe (schwach, mittel, stark), ohne Ratschlag; das gilt auch beim Wechsel des Passworts und bei Freigaben. Die Hinweise auf weit verbreitete Passwörter und auf Umlaute bleiben.
+- Übersicht: Die Kachel „Notfall“ sagt nur dann nichts Fehlendes, wenn mindestens ein Notfallkontakt mit Telefonnummer eingetragen ist, und nennt dann, wenn bekannt, das Datum der letzten Änderung. Fehlt der Kontakt, steht „Notfallkontakt fehlt“; fehlt nur die Nummer, steht „Telefonnummer fehlt“ mit dem Knopf „Nummer eintragen“.
+- Fußzeile der PDF-Ausgaben: Sind keine Erweiterungen eingebunden, steht dazu nichts mehr in der Fußzeile.
+- Feldregister: Die Seite eines Feldes nennt unter jeder Entsprechung auch den Standard mit Fassung und den Prüfstand, auf Deutsch und Englisch.
+
+### Behoben
+- Am Handy stand nach dem Speichern einer Sicherungskopie in der Kopfleiste nur der Knopf „Ja, angekommen“. Jetzt steht die Frage „Datei angekommen?“ davor.
+- Eine Bereichsseite lässt sich aus dem Browser drucken; vorher kam ein leeres Blatt heraus.
+
 ## [v1.0.1073] – 2026-11-25
 
 Diese Fassung enthält auch die Änderungen der Fassungen 1071 und 1072, die nicht einzeln veröffentlicht wurden.

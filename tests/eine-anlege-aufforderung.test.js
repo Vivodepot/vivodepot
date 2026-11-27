@@ -16,11 +16,16 @@ const text = (datei) => JSON.parse(fs.readFileSync(path.join(REPO, 'tools', date
 test('[Eine Aufforderung] der obere Hinweis trägt data-anlegen-weg, die Karte setzt den Schalter, den renderContent zurücksetzt', () => {
   const hinweis = KERN.match(/<button type="button" class="tb-pw-hinweis" id="tb-pw-hinweis" data-anlegen-weg /g) || [];
   assert.equal(hinweis.length, 1, 'statisches Markup: der Hinweis in der Kopfzeile');
-  assert.equal((KERN.match(/_anlegenKarteImInhalt = true;/g) || []).length, 2, 'zwei Stellen setzen ihn: die Karte und der Knopf in „Sub-Depots“');
+  assert.equal((KERN.match(/_anlegenKarteImInhalt = true;/g) || []).length, 3, 'drei Stellen setzen ihn: die Karte, der Knopf in „Sub-Depots“ und der Hauptknopf im Streifen des Beispiels');
   assert.match(KERN, /_anlegenKarteImInhalt = false;\n\s*renderContentInner\(\);\n\s*try \{ _pwHinweisStellen\(\); \} catch/, 'renderContent setzt zurück, rendert und bewertet den Hinweis neu');
   const stellen = KERN.split('_anlegenKarteImInhalt = true;').slice(1).map((t) => t.slice(0, 520));
   assert.equal(stellen.filter((t) => /data-bereich-leer="vorschau"/.test(t)).length, 1, 'die Karte');
   assert.equal(stellen.filter((t) => /id="sub-pw-link" data-anlegen-weg/.test(t)).length, 1, 'der Knopf in „Sub-Depots“ trägt data-anlegen-weg');
+  assert.equal(stellen.filter((t) => /data-beispiel/.test(t)).length, 0, 'Positivkontrolle der Reihenfolge: der Streifen steht vor dem Setzen');
+  const anfang = KERN.indexOf('function beispielStreifenStellen(');
+  assert.ok(anfang > 0, 'der Streifen des Beispiels steht im Kern');
+  const streifen = KERN.slice(anfang, KERN.indexOf('_anlegenKarteImInhalt = true;', anfang));
+  assert.match(streifen, /knopf\.setAttribute\('data-anlegen-weg', ''\);\n\s*knopf\.setAttribute\('data-umschau-eintragen', '1'\);/, 'der Streifen des Beispiels stellt seinen Hauptknopf selbst hin, bevor der Hinweis weicht');
   assert.equal(stellen.filter((t) => /data-bereich-leer="vorschau"|data-anlegen-weg/.test(t)).length, 2, 'jede Stelle, die den Hinweis weichen lässt, stellt selbst einen Weg hin');
 });
 
@@ -43,6 +48,9 @@ test('[Eine Aufforderung·ein Wort] Hinweis, Karte und der Knopf in „Sub-Depot
   assert.equal(holen(en, 'umschauAnlegenKnopf'), 'Create depot');
   assert.equal(holen(de, 'subVorschauPwLink'), 'Depot anlegen', '„Sub-Depots“: derselbe Weg, dasselbe Wort (vorher „Passwort jetzt setzen →“)');
   assert.equal(holen(en, 'subVorschauPwLink'), 'Create depot');
+  // Im erfundenen Beispiel sagt der eine Hauptknopf, dass das eigene Depot gemeint ist (U1, Variante A).
+  assert.equal(holen(de, 'beispielAnlegenKnopf'), 'Eigenes Depot anlegen');
+  assert.equal(holen(en, 'beispielAnlegenKnopf'), 'Create your own depot');
 });
 
 test('[Ohne Eintrag steht nichts] „Meine Vorsorge auf einen Blick“ zeigt kein „keine“: der Kern liest instrumentKeine nirgends mehr', () => {

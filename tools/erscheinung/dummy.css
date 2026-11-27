@@ -243,8 +243,8 @@
      mit heute gleichem Wert bekommen zwei Tokens, damit ein Profil die eine ohne die andere ändert.
      Alle sind FRISCH: kein Theme (Nacht, Hochkontrast) überschreibt sie — ein Rohwert war in
      jedem Theme derselbe, das Token ist es auch. Zählweg: tools/design-treue.js. */
-  /* Gewichte */
-  --fw-regular: 400; --fw-medium: 550; --fw-semibold: 600; --fw-bold: 700;
+  /* Gewichte (Vorlage kann sie setzen; Grundwerte in tools/erscheinung/definition.json, Gruppe „gewichte“; Dummy: halbfett 500) */
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
   /* Schreibung der Etiketten (G7 § 6.10 Sektion-Header; Profil „Leinen" setzt none) */
   --label-schreibung: none;        /* Zielbild 30.10.2026: keine Versalien ab Werk, außer in der Wortmarke */
   /* Laufweite, je Rolle */
@@ -267,13 +267,14 @@
   --fs-nachweis: var(--fs-urheber); --nachweis-schrift: var(--ink2);
   /* Radien, je Rolle */
   --radius-karte: 10px; --radius-karte-schmal: 8px;
-  --radius-knopf: 8px; --radius-feld: 8px;
+  --radius-knopf: 8px; --radius-feld: 6px;   /* Feld rundum 6 px wie im Dummy 13.11.2026 (vivodepot-dummy-desktop.html:130) */
   --radius-toast: 12px; --radius-block: 6px; --radius-logo: 6px; --radius-balken: 3px;
   /* Karte und Feld: Rahmen, Fläche, Schatten, Höhe */
   --karte-rahmen: 1px solid var(--line); --karte-schatten: none;
-  --feld-rahmen: 1px solid #73856a;      /* Bereichs- und Assistentenfelder (WCAG 1.4.11); auf der getönten Dokument-Fläche ≥ 3:1 (vorher #7d8f70: 2,98) */
-  --feld-rahmen-dialog: 1px solid #7d8f70;     /* Felder in Dialog, Mappe, Dokument-Erkennung — war --line, 1,5:1 gegen den Grund (WCAG 1.4.11 verlangt 3:1) */
-  --feld-flaeche: var(--white);
+  --feld-kante: #73856a;   /* Feldkante (Entscheidung 25.11.2026, Bild B 1/A 1 b): Rahmen ringsum, gegen getönte Fläche, Weiß, Karte, Papier, Seitenleiste ≥ 3:1 (WCAG 1.4.11) */
+  --feld-rahmen: 1px solid var(--feld-kante);      /* alle Eingabefelder (Schicht 3 der Gestaltungsdefinition) */
+  --feld-rahmen-dialog: var(--feld-rahmen);     /* dieselbe Kante wie alle Felder (Entscheidung 25.11.2026) */
+  --feld-flaeche: rgba(79,101,57,.07);   /* getönte Feldfläche ohne eigenen Strich unten (Entscheidung 25.11.2026, A 1 b) */
   --feld-hoehe: 44px;   /* Feldhöhe nach Zielbild 30.10.2026 (mobil 48 px im Stil); Untergrenze WCAG 2.5.8 bleibt 24 px */
   /* Bedienziel: Mindestmaß aller Knöpfe, Schalter und Einträge (Trefferflächen-Regel 10.08.2026) */
   --ziel: 44px;
@@ -342,7 +343,9 @@ html.high-contrast {
      Zug-4-Bericht. Die sechs Töne und ihr Text erben unverändert aus :root. */
   --gold: #5a4416; --gold-soft: #f3ead4;   /* Logo-Grün, im Hochkontrast vertieft (Gold→Grün) */
   /* Profil „Salbei mit Glas“ (W5a) */
-  --feld-rahmen: 1px solid #000000;
+  --feld-kante: #000000;
+  --feld-rahmen: 1px solid var(--feld-kante);
+  --feld-flaeche: var(--white);
 }
 
 html.dark-mode {
@@ -366,7 +369,9 @@ html.dark-mode {
      reines Weiß, sondern das Nacht-Ink: derselbe Ton wie der übrige helle Text. */
   --auf-akzent: #e9ede7;
   /* Profil „Salbei mit Glas“ (W5a) */
-  --feld-rahmen: 1px solid #7f8c78;
+  --feld-kante: #7f8c78;
+  --feld-rahmen: 1px solid var(--feld-kante);
+  --feld-flaeche: rgba(255,255,255,.07);
   --salbei-nacht: #d4d7d1;
   --wortmarke-depot: #dfe5dc;
   --success: #d4d7d1;

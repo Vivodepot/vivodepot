@@ -3,15 +3,15 @@
 /* ════════════════════════════════════════════════════════════════════════════
    gestaltung-umstellen.js — stellt freie Längen der Stilquelle auf die Token der Gestaltungsdefinition um
    ────────────────────────────────────────────────────────────────────────────
-   Quelle der Token: tools/erscheinung/definition.json (Schicht 1): --abstand-1…6 (4/8/12/16/24/32 px), --radius-klein/-gross/-rund
-   (10/16/999 px), --treffer (48 px). Gezählt wird mit tools/gestaltung-freie-werte.js (derselbe Maskierer: Kommentare und der erzeugte
+   Quelle der Token: tools/erscheinung/definition.json (Schicht 1): --abstand-1…6 (4/8/12/16/24/32 px), Radienreihe --radius-1 … (px) und --radius-rund
+   --treffer (Wert in der Definition). Gezählt wird mit tools/gestaltung-freie-werte.js (derselbe Maskierer: Kommentare und der erzeugte
    Block GESTALTUNG-DEFINITION sind ausgenommen). Das Werkzeug ändert nur Werte hinter padding*, margin*, gap, row-gap, column-gap,
    min-height, min-width (Treffer) und border-*radius; Werte in var(…) und negative Werte fasst es nicht an.
 
    MODI
      --exakt                    Wagen 1, Bild unverändert. Ersetzt NUR, wo der Wert dem Token genau entspricht:
                                 padding/margin/gap/min-height: 4/8/12/16/24/32 px (und 0.25/0.5/0.75/1/1.5/2 rem) → var(--abstand-N);
-                                border-radius: 10/16/999 px → var(--radius-klein/-gross/-rund); min-height/min-width 48 px → var(--treffer).
+                                border-radius: px-Wert der Radienreihe → var(--radius-<n>/-rund); min-height/min-width gleich dem Trefferwert → var(--treffer).
                                 Dazu in den Profilen: --space-N: <rem> → --space-N: var(--abstand-N), wo der Wert gleich ist.
      --angleichen               Wagen 2, nur Liste (Datei/Zeile, alt → Token, Pixeldifferenz), ändert nichts.
      --angleichen --schreiben   setzt Off-Raster-Werte auf das nächstliegende Token (bei Gleichstand das größere); Radien auf
@@ -37,7 +37,7 @@ function tokensLaden(def) {
   const g = def.grundwerte;
   return {
     abstand: g.abstaende.stufen.map((s) => ({ token: s.token, px: s.px })),
-    radius: g.radien.map((r) => ({ token: r.token, px: parseFloat(r.wert) })),
+    radius: g.radien.filter((r) => /px$/.test(String(r.wert))).map((r) => ({ token: r.token, px: parseFloat(r.wert) })),
     treffer: { token: g.treffer.token, px: parseFloat(g.treffer.wert) },
   };
 }

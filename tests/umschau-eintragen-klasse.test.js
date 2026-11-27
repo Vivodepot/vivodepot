@@ -32,7 +32,8 @@ test('[Umschau·Klasse·Rot-Beweis] ein Eintrag, der nicht mehr zutrifft, steht 
 });
 
 test('[Umschau] der Feldwert ist in der Umschau eine Schaltfläche, der Delegat führt zu umschauEinrichten', () => {
-  assert.match(KERN, /else if \(imVorschau\(\) && !imVorfuehrung\(\) && feld\.nurAnzeige !== true\) \{[\s\S]{0,900}data-umschau-eintragen="1"/);
+  // Im erfundenen Beispiel nicht: es ist schreibgeschützt, der eine Weg ist der Hauptknopf im Streifen (tests/umsehen-beispiel-gefuellt.test.js).
+  assert.match(KERN, /else if \(imVorschau\(\) && !imVorfuehrung\(\) && !imBeispiel\(\) && feld\.nurAnzeige !== true\) \{[\s\S]{0,1000}data-umschau-eintragen="1"/);
   assert.match(KERN, /closest\('\[data-umschau-eintragen\]'\)[\s\S]{0,200}umschauEinrichten\(/);
   assert.match(KERN, /function umschauEinrichten\(sektorId, feldId\) \{[\s\S]{0,200}flowDepotAnlegen\(/);
 });

@@ -61,6 +61,9 @@ for (const breite of [320, 375, 390]) {
     await oeffneApp(page);
     await page.locator('#w-anfangen').click();                          // Vorschau
     await page.waitForSelector('#app.an', { state: 'attached' });
+    // Die leere Vorschau eines Produkts ohne Beispielwerte (Aufbau): „Erst umsehen“ zeigt sonst das erfundene, schreibgeschützte Beispiel
+    // (tests/umsehen-beispiel-gefuellt.test.js), in dem der Hinweis dem Streifen weicht und nichts eingetragen wird.
+    await page.evaluate(() => { const d = window.__vdOeffentlich.ankerDaten(); delete d._beispiel; d.sektoren = Object.fromEntries(Object.keys(d.sektoren || {}).map((k) => [k, {}])); window.__vdOeffentlich.renderContent(); });
     await page.locator('#bt-uebersicht').click();                       // Ansicht ohne eigene Anlege-Karte: der Hinweis steht (T-CROSS-11)
     await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
     await page.waitForTimeout(300);

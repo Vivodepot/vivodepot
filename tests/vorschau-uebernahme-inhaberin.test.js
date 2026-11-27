@@ -16,6 +16,9 @@ const PW = 'Vorschau-Inhaberin-Probe-2026!';
 function kernMitVorschau() {
   const k = ladeKern({ indexedDB: createIdbMock(), location: { protocol: 'https:', href: 'https://vivodepot.example/app' } });
   k.V.flowVorschauBetreten();
+  // Die leere Vorschau ohne Beispiel (Rückfall eines Produkts ohne Beispielwerte): nur dort trägt die Person etwas ein, das
+  // beim Anlegen mitgeht. Das erfundene Beispiel ist schreibgeschützt und geht nie mit (tests/umsehen-beispiel-gefuellt.test.js).
+  k.V.vorschauDepotErzeugen();
   const d = k.V.getData();
   d.sektoren.health = Object.assign({}, d.sektoren.health || {}, { bloodType: 'A+' });
   d.menschen.push({ id: 'p-vorschau', name: 'Mutter Probe' });

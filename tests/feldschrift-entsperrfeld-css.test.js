@@ -51,8 +51,11 @@ test('beide Erscheinungsbild-Module tragen die drei Regeln (gebaut aus der Stilq
       assert.ok(json.includes(s), id + ': ' + s);
     }
   }
-  assert.ok(MODULE.find(([id]) => id === 'salbei-glas')[1].includes('html:not(.high-contrast) #overlay-inhalt :is(input[type=\\"password\\"], input[type=\\"text\\"]) { border: 0; border-bottom: var(--feld-rahmen);'),
-    'salbei-glas: Entsperrfeld als Fläche mit Unterkante');
+  /* Seit 25.11.2026 (Entscheid am Bildblatt, A 1 b) trägt das Entsperrfeld dieselbe Feldform wie jedes Feld: getönt, Rahmen ringsum,
+     aus der Grundregel der Gestaltungsdefinition (Bereich [id="overlay-inhalt"]); keine eigene Unterkanten-Regel mehr. */
+  const sg = MODULE.find(([id]) => id === 'salbei-glas')[1];
+  assert.ok(!sg.includes('#overlay-inhalt :is(input[type=\\"password\\"], input[type=\\"text\\"]) { border: 0; border-bottom'), 'salbei-glas: keine eigene Unterkante am Entsperrfeld');
+  assert.ok(sg.includes('[id=\\"overlay-inhalt\\"]) :is(input:not('), 'salbei-glas: Entsperrfeld in der Grundregel der Felder');
 });
 
 test('Rot-Beweis: der Stand von v963 schlägt an jeder der drei Regeln an', () => {

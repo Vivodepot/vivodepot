@@ -27,8 +27,11 @@ const FELDREGELN = {
   unterkante: { unterkanteIstGrenze: true, mindestKontrast: 3 },
   flaeche: { unterkanteIstGrenze: false, mindestKontrast: 3 },
   'flaeche-mit-beschriftung': { unterkanteIstGrenze: false, mindestKontrast: 1.05 },
+  // Seit dem Bildblatt vom 25.11.2026 (Feld Fassung b: getönt, Rahmen ringsum in --feld-kante) ist der ganze Feldrahmen die Feldgrenze:
+  // keine seiner vier Seiten zählt als Linie; die Unterkante hält weiter 3:1 am Bild.
+  rahmen: { unterkanteIstGrenze: true, rahmenIstGrenze: true, mindestKontrast: 3 },
 };
-const FELDREGEL = FELDREGELN.unterkante;
+const FELDREGEL = FELDREGELN.rahmen;
 /* Im geöffneten Sub-Depot trägt die ganze Oberfläche die Farbe des Depots (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag): keine
    Farblinie mehr an der Seitenleiste. Seit U-G (15.11.2026, Dummy) tragen Kopfleiste, Knöpfe und Karten eine Haarlinie; die Zahlen stehen im Deckel. */
 /* Bedeutung außerhalb von Fokus und Fehler: die Warnung im Anlege-Dialog (ein vergessenes Passwort ist nicht wiederherstellbar). */
@@ -59,7 +62,7 @@ async function bereich(page, id) {
 /* Im Browser: jede sichtbare Randseite im Inhalt (oder, mit `ausserhalb`, überall außer im Inhalt), außer Feldgrenze, Fokus, Fehler
    und Bedeutung. */
 function LINIEN(opt) {
-  const { ausserhalb = false, unterkanteIstGrenze = true, bedeutung = '' } = opt || {};
+  const { ausserhalb = false, unterkanteIstGrenze = true, rahmenIstGrenze = false, bedeutung = '' } = opt || {};
   const aus = [];
   for (const el of document.querySelectorAll(ausserhalb ? 'body *' : '#content *')) {
     if (ausserhalb && el.closest('#content')) continue;
@@ -74,7 +77,7 @@ function LINIEN(opt) {
       if (!w || st === 'none' || st === 'hidden') continue;
       const m = col.match(/[\d.]+/g) || []; const alpha = m.length >= 4 ? Number(m[3]) : (col === 'transparent' ? 0 : 1);
       if (!alpha) continue;
-      if (feld && seite === 'Bottom' && unterkanteIstGrenze) continue;
+      if (feld && (rahmenIstGrenze || (seite === 'Bottom' && unterkanteIstGrenze))) continue;
       aus.push(el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : '') + ':' + seite);
     }
   }
@@ -177,7 +180,7 @@ test.describe('Fläche statt Linien', () => {
       let felderGesamt = 0;
       for (const id of ANSICHTEN[slug.startsWith('pro') ? 'pro' : 'privat']) {
         await bereich(page, id);
-        const linien = await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze });
+        const linien = await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, rahmenIstGrenze: FELDREGEL.rahmenIstGrenze });
         gemessen[slug + '/' + id] = linien.length;
         if (process.env.LINIEN_LISTE) fs.appendFileSync(process.env.LINIEN_LISTE, slug + '/' + id + '\t' + linien.join(', ') + '\n');
         if (!process.env.LINIEN_DECKEL_MESSEN) expect(linien.length, slug + '/' + id + ': ' + linien.join(', ')).toBe(deckel[slug + '/' + id]);
@@ -273,7 +276,7 @@ test.describe('Fläche statt Linien', () => {
   });
 
   /* 5 · Außerhalb des Inhalts. Gezählt wird, was die Bürgerin sieht, bevor und während sie im Inhalt arbeitet. */
-  const ausserhalb = (page) => page.evaluate(LINIEN, { ausserhalb: true, unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG });
+  const ausserhalb = (page) => page.evaluate(LINIEN, { ausserhalb: true, unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, rahmenIstGrenze: FELDREGEL.rahmenIstGrenze, bedeutung: BEDEUTUNG });
   const nacht = (page) => page.evaluate(() => document.getElementById('tb-nacht').click()).then(() => page.waitForTimeout(250));
   const pruefe = (schluessel, linien) => {
     gemessen[schluessel] = linien.length;
@@ -353,7 +356,7 @@ test.describe('Fläche statt Linien', () => {
       await bereich(page, ansicht);
       for (const modus of ['tag', 'nacht']) {
         if (modus === 'nacht') await nacht(page);
-        const innen = await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG });
+        const innen = await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, rahmenIstGrenze: FELDREGEL.rahmenIstGrenze, bedeutung: BEDEUTUNG });
         const alle = innen.concat(await ausserhalb(page));
         pruefe(slug + '/sub-depot-' + modus, alle);
         if (!process.env.LINIEN_DECKEL_MESSEN) expect(alle, slug + '/sub-depot-' + modus + ': keine Farblinie an der Seitenleiste').not.toContain('nav.sidebar:Left');
@@ -365,7 +368,7 @@ test.describe('Fläche statt Linien', () => {
   test('[Linien·Rahmen·Rot-Beweis] eine Linie unter der Kopfleiste, ein Rand an der Seitenleiste und ein Balken an der Kontextzeile des Sub-Depots werden gezählt', async ({ page }) => {
     await oeffnen(page, h.KERN_URL_PRIVAT_DE);
     await subDepotBetreten(page, 'malve');
-    const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
+    const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, rahmenIstGrenze: FELDREGEL.rahmenIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
     const vorher = await alle();
     // Die Form vor dem 08.10.2026: Kopfleiste mit Unterkante, Seitenleiste mit Rand, Sub-Depot mit farbigem Balken.
     await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.topbar { border-top: 1px solid #ccd5c4 !important; } #sidebar { border-left: 1px solid #ccd5c4 !important; } .sub-kontextzeile { border-left: 4px solid #B8AECB !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
@@ -379,7 +382,7 @@ test.describe('Fläche statt Linien', () => {
   test('[Linien·Sub-Depot·Rot-Beweis] eine Linie im Sub-Depot fällt auf, auch die frühere Farblinie der Seitenleiste', async ({ page }) => {
     await oeffnen(page, h.KERN_URL_PRIVAT_DE);
     await subDepotBetreten(page, 'malve');
-    const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
+    const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, rahmenIstGrenze: FELDREGEL.rahmenIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
     expect(await alle(), 'Voraussetzung: keine Farblinie an der Seitenleiste').not.toContain('nav.sidebar:Left');
     // Die Form bis 09.10.2026: die Farbe des Sub-Depots als Linie an der Seitenleiste.
     await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('#sidebar { border-left: 8px solid #7b7076 !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });

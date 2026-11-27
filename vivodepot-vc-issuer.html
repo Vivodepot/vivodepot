@@ -25,7 +25,7 @@
      (Entwurf, 17.10.2026) je mit ihrem sha256 in script-src, geschrieben von
      tools/csp-bauen.js; dazu Trusted Types (Block „vertrauensregel“). -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-nUlQBtB0YpKcJeRFrZvvKc1lNWrqF46KDSRqfDSIC+E='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types default">
+      content="default-src 'self'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-r2B0TKgySj3CXx2k+po0T37MHy0QbbcYmcGyTIP6kTI='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -1541,7 +1541,7 @@ const ABLAUF_MONATE_PRUEFSTELLE = 12;
 const ISSUER_WERKZEUG = 'vivodepot-vc-issuer';
 /* Die Fassung des Issuers ist die Fassung von Register und Release (ISSUER_FASSUNG = SCHALEN_STAND in vivodepot.html, im Zugkopf-Commit
    mit ihm gesetzt). Probe: tests/studio-issuer-fassungsnummer.test.js. */
-const ISSUER_FASSUNG = 'v1073';
+const ISSUER_FASSUNG = 'v1074';
 const ISSUER_VERSION = 'v1.0' + '.' + ISSUER_FASSUNG.slice(1);
 
 /* ── Submission-Schema (inline, Quelle: docs/template-generator/submission-schema.json) ──

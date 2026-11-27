@@ -25,18 +25,20 @@ for (const produkt of PRODUKTE) {
     await expect(wege, 'Landeansicht').toHaveCount(1);
     const ids = await page.evaluate(() => Array.from(new Set(Array.from(document.querySelectorAll('#sidebar [data-sektor]')).map((e) => e.getAttribute('data-sektor')))));
     expect(ids.length).toBeGreaterThan(3);
-    let mitKarte = 0;
+    // Seit Befund U1 (Variante A) zeigt die Umschau ein erfundenes Beispiel: der Weg ist der Hauptknopf im Streifen darüber.
+    // Eine leere Karte gibt es nur noch in einem Bereich ohne Beispiel; ohne beides bleibt der obere Hinweis der Weg.
+    let imInhalt = 0;
     for (const id of ids) {
       await h.oeffneSektor(page, id);
       await expect(wege, `Bereich ${id}: genau eine Anlege-Aufforderung`).toHaveCount(1);
-      if (await page.locator('#content [data-bereich-leer="vorschau"]').count()) {
-        mitKarte += 1;
-        await expect(page.locator('#tb-pw-hinweis'), `Bereich ${id}: mit Karte fällt der obere Hinweis weg`).toBeHidden();
+      if (await page.locator('#content [data-bereich-leer="vorschau"], #content [data-beispiel] [data-anlegen-weg]').count()) {
+        imInhalt += 1;
+        await expect(page.locator('#tb-pw-hinweis'), `Bereich ${id}: mit dem Weg im Inhalt fällt der obere Hinweis weg`).toBeHidden();
       } else {
-        await expect(page.locator('#tb-pw-hinweis'), `Bereich ${id}: ohne Karte bleibt der Hinweis der Weg`).toBeVisible();
+        await expect(page.locator('#tb-pw-hinweis'), `Bereich ${id}: ohne Weg im Inhalt bleibt der Hinweis der Weg`).toBeVisible();
       }
     }
-    expect(mitKarte, 'mindestens ein leerer Bereich zeigt die Karte (sonst prüft die Probe nur einen Zweig)').toBeGreaterThan(0);
+    expect(imInhalt, 'mindestens eine Ansicht trägt den Weg im Inhalt (sonst prüft die Probe nur einen Zweig)').toBeGreaterThan(0);
   });
 }
 
@@ -44,7 +46,7 @@ test('[Eine Aufforderung] ein Wort, kein Warndreieck, keine Linie (privat-de, 12
   await page.setViewportSize({ width: 1280, height: 800 });
   await h.oeffneApp(page, { url: h.KERN_URL_PRIVAT_DE });
   await page.click('#w-anfangen');
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'attached' });   // die Landeansicht zeigt die Karte, der Hinweis ist dort ausgeblendet; Text und Gestalt bleiben messbar
+  await page.waitForSelector('#tb-pw-hinweis', { state: 'attached' });   // die Landeansicht zeigt den Weg im Inhalt (Streifen des Beispiels), der Hinweis ist dort ausgeblendet; Text und Gestalt bleiben messbar
   await expect(page.locator('#tb-pw-hinweis .tb-pw-cta')).toHaveText('Depot anlegen');
   await expect(page.locator('#tb-pw-hinweis .ico'), 'das Symbol am Hinweis ist ausgeblendet (Erscheinungsbild)').toBeHidden();
   const rand = await page.locator('#tb-pw-hinweis').evaluate((el) => getComputedStyle(el).borderTopColor);
@@ -55,6 +57,8 @@ test('[Eine Aufforderung] ein Wort, kein Warndreieck, keine Linie (privat-de, 12
     const karte = page.locator('#content [data-bereich-leer="vorschau"] [data-umschau-eintragen]');
     if (await karte.count()) { await expect(karte).toHaveText('Depot anlegen'); break; }
   }
+  // Im erfundenen Beispiel sagt der Hauptknopf, dass das eigene Depot gemeint ist (Befund U1, Variante A).
+  await expect(page.locator('#content [data-beispiel] [data-anlegen-weg]')).toHaveText('Eigenes Depot anlegen');
 });
 
 test('[Eine Aufforderung] nach dem Anlegen steht keine mehr (privat-de, 1280 px)', async ({ page }) => {

@@ -4,14 +4,14 @@
    gestaltung-definition.js — Erzeuger und Prüfer der Gestaltungsdefinition (Stufe 1)
    ────────────────────────────────────────────────────────────────────────────
    Die Definition `tools/erscheinung/definition.json` hat zwei Schichten:
-     grundwerte  Schicht 1: Schriftgrößen (Verweis auf tools/groessenleiter.json), sechs Abstände, drei Radien,
+     grundwerte  Schicht 1: Schriftgrößen (Verweis auf tools/groessenleiter.json), sieben Abstände mit Zwischenwerten, eine Radienreihe,
                  Trefferfläche, optional benannte Maße des Aufbaus (--mass-…), zwei Umbruchpunkte, Farben (Verweis auf Custom Properties der Stil-Dateien).
      bedeutung   Schicht 2: Token nach der Bedeutung (Fläche, Text, Linie, Aktion, Warnung, Herkunft), je mit
                  Verweis auf einen Grundwert. Keine Zahl, kein Farbwert.
    Jede Zahl steht nur in Schicht 1.
 
    Dieses Werkzeug schreibt aus Schicht 1 einen markierten Block in `tools/erscheinung/stil/grundlage.css`
-   (--abstand-1 … --abstand-6, --radius-klein, --radius-gross, --radius-rund, --treffer) zwischen
+   (--abstand-1 … --abstand-7 und Zwischenwerte, Radienreihe, --treffer, Gewichte, Zeilenhöhen, Übergänge, Schatten, Maße) zwischen
    `GESTALTUNG-DEFINITION:BEGIN` und `GESTALTUNG-DEFINITION:END`. Bestehende Regeln stellt es NICHT um.
    Schicht 2 wird in dieser Stufe nur geprüft (Verweise lösen auf), nicht ins CSS geschrieben.
      vorlagen    Schicht 3 (Formatvorlagen, AP 2 S1, 24.11.2026): je Elementart genau ein Eintrag mit Selektor und Regeln. Jeder
@@ -33,6 +33,7 @@ const crypto = require('node:crypto');
 const REPO = path.join(__dirname, '..');
 const DEFINITION = path.join(REPO, 'tools', 'erscheinung', 'definition.json');
 const GRUNDLAGE = path.join(REPO, 'tools', 'erscheinung', 'stil', 'grundlage.css');
+const FORMATE = path.join(REPO, 'tools', 'erscheinung', 'vd-formate.css');   // gebackener Block VD-FORMATE (--backen)
 const ADR_ORDNER = path.join(REPO, 'docs', 'adr');
 const ADR_MUSTER = /^vivodepot-U2-ADR-\d+-gestaltungsdefinition-eine-quelle-.*\.md$/;
 const FIXTURES = path.join(__dirname, 'gestaltung-fixtures');
@@ -49,8 +50,18 @@ const EINSETZEN_NACH = /^[ \t]*@media \(max-width: 767px\) \{ :root \{ --fs-role
 
 const VORLAGEN_MARKE_ANFANG = 'GESTALTUNG-VORLAGEN:BEGIN';
 const VORLAGEN_MARKE_ENDE = 'GESTALTUNG-VORLAGEN:END';
-const ABSTAENDE = ['--abstand-1', '--abstand-2', '--abstand-3', '--abstand-4', '--abstand-5', '--abstand-6'];
-const RADIEN = ['--radius-klein', '--radius-gross', '--radius-rund'];
+const ABSTAENDE = ['--abstand-1', '--abstand-2', '--abstand-3', '--abstand-4', '--abstand-5', '--abstand-6', '--abstand-7'];
+// Radien (25.11.2026, Dummy 13.11.): eine aufsteigende Reihe --radius-1 … --radius-N in px, dazu --radius-rund (Pille) und --radius-kreis (50 %).
+const RADIUS_NAME = /^--radius-([1-9][0-9]*|rund|kreis)$/;
+// Weitere Gruppen der Schicht 1 (25.11.2026): je Wert ein Name; Muster für Name und Wert. Die Werte stehen nur hier.
+const GRUPPEN = {
+  gewichte: { name: /^--fw-[a-z]+$/, wert: /^[1-9][05]0$/, art: 'Schriftgewicht 100 … 950 in Fünfzigern' },
+  zeilenhoehen: { name: /^--zh-[a-z]+$/, wert: /^(1|1\.\d{1,2})$/, art: 'Zeilenhöhe ohne Einheit, 1 … 1.99' },
+  uebergaenge: { name: /^--dauer-[a-z]+$/, wert: /^0?\.\d{1,2}s$/, art: 'Dauer in s' },
+  schatten: { name: /^--schatten-[a-z0-9-]+$/, wert: /^(inset )?(-?\d+(px)? ){3}(\d+px )?(rgba\(\d{1,3},\d{1,3},\d{1,3},0?\.\d+\)|var\(--[a-z0-9-]+\))(, ?(inset )?(-?\d+(px)? ){3}(\d+px )?(rgba\(\d{1,3},\d{1,3},\d{1,3},0?\.\d+\)|var\(--[a-z0-9-]+\)))*$/, art: 'Schatten aus Längen und einer Farbe (rgba oder Farbname)' },
+};
+function radienNamen(g) { return ((g && g.radien) || []).map((r) => r.token); }
+function zwischenNamen(g) { return ((g && g.abstaende && g.abstaende.zwischen) || []).map((s) => s.token); }
 const BEDEUTUNGEN = ['flaeche', 'text', 'linie', 'aktion', 'warnung', 'herkunft'];
 
 function definitionLaden(datei = DEFINITION) { return JSON.parse(fs.readFileSync(datei, 'utf8')); }
@@ -74,15 +85,44 @@ function definitionPruefen(def, wurzel = REPO) {
     if (Object.keys(g.schriftgroessen).some((k) => k === 'stufen' || k === 'px')) fehler.push('grundwerte.schriftgroessen: Größen werden nicht kopiert, sie bleiben in der Größenleiter');
     if (!fs.existsSync(path.join(wurzel, g.schriftgroessen.verweis))) fehler.push('grundwerte.schriftgroessen: Verweisziel fehlt: ' + g.schriftgroessen.verweis);
   }
-  // Abstände: genau sechs, in der Reihenfolge, aufsteigend
+  // Abstände: genau sieben, in der Reihenfolge, aufsteigend
   const st = (g.abstaende && g.abstaende.stufen) || [];
   if (st.map((s) => s.token).join() !== ABSTAENDE.join()) fehler.push('grundwerte.abstaende: erwartet ' + ABSTAENDE.join(', '));
   if (st.some((s, i) => !Number.isFinite(s.px) || s.px <= 0 || (i && s.px <= st[i - 1].px))) fehler.push('grundwerte.abstaende: px positiv und aufsteigend');
   if (!g.abstaende || !['rem', 'px'].includes(g.abstaende.einheit)) fehler.push('grundwerte.abstaende.einheit: rem oder px');
+  // Zwischenwerte der Abstände (25.11.2026): Namen --abstand-<n>-<m>, px positiv, kein Wert doppelt mit der Hauptreihe
+  const zw = (g.abstaende && g.abstaende.zwischen) || [];
+  const allePx = new Set(st.map((s) => s.px));
+  for (const s of zw) {
+    if (!/^--abstand-\d+-\d+$/.test(String(s.token))) fehler.push('grundwerte.abstaende.zwischen: Name ' + s.token + ' (erwartet --abstand-<n>-<m>)');
+    if (!Number.isFinite(s.px) || s.px <= 0) fehler.push('grundwerte.abstaende.zwischen: ' + s.token + ' px positiv');
+    if (allePx.has(s.px)) fehler.push('grundwerte.abstaende.zwischen: ' + s.px + ' px hat schon einen Namen');
+    allePx.add(s.px);
+  }
   // Radien, Treffer
   const rd = g.radien || [];
-  if (rd.map((r) => r.token).join() !== RADIEN.join()) fehler.push('grundwerte.radien: erwartet ' + RADIEN.join(', '));
-  if (rd.some((r) => !/^\d+(\.\d+)?px$/.test(String(r.wert)))) fehler.push('grundwerte.radien: Wert in px');
+  const rdZahl = rd.filter((r) => /^--radius-\d+$/.test(String(r.token)));
+  if (rd.some((r) => !RADIUS_NAME.test(String(r.token)))) fehler.push('grundwerte.radien: Namen --radius-<n>, --radius-rund, --radius-kreis');
+  if (!rd.some((r) => r.token === '--radius-rund')) fehler.push('grundwerte.radien: --radius-rund fehlt');
+  if (rdZahl.some((r, i) => r.token !== '--radius-' + (i + 1))) fehler.push('grundwerte.radien: Reihe --radius-1 … lückenlos');
+  if (rdZahl.some((r, i) => !/^\d+(\.\d+)?px$/.test(String(r.wert)) || (i && parseFloat(r.wert) <= parseFloat(rdZahl[i - 1].wert)))) fehler.push('grundwerte.radien: Reihe in px, aufsteigend');
+  for (const r of rd) if (r.token === '--radius-rund' && !/^\d+px$/.test(String(r.wert))) fehler.push('grundwerte.radien: --radius-rund in px');
+  for (const r of rd) if (r.token === '--radius-kreis' && r.wert !== '50%') fehler.push('grundwerte.radien: --radius-kreis ist 50%');
+  if (new Set(rd.map((r) => r.wert)).size !== rd.length) fehler.push('grundwerte.radien: ein Wert mit zwei Namen');
+  // Gewichte, Zeilenhöhen, Übergänge, Schatten
+  for (const [gruppe, m] of Object.entries(GRUPPEN)) {
+    if (g[gruppe] === undefined) continue;
+    const liste = Array.isArray(g[gruppe]) ? g[gruppe] : [];
+    if (!liste.length) fehler.push('grundwerte.' + gruppe + ': Liste fehlt oder leer');
+    const namen = new Set(); const werte = new Set();
+    for (const e of liste) {
+      if (!m.name.test(String(e.token))) fehler.push('grundwerte.' + gruppe + ': Name ' + e.token);
+      if (!m.wert.test(String(e.wert))) fehler.push('grundwerte.' + gruppe + ': ' + e.token + ' (' + m.art + ')');
+      if (namen.has(e.token)) fehler.push('grundwerte.' + gruppe + ': doppelter Name ' + e.token);
+      if (werte.has(e.wert)) fehler.push('grundwerte.' + gruppe + ': ' + e.wert + ' hat zwei Namen');
+      namen.add(e.token); werte.add(e.wert);
+    }
+  }
   if (!g.treffer || g.treffer.token !== '--treffer' || !/^\d+px$/.test(String(g.treffer.wert))) fehler.push('grundwerte.treffer: --treffer in px');
   // Maße des Aufbaus (Nachtrag U-G, 15.11.2026): benannte Längen in px, Namen --mass-…; die Zahl steht nur hier
   if (g.masse !== undefined) {
@@ -134,7 +174,7 @@ function definitionPruefen(def, wurzel = REPO) {
     for (const ton of pe.toene || []) for (const suf of ['', '-text', '-linie']) { const n = '--' + ton + suf; if (!/^--[a-z0-9-]+$/.test(n) || !deklariert(t, n)) fehler.push(`grundwerte.person: ${n} ist in ${q} nicht deklariert`); }
   }
   // Schicht 2: je Bedeutung mindestens ein Token; Verweis löst in Schicht 1 auf; keine Zahl, kein Farbwert
-  const grundNamen = new Set([...farbNamen, ...ABSTAENDE, ...RADIEN, '--treffer']);
+  const grundNamen = new Set([...farbNamen, ...ABSTAENDE, ...zwischenNamen(g), ...radienNamen(g), '--treffer']);
   const tokens = b.token || [];
   for (const art of BEDEUTUNGEN) if (!tokens.some((t) => t.bedeutung === art)) fehler.push('bedeutung: keine Token für ' + art);
   const gesehen = new Set();
@@ -154,6 +194,7 @@ function definitionPruefen(def, wurzel = REPO) {
     for (const k of ['hell', 'nacht']) if (!/^rgba\(\d{1,3},\d{1,3},\d{1,3},(0|1|0?\.\d+)\)$/.test(String(ft[k]))) fehler.push('grundwerte.feldtoenung.' + k + ': rgba(r,g,b,a)');
   }
   fehler.push(...vorlagenPruefen(def.vorlagen));
+  fehler.push(...elementePruefen(def.vorlagen && def.vorlagen.elemente));
   return fehler;
 }
 /* Schicht 3: je Art ein Eintrag; Werte nur aus Verweisen und 0/none (keine Zahl in Schicht 3). */
@@ -216,6 +257,116 @@ function vorlagenPruefenImCss(css, def) {
   return css.slice(r.von, r.bis) === vorlagenBlockBauen(def) ? [] : ['Block der Formatvorlagen weicht von der Definition ab (neu erzeugen mit --schreiben)'];
 }
 
+/* Elementarten (AP 2 Wagen 3, 24.11.2026): je Art eine Regel, die der Erzeuger an ihre Stelle in der Stilquelle schreibt —
+   in die Zeile direkt nach der Marke „GESTALTUNG-ELEMENT:<art>“. Die Marke steht dort, wo die Regel vorher stand, damit die
+   Kaskade gleich bleibt (Abwandlungen weiter unten gewinnen wie bisher). Werte: Verweise, 0, none und die Schlüsselwörter unten;
+   als Maß nur die Haarlinie 1px/2px. Lage und Abstand nach außen bleiben bei der Stelle. */
+const ELEMENT_TEIL = '(?:var\\(--[a-z][a-z0-9-]*\\)|0|none|transparent|inherit|normal|solid|pointer|1px|2px)';
+const ELEMENT_WERT = new RegExp('^' + ELEMENT_TEIL + '(?: ' + ELEMENT_TEIL + ')*$');
+const ELEMENT_MARKE = (art) => '/* GESTALTUNG-ELEMENT:' + art + ' — erzeugt aus tools/erscheinung/definition.json (vorlagen.elemente); nicht von Hand ändern */';
+function elementePruefen(el) {
+  if (el === undefined) return [];
+  const f = [];
+  if (!Array.isArray(el) || !el.length) return ['vorlagen.elemente: Liste fehlt oder leer'];
+  const gesehen = new Set();
+  for (const e of el) {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(e.art))) f.push('elemente: Name ' + e.art);
+    if (gesehen.has(e.art)) f.push('elemente: doppelte Art ' + e.art);
+    gesehen.add(e.art);
+    if (e.basis !== undefined && !el.some((x) => x.art === e.basis && x.basis === undefined)) f.push('elemente: ' + e.art + ': basis ' + e.basis + ' fehlt oder ist selbst Abwandlung');
+    if (!_vdKlasse(e)) f.push('elemente: ' + e.art + ': braucht genau eine Klasse .vd-*');
+    if (typeof e.selektor !== 'string' || !e.selektor.trim() || /[{}]/.test(e.selektor)) f.push('elemente: ' + e.art + ': Selektor fehlt oder trägt Klammern');
+    const rg = e.regeln || {};
+    if (!Object.keys(rg).length) f.push('elemente: ' + e.art + ': regeln leer');
+    for (const [k, w] of Object.entries(rg)) {
+      if (!VORLAGE_EIGENSCHAFT.test(k)) f.push(`elemente: ${e.art}: Eigenschaft ${k}`);
+      if (!ELEMENT_WERT.test(String(w))) f.push(`elemente: ${e.art}.${k}: „${w}“ ist kein Verweis (keine Zahl außer der Haarlinie)`);
+    }
+  }
+  return f;
+}
+/* Eine Abwandlung (`basis: <art>`) trägt nur, was sie ändert; ihre .vd-Klasse steht darum mit in der Regel der Basis. */
+const _vdKlasse = (e) => { const k = String(e.selektor).match(/\.vd-[a-z0-9-]+/g) || []; return k.length === 1 ? k[0] : null; };
+function _mitAbwandlungen(e, alle) { const ab = (alle || []).filter((x) => x.basis === e.art).map(_vdKlasse).filter(Boolean); return ab.length ? e.selektor + ', ' + ab.join(', ') : e.selektor; }
+function elementZeile(e, alle) { return '  ' + _mitAbwandlungen(e, alle) + ' { ' + Object.entries(e.regeln).map(([k, w]) => `${k}: ${w};`).join(' ') + ' }'; }
+function elementeEinsetzen(css, def) {
+  const el = def.vorlagen && def.vorlagen.elemente;
+  if (!el) return css;
+  const z = css.split('\n');
+  for (const e of el) {
+    const m = ELEMENT_MARKE(e.art);
+    const i = z.findIndex((x) => x.trim() === m);
+    if (i < 0) throw new Error('Marke fehlt: ' + m);
+    z[i + 1] = elementZeile(e, el);
+  }
+  return z.join('\n');
+}
+function elementePruefenImCss(css, def) {
+  const el = def.vorlagen && def.vorlagen.elemente;
+  if (!el) return [];
+  const z = css.split('\n'); const f = [];
+  for (const e of el) {
+    const m = ELEMENT_MARKE(e.art);
+    const treffer = z.reduce((n, x) => n + (x.trim() === m ? 1 : 0), 0);
+    if (treffer !== 1) { f.push(`Element ${e.art}: Marke ${treffer}-mal statt einmal`); continue; }
+    const i = z.findIndex((x) => x.trim() === m);
+    if (z[i + 1] !== elementZeile(e, el)) f.push(`Element ${e.art}: Regel weicht von der Definition ab (neu erzeugen mit --schreiben)`);
+  }
+  return f;
+}
+
+/* Gebackener Block VD-FORMATE (Weisung 24.11.2026 „Wir bauen modular – also bauen wir einmal“): Token und Regeln je Elementart
+   als selbsttragendes Stück, für Oberflächen außerhalb des Kerns (Lese-App, Studio, Register). Er hängt an genau einer
+   Wurzelklasse (Vorgabe `.vd-formate`) und an den Klassen .vd-* aus der Definition, an keinem Selektor der Anwendung. Die Werte
+   kommen aus dem gebauten Erscheinungsbild-Modul (Vorgabe: Profil dummy, das alle Produkte beziehen): :root und html.dark-mode des
+   Moduls und seiner Stilsätze, dazu die Handy-Fassung (@media max-width 767px). Nur Token, die eine Regel braucht, samt deren
+   Abhängigkeiten. Schrift: der Block nennt die Familie; die Schriftdatei lädt die Oberfläche selbst. */
+const { zerlegen: _zerlegen, deklarationen: _dekl } = require('./lib/css-zerlegen.js');
+function _tokenSammeln(css, ziel) {
+  for (const t of _zerlegen(css)) {
+    if (t.art === 'regel') {
+      const sel = t.selektor.replace(/\/\*[\s\S]*?\*\//g, '').trim();
+      const ebene = sel === ':root' ? 'hell' : ((sel === 'html.dark-mode' || sel === ':root.dark-mode') ? 'dunkel' : null);
+      if (!ebene) continue;
+      for (const d of _dekl(t.innen)) { const m = /^(--[a-z0-9-]+)\s*:\s*([\s\S]+)$/i.exec(d); if (m) ziel[ebene][m[1]] = m[2].trim(); }
+    } else if (t.art === 'at-block' && t.name === 'media' && /max-width:\s*767px/.test(t.kopf)) {
+      const innen = { hell: {}, dunkel: {} }; _tokenSammeln(t.innen, innen); Object.assign(ziel.handy, innen.hell);
+    } else if (t.art === 'at-block' && (t.name === 'layer' || t.name === 'supports')) _tokenSammeln(t.innen, ziel);
+  }
+}
+const _verweise = (w) => [...String(w).matchAll(/var\(\s*(--[a-z0-9-]+)/gi)].map((m) => m[1]);
+function formatePruefen(def) {
+  if (!fs.existsSync(FORMATE)) return ['VD-FORMATE fehlt: ' + path.relative(REPO, FORMATE) + ' (erzeugen mit --schreiben)'];
+  return fs.readFileSync(FORMATE, 'utf8') === vorlagenBacken({ def }) ? [] : ['VD-FORMATE weicht von Definition oder Modul ab (neu erzeugen mit --schreiben)'];
+}
+function vorlagenBacken({ def = definitionLaden(), modul = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-dummy-modul.json'), wurzel = '.vd-formate' } = {}) {
+  if (!/^\.[a-z][a-z0-9-]*$/.test(wurzel)) throw new Error('Wurzelklasse ungültig: ' + wurzel);
+  const m = typeof modul === 'string' ? JSON.parse(fs.readFileSync(modul, 'utf8')) : modul;
+  const tok = { hell: Object.assign({}, m.basis), dunkel: Object.assign({}, m.dunkel), handy: {} };
+  for (const css of Object.values(m.stil || {})) _tokenSammeln(css, tok);
+  const regeln = [];
+  for (const a of def.vorlagen.arten) { if (!a.klasse) throw new Error('vorlagen.arten: ' + a.art + ' ohne klasse'); regeln.push({ art: a.art, sel: a.klasse, r: a.regeln }); }
+  for (const e of def.vorlagen.elemente || []) {
+    const ab = (def.vorlagen.elemente || []).filter((x) => x.basis === e.art).map(_vdKlasse);
+    regeln.push({ art: e.art, sel: ab.length ? ':is(' + [_vdKlasse(e), ...ab].join(', ') + ')' : _vdKlasse(e), r: e.regeln });
+  }
+  const noetig = new Set(); const offen = [];
+  for (const g of regeln) for (const w of Object.values(g.r)) offen.push(..._verweise(w));
+  while (offen.length) {
+    const n = offen.pop(); if (noetig.has(n)) continue; noetig.add(n);
+    for (const ebene of ['hell', 'dunkel', 'handy']) if (tok[ebene][n] != null) offen.push(..._verweise(tok[ebene][n]));
+  }
+  const fehlt = [...noetig].filter((n) => tok.hell[n] == null);
+  if (fehlt.length) throw new Error('VD-FORMATE: Token ohne Wert im Modul: ' + fehlt.join(', '));
+  const liste = (ebene) => [...noetig].sort().filter((n) => tok[ebene][n] != null && (ebene === 'hell' || tok[ebene][n] !== tok.hell[n])).map((n) => `${n}: ${tok[ebene][n]};`).join(' ');
+  const z = [`/* VD-FORMATE — gebacken aus tools/erscheinung/definition.json (vorlagen) und ${m.id ? 'Erscheinungsbild ' + m.id : 'dem Erscheinungsbild-Modul'} durch tools/gestaltung-definition.js --backen; nicht von Hand ändern */`];
+  z.push(`${wurzel} { ${liste('hell')} }`);
+  const h = liste('handy'); if (h) z.push(`@media (max-width: 767px) { ${wurzel} { ${h} } }`);
+  const d = liste('dunkel'); if (d) z.push(`html.dark-mode ${wurzel}, ${wurzel}.vd-dunkel { ${d} }`);
+  for (const g of regeln) z.push(`${wurzel} ${g.sel} { ${Object.entries(g.r).map(([k, w]) => `${k}: ${w};`).join(' ')} }`);
+  return z.join('\n') + '\n';
+}
+
 /* ── Größenleiter des Stilsatzes dummy: Block bauen, schreiben, prüfen ─────────────────────────────────────── */
 function leiterBlockBauen(leiter = JSON.parse(fs.readFileSync(LEITER, 'utf8')), profil = 'dummy') {
   const pr = leiter.profile && leiter.profile[profil];
@@ -264,7 +415,7 @@ function blockBauen(def, wurzel = REPO) {
   const g = def.grundwerte;
   let basis = 16;
   try { basis = JSON.parse(fs.readFileSync(path.join(wurzel, g.schriftgroessen.verweis), 'utf8')).basis_px_je_rem || 16; } catch (e) { /* Standardbasis */ }
-  const abstand = g.abstaende.stufen.map((s) => `${s.token}: ${g.abstaende.einheit === 'rem' ? zahlText(s.px / basis) + 'rem' : s.px + 'px'};`);
+  const abstand = [...g.abstaende.stufen, ...(g.abstaende.zwischen || [])].map((s) => `${s.token}: ${g.abstaende.einheit === 'rem' ? zahlText(s.px / basis) + 'rem' : s.px + 'px'};`);
   const radius = g.radien.map((r) => `${r.token}: ${r.wert};`);
   const zeilen = [
     `  /* ${MARKE_ANFANG} — erzeugt aus tools/erscheinung/definition.json durch tools/gestaltung-definition.js; nicht von Hand ändern */`,
@@ -272,6 +423,7 @@ function blockBauen(def, wurzel = REPO) {
     '    ' + abstand.join(' '),
     '    ' + radius.join(' '),
     `    ${g.treffer.token}: ${g.treffer.wert};`,
+    ...Object.keys(GRUPPEN).filter((k) => g[k]).map((k) => '    ' + g[k].map((e) => `${e.token}: ${e.wert};`).join(' ')),
     ...(g.masse ? ['    ' + g.masse.map((m) => `${m.token}: ${m.wert};`).join(' ')] : []),
     ...(g.zeichen ? g.zeichen.map((z) => `    ${z.token}: ${zeichenDataUrl(z.svg)};`) : []),
     ...(g.feldtoenung ? [`    ${g.feldtoenung.token}: ${g.feldtoenung.hell};`] : []),
@@ -330,18 +482,24 @@ function main() {
     const def = definitionLaden(defPfad);
     const f = definitionPruefen(def);
     if (f.length) { console.error(f.join('\n')); process.exit(1); }
-    const neu = vorlagenEinsetzen(blockEinsetzen(fs.readFileSync(cssPfad, 'utf8'), blockBauen(def)), def);
+    const neu = elementeEinsetzen(vorlagenEinsetzen(blockEinsetzen(fs.readFileSync(cssPfad, 'utf8'), blockBauen(def)), def), def);
     fs.writeFileSync(cssPfad, neu);
     console.log('Block geschrieben: ' + path.relative(REPO, cssPfad));
+    if (!arg('--css')) { fs.writeFileSync(FORMATE, vorlagenBacken({ def })); console.log('VD-FORMATE geschrieben: ' + path.relative(REPO, FORMATE)); }
     if (!arg('--css') && fs.existsSync(DUMMY_STIL)) {
       const dc = fs.readFileSync(DUMMY_STIL, 'utf8'); const r = leiterBlockRegion(dc);
       if (r) { fs.writeFileSync(DUMMY_STIL, dc.slice(0, r.von) + leiterBlockBauen() + dc.slice(r.bis)); console.log('Größenleiter-Block geschrieben: ' + path.relative(REPO, DUMMY_STIL)); }
     }
     return;
   }
+  if (process.argv.includes('--backen')) {
+    const block = vorlagenBacken({ def: definitionLaden(defPfad), wurzel: arg('--wurzel') || '.vd-formate', modul: arg('--modul') || undefined });
+    if (arg('--ziel')) { fs.writeFileSync(arg('--ziel'), block); console.error('VD-FORMATE geschrieben: ' + arg('--ziel')); } else process.stdout.write(block);
+    return;
+  }
   if (process.argv.includes('--check')) {
     const def = definitionLaden(defPfad);
-    const fehler = [...definitionPruefen(def), ...blockPruefen(fs.readFileSync(cssPfad, 'utf8'), def), ...vorlagenPruefenImCss(fs.readFileSync(cssPfad, 'utf8'), def), ...(arg('--css') || !fs.existsSync(DUMMY_STIL) ? [] : leiterBlockPruefen(fs.readFileSync(DUMMY_STIL, 'utf8'))), ...adrPruefen(defPfad, arg('--adr') || adrDatei())];
+    const fehler = [...definitionPruefen(def), ...blockPruefen(fs.readFileSync(cssPfad, 'utf8'), def), ...vorlagenPruefenImCss(fs.readFileSync(cssPfad, 'utf8'), def), ...elementePruefenImCss(fs.readFileSync(cssPfad, 'utf8'), def), ...(arg('--css') || !fs.existsSync(DUMMY_STIL) ? [] : leiterBlockPruefen(fs.readFileSync(DUMMY_STIL, 'utf8'))), ...adrPruefen(defPfad, arg('--adr') || adrDatei()), ...(arg('--css') ? [] : formatePruefen(def))];
     if (fehler.length) { console.error('ROT:\n' + fehler.map((x) => '  ' + x).join('\n')); process.exit(1); }
     console.log('gestaltung-definition: grün (Definition, Block, ADR-Prüfsumme)');
     return;
@@ -357,6 +515,6 @@ function main() {
   process.exit(a.length === 0 && b.length > 0 ? 0 : 1);
 }
 
-module.exports = { vorlagenPruefen, vorlagenBlockBauen, vorlagenEinsetzen, vorlagenPruefenImCss, VORLAGEN_MARKE_ANFANG, VORLAGEN_MARKE_ENDE, zeichenSvgPruefen, zeichenDataUrl, leiterBlockBauen, leiterBlockPruefen, definitionLaden, definitionPruefen, blockBauen, blockEinsetzen, blockPruefen, blockRegion, pruefsumme, adrDatei, adrPruefsumme, adrPruefen,
+module.exports = { formatePruefen, FORMATE, vorlagenBacken, elementePruefen, elementeEinsetzen, elementePruefenImCss, elementZeile, ELEMENT_MARKE, vorlagenPruefen, vorlagenBlockBauen, vorlagenEinsetzen, vorlagenPruefenImCss, VORLAGEN_MARKE_ANFANG, VORLAGEN_MARKE_ENDE, zeichenSvgPruefen, zeichenDataUrl, leiterBlockBauen, leiterBlockPruefen, definitionLaden, definitionPruefen, blockBauen, blockEinsetzen, blockPruefen, blockRegion, pruefsumme, adrDatei, adrPruefsumme, adrPruefen,
   DEFINITION, GRUNDLAGE, FIXTURES, MARKE_ANFANG, MARKE_ENDE };
 if (require.main === module) main();

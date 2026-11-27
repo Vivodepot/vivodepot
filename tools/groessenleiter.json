@@ -123,7 +123,7 @@
   "toleranz_px": 0.5,
   "profile": {
     "dummy": {
-      "hinweis": "Größen des Desktop-Dummys (U-G, 15.11.2026): Text 14, Titel 22, Abschnitt 16, Gruppe 15, mobil Text 15 und Titel 20. Gilt nur im Stilsatz dummy; der erzeugte Block steht in tools/erscheinung/stil/dummy.css (tools/gestaltung-definition.js --schreiben). Die Stufen der Anwendung oben bleiben.",
+      "hinweis": "Größen des Desktop-Dummys (U-G, 15.11.2026): Text 14, Titel 22, Abschnitt 16, Gruppe 15 (Dummy h2/h3 15/14, vivodepot-dummy-desktop.html:74–75; benannte Abweichung 1 px, damit die Gruppe größer bleibt als die Beschriftung 14, Befund UX-ABSCHNITT-KLEINER-ALS-LABEL, Entscheid 25.11.2026), mobil Text 15 und Titel 20. Gilt nur im Stilsatz dummy; der erzeugte Block steht in tools/erscheinung/stil/dummy.css (tools/gestaltung-definition.js --schreiben). Die Stufen der Anwendung oben bleiben.",
       "stufen": {
         "anzeige": [
           22,

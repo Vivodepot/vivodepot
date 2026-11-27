@@ -61,5 +61,5 @@ test('[Freie Werte·Rot-Beweis] eine Zahl mit var(), Null, auto oder Prozent im 
   assert.deepEqual(w.freieZahlen('var(--abstand-2) 0 auto'), []);
   assert.deepEqual(w.freieZahlen('calc(var(--abstand-2) + 2px)'), ['2px']);
   assert.deepEqual(w.freieZahlen('50%'), ['50%']);
-  assert.deepEqual(w.freieZahlen('0 var(--radius-klein) var(--radius-klein) 0'), []);
+  assert.deepEqual(w.freieZahlen('0 var(--radius-7) var(--radius-7) 0'), []);
 });

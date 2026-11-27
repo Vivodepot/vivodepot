@@ -112,6 +112,14 @@ Vorschlag vorbelegt. Unverändert: Prüfreihenfolge, Probe und Kanon der Wörter
 
 Probe: `tests/anlegen-passwort-festlegen.test.js` ([Festlegen·Standard], [Festlegen·Angebot], [Festlegen·Rot-Beweis]).
 
+## Nachtrag 26.11.2026 — Ziffer 1: Wortlaut des Angebots, Feld ohne Platzhalter
+
+Am Bild von Schritt 1 „Passwort festlegen“ entschieden. Das Angebot heißt „Oder lassen Sie sich ein Passwort vorschlagen“
+(statt „eines“). Das Feld bleibt ohne Platzhalter; ein Beispiel der Form erklärt nicht, was zu tun ist. Am Feld stehen
+„mindestens 12 Zeichen“ und beim Tippen die Stufe der Stärke, ohne Ratschlag (U2-ADR-027, Nachtrag 26.11.2026).
+
+Probe: `tests/anlegen-passwort-festlegen.test.js` ([Festlegen·Texte], [Festlegen·Kein Tipp·Texte]).
+
 ## Was nicht entschieden ist
 
 - Register mit eigener Kette: Solange Menschen und Institutionen keine tragen, fragt das Zusammenführen dort jeden
